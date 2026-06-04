@@ -1,20 +1,160 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Spacing scale</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Spacing · Onblide DS</title>
 <link rel="stylesheet" href="../../colors_and_type.css">
 <style>
-  body { margin: 0; padding: 24px; background: #fff; font-family: var(--ob-font); color: #545454; }
-  .row { display: flex; align-items: center; gap: 14px; padding: 4px 0; }
-  .tok { font-family: var(--ob-font-mono); font-size: 11px; color: #2a2a2a; width: 64px; flex: none; }
-  .px { font-family: var(--ob-font-mono); font-size: 11px; color: #a8a8a8; width: 50px; flex: none; }
-  .bar { height: 14px; background: #0a4ee4; border-radius: 4px; }
-</style></head><body>
-  <div class="row"><div class="tok">--ob-s-1</div><div class="px">4px</div><div class="bar" style="width:4px;"></div></div>
-  <div class="row"><div class="tok">--ob-s-2</div><div class="px">8px</div><div class="bar" style="width:8px;"></div></div>
-  <div class="row"><div class="tok">--ob-s-3</div><div class="px">12px</div><div class="bar" style="width:12px;"></div></div>
-  <div class="row"><div class="tok">--ob-s-4</div><div class="px">16px</div><div class="bar" style="width:16px;"></div></div>
-  <div class="row"><div class="tok">--ob-s-5</div><div class="px">24px</div><div class="bar" style="width:24px;"></div></div>
-  <div class="row"><div class="tok">--ob-s-6</div><div class="px">32px</div><div class="bar" style="width:32px;"></div></div>
-  <div class="row"><div class="tok">--ob-s-7</div><div class="px">48px</div><div class="bar" style="width:48px;"></div></div>
-  <div class="row"><div class="tok">--ob-s-8</div><div class="px">64px</div><div class="bar" style="width:64px;"></div></div>
-  <div class="row"><div class="tok">--ob-s-9</div><div class="px">96px</div><div class="bar" style="width:96px;"></div></div>
-</body></html>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--ob-font); background: var(--ob-surface); color: var(--ob-fg); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 48px 32px 80px; }
+.eyebrow { font-family: var(--ob-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ob-blue); margin: 0 0 8px; }
+h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.03em; color: var(--ob-fg-strong); margin: 0 0 12px; }
+h1 em { font-family: var(--ob-font-serif); font-style: italic; font-weight: 500; color: var(--ob-blue); }
+.lede { font-size: 17px; line-height: 1.6; color: var(--ob-fg); margin: 0 0 48px; max-width: 600px; }
+section { margin-top: 48px; }
+h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ob-fg-soft); margin: 0 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--ob-border); }
+h3 { font-size: 16px; font-weight: 700; color: var(--ob-fg-strong); margin: 24px 0 10px; }
+p { font-size: 15px; line-height: 1.65; color: var(--ob-fg); margin: 0 0 12px; }
+ul { margin: 0 0 12px; padding-left: 20px; }
+li { font-size: 15px; line-height: 1.7; color: var(--ob-fg); }
+code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob-bg-warm); padding: 2px 6px; border-radius: 5px; color: var(--ob-fg-strong); }
+.note { background: var(--ob-bg-warm); border-radius: 10px; padding: 14px 16px; font-size: 14px; line-height: 1.55; color: var(--ob-fg); margin-top: 12px; }
+.do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+.dd { border-radius: 10px; padding: 14px; border: 1px solid var(--ob-border); }
+.dd .tag { display: inline-flex; gap: 6px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.dd.do .tag { color: var(--ob-green-700); }
+.dd.dont .tag { color: var(--ob-danger); }
+.dd p { font-size: 13px; margin: 0; color: var(--ob-fg-soft); }
+
+/* Scale */
+.scale-wrap { border: 1px solid var(--ob-border); border-radius: var(--ob-r-md); overflow: hidden; }
+.scale-row { display: grid; grid-template-columns: 80px 60px 60px 1fr 120px; align-items: center; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--ob-border); }
+.scale-row:last-child { border-bottom: none; }
+.scale-row:hover { background: var(--ob-bg-warm); }
+.scale-head { background: var(--ob-bg-alt); }
+.tok { font-family: var(--ob-font-mono); font-size: 12px; font-weight: 700; color: var(--ob-fg-strong); }
+.val-px { font-family: var(--ob-font-mono); font-size: 12px; color: var(--ob-fg-mute); }
+.val-rem { font-family: var(--ob-font-mono); font-size: 12px; color: var(--ob-fg-mute); }
+.bar-wrap { height: 12px; display: flex; align-items: center; }
+.bar { height: 8px; background: var(--ob-blue); border-radius: 4px; min-width: 4px; }
+.use { font-size: 12px; color: var(--ob-fg-soft); text-align: right; }
+
+/* Semantic table */
+.sem-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.sem-table th { text-align: left; padding: 9px 14px; border-bottom: 1.5px solid var(--ob-border); color: var(--ob-fg-mute); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.sem-table td { padding: 11px 14px; border-bottom: 1px solid var(--ob-line-soft); vertical-align: middle; }
+.sem-table tr:last-child td { border-bottom: none; }
+
+/* Context demo */
+.ctx-demo { border: 1px solid var(--ob-border); border-radius: var(--ob-r-md); overflow: hidden; margin-top: 4px; }
+.ctx-header { padding: 14px 20px; border-bottom: 1px solid var(--ob-border); background: var(--ob-bg-alt); font-size: 12px; font-weight: 700; font-family: var(--ob-font-mono); color: var(--ob-fg-mute); letter-spacing: .06em; text-transform: uppercase; }
+.ctx-body { padding: 24px 20px; display: flex; flex-direction: column; gap: 24px; }
+.ctx-label { font-family: var(--ob-font-mono); font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ob-blue); margin-bottom: 4px; }
+.visual-gap { display: flex; align-items: flex-start; }
+.vis-block { background: var(--ob-blue-100); border: 1.5px solid color-mix(in srgb, var(--ob-blue) 30%, transparent); border-radius: 6px; }
+.gap-indicator { background: repeating-linear-gradient(90deg, var(--ob-orange) 0, var(--ob-orange) 2px, transparent 2px, transparent 4px); height: 100%; display: flex; align-items: center; justify-content: center; }
+</style>
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Foundation · Espaço</p>
+  <h1>Spacing <em>Scale</em></h1>
+  <p class="lede">Escala de 10 passos baseada em múltiplos de <strong>4 px</strong>. Todo espaçamento da interface — gap, padding, margin — deve vir desta escala. Valores fora dela indicam desvio.</p>
+
+  <section>
+    <h2>Escala base (s-1 → s-10)</h2>
+    <div class="scale-wrap">
+      <div class="scale-row scale-head">
+        <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Token</span>
+        <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">px</span>
+        <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">rem</span>
+        <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Visual</span>
+        <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute);text-align:right">Uso típico</span>
+      </div>
+      <div class="scale-row"><code class="tok">--ob-s-1</code><span class="val-px">4</span><span class="val-rem">0.25</span><div class="bar-wrap"><div class="bar" style="width:4px"></div></div><span class="use">Ícone + texto, dot badge</span></div>
+      <div class="scale-row"><code class="tok">--ob-s-2</code><span class="val-px">8</span><span class="val-rem">0.5</span><div class="bar-wrap"><div class="bar" style="width:8px"></div></div><span class="use">Gap chip, botão + ícone</span></div>
+      <div class="scale-row"><code class="tok">--ob-s-3</code><span class="val-px">12</span><span class="val-rem">0.75</span><div class="bar-wrap"><div class="bar" style="width:12px"></div></div><span class="use">Ritmo entre parágrafos</span></div>
+      <div class="scale-row"><code class="tok">--ob-s-4</code><span class="val-px">16</span><span class="val-rem">1</span><div class="bar-wrap"><div class="bar" style="width:16px"></div></div><span class="use">Gap padrão entre elementos</span></div>
+      <div class="scale-row"><code class="tok">--ob-s-5</code><span class="val-px">24</span><span class="val-rem">1.5</span><div class="bar-wrap"><div class="bar" style="width:24px"></div></div><span class="use">Padding de card (padrão)</span></div>
+      <div class="scale-row"><code class="tok">--ob-s-6</code><span class="val-px">32</span><span class="val-rem">2</span><div class="bar-wrap"><div class="bar" style="width:32px"></div></div><span class="use">Padding horizontal de página</span></div>
+      <div class="scale-row"><code class="tok">--ob-s-7</code><span class="val-px">48</span><span class="val-rem">3</span><div class="bar-wrap"><div class="bar" style="width:48px"></div></div><span class="use">Separação entre seções</span></div>
+      <div class="scale-row"><code class="tok">--ob-s-8</code><span class="val-px">64</span><span class="val-rem">4</span><div class="bar-wrap"><div class="bar" style="width:64px"></div></div><span class="use">Gap entre blocos de conteúdo</span></div>
+      <div class="scale-row"><code class="tok">--ob-s-9</code><span class="val-px">96</span><span class="val-rem">6</span><div class="bar-wrap"><div class="bar" style="width:96px"></div></div><span class="use">Seção hero, espaço editorial</span></div>
+      <div class="scale-row"><code class="tok">--ob-s-10</code><span class="val-px">128</span><span class="val-rem">8</span><div class="bar-wrap"><div class="bar" style="width:128px"></div></div><span class="use">Macro layout, margens de página</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Aliases semânticos</h2>
+    <p>Aliases mapeiam intenção de uso para passos da escala. Prefira-os para código de componente — facilita ajustes globais sem caça ao token numérico.</p>
+    <table class="sem-table">
+      <thead><tr><th>Alias</th><th>Aponta para</th><th>Valor</th><th>Intenção</th></tr></thead>
+      <tbody>
+        <tr><td><code>--ob-gap-xs</code></td><td><code>--ob-s-1</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">4px</td><td>Ícone + texto inline, dot gap</td></tr>
+        <tr><td><code>--ob-gap-sm</code></td><td><code>--ob-s-2</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">8px</td><td>Gap de chip, botão + ícone, badge</td></tr>
+        <tr><td><code>--ob-gap-md</code></td><td><code>--ob-s-4</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">16px</td><td>Gap padrão entre elementos de UI</td></tr>
+        <tr><td><code>--ob-gap-lg</code></td><td><code>--ob-s-5</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">24px</td><td>Gap de seção interna, grupos de campos</td></tr>
+        <tr><td><code>--ob-pad-card</code></td><td><code>--ob-s-5</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">24px</td><td>Padding interno padrão de Card</td></tr>
+        <tr><td><code>--ob-pad-page</code></td><td><code>--ob-s-6</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">32px</td><td>Padding horizontal de página</td></tr>
+        <tr><td><code>--ob-stack-sm</code></td><td><code>--ob-s-3</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">12px</td><td>Ritmo vertical entre parágrafos</td></tr>
+        <tr><td><code>--ob-stack-md</code></td><td><code>--ob-s-5</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">24px</td><td>Ritmo vertical entre seções</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Contextos de aplicação</h2>
+    <div class="ctx-demo">
+      <div class="ctx-header">Anatomia de um Card</div>
+      <div class="ctx-body">
+
+        <div>
+          <div class="ctx-label">pad-card (s-5 · 24px) — padding interno</div>
+          <div style="border:1.5px dashed color-mix(in srgb, var(--ob-orange) 50%, transparent);border-radius:var(--ob-r-md);padding:24px;display:flex;flex-direction:column;gap:16px;">
+            <div style="height:14px;border-radius:4px;background:var(--ob-bg-alt);width:40%"></div>
+            <div style="height:10px;border-radius:4px;background:var(--ob-bg-alt);width:80%"></div>
+            <div style="height:10px;border-radius:4px;background:var(--ob-bg-alt);width:65%"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="ctx-label">gap-md (s-4 · 16px) — gap entre cards</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+            <div style="height:56px;border:1px solid var(--ob-border);border-radius:var(--ob-r-md);background:var(--ob-bg-alt);"></div>
+            <div style="height:56px;border:1px solid var(--ob-border);border-radius:var(--ob-r-md);background:var(--ob-bg-alt);"></div>
+            <div style="height:56px;border:1px solid var(--ob-border);border-radius:var(--ob-r-md);background:var(--ob-bg-alt);"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="ctx-label">gap-xs / gap-sm — gap dentro de um botão</div>
+          <div style="display:flex;gap:12px;align-items:center;">
+            <div style="display:inline-flex;align-items:center;gap:4px;padding:8px 14px;border-radius:var(--ob-r-sm);background:var(--ob-blue);color:#fff;font-size:13px;font-weight:600;">
+              <div style="width:16px;height:16px;background:rgba(255,255,255,.5);border-radius:3px;"></div>
+              <span>4px gap-xs</span>
+            </div>
+            <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:var(--ob-r-sm);background:var(--ob-blue);color:#fff;font-size:13px;font-weight:600;">
+              <div style="width:16px;height:16px;background:rgba(255,255,255,.5);border-radius:3px;"></div>
+              <span>8px gap-sm</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Instruções de uso</h2>
+    <ul>
+      <li>Use sempre um token — nunca valores hardcoded como <code>margin: 10px</code> ou <code>padding: 20px</code>.</li>
+      <li>Prefira <code>gap</code> (flex/grid) a <code>margin</code> entre irmãos — é mais robusto a reordenações de DOM.</li>
+      <li>Espaçamentos horizontais e verticais do mesmo contexto devem vir da mesma etapa da escala.</li>
+      <li>Nunca use <code>--ob-s-10</code> (128px) dentro de componentes — é reservado a layout macro.</li>
+      <li>Tamanhos de touch target (mobile): mínimo 44px. Use <code>--ob-s-7</code> (48px) como padrão para altura de botões e inputs em mobile.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Cards com <code>padding: var(--ob-pad-card)</code>. Grid de cards com <code>gap: var(--ob-gap-md)</code>.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Valores fora da escala: <code>padding: 18px</code>, <code>gap: 10px</code>. Quebram consistência visual silenciosamente.</p></div>
+    </div>
+    <div class="note"><strong>Debugging de espaçamento:</strong> se um valor não cabe em nenhum token da escala, é um sinal de que o layout precisa ser revisado — não de que a escala precisa de um novo passo.</div>
+  </section>
+
+</div></body></html>

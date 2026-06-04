@@ -485,6 +485,16 @@
   --ob-s-9:  96px;
   --ob-s-10: 128px;
 
+  /* Spacing — semantic aliases (intent-based) */
+  --ob-gap-xs:     var(--ob-s-1);   /* 4px  — ícone+texto, badge+ícone        */
+  --ob-gap-sm:     var(--ob-s-2);   /* 8px  — gap de chip, botão+ícone        */
+  --ob-gap-md:     var(--ob-s-4);   /* 16px — gap padrão entre elementos      */
+  --ob-gap-lg:     var(--ob-s-5);   /* 24px — gap de seção interna           */
+  --ob-pad-card:   var(--ob-s-5);   /* 24px — padding interno de card        */
+  --ob-pad-page:   var(--ob-s-6);   /* 32px — padding horizontal de página   */
+  --ob-stack-sm:   var(--ob-s-3);   /* 12px — ritmo vertical — parágrafos   */
+  --ob-stack-md:   var(--ob-s-5);   /* 24px — ritmo vertical — seções     */
+
   /* ------------------------------------------------------------
      RADII — soft (8–12px personality)
      ------------------------------------------------------------ */
@@ -494,6 +504,11 @@
   --ob-r-lg:    16px;
   --ob-r-xl:    20px;
   --ob-r-pill:  999px;
+
+  /* Radii — semantic aliases (component families) */
+  --ob-r-control:  var(--ob-r-sm);   /* inputs, buttons, checkboxes, selects */
+  --ob-r-surface:  var(--ob-r-md);   /* cards, panels, dropdowns, popovers  */
+  --ob-r-overlay:  var(--ob-r-lg);   /* modals, drawers, sheets             */
 
   /* ------------------------------------------------------------
      SHADOWS — restrained, mostly hairline + diffused

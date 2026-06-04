@@ -1,20 +1,167 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Radii</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Radii · Onblide DS</title>
 <link rel="stylesheet" href="../../colors_and_type.css">
 <style>
-  body { margin: 0; padding: 24px; background: #fff; font-family: var(--ob-font); color: #545454; }
-  .row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
-  .item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .box { width: 80px; height: 80px; background: #f2f0e8; border: 1px solid #ececec; }
-  .lbl { font-family: var(--ob-font-mono); font-size: 11px; color: #2a2a2a; }
-  .px { font-size: 11px; color: #a8a8a8; }
-</style></head><body>
-  <div class="row">
-    <div class="item"><div class="box" style="border-radius:4px;"></div><div class="lbl">r-xs</div><div class="px">4px</div></div>
-    <div class="item"><div class="box" style="border-radius:8px;"></div><div class="lbl">r-sm</div><div class="px">8px</div></div>
-    <div class="item"><div class="box" style="border-radius:12px;"></div><div class="lbl">r-md</div><div class="px">12px</div></div>
-    <div class="item"><div class="box" style="border-radius:16px;"></div><div class="lbl">r-lg</div><div class="px">16px</div></div>
-    <div class="item"><div class="box" style="border-radius:20px;"></div><div class="lbl">r-xl</div><div class="px">20px</div></div>
-    <div class="item"><div class="box" style="border-radius:999px;"></div><div class="lbl">r-pill</div><div class="px">999</div></div>
-  </div>
-</body></html>
+/* ── Foundation doc shell ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--ob-font); background: var(--ob-surface); color: var(--ob-fg); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 48px 32px 80px; }
+
+.eyebrow { font-family: var(--ob-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ob-blue); margin: 0 0 8px; }
+h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.03em; color: var(--ob-fg-strong); margin: 0 0 12px; }
+h1 em { font-family: var(--ob-font-serif); font-style: italic; font-weight: 500; color: var(--ob-blue); }
+.lede { font-size: 17px; line-height: 1.6; color: var(--ob-fg); margin: 0 0 48px; max-width: 600px; }
+
+section { margin-top: 48px; }
+h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ob-fg-soft); margin: 0 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--ob-border); }
+h3 { font-size: 16px; font-weight: 700; color: var(--ob-fg-strong); margin: 24px 0 10px; }
+p { font-size: 15px; line-height: 1.65; color: var(--ob-fg); margin: 0 0 12px; }
+ul { margin: 0 0 12px; padding-left: 20px; }
+li { font-size: 15px; line-height: 1.7; color: var(--ob-fg); }
+code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob-bg-warm); padding: 2px 6px; border-radius: 5px; color: var(--ob-fg-strong); }
+.note { background: var(--ob-bg-warm); border-radius: 10px; padding: 14px 16px; font-size: 14px; line-height: 1.55; color: var(--ob-fg); margin-top: 12px; }
+.do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+.dd { border-radius: 10px; padding: 14px; border: 1px solid var(--ob-border); }
+.dd .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.dd.do .tag { color: var(--ob-green-700); }
+.dd.dont .tag { color: var(--ob-danger); }
+.dd p { font-size: 13px; margin: 0; color: var(--ob-fg-soft); }
+
+/* ── Scale grid ── */
+.scale-grid { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--ob-border); border-radius: var(--ob-r-md); overflow: hidden; }
+.scale-row { display: grid; grid-template-columns: 120px 60px 1fr 1fr; align-items: center; gap: 16px; padding: 16px 20px; border-bottom: 1px solid var(--ob-border); background: var(--ob-surface); }
+.scale-row:last-child { border-bottom: none; }
+.scale-row:hover { background: var(--ob-bg-warm); }
+.tok { font-family: var(--ob-font-mono); font-size: 12px; font-weight: 700; color: var(--ob-fg-strong); }
+.val { font-family: var(--ob-font-mono); font-size: 12px; color: var(--ob-fg-mute); }
+.demo-box { width: 52px; height: 52px; background: var(--ob-blue-100); border: 1.5px solid color-mix(in srgb, var(--ob-blue) 30%, transparent); }
+.usage-cell { font-size: 13px; color: var(--ob-fg-soft); line-height: 1.5; }
+
+/* ── Semantic table ── */
+.sem-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 4px; }
+.sem-table th { text-align: left; padding: 8px 12px; border-bottom: 1.5px solid var(--ob-border); color: var(--ob-fg-mute); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.sem-table td { padding: 11px 12px; border-bottom: 1px solid var(--ob-line-soft); vertical-align: middle; }
+.sem-table tr:last-child td { border-bottom: none; }
+.demo-pill { display: inline-block; width: 40px; height: 28px; background: var(--ob-blue-100); border: 1.5px solid color-mix(in srgb, var(--ob-blue) 30%, transparent); }
+
+/* ── Component map ── */
+.comp-map { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.comp-card { border: 1px solid var(--ob-border); border-radius: var(--ob-r-md); padding: 16px; }
+.comp-card-title { font-size: 13px; font-weight: 700; color: var(--ob-fg-strong); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+.comp-list { font-size: 12px; color: var(--ob-fg-soft); line-height: 1.8; }
+.radius-badge { font-family: var(--ob-font-mono); font-size: 10px; font-weight: 700; background: var(--ob-blue-100); color: var(--ob-blue); padding: 2px 8px; border-radius: 999px; }
+</style>
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Foundation · Forma</p>
+  <h1>Border <em>Radius</em></h1>
+  <p class="lede">Seis etapas de arredondamento constroem a linguagem de forma da Onblide — do micro ajuste de 4 px ao círculo perfeito. A personalidade é <strong>suave, nunca aguda</strong>: o raio mínimo já visível em todo controle interativo é <code>--ob-r-sm</code> (8 px).</p>
+
+  <section>
+    <h2>Escala de tokens</h2>
+    <div class="scale-grid">
+      <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
+        <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Token</span>
+        <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Valor</span>
+        <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Demo</span>
+        <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Uso típico</span>
+      </div>
+      <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
+        <code class="tok">--ob-r-xs</code><span class="val">4 px</span>
+        <div class="demo-box" style="border-radius:4px;"></div>
+        <span class="usage-cell">Código inline, checkbox, micro-elementos</span>
+      </div>
+      <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
+        <code class="tok">--ob-r-sm</code><span class="val">8 px</span>
+        <div class="demo-box" style="border-radius:8px;"></div>
+        <span class="usage-cell">Inputs, botões, chips, selects, tooltips</span>
+      </div>
+      <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
+        <code class="tok">--ob-r-md</code><span class="val">12 px</span>
+        <div class="demo-box" style="border-radius:12px;"></div>
+        <span class="usage-cell">Cards, dropdowns, painéis, tables</span>
+      </div>
+      <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
+        <code class="tok">--ob-r-lg</code><span class="val">16 px</span>
+        <div class="demo-box" style="border-radius:16px;"></div>
+        <span class="usage-cell">Modais, drawers, hero cards, overlays</span>
+      </div>
+      <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
+        <code class="tok">--ob-r-xl</code><span class="val">20 px</span>
+        <div class="demo-box" style="border-radius:20px;"></div>
+        <span class="usage-cell">Imagens destacadas, placeholders visuais</span>
+      </div>
+      <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
+        <code class="tok">--ob-r-pill</code><span class="val">999 px</span>
+        <div class="demo-box" style="border-radius:999px;width:80px;height:32px;"></div>
+        <span class="usage-cell">Badges, chips, progress bars, tags</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Aliases semânticos</h2>
+    <p>Três aliases mapeiam intenção de uso, não geometria. Prefira-os em implementação de componentes para facilitar mudanças globais.</p>
+    <table class="sem-table">
+      <thead><tr><th>Alias</th><th>Aponta para</th><th>Valor</th><th>Família de componentes</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>--ob-r-control</code></td>
+          <td><code>--ob-r-sm</code></td>
+          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">8 px</td>
+          <td>Inputs, Buttons, Checkboxes, Selects, Code Input</td>
+        </tr>
+        <tr>
+          <td><code>--ob-r-surface</code></td>
+          <td><code>--ob-r-md</code></td>
+          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">12 px</td>
+          <td>Cards, Dropdowns, Tabs panel, Table container</td>
+        </tr>
+        <tr>
+          <td><code>--ob-r-overlay</code></td>
+          <td><code>--ob-r-lg</code></td>
+          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">16 px</td>
+          <td>Modal, Drawer, Toast, Alert</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">Raios pílula (<code>--ob-r-pill</code>) não possuem alias semântico — o valor 999px é autoexplicativo e universal para todos os elementos em pílula.</div>
+  </section>
+
+  <section>
+    <h2>Mapa por família de componentes</h2>
+    <div class="comp-map">
+      <div class="comp-card">
+        <div class="comp-card-title">Controles <span class="radius-badge">r-sm · 8px</span></div>
+        <div class="comp-list">Input · Button · Select<br>Checkbox · Radio · Toggle<br>Code Input · Search Input</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Superfícies <span class="radius-badge">r-md · 12px</span></div>
+        <div class="comp-list">Card · Dropdown · Table<br>Side Navigation · Tabs panel<br>Skeleton · Avatar</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Overlays <span class="radius-badge">r-lg · 16px</span></div>
+        <div class="comp-list">Modal · Drawer · Toast<br>Alert · Tooltip</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Pílula <span class="radius-badge">r-pill · 999px</span></div>
+        <div class="comp-list">Badge · Chip · Progress Bar<br>Pagination (dots) · Tag</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Instruções de uso</h2>
+    <ul>
+      <li>Use sempre um token — nunca valores hardcoded como <code>border-radius: 10px</code>.</li>
+      <li>Mantenha consistência dentro da mesma família: todos os botões da tela com <code>--ob-r-control</code>.</li>
+      <li>Não misture raios em lados opostos do mesmo elemento (top-left diferente de bottom-right) sem razão funcional — ex: dropdown que abre abaixo pode zerear o raio do lado que se encosta ao trigger.</li>
+      <li>Imagens dentro de cards: use <code>border-radius</code> igual ao do card menos 1 nível se a imagem estiver no interior (overflow: hidden no pai resolve).</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Use <code>--ob-r-surface</code> em todos os cards. Mude o valor do alias em um lugar e todos os cards atualizam.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Misturar <code>border-radius: 14px</code> hardcoded com tokens — impede refactoring e cria inconsistência silenciosa.</p></div>
+    </div>
+  </section>
+
+</div></body></html>
