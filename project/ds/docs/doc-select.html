@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Select</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Componente · Formulário</p>
+  <h1>Select <em>doc</em></h1>
+  <p class="lede">Campo com lista de opções pré-definidas e autocomplete. Use quando houver mais de 3 opções para coletar. Existe em variação <strong>single</strong> (uma escolha) e <strong>multi</strong> (várias). Obedece às mesmas regras de alinhamento que o <strong>Input</strong>.</p>
+
+  <div class="matrix">
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui motion</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão web</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no">–</span> —</div>
+  </div>
+
+  <section>
+    <h2>1 · Uso</h2>
+    <p>Use o Select quando o usuário precisar escolher de uma lista pré-definida. A regra de corte: até 3 opções, use Radio; a partir de 4, use Select.</p>
+    <h3>Variações</h3>
+    <table class="props">
+      <thead><tr><th>Variação</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td><code>single</code></td><td>Seleção de uma única opção. A opção escolhida aparece no campo. O menu fecha ao selecionar.</td></tr>
+        <tr><td><code>multi</code></td><td>Seleção de múltiplas opções. As escolhas aparecem como chips removíveis dentro do campo. O menu permanece aberto.</td></tr>
+      </tbody>
+    </table>
+    <h3>Regras de layout</h3>
+    <ul>
+      <li>O menu ocupa a <strong>mesma largura</strong> do campo de input.</li>
+      <li>Altura máxima do menu: <strong>240 px</strong> com scroll quando ultrapassar.</li>
+      <li>Alinhamento segue as mesmas regras do <strong>Input</strong> — nunca mais largo que o container pai.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Use autocomplete: o usuário digita e a lista filtra. Essencial para listas longas (&gt; 10 itens).</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Usar Select para 2–3 opções — Radio é mais rápido. Evite listas sem ordem lógica (use alfabético ou por relevância).</p></div>
+    </div>
+    <h3>Composição</h3>
+    <ul>
+      <li><strong>Alert</strong> ou mensagem de erro abaixo quando a validação falha.</li>
+      <li><strong>Skeleton</strong> no lugar do Select enquanto as opções carregam assincronamente.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2 · Formatação</h2>
+    <pre><code>&lt;!-- Single --&gt;
+&lt;Select
+  label="País"
+  options={['Brasil', 'Argentina', 'Chile']}
+  value={country}
+  onChange={setCountry}
+  placeholder="Selecione um país…"
+/&gt;
+
+&lt;!-- Multi --&gt;
+&lt;Select
+  label="Times"
+  options={teams}
+  value={selected}
+  onChange={setSelected}
+  multi
+  placeholder="Selecione os times…"
+/&gt;</code></pre>
+    <table class="props">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
+      <tbody>
+        <tr><td><code>options</code></td><td><code>string[] | {label: string}[]</code></td><td><code>[]</code></td></tr>
+        <tr><td><code>value</code></td><td><code>string | string[]</code></td><td><code>null</code></td></tr>
+        <tr><td><code>onChange</code></td><td><code>(val) => void</code></td><td>—</td></tr>
+        <tr><td><code>multi</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+        <tr><td><code>label</code></td><td><code>string</code></td><td>—</td></tr>
+        <tr><td><code>placeholder</code></td><td><code>string</code></td><td><code>'Selecione…'</code></td></tr>
+        <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+        <tr><td><code>error</code></td><td><code>string</code></td><td>—</td></tr>
+        <tr><td><code>width</code></td><td><code>number | string</code></td><td><code>'100%'</code></td></tr>
+      </tbody>
+    </table>
+    <h3>Teclado</h3>
+    <ul>
+      <li><strong>↓ / ↑</strong> — navega entre opções.</li>
+      <li><strong>Enter</strong> — seleciona a opção destacada.</li>
+      <li><strong>Esc</strong> — fecha o menu.</li>
+      <li><strong>Backspace</strong> (multi, campo vazio) — remove o último chip.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>3 · Guia de conteúdo</h2>
+    <ul>
+      <li>Label: Sentence case, sem dois pontos. "País", "Time responsável".</li>
+      <li>Placeholder: "Selecione um [item]…" — nunca "Clique para selecionar".</li>
+      <li>Opções: consistentes no estilo — todas substantivos ou todas verbos, nunca misturadas.</li>
+      <li>Multi: placeholder some quando há chips; não repita o label no placeholder.</li>
+      <li>Estado vazio de busca: "Nenhuma opção encontrada" — neutro, sem sugestão de digitação errada.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · Guia de design</h2>
+    <p><strong>Tokens.</strong> Borda idle <code>--ob-border</code>, focus <code>--ob-blue</code> + ring <code>--ob-focus-ring</code>. Menu sombra <code>0 8px 24px rgba(0,0,0,.12)</code>. Chips fundo <code>--ob-blue-100</code>, texto <code>--ob-blue-700</code>.</p>
+    <p><strong>Motion.</strong> Caret gira 180° com transição de 150ms. Borda e ring: 150ms <code>--ob-ease</code>. Dropdown aparece instantaneamente — sem animação de entrada para parecer responsivo.</p>
+    <p><strong>Estados.</strong> Idle → Focus (border + ring) → Filled → Disabled (opacity 60%, cursor not-allowed) → Error (border danger + mensagem abaixo).</p>
+    <p><strong>Multi.</strong> O campo cresce verticalmente para acomodar chips — nunca trunca. Chip tem botão × para remoção individual.</p>
+    <div class="note"><strong>Acessibilidade:</strong> use <code>role="combobox"</code>, <code>aria-expanded</code>, <code>aria-autocomplete="list"</code>. Opções com <code>role="option"</code> e <code>aria-selected</code>. O grupo deve ter <code>aria-label</code> descritivo.</div>
+  </section>
+
+</div></body></html>

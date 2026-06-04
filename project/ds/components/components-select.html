@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Select</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 32px 24px 160px; background: var(--ob-surface); font-family: var(--ob-font); }
+  .grid { display: grid; gap: 32px; grid-template-columns: 120px 1fr; align-items: start; }
+  .lbl { font-family: var(--ob-font-mono); font-size: 11px; color: var(--ob-fg-mute); padding-top: 12px; }
+  .row { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+</style></head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="../../ui_kits/web_app/Components.jsx"></script>
+  <script type="text/babel">
+    const { useState } = React;
+
+    const PAISES = ['Brasil','Argentina','Chile','Colômbia','México','Portugal','Espanha','França','Alemanha','Itália','Japão','Coreia do Sul','Índia','China','Estados Unidos','Canadá','Austrália'];
+    const TAGS   = ['Design','Engenharia','Marketing','Produto','Dados','Operações','Financeiro','RH','Jurídico','Suporte'];
+
+    function Demo() {
+      const [single, setSingle]     = useState(null);
+      const [multi, setMulti]       = useState([]);
+      const [disabled, setDisabled] = useState('Brasil');
+      const [err, setErr]           = useState(null);
+
+      return (
+        <div className="grid">
+
+          <div className="lbl">SINGLE</div>
+          <div className="row">
+            <Select
+              label="País"
+              options={PAISES}
+              value={single}
+              onChange={setSingle}
+              placeholder="Selecione um país…"
+              width={280}
+            />
+            <div style={{ paddingTop: 36, fontSize: 13, color: 'var(--ob-fg-soft)' }}>
+              {single ? <>Selecionado: <strong style={{ color: 'var(--ob-fg-strong)' }}>{single}</strong></> : 'Nenhuma seleção'}
+            </div>
+          </div>
+
+          <div className="lbl">MULTI</div>
+          <div className="row">
+            <Select
+              label="Times"
+              options={TAGS}
+              value={multi}
+              onChange={setMulti}
+              multi
+              placeholder="Selecione os times…"
+              width={340}
+            />
+            <div style={{ paddingTop: 36, fontSize: 13, color: 'var(--ob-fg-soft)' }}>
+              {multi.length ? <>{multi.length} selecionados</> : 'Nenhuma seleção'}
+            </div>
+          </div>
+
+          <div className="lbl">DISABLED</div>
+          <div className="row">
+            <Select
+              label="País (desabilitado)"
+              options={PAISES}
+              value={disabled}
+              onChange={setDisabled}
+              disabled
+              width={280}
+            />
+          </div>
+
+          <div className="lbl">ERRO</div>
+          <div className="row">
+            <Select
+              label="País"
+              options={PAISES}
+              value={err}
+              onChange={v => { setErr(v); }}
+              placeholder="Selecione um país…"
+              error={err === null ? 'Campo obrigatório' : undefined}
+              width={280}
+            />
+          </div>
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body></html>

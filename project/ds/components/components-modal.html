@@ -2,51 +2,200 @@
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Modal</title>
 <link rel="stylesheet" href="../../colors_and_type.css">
 <style>
-  body { margin: 0; padding: 24px; background: var(--ob-surface); font-family: var(--ob-font); min-height: 280px; }
-  .grid { display: grid; gap: 24px; grid-template-columns: 90px 1fr; align-items: center; }
+  body { margin: 0; padding: 32px; background: var(--ob-surface); font-family: var(--ob-font); }
+  .grid { display: grid; gap: 20px; grid-template-columns: 90px 1fr; align-items: center; }
   .lbl { font-family: var(--ob-font-mono); font-size: 11px; color: var(--ob-fg-mute); }
   .row { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn { padding: 10px 18px; border-radius: 10px; border: none; cursor: pointer; font-family: var(--ob-font); font-size: 14px; font-weight: 600; }
-  .btn-primary { background: var(--ob-blue); color: #fff; }
-  .btn-secondary { background: var(--ob-surface); color: var(--ob-fg-strong); border: 1.5px solid var(--ob-border); }
-  .btn-danger { background: var(--ob-danger); color: #fff; }
-</style></head>
+</style>
+</head>
 <body>
-  <div id="root"></div>
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-  <script type="text/babel" src="../../ui_kits/web_app/Components.jsx"></script>
-  <script type="text/babel">
-    const { useState } = React;
-    function Demo() {
-      const [info, setInfo] = useState(false);
-      const [confirm, setConfirm] = useState(false);
-      return (
-        <div className="grid">
-          <div className="lbl">TRIGGERS</div>
-          <div className="row">
-            <button className="btn btn-secondary" onClick={() => setInfo(true)}>Abrir info</button>
-            <button className="btn btn-danger" onClick={() => setConfirm(true)}>Excluir projeto</button>
-          </div>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel">
+const { useState, useEffect } = React;
 
-          <Modal open={info} onClose={() => setInfo(false)} title="Sobre o workspace"
-            footer={<button className="btn btn-primary" onClick={() => setInfo(false)}>Entendi</button>}>
-            Este workspace reúne todos os seus projetos da Onblide. Você pode convidar
-            colaboradores, definir papéis e acompanhar o progresso em um só lugar.
-          </Modal>
+const SIZES = { sm: 360, md: 440, lg: 720, full: '92vw' };
 
-          <Modal open={confirm} onClose={() => setConfirm(false)} title="Excluir projeto?"
-            footer={<>
-              <button className="btn btn-secondary" onClick={() => setConfirm(false)}>Cancelar</button>
-              <button className="btn btn-danger" onClick={() => setConfirm(false)}>Excluir</button>
-            </>}>
-            Esta ação é permanente. Todos os dados do projeto serão removidos e não poderão
-            ser recuperados. Tem certeza?
-          </Modal>
+const Btn = ({ kind = 'secondary', onClick, children, danger }) => {
+  const base = {
+    padding: '10px 18px', borderRadius: 10, border: 'none', cursor: 'pointer',
+    fontFamily: 'var(--ob-font)', fontSize: 14, fontWeight: 600, transition: 'all .12s',
+  };
+  const kinds = {
+    primary:   { background: 'var(--ob-blue)', color: '#fff' },
+    secondary: { background: 'var(--ob-surface)', color: 'var(--ob-fg-strong)', border: '1.5px solid var(--ob-border)' },
+    danger:    { background: 'var(--ob-danger)', color: '#fff' },
+  };
+  return <button style={{ ...base, ...kinds[kind] }} onClick={onClick}>{children}</button>;
+};
+
+const Modal = ({ open, onClose, size = 'md', title, children, footer }) => {
+  const w = SIZES[size] ?? SIZES.md;
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return ReactDOM.createPortal(
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, background: 'rgba(20,20,20,.45)',
+        backdropFilter: 'blur(2px)', display: 'flex', alignItems: 'center',
+        justifyContent: 'center', zIndex: 9000, padding: 16,
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          width: w, maxWidth: '100%', maxHeight: '90vh', display: 'flex',
+          flexDirection: 'column', background: 'var(--ob-surface)',
+          borderRadius: 16, boxShadow: '0 24px 64px rgba(0,0,0,.22)',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderBottom: '1px solid var(--ob-border)' }}>
+          <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</span>
+          <button onClick={onClose} style={{ width: 32, height: 32, borderRadius: 8, border: 'none', background: 'none', color: 'var(--ob-fg-mute)', cursor: 'pointer', fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
         </div>
-      );
-    }
-    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
-  </script>
+        {/* Body */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px', fontSize: 15, lineHeight: 1.6, color: 'var(--ob-fg)' }}>
+          {children}
+        </div>
+        {/* Footer */}
+        {footer && (
+          <div style={{ padding: '16px 24px', borderTop: '1px solid var(--ob-border)', background: 'var(--ob-bg-alt)', display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
+            {footer}
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body
+  );
+};
+
+function Demo() {
+  const [info,    setInfo]    = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const [form,    setForm]    = useState(false);
+  const [wide,    setWide]    = useState(false);
+
+  return (
+    <div className="grid">
+
+      <div className="lbl">INFO · MD</div>
+      <div className="row">
+        <Btn onClick={() => setInfo(true)}>Sobre o workspace</Btn>
+      </div>
+
+      <div className="lbl">CONFIRM · SM</div>
+      <div className="row">
+        <Btn kind="danger" onClick={() => setConfirm(true)}>Excluir projeto</Btn>
+      </div>
+
+      <div className="lbl">FORM · MD</div>
+      <div className="row">
+        <Btn kind="primary" onClick={() => setForm(true)}>Novo projeto</Btn>
+      </div>
+
+      <div className="lbl">WIDE · LG</div>
+      <div className="row">
+        <Btn onClick={() => setWide(true)}>Prévia de dados</Btn>
+      </div>
+
+      {/* info md */}
+      <Modal open={info} onClose={() => setInfo(false)} size="md" title="Sobre o workspace"
+        footer={<Btn kind="primary" onClick={() => setInfo(false)}>Entendi</Btn>}>
+        Este workspace reúne todos os projetos da Onblide. Você pode convidar colaboradores,
+        definir papéis e acompanhar o progresso em um só lugar.
+      </Modal>
+
+      {/* confirm sm */}
+      <Modal open={confirm} onClose={() => setConfirm(false)} size="sm" title="Excluir projeto?"
+        footer={<>
+          <Btn onClick={() => setConfirm(false)}>Cancelar</Btn>
+          <Btn kind="danger" onClick={() => setConfirm(false)}>Excluir</Btn>
+        </>}>
+        Esta ação é permanente. Todos os dados serão removidos e não poderão ser recuperados.
+      </Modal>
+
+      {/* form md */}
+      <Modal open={form} onClose={() => setForm(false)} size="md" title="Novo projeto"
+        footer={<>
+          <Btn onClick={() => setForm(false)}>Cancelar</Btn>
+          <Btn kind="primary" onClick={() => setForm(false)}>Criar projeto</Btn>
+        </>}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>Nome</div>
+            <input placeholder="Ex: Redesign 2026" style={{ width: '100%', height: 42, padding: '0 12px', border: '1.5px solid var(--ob-border)', borderRadius: 8, background: 'var(--ob-surface)', color: 'var(--ob-fg)', fontFamily: 'var(--ob-font)', fontSize: 14, boxSizing: 'border-box' }}/>
+          </div>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>Descrição</div>
+            <textarea placeholder="Descreva o objetivo…" rows={3} style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--ob-border)', borderRadius: 8, background: 'var(--ob-surface)', color: 'var(--ob-fg)', fontFamily: 'var(--ob-font)', fontSize: 14, resize: 'vertical', boxSizing: 'border-box' }}/>
+          </div>
+        </div>
+      </Modal>
+
+      {/* wide lg */}
+      <Modal open={wide} onClose={() => setWide(false)} size="lg" title="Prévia — Métricas de Sessão"
+        footer={<>
+          <Btn onClick={() => setWide(false)}>Fechar</Btn>
+          <Btn kind="primary" onClick={() => setWide(false)}>Exportar</Btn>
+        </>}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginBottom: 20 }}>
+          {[
+            ['Sessões',    '12.847', '↑ 14%', 'var(--ob-blue)'],
+            ['Conversões', '483',    '↑ 8%',  'var(--ob-green)'],
+            ['Churn',      '3,2%',   '↓ 1%',  'var(--ob-danger)'],
+          ].map(([label, val, delta, clr]) => (
+            <div key={label} style={{ background: 'var(--ob-bg-alt)', border: '1px solid var(--ob-border)', borderRadius: 10, padding: '16px 18px' }}>
+              <div style={{ fontSize: 12, color: 'var(--ob-fg-mute)', marginBottom: 6 }}>{label}</div>
+              <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--ob-fg-strong)', fontFamily: 'var(--ob-font-mono)' }}>{val}</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: clr, marginTop: 4 }}>{delta} vs. mês anterior</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ border: '1px solid var(--ob-border)', borderRadius: 10, overflow: 'hidden' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <thead>
+              <tr style={{ borderBottom: '1px solid var(--ob-border)', background: 'var(--ob-bg-alt)' }}>
+                {['Página', 'Sessões', 'Tempo médio', 'Taxa de saída'].map(h => (
+                  <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontFamily: 'var(--ob-font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)' }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ['/',        4820, '2:14', '32%'],
+                ['/pricing', 2341, '3:40', '18%'],
+                ['/docs',    1890, '4:52', '12%'],
+                ['/blog',     980, '1:30', '55%'],
+              ].map(([page, s, t, bounce], i) => (
+                <tr key={page} style={{ borderBottom: i < 3 ? '1px solid var(--ob-border)' : 'none' }}>
+                  <td style={{ padding: '10px 14px', color: 'var(--ob-blue)', fontWeight: 600 }}>{page}</td>
+                  <td style={{ padding: '10px 14px', fontFamily: 'var(--ob-font-mono)', fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{s.toLocaleString('pt-BR')}</td>
+                  <td style={{ padding: '10px 14px', color: 'var(--ob-fg)' }}>{t}</td>
+                  <td style={{ padding: '10px 14px', color: 'var(--ob-fg)' }}>{bounce}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Modal>
+
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
 </body></html>

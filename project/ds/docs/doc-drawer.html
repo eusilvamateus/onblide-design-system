@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Drawer</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Componente · Overlay</p>
+  <h1>Drawer <em>doc</em></h1>
+  <p class="lede">Painel lateral que desliza sobre o conteúdo ao ser acionado. Mantém o usuário no contexto atual enquanto completa uma ação secundária — formulário, detalhes ou filtros.</p>
+
+  <div class="matrix">
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui motion</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão web</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div>
+    <div class="crit off"><span class="mark no">–</span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no">–</span> —</div>
+  </div>
+
+  <section>
+    <h2>1 · Uso</h2>
+    <p>Use o Drawer quando a ação exige espaço razoável mas <strong>não deve remover o usuário da tela atual</strong>. A diferença do Modal: o Drawer é lateral e permite que o usuário veja o conteúdo da página por trás do backdrop.</p>
+    <h3>Quando usar</h3>
+    <ul>
+      <li><strong>Formulários</strong> — adicionar colaborador, criar item, editar perfil.</li>
+      <li><strong>Detalhes</strong> — tarefas de um projeto, histórico, propriedades de um item.</li>
+      <li><strong>Filtros</strong> — painel de refinamento de listagens e tabelas.</li>
+      <li><strong>Navegação temporária</strong> — sidebar colapsada que abre como Drawer em mobile.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Sempre inclua o Header (título + botão fechar) e feche o Drawer ao concluir a ação via footer. Esc e clique no backdrop também fecham.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Abrir um Modal dentro de um Drawer — empilhar overlays confunde o usuário. Prefira um único overlay por vez.</p></div>
+    </div>
+    <h3>Composição</h3>
+    <ul>
+      <li><strong>Input / Select</strong> no corpo para formulários.</li>
+      <li><strong>ProgressBar</strong> sm no header para progresso de etapas.</li>
+      <li><strong>Alert</strong> no corpo para erros de validação.</li>
+      <li><strong>Skeleton</strong> no corpo enquanto dados carregam.</li>
+      <li><strong>Toast</strong> após fechar para confirmar ação concluída.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2 · Formatação</h2>
+    <pre><code>&lt;Drawer
+  open={open}
+  onClose={onClose}
+  title="Novo colaborador"
+  side="right"
+  width={420}
+  footer={&lt;Button kind="primary" onClick={onClose}&gt;Salvar&lt;/Button&gt;}
+&gt;
+  &lt;Field label="Nome" /&gt;
+&lt;/Drawer&gt;</code></pre>
+    <table class="props">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
+      <tbody>
+        <tr><td><code>open</code></td><td><code>boolean</code></td><td>—</td></tr>
+        <tr><td><code>onClose</code></td><td><code>() => void</code></td><td>—</td></tr>
+        <tr><td><code>title</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+        <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+        <tr><td><code>footer</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+        <tr><td><code>side</code></td><td><code>'right' | 'left'</code></td><td><code>'right'</code></td></tr>
+        <tr><td><code>width</code></td><td><code>number</code></td><td><code>400</code></td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Estrutura interna:</strong> o Drawer compõe Header (título + fechar) + Body (scroll) + Footer (fixo). Nunca coloque elementos críticos de ação no body — use sempre o footer.</div>
+  </section>
+
+  <section>
+    <h2>3 · Guia de conteúdo</h2>
+    <ul>
+      <li>Título no header: substantivo descritivo da ação. "Novo colaborador", "Filtrar resultados", "Tarefas do projeto".</li>
+      <li>Botão primário no footer: verbo da ação. "Convidar", "Aplicar", "Salvar" — nunca "OK".</li>
+      <li>Cancelar sempre à esquerda do botão primário.</li>
+      <li>Para drawers de detalhe sem ação: um único botão "Fechar" é suficiente.</li>
+      <li>Evite títulos com mais de 4 palavras — o header tem espaço limitado.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · Guia de design</h2>
+    <p><strong>Largura.</strong> Padrão 400 px. Para formulários com muitos campos, até 480 px. Nunca ultrapasse 560 px — prefira um Modal <code>lg</code> para conteúdo mais rico.</p>
+    <p><strong>Tokens.</strong> Fundo <code>--ob-surface</code>. Borda <code>--ob-border</code>. Footer fundo <code>--ob-bg-alt</code>. Backdrop <code>rgba(20,20,20,.40)</code> + blur(2px).</p>
+    <p><strong>Motion.</strong> Painel: <code>transform: translateX(±100%)</code> → <code>translateX(0)</code> em 250ms <code>cubic-bezier(.4,0,.2,1)</code>. Backdrop: fade 220ms ease. A animação de entrada deve terminar antes de qualquer foco ser movido para o interior do painel.</p>
+    <p><strong>Responsivo.</strong> Em viewports menores que 480 px, o Drawer ocupa 100% da largura e se comporta como uma sheet de baixo para cima (bottom sheet). Nesse caso, <code>side</code> é ignorado.</p>
+    <div class="note"><strong>Acessibilidade:</strong> aplique <code>role="dialog"</code>, <code>aria-modal="true"</code> e <code>aria-labelledby</code> no painel. Mova o foco para o primeiro elemento interativo ao abrir; retorne ao trigger ao fechar. Esc sempre fecha.</div>
+  </section>
+
+</div></body></html>

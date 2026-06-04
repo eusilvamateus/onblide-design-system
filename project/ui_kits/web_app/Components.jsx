@@ -220,7 +220,10 @@ const Dropdown = ({ trigger, items, align = 'left' }) => {
 };
 
 // ── MODAL ────────────────────────────────────────────────
-const Modal = ({ open, onClose, title, children, footer, width = 440 }) => {
+const MODAL_WIDTHS = { sm: 360, md: 440, lg: 720, full: '92vw' };
+
+const Modal = ({ open, onClose, title, children, footer, width, size = 'md' }) => {
+  const resolvedWidth = width ?? MODAL_WIDTHS[size] ?? MODAL_WIDTHS.md;
   useEffect(() => {
     if (!open) return;
     const h = (e) => { if (e.key === 'Escape') onClose?.(); };
@@ -236,7 +239,7 @@ const Modal = ({ open, onClose, title, children, footer, width = 440 }) => {
       animation: 'ob-fade 160ms ease-out',
     }}>
       <div onClick={(e) => e.stopPropagation()} style={{
-        width, maxWidth: '100%', background: 'var(--ob-surface)', borderRadius: 16,
+        width: resolvedWidth, maxWidth: '100%', background: 'var(--ob-surface)', borderRadius: 16,
         boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden', animation: 'ob-pop 200ms var(--ob-ease-spring)',
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, padding: '20px 24px 0' }}>
@@ -356,7 +359,71 @@ const Ph = ({ n, size = 18, c }) => (
      style={{ fontSize: size, color: c || 'currentColor', lineHeight: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }} />
 );
 
-// Shared tone map used by Alert, Toast and ProgressBar
+// ── DRAWER ───────────────────────────────────────────────
+const Drawer = ({ open, onClose, title, children, side = 'right', width = 400, footer }) => {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, onClose]);
+
+  const transform = side === 'right'
+    ? open ? 'translateX(0)' : 'translateX(100%)'
+    : open ? 'translateX(0)' : 'translateX(-100%)';
+
+  return ReactDOM.createPortal(
+    <>
+      {/* Backdrop */}
+      <div onClick={onClose} style={{
+        position: 'fixed', inset: 0, background: 'rgba(20,20,20,.40)',
+        backdropFilter: 'blur(2px)', zIndex: 8000,
+        opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none',
+        transition: 'opacity 0.22s ease',
+      }}/>
+      {/* Panel */}
+      <div style={{
+        position: 'fixed', top: 0, bottom: 0,
+        [side]: 0,
+        width, maxWidth: '100%',
+        background: 'var(--ob-surface)',
+        borderLeft: side === 'right' ? '1px solid var(--ob-border)' : 'none',
+        borderRight: side === 'left' ? '1px solid var(--ob-border)' : 'none',
+        zIndex: 8001, display: 'flex', flexDirection: 'column',
+        transform, transition: 'transform 0.25s var(--ob-ease)',
+      }}>
+        {/* Header */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '18px 24px', borderBottom: '1px solid var(--ob-border)', flexShrink: 0,
+        }}>
+          <span style={{ fontSize: 17, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</span>
+          <button onClick={onClose} style={{
+            width: 32, height: 32, borderRadius: 8, border: 'none', background: 'none',
+            color: 'var(--ob-fg-mute)', cursor: 'pointer', fontSize: 18,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>✕</button>
+        </div>
+        {/* Body */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
+          {children}
+        </div>
+        {/* Footer */}
+        {footer && (
+          <div style={{
+            padding: '16px 24px', borderTop: '1px solid var(--ob-border)',
+            background: 'var(--ob-bg-alt)', display: 'flex', justifyContent: 'flex-end', gap: 10, flexShrink: 0,
+          }}>
+            {footer}
+          </div>
+        )}
+      </div>
+    </>,
+    document.body
+  );
+};
+
+
 const OB_TONES = {
   info:    { fg: 'var(--ob-blue)',   bg: 'var(--ob-blue-100)',   strong: 'var(--ob-blue-700)',   icon: 'info' },
   success: { fg: 'var(--ob-green)',  bg: 'var(--ob-green-100)',  strong: 'var(--ob-green-700)',  icon: 'check-circle' },
@@ -558,6 +625,183 @@ const SideNav = ({ items = [], active, onNav, collapsed = false, onToggle, flush
   </div>
 );
 
+// ── SELECT ───────────────────────────────────────────────
+const Select = ({
+  options = [],
+  value = null,
+  onChange,
+  multi = false,
+  label,
+  placeholder = 'Selecione…',
+  disabled = false,
+  error,
+  width,
+}) => {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [highlighted, setHighlighted] = useState(0);
+  const rootRef = useRef(null);
+  const inputRef = useRef(null);
+
+  // normalise value
+  const selected = multi
+    ? (Array.isArray(value) ? value : [])
+    : value;
+
+  const filtered = options.filter(o =>
+    (typeof o === 'string' ? o : o.label)
+      .toLowerCase().includes(query.toLowerCase())
+  );
+
+  useEffect(() => {
+    if (open) setHighlighted(0);
+  }, [open, query]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const getLabel = (o) => typeof o === 'string' ? o : o.label;
+
+  const toggle = (opt) => {
+    const lbl = getLabel(opt);
+    if (multi) {
+      const next = selected.includes(lbl)
+        ? selected.filter(s => s !== lbl)
+        : [...selected, lbl];
+      onChange?.(next);
+    } else {
+      onChange?.(lbl);
+      setOpen(false);
+      setQuery('');
+    }
+  };
+
+  const removeChip = (lbl) => onChange?.(selected.filter(s => s !== lbl));
+
+  const onKeyDown = (e) => {
+    if (!open && (e.key === 'ArrowDown' || e.key === 'Enter')) { setOpen(true); return; }
+    if (e.key === 'Escape') { setOpen(false); setQuery(''); return; }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setHighlighted(h => Math.min(h + 1, filtered.length - 1)); }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); setHighlighted(h => Math.max(h - 1, 0)); }
+    if (e.key === 'Enter' && filtered[highlighted]) { e.preventDefault(); toggle(filtered[highlighted]); }
+    if (e.key === 'Backspace' && multi && !query && selected.length) {
+      onChange?.(selected.slice(0, -1));
+    }
+  };
+
+  const borderColor = error ? 'var(--ob-danger)' : open ? 'var(--ob-blue)' : 'var(--ob-border)';
+  const boxShadow   = open ? (error ? '0 0 0 3px rgba(214,54,54,.15)' : '0 0 0 3px var(--ob-focus-ring)') : 'none';
+
+  const displayValue = !multi && selected && !open ? selected : '';
+
+  return (
+    <div ref={rootRef} style={{ position: 'relative', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
+      {label && (
+        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>{label}</div>
+      )}
+      <div
+        onClick={() => { if (!disabled) { setOpen(o => !o); setTimeout(() => inputRef.current?.focus(), 0); } }}
+        style={{
+          display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 6,
+          minHeight: 44, padding: multi && selected.length ? '6px 10px' : '0 12px',
+          border: `1.5px solid ${borderColor}`, borderRadius: 'var(--ob-r-sm)',
+          background: disabled ? 'var(--ob-bg-alt)' : 'var(--ob-surface)',
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          boxShadow, transition: 'border-color 0.15s, box-shadow 0.15s',
+          opacity: disabled ? 0.6 : 1,
+        }}>
+        {/* Multi chips */}
+        {multi && selected.map(s => (
+          <span key={s} style={{
+            display: 'inline-flex', alignItems: 'center', gap: 5,
+            background: 'var(--ob-blue-100)', color: 'var(--ob-blue-700)',
+            fontSize: 12, fontWeight: 600, padding: '3px 8px', borderRadius: 'var(--ob-r-sm)',
+          }}>
+            {s}
+            <span
+              onMouseDown={(e) => { e.stopPropagation(); removeChip(s); }}
+              style={{ cursor: 'pointer', lineHeight: 1, fontSize: 14, color: 'var(--ob-blue)' }}>×</span>
+          </span>
+        ))}
+        <input
+          ref={inputRef}
+          value={open ? query : displayValue}
+          placeholder={(!multi || !selected.length) ? placeholder : ''}
+          disabled={disabled}
+          onChange={e => { setQuery(e.target.value); if (!open) setOpen(true); }}
+          onKeyDown={onKeyDown}
+          onFocus={() => { if (!disabled) setOpen(true); }}
+          style={{
+            flex: 1, minWidth: 60, border: 'none', outline: 'none', background: 'transparent',
+            fontSize: 14, color: 'var(--ob-fg-strong)', cursor: disabled ? 'not-allowed' : 'text',
+            padding: multi && selected.length ? '0' : '0 2px', height: multi && selected.length ? 26 : 40,
+          }}
+        />
+        {/* Caret */}
+        <svg width="14" height="14" viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth="20"
+          strokeLinecap="round" strokeLinejoin="round"
+          style={{ color: 'var(--ob-fg-mute)', flex: 'none', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}>
+          <path d="m208 96-80 80-80-80"/>
+        </svg>
+      </div>
+
+      {/* Dropdown */}
+      {open && (
+        <div style={{
+          position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
+          background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
+          borderRadius: 'var(--ob-r-md)', boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+          zIndex: 1200, maxHeight: 240, overflowY: 'auto',
+          padding: '4px',
+        }}>
+          {filtered.length === 0 && (
+            <div style={{ padding: '12px 14px', fontSize: 13, color: 'var(--ob-fg-mute)', textAlign: 'center' }}>
+              Nenhuma opção encontrada
+            </div>
+          )}
+          {filtered.map((opt, i) => {
+            const lbl = getLabel(opt);
+            const isSelected = multi ? selected.includes(lbl) : selected === lbl;
+            const isHigh = i === highlighted;
+            return (
+              <div key={lbl}
+                onMouseDown={(e) => { e.preventDefault(); toggle(opt); }}
+                onMouseEnter={() => setHighlighted(i)}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '9px 12px', borderRadius: 'var(--ob-r-sm)', cursor: 'pointer',
+                  fontSize: 14, fontWeight: isSelected ? 600 : 400,
+                  color: isSelected ? 'var(--ob-blue-700)' : 'var(--ob-fg)',
+                  background: isHigh ? 'var(--ob-bg-warm)' : isSelected ? 'var(--ob-blue-100)' : 'transparent',
+                  transition: 'background 0.1s',
+                }}>
+                <span>{lbl}</span>
+                {isSelected && (
+                  <svg width="14" height="14" viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--ob-blue)', flex: 'none' }}>
+                    <path d="M40 128l56 56 120-120"/>
+                  </svg>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {error && (
+        <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 5, display: 'flex', alignItems: 'center', gap: 4 }}>
+          <svg width="13" height="13" viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round"><circle cx="128" cy="128" r="96"/><path d="M128 120v-40"/><circle cx="128" cy="172" r="10" fill="currentColor" stroke="none"/></svg>
+          {error}
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ── TOAST STACK (global singleton) ────────────────────────
 const ToastStack = () => {
   const [toasts, setToasts] = useState([]);
@@ -588,4 +832,4 @@ if (typeof document !== 'undefined' && !document.getElementById('ob-toast-kf')) 
 }
 window.obToast = (detail) => window.dispatchEvent(new CustomEvent('ob-toast', { detail }));
 
-Object.assign(window, { Radio, RadioGroup, Toggle, Checkbox, Link, Skeleton, Pagination, Dropdown, Modal, Tooltip, Ph, OB_TONES, CodeInput, SearchInput, Alert, Toast, ProgressBar, SideNav, ToastStack });
+Object.assign(window, { Radio, RadioGroup, Toggle, Checkbox, Link, Skeleton, Pagination, Dropdown, Modal, Drawer, Tooltip, Ph, OB_TONES, CodeInput, SearchInput, Alert, Toast, ProgressBar, SideNav, ToastStack, Select });
