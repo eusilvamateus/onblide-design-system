@@ -297,10 +297,18 @@
   --ob-green:       #779e3d;   /* success */
   --ob-green-700:   #5f7f30;
   --ob-green-100:   #ecf3da;
+  --ob-green-050:   #f5fae8;
 
   --ob-orange:      #eb7c2d;   /* warning / accent */
   --ob-orange-700:  #c46220;
   --ob-orange-100:  #fde6d3;
+  --ob-orange-050:  #fef3e9;
+
+  /* Danger / Red */
+  --ob-red:         #d23838;   /* base red */
+  --ob-red-700:     #a72424;   /* hover / pressed */
+  --ob-red-100:     #fde2e2;   /* tinted backgrounds */
+  --ob-red-050:     #fff5f5;
 
   --ob-cream:       #f2f0e8;   /* warm accent — overlay on white */
   --ob-cream-soft:  #faf9f5;
@@ -339,8 +347,11 @@
   --ob-success-bg:  var(--ob-green-100);
   --ob-warning:     var(--ob-orange);
   --ob-warning-bg:  var(--ob-orange-100);
-  --ob-danger:      #d23838;
-  --ob-danger-bg:   #fde2e2;
+  --ob-danger:      var(--ob-red);
+  --ob-danger-bg:   var(--ob-red-100);
+
+  --ob-fg-disabled: var(--ob-fg-mute);   /* desabilitado — texto/ícone */
+  --ob-bg-disabled: var(--ob-bg-warm);   /* desabilitado — fundo */
 
   /* Shadows (light theme) */
   --ob-shadow-xs: 0 1px 2px rgba(20, 20, 20, 0.04);
@@ -350,11 +361,10 @@
   --ob-shadow-pop: 0 8px 24px rgba(10, 78, 228, 0.18);
 
   /* ------------------------------------------------------------
-     ELEVATION SCRIM (alpha values per theme)
+     ELEVATION SCRIM — backdrop layers
      ------------------------------------------------------------ */
-  --ob-scrim-1:     rgba(20, 20, 20, 0.04);
-  --ob-scrim-2:     rgba(20, 20, 20, 0.06);
-  --ob-scrim-3:     rgba(20, 20, 20, 0.08);
+  --ob-scrim:       rgba(20, 20, 20, 0.45);  /* modal/drawer backdrop */
+  --ob-scrim-light: rgba(20, 20, 20, 0.08);  /* hover tint, subtle overlay */
 
   color-scheme: light;
 }
@@ -417,6 +427,10 @@
   --ob-danger:      #f06a6a;
   --ob-danger-bg:   #3a1818;
 
+  /* Semantics — disabled */
+  --ob-fg-disabled: var(--ob-fg-mute);
+  --ob-bg-disabled: var(--ob-bg-warm);
+
   /* Shadows on dark need ambient light, not absorbed black */
   --ob-shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.4);
   --ob-shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
@@ -424,9 +438,8 @@
   --ob-shadow-lg:   0 12px 28px rgba(0, 0, 0, 0.55), 0 4px 8px rgba(0, 0, 0, 0.4);
   --ob-shadow-pop:  0 8px 24px rgba(77, 127, 239, 0.32);
 
-  --ob-scrim-1:     rgba(0, 0, 0, 0.4);
-  --ob-scrim-2:     rgba(0, 0, 0, 0.5);
-  --ob-scrim-3:     rgba(0, 0, 0, 0.6);
+  --ob-scrim:       rgba(0, 0, 0, 0.55);  /* modal/drawer backdrop dark */
+  --ob-scrim-light: rgba(0, 0, 0, 0.12);  /* hover tint dark */
 
   color-scheme: dark;
 }
@@ -494,6 +507,15 @@
   --ob-pad-page:   var(--ob-s-6);   /* 32px — padding horizontal de página   */
   --ob-stack-sm:   var(--ob-s-3);   /* 12px — ritmo vertical — parágrafos   */
   --ob-stack-md:   var(--ob-s-5);   /* 24px — ritmo vertical — seções     */
+
+  /* ------------------------------------------------------------
+     OPACITY — semantic scale
+     ------------------------------------------------------------ */
+  --ob-opacity-hover:    0.08;   /* hover overlay sobre cor sólida           */
+  --ob-opacity-focus:    0.32;   /* anel de foco (focus-ring alpha)           */
+  --ob-opacity-scrim:    0.45;   /* backdrop de modal e drawer                */
+  --ob-opacity-disabled: 0.45;   /* elemento desabilitado                     */
+  --ob-opacity-strong:   0.75;   /* hover link, ícone secundário ativo        */
 
   /* ------------------------------------------------------------
      RADII — soft (8–12px personality)

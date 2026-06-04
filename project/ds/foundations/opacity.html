@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Opacity · Onblide DS</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--ob-font); background: var(--ob-surface); color: var(--ob-fg); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 48px 32px 80px; }
+.eyebrow { font-family: var(--ob-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ob-blue); margin: 0 0 8px; }
+h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.03em; color: var(--ob-fg-strong); margin: 0 0 12px; }
+h1 em { font-family: var(--ob-font-serif); font-style: italic; font-weight: 500; color: var(--ob-blue); }
+.lede { font-size: 17px; line-height: 1.6; color: var(--ob-fg); margin: 0 0 48px; max-width: 600px; }
+section { margin-top: 48px; }
+h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ob-fg-soft); margin: 0 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--ob-border); }
+h3 { font-size: 15px; font-weight: 700; color: var(--ob-fg-strong); margin: 24px 0 12px; }
+p { font-size: 15px; line-height: 1.65; color: var(--ob-fg); margin: 0 0 12px; }
+ul { margin: 0 0 12px; padding-left: 20px; }
+li { font-size: 15px; line-height: 1.7; color: var(--ob-fg); }
+code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob-bg-warm); padding: 2px 6px; border-radius: 5px; color: var(--ob-fg-strong); }
+.note { background: var(--ob-bg-warm); border-radius: 10px; padding: 14px 16px; font-size: 14px; line-height: 1.55; color: var(--ob-fg); margin-top: 12px; }
+.do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+.dd { border-radius: 10px; padding: 14px; border: 1px solid var(--ob-border); }
+.dd .tag { display: inline-flex; gap: 6px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.dd.do .tag { color: var(--ob-green-700); }
+.dd.dont .tag { color: var(--ob-danger); }
+.dd p { font-size: 13px; margin: 0; color: var(--ob-fg-soft); }
+
+/* ── Scale visual ── */
+.opacity-scale { display: flex; flex-direction: column; gap: 1px; border: 1px solid var(--ob-border); border-radius: var(--ob-r-md); overflow: hidden; }
+.op-row { display: grid; grid-template-columns: 40px 100px 60px 56px 1fr; align-items: center; gap: 14px; padding: 13px 18px; border-bottom: 1px solid var(--ob-border); background: var(--ob-surface); }
+.op-row:last-child { border-bottom: none; }
+.op-row:hover { background: var(--ob-bg-warm); }
+.op-head { background: var(--ob-bg-alt); }
+.op-val { font-family: var(--ob-font-mono); font-size: 14px; font-weight: 800; color: var(--ob-fg-strong); }
+.op-tok { font-family: var(--ob-font-mono); font-size: 12px; font-weight: 600; color: var(--ob-fg-strong); }
+.op-pct { font-family: var(--ob-font-mono); font-size: 12px; color: var(--ob-fg-mute); }
+.op-demo-wrap { position: relative; width: 44px; height: 28px; }
+.op-checker { position: absolute; inset: 0; border-radius: 5px; background-image: repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%); background-size: 8px 8px; }
+.op-overlay { position: absolute; inset: 0; border-radius: 5px; background: var(--ob-blue); }
+.op-use { font-size: 12px; color: var(--ob-fg-soft); line-height: 1.4; }
+
+/* ── Token table ── */
+.tok-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tok-table th { text-align: left; padding: 9px 12px; border-bottom: 1.5px solid var(--ob-border); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ob-fg-mute); }
+.tok-table td { padding: 11px 12px; border-bottom: 1px solid var(--ob-line-soft); vertical-align: middle; }
+.tok-table tr:last-child td { border-bottom: none; }
+.tok-table tr:hover td { background: var(--ob-bg-warm); }
+
+/* ── Context demos ── */
+.ctx-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ctx-box { border-radius: var(--ob-r-md); border: 1px solid var(--ob-border); overflow: hidden; }
+.ctx-header { padding: 10px 14px; background: var(--ob-bg-alt); font-family: var(--ob-font-mono); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ob-fg-mute); border-bottom: 1px solid var(--ob-border); }
+.ctx-body { padding: 16px; }
+
+/* disabled demo */
+.btn-demo { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: var(--ob-r-sm); font-size: 14px; font-weight: 600; background: var(--ob-blue); color: #fff; border: none; cursor: pointer; font-family: var(--ob-font); }
+.btn-demo.disabled { opacity: var(--ob-opacity-disabled); cursor: not-allowed; }
+
+/* hover overlay demo */
+.hover-demo { display: flex; align-items: center; justify-content: center; height: 56px; border-radius: var(--ob-r-sm); background: var(--ob-blue); color: #fff; font-size: 14px; font-weight: 600; position: relative; overflow: hidden; cursor: pointer; }
+.hover-demo::after { content: 'hover'; position: absolute; inset: 0; background: rgba(255,255,255,var(--ob-opacity-hover)); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .15s; }
+.hover-demo:hover::after { opacity: 1; }
+
+/* scrim demo */
+.scrim-demo { position: relative; height: 72px; border-radius: var(--ob-r-sm); overflow: hidden; }
+.scrim-bg { position: absolute; inset: 0; background: linear-gradient(135deg, var(--ob-blue), var(--ob-green)); }
+.scrim-layer { position: absolute; inset: 0; background: rgba(20,20,20,var(--ob-opacity-scrim)); display: flex; align-items: center; justify-content: center; }
+.scrim-card { background: var(--ob-surface); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; color: var(--ob-fg-strong); }
+
+/* focus ring demo */
+.focus-demo { display: flex; gap: 12px; align-items: center; }
+.input-mock { height: 40px; flex: 1; border-radius: var(--ob-r-sm); border: 1.5px solid var(--ob-border); background: var(--ob-surface); }
+.input-mock.focused { border-color: var(--ob-blue); box-shadow: 0 0 0 4px var(--ob-focus-ring); }
+</style>
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Foundation · Transparência</p>
+  <h1>Opacity <em>Scale</em></h1>
+  <p class="lede">Opacidade controla a transparência de um elemento — 0 é invisível, 1 é totalmente opaco. Na Onblide, a opacidade tem uso restrito e semântico: desabilitar, sobrepor, indicar foco e criar scrims.</p>
+
+  <!-- ══ 1. ESCALA ══ -->
+  <section>
+    <h2>1 · Escala numérica</h2>
+    <p>A escala completa de 0 a 1. Os stops relevantes para interface são marcados com seu token semântico.</p>
+    <div class="opacity-scale">
+      <div class="op-row op-head">
+        <span style="font-family:var(--ob-font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Val</span>
+        <span style="font-family:var(--ob-font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Token</span>
+        <span style="font-family:var(--ob-font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">%</span>
+        <span style="font-family:var(--ob-font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Demo</span>
+        <span style="font-family:var(--ob-font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Uso semântico</span>
+      </div>
+      <div class="op-row">
+        <span class="op-val">0</span>
+        <span class="op-tok" style="color:var(--ob-fg-mute)">—</span>
+        <span class="op-pct">0%</span>
+        <div class="op-demo-wrap"><div class="op-checker"></div><div class="op-overlay" style="opacity:0;"></div></div>
+        <span class="op-use">Totalmente invisível — display:none é preferível</span>
+      </div>
+      <div class="op-row">
+        <span class="op-val">0.08</span>
+        <code class="op-tok">--ob-opacity-hover</code>
+        <span class="op-pct">8%</span>
+        <div class="op-demo-wrap"><div class="op-checker"></div><div class="op-overlay" style="opacity:0.08;"></div></div>
+        <span class="op-use">Hover overlay sobre cor sólida</span>
+      </div>
+      <div class="op-row">
+        <span class="op-val">0.32</span>
+        <code class="op-tok">--ob-opacity-focus</code>
+        <span class="op-pct">32%</span>
+        <div class="op-demo-wrap"><div class="op-checker"></div><div class="op-overlay" style="opacity:0.32;"></div></div>
+        <span class="op-use">Anel de foco (focus-ring alpha)</span>
+      </div>
+      <div class="op-row">
+        <span class="op-val">0.45</span>
+        <code class="op-tok">--ob-opacity-disabled</code>
+        <span class="op-pct">45%</span>
+        <div class="op-demo-wrap"><div class="op-checker"></div><div class="op-overlay" style="opacity:0.45;"></div></div>
+        <span class="op-use">Elemento desabilitado (opacity no pai)</span>
+      </div>
+      <div class="op-row">
+        <span class="op-val">0.45</span>
+        <code class="op-tok">--ob-opacity-scrim</code>
+        <span class="op-pct">45%</span>
+        <div class="op-demo-wrap"><div class="op-checker"></div><div class="op-overlay" style="opacity:0.45;"></div></div>
+        <span class="op-use">Backdrop de modal, drawer e sheets</span>
+      </div>
+      <div class="op-row">
+        <span class="op-val">0.75</span>
+        <code class="op-tok">--ob-opacity-strong</code>
+        <span class="op-pct">75%</span>
+        <div class="op-demo-wrap"><div class="op-checker"></div><div class="op-overlay" style="opacity:0.75;"></div></div>
+        <span class="op-use">Hover em links, ícone secundário ativo</span>
+      </div>
+      <div class="op-row">
+        <span class="op-val">1</span>
+        <span class="op-tok" style="color:var(--ob-fg-mute)">—</span>
+        <span class="op-pct">100%</span>
+        <div class="op-demo-wrap"><div class="op-checker"></div><div class="op-overlay" style="opacity:1;"></div></div>
+        <span class="op-use">Totalmente opaco — padrão de todo elemento</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 2. TOKENS ══ -->
+  <section>
+    <h2>2 · Tokens semânticos</h2>
+    <p>Use sempre o token semântico — nunca um valor numérico de opacidade hardcoded em componentes.</p>
+    <table class="tok-table">
+      <thead><tr><th>Token</th><th>Valor</th><th>Contexto</th><th>Onde usar</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>--ob-opacity-hover</code></td>
+          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">0.08</td>
+          <td>Hover</td>
+          <td>Overlay rgba sobre botão colorido no hover</td>
+        </tr>
+        <tr>
+          <td><code>--ob-opacity-focus</code></td>
+          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">0.32</td>
+          <td>Foco</td>
+          <td>Alpha do <code>--ob-focus-ring</code></td>
+        </tr>
+        <tr>
+          <td><code>--ob-opacity-disabled</code></td>
+          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">0.45</td>
+          <td>Desabilitado</td>
+          <td><code>opacity: var(--ob-opacity-disabled)</code> no elemento pai</td>
+        </tr>
+        <tr>
+          <td><code>--ob-opacity-scrim</code></td>
+          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">0.45</td>
+          <td>Backdrop</td>
+          <td>Fundo de modal/drawer: <code>rgba(20,20,20, var(--ob-opacity-scrim))</code></td>
+        </tr>
+        <tr>
+          <td><code>--ob-opacity-strong</code></td>
+          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">0.75</td>
+          <td>Hover link</td>
+          <td><code>a:hover { opacity: var(--ob-opacity-strong); }</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Opacity vs color-mix:</strong> para tints de cor (fundo levemente colorido), prefira <code>color-mix(in srgb, var(--ob-blue) 12%, transparent)</code> em vez de <code>opacity</code> no elemento — color-mix não afeta filhos.</div>
+  </section>
+
+  <!-- ══ 3. CONTEXTOS ══ -->
+  <section>
+    <h2>3 · Contextos de aplicação</h2>
+    <div class="ctx-grid">
+
+      <div class="ctx-box">
+        <div class="ctx-header">Disabled · opacity-disabled (0.45)</div>
+        <div class="ctx-body" style="display:flex;gap:12px;align-items:center;">
+          <button class="btn-demo">Ativo</button>
+          <button class="btn-demo disabled" disabled>Desabilitado</button>
+        </div>
+      </div>
+
+      <div class="ctx-box">
+        <div class="ctx-header">Hover overlay · opacity-hover (0.08)</div>
+        <div class="ctx-body">
+          <div class="hover-demo">Passe o mouse</div>
+        </div>
+      </div>
+
+      <div class="ctx-box">
+        <div class="ctx-header">Backdrop / scrim · opacity-scrim (0.45)</div>
+        <div class="ctx-body" style="padding:0;">
+          <div class="scrim-demo">
+            <div class="scrim-bg"></div>
+            <div class="scrim-layer"><div class="scrim-card">Modal</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ctx-box">
+        <div class="ctx-header">Focus ring · opacity-focus (0.32)</div>
+        <div class="ctx-body">
+          <div class="focus-demo">
+            <div class="input-mock"></div>
+            <div class="input-mock focused"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ 4. USO ══ -->
+  <section>
+    <h2>4 · Instruções de uso</h2>
+    <ul>
+      <li><strong>Disabled:</strong> aplique <code>opacity: var(--ob-opacity-disabled)</code> no elemento pai. Todos os filhos ficam translúcidos uniformemente. Combine com <code>pointer-events: none</code> e <code>cursor: not-allowed</code>.</li>
+      <li><strong>Scrim:</strong> use <code>rgba(20, 20, 20, var(--ob-opacity-scrim))</code> para backdrop. Em dark mode o backdrop é mais opaco — o token já está wired por tema no CSS.</li>
+      <li><strong>Hover em elementos coloridos:</strong> não mude a cor de fundo no hover — sobreponha <code>rgba(255,255,255, var(--ob-opacity-hover))</code> ou <code>rgba(0,0,0, var(--ob-opacity-hover))</code> via pseudo-elemento <code>::after</code>.</li>
+      <li><strong>Nunca use opacidade para tipografia:</strong> use os tokens de cor <code>--ob-fg-soft</code> ou <code>--ob-fg-mute</code>. Opacity em texto afeta readability em fundos coloridos.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p><code>opacity: var(--ob-opacity-disabled)</code> no wrapper do botão desabilitado.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p><code>opacity: 0.5</code> hardcoded — o valor exato muda por contexto e não segue o sistema.</p></div>
+    </div>
+    <div class="do-dont" style="margin-top:12px">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Texto secundário: <code>color: var(--ob-fg-soft)</code> — a cor já carrega o nível correto de contraste.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p><code>opacity: 0.6</code> em texto — perde acessibilidade e pode cair abaixo de AA em fundos coloridos.</p></div>
+    </div>
+  </section>
+
+</div></body></html>

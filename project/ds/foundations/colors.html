@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Colors · Onblide DS</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--ob-font); background: var(--ob-surface); color: var(--ob-fg); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 48px 32px 80px; }
+
+/* ── Foundation typography ── */
+.eyebrow { font-family: var(--ob-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ob-blue); margin: 0 0 8px; }
+h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.03em; color: var(--ob-fg-strong); margin: 0 0 12px; }
+h1 em { font-family: var(--ob-font-serif); font-style: italic; font-weight: 500; color: var(--ob-blue); }
+.lede { font-size: 17px; line-height: 1.6; color: var(--ob-fg); margin: 0 0 48px; max-width: 600px; }
+section { margin-top: 48px; }
+h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ob-fg-soft); margin: 0 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--ob-border); }
+h3 { font-size: 15px; font-weight: 700; color: var(--ob-fg-strong); margin: 24px 0 12px; }
+p { font-size: 15px; line-height: 1.65; color: var(--ob-fg); margin: 0 0 12px; }
+ul { margin: 0 0 12px; padding-left: 20px; }
+li { font-size: 15px; line-height: 1.7; color: var(--ob-fg); }
+code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob-bg-warm); padding: 2px 6px; border-radius: 5px; color: var(--ob-fg-strong); }
+.note { background: var(--ob-bg-warm); border-radius: 10px; padding: 14px 16px; font-size: 14px; line-height: 1.55; color: var(--ob-fg); margin-top: 12px; }
+.warning-note { background: var(--ob-warning-bg); border-radius: 10px; padding: 14px 16px; font-size: 14px; line-height: 1.55; color: var(--ob-fg); margin-top: 12px; border-left: 3px solid var(--ob-orange); }
+.do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+.dd { border-radius: 10px; padding: 14px; border: 1px solid var(--ob-border); }
+.dd .tag { display: inline-flex; gap: 6px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.dd.do .tag { color: var(--ob-green-700); }
+.dd.dont .tag { color: var(--ob-danger); }
+.dd p { font-size: 13px; margin: 0; color: var(--ob-fg-soft); }
+
+/* ── Brand swatches ── */
+.brand-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.swatch { border-radius: var(--ob-r-md); padding: 16px; height: 128px; display: flex; flex-direction: column; justify-content: space-between; }
+.sw-name { font-size: 14px; font-weight: 700; }
+.sw-role { font-size: 11px; line-height: 1.4; opacity: 0.8; }
+.sw-hex { font-family: var(--ob-font-mono); font-size: 12px; opacity: 0.85; }
+
+/* ── Tint matrix ── */
+.tint-matrix { display: grid; grid-template-columns: 72px repeat(4, 1fr); gap: 6px; }
+.tint-head { font-family: var(--ob-font-mono); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ob-fg-mute); text-align: center; padding: 4px 0; }
+.tint-label { font-size: 13px; font-weight: 600; color: var(--ob-fg-strong); display: flex; align-items: center; }
+.tint-sw { height: 52px; border-radius: var(--ob-r-sm); display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end; padding: 6px 8px; }
+.tint-sw .hex { font-family: var(--ob-font-mono); font-size: 9.5px; line-height: 1; }
+.tint-sw .tok { font-family: var(--ob-font-mono); font-size: 9px; opacity: 0.7; line-height: 1.5; }
+
+/* ── Neutral scale ── */
+.neutral-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+.neutral-sw { border-radius: var(--ob-r-sm); height: 72px; display: flex; align-items: flex-end; padding: 8px; }
+.neutral-sw .hex { font-family: var(--ob-font-mono); font-size: 9.5px; }
+.neutral-label { font-size: 11px; font-weight: 600; color: var(--ob-fg-strong); margin-top: 6px; }
+.neutral-desc { font-size: 10px; color: var(--ob-fg-mute); margin-top: 2px; }
+
+/* ── Semantic token table ── */
+.sem-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.sem-table th { text-align: left; padding: 9px 12px; border-bottom: 1.5px solid var(--ob-border); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ob-fg-mute); }
+.sem-table td { padding: 10px 12px; border-bottom: 1px solid var(--ob-line-soft); vertical-align: middle; }
+.sem-table tr:last-child td { border-bottom: none; }
+.sem-table tr:hover td { background: var(--ob-bg-warm); }
+.color-chip { width: 18px; height: 18px; border-radius: 4px; display: inline-block; border: 1px solid rgba(0,0,0,.1); flex-shrink: 0; }
+.chip-cell { display: flex; align-items: center; gap: 8px; }
+
+/* ── Theme toggle ── */
+.theme-toggle-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.theme-btn { font-family: var(--ob-font); font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: var(--ob-r-sm); border: 1.5px solid var(--ob-border); background: var(--ob-surface); color: var(--ob-fg-soft); cursor: pointer; transition: all .15s; }
+.theme-btn.on { background: var(--ob-fg-strong); color: var(--ob-surface); border-color: var(--ob-fg-strong); }
+
+/* ── Feedback trio ── */
+.feedback-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.fb-card { border-radius: var(--ob-r-md); padding: 16px; }
+.fb-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.fb-tokens { font-family: var(--ob-font-mono); font-size: 11px; line-height: 1.8; opacity: 0.75; }
+
+/* ── Refactoring notes ── */
+.refactor-list { display: flex; flex-direction: column; gap: 8px; }
+.refactor-item { display: flex; gap: 12px; padding: 12px 14px; border: 1px solid var(--ob-warning-bg); border-left: 3px solid var(--ob-orange); border-radius: var(--ob-r-sm); background: color-mix(in srgb, var(--ob-orange) 5%, var(--ob-surface)); }
+.refactor-badge { font-family: var(--ob-font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ob-orange-700); white-space: nowrap; flex-shrink: 0; padding-top: 1px; }
+.refactor-text { font-size: 13px; line-height: 1.55; color: var(--ob-fg); }
+</style>
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Foundation · Identidade</p>
+  <h1>Color <em>System</em></h1>
+  <p class="lede">Os tokens de cor são a camada mais crítica do design system. Organizam-se em três níveis: <strong>base</strong> (valores brutos da paleta), <strong>semânticos</strong> (intenção de uso) e <strong>feedback</strong> (estados de sistema). Sempre use o nível semântico em componentes.</p>
+
+  <!-- ══ 1. PALETA BASE ══ -->
+  <section>
+    <h2>1 · Paleta base — cores de marca</h2>
+    <p>As cinco cores de marca da Onblide. Cada cor tem uma função primária fixa — nunca inverta as semânticas (verde para erro, vermelho para sucesso).</p>
+    <div class="brand-grid">
+      <div class="swatch" style="background:#0a4ee4;color:#fff;">
+        <div><div class="sw-name">Blue</div><div class="sw-role">Primária · CTAs · links · foco</div></div>
+        <div class="sw-hex">#0A4EE4</div>
+      </div>
+      <div class="swatch" style="background:#779e3d;color:#fff;">
+        <div><div class="sw-name">Green</div><div class="sw-role">Sucesso · positivo</div></div>
+        <div class="sw-hex">#779E3D</div>
+      </div>
+      <div class="swatch" style="background:#eb7c2d;color:#fff;">
+        <div><div class="sw-name">Orange</div><div class="sw-role">Aviso · destaque</div></div>
+        <div class="sw-hex">#EB7C2D</div>
+      </div>
+      <div class="swatch" style="background:#d23838;color:#fff;">
+        <div><div class="sw-name">Danger</div><div class="sw-role">Erro · destrutivo</div></div>
+        <div class="sw-hex">#D23838</div>
+      </div>
+      <div class="swatch" style="background:#f2f0e8;color:#545454;border:1px solid #ececec;">
+        <div><div class="sw-name">Cream</div><div class="sw-role">Acento quente · fundo sutil</div></div>
+        <div class="sw-hex">#F2F0E8</div>
+      </div>
+    </div>
+
+    <h3>Stops de tinta (escala de tints)</h3>
+    <div class="tint-matrix">
+      <div></div>
+      <div class="tint-head">050</div>
+      <div class="tint-head">100</div>
+      <div class="tint-head">base</div>
+      <div class="tint-head">700</div>
+
+      <div class="tint-label">Blue</div>
+      <div class="tint-sw" style="background:#f1f5ff;color:#0840b8;"><span class="hex">#F1F5FF</span><span class="tok">--ob-blue-050</span></div>
+      <div class="tint-sw" style="background:#e0eaff;color:#0840b8;"><span class="hex">#E0EAFF</span><span class="tok">--ob-blue-100</span></div>
+      <div class="tint-sw" style="background:#0a4ee4;color:#fff;"><span class="hex">#0A4EE4</span><span class="tok">--ob-blue</span></div>
+      <div class="tint-sw" style="background:#0840b8;color:#fff;"><span class="hex">#0840B8</span><span class="tok">--ob-blue-700</span></div>
+
+      <div class="tint-label">Green</div>
+      <div class="tint-sw" style="background:var(--ob-green-050);color:#5f7f30;border:1px solid #e8f0d0;"><span class="hex">#F5FAE8</span><span class="tok">--ob-green-050</span></div>
+      <div class="tint-sw" style="background:#ecf3da;color:#5f7f30;"><span class="hex">#ECF3DA</span><span class="tok">--ob-green-100</span></div>
+      <div class="tint-sw" style="background:#779e3d;color:#fff;"><span class="hex">#779E3D</span><span class="tok">--ob-green</span></div>
+      <div class="tint-sw" style="background:#5f7f30;color:#fff;"><span class="hex">#5F7F30</span><span class="tok">--ob-green-700</span></div>
+
+      <div class="tint-label">Orange</div>
+      <div class="tint-sw" style="background:var(--ob-orange-050);color:#c46220;border:1px solid #fde6d3;"><span class="hex">#FEF3E9</span><span class="tok">--ob-orange-050</span></div>
+      <div class="tint-sw" style="background:#fde6d3;color:#c46220;"><span class="hex">#FDE6D3</span><span class="tok">--ob-orange-100</span></div>
+      <div class="tint-sw" style="background:#eb7c2d;color:#fff;"><span class="hex">#EB7C2D</span><span class="tok">--ob-orange</span></div>
+      <div class="tint-sw" style="background:#c46220;color:#fff;"><span class="hex">#C46220</span><span class="tok">--ob-orange-700</span></div>
+
+      <div class="tint-label">Danger</div>
+      <div class="tint-sw" style="background:#fff5f5;color:#a72424;border:1px solid #fde2e2;"><span class="hex">#FFF5F5</span><span class="tok">--ob-red-050</span></div>
+      <div class="tint-sw" style="background:#fde2e2;color:#a72424;"><span class="hex">#FDE2E2</span><span class="tok">--ob-red-100 / --ob-danger-bg</span></div>
+      <div class="tint-sw" style="background:#d23838;color:#fff;"><span class="hex">#D23838</span><span class="tok">--ob-red / --ob-danger</span></div>
+      <div class="tint-sw" style="background:#a72424;color:#fff;"><span class="hex">#A72424</span><span class="tok">--ob-red-700</span></div>
+    </div>
+
+  </section>
+
+  <!-- ══ 2. NEUTROS ══ -->
+  <section>
+    <h2>2 · Neutros</h2>
+    <p>Escala de cinza da Onblide — de tinta forte (#2A2A2A) a superfície branca (#FFFFFF). Todos com tokens próprios e aliases semânticos.</p>
+    <div class="neutral-grid">
+      <div>
+        <div class="neutral-sw" style="background:#2a2a2a;color:#fff;"><span class="hex">#2A2A2A</span></div>
+        <div class="neutral-label">ink-strong</div>
+        <div class="neutral-desc">Títulos</div>
+      </div>
+      <div>
+        <div class="neutral-sw" style="background:#545454;color:#fff;"><span class="hex">#545454</span></div>
+        <div class="neutral-label">ink</div>
+        <div class="neutral-desc">Corpo</div>
+      </div>
+      <div>
+        <div class="neutral-sw" style="background:#7a7a7a;color:#fff;"><span class="hex">#7A7A7A</span></div>
+        <div class="neutral-label">ink-soft</div>
+        <div class="neutral-desc">Secundário</div>
+      </div>
+      <div>
+        <div class="neutral-sw" style="background:#a8a8a8;color:#fff;"><span class="hex">#A8A8A8</span></div>
+        <div class="neutral-label">ink-mute</div>
+        <div class="neutral-desc">Placeholder</div>
+      </div>
+      <div>
+        <div class="neutral-sw" style="background:#ececec;color:#545454;"><span class="hex">#ECECEC</span></div>
+        <div class="neutral-label">line</div>
+        <div class="neutral-desc">Bordas</div>
+      </div>
+      <div>
+        <div class="neutral-sw" style="background:#fbfbfb;color:#545454;border:1px solid #ececec;"><span class="hex">#FBFBFB</span></div>
+        <div class="neutral-label">surface-2</div>
+        <div class="neutral-desc">Alt surface</div>
+      </div>
+      <div>
+        <div class="neutral-sw" style="background:#ffffff;color:#545454;border:1px solid #ececec;"><span class="hex">#FFFFFF</span></div>
+        <div class="neutral-label">surface</div>
+        <div class="neutral-desc">Fundo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 3. TOKENS SEMÂNTICOS ══ -->
+  <section>
+    <h2>3 · Tokens semânticos</h2>
+    <p>A camada semântica é o que você usa em componentes. Ela abstrai os valores brutos e flip automaticamente entre temas claro e escuro.</p>
+
+    <div class="theme-toggle-wrap">
+      <button class="theme-btn on" id="btn-light" onclick="setTheme('light')">☀ Claro</button>
+      <button class="theme-btn" id="btn-dark" onclick="setTheme('dark')">☾ Escuro</button>
+    </div>
+
+    <h3>Texto / Foreground</h3>
+    <table class="sem-table">
+      <thead><tr><th>Token</th><th>Valor claro</th><th>Valor escuro</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td><code>--ob-fg</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#545454;"></div>#545454 (ink)</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#c8c8c8;"></div>#C8C8C8</div></td><td>Texto de corpo, padrão</td></tr>
+        <tr><td><code>--ob-fg-strong</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#2a2a2a;"></div>#2A2A2A</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#f5f5f5;"></div>#F5F5F5</div></td><td>Títulos, rótulos em negrito</td></tr>
+        <tr><td><code>--ob-fg-soft</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#7a7a7a;"></div>#7A7A7A</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#969696;"></div>#969696</div></td><td>Texto secundário, legendas</td></tr>
+        <tr><td><code>--ob-fg-mute</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#a8a8a8;"></div>#A8A8A8</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#686868;"></div>#686868</div></td><td>Placeholder, metadado, kicker</td></tr>
+        <tr><td><code>--ob-fg-accent</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#0a4ee4;"></div>#0A4EE4</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#4d7fef;"></div>#4D7FEF</div></td><td>Links, ênfase de marca</td></tr>
+        <tr><td><code>--ob-fg-on-color</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#ffffff;border-color:#ccc;"></div>#FFFFFF</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#ffffff;border-color:#ccc;"></div>#FFFFFF</div></td><td>Texto sobre fundo colorido</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Superfície / Background</h3>
+    <table class="sem-table">
+      <thead><tr><th>Token</th><th>Valor claro</th><th>Valor escuro</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td><code>--ob-bg</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#ffffff;border-color:#ccc;"></div>#FFFFFF</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#121212;"></div>#121212</div></td><td>Fundo de página principal</td></tr>
+        <tr><td><code>--ob-bg-alt</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#fbfbfb;border-color:#e8e8e8;"></div>#FBFBFB</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#1a1a1a;"></div>#1A1A1A</div></td><td>Superfície alternada, zebra, headers</td></tr>
+        <tr><td><code>--ob-bg-warm</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#f2f0e8;border-color:#e5e2d8;"></div>#F2F0E8</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#2a2620;"></div>#2A2620</div></td><td>Hover sutil, fundo de nota/dica</td></tr>
+        <tr><td><code>--ob-surface</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#ffffff;border-color:#ccc;"></div>#FFFFFF</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#121212;"></div>#121212</div></td><td>Componentes (card, modal, input)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Borda / Estrutura</h3>
+    <table class="sem-table">
+      <thead><tr><th>Token</th><th>Valor claro</th><th>Valor escuro</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td><code>--ob-border</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#ececec;"></div>#ECECEC</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#2a2a2a;"></div>#2A2A2A</div></td><td>Borda padrão de todo componente</td></tr>
+        <tr><td><code>--ob-line-soft</code></td><td><div class="chip-cell"><div class="color-chip" style="background:#f4f4f4;border-color:#e8e8e8;"></div>#F4F4F4</div></td><td><div class="chip-cell"><div class="color-chip" style="background:#1f1f1f;"></div>#1F1F1F</div></td><td>Separadores internos de lista/tabela</td></tr>
+        <tr><td><code>--ob-focus-ring</code></td><td><div class="chip-cell"><div class="color-chip" style="background:rgba(10,78,228,.32);border:none;"></div>blue 32%</div></td><td><div class="chip-cell"><div class="color-chip" style="background:rgba(77,127,239,.4);border:none;"></div>blue 40%</div></td><td>Anel de foco acessível</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Feedback</h3>
+    <div class="feedback-grid">
+      <div class="fb-card" style="background:var(--ob-success-bg);">
+        <div class="fb-name" style="color:var(--ob-green-700)">Sucesso</div>
+        <div class="fb-tokens" style="color:var(--ob-green-700)">--ob-success<br>--ob-success-bg</div>
+      </div>
+      <div class="fb-card" style="background:var(--ob-warning-bg);">
+        <div class="fb-name" style="color:var(--ob-orange-700)">Aviso</div>
+        <div class="fb-tokens" style="color:var(--ob-orange-700)">--ob-warning<br>--ob-warning-bg</div>
+      </div>
+      <div class="fb-card" style="background:var(--ob-danger-bg);">
+        <div class="fb-name" style="color:var(--ob-danger)">Perigo</div>
+        <div class="fb-tokens" style="color:var(--ob-danger)">--ob-danger<br>--ob-danger-bg</div>
+      </div>
+      <div class="fb-card" style="background:var(--ob-blue-100);">
+        <div class="fb-name" style="color:var(--ob-blue)">Info</div>
+        <div class="fb-tokens" style="color:var(--ob-blue)">--ob-blue<br>--ob-blue-100</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 4. USO ══ -->
+  <section>
+    <h2>4 · Instruções de uso</h2>
+    <ul>
+      <li>Sempre use o token semântico em componentes. Nunca escreva <code>#0a4ee4</code> diretamente num componente.</li>
+      <li>Use o token de base (<code>--ob-blue</code>) somente em swatches de documentação, não em UI.</li>
+      <li>Texto sobre fundo colorido: sempre <code>--ob-fg-on-color</code> (#fff) — nunca escolha manualmente.</li>
+      <li>Nunca use verde para informação neutra ou cinza para sucesso — a semântica de cor é universal.</li>
+      <li>Fundo de componente: <code>--ob-surface</code> (não <code>--ob-bg</code>) — <code>--ob-bg</code> é para página.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p><code>color: var(--ob-fg-strong)</code> em títulos. <code>background: var(--ob-surface)</code> em cards. <code>border-color: var(--ob-border)</code> em todos os controles.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Hardcoded: <code>color: #2a2a2a</code>. Se o tema mudar, o componente fica quebrado silenciosamente.</p></div>
+    </div>
+  </section>
+
+
+
+</div>
+<script>
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : '');
+  document.getElementById('btn-light').classList.toggle('on', t === 'light');
+  document.getElementById('btn-dark').classList.toggle('on', t === 'dark');
+}
+</script>
+</body></html>

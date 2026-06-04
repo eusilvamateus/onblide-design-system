@@ -19,16 +19,16 @@
   .input { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #ececec; font-family: inherit; font-size: 14px; color: #2a2a2a; background: #fff; box-sizing: border-box; cursor: text; outline: none; transition: border-color 160ms, box-shadow 160ms; }
   .input:hover { border-color: #d8d8d8; }
   .input:focus { border-color: #0a4ee4; box-shadow: 0 0 0 4px rgba(10,78,228,0.16); }
-  .input.invalid { border-color: #d23838; box-shadow: 0 0 0 4px rgba(210,56,56,0.12); }
-  .input.error { border-color: #d23838; }
+  .input.invalid { border-color: var(--ob-danger); box-shadow: 0 0 0 4px rgba(210,56,56,0.12); }
+  .input.error { border-color: var(--ob-danger); }
   .input.empty { color: #a8a8a8; }
-  .err-msg { font-size: 11px; color: #d23838; min-height: 16px; margin-top: -2px; }
+  .err-msg { font-size: 11px; color: var(--ob-danger); min-height: 16px; margin-top: -2px; }
   .row { display: flex; gap: 8px; align-items: flex-start; flex-wrap: wrap; }
   .pair { display: flex; gap: 8px; width: 280px; }
   .pair .field { flex: 1; min-width: 0; }
   .w180 { width: 180px; }
   .help { font-size: 11px; color: #a8a8a8; }
-  .help.error { color: #d23838; }
+  .help.error { color: var(--ob-danger); }
 
   .dp { position: relative; display: inline-block; }
   .cal-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: 50; display: none; }
@@ -232,7 +232,7 @@
       <div class="row" style="align-items:flex-start;">
         <div class="field w180"><span class="field-lbl">vazio</span><input class="input empty" placeholder="dd/mm/yyyy" readonly/><div class="err-msg"></div></div>
         <div class="field w180"><span class="field-lbl">foco</span><input class="input" style="border-color:#0a4ee4;box-shadow:0 0 0 4px rgba(10,78,228,0.16);" value="24/05/2026" readonly/><div class="err-msg"></div></div>
-        <div class="field w180"><span class="field-lbl">erro</span><input class="input invalid" value="31/05/2026" readonly/><div class="err-msg" style="color:#d23838;">Data inválida</div></div>
+        <div class="field w180"><span class="field-lbl">erro</span><input class="input invalid" value="31/05/2026" readonly/><div class="err-msg" style="color:var(--ob-danger);">Data inválida</div></div>
       </div>
     </div>
 
