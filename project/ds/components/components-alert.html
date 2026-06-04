@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Alert</title>
+<link rel="stylesheet" href="../../colors_and_type.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"/>
+<style>
+  body { margin: 0; padding: 24px; background: var(--ob-surface); font-family: var(--ob-font); }
+  .grid { display: grid; gap: 22px; grid-template-columns: 100px 1fr; align-items: start; }
+  .lbl { font-family: var(--ob-font-mono); font-size: 11px; color: var(--ob-fg-mute); padding-top: 14px; }
+  .col { display: flex; flex-direction: column; gap: 10px; max-width: 560px; }
+</style></head>
+<body><div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script>window.Icons = window.Icons || {};</script>
+<script type="text/babel" src="../../ui_kits/web_app/Components.jsx"></script>
+<script type="text/babel">
+  const { useState } = React;
+  function Demo() {
+    const [open, setOpen] = useState(true);
+    return (
+      <div className="grid">
+        <div className="lbl">4 TONS</div>
+        <div className="col">
+          <Alert tone="info"    title="Nova versão disponível" action="Ver novidades">A v2.4 traz tema escuro e hub de integrações.</Alert>
+          <Alert tone="success" title="Pagamento confirmado">Seu plano Pro está ativo até 31 de maio de 2026.</Alert>
+          <Alert tone="warning" title="Verifique seu e-mail" dismissible onClose={()=>{}}>Confirme o endereço para liberar as notificações.</Alert>
+          <Alert tone="danger"  title="Conexão perdida" action="Reconectar" dismissible onClose={()=>{}}>Algumas alterações podem não ter sido salvas.</Alert>
+        </div>
+        <div className="lbl">COMPACTO</div>
+        <div className="col" style={{maxWidth:560}}>
+          <Alert tone="info">Versão compacta, apenas texto e tom.</Alert>
+          {open && <Alert tone="warning" dismissible onClose={() => setOpen(false)}>Você pode dispensar este alerta — clique no ×.</Alert>}
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script></body></html>

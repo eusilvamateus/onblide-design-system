@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Badge</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+</head><body>
+<div class="wrap">
+  <p class="eyebrow">Componente · Exibição</p>
+  <h1>Badge <em>doc</em></h1>
+  <p class="lede">Rótulo compacto de status ou categoria. Pílula com ponto colorido + texto.</p>
+  <div class="matrix"><div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div><div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div><div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div><div class="crit off"><span class="mark no">–</span> Possui motion</div><div class="crit"><span class="mark yes">✓</span> Possui versão web</div><div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div><div class="crit"><span class="mark yes">✓</span> Possui versão mobile</div><div class="crit empty"></div></div>
+  <section><h2>1 · Uso</h2><p>Comunica estado (ativo, pendente, erro) ou tag. Não é clicável — para filtros use <strong>chips</strong>.</p>
+      <ul><li><code>blue</code> em foco · <code>green</code> sucesso · <code>orange</code> atenção · <code>red</code> erro · <code>grey</code> neutro.</li></ul></section>
+  <section><h2>2 · Formatação</h2><pre><code>&lt;Badge tone="green"&gt;Ativo&lt;/Badge&gt;
+&lt;Badge tone="orange"&gt;Pendente&lt;/Badge&gt;</code></pre>
+      <table class="props"><thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead><tbody>
+      <tr><td><code>tone</code></td><td><code>blue|green|orange|red|grey</code></td><td><code>blue</code></td></tr></tbody></table></section>
+  <section><h2>3 · Guia de conteúdo</h2><ul><li>1–2 palavras. Substantivo de estado: "Ativo", "Rascunho".</li><li>Sentence case.</li><li>Cor segue semântica — verde só para positivo, vermelho só para erro.</li></ul></section>
+  <section><h2>4 · Guia de design</h2><p><strong>Tokens.</strong> Fundo <code>--ob-*-100</code>, texto <code>--ob-*-700</code>, ponto <code>--ob-*</code>. Raio pílula <code>999px</code>.</p>
+      <p><strong>Motion.</strong> Estático — sem animação. <em>(não marca motion na matriz)</em></p>
+      <p><strong>Responsivo / mobile.</strong> Tamanho fixo, funciona em qualquer viewport.</p></section>
+</div>
+</body></html>

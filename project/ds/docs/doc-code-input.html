@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Code Input</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Componente · Formulário</p>
+  <h1>Code Input <em>doc</em></h1>
+  <p class="lede">Campo de verificação por código (OTP). Cada dígito ocupa uma célula isolada, com navegação por teclado, suporte a colar e estados de erro/sucesso visuais. Compõe com <strong>Input</strong> e <strong>Alert</strong> em fluxos de autenticação.</p>
+
+  <div class="matrix">
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui motion</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão web</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no">–</span> —</div>
+  </div>
+
+  <section>
+    <h2>1 · Uso</h2>
+    <p>Use para verificação de identidade: código enviado por SMS, e-mail ou autenticador TOTP. Cada célula aceita um único dígito; o foco avança automaticamente ao digitar.</p>
+    <h3>Quando usar</h3>
+    <ul>
+      <li>Confirmação de e-mail ou telefone no onboarding.</li>
+      <li>Segundo fator de autenticação (2FA / TOTP).</li>
+      <li>PIN de acesso a área sensível.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Aplique o estado de sucesso ao completar o código correto e submeta automaticamente quando o último campo for preenchido.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Usar para texto livre ou CPF — o campo é otimizado para sequências de dígitos curtas (4–8).</p></div>
+    </div>
+    <h3>Composição com outros componentes</h3>
+    <ul>
+      <li><strong>Alert</strong> abaixo do campo para erro de código inválido ou expirado.</li>
+      <li><strong>Link</strong> para "Reenviar código" com cooldown.</li>
+      <li><strong>ProgressBar</strong> segmentada para indicar etapa do fluxo multi-step.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2 · Formatação</h2>
+    <p>O campo renderiza <code>length</code> células de 48×56px cada, com gap de 10px. Navegação: Tab entra no conjunto; ←/→ move entre células; Backspace apaga e recua.</p>
+    <pre><code>&lt;CodeInput
+  length={6}
+  value={code}
+  onChange={setCode}
+  status="default"   // 'default' | 'error' | 'success'
+/&gt;</code></pre>
+    <table class="props">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
+      <tbody>
+        <tr><td><code>length</code></td><td><code>number</code></td><td><code>6</code></td></tr>
+        <tr><td><code>value</code></td><td><code>string</code></td><td><code>''</code></td></tr>
+        <tr><td><code>onChange</code></td><td><code>(val: string) => void</code></td><td>—</td></tr>
+        <tr><td><code>status</code></td><td><code>'default' | 'error' | 'success'</code></td><td><code>'default'</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3 · Guia de conteúdo</h2>
+    <ul>
+      <li>Label acima: "Insira o código de verificação" — Sentence case, direto.</li>
+      <li>Ajuda: "Enviamos um código de 6 dígitos para ••••@empresa.com".</li>
+      <li>Erro: "Código incorreto ou expirado. Tente de novo ou <u>reenvie</u>."</li>
+      <li>Sucesso: não precisa de mensagem adicional — o estado visual comunica.</li>
+      <li>Reenvio: "Reenviar código" com contagem regressiva "em 45 s".</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · Guia de design</h2>
+    <p><strong>Tokens.</strong> Borda idle <code>--ob-border</code>, preenchida <code>--ob-blue</code>, erro <code>--ob-danger</code>, sucesso <code>--ob-green</code>. Focus ring <code>--ob-blue-100</code> (4px). Texto <code>--ob-fg-strong</code> peso 700.</p>
+    <p><strong>Motion.</strong> Foco/blur: <code>border-color</code> + <code>box-shadow</code> com transição de 150ms (<code>--ob-ease</code>). Erro: animação <code>ob-shake</code> de 400ms no container inteiro.</p>
+    <p><strong>Responsivo/mobile.</strong> No mobile, <code>inputMode="numeric"</code> exibe o teclado numérico nativo. Células de 44px mínimo (hit target). Gap reduz para 8px em viewports estreitas.</p>
+    <div class="note"><strong>Acessibilidade:</strong> aplique <code>aria-label="Dígito N de M"</code> em cada input. O grupo deve ter um <code>role="group"</code> com label descritivo para leitores de tela.</div>
+  </section>
+
+</div></body></html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Badges & chips</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 24px; background: #fff; font-family: var(--ob-font); }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+  .row:last-child { margin-bottom: 0; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; border: 1px solid #ececec; font-size: 13px; color: #545454; background: #fff; }
+  .chip.active { background: #0a4ee4; color: #fff; border-color: #0a4ee4; }
+  .lbl { font-family: var(--ob-font-mono); font-size: 10px; color: #a8a8a8; width: 70px; flex: none; }
+</style></head><body>
+  <div class="row">
+    <div class="lbl">STATUS</div>
+    <span class="badge" style="background:#ecf3da; color:#5f7f30;"><span class="dot" style="background:#779e3d;"></span>Ativo</span>
+    <span class="badge" style="background:#fde6d3; color:#c46220;"><span class="dot" style="background:#eb7c2d;"></span>Pendente</span>
+    <span class="badge" style="background:#fde2e2; color:#a72424;"><span class="dot" style="background:#d23838;"></span>Erro</span>
+    <span class="badge" style="background:#e0eaff; color:#0840b8;"><span class="dot" style="background:#0a4ee4;"></span>Em foco</span>
+    <span class="badge" style="background:#f2f0e8; color:#545454;"><span class="dot" style="background:#a8a8a8;"></span>Rascunho</span>
+  </div>
+  <div class="row">
+    <div class="lbl">CHIPS</div>
+    <span class="chip active">Tudo</span>
+    <span class="chip">Recentes</span>
+    <span class="chip">Favoritos</span>
+    <span class="chip">Arquivado</span>
+  </div>
+  <div class="row">
+    <div class="lbl">TAGS</div>
+    <span class="badge" style="background:#0a4ee4; color:#fff;">Pro</span>
+    <span class="badge" style="background:#2a2a2a; color:#fff;">Beta</span>
+    <span class="badge" style="background:#eb7c2d; color:#fff;">Novo</span>
+  </div>
+</body></html>

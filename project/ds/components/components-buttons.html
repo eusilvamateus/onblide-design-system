@@ -1,0 +1,40 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Buttons</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  body { margin: 0; padding: 24px; background: #fff; font-family: var(--ob-font); }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(2, max-content); align-items: center; }
+  .lbl { font-family: var(--ob-font-mono); font-size: 11px; color: #a8a8a8; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; font-weight: 600; font-size: 14px; padding: 10px 18px; border-radius: 10px; border: none; cursor: pointer; transition: all 160ms cubic-bezier(0.2,0.7,0.2,1); }
+  .btn-primary { background: #0a4ee4; color: #fff; }
+  .btn-primary:hover { background: #0840b8; box-shadow: 0 8px 24px rgba(10,78,228,0.28); }
+  .btn-secondary { background: #fff; color: #2a2a2a; border: 1.5px solid #ececec; }
+  .btn-secondary:hover { border-color: #545454; }
+  .btn-ghost { background: transparent; color: #0a4ee4; }
+  .btn-ghost:hover { background: #f1f5ff; }
+  .btn-cream { background: #f2f0e8; color: #2a2a2a; }
+  .btn-warning { background: #eb7c2d; color: #fff; }
+  .btn-success { background: #779e3d; color: #fff; }
+  .group { display: flex; gap: 8px; align-items: center; }
+</style></head><body>
+  <div class="grid">
+    <div class="lbl">PRIMARY</div>
+    <div class="group">
+      <button class="btn btn-primary">Continuar</button>
+      <button class="btn btn-primary" style="padding:8px 14px; font-size:13px;">Compact</button>
+      <button class="btn btn-primary" style="padding:14px 22px; font-size:15px;">Large action</button>
+    </div>
+    <div class="lbl">SECONDARY</div>
+    <div class="group">
+      <button class="btn btn-secondary">Cancelar</button>
+      <button class="btn btn-ghost">Saiba mais →</button>
+      <button class="btn btn-cream">Cream</button>
+    </div>
+    <div class="lbl">SEMANTIC</div>
+    <div class="group">
+      <button class="btn btn-success">Aprovar</button>
+      <button class="btn btn-warning">Atenção</button>
+      <button class="btn btn-secondary" disabled style="opacity:0.5; cursor:not-allowed;">Disabled</button>
+    </div>
+  </div>
+</body></html>

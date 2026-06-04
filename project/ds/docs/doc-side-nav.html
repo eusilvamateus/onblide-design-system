@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Side Navigation</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Componente · Navegação</p>
+  <h1>Side Navigation <em>doc</em></h1>
+  <p class="lede">Rail de navegação lateral que organiza as seções principais de uma aplicação. Expande (240px, rótulos visíveis) e colapsa (72px, só ícones). Em modo <code>flush</code>, integra-se ao layout de aplicação sem borda própria. Compõe com <strong>Tooltip</strong>, <strong>Badge</strong> e <strong>Avatar</strong>.</p>
+
+  <div class="matrix">
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui motion</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão web</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div>
+    <div class="crit off"><span class="mark no">–</span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no">–</span> —</div>
+  </div>
+
+  <section>
+    <h2>1 · Uso</h2>
+    <p>Use em dashboards e aplicações com 4–8 seções de nível superior. Para produtos mobile-first com menos de 5 seções, prefira uma tab bar inferior.</p>
+    <h3>Estados</h3>
+    <ul>
+      <li><strong>Expandido</strong> (240px) — logo + rótulos + badges + workspace no rodapé.</li>
+      <li><strong>Colapsado</strong> (72px) — logo some, ícones, dot badge, botão expandir no topo. Tooltip revela o rótulo no hover.</li>
+      <li><strong>flush</strong> — sem borda/borderRadius próprios; integra ao shell do app.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Marque só um item ativo por vez. Use badges numéricos para alertas não lidos — máximo 3 itens com badges simultâneos.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Mais de 8 itens no nível superior. Itens que não mapeiam uma rota — ações pertencem a botões, não à nav.</p></div>
+    </div>
+    <h3>Composição com outros componentes</h3>
+    <ul>
+      <li><strong>Tooltip</strong> em cada item no modo colapsado (rótulo no hover).</li>
+      <li><strong>Badge</strong> para contagem de notificações — dot no colapsado, número no expandido.</li>
+      <li><strong>Avatar</strong> no rodapé para o perfil do workspace.</li>
+      <li><strong>Dropdown</strong> ao clicar no rodapé: "Configurações", "Sair".</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2 · Formatação</h2>
+    <pre><code>&lt;SideNav
+  items={[
+    { id: 'home',     label: 'Início',   icon: 'house' },
+    { id: 'tasks',    label: 'Tarefas',  icon: 'kanban', badge: 3 },
+    { section: 'Config' },
+    { id: 'settings', label: 'Ajustes',  icon: 'gear' },
+  ]}
+  active={route}
+  onNav={setRoute}
+  collapsed={collapsed}
+  onToggle={() => setCollapsed(c => !c)}
+  flush
+/&gt;</code></pre>
+    <table class="props">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
+      <tbody>
+        <tr><td><code>items</code></td><td><code>NavItem[]</code></td><td><code>[]</code></td></tr>
+        <tr><td><code>active</code></td><td><code>string</code></td><td>—</td></tr>
+        <tr><td><code>onNav</code></td><td><code>(id: string) => void</code></td><td>—</td></tr>
+        <tr><td><code>collapsed</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+        <tr><td><code>onToggle</code></td><td><code>() => void</code></td><td>—</td></tr>
+        <tr><td><code>flush</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+        <tr><td><code>workspaceName</code></td><td><code>string</code></td><td><code>'Workspace'</code></td></tr>
+        <tr><td><code>userInitials</code></td><td><code>string</code></td><td><code>'OB'</code></td></tr>
+      </tbody>
+    </table>
+    <p>Item de seção: <code>{ section: 'Rótulo' }</code> — renderiza um kicker mono entre grupos de itens.</p>
+  </section>
+
+  <section>
+    <h2>3 · Guia de conteúdo</h2>
+    <ul>
+      <li>Rótulos: substantivos curtos. "Início", "Tarefas", "Métricas" — nunca verbos ("Ver tarefas").</li>
+      <li>Kickers de seção: mono maiúsculo, máximo 2 palavras. "Workspace", "Config".</li>
+      <li>Badges: máximo 2 dígitos. Acima de 99, mostre "99+".</li>
+      <li>Workspace no rodapé: nome da empresa ou produto, não do usuário.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · Guia de design</h2>
+    <p><strong>Tokens.</strong> Item ativo: fundo <code>--ob-blue-100</code>, texto <code>--ob-blue-700</code>, pip <code>--ob-blue</code>. Hover: <code>--ob-bg-warm</code>. Fundo geral <code>--ob-surface</code>.</p>
+    <p><strong>Motion.</strong> Transição de <code>background</code> a 120ms (<code>--ob-ease</code>) nos itens. A animação de expand/collapse (width) deve ser implementada no shell pai — o componente usa <code>width</code> calculado e não anima internamente para não conflitar com o layout do grid.</p>
+    <p><strong>Responsivo.</strong> Em viewports &lt; 768px, use o modo colapsado como padrão. Abaixo de 480px, converta para drawer (overlay) com backdrop clicável.</p>
+    <div class="note"><strong>Versão mobile:</strong> SideNav não atende mobile diretamente — substitua por tab bar inferior ou drawer. Por isso não marca "versão mobile" na matriz.</div>
+  </section>
+
+</div></body></html>

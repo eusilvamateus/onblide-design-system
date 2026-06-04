@@ -1,0 +1,444 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Iconography · Onblide DS</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+body { margin: 0; padding: 32px 40px 56px; background: #fff; font-family: 'Poppins', sans-serif; max-width: 960px; }
+
+/* ── Page header ── */
+.pg-title { font-size: 26px; font-weight: 700; color: var(--ob-ink-strong); letter-spacing: -0.02em; margin: 0 0 6px; }
+.pg-sub   { font-size: 13px; color: var(--ob-ink-soft); line-height: 1.65; max-width: 580px; margin: 0 0 16px; text-wrap: pretty; }
+.chips    { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 40px; }
+.chip     { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; background: var(--ob-cream); color: var(--ob-ink-soft); }
+.chip strong { color: var(--ob-ink-strong); font-weight: 600; }
+
+/* ── Section ── */
+.sect      { margin-bottom: 44px; }
+.sect-h    { font-size: 15px; font-weight: 600; color: var(--ob-ink-strong); letter-spacing: -0.01em; margin: 0 0 3px; }
+.sect-d    { font-size: 12px; color: var(--ob-ink-mute); margin: 0 0 16px; }
+.divider   { height: 1px; background: var(--ob-line); margin: 36px 0; }
+
+/* ── Spec cards ── */
+.spec-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.spec-card  { background: var(--ob-surface-2); border: 1px solid var(--ob-line); border-radius: 12px; padding: 18px 20px; }
+.spec-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ob-ink-mute); margin: 0 0 14px; }
+
+/* Size scale */
+.size-row  { display: flex; align-items: flex-end; gap: 24px; }
+.size-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.size-icon { color: var(--ob-ink-strong); display: flex; }
+.size-name { font-size: 11px; font-weight: 600; color: var(--ob-ink-strong); }
+.size-px   { font-size: 10px; color: var(--ob-ink-mute); }
+.size-ctx  { font-size: 9.5px; color: var(--ob-ink-mute); text-align: center; line-height: 1.3; max-width: 64px; }
+.size-def  { font-size: 9px; background: var(--ob-blue-100); color: var(--ob-blue); padding: 1px 6px; border-radius: 20px; font-weight: 700; }
+
+/* Grid diagram */
+.grid-row  { display: flex; align-items: flex-start; gap: 18px; }
+.grid-meta { font-size: 11px; color: var(--ob-ink-soft); line-height: 1.8; }
+.grid-meta b { color: var(--ob-ink-strong); font-weight: 600; }
+
+/* Weight */
+.weight-row  { display: flex; align-items: flex-end; gap: 18px; }
+.weight-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.weight-icon { display: flex; }
+.weight-name { font-size: 10px; color: var(--ob-ink-soft); }
+.weight-def  { font-size: 9px; background: var(--ob-blue-100); color: var(--ob-blue); padding: 1px 6px; border-radius: 20px; font-weight: 700; }
+
+/* Color/spacing */
+.clr-row   { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+.clr-ex    { display: flex; align-items: center; gap: 7px; font-size: 12px; line-height: 1; }
+.gap-row   { display: flex; gap: 16px; align-items: center; }
+.gap-ex    { display: flex; align-items: center; font-size: 11px; color: var(--ob-ink); }
+
+/* ── Known icons ── */
+.known-badge { display: inline-flex; align-items: center; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; background: var(--ob-blue-100); color: var(--ob-blue); padding: 2px 8px; border-radius: 20px; vertical-align: middle; margin-left: 8px; }
+.known-grid  { display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; }
+.known-item  { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 4px; border-radius: 10px; background: oklch(97.5% .018 240); border: 1.5px solid oklch(89% .05 240); transition: background 120ms; cursor: default; }
+.known-item:hover { background: oklch(93% .04 240); }
+.known-icon  { color: var(--ob-blue); display: flex; }
+.known-name  { font-size: 9.5px; color: var(--ob-blue); font-weight: 500; text-align: center; line-height: 1.2; }
+
+/* ── Album ── */
+.cat-head  { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ob-ink-mute); margin: 20px 0 8px; }
+.cat-head:first-child { margin-top: 0; }
+.icon-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
+.icon-item { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 9px 2px; border-radius: 8px; transition: background 120ms; cursor: default; }
+.icon-item:hover { background: var(--ob-surface-2); }
+.icon-icon { color: var(--ob-ink-strong); display: flex; }
+.icon-name { font-size: 9px; color: var(--ob-ink-mute); text-align: center; line-height: 1.2; }
+
+/* ── Usage ── */
+.usage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.usage-card { border-radius: 12px; padding: 16px 18px; border: 1px solid var(--ob-line); }
+.usage-card.do   { background: oklch(98.5% .008 140); border-color: oklch(86% .05 140); }
+.usage-card.dont { background: oklch(99% .008 30);  border-color: oklch(88% .04 30); }
+.usage-tag  { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: 3px 9px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+.usage-tag.do   { background: var(--ob-green-100); color: var(--ob-green-700); }
+.usage-tag.dont { background: var(--ob-orange-100); color: var(--ob-orange-700); }
+.usage-ex  { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: #fff; border-radius: 8px; margin-bottom: 5px; font-size: 12px; color: var(--ob-ink); border: 1px solid var(--ob-line); }
+.usage-ex svg { flex-shrink: 0; }
+.usage-note { font-size: 11px; color: var(--ob-ink-soft); line-height: 1.55; margin: 8px 0 0; }
+.pill-btn   { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<h1 class="pg-title">Iconography</h1>
+<p class="pg-sub">Ícones são elementos auxiliares — facilitam o reconhecimento de funções e reduzem carga cognitiva. Sozinhos, apenas ícones universalmente reconhecidos podem aparecer sem acompanhamento de texto.</p>
+<div class="chips">
+  <span class="chip"><strong>Biblioteca</strong> Phosphor Icons</span>
+  <span class="chip"><strong>Peso padrão</strong> Regular</span>
+  <span class="chip"><strong>Tamanho padrão</strong> 20 × 20 px</span>
+  <span class="chip"><strong>Grid interno</strong> 256 × 256 px · stroke 16</span>
+  <span class="chip"><strong>Cor</strong> currentColor</span>
+  <span class="chip"><strong>Gap com texto</strong> sm 6px · md 8px · lg 10px</span>
+</div>
+
+<!-- SPECIFICATIONS ──────────────────────────────────────────────────── -->
+<div class="sect">
+  <div class="sect-h">Especificações</div>
+  <div class="sect-d">Regras fundamentais para uso consistente em toda a interface</div>
+  <div class="spec-grid">
+
+    <div class="spec-card">
+      <div class="spec-label">Escala de tamanho</div>
+      <div class="size-row" id="size-demo"></div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-label">Grid interno</div>
+      <div class="grid-row">
+        <svg width="88" height="88" viewBox="0 0 88 88" style="flex-shrink:0">
+          <rect x="1.5" y="1.5" width="85" height="85" fill="none" stroke="#e0e0e0" stroke-width="1.5" rx="3"/>
+          <line x1="44" y1="1.5" x2="44" y2="86.5" stroke="#ececec" stroke-width=".5"/>
+          <line x1="1.5" y1="44" x2="86.5" y2="44" stroke="#ececec" stroke-width=".5"/>
+          <rect x="6.5" y="6.5" width="75" height="75" fill="oklch(97.5% .018 240)" stroke="var(--ob-blue)" stroke-width="1" stroke-dasharray="3 2" rx="2"/>
+          <text x="44" y="84" text-anchor="middle" font-size="6" fill="#b0b0b0" font-family="sans-serif">256 px</text>
+          <text x="84" y="44" text-anchor="end" font-size="6" fill="#b0b0b0" font-family="sans-serif" transform="rotate(-90 84 44)">256</text>
+          <g fill="none" stroke="var(--ob-blue)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" transform="translate(22,18) scale(.172)">
+            <path d="M40 200V112l88-72 88 72v88a8 8 0 0 1-8 8h-48v-56h-64v56H48a8 8 0 0 1-8-8Z"/>
+          </g>
+          <text x="10" y="20" font-size="5.5" fill="var(--ob-blue)" font-family="sans-serif">safe</text>
+        </svg>
+        <div class="grid-meta">
+          <div><b>Viewbox</b> 256 × 256 px</div>
+          <div><b>Stroke</b> 16 px (6.25%)</div>
+          <div><b>Zona segura</b> inset 16 px</div>
+          <div><b>Área ativa</b> 224 × 224 px</div>
+          <div><b>Exibição</b> múltiplos de 4 px</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-label">Espessura (weight)</div>
+      <div class="weight-row" id="weight-demo"></div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-label">Cor e espaçamento com texto</div>
+      <div id="color-demo"></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- KNOWN ICONS ─────────────────────────────────────────────────────── -->
+<div class="sect">
+  <div class="sect-h">Ícones Conhecidos <span class="known-badge">standalone</span></div>
+  <div class="sect-d">Possuem significado universal — únicos que podem aparecer sem rótulo de texto. Todos os outros devem ser acompanhados de texto.</div>
+  <div class="known-grid" id="known-grid"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ALBUM ───────────────────────────────────────────────────────────── -->
+<div class="sect">
+  <div class="sect-h">Álbum principal</div>
+  <div class="sect-d">Conjunto aprovado para uso no produto. Não misturar com outras bibliotecas de ícones.</div>
+  <div id="album"></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- USAGE ───────────────────────────────────────────────────────────── -->
+<div class="sect">
+  <div class="sect-h">Uso</div>
+  <div class="sect-d">Referência rápida de aplicação correta</div>
+  <div class="usage-grid" id="usage-grid"></div>
+</div>
+
+<script>
+// ── Icon paths (Phosphor Regular · viewBox 256 × 256) ──────────────────────
+const S = 'viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"';
+
+const IC = {
+  // Navigation
+  home:           `<path d="M40 200V112l88-72 88 72v88a8 8 0 0 1-8 8h-48v-56h-64v56H48a8 8 0 0 1-8-8Z"/>`,
+  menu:           `<path d="M40 64h176M40 128h176M40 192h176"/>`,
+  grid:           `<path d="M40 40h72v72H40ZM144 40h72v72h-72ZM40 144h72v72H40ZM144 144h72v72h-72Z"/>`,
+  'arrow-left':   `<path d="M216 128H40M112 56 40 128l72 72"/>`,
+  'arrow-right':  `<path d="M40 128h176M144 56l72 72-72 72"/>`,
+  'arrow-up':     `<path d="M128 216V40M56 112l72-72 72 72"/>`,
+  'arrow-down':   `<path d="M128 40v176M56 144l72 72 72-72"/>`,
+  'chev-left':    `<path d="M160 48 80 128l80 80"/>`,
+  'chev-right':   `<path d="M96 48l80 80-80 80"/>`,
+  'chev-up':      `<path d="M48 160l80-80 80 80"/>`,
+  'chev-down':    `<path d="m208 96-80 80-80-80"/>`,
+  logout:         `<path d="M104 216H40a8 8 0 0 1-8-8V48a8 8 0 0 1 8-8h64M168 168l40-40-40-40M88 128h120"/>`,
+
+  // Actions
+  search:         `<circle cx="116" cy="116" r="76"/><path d="m172 172 44 44"/>`,
+  plus:           `<path d="M40 128h176M128 40v176"/>`,
+  minus:          `<path d="M40 128h176"/>`,
+  check:          `<path d="M40 128l56 56 120-120"/>`,
+  trash:          `<path d="M216 56H40M88 56V40a8 8 0 0 1 8-8h64a8 8 0 0 1 8 8v16M192 56l-16 160a8 8 0 0 1-8 8H88a8 8 0 0 1-8-8L64 56"/>`,
+  download:       `<path d="M128 32v128M72 112l56 56 56-56M224 176v32a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-32"/>`,
+  upload:         `<path d="M128 160V32M72 80l56-56 56 56M224 176v32a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-32"/>`,
+  copy:           `<path d="M168 56H72a8 8 0 0 0-8 8v128M104 24h120a8 8 0 0 1 8 8v128a8 8 0 0 1-8 8H104a8 8 0 0 1-8-8V32a8 8 0 0 1 8-8Z"/>`,
+  link:           `<path d="M104 176H64a56 56 0 0 1 0-112h40M152 80h40a56 56 0 0 1 0 112h-40M88 128h80"/>`,
+  'ext-link':     `<path d="M136 40h80v80M216 40 136 120M104 72H56a8 8 0 0 0-8 8v120a8 8 0 0 0 8 8h120a8 8 0 0 0 8-8v-48"/>`,
+  refresh:        `<path d="M200 56A96 96 0 1 0 216 128M200 56v48h-48"/>`,
+  filter:         `<path d="M32 56h192l-72 80v80l-48-24V136Z"/>`,
+  eye:            `<path d="M128 56c-56 0-96 72-96 72s40 72 96 72 96-72 96-72-40-72-96-72Z"/><circle cx="128" cy="128" r="32"/>`,
+  lock:           `<path d="M80 112V88a48 48 0 0 1 96 0v24M40 112h176a8 8 0 0 1 8 8v88a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-88a8 8 0 0 1 8-8Z"/>`,
+  share:          `<circle cx="64" cy="128" r="24"/><circle cx="192" cy="48" r="24"/><circle cx="192" cy="208" r="24"/><path d="M88 116l80-44M88 140l80 44"/>`,
+
+  // Content
+  file:           `<path d="M40 32h120l56 56v128a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8ZM160 32v56h56"/>`,
+  folder:         `<path d="M32 64a8 8 0 0 1 8-8h64l24 24h88a8 8 0 0 1 8 8v112a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8Z"/>`,
+  image:          `<path d="M32 32h192a8 8 0 0 1 8 8v176a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8Z"/><circle cx="88" cy="96" r="24"/><path d="M24 184l56-56 40 40 40-32 64 72"/>`,
+  calendar:       `<path d="M40 56h176a8 8 0 0 1 8 8v144a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8V64a8 8 0 0 1 8-8ZM32 96h192M80 24v40M176 24v40"/>`,
+  clock:          `<circle cx="128" cy="128" r="96"/><path d="M128 72v56l40 40"/>`,
+  bookmark:       `<path d="M184 32H72a8 8 0 0 0-8 8v176l64-40 64 40V40a8 8 0 0 0-8-8Z"/>`,
+  tag:            `<path d="M136 32H56a8 8 0 0 0-8 8v80l96 104 96-96L136 32Z"/><circle cx="92" cy="92" r="16" fill="currentColor" stroke="none"/>`,
+  code:           `<path d="M88 56 32 128l56 72M168 56l56 72-56 72"/>`,
+  'chart-line':   `<path d="M32 32v176a8 8 0 0 0 8 8h176M64 168l40-40 32 32 56-56"/>`,
+  'chart-bar':    `<path d="M32 32v176a8 8 0 0 0 8 8h176M72 192v-64M112 192v-96M152 192V96M192 192V64"/>`,
+  database:       `<ellipse cx="128" cy="80" rx="96" ry="32"/><path d="M32 80v96c0 18 44 32 96 32s96-14 96-32V80M32 128c0 18 44 32 96 32s96-14 96-32"/>`,
+
+  // Communication
+  chat:           `<path d="M40 32h176a8 8 0 0 1 8 8v144a8 8 0 0 1-8 8h-72l-40 40v-40H40a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8Z"/>`,
+  mail:           `<path d="M32 64h192a8 8 0 0 1 8 8v112a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8V72a8 8 0 0 1 8-8ZM32 80l96 64 96-64"/>`,
+  bell:           `<path d="M56 104a72 72 0 0 1 144 0c0 35 16 56 16 56H40s16-21 16-56ZM96 200a32 32 0 0 0 64 0"/>`,
+  phone:          `<path d="M164 224a128 128 0 0 1-128-128 16 16 0 0 1 16-16h32l16 40-24 16a88 88 0 0 0 48 48l16-24 40 16v32a16 16 0 0 1-16 16Z"/>`,
+  user:           `<path d="M128 144a48 48 0 1 0 0-96 48 48 0 0 0 0 96ZM32 224c12-44 52-72 96-72s84 28 96 72"/>`,
+  users:          `<path d="M96 144a40 40 0 1 0 0-80 40 40 0 0 0 0 80ZM16 216c10-37 44-60 80-60s70 23 80 60M176 80a40 40 0 0 1 0 56M210 144c14 12 24 32 30 72"/>`,
+
+  // Status & Feedback
+  'check-circle': `<circle cx="128" cy="128" r="96"/><path d="M88 128l28 28 52-52"/>`,
+  'x-circle':     `<circle cx="128" cy="128" r="96"/><path d="M96 96l64 64M160 96l-64 64"/>`,
+  warning:        `<path d="M128 40 24 216h208L128 40Z"/><path d="M128 136v40"/><circle cx="128" cy="192" r="8" fill="currentColor" stroke="none"/>`,
+  info:           `<circle cx="128" cy="128" r="96"/><path d="M128 120v64"/><circle cx="128" cy="88" r="8" fill="currentColor" stroke="none"/>`,
+  question:       `<circle cx="128" cy="128" r="96"/><path d="M104 96a28 28 0 0 1 52 14c0 24-24 24-24 48"/><circle cx="128" cy="192" r="8" fill="currentColor" stroke="none"/>`,
+  star:           `<path d="m128 24 32 64 72 8-52 48 16 72-68-36-68 36 16-72-52-48 72-8Z"/>`,
+  heart:          `<path d="M128 224S24 168 24 96a48 48 0 0 1 88-26 48 48 0 0 1 88 26c0 72-72 128-72 128Z"/>`,
+  bolt:           `<path d="M144 24 40 144h72L96 232 216 112h-72Z"/>`,
+  shield:         `<path d="M128 24l88 32v56c0 56-40 104-88 120C80 216 40 168 40 112V56l88-32Z"/>`,
+  'more-horiz':   `<circle cx="64" cy="128" r="16" fill="currentColor" stroke="none"/><circle cx="128" cy="128" r="16" fill="currentColor" stroke="none"/><circle cx="192" cy="128" r="16" fill="currentColor" stroke="none"/>`,
+  'more-vert':    `<circle cx="128" cy="64" r="16" fill="currentColor" stroke="none"/><circle cx="128" cy="128" r="16" fill="currentColor" stroke="none"/><circle cx="128" cy="192" r="16" fill="currentColor" stroke="none"/>`,
+
+  // Business
+  briefcase:      `<path d="M40 64h176a8 8 0 0 1 8 8v128a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8V72a8 8 0 0 1 8-8ZM168 64V48a8 8 0 0 0-8-8H96a8 8 0 0 0-8 8v16M32 128h192"/>`,
+  building:       `<path d="M40 200V56a8 8 0 0 1 8-8h120a8 8 0 0 1 8 8v144M176 96h32a8 8 0 0 1 8 8v96M88 88h48M88 128h48M88 168h48"/>`,
+  'map-pin':      `<path d="M128 24a72 72 0 0 0-72 72c0 56 72 136 72 136s72-80 72-136a72 72 0 0 0-72-72Z"/><circle cx="128" cy="96" r="24"/>`,
+  package:        `<path d="M128 32 224 80v96l-96 48-96-48V80L128 32ZM128 32v144M32 80l96 48 96-48M80 56l96 48"/>`,
+  settings:       `<circle cx="128" cy="128" r="40"/><path d="M128 48v16M128 192v16M48 128H32M224 128h-16M76 76l-11-11M191 191l-11-11M76 180l-11 11M191 65l-11 11"/>`,
+};
+
+// ── Render helper ───────────────────────────────────────────────────────────
+function ic(key, size = 20, color) {
+  const col = color ? `style="color:${color}"` : '';
+  return `<svg width="${size}" height="${size}" ${S} ${col}>${IC[key] || ''}</svg>`;
+}
+
+// ── Size demo ───────────────────────────────────────────────────────────────
+document.getElementById('size-demo').innerHTML = [
+  { px: 16, name: 'sm', ctx: 'Texto 12–14px',    def: false },
+  { px: 20, name: 'md', ctx: 'Padrão de UI',      def: true  },
+  { px: 24, name: 'lg', ctx: 'Nav / Cabeçalhos',  def: false },
+  { px: 32, name: 'xl', ctx: 'Estados vazios',    def: false },
+].map(s => `
+  <div class="size-item">
+    <div class="size-icon">${ic('home', s.px)}</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+      <span class="size-name">${s.name}</span>
+      <span class="size-px">${s.px} px${s.def ? '' : ''}</span>
+      ${s.def ? '<span class="size-def">padrão</span>' : ''}
+      <span class="size-ctx">${s.ctx}</span>
+    </div>
+  </div>
+`).join('');
+
+// ── Weight demo ─────────────────────────────────────────────────────────────
+const STAR = `m128 24 32 64 72 8-52 48 16 72-68-36-68 36 16-72-52-48 72-8Z`;
+document.getElementById('weight-demo').innerHTML = [
+  { w: 8,    name: 'Thin'    },
+  { w: 12,   name: 'Light'   },
+  { w: 16,   name: 'Regular', def: true },
+  { w: 24,   name: 'Bold'    },
+  { w: null, name: 'Fill', note: 'só active' },
+].map(wt => {
+  const clr = wt.def ? 'var(--ob-blue)' : 'var(--ob-ink-strong)';
+  const svg = wt.w === null
+    ? `<svg width="24" height="24" viewBox="0 0 256 256" fill="currentColor" stroke="none" style="color:${clr}"><path d="${STAR}"/></svg>`
+    : `<svg width="24" height="24" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="${wt.w}" stroke-linecap="round" stroke-linejoin="round" style="color:${clr}"><path d="${STAR}"/></svg>`;
+  return `
+    <div class="weight-item">
+      <div class="weight-icon">${svg}</div>
+      <div class="weight-name" style="color:${wt.def ? 'var(--ob-blue)' : ''}">${wt.name}</div>
+      ${wt.def ? '<div class="weight-def">padrão</div>' : ''}
+      ${wt.note ? `<div style="font-size:9px;color:var(--ob-ink-mute);text-align:center">${wt.note}</div>` : ''}
+    </div>
+  `;
+}).join('');
+
+// ── Color & spacing demo ─────────────────────────────────────────────────────
+document.getElementById('color-demo').innerHTML = `
+  <div class="clr-row">
+    <div class="clr-ex" style="color:var(--ob-ink-strong)">${ic('user',16)} Ink-strong — ação principal</div>
+    <div class="clr-ex" style="color:var(--ob-blue)">${ic('bolt',16)} Blue — ícone de destaque</div>
+    <div class="clr-ex" style="color:var(--ob-green)">${ic('check-circle',16)} Green — estado de sucesso</div>
+    <div class="clr-ex" style="color:var(--ob-ink-mute)">${ic('clock',16)} Ink-mute — metadados</div>
+  </div>
+  <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ob-ink-mute);margin-bottom:7px">Gap com texto</div>
+  <div class="gap-row">
+    <div class="gap-ex" style="gap:6px;font-size:12px">${ic('home',16)} <span>sm · 6px</span></div>
+    <div class="gap-ex" style="gap:8px;font-size:14px">${ic('home',20)} <span>md · 8px</span></div>
+    <div class="gap-ex" style="gap:10px;font-size:16px">${ic('home',24)} <span>lg · 10px</span></div>
+  </div>
+`;
+
+// ── Known icons ──────────────────────────────────────────────────────────────
+const KNOWN = [
+  { key: 'search',     label: 'buscar'     },
+  { key: 'plus',       label: 'adicionar'  },
+  { key: 'check',      label: 'confirmar'  },
+  { key: 'x-circle',   label: 'fechar'     },
+  { key: 'chev-down',  label: 'expandir'   },
+  { key: 'more-horiz', label: 'mais ações' },
+  { key: 'more-vert',  label: 'mais vert.' },
+  { key: 'menu',       label: 'navegação'  },
+  { key: 'bell',       label: 'alertas'    },
+];
+document.getElementById('known-grid').innerHTML = KNOWN.map(k => `
+  <div class="known-item">
+    <div class="known-icon">${ic(k.key, 24)}</div>
+    <div class="known-name">${k.label}</div>
+  </div>
+`).join('');
+
+// ── Album ────────────────────────────────────────────────────────────────────
+const ALBUM = [
+  {
+    cat: 'Navegação', icons: [
+      ['home','home'], ['menu','menu'], ['grid','grid'],
+      ['arrow-left','arrow-left'], ['arrow-right','arrow-right'],
+      ['arrow-up','arrow-up'], ['arrow-down','arrow-down'],
+      ['chev-left','chev-left'], ['chev-right','chev-right'],
+      ['chev-up','chev-up'], ['chev-down','chev-down'], ['logout','logout'],
+    ]
+  },
+  {
+    cat: 'Ações', icons: [
+      ['search','search'], ['plus','plus'], ['minus','minus'], ['check','check'],
+      ['trash','trash'], ['download','download'], ['upload','upload'], ['copy','copy'],
+      ['link','link'], ['ext-link','ext-link'], ['refresh','refresh'],
+      ['filter','filter'], ['eye','eye'], ['lock','lock'], ['share','share'],
+    ]
+  },
+  {
+    cat: 'Conteúdo', icons: [
+      ['file','file'], ['folder','folder'], ['image','image'],
+      ['calendar','calendar'], ['clock','clock'], ['bookmark','bookmark'],
+      ['tag','tag'], ['code','code'],
+      ['chart-line','chart-line'], ['chart-bar','chart-bar'], ['database','database'],
+    ]
+  },
+  {
+    cat: 'Comunicação', icons: [
+      ['chat','chat'], ['mail','mail'], ['bell','bell'],
+      ['phone','phone'], ['user','user'], ['users','users'],
+    ]
+  },
+  {
+    cat: 'Status & Feedback', icons: [
+      ['check-circle','check-circle'], ['x-circle','x-circle'],
+      ['warning','warning'], ['info','info'], ['question','question'],
+      ['star','star'], ['heart','heart'], ['bolt','bolt'],
+      ['shield','shield'], ['more-horiz','more-h'], ['more-vert','more-v'],
+    ]
+  },
+  {
+    cat: 'Negócios', icons: [
+      ['briefcase','briefcase'], ['building','building'], ['map-pin','map-pin'],
+      ['package','package'], ['settings','settings'],
+    ]
+  },
+];
+
+document.getElementById('album').innerHTML = ALBUM.map(section => `
+  <div class="cat-head">${section.cat}</div>
+  <div class="icon-grid" style="margin-bottom:4px">
+    ${section.icons.map(([key, label]) => `
+      <div class="icon-item">
+        <div class="icon-icon">${ic(key, 20)}</div>
+        <div class="icon-name">${label}</div>
+      </div>
+    `).join('')}
+  </div>
+`).join('');
+
+// ── Usage ────────────────────────────────────────────────────────────────────
+document.getElementById('usage-grid').innerHTML = `
+  <div class="usage-card do">
+    <div class="usage-tag do">Correto</div>
+    <div class="usage-ex">${ic('search',20)} <span>Buscar pedidos</span></div>
+    <div class="usage-ex">${ic('download',20)} <span>Exportar relatório</span></div>
+    <div class="usage-ex">${ic('check-circle',20,'var(--ob-green)')} <span>Pedido confirmado</span></div>
+    <div class="usage-note">Ícone md (20px) sempre acompanhado de rótulo. Gap fixo de 8px. Cor herda do contexto.</div>
+  </div>
+
+  <div class="usage-card dont">
+    <div class="usage-tag dont">Evitar</div>
+    <div class="usage-ex" style="justify-content:center">${ic('trash',20)}</div>
+    <div class="usage-ex" style="justify-content:center">${ic('download',20)}</div>
+    <div class="usage-ex" style="justify-content:center">${ic('filter',20)}</div>
+    <div class="usage-note">Ícones ambíguos sem texto dependem de contexto que o usuário pode não ter. Reserve standalone para os "Ícones Conhecidos".</div>
+  </div>
+
+  <div class="usage-card do">
+    <div class="usage-tag do">Fill em estados ativos</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <div class="pill-btn" style="background:var(--ob-blue);color:#fff">
+        <svg width="18" height="18" viewBox="0 0 256 256" fill="currentColor" stroke="none"><path d="M128 32 224 80v96l-96 48-96-48V80L128 32Z"/></svg>
+        Publicar
+      </div>
+      <div class="pill-btn" style="background:var(--ob-surface);border:1px solid var(--ob-line);color:var(--ob-ink-strong)">
+        ${ic('download',18)} Exportar
+      </div>
+    </div>
+    <div class="usage-note">Fill (preenchido) em botões primários sobre fundo colorido. Regular para ações secundárias.</div>
+  </div>
+
+  <div class="usage-card dont">
+    <div class="usage-tag dont">Evitar</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <div class="pill-btn" style="background:var(--ob-surface);border:1px solid var(--ob-line);color:var(--ob-ink-strong)">
+        <svg width="22" height="22" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">${IC['download']}</svg>
+        <span style="font-size:12px">Exportar</span>
+      </div>
+      <div class="pill-btn" style="background:var(--ob-surface);border:1px solid var(--ob-line);color:var(--ob-ink-strong);gap:4px">
+        ${ic('filter',16)} <span style="font-size:12px">Filtrar</span>
+      </div>
+    </div>
+    <div class="usage-note">Tamanhos e gaps inconsistentes quebram o ritmo visual. Usar sempre os tokens de tamanho (sm/md/lg) e gap (6/8/10px).</div>
+  </div>
+`;
+</script>
+</body>
+</html>

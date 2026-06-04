@@ -1,0 +1,635 @@
+/* ============================================================
+   ONBLIDE — Design Tokens
+   Foundation tokens for color, type, spacing, radii & shadows.
+   ============================================================ */
+
+/* Poppins — local font files */
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-ExtraLightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* Playfair Display — local font files */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('fonts/PlayfairDisplay-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+/* JetBrains Mono — local font files */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-ExtraLightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('fonts/JetBrainsMono-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+:root {
+  /* ------------------------------------------------------------
+     COLORS — Brand
+     ------------------------------------------------------------ */
+  --ob-blue:        #0a4ee4;   /* primary — attention, CTAs, links */
+  --ob-blue-700:    #0840b8;   /* hover / pressed */
+  --ob-blue-100:    #e0eaff;   /* tinted backgrounds */
+  --ob-blue-050:    #f1f5ff;
+
+  --ob-green:       #779e3d;   /* success */
+  --ob-green-700:   #5f7f30;
+  --ob-green-100:   #ecf3da;
+
+  --ob-orange:      #eb7c2d;   /* warning / accent */
+  --ob-orange-700:  #c46220;
+  --ob-orange-100:  #fde6d3;
+
+  --ob-cream:       #f2f0e8;   /* warm accent — overlay on white */
+  --ob-cream-soft:  #faf9f5;
+
+  /* ------------------------------------------------------------
+     COLORS — Neutrals
+     ------------------------------------------------------------ */
+  --ob-ink:         #545454;   /* body text */
+  --ob-ink-strong:  #2a2a2a;   /* headings */
+  --ob-ink-soft:    #7a7a7a;   /* secondary text */
+  --ob-ink-mute:    #a8a8a8;   /* placeholder, captions */
+
+  --ob-line:        #ececec;   /* hairlines */
+  --ob-line-soft:   #f4f4f4;
+  --ob-surface:     #ffffff;   /* default page background */
+  --ob-surface-2:   #fbfbfb;   /* subtle alt surface */
+
+  /* ------------------------------------------------------------
+     SEMANTIC TOKENS
+     ------------------------------------------------------------ */
+  --ob-fg:          var(--ob-ink);
+  --ob-fg-strong:   var(--ob-ink-strong);
+  --ob-fg-soft:     var(--ob-ink-soft);
+  --ob-fg-mute:     var(--ob-ink-mute);
+  --ob-fg-accent:   var(--ob-blue);
+  --ob-fg-on-color: #ffffff;
+
+  --ob-bg:          var(--ob-surface);
+  --ob-bg-alt:      var(--ob-surface-2);
+  --ob-bg-warm:     var(--ob-cream);
+
+  --ob-border:      var(--ob-line);
+  --ob-focus-ring:  rgba(10, 78, 228, 0.32);
+
+  --ob-success:     var(--ob-green);
+  --ob-success-bg:  var(--ob-green-100);
+  --ob-warning:     var(--ob-orange);
+  --ob-warning-bg:  var(--ob-orange-100);
+  --ob-danger:      #d23838;
+  --ob-danger-bg:   #fde2e2;
+
+  /* Shadows (light theme) */
+  --ob-shadow-xs: 0 1px 2px rgba(20, 20, 20, 0.04);
+  --ob-shadow-sm: 0 1px 3px rgba(20, 20, 20, 0.05), 0 1px 2px rgba(20, 20, 20, 0.03);
+  --ob-shadow-md: 0 4px 12px rgba(20, 20, 20, 0.06), 0 1px 3px rgba(20, 20, 20, 0.04);
+  --ob-shadow-lg: 0 12px 28px rgba(20, 20, 20, 0.08), 0 4px 8px rgba(20, 20, 20, 0.04);
+  --ob-shadow-pop: 0 8px 24px rgba(10, 78, 228, 0.18);
+
+  /* ------------------------------------------------------------
+     ELEVATION SCRIM (alpha values per theme)
+     ------------------------------------------------------------ */
+  --ob-scrim-1:     rgba(20, 20, 20, 0.04);
+  --ob-scrim-2:     rgba(20, 20, 20, 0.06);
+  --ob-scrim-3:     rgba(20, 20, 20, 0.08);
+
+  color-scheme: light;
+}
+
+/* ============================================================
+   DARK THEME
+   Activate by setting [data-theme="dark"] on <html> or any
+   container — semantic tokens flip while brand colors stay
+   recognizable (just slightly adjusted for contrast on dark).
+   ============================================================ */
+[data-theme="dark"] {
+  /* Brand — slight desaturation/lightening for AA contrast on dark */
+  --ob-blue:        #4d7fef;
+  --ob-blue-700:    #6e96f1;   /* lighter hover, not darker */
+  --ob-blue-100:    #1a2a52;   /* tinted surface, not pale */
+  --ob-blue-050:    #14223f;
+
+  --ob-green:       #9bbf60;
+  --ob-green-700:   #b3d17f;
+  --ob-green-100:   #1f2a13;
+
+  --ob-orange:      #f59554;
+  --ob-orange-700:  #ffa86d;
+  --ob-orange-100:  #3a1f0c;
+
+  /* Cream becomes warm dark — overlay on near-black */
+  --ob-cream:       #2a2620;
+  --ob-cream-soft:  #1f1c17;
+
+  /* Neutrals — fully inverted */
+  --ob-ink:         #c8c8c8;   /* body text */
+  --ob-ink-strong:  #f5f5f5;   /* headings */
+  --ob-ink-soft:    #969696;   /* secondary */
+  --ob-ink-mute:    #686868;   /* placeholder */
+
+  --ob-line:        #2a2a2a;   /* hairlines */
+  --ob-line-soft:   #1f1f1f;
+  --ob-surface:     #121212;   /* page background */
+  --ob-surface-2:   #1a1a1a;   /* subtle alt surface */
+
+  /* Semantic — rewire to flipped neutrals */
+  --ob-fg:          var(--ob-ink);
+  --ob-fg-strong:   var(--ob-ink-strong);
+  --ob-fg-soft:     var(--ob-ink-soft);
+  --ob-fg-mute:     var(--ob-ink-mute);
+  --ob-fg-accent:   var(--ob-blue);
+  --ob-fg-on-color: #ffffff;
+
+  --ob-bg:          var(--ob-surface);
+  --ob-bg-alt:      var(--ob-surface-2);
+  --ob-bg-warm:     var(--ob-cream);
+
+  --ob-border:      var(--ob-line);
+  --ob-focus-ring:  rgba(77, 127, 239, 0.4);
+
+  --ob-success:     var(--ob-green);
+  --ob-success-bg:  var(--ob-green-100);
+  --ob-warning:     var(--ob-orange);
+  --ob-warning-bg:  var(--ob-orange-100);
+  --ob-danger:      #f06a6a;
+  --ob-danger-bg:   #3a1818;
+
+  /* Shadows on dark need ambient light, not absorbed black */
+  --ob-shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.4);
+  --ob-shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
+  --ob-shadow-md:   0 4px 12px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+  --ob-shadow-lg:   0 12px 28px rgba(0, 0, 0, 0.55), 0 4px 8px rgba(0, 0, 0, 0.4);
+  --ob-shadow-pop:  0 8px 24px rgba(77, 127, 239, 0.32);
+
+  --ob-scrim-1:     rgba(0, 0, 0, 0.4);
+  --ob-scrim-2:     rgba(0, 0, 0, 0.5);
+  --ob-scrim-3:     rgba(0, 0, 0, 0.6);
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   SHARED TOKENS (theme-independent)
+   ============================================================ */
+:root {
+  /* ------------------------------------------------------------
+     TYPOGRAPHY
+     ------------------------------------------------------------ */
+  --ob-font:        'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --ob-font-serif:  'Playfair Display', 'Iowan Old Style', 'Apple Garamond', Georgia, serif;
+  --ob-font-mono:   'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Weights — Poppins shines with bold contrast */
+  --ob-w-light:     300;
+  --ob-w-regular:   400;
+  --ob-w-medium:    500;
+  --ob-w-semibold:  600;
+  --ob-w-bold:      700;
+  --ob-w-black:     800;
+
+  /* Type scale (1.25 ratio, optical adjustments) */
+  --ob-fs-xs:       12px;
+  --ob-fs-sm:       14px;
+  --ob-fs-base:     16px;
+  --ob-fs-md:       18px;
+  --ob-fs-lg:       22px;
+  --ob-fs-xl:       28px;
+  --ob-fs-2xl:      36px;
+  --ob-fs-3xl:      48px;
+  --ob-fs-4xl:      64px;
+  --ob-fs-5xl:      88px;
+
+  --ob-lh-tight:    1.05;
+  --ob-lh-snug:     1.2;
+  --ob-lh-normal:   1.45;
+  --ob-lh-relaxed:  1.6;
+
+  --ob-tracking-tight: -0.02em;
+  --ob-tracking-snug:  -0.01em;
+  --ob-tracking-wide:   0.04em;
+
+  /* ------------------------------------------------------------
+     SPACING (4px base)
+     ------------------------------------------------------------ */
+  --ob-s-1:  4px;
+  --ob-s-2:  8px;
+  --ob-s-3:  12px;
+  --ob-s-4:  16px;
+  --ob-s-5:  24px;
+  --ob-s-6:  32px;
+  --ob-s-7:  48px;
+  --ob-s-8:  64px;
+  --ob-s-9:  96px;
+  --ob-s-10: 128px;
+
+  /* ------------------------------------------------------------
+     RADII — soft (8–12px personality)
+     ------------------------------------------------------------ */
+  --ob-r-xs:    4px;
+  --ob-r-sm:    8px;
+  --ob-r-md:    12px;
+  --ob-r-lg:    16px;
+  --ob-r-xl:    20px;
+  --ob-r-pill:  999px;
+
+  /* ------------------------------------------------------------
+     SHADOWS — restrained, mostly hairline + diffused
+     ------------------------------------------------------------ */
+  /* Light/dark shadows are defined per-theme above */
+
+  /* ------------------------------------------------------------
+     MOTION
+     ------------------------------------------------------------ */
+  --ob-ease:        cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ob-ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ob-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ob-dur-fast:    120ms;
+  --ob-dur-base:    200ms;
+  --ob-dur-slow:    400ms;
+}
+
+/* ============================================================
+   SEMANTIC ELEMENT STYLES
+   Drop colors_and_type.css into a page and these baseline
+   styles cascade to every text element.
+   ============================================================ */
+
+html, body {
+  font-family: var(--ob-font);
+  font-size: var(--ob-fs-base);
+  line-height: var(--ob-lh-normal);
+  color: var(--ob-fg);
+  background: var(--ob-bg);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, .ob-h1 {
+  font-size: var(--ob-fs-4xl);
+  font-weight: var(--ob-w-bold);
+  line-height: var(--ob-lh-tight);
+  letter-spacing: var(--ob-tracking-tight);
+  color: var(--ob-fg-strong);
+  text-wrap: balance;
+}
+
+h2, .ob-h2 {
+  font-size: var(--ob-fs-3xl);
+  font-weight: var(--ob-w-bold);
+  line-height: var(--ob-lh-snug);
+  letter-spacing: var(--ob-tracking-tight);
+  color: var(--ob-fg-strong);
+  text-wrap: balance;
+}
+
+h3, .ob-h3 {
+  font-size: var(--ob-fs-2xl);
+  font-weight: var(--ob-w-semibold);
+  line-height: var(--ob-lh-snug);
+  letter-spacing: var(--ob-tracking-snug);
+  color: var(--ob-fg-strong);
+}
+
+h4, .ob-h4 {
+  font-size: var(--ob-fs-xl);
+  font-weight: var(--ob-w-semibold);
+  line-height: var(--ob-lh-snug);
+  color: var(--ob-fg-strong);
+}
+
+h5, .ob-h5 {
+  font-size: var(--ob-fs-lg);
+  font-weight: var(--ob-w-semibold);
+  line-height: var(--ob-lh-snug);
+  color: var(--ob-fg-strong);
+}
+
+p, .ob-body {
+  font-size: var(--ob-fs-base);
+  line-height: var(--ob-lh-relaxed);
+  color: var(--ob-fg);
+  text-wrap: pretty;
+}
+
+.ob-lead {
+  font-size: var(--ob-fs-md);
+  line-height: var(--ob-lh-relaxed);
+  color: var(--ob-fg);
+}
+
+.ob-caption {
+  font-size: var(--ob-fs-sm);
+  color: var(--ob-fg-soft);
+  line-height: var(--ob-lh-normal);
+}
+
+.ob-eyebrow {
+  font-size: var(--ob-fs-xs);
+  font-weight: var(--ob-w-semibold);
+  letter-spacing: var(--ob-tracking-wide);
+  text-transform: uppercase;
+  color: var(--ob-fg-accent);
+}
+
+.ob-display {
+  font-size: var(--ob-fs-5xl);
+  font-weight: var(--ob-w-black);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--ob-fg-strong);
+}
+
+.ob-serif {
+  font-family: var(--ob-font-serif);
+  font-weight: var(--ob-w-regular);
+  letter-spacing: -0.01em;
+}
+
+.ob-serif-italic {
+  font-family: var(--ob-font-serif);
+  font-style: italic;
+  font-weight: var(--ob-w-regular);
+}
+
+a, .ob-link {
+  color: var(--ob-fg-accent);
+  text-decoration: none;
+  font-weight: var(--ob-w-medium);
+  transition: opacity var(--ob-dur-fast) var(--ob-ease);
+}
+a:hover, .ob-link:hover { opacity: 0.75; }
+
+code, .ob-code {
+  font-family: var(--ob-font-mono);
+  font-size: 0.92em;
+  background: var(--ob-cream);
+  padding: 2px 6px;
+  border-radius: var(--ob-r-xs);
+  color: var(--ob-ink-strong);
+}
+
+::selection { background: var(--ob-blue-100); color: var(--ob-ink-strong); }

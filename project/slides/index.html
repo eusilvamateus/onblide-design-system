@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="google" content="notranslate"/>
+  <title>Onblide · Slide Template</title>
+  <link rel="stylesheet" href="../colors_and_type.css"/>
+  <style>
+    /* ── Deck sizing ── */
+    deck-stage { --deck-width: 1280px; --deck-height: 720px; }
+    body { margin: 0; background: #0e0e0e; font-family: var(--ob-font); }
+
+    /* Local palette aliases (pulled from design tokens) */
+    :root {
+      --blue: var(--ob-blue);   --blue-700: var(--ob-blue-700);
+      --blue-100: var(--ob-blue-100); --blue-050: var(--ob-blue-050);
+      --orange: var(--ob-orange); --green: var(--ob-green);
+      --cream: var(--ob-cream);  --cream-soft: var(--ob-cream-soft);
+      --ink: #2a2a2a; --ink-2: #545454; --ink-soft: #7a7a7a; --ink-mute: #a8a8a8;
+      --line: #ececec;
+    }
+
+    /* Each <section> = one slide. Static markup → editable. */
+    section {
+      width: 1280px; height: 720px; box-sizing: border-box;
+      background: #fff; color: var(--ink); position: relative; overflow: hidden;
+      font-family: var(--ob-font);
+    }
+
+    /* ── Shared chrome ── */
+    .mark {
+      position: absolute; top: 40px; left: 56px; z-index: 5;
+      display: flex; align-items: center; gap: 9px;
+      font-weight: 800; letter-spacing: -0.03em; font-size: 21px;
+    }
+    .mark svg { width: 27px; height: 27px; border-radius: 8px; }
+    .mark .wm { display: inline-flex; }
+    .mark .a { color: var(--ink); }
+    .mark .b { color: var(--blue); }
+
+    .foot {
+      position: absolute; bottom: 40px; left: 56px; z-index: 5;
+      font-family: var(--ob-font-mono); font-size: 11px; color: var(--ink-mute);
+      letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500;
+    }
+    .pg {
+      position: absolute; bottom: 40px; right: 56px; z-index: 5;
+      font-family: var(--ob-font-mono); font-size: 11px; color: var(--ink-mute); letter-spacing: 0.05em;
+    }
+    .eyebrow {
+      font-family: var(--ob-font-mono); font-size: 14px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue);
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .eyebrow::before { content: ''; width: 22px; height: 2px; background: var(--blue); border-radius: 2px; }
+    em.serif { font-family: var(--ob-font-serif); font-style: italic; font-weight: 500; color: var(--blue); letter-spacing: -0.01em; }
+
+    /* ════════ Slide 1 · TITLE ════════ */
+    .s-title { display: flex; flex-direction: column; justify-content: center; padding: 0 96px; background: var(--cream-soft); }
+    .s-title .eyebrow { margin-bottom: 30px; }
+    .s-title h1 { font-size: 116px; font-weight: 800; line-height: 0.92; letter-spacing: -0.045em; margin: 0; color: var(--ink); }
+    .s-title .sub { margin-top: 30px; font-size: 23px; color: var(--ink-2); max-width: 660px; line-height: 1.45; text-wrap: pretty; }
+    .s-title .deco { position: absolute; right: 0; top: 0; bottom: 0; width: 540px; pointer-events: none; }
+    .s-title .deco .c1 { position: absolute; right: 90px; top: 120px; width: 340px; height: 340px; border-radius: 50%; background: var(--cream); }
+    .s-title .deco .c2 { position: absolute; right: 150px; top: 250px; width: 250px; height: 250px; border-radius: 50%; background: var(--orange); }
+    .s-title .deco .c3 { position: absolute; right: 96px; bottom: 150px; width: 96px; height: 96px; border-radius: 26px; background: var(--blue); transform: rotate(12deg); }
+    .s-title .deco .c4 { position: absolute; right: 330px; top: 180px; width: 44px; height: 44px; border-radius: 50%; background: var(--green); }
+
+    /* ════════ Slide 2 · AGENDA ════════ */
+    .s-agenda { padding: 132px 96px 96px; display: flex; flex-direction: column; }
+    .s-agenda h2 { font-size: 60px; font-weight: 700; letter-spacing: -0.03em; margin: 18px 0 48px; color: var(--ink); }
+    .s-agenda .list { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 56px; }
+    .s-agenda .row { display: flex; align-items: flex-start; gap: 22px; padding: 22px 4px; border-top: 1.5px solid var(--line); }
+    .s-agenda .row .n { font-family: var(--ob-font-mono); font-size: 22px; font-weight: 600; color: var(--blue); flex: none; width: 44px; }
+    .s-agenda .row .tt { font-size: 26px; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+    .s-agenda .row .dd { font-size: 15px; color: var(--ink-soft); margin-top: 4px; line-height: 1.45; }
+
+    /* ════════ Slide 3 · SECTION DIVIDER ════════ */
+    .s-section { background: var(--blue); color: #fff; display: flex; flex-direction: column; justify-content: center; padding: 0 96px; }
+    .s-section .num { font-family: var(--ob-font-mono); font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.72; margin-bottom: 28px; display: inline-flex; align-items: center; gap: 10px; }
+    .s-section .num::before { content: ''; width: 22px; height: 2px; background: rgba(255,255,255,0.7); border-radius: 2px; }
+    .s-section h2 { font-size: 132px; font-weight: 800; line-height: 0.92; letter-spacing: -0.045em; margin: 0; max-width: 1000px; }
+    .s-section .lead { margin-top: 30px; font-size: 22px; max-width: 720px; line-height: 1.5; opacity: 0.88; }
+    .s-section .mark .a, .s-section .mark .b { color: #fff; }
+    .s-section .foot, .s-section .pg { color: rgba(255,255,255,0.6); }
+    .s-section .blob { position: absolute; right: -60px; bottom: -140px; width: 480px; height: 480px; border-radius: 50%; background: var(--orange); }
+    .s-section .blob2 { position: absolute; right: 280px; top: -90px; width: 180px; height: 180px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+
+    /* ════════ Slide 4 · CONTENT (workhorse) ════════ */
+    .s-content { padding: 132px 96px 96px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .s-content .lead-col h2 { font-size: 52px; font-weight: 700; letter-spacing: -0.025em; margin: 14px 0 0; line-height: 1.05; color: var(--ink); }
+    .s-content .lead-col p { font-size: 19px; color: var(--ink-2); line-height: 1.55; margin: 24px 0 28px; max-width: 480px; text-wrap: pretty; }
+    .s-content ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+    .s-content li { display: flex; align-items: flex-start; gap: 13px; font-size: 18px; color: var(--ink); line-height: 1.4; }
+    .s-content li svg { width: 24px; height: 24px; flex: none; color: var(--green); margin-top: 1px; }
+    /* visual panel — composed product-like card (swappable) */
+    .s-content .panel { background: var(--cream-soft); border: 1px solid var(--line); border-radius: 22px; padding: 28px; height: 384px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--ob-shadow-md); }
+    .s-content .panel .ph { display: flex; align-items: center; justify-content: space-between; }
+    .s-content .panel .chip { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border-radius: 999px; font-size: 13px; font-weight: 600; background: var(--blue-100); color: var(--blue-700); }
+    .s-content .panel .chip .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); }
+    .s-content .panel .dots { display: flex; gap: 5px; }
+    .s-content .panel .dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+    .s-content .panel .big { font-size: 64px; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); line-height: 1; }
+    .s-content .panel .bar { display: flex; gap: 9px; align-items: flex-end; flex: 1; }
+    .s-content .panel .bar i { flex: 1; border-radius: 7px 7px 0 0; background: var(--blue); display: block; }
+    .s-content .panel .row2 { display: flex; gap: 10px; }
+    .s-content .panel .tag { flex: 1; height: 38px; border-radius: 10px; background: #fff; border: 1px solid var(--line); }
+
+    /* ════════ Slide 5 · COMPARISON ════════ */
+    .s-compare { padding: 132px 96px 96px; display: flex; flex-direction: column; gap: 44px; }
+    .s-compare h2 { font-size: 56px; font-weight: 700; letter-spacing: -0.025em; margin: 0; max-width: 920px; line-height: 1.05; }
+    .s-compare .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1; }
+    .s-compare .card { padding: 38px; border-radius: 22px; display: flex; flex-direction: column; gap: 18px; }
+    .s-compare .card.before { background: var(--cream); }
+    .s-compare .card.after { background: var(--blue); color: #fff; box-shadow: 0 20px 48px rgba(10,78,228,0.22); }
+    .s-compare .card .label { font-family: var(--ob-font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+    .s-compare .card h3 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; margin: 0; line-height: 1.1; }
+    .s-compare .card ul { margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 13px; font-size: 17px; line-height: 1.4; }
+    .s-compare .card li { display: flex; align-items: flex-start; gap: 11px; }
+    .s-compare .card li svg { width: 21px; height: 21px; flex: none; margin-top: 1px; }
+    .s-compare .card.before li svg { color: var(--ink-mute); }
+    .s-compare .card.after li svg { color: #fff; }
+
+    /* ════════ Slide 6 · STATS ════════ */
+    .s-stats { padding: 132px 96px 96px; }
+    .s-stats h2 { font-size: 48px; font-weight: 700; letter-spacing: -0.025em; margin: 14px 0 52px; max-width: 820px; line-height: 1.08; }
+    .s-stats .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .s-stats .stat { padding: 36px 32px; border-radius: 22px; display: flex; flex-direction: column; gap: 10px; color: #fff; }
+    .s-stats .stat:nth-child(1) { background: var(--blue); }
+    .s-stats .stat:nth-child(2) { background: var(--green); }
+    .s-stats .stat:nth-child(3) { background: var(--orange); }
+    .s-stats .stat .num { font-size: 92px; font-weight: 800; line-height: 0.92; letter-spacing: -0.045em; }
+    .s-stats .stat .num span { font-size: 40px; opacity: 0.85; font-weight: 700; }
+    .s-stats .stat .lbl { font-size: 18px; font-weight: 600; margin-top: 4px; }
+    .s-stats .stat .desc { font-size: 14px; opacity: 0.88; line-height: 1.45; }
+
+    /* ════════ Slide 7 · QUOTE ════════ */
+    .s-quote { background: var(--cream); padding: 0 120px; display: flex; flex-direction: column; justify-content: center; }
+    .s-quote .q { font-family: var(--ob-font-serif); font-size: 220px; font-weight: 700; color: var(--blue); line-height: 0.5; height: 96px; letter-spacing: -0.04em; }
+    .s-quote blockquote { margin: 0; font-family: var(--ob-font-serif); font-style: italic; font-size: 58px; font-weight: 500; line-height: 1.18; letter-spacing: -0.015em; color: var(--ink); max-width: 1000px; }
+    .s-quote .attr { margin-top: 44px; display: flex; align-items: center; gap: 16px; }
+    .s-quote .attr .av { width: 56px; height: 56px; border-radius: 50%; background: var(--orange); color: #fff; font-weight: 700; font-size: 19px; display: flex; align-items: center; justify-content: center; }
+    .s-quote .attr .who { font-weight: 600; color: var(--ink); font-size: 18px; }
+    .s-quote .attr .role { color: var(--ink-soft); font-size: 14px; margin-top: 2px; }
+
+    /* ════════ Slide 8 · CLOSING ════════ */
+    .s-closing { background: var(--ink); color: #fff; display: flex; flex-direction: column; justify-content: center; padding: 0 96px; }
+    .s-closing .mark .a { color: #fff; }
+    .s-closing .mark .b { color: var(--orange); }
+    .s-closing .eyebrow { color: var(--orange); margin-bottom: 30px; }
+    .s-closing .eyebrow::before { background: var(--orange); }
+    .s-closing h1 { font-size: 134px; font-weight: 800; line-height: 0.92; letter-spacing: -0.045em; margin: 0; color: #fff; }
+    .s-closing h1 em.serif { color: var(--orange); }
+    .s-closing .cta { margin-top: 44px; display: flex; gap: 12px; align-items: center; }
+    .s-closing .cta a { font-size: 21px; color: #fff; text-decoration: none; padding: 15px 28px; border: 1.5px solid rgba(255,255,255,0.22); border-radius: 12px; font-weight: 600; transition: all 160ms var(--ob-ease); }
+    .s-closing .cta a.primary { background: var(--blue); border-color: var(--blue); }
+    .s-closing .foot, .s-closing .pg { color: rgba(255,255,255,0.5); }
+    .s-closing .blob { position: absolute; right: -120px; top: -120px; width: 420px; height: 420px; border-radius: 50%; background: rgba(235,124,45,0.14); }
+  </style>
+</head>
+<body>
+  <template id="__bundler_thumbnail" data-bg-color="#0a4ee4">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="800" fill="#0a4ee4"/>
+      <rect x="430" y="300" width="150" height="150" rx="38" fill="#f2f0e8"/>
+      <circle cx="700" cy="500" width="120" r="75" fill="#eb7c2d"/>
+      <text x="600" y="660" font-family="Poppins, sans-serif" font-size="64" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="-2">onblide</text>
+    </svg>
+  </template>
+  <deck-stage>
+
+    <!-- 1 · TITLE -->
+    <section data-screen-label="01 Title" class="s-title">
+      <div class="mark">
+        <svg viewBox="0 0 56 56"><rect width="56" height="56" rx="14" fill="#0a4ee4"/><rect x="10" y="10" width="20" height="20" rx="6" fill="#f2f0e8"/><circle cx="38" cy="38" r="10" fill="#eb7c2d"/></svg>
+        <span class="wm" translate="no" lang="en"><span class="a">on</span><span class="b">blide</span></span>
+      </div>
+      <div style="position: relative; z-index: 2;">
+        <div class="eyebrow">Apresentação · 8 mai 2026</div>
+        <h1 translate="no" lang="en">Bold &amp;<br/><em class="serif">energetic.</em></h1>
+        <div class="sub">Um sistema de design para construir interfaces ousadas, calorosas e calmas — ao mesmo tempo.</div>
+      </div>
+      <div class="deco"><div class="c1"></div><div class="c2"></div><div class="c4"></div><div class="c3"></div></div>
+      <div class="foot">Onblide design system</div>
+      <div class="pg">01 / 08</div>
+    </section>
+
+    <!-- 2 · AGENDA -->
+    <section data-screen-label="02 Agenda" class="s-agenda">
+      <div class="mark">
+        <svg viewBox="0 0 56 56"><rect width="56" height="56" rx="14" fill="#0a4ee4"/><rect x="10" y="10" width="20" height="20" rx="6" fill="#f2f0e8"/><circle cx="38" cy="38" r="10" fill="#eb7c2d"/></svg>
+        <span class="wm" translate="no" lang="en"><span class="a">on</span><span class="b">blide</span></span>
+      </div>
+      <div class="eyebrow">Agenda</div>
+      <h2>O que vamos ver hoje</h2>
+      <div class="list">
+        <div class="row"><div class="n">01</div><div><div class="tt">Fundações visuais</div><div class="dd">Cores, tipografia e espaçamento que dão voz à marca.</div></div></div>
+        <div class="row"><div class="n">02</div><div><div class="tt">Biblioteca de componentes</div><div class="dd">Do botão ao datepicker, tudo conectado por tokens.</div></div></div>
+        <div class="row"><div class="n">03</div><div><div class="tt">Tema claro e escuro</div><div class="dd">Um único conjunto de tokens, dois ambientes.</div></div></div>
+        <div class="row"><div class="n">04</div><div><div class="tt">No produto, ao vivo</div><div class="dd">Componentes integrados nativamente ao web app.</div></div></div>
+      </div>
+      <div class="foot">Sumário</div>
+      <div class="pg">02 / 08</div>
+    </section>
+
+    <!-- 3 · SECTION DIVIDER -->
+    <section data-screen-label="03 Section" class="s-section">
+      <div class="mark">
+        <svg viewBox="0 0 56 56"><rect width="56" height="56" rx="14" fill="#fff"/><rect x="10" y="10" width="20" height="20" rx="6" fill="#0a4ee4"/><circle cx="38" cy="38" r="10" fill="#eb7c2d"/></svg>
+        <span class="wm" translate="no" lang="en"><span class="a">on</span><span class="b">blide</span></span>
+      </div>
+      <div class="blob2"></div>
+      <div class="num">Parte 01</div>
+      <h2>Cores que<br/>chamam<br/>atenção.</h2>
+      <div class="lead">Azul como protagonista, laranja como acento e creme para suavizar o branco.</div>
+      <div class="blob"></div>
+      <div class="foot">Visual foundations</div>
+      <div class="pg">03 / 08</div>
+    </section>
+
+    <!-- 4 · CONTENT -->
+    <section data-screen-label="04 Content" class="s-content">
+      <div class="mark">
+        <svg viewBox="0 0 56 56"><rect width="56" height="56" rx="14" fill="#0a4ee4"/><rect x="10" y="10" width="20" height="20" rx="6" fill="#f2f0e8"/><circle cx="38" cy="38" r="10" fill="#eb7c2d"/></svg>
+        <span class="wm" translate="no" lang="en"><span class="a">on</span><span class="b">blide</span></span>
+      </div>
+      <div class="lead-col">
+        <div class="eyebrow">Tokens</div>
+        <h2>Um token, <em class="serif">tudo</em> conectado.</h2>
+        <p>Cada cor, raio e espaçamento vive como variável. Mude na raiz e o sistema inteiro acompanha — app, slides e documentação.</p>
+        <ul>
+          <li><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M40 128l56 56 120-120"/></svg>Fonte única de verdade para a marca</li>
+          <li><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M40 128l56 56 120-120"/></svg>Tema claro e escuro sem retrabalho</li>
+          <li><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M40 128l56 56 120-120"/></svg>Consistência entre todas as superfícies</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <div class="ph">
+          <span class="chip"><span class="dot"></span>Em andamento</span>
+          <span class="dots"><span></span><span></span><span></span></span>
+        </div>
+        <div class="big">2.847</div>
+        <div class="bar">
+          <i style="height: 38%;"></i><i style="height: 58%;"></i><i style="height: 72%; background: var(--orange);"></i><i style="height: 50%;"></i><i style="height: 88%;"></i><i style="height: 64%; background: var(--green);"></i><i style="height: 44%;"></i>
+        </div>
+        <div class="row2"><div class="tag"></div><div class="tag"></div></div>
+      </div>
+      <div class="foot">Conteúdo · texto + visual</div>
+      <div class="pg">04 / 08</div>
+    </section>
+
+    <!-- 5 · COMPARISON -->
+    <section data-screen-label="05 Comparison" class="s-compare">
+      <div class="mark">
+        <svg viewBox="0 0 56 56"><rect width="56" height="56" rx="14" fill="#0a4ee4"/><rect x="10" y="10" width="20" height="20" rx="6" fill="#f2f0e8"/><circle cx="38" cy="38" r="10" fill="#eb7c2d"/></svg>
+        <span class="wm" translate="no" lang="en"><span class="a">on</span><span class="b">blide</span></span>
+      </div>
+      <h2>Antes era genérico.<br/>Agora é <em class="serif">Onblide</em>.</h2>
+      <div class="grid">
+        <div class="card before">
+          <div class="label">Antes</div>
+          <h3>Visual indeciso</h3>
+          <ul>
+            <li><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M200 56 56 200M56 56l144 144"/></svg>Paleta corporativa, sem ponto de tensão</li>
+            <li><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M200 56 56 200M56 56l144 144"/></svg>Tipografia neutra, leitura sem voz</li>
+            <li><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M200 56 56 200M56 56l144 144"/></svg>Componentes desconectados do produto</li>
+          </ul>
+        </div>
+        <div class="card after">
+          <div class="label">Agora</div>
+          <h3>Voz clara e calorosa</h3>
+          <ul>
+            <li><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M40 128l56 56 120-120"/></svg>Azul vibrante para focar a atenção</li>
+            <li><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M40 128l56 56 120-120"/></svg>Poppins bold para títulos com presença</li>
+            <li><svg viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"><path d="M40 128l56 56 120-120"/></svg>Sistema unificado entre app e slides</li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot">Comparação</div>
+      <div class="pg">05 / 08</div>
+    </section>
+
+    <!-- 6 · STATS -->
+    <section data-screen-label="06 Stats" class="s-stats">
+      <div class="mark">
+        <svg viewBox="0 0 56 56"><rect width="56" height="56" rx="14" fill="#0a4ee4"/><rect x="10" y="10" width="20" height="20" rx="6" fill="#f2f0e8"/><circle cx="38" cy="38" r="10" fill="#eb7c2d"/></svg>
+        <span class="wm" translate="no" lang="en"><span class="a">on</span><span class="b">blide</span></span>
+      </div>
+      <div class="eyebrow">Em números</div>
+      <h2>O sistema em três números.</h2>
+      <div class="stats">
+        <div class="stat">
+          <div class="num">5</div>
+          <div class="lbl">Cores na paleta</div>
+          <div class="desc">Azul, verde, laranja, ink e creme — nada além disso.</div>
+        </div>
+        <div class="stat">
+          <div class="num">3</div>
+          <div class="lbl">Famílias tipográficas</div>
+          <div class="desc">Poppins, Playfair Display e JetBrains Mono em harmonia.</div>
+        </div>
+        <div class="stat">
+          <div class="num">12<span>px</span></div>
+          <div class="lbl">Raio padrão</div>
+          <div class="desc">Cantos suaves consistentes em cards, botões e inputs.</div>
+        </div>
+      </div>
+      <div class="foot">Em números</div>
+      <div class="pg">06 / 08</div>
+    </section>
+
+    <!-- 7 · QUOTE -->
+    <section data-screen-label="07 Quote" class="s-quote">
+      <div class="mark">
+        <svg viewBox="0 0 56 56"><rect width="56" height="56" rx="14" fill="#0a4ee4"/><rect x="10" y="10" width="20" height="20" rx="6" fill="#fff"/><circle cx="38" cy="38" r="10" fill="#eb7c2d"/></svg>
+        <span class="wm" translate="no" lang="en"><span class="a">on</span><span class="b">blide</span></span>
+      </div>
+      <div class="q">&ldquo;</div>
+      <blockquote>Um sistema de design não é um manual — é uma conversa que sua equipe tem com a marca todos os dias.</blockquote>
+      <div class="attr">
+        <div class="av">OB</div>
+        <div><div class="who">Onblide</div><div class="role">Manifesto interno · 2026</div></div>
+      </div>
+      <div class="foot">Manifesto</div>
+      <div class="pg">07 / 08</div>
+    </section>
+
+    <!-- 8 · CLOSING -->
+    <section data-screen-label="08 Closing" class="s-closing">
+      <div class="blob"></div>
+      <div class="mark">
+        <svg viewBox="0 0 56 56"><rect width="56" height="56" rx="14" fill="#fff"/><rect x="10" y="10" width="20" height="20" rx="6" fill="#0a4ee4"/><circle cx="38" cy="38" r="10" fill="#eb7c2d"/></svg>
+        <span class="wm" translate="no" lang="en"><span class="a">on</span><span class="b">blide</span></span>
+      </div>
+      <div style="position: relative; z-index: 2;">
+        <div class="eyebrow">Vamos conversar</div>
+        <h1>Vamos<br/><em class="serif">construir.</em></h1>
+        <div class="cta">
+          <a class="primary" href="#">contato@onblide.com</a>
+          <a href="#">onblide.com</a>
+        </div>
+      </div>
+      <div class="foot">Obrigado</div>
+      <div class="pg">08 / 08</div>
+    </section>
+
+  </deck-stage>
+  <script src="deck-stage.js"></script>
+</body>
+</html>

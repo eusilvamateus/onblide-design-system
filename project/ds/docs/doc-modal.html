@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Modal</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+</head><body>
+<div class="wrap">
+  <p class="eyebrow">Componente · Overlay</p>
+  <h1>Modal <em>doc</em></h1>
+  <p class="lede">Diálogo que interrompe o fluxo para uma decisão ou foco. Backdrop escurecido + Esc para fechar.</p>
+  <div class="matrix"><div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div><div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div><div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div><div class="crit"><span class="mark yes">✓</span> Possui motion</div><div class="crit"><span class="mark yes">✓</span> Possui versão web</div><div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div><div class="crit"><span class="mark yes">✓</span> Possui versão mobile</div><div class="crit empty"></div></div>
+  <section><h2>1 · Uso</h2><p>Reserve para ações que exigem foco total: confirmações destrutivas, formulários curtos, detalhes. Não empilhe modais.</p>
+      <div class="do-dont"><div class="dd do"><span class="tag">✓ Faça</span><p>Ação primária + cancelar no footer.</p></div><div class="dd dont"><span class="tag">✕ Evite</span><p>Modal para informação não-bloqueante (use toast).</p></div></div></section>
+  <section><h2>2 · Formatação</h2><pre><code>&lt;Modal open={o} onClose={fn} title="Excluir?"
+  footer={&lt;&gt;…&lt;/&gt;}&gt;Conteúdo&lt;/Modal&gt;</code></pre>
+      <table class="props"><thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead><tbody>
+      <tr><td><code>open</code></td><td><code>boolean</code></td><td><code>—</code></td></tr>
+      <tr><td><code>title / footer</code></td><td><code>ReactNode</code></td><td><code>—</code></td></tr>
+      <tr><td><code>width</code></td><td><code>number</code></td><td><code>440</code></td></tr></tbody></table></section>
+  <section><h2>3 · Guia de conteúdo</h2><ul><li>Título é uma pergunta ou ação: "Excluir projeto?".</li><li>Corpo explica a consequência em 1–2 frases.</li><li>Botão confirma com o verbo, não "OK".</li></ul></section>
+  <section><h2>4 · Guia de design</h2><p><strong>Tokens.</strong> Card <code>--ob-surface</code> + <code>--ob-shadow-lg</code>; backdrop escurecido com blur. Raio <code>16px</code>.</p>
+      <p><strong>Motion.</strong> Backdrop fade 160ms; card com spring <code>--ob-ease-spring</code> (200ms).</p>
+      <p><strong>Responsivo / mobile.</strong> Largura limitada com margem; em mobile vira folha de largura total. Esc e toque no backdrop fecham.</p></section>
+</div>
+</body></html>

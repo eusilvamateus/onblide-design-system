@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Search Input</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Componente · Formulário</p>
+  <h1>Search Input <em>doc</em></h1>
+  <p class="lede">Campo de busca com ícone integrado, limpar inline e dropdown de sugestões. Estende o <strong>Input</strong> com comportamento de pesquisa — filtro local ou requisição assíncrona. Compõe com <strong>Dropdown</strong> para os resultados e <strong>Skeleton</strong> no loading.</p>
+
+  <div class="matrix">
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui motion</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão web</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no">–</span> —</div>
+  </div>
+
+  <section>
+    <h2>1 · Uso</h2>
+    <p>Use quando o usuário precisa localizar conteúdo — tarefas, integrações, documentos. Pode operar em modo local (filtra lista em memória) ou assíncrono (dispara requisição com debounce).</p>
+    <h3>Quando usar</h3>
+    <ul>
+      <li>Barra global de busca na topbar.</li>
+      <li>Filtro inline de listas e tabelas.</li>
+      <li>Seleção de item em um campo de autocomplete.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Mostre sugestões recentes quando o campo estiver vazio e em foco, para acelerar a busca.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Usar SearchInput como Input comum — ele sinaliza "busca"; não o reutilize para campos de formulário genéricos.</p></div>
+    </div>
+    <h3>Composição com outros componentes</h3>
+    <ul>
+      <li><strong>Skeleton</strong> nas linhas do dropdown durante loading assíncrono.</li>
+      <li><strong>Badge</strong> para indicar filtros ativos.</li>
+      <li><strong>Tooltip</strong> no botão de limpar: "Limpar busca".</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2 · Formatação</h2>
+    <p>Altura padrão 44px. Ícone de lupa fixo à esquerda. Spinner substitui o ícone durante loading. Botão ×-círculo aparece quando há texto. Dropdown flutua abaixo com <code>z-index: 1200</code>.</p>
+    <pre><code>&lt;SearchInput
+  value={q}
+  onChange={setQ}
+  placeholder="Buscar tarefas…"
+  loading={fetching}
+  results={results}   // string[] ou {label, ...}[]
+  onSelect={handleSelect}
+  width={320}
+/&gt;</code></pre>
+    <table class="props">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td><code>string</code></td><td><code>''</code></td></tr>
+        <tr><td><code>onChange</code></td><td><code>(val: string) => void</code></td><td>—</td></tr>
+        <tr><td><code>placeholder</code></td><td><code>string</code></td><td><code>'Buscar…'</code></td></tr>
+        <tr><td><code>loading</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+        <tr><td><code>results</code></td><td><code>(string | {label})[]</code></td><td><code>[]</code></td></tr>
+        <tr><td><code>onSelect</code></td><td><code>(item) => void</code></td><td>—</td></tr>
+        <tr><td><code>width</code></td><td><code>number</code></td><td><code>320</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3 · Guia de conteúdo</h2>
+    <ul>
+      <li>Placeholder: "Buscar [contexto]…" — ex: "Buscar tarefas…", "Buscar integrações…".</li>
+      <li>Estado vazio de resultados: "Nenhum resultado para '[query]'".</li>
+      <li>Recentes: "Buscas recentes" como kicker da lista de sugestões iniciais.</li>
+      <li>Evite "Digite para buscar" no placeholder — é óbvio demais.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · Guia de design</h2>
+    <p><strong>Tokens.</strong> Borda idle <code>--ob-border</code>, focus <code>--ob-blue</code> + ring <code>--ob-blue-100</code>. Fundo <code>--ob-surface</code>. Dropdown sombra <code>--ob-shadow-lg</code>.</p>
+    <p><strong>Motion.</strong> Borda e ring: transição 150ms <code>--ob-ease</code>. Spinner: rotação contínua 0.8s linear. Dropdown: sem animação — aparece instantaneamente para parecer responsivo.</p>
+    <p><strong>Debounce.</strong> Para buscas assíncronas, aplique debounce de 300ms no <code>onChange</code> antes de disparar a requisição.</p>
+    <div class="note"><strong>Acessibilidade:</strong> aplique <code>role="combobox"</code>, <code>aria-expanded</code> e <code>aria-autocomplete="list"</code>. Resultados devem ter <code>role="option"</code> e ser navegáveis por ↑/↓.</div>
+  </section>
+
+</div></body></html>

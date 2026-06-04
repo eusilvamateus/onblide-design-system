@@ -1,0 +1,41 @@
+/* Onblide — shared documentation page styles */
+@import url('../../colors_and_type.css');
+
+body { margin: 0; padding: 0; background: var(--ob-surface); font-family: var(--ob-font); color: var(--ob-fg); }
+.wrap { max-width: 760px; margin: 0 auto; padding: 48px 32px 80px; }
+
+/* Header */
+.eyebrow { font-family: var(--ob-font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ob-blue); margin: 0 0 8px; }
+h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.03em; color: var(--ob-fg-strong); margin: 0 0 12px; }
+h1 em { font-family: var(--ob-font-serif); font-style: italic; font-weight: 500; color: var(--ob-blue); }
+.lede { font-size: 17px; line-height: 1.6; color: var(--ob-fg); margin: 0 0 28px; max-width: 600px; }
+
+/* Compliance matrix */
+.matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--ob-border); border: 1px solid var(--ob-border); border-radius: 12px; overflow: hidden; margin: 0 0 48px; }
+.crit { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--ob-surface); font-size: 13px; font-weight: 500; color: var(--ob-fg-strong); }
+.mark { flex: none; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.mark.yes { background: var(--ob-green-100); color: var(--ob-green-700); }
+.mark.no  { background: var(--ob-bg-alt); color: var(--ob-fg-mute); }
+.crit.off { color: var(--ob-fg-mute); }
+
+/* Sections */
+section { margin: 0 0 44px; }
+h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ob-fg-soft); margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--ob-border); }
+h3 { font-size: 16px; font-weight: 700; color: var(--ob-fg-strong); margin: 22px 0 8px; }
+p { font-size: 15px; line-height: 1.65; color: var(--ob-fg); margin: 0 0 12px; }
+ul { margin: 0 0 12px; padding-left: 20px; }
+li { font-size: 15px; line-height: 1.7; color: var(--ob-fg); }
+code { font-family: var(--ob-font-mono); font-size: 0.88em; background: var(--ob-bg-warm); padding: 2px 6px; border-radius: 5px; color: var(--ob-fg-strong); }
+.do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px; }
+.dd { border-radius: 12px; padding: 16px; border: 1px solid var(--ob-border); }
+.dd .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.dd.do .tag { color: var(--ob-green-700); }
+.dd.dont .tag { color: var(--ob-danger); }
+.dd p { font-size: 13px; margin: 0; color: var(--ob-fg-soft); }
+pre { background: var(--ob-bg-alt); border: 1px solid var(--ob-border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 12px; }
+pre code { background: none; padding: 0; font-size: 13px; line-height: 1.6; color: var(--ob-fg-strong); }
+.props { width: 100%; border-collapse: collapse; font-size: 13px; }
+.props th { text-align: left; padding: 8px 10px; border-bottom: 1.5px solid var(--ob-border); color: var(--ob-fg-soft); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+.props td { padding: 9px 10px; border-bottom: 1px solid var(--ob-line-soft); color: var(--ob-fg); vertical-align: top; }
+.props td code { font-size: 12px; }
+.note { background: var(--ob-bg-warm); border-radius: 10px; padding: 14px 16px; font-size: 14px; line-height: 1.55; color: var(--ob-fg); }
