@@ -208,22 +208,35 @@ const Input = ({ label, hint, error, icon, ...rest }) => (
   </label>
 );
 
-// Badge
-const Badge = ({ tone = 'blue', children }) => {
-  const tones = {
-    blue:   { bg: 'var(--ob-blue-100)', fg: 'var(--ob-blue-700)', dot: 'var(--ob-blue)' },
-    green:  { bg: 'var(--ob-green-100)', fg: 'var(--ob-green-700)', dot: 'var(--ob-green)' },
-    orange: { bg: 'var(--ob-orange-100)', fg: 'var(--ob-orange-700)', dot: 'var(--ob-orange)' },
-    red:    { bg: 'var(--ob-danger-bg)', fg: 'var(--ob-danger)', dot: 'var(--ob-danger)' },
-    grey:   { bg: 'var(--ob-bg-warm)', fg: 'var(--ob-fg)', dot: 'var(--ob-fg-mute)' },
+// Badge — variant: subtle (default) | solid | outline | numeric
+const Badge = ({ tone = 'blue', variant = 'subtle', dot = true, size = 'md', children }) => {
+  const T = {
+    blue:   { bg: 'var(--ob-blue-100)',    fg: 'var(--ob-blue-700)',    dot: 'var(--ob-blue)',    solid: 'var(--ob-blue)',    border: 'color-mix(in srgb, var(--ob-blue) 35%, transparent)' },
+    green:  { bg: 'var(--ob-green-100)',   fg: 'var(--ob-green-700)',   dot: 'var(--ob-green)',   solid: 'var(--ob-green)',   border: 'color-mix(in srgb, var(--ob-green) 35%, transparent)' },
+    orange: { bg: 'color-mix(in srgb, var(--ob-orange) 15%, var(--ob-surface))', fg: '#9a4000', dot: 'var(--ob-orange)', solid: 'var(--ob-orange)', border: 'color-mix(in srgb, var(--ob-orange) 45%, transparent)' },
+    red:    { bg: 'var(--ob-danger-bg)',   fg: 'var(--ob-danger)',      dot: 'var(--ob-danger)',  solid: 'var(--ob-danger)',  border: 'color-mix(in srgb, var(--ob-danger) 40%, transparent)' },
+    grey:   { bg: 'var(--ob-bg-warm)',     fg: 'var(--ob-fg-soft)',     dot: 'var(--ob-fg-mute)', solid: 'var(--ob-fg-mute)', border: 'var(--ob-border)' },
   };
-  const t = tones[tone];
+  const t = T[tone] || T.blue;
+  const fs = size === 'sm' ? 11 : 12;
+  const px = size === 'sm' ? '2px 8px' : '4px 10px';
+
+  const styles = {
+    subtle:  { background: t.bg, color: t.fg, border: 'none' },
+    solid:   { background: t.solid, color: '#fff', border: 'none' },
+    outline: { background: 'transparent', color: t.fg, border: `1.5px solid ${t.border}` },
+    numeric: { background: t.solid, color: '#fff', border: 'none', minWidth: 18, height: 18, padding: '0 5px', justifyContent: 'center' },
+  };
+  const s = styles[variant] || styles.subtle;
+
   return (
     <span style={{
-      display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 10px',
-      borderRadius: 999, fontSize: 12, fontWeight: 600, background: t.bg, color: t.fg,
+      display: 'inline-flex', alignItems: 'center', gap: 5,
+      padding: variant === 'numeric' ? s.padding : px,
+      borderRadius: 999, fontSize: fs, fontWeight: 700,
+      lineHeight: 1, ...s,
     }}>
-      <span style={{ width: 6, height: 6, borderRadius: '50%', background: t.dot }} />
+      {variant !== 'numeric' && dot && <span style={{ width: 6, height: 6, borderRadius: '50%', background: variant === 'solid' ? 'rgba(255,255,255,0.7)' : t.dot, flexShrink: 0 }}/>}
       {children}
     </span>
   );

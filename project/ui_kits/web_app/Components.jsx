@@ -359,7 +359,57 @@ const Ph = ({ n, size = 18, c }) => (
      style={{ fontSize: size, color: c || 'currentColor', lineHeight: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }} />
 );
 
-// ── DRAWER ───────────────────────────────────────────────
+// ── CHIP ─────────────────────────────────────────────────
+const Chip = ({ label, selected = false, onToggle, removable = false, onRemove, icon, size = 'md', disabled = false }) => {
+  const fs  = size === 'sm' ? 12 : 13;
+  const pad = size === 'sm' ? '5px 10px' : '7px 14px';
+  const gap = size === 'sm' ? 5 : 6;
+
+  const base = {
+    display: 'inline-flex', alignItems: 'center', gap,
+    padding: removable ? (size === 'sm' ? '5px 6px 5px 10px' : '7px 8px 7px 14px') : pad,
+    borderRadius: 999, fontSize: fs, fontWeight: 600,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    transition: 'all 0.15s', userSelect: 'none',
+    opacity: disabled ? 0.45 : 1,
+    border: '1.5px solid',
+    outline: 'none',
+    fontFamily: 'var(--ob-font)',
+  };
+  const stateStyle = selected
+    ? { background: 'var(--ob-blue)', color: '#fff', borderColor: 'var(--ob-blue)' }
+    : { background: 'var(--ob-surface)', color: 'var(--ob-fg-strong)', borderColor: 'var(--ob-border)' };
+
+  return (
+    <span
+      role="button"
+      tabIndex={disabled ? -1 : 0}
+      aria-pressed={selected}
+      onClick={() => !disabled && onToggle?.()}
+      onKeyDown={e => !disabled && (e.key === 'Enter' || e.key === ' ') && onToggle?.()}
+      style={{ ...base, ...stateStyle }}
+    >
+      {icon && <i className={`ph ph-${icon}`} style={{ fontSize: size === 'sm' ? 13 : 15, lineHeight: 1 }}/>}
+      {label}
+      {removable && (
+        <button
+          onClick={e => { e.stopPropagation(); !disabled && onRemove?.(); }}
+          aria-label={`Remover ${label}`}
+          style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: size === 'sm' ? 16 : 18, height: size === 'sm' ? 16 : 18,
+            borderRadius: '50%', border: 'none', cursor: 'pointer',
+            background: selected ? 'rgba(255,255,255,0.25)' : 'var(--ob-bg-warm)',
+            color: selected ? '#fff' : 'var(--ob-fg-soft)',
+            fontSize: size === 'sm' ? 10 : 11, fontWeight: 700, lineHeight: 1, flexShrink: 0,
+          }}
+        >✕</button>
+      )}
+    </span>
+  );
+};
+
+
 const Drawer = ({ open, onClose, title, children, side = 'right', width = 400, footer }) => {
   useEffect(() => {
     if (!open) return;
@@ -994,4 +1044,4 @@ const Table = ({ columns = [], rows = [], selectable = false, onSelect, loading 
   );
 };
 
-Object.assign(window, { Radio, RadioGroup, Toggle, Checkbox, Link, Skeleton, Pagination, Dropdown, Modal, Drawer, Tooltip, Ph, OB_TONES, CodeInput, SearchInput, Alert, Toast, ProgressBar, SideNav, ToastStack, Select, Tabs, Table });
+Object.assign(window, { Radio, RadioGroup, Toggle, Checkbox, Link, Skeleton, Pagination, Dropdown, Modal, Drawer, Tooltip, Ph, OB_TONES, CodeInput, SearchInput, Alert, Toast, ProgressBar, SideNav, ToastStack, Select, Tabs, Table, Chip });
