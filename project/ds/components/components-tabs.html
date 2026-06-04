@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Tabs</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"/>
+<style>
+  body { margin: 0; padding: 32px; background: var(--ob-surface); font-family: var(--ob-font); }
+  .grid { display: grid; gap: 32px; }
+  .row-label { font-family: var(--ob-font-mono); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ob-fg-mute); margin-bottom: 12px; }
+  .panel { background: var(--ob-bg-alt); border: 1px solid var(--ob-border); border-radius: var(--ob-r-md); padding: 20px; margin-top: 14px; font-size: 14px; color: var(--ob-fg); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel">
+const { useState } = React;
+
+const Ph = ({ n, size = 15 }) => <i className={`ph ph-${n}`} style={{ fontSize: size, lineHeight: 1 }}/>;
+
+const Tabs = ({ tabs, active, onChange, variant = 'line', size = 'md' }) => {
+  const isLine = variant === 'line';
+  const pad = size === 'sm' ? '7px 14px' : '10px 18px';
+  const fs  = size === 'sm' ? 13 : 14;
+  return (
+    <div style={{ position: 'relative' }}>
+      {isLine && <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'var(--ob-border)' }}/>}
+      <div style={{
+        display: 'inline-flex', gap: isLine ? 0 : 4,
+        background: isLine ? 'none' : 'var(--ob-bg-alt)',
+        border: isLine ? 'none' : '1px solid var(--ob-border)',
+        borderRadius: isLine ? 0 : 'var(--ob-r-sm)',
+        padding: isLine ? 0 : 3,
+        position: 'relative',
+      }}>
+        {tabs.map(tab => {
+          const isActive = tab.id === active;
+          return (
+            <button key={tab.id} onClick={() => !tab.disabled && onChange?.(tab.id)} disabled={tab.disabled} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 7,
+              padding: pad, border: 'none', cursor: tab.disabled ? 'not-allowed' : 'pointer',
+              fontFamily: 'var(--ob-font)', fontSize: fs, fontWeight: 600,
+              borderRadius: isLine ? 0 : 'var(--ob-r-sm)',
+              transition: 'all 0.15s', position: 'relative',
+              background: isLine ? 'none' : (isActive ? 'var(--ob-surface)' : 'none'),
+              color: isActive ? 'var(--ob-fg-strong)' : 'var(--ob-fg-mute)',
+              opacity: tab.disabled ? 0.45 : 1,
+              boxShadow: (!isLine && isActive) ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+            }}>
+              {tab.icon && <Ph n={tab.icon}/>}
+              {tab.label}
+              {tab.badge != null && (
+                <span style={{ fontSize: 11, fontWeight: 700, padding: '1px 6px', borderRadius: 999, background: isActive ? 'var(--ob-blue)' : 'var(--ob-bg-warm)', color: isActive ? '#fff' : 'var(--ob-fg-soft)' }}>
+                  {tab.badge}
+                </span>
+              )}
+              {isLine && isActive && <span style={{ position: 'absolute', bottom: -1, left: 0, right: 0, height: 2, background: 'var(--ob-blue)', borderRadius: '2px 2px 0 0' }}/>}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const CONTENT = {
+  overview:  'Visão geral do projeto: 4 de 7 tarefas concluídas, 2 colaboradores ativos, prazo em 8 dias.',
+  tasks:     'Lista de tarefas: Mapa de jornada ✓, Wireframes ✓, Auditoria DS ✓, Protótipo, Testes, Revisão, Entrega.',
+  activity:  'Histórico de atividade: Ana Lima comentou ontem • João Silva concluiu tarefa há 2h • Deploy realizado às 09:41.',
+  settings:  'Configurações do projeto: visibilidade, integrações ativas e permissões de colaboradores.',
+  members:   'Colaboradores: Ana Lima (Designer), João Silva (Dev), Carla Souza (PM).',
+  archive:   '—',
+};
+
+function Demo() {
+  const [line1, setLine1]   = useState('overview');
+  const [line2, setLine2]   = useState('tasks');
+  const [pill1, setPill1]   = useState('overview');
+  const [pill2, setPill2]   = useState('members');
+  const [lineSm, setLineSm] = useState('overview');
+
+  const baseTabs = [
+    { id: 'overview', label: 'Visão geral' },
+    { id: 'tasks',    label: 'Tarefas', badge: 3 },
+    { id: 'activity', label: 'Atividade' },
+    { id: 'settings', label: 'Ajustes', icon: 'gear' },
+  ];
+  const iconTabs = [
+    { id: 'overview', label: 'Visão geral', icon: 'house' },
+    { id: 'members',  label: 'Membros',     icon: 'users', badge: 3 },
+    { id: 'activity', label: 'Atividade',   icon: 'clock' },
+    { id: 'settings', label: 'Ajustes',     icon: 'gear' },
+    { id: 'archive',  label: 'Arquivo',     icon: 'archive', disabled: true },
+  ];
+  const shortTabs = [
+    { id: 'overview', label: 'Mensal' },
+    { id: 'tasks',    label: 'Semanal' },
+    { id: 'activity', label: 'Diário' },
+  ];
+
+  return (
+    <div className="grid">
+
+      <div>
+        <div className="row-label">Line · md</div>
+        <Tabs tabs={baseTabs} active={line1} onChange={setLine1} variant="line"/>
+        <div className="panel">{CONTENT[line1]}</div>
+      </div>
+
+      <div>
+        <div className="row-label">Line · com ícones · item desabilitado</div>
+        <Tabs tabs={iconTabs} active={line2} onChange={setLine2} variant="line"/>
+        <div className="panel">{CONTENT[line2]}</div>
+      </div>
+
+      <div>
+        <div className="row-label">Pill · md</div>
+        <Tabs tabs={baseTabs} active={pill1} onChange={setPill1} variant="pill"/>
+        <div className="panel">{CONTENT[pill1]}</div>
+      </div>
+
+      <div>
+        <div className="row-label">Pill · com ícones</div>
+        <Tabs tabs={iconTabs} active={pill2} onChange={setPill2} variant="pill"/>
+        <div className="panel">{CONTENT[pill2]}</div>
+      </div>
+
+      <div>
+        <div className="row-label">Line · sm</div>
+        <Tabs tabs={shortTabs} active={lineSm} onChange={setLineSm} variant="line" size="sm"/>
+        <div className="panel" style={{ fontSize: 13 }}>{CONTENT[lineSm]}</div>
+      </div>
+
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body></html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Table</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Componente · Dados</p>
+  <h1>Table <em>doc</em></h1>
+  <p class="lede">Exibe conjuntos de dados estruturados em linhas e colunas. Suporta seleção de linhas, ordenação por coluna, estado de loading (skeleton) e estado vazio. Compõe com <strong>Tabs</strong>, <strong>Badge</strong>, <strong>Pagination</strong> e <strong>SearchInput</strong>.</p>
+
+  <div class="matrix">
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div>
+    <div class="crit off"><span class="mark no">–</span> Possui motion</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão web</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div>
+    <div class="crit off"><span class="mark no">–</span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no">–</span> —</div>
+  </div>
+
+  <section>
+    <h2>1 · Uso</h2>
+    <p>Use Table para dados estruturados com 3+ colunas onde o usuário precisa escanear, comparar ou selecionar itens. Para listas simples de 1–2 atributos, prefira uma lista comum.</p>
+    <h3>Quando usar cada feature</h3>
+    <ul>
+      <li><strong>Seleção</strong> (<code>selectable</code>) — quando há ações em lote: excluir, exportar, mover selecionados.</li>
+      <li><strong>Ordenação</strong> (<code>sortable</code> por coluna) — quando a ordem importa para o usuário (data, valor, status).</li>
+      <li><strong>Loading skeleton</strong> (<code>loading</code>) — sempre que os dados vêm de requisição assíncrona.</li>
+      <li><strong>Estado vazio</strong> (<code>emptyState</code>) — nunca deixe a tabela simplesmente sem linhas; oriente o próximo passo.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Coluna de nome/título sempre em negrito (<code>bold: true</code>). Use <code>render</code> para Badges de status. Paginação abaixo para listas longas.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Mais de 7 colunas sem scroll horizontal. Tabela em mobile sem adaptação — prefira cards verticais abaixo de 640 px.</p></div>
+    </div>
+    <h3>Composição</h3>
+    <ul>
+      <li><strong>Tabs</strong> acima para filtrar categoria de dados.</li>
+      <li><strong>SearchInput</strong> para filtro inline.</li>
+      <li><strong>Badge</strong> nas células de status/prioridade via prop <code>render</code>.</li>
+      <li><strong>Pagination</strong> abaixo para conjuntos grandes.</li>
+      <li><strong>Dropdown</strong> (kebab) por linha para ações contextuais.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2 · Formatação</h2>
+    <pre><code>&lt;Table
+  columns={[
+    { key: 'name',   label: 'Tarefa',  bold: true },
+    { key: 'status', label: 'Status',  render: (v) =&gt; &lt;Badge tone="green"&gt;{v}&lt;/Badge&gt; },
+    { key: 'due',    label: 'Prazo',   sortable: true, width: 90 },
+  ]}
+  rows={tasks}
+  selectable
+  sort={sort}
+  onSort={handleSort}
+  loading={isLoading}
+  emptyState="Nenhuma tarefa. Crie uma acima."
+/&gt;</code></pre>
+    <table class="props">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
+      <tbody>
+        <tr><td><code>columns</code></td><td><code>Column[]</code></td><td><code>[]</code></td></tr>
+        <tr><td><code>rows</code></td><td><code>object[]</code></td><td><code>[]</code></td></tr>
+        <tr><td><code>selectable</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+        <tr><td><code>onSelect</code></td><td><code>(rows: object[]) => void</code></td><td>—</td></tr>
+        <tr><td><code>sort</code></td><td><code>{ key: string, dir: 'asc'|'desc' }</code></td><td>—</td></tr>
+        <tr><td><code>onSort</code></td><td><code>(key: string) => void</code></td><td>—</td></tr>
+        <tr><td><code>loading</code></td><td><code>boolean</code></td><td><code>false</code></td></tr>
+        <tr><td><code>emptyState</code></td><td><code>ReactNode</code></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>Tipo <code>Column</code>: <code>{ key, label, bold?, sortable?, width?, render?: (value, row) => ReactNode }</code></p>
+  </section>
+
+  <section>
+    <h2>3 · Guia de conteúdo</h2>
+    <ul>
+      <li>Cabeçalhos: substantivos curtos. "Tarefa", "Status", "Prazo" — nunca verbos.</li>
+      <li>Coluna de nome: sempre a primeira, em negrito, com o identificador principal do item.</li>
+      <li>Status: use Badge com tom semântico (green=concluído, blue=andamento, orange=pendente, red=atrasado).</li>
+      <li>Datas: formato "dd mmm" (ex: "04 jun") — compacto e legível.</li>
+      <li>Estado vazio: inclua um CTA. "Nenhuma tarefa encontrada. <u>Criar tarefa</u>."</li>
+      <li>Estado de loading: skeleton automático — não adicione texto.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · Guia de design</h2>
+    <p><strong>Tokens.</strong> Cabeçalho: mono 11px uppercase, cor <code>--ob-fg-mute</code>, borda <code>1.5px solid --ob-border</code>. Linha: 14px, hover <code>--ob-bg-warm</code>, selecionada <code>color-mix(--ob-blue 8%)</code>. Borda entre linhas <code>--ob-line-soft</code>.</p>
+    <p><strong>Scroll horizontal.</strong> O container tem <code>overflow-x: auto</code> para não quebrar o layout em viewports estreitas. Em mobile (&lt; 640px), considere uma visualização alternativa em cards empilhados.</p>
+    <p><strong>Seleção.</strong> Checkbox indeterminate quando parte das linhas está selecionada. Linha selecionada com background azul sutil. Ação em lote deve aparecer acima da tabela ao selecionar ≥ 1 linha.</p>
+    <div class="note"><strong>Table não é mobile-first.</strong> Para viewports abaixo de 640px, converta os dados em cards verticais ou use um layout responsivo alternativo. Tabela com scroll horizontal é aceitável somente em contextos de uso desktop.</div>
+  </section>
+
+</div></body></html>

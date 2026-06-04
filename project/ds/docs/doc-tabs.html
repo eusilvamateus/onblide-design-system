@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Tabs</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Componente · Navegação</p>
+  <h1>Tabs <em>doc</em></h1>
+  <p class="lede">Alterna entre seções de conteúdo relacionado sem mudar de página. Disponível em duas variantes: <strong>Line</strong> (padrão, underline) e <strong>Pill</strong> (segmentado).</p>
+
+  <div class="matrix">
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui motion</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão web</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div>
+    <div class="crit"><span class="mark yes">✓</span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no">–</span> —</div>
+  </div>
+
+  <section>
+    <h2>1 · Uso</h2>
+    <p>Use Tabs quando o conteúdo pode ser dividido em categorias paralelas e o usuário precisa alternar entre elas com frequência. Não use para passos sequenciais — use Stepper.</p>
+    <h3>Variantes</h3>
+    <ul>
+      <li><strong>Line</strong> — padrão. Para seções dentro de uma página (ex: abas de projeto, abas de configuração). Ocupa largura da área disponível.</li>
+      <li><strong>Pill</strong> — para filtros e alternâncias curtas (ex: Mensal / Semanal / Diário). Mais compacto e autocontido.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Máximo de 6 abas. Use badges numéricos para indicar contagem de itens. Ícone à esquerda do rótulo (opcional).</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Tabs para fluxos sequenciais — use Stepper. Não misture Line e Pill na mesma tela.</p></div>
+    </div>
+    <h3>Composição</h3>
+    <ul>
+      <li><strong>Table</strong> — conteúdo mais comum dentro de uma aba.</li>
+      <li><strong>Badge</strong> — contagem de itens no rótulo da aba.</li>
+      <li><strong>SearchInput</strong> — filtro acima da área de conteúdo das Tabs.</li>
+      <li><strong>Skeleton</strong> — enquanto o conteúdo da aba carrega assincronamente.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2 · Formatação</h2>
+    <pre><code>&lt;Tabs
+  tabs={[
+    { id: 'overview', label: 'Visão geral' },
+    { id: 'tasks',    label: 'Tarefas', badge: 3 },
+    { id: 'settings', label: 'Ajustes', icon: 'gear', disabled: true },
+  ]}
+  active={active}
+  onChange={setActive}
+  variant="line"
+  size="md"
+/&gt;</code></pre>
+    <table class="props">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
+      <tbody>
+        <tr><td><code>tabs</code></td><td><code>Tab[]</code></td><td><code>[]</code></td></tr>
+        <tr><td><code>active</code></td><td><code>string</code></td><td>—</td></tr>
+        <tr><td><code>onChange</code></td><td><code>(id: string) => void</code></td><td>—</td></tr>
+        <tr><td><code>variant</code></td><td><code>'line' | 'pill'</code></td><td><code>'line'</code></td></tr>
+        <tr><td><code>size</code></td><td><code>'sm' | 'md'</code></td><td><code>'md'</code></td></tr>
+      </tbody>
+    </table>
+    <p>Tipo <code>Tab</code>: <code>{ id: string, label: string, icon?: string, badge?: number, disabled?: boolean }</code></p>
+  </section>
+
+  <section>
+    <h2>3 · Guia de conteúdo</h2>
+    <ul>
+      <li>Rótulos: substantivos curtos e paralelos. "Visão geral", "Tarefas", "Membros" — nunca verbos.</li>
+      <li>Máximo de 2 palavras por rótulo. Prefira uma.</li>
+      <li>Badge: contagem de itens (ex: pendentes, não lidos). Não use para status.</li>
+      <li>Ícone: auxiliar ao rótulo — nunca substituto. Use ícones do álbum Phosphor.</li>
+      <li>Aba desabilitada: use quando a seção existe mas não está disponível no contexto atual — com Tooltip explicando o motivo.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · Guia de design</h2>
+    <p><strong>Line.</strong> Indicador azul de 2 px abaixo da aba ativa, flush com a borda do container. Rótulo ativo em <code>--ob-fg-strong</code>, inativo em <code>--ob-fg-mute</code>.</p>
+    <p><strong>Pill.</strong> Aba ativa com fundo <code>--ob-surface</code> + sombra sutil sobre fundo <code>--ob-bg-alt</code>. Raio <code>--ob-r-sm</code>.</p>
+    <p><strong>Motion.</strong> Transição de cor e indicador: 150ms <code>--ob-ease</code>. Sem animação de slide de conteúdo — troca instantânea.</p>
+    <p><strong>Responsivo.</strong> Em viewports estreitas, Tabs Line com scroll horizontal (sem quebra de linha). Tabs Pill: mantém em linha e reduz padding com <code>size="sm"</code>.</p>
+    <div class="note"><strong>Acessibilidade:</strong> use <code>role="tablist"</code> no container, <code>role="tab"</code> em cada botão e <code>role="tabpanel"</code> no painel de conteúdo. Navegação por ←/→.</div>
+  </section>
+
+</div></body></html>

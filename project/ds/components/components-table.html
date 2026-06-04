@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Table</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"/>
+<style>
+  body { margin: 0; padding: 32px; background: var(--ob-surface); font-family: var(--ob-font); }
+  .grid { display: grid; gap: 40px; }
+  .row-label { font-family: var(--ob-font-mono); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ob-fg-mute); margin-bottom: 12px; }
+  @keyframes ob-pulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel">
+const { useState, useRef } = React;
+
+const Ph = ({ n, size = 16 }) => <i className={`ph ph-${n}`} style={{ fontSize: size, lineHeight: 1 }}/>;
+
+const Badge = ({ tone = 'blue', children }) => {
+  const colors = { blue: ['var(--ob-blue-100)', 'var(--ob-blue)'], green: ['color-mix(in srgb, var(--ob-green) 18%, var(--ob-surface))', 'var(--ob-green-700)'], orange: ['color-mix(in srgb, var(--ob-orange) 18%, var(--ob-surface))', '#b45000'], red: ['var(--ob-danger-bg)', 'var(--ob-danger)'] };
+  const [bg, clr] = colors[tone] || colors.blue;
+  return <span style={{ background: bg, color: clr, fontFamily: 'var(--ob-font-mono)', fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 999 }}>{children}</span>;
+};
+
+const Table = ({ columns, rows, selectable, onSort, sort, loading, emptyState }) => {
+  const [selected, setSelected] = useState([]);
+  const allCb = useRef(null);
+
+  const toggleAll = () => {
+    const next = selected.length === rows.length ? [] : rows.map((_, i) => i);
+    setSelected(next);
+  };
+  const toggleRow = (i) => setSelected(s => s.includes(i) ? s.filter(x => x !== i) : [...s, i]);
+  if (allCb.current) allCb.current.indeterminate = selected.length > 0 && selected.length < rows.length;
+
+  const thStyle = { padding: '10px 14px', textAlign: 'left', fontFamily: 'var(--ob-font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', borderBottom: '1.5px solid var(--ob-border)', background: 'var(--ob-surface)', whiteSpace: 'nowrap', userSelect: 'none' };
+  const tdStyle = { padding: '12px 14px', fontSize: 14, color: 'var(--ob-fg)', borderBottom: '1px solid var(--ob-line-soft)', verticalAlign: 'middle' };
+
+  return (
+    <div style={{ width: '100%', overflowX: 'auto', borderRadius: 'var(--ob-r-md)', border: '1px solid var(--ob-border)' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', background: 'var(--ob-surface)' }}>
+        <thead>
+          <tr>
+            {selectable && (
+              <th style={{ ...thStyle, width: 44 }}>
+                <input type="checkbox" ref={allCb} checked={rows.length > 0 && selected.length === rows.length} onChange={toggleAll} style={{ accentColor: 'var(--ob-blue)', width: 15, height: 15, cursor: 'pointer' }}/>
+              </th>
+            )}
+            {columns.map(col => (
+              <th key={col.key} style={{ ...thStyle, cursor: col.sortable ? 'pointer' : 'default', width: col.width }} onClick={() => col.sortable && onSort?.(col.key)}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                  {col.label}
+                  {col.sortable && <span style={{ opacity: sort?.key === col.key ? 1 : 0.3, color: 'var(--ob-blue)', fontSize: 12 }}>{sort?.key === col.key ? (sort.dir === 'asc' ? '↑' : '↓') : '↕'}</span>}
+                </span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {loading
+            ? Array.from({ length: 4 }).map((_, i) => (
+              <tr key={i}>
+                {selectable && <td style={tdStyle}><div style={{ width: 15, height: 15, borderRadius: 3, background: 'var(--ob-bg-alt)' }}/></td>}
+                {columns.map(col => (
+                  <td key={col.key} style={tdStyle}>
+                    <div style={{ height: 14, borderRadius: 4, background: 'var(--ob-bg-alt)', width: `${50 + (i * 13 + col.key.length * 7) % 35}%`, animation: 'ob-pulse 1.4s ease-in-out infinite', animationDelay: `${i * 0.1}s` }}/>
+                  </td>
+                ))}
+              </tr>
+            ))
+            : rows.length === 0
+            ? <tr><td colSpan={columns.length + (selectable ? 1 : 0)} style={{ ...tdStyle, textAlign: 'center', padding: '48px 14px', color: 'var(--ob-fg-mute)' }}>{emptyState}</td></tr>
+            : rows.map((row, i) => (
+              <tr key={i}
+                style={{ background: selected.includes(i) ? 'color-mix(in srgb, var(--ob-blue) 8%, var(--ob-surface))' : 'transparent', transition: 'background .1s', cursor: 'default' }}
+                onMouseEnter={e => { if (!selected.includes(i)) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = selected.includes(i) ? 'color-mix(in srgb, var(--ob-blue) 8%, var(--ob-surface))' : 'transparent'; }}>
+                {selectable && (
+                  <td style={tdStyle}>
+                    <input type="checkbox" checked={selected.includes(i)} onChange={() => toggleRow(i)} style={{ accentColor: 'var(--ob-blue)', width: 15, height: 15, cursor: 'pointer' }}/>
+                  </td>
+                )}
+                {columns.map(col => (
+                  <td key={col.key} style={{ ...tdStyle, fontWeight: col.bold ? 600 : 400, color: col.bold ? 'var(--ob-fg-strong)' : 'var(--ob-fg)' }}>
+                    {col.render ? col.render(row[col.key], row) : row[col.key]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const TASKS = [
+  { name: 'Mapa de jornada do usuário', status: 'done',       assignee: 'Ana Lima',      due: '28 mai',  priority: 'Alta' },
+  { name: 'Wireframes do dashboard',    status: 'progress',   assignee: 'João Silva',    due: '02 jun',  priority: 'Alta' },
+  { name: 'Auditoria de tipografia',    status: 'done',       assignee: 'Ana Lima',      due: '30 mai',  priority: 'Média' },
+  { name: 'Componente Select',          status: 'progress',   assignee: 'Carla Souza',   due: '04 jun',  priority: 'Alta' },
+  { name: 'Testes de usabilidade',      status: 'pending',    assignee: 'João Silva',    due: '10 jun',  priority: 'Média' },
+  { name: 'Revisão com stakeholders',   status: 'pending',    assignee: 'Carla Souza',   due: '12 jun',  priority: 'Baixa' },
+  { name: 'Entrega final',              status: 'pending',    assignee: 'Ana Lima',      due: '15 jun',  priority: 'Alta' },
+];
+
+const STATUS_MAP = { done: ['green', 'Concluído'], progress: ['blue', 'Em progresso'], pending: ['orange', 'Pendente'] };
+const PRIORITY_COLORS = { Alta: 'red', Média: 'orange', Baixa: 'blue' };
+
+const PAGES = [
+  { page: '/', sessions: '4.820', time: '2:14', bounce: '32%', trend: '↑' },
+  { page: '/pricing', sessions: '2.341', time: '3:40', bounce: '18%', trend: '↑' },
+  { page: '/docs', sessions: '1.890', time: '4:52', bounce: '12%', trend: '↑' },
+  { page: '/blog', sessions: '980', time: '1:30', bounce: '55%', trend: '↓' },
+  { page: '/changelog', sessions: '412', time: '2:00', bounce: '38%', trend: '→' },
+];
+
+function Demo() {
+  const [sort, setSort] = useState({ key: 'due', dir: 'asc' });
+  const handleSort = (key) => setSort(s => ({ key, dir: s.key === key && s.dir === 'asc' ? 'desc' : 'asc' }));
+
+  return (
+    <div className="grid">
+
+      {/* Selectable with badges */}
+      <div>
+        <div className="row-label">Selecionável · Status · Prioridade</div>
+        <Table
+          selectable
+          sort={sort}
+          onSort={handleSort}
+          columns={[
+            { key: 'name',     label: 'Tarefa',      bold: true },
+            { key: 'status',   label: 'Status',      render: (v) => { const [t, l] = STATUS_MAP[v]; return <Badge tone={t}>{l}</Badge>; } },
+            { key: 'priority', label: 'Prioridade',  render: (v) => <Badge tone={PRIORITY_COLORS[v]}>{v}</Badge> },
+            { key: 'assignee', label: 'Responsável' },
+            { key: 'due',      label: 'Prazo',       sortable: true, width: 90 },
+          ]}
+          rows={TASKS}
+        />
+      </div>
+
+      {/* Simple sortable */}
+      <div>
+        <div className="row-label">Simples · Ordenável</div>
+        <Table
+          sort={sort}
+          onSort={handleSort}
+          columns={[
+            { key: 'page',     label: 'Página',   bold: true },
+            { key: 'sessions', label: 'Sessões',  sortable: true },
+            { key: 'time',     label: 'Tempo médio' },
+            { key: 'bounce',   label: 'Saída',    sortable: true },
+            { key: 'trend',    label: 'Tendência', render: (v) => <span style={{ color: v === '↑' ? 'var(--ob-green)' : v === '↓' ? 'var(--ob-danger)' : 'var(--ob-fg-mute)', fontWeight: 700, fontSize: 16 }}>{v}</span> },
+          ]}
+          rows={PAGES}
+        />
+      </div>
+
+      {/* Loading */}
+      <div>
+        <div className="row-label">Estado · Loading (skeleton)</div>
+        <Table loading selectable
+          columns={[
+            { key: 'name',     label: 'Tarefa' },
+            { key: 'status',   label: 'Status' },
+            { key: 'assignee', label: 'Responsável' },
+            { key: 'due',      label: 'Prazo' },
+          ]}
+          rows={[]}
+        />
+      </div>
+
+      {/* Empty */}
+      <div>
+        <div className="row-label">Estado · Vazio</div>
+        <Table
+          columns={[
+            { key: 'name',     label: 'Tarefa' },
+            { key: 'status',   label: 'Status' },
+            { key: 'assignee', label: 'Responsável' },
+          ]}
+          rows={[]}
+          emptyState={<span>Nenhuma tarefa encontrada. <a href="#" style={{ color: 'var(--ob-blue)' }}>Criar tarefa</a></span>}
+        />
+      </div>
+
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body></html>

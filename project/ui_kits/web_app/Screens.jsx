@@ -1,6 +1,6 @@
 /* global React, Card, Badge, Button, Avatar, Icons, Input, Datepicker, Brands, BrandTile,
    Radio, RadioGroup, Toggle, Checkbox, Link, Skeleton, Pagination, Dropdown, Modal, Tooltip,
-   Alert, ProgressBar, CodeInput */
+   Alert, ProgressBar, CodeInput, Tabs, Table */
 const { useState, useEffect } = React;
 
 // ============================================================
@@ -316,6 +316,7 @@ const MetricsScreen = () => {
   const [range, setRange] = useState({ startDate: null, endDate: null });
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [sort, setSort] = useState({ key: 'views', dir: 'desc' });
 
   // initial load + reload whenever the range is applied
   useEffect(() => {
@@ -465,24 +466,26 @@ const MetricsScreen = () => {
         </Card>
       )}
 
-      {/* Top pages table — Pagination */}
+      {/* Top pages table — Table + Pagination */}
       <Card padding={0}>
         <div style={{ padding: '16px 24px', borderBottom: '1px solid var(--ob-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>Top páginas</h3>
           <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)' }}>{pages.length} páginas</span>
         </div>
-        <div style={{ padding: '4px 12px' }}>
-          {loading ? [0,1,2,3].map(i => (
-            <div key={i} style={{ display: 'flex', gap: 12, padding: '12px 12px', alignItems: 'center' }}>
-              <Skeleton width="45%" height={14} /><div style={{ flex: 1 }}/><Skeleton width={60} height={14} /><Skeleton width={48} height={14} />
-            </div>
-          )) : pageRows.map((r, i) => (
-            <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 100px 80px', gap: 12, padding: '12px', alignItems: 'center', borderBottom: i < pageRows.length - 1 ? '1px solid var(--ob-line-soft)' : 'none' }}>
-              <span style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 13, color: 'var(--ob-fg-strong)' }}>{r.path}</span>
-              <span style={{ fontSize: 13, color: 'var(--ob-fg)', textAlign: 'right' }}>{r.views}</span>
-              <span style={{ textAlign: 'right' }}><Badge tone={parseInt(r.rate) > 55 ? 'green' : 'grey'}>{r.rate}</Badge></span>
-            </div>
-          ))}
+        <div style={{ padding: 0, borderRadius: '0 0 var(--ob-r-lg) var(--ob-r-lg)', overflow: 'hidden' }}>
+          <Table
+            loading={loading}
+            sort={sort}
+            onSort={(key) => setSort(s => ({ key, dir: s.key === key && s.dir === 'asc' ? 'desc' : 'asc' }))}
+            columns={[
+              { key: 'path',  label: 'Página',       bold: true },
+              { key: 'views', label: 'Visualizações', sortable: true },
+              { key: 'rate',  label: 'Conversão',
+                render: (v) => <Badge tone={parseInt(v) > 55 ? 'green' : 'grey'}>{v}</Badge> },
+            ]}
+            rows={pageRows}
+            emptyState="Nenhuma página encontrada."
+          />
         </div>
         <div style={{ padding: '14px 24px', borderTop: '1px solid var(--ob-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)' }}>Página {page} de {totalPages}</span>
@@ -504,10 +507,10 @@ const MetricsScreen = () => {
 const SettingsScreen = () => {
   const [tab, setTab] = useState('account');
   const tabs = [
-    { id: 'account',      label: 'Conta' },
-    { id: 'workspace',    label: 'Workspace' },
-    { id: 'notifications',label: 'Notificações' },
-    { id: 'billing',      label: 'Cobrança' },
+    { id: 'account',       label: 'Conta' },
+    { id: 'workspace',     label: 'Workspace' },
+    { id: 'notifications', label: 'Notificações' },
+    { id: 'billing',       label: 'Cobrança' },
   ];
 
   // notifications state
@@ -533,17 +536,7 @@ const SettingsScreen = () => {
         <p style={{ margin: '4px 0 0', color: 'var(--ob-fg-soft)', fontSize: 14 }}>Gerencie sua conta e preferências.</p>
       </div>
 
-      <div style={{ display: 'flex', gap: 6, borderBottom: '1px solid var(--ob-border)' }}>
-        {tabs.map(t => (
-          <button key={t.id} onClick={() => setTab(t.id)} style={{
-            padding: '10px 14px', border: 'none', background: 'transparent',
-            fontFamily: 'inherit', fontSize: 14, fontWeight: 600, cursor: 'pointer',
-            color: tab === t.id ? 'var(--ob-blue)' : 'var(--ob-fg-soft)',
-            borderBottom: tab === t.id ? '2px solid var(--ob-blue)' : '2px solid transparent',
-            marginBottom: -1,
-          }}>{t.label}</button>
-        ))}
-      </div>
+      <Tabs tabs={tabs} active={tab} onChange={setTab} variant="line"/>
 
       {/* ── CONTA ── */}
       {tab === 'account' && (
