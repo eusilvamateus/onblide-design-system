@@ -178,6 +178,28 @@ const Pagination = ({ page = 1, total = 10, onChange, siblings = 1 }) => {
 };
 
 // ── DROPDOWN (menu) ──────────────────────────────────────
+// ── FLOATING PANEL ───────────────────────────────────────
+// Shared suspended-list surface for Dropdown, Select and SearchInput.
+// Owns position, surface, border, radius (--ob-r-surface), shadow
+// (--ob-shadow-lg) and z-index so no consumer reinvents the floating list.
+const FloatingPanel = ({ align = 'stretch', maxHeight, padding = 4, minWidth, style = {}, children }) => {
+  const pos = align === 'right' ? { right: 0 } : align === 'left' ? { left: 0 } : { left: 0, right: 0 };
+  return (
+    <div style={{
+      position: 'absolute', top: 'calc(100% + 6px)', zIndex: 1200,
+      background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
+      borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)',
+      padding, overflow: maxHeight ? 'hidden auto' : 'hidden',
+      ...pos,
+      ...(maxHeight ? { maxHeight } : {}),
+      ...(minWidth ? { minWidth } : {}),
+      ...style,
+    }}>
+      {children}
+    </div>
+  );
+};
+
 const Dropdown = ({ trigger, items, align = 'left' }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -192,17 +214,13 @@ const Dropdown = ({ trigger, items, align = 'left' }) => {
     <div ref={ref} style={{ position: 'relative', display: 'inline-block' }}>
       <span onClick={(e) => { e.stopPropagation(); setOpen(!open); }}>{trigger}</span>
       {open && (
-        <div style={{
-          position: 'absolute', top: 'calc(100% + 6px)', [align]: 0, zIndex: 1000,
-          minWidth: 180, background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
-          borderRadius: 12, boxShadow: 'var(--ob-shadow-lg)', padding: 6, overflow: 'hidden',
-        }}>
+        <FloatingPanel align={align} minWidth={180} padding={6}>
           {items.map((it, i) => it.divider ? (
             <div key={`d${i}`} style={{ height: 1, background: 'var(--ob-border)', margin: '6px 0' }} />
           ) : (
             <button key={i} onClick={() => { it.onClick?.(); setOpen(false); }} disabled={it.disabled} style={{
               display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '9px 10px',
-              border: 'none', borderRadius: 8, background: 'transparent', cursor: it.disabled ? 'not-allowed' : 'pointer',
+              border: 'none', borderRadius: 'var(--ob-r-sm)', background: 'transparent', cursor: it.disabled ? 'not-allowed' : 'pointer',
               fontFamily: 'inherit', fontSize: 14, fontWeight: 500, textAlign: 'left',
               color: it.danger ? 'var(--ob-danger)' : 'var(--ob-fg-strong)', opacity: it.disabled ? 0.5 : 1,
               transition: 'background 120ms',
@@ -213,7 +231,7 @@ const Dropdown = ({ trigger, items, align = 'left' }) => {
               {it.label}
             </button>
           ))}
-        </div>
+        </FloatingPanel>
       )}
     </div>
   );
@@ -547,7 +565,7 @@ const SearchInput = ({ value = '', onChange, loading = false, placeholder = 'Bus
         {!loading && value && <button onClick={() => onChange?.('')} aria-label="Limpar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flex: 'none' }}><Ph n="x-circle" size={17} /></button>}
       </FieldShell>
       {showDrop && (
-        <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0, zIndex: 1200, background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderRadius: 'var(--ob-r-md)', boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden' }}>
+        <FloatingPanel padding={0}>
           {results.map((r, i) => {
             const lbl = typeof r === 'string' ? r : r.label;
             return (
@@ -559,7 +577,7 @@ const SearchInput = ({ value = '', onChange, loading = false, placeholder = 'Bus
               </button>
             );
           })}
-        </div>
+        </FloatingPanel>
       )}
     </div>
   );
@@ -776,13 +794,7 @@ const Select = ({
 
       {/* Dropdown */}
       {open && (
-        <div style={{
-          position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
-          background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
-          borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)',
-          zIndex: 1200, maxHeight: 240, overflowY: 'auto',
-          padding: '4px',
-        }}>
+        <FloatingPanel maxHeight={240} padding={4}>
           {filtered.length === 0 && (
             <div style={{ padding: '12px 14px', fontSize: 13, color: 'var(--ob-fg-mute)', textAlign: 'center' }}>
               Nenhuma opção encontrada
@@ -816,7 +828,7 @@ const Select = ({
               </div>
             );
           })}
-        </div>
+        </FloatingPanel>
       )}
 
       {error && (
@@ -1021,4 +1033,4 @@ const Table = ({ columns = [], rows = [], selectable = false, onSelect, loading 
   );
 };
 
-Object.assign(window, { Radio, RadioGroup, Toggle, Checkbox, Link, Skeleton, Pagination, Dropdown, Modal, Drawer, Tooltip, Ph, OB_TONES, CodeInput, SearchInput, Alert, Toast, ProgressBar, SideNav, ToastStack, Select, Tabs, Table, Chip });
+Object.assign(window, { Radio, RadioGroup, Toggle, Checkbox, Link, Skeleton, Pagination, Dropdown, FloatingPanel, Modal, Drawer, Tooltip, Ph, OB_TONES, CodeInput, SearchInput, Alert, Toast, ProgressBar, SideNav, ToastStack, Select, Tabs, Table, Chip });

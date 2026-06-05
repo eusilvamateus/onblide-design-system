@@ -29,6 +29,14 @@ Concluído nesta passada (web app source — `Primitives.jsx`, `Components.jsx`)
 
 ---
 
+## ✅ Execução — Passo 2: primitivo `FloatingPanel` (A5)
+
+- **A5 ✅** — criado `FloatingPanel` (posição, surface, borda, raio `--ob-r-surface`, sombra `--ob-shadow-lg`, z-index 1200).
+- `Dropdown`, `SearchInput` e `Select` agora compõem `FloatingPanel` em vez de cada um desenhar sua lista suspensa.
+- Unificado: z-index (era 1000 no Dropdown vs 1200 nos outros), raio e sombra; item do Dropdown radius 8 → `--ob-r-sm`.
+
+---
+
 ---
 
 ## A · Composição — componentes reinventam outros componentes
