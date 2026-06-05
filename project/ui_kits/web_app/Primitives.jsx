@@ -186,27 +186,55 @@ const Button = ({ kind = 'primary', size = 'md', icon, children, onClick, style 
   );
 };
 
-// Form input
-const Input = ({ label, hint, error, icon, ...rest }) => (
-  <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-    {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
-    <div style={{ position: 'relative' }}>
-      {icon && <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--ob-fg-mute)' }}>{icon}</span>}
-      <input
-        {...rest}
-        style={{
-          width: '100%', padding: icon ? '10px 14px 10px 38px' : '10px 14px',
-          borderRadius: 10, border: `1.5px solid ${error ? 'var(--ob-danger)' : 'var(--ob-border)'}`,
-          fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', background: 'var(--ob-surface)',
-          boxSizing: 'border-box', outline: 'none',
-        }}
-        onFocus={(e) => { if (!error) e.target.style.borderColor = 'var(--ob-blue)'; }}
-        onBlur={(e) => { if (!error) e.target.style.borderColor = 'var(--ob-border)'; }}
-      />
+// ── FIELD SHELL ──────────────────────────────────────────
+// Shared text-field surface. Owns border, radius, focus ring, error and
+// disabled states so Input, SearchInput, Select and Datepicker never reinvent
+// them. Tokens: --ob-r-control (radius) · --ob-focus-ring (focus) · --ob-danger.
+const FieldShell = ({ focused = false, error = false, disabled = false, minHeight = 44, padding = '0 14px', onClick, style = {}, children }) => {
+  const borderColor = error ? 'var(--ob-danger)' : focused ? 'var(--ob-blue)' : 'var(--ob-border)';
+  const ring = !focused ? 'none'
+    : error ? '0 0 0 4px color-mix(in srgb, var(--ob-danger) 22%, transparent)'
+            : '0 0 0 4px var(--ob-focus-ring)';
+  return (
+    <div onClick={onClick} style={{
+      display: 'flex', alignItems: 'center', gap: 10,
+      minHeight, padding,
+      background: disabled ? 'var(--ob-bg-alt)' : 'var(--ob-surface)',
+      border: `1.5px solid ${borderColor}`,
+      borderRadius: 'var(--ob-r-control)',
+      boxShadow: ring,
+      transition: 'border-color .15s, box-shadow .15s',
+      opacity: disabled ? 0.6 : 1,
+      boxSizing: 'border-box',
+      ...style,
+    }}>
+      {children}
     </div>
-    {(hint || error) && <span style={{ fontSize: 11, color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{error || hint}</span>}
-  </label>
-);
+  );
+};
+
+// Form input — composes FieldShell
+const Input = ({ label, hint, error, icon, ...rest }) => {
+  const [focused, setFocused] = useState(false);
+  return (
+    <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
+      <FieldShell focused={focused} error={!!error}>
+        {icon && <span style={{ display: 'flex', color: 'var(--ob-fg-mute)', flex: 'none' }}>{icon}</span>}
+        <input
+          {...rest}
+          onFocus={(e) => { setFocused(true); rest.onFocus?.(e); }}
+          onBlur={(e) => { setFocused(false); rest.onBlur?.(e); }}
+          style={{
+            flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
+            fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: '10px 0',
+          }}
+        />
+      </FieldShell>
+      {(hint || error) && <span style={{ fontSize: 11, color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{error || hint}</span>}
+    </label>
+  );
+};
 
 // Badge — variant: subtle (default) | solid | outline | numeric
 const Badge = ({ tone = 'blue', variant = 'subtle', dot = true, size = 'md', children }) => {
@@ -401,7 +429,7 @@ const Datepicker = ({
   const nextMonth = () => setMonth(new Date(month.getFullYear(), month.getMonth() + 1));
 
   const inputStyle = (hasErr) => ({
-    width: '100%', padding: '10px 14px', borderRadius: 10,
+    width: '100%', padding: '10px 14px', borderRadius: 'var(--ob-r-control)',
     border: `1.5px solid ${hasErr ? 'var(--ob-danger)' : 'var(--ob-border)'}`,
     fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', background: 'var(--ob-surface)',
     boxSizing: 'border-box', outline: 'none', transition: 'border-color 160ms, box-shadow 160ms',
@@ -422,7 +450,7 @@ const Datepicker = ({
                 type="text" value={startText} maxLength={10} placeholder="dd/mm/yyyy"
                 onChange={handleStartInput} onClick={handleInputClick}
                 style={inputStyle(!!startErr)}
-                onFocus={(e) => { if (!startErr) e.target.style.borderColor='var(--ob-blue)'; e.target.style.boxShadow='0 0 0 4px rgba(10,78,228,0.16)'; }}
+                onFocus={(e) => { if (!startErr) e.target.style.borderColor='var(--ob-blue)'; e.target.style.boxShadow='0 0 0 4px var(--ob-focus-ring)'; }}
                 onBlur={(e) => { e.target.style.borderColor=startErr?'var(--ob-danger)':'var(--ob-border)'; e.target.style.boxShadow='none'; }}
               />
               {startErr && <div style={{ fontSize: 11, color: 'var(--ob-danger)', marginTop: 4 }}>{startErr}</div>}
@@ -433,7 +461,7 @@ const Datepicker = ({
                 type="text" value={endText} maxLength={10} placeholder="dd/mm/yyyy"
                 onChange={handleEndInput} onClick={handleInputClick}
                 style={inputStyle(!!endErr)}
-                onFocus={(e) => { if (!endErr) e.target.style.borderColor='var(--ob-blue)'; e.target.style.boxShadow='0 0 0 4px rgba(10,78,228,0.16)'; }}
+                onFocus={(e) => { if (!endErr) e.target.style.borderColor='var(--ob-blue)'; e.target.style.boxShadow='0 0 0 4px var(--ob-focus-ring)'; }}
                 onBlur={(e) => { e.target.style.borderColor=endErr?'var(--ob-danger)':'var(--ob-border)'; e.target.style.boxShadow='none'; }}
               />
               {endErr && <div style={{ fontSize: 11, color: 'var(--ob-danger)', marginTop: 4 }}>{endErr}</div>}
@@ -445,7 +473,7 @@ const Datepicker = ({
               type="text" value={startText} maxLength={10} placeholder="dd/mm/yyyy"
               onChange={handleStartInput} onClick={handleInputClick}
               style={inputStyle(!!startErr)}
-              onFocus={(e) => { if (!startErr) e.target.style.borderColor='var(--ob-blue)'; e.target.style.boxShadow='0 0 0 4px rgba(10,78,228,0.16)'; }}
+              onFocus={(e) => { if (!startErr) e.target.style.borderColor='var(--ob-blue)'; e.target.style.boxShadow='0 0 0 4px var(--ob-focus-ring)'; }}
               onBlur={(e) => { e.target.style.borderColor=startErr?'var(--ob-danger)':'var(--ob-border)'; e.target.style.boxShadow='none'; }}
             />
             {startErr && <div style={{ fontSize: 11, color: 'var(--ob-danger)', marginTop: 4 }}>{startErr}</div>}
@@ -456,12 +484,12 @@ const Datepicker = ({
       {open && (
         <div onClick={(e) => e.stopPropagation()} style={{
           position: 'absolute', top: '100%', left: 0, marginTop: 8, background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
-          borderRadius: 12, padding: 16, boxShadow: '0 8px 24px rgba(20,20,20,0.12)', zIndex: 1000, minWidth: 300,
+          borderRadius: 'var(--ob-r-surface)', padding: 16, boxShadow: 'var(--ob-shadow-lg)', zIndex: 1000, minWidth: 300,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <button onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 6 }}>←</button>
+            <button onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}>←</button>
             <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{monthNames[month.getMonth()]} {month.getFullYear()}</span>
-            <button onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 6 }}>→</button>
+            <button onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}>→</button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 2, marginBottom: 10 }}>
             {['D','S','T','Q','Q','S','S'].map((d,i) => (
@@ -475,7 +503,7 @@ const Datepicker = ({
               const inRange = isInRange(day);
               return (
                 <button key={day} onClick={() => handleDayClick(day)} style={{
-                  padding: '6px 0', borderRadius: 6, border: 'none', textAlign: 'center',
+                  padding: '6px 0', borderRadius: 'var(--ob-r-xs)', border: 'none', textAlign: 'center',
                   background: isStart || isEnd ? 'var(--ob-blue)' : inRange ? 'var(--ob-blue-100)' : 'var(--ob-surface)',
                   color: isStart || isEnd ? '#fff' : 'var(--ob-fg-strong)',
                   fontSize: 12, fontWeight: 500, cursor: 'pointer', transition: 'background 100ms',
@@ -496,4 +524,4 @@ const Datepicker = ({
   );
 };
 
-Object.assign(window, { Logo, Icons, Brands, BrandTile, Button, Input, Badge, Card, Avatar, Datepicker });
+Object.assign(window, { Logo, Icons, Brands, BrandTile, Button, Input, Badge, Card, Avatar, Datepicker, FieldShell });

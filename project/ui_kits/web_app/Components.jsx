@@ -354,9 +354,9 @@ if (typeof document !== 'undefined' && !document.getElementById('ob-tip-kf')) {
 }
 
 // ── PhIcon (local helper — requires @phosphor-icons/web CSS) ────
-const Ph = ({ n, size = 18, c }) => (
+const Ph = ({ n, size = 18, c, style }) => (
   <i className={`ph ph-${n}`} aria-hidden="true"
-     style={{ fontSize: size, color: c || 'currentColor', lineHeight: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }} />
+     style={{ fontSize: size, color: c || 'currentColor', lineHeight: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', ...style }} />
 );
 
 // ── CHIP ─────────────────────────────────────────────────
@@ -520,7 +520,7 @@ const CodeInput = ({ length = 6, value = '', onChange, status = 'default' }) => 
             background: 'var(--ob-surface)', border: `2px solid ${borderFor(!!vals[i])}`,
             transition: 'border-color 0.15s, box-shadow 0.15s',
           }}
-          onFocus={e => { if (status === 'default') e.target.style.boxShadow = '0 0 0 4px var(--ob-blue-100)'; }}
+          onFocus={e => { if (status === 'default') e.target.style.boxShadow = '0 0 0 4px var(--ob-focus-ring)'; }}
           onBlur={e => e.target.style.boxShadow = 'none'} />
       ))}
     </div>
@@ -538,19 +538,14 @@ const SearchInput = ({ value = '', onChange, loading = false, placeholder = 'Bus
   }
   return (
     <div style={{ position: 'relative', width }}>
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 10, height: 44, padding: '0 14px',
-        background: 'var(--ob-surface)', border: `1.5px solid ${focus ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
-        borderRadius: 'var(--ob-r-md)', boxShadow: focus ? '0 0 0 4px var(--ob-blue-100)' : 'none',
-        transition: 'border-color 0.15s, box-shadow 0.15s',
-      }}>
+      <FieldShell focused={focus}>
         <Ph n="magnifying-glass" size={18} c="var(--ob-fg-mute)" />
         <input value={value} onChange={e => onChange?.(e.target.value)} placeholder={placeholder}
           onFocus={() => setFocus(true)} onBlur={() => setTimeout(() => setFocus(false), 150)}
-          style={{ flex: 1, border: 'none', outline: 'none', background: 'none', fontFamily: 'var(--ob-font)', fontSize: 14.5, color: 'var(--ob-fg-strong)' }} />
-        {loading && <i className="ph ph-circle-notch" style={{ fontSize: 17, color: 'var(--ob-blue)', animation: 'ob-spin 0.8s linear infinite' }} />}
-        {!loading && value && <button onClick={() => onChange?.('')} aria-label="Limpar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2 }}><Ph n="x-circle" size={17} /></button>}
-      </div>
+          style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'none', fontFamily: 'var(--ob-font)', fontSize: 14.5, color: 'var(--ob-fg-strong)' }} />
+        {loading && <i className="ph ph-circle-notch" style={{ fontSize: 17, color: 'var(--ob-blue)', animation: 'ob-spin 0.8s linear infinite', flex: 'none' }} />}
+        {!loading && value && <button onClick={() => onChange?.('')} aria-label="Limpar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flex: 'none' }}><Ph n="x-circle" size={17} /></button>}
+      </FieldShell>
       {showDrop && (
         <div style={{ position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0, zIndex: 1200, background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderRadius: 'var(--ob-r-md)', boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden' }}>
           {results.map((r, i) => {
@@ -744,9 +739,6 @@ const Select = ({
     }
   };
 
-  const borderColor = error ? 'var(--ob-danger)' : open ? 'var(--ob-blue)' : 'var(--ob-border)';
-  const boxShadow   = open ? (error ? '0 0 0 3px rgba(214,54,54,.15)' : '0 0 0 3px var(--ob-focus-ring)') : 'none';
-
   const displayValue = !multi && selected && !open ? selected : '';
 
   return (
@@ -754,29 +746,15 @@ const Select = ({
       {label && (
         <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>{label}</div>
       )}
-      <div
+      <FieldShell
+        focused={open} error={!!error} disabled={disabled}
+        padding={multi && selected.length ? '6px 10px' : '0 12px'}
         onClick={() => { if (!disabled) { setOpen(o => !o); setTimeout(() => inputRef.current?.focus(), 0); } }}
-        style={{
-          display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 6,
-          minHeight: 44, padding: multi && selected.length ? '6px 10px' : '0 12px',
-          border: `1.5px solid ${borderColor}`, borderRadius: 'var(--ob-r-sm)',
-          background: disabled ? 'var(--ob-bg-alt)' : 'var(--ob-surface)',
-          cursor: disabled ? 'not-allowed' : 'pointer',
-          boxShadow, transition: 'border-color 0.15s, box-shadow 0.15s',
-          opacity: disabled ? 0.6 : 1,
-        }}>
-        {/* Multi chips */}
+        style={{ flexWrap: 'wrap', gap: 6, cursor: disabled ? 'not-allowed' : 'pointer' }}>
+        {/* Multi chips — real Chip component */}
         {multi && selected.map(s => (
-          <span key={s} style={{
-            display: 'inline-flex', alignItems: 'center', gap: 5,
-            background: 'var(--ob-blue-100)', color: 'var(--ob-blue-700)',
-            fontSize: 12, fontWeight: 600, padding: '3px 8px', borderRadius: 'var(--ob-r-sm)',
-          }}>
-            {s}
-            <span
-              onMouseDown={(e) => { e.stopPropagation(); removeChip(s); }}
-              style={{ cursor: 'pointer', lineHeight: 1, fontSize: 14, color: 'var(--ob-blue)' }}>×</span>
-          </span>
+          <Chip key={s} label={s} size="sm" selected removable
+            onToggle={() => {}} onRemove={() => removeChip(s)} />
         ))}
         <input
           ref={inputRef}
@@ -792,20 +770,16 @@ const Select = ({
             padding: multi && selected.length ? '0' : '0 2px', height: multi && selected.length ? 26 : 40,
           }}
         />
-        {/* Caret */}
-        <svg width="14" height="14" viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth="20"
-          strokeLinecap="round" strokeLinejoin="round"
-          style={{ color: 'var(--ob-fg-mute)', flex: 'none', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }}>
-          <path d="m208 96-80 80-80-80"/>
-        </svg>
-      </div>
+        <Ph n="caret-down" size={16} c="var(--ob-fg-mute)"
+          style={{ flex: 'none', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
+      </FieldShell>
 
       {/* Dropdown */}
       {open && (
         <div style={{
           position: 'absolute', top: 'calc(100% + 6px)', left: 0, right: 0,
           background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
-          borderRadius: 'var(--ob-r-md)', boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+          borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)',
           zIndex: 1200, maxHeight: 240, overflowY: 'auto',
           padding: '4px',
         }}>
@@ -823,18 +797,21 @@ const Select = ({
                 onMouseDown={(e) => { e.preventDefault(); toggle(opt); }}
                 onMouseEnter={() => setHighlighted(i)}
                 style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
                   padding: '9px 12px', borderRadius: 'var(--ob-r-sm)', cursor: 'pointer',
-                  fontSize: 14, fontWeight: isSelected ? 600 : 400,
-                  color: isSelected ? 'var(--ob-blue-700)' : 'var(--ob-fg)',
-                  background: isHigh ? 'var(--ob-bg-warm)' : isSelected ? 'var(--ob-blue-100)' : 'transparent',
+                  fontSize: 14, fontWeight: (isSelected && !multi) ? 600 : 400,
+                  color: (isSelected && !multi) ? 'var(--ob-blue-700)' : 'var(--ob-fg)',
+                  background: isHigh ? 'var(--ob-bg-warm)' : (isSelected && !multi ? 'var(--ob-blue-100)' : 'transparent'),
                   transition: 'background 0.1s',
                 }}>
-                <span>{lbl}</span>
-                {isSelected && (
-                  <svg width="14" height="14" viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--ob-blue)', flex: 'none' }}>
-                    <path d="M40 128l56 56 120-120"/>
-                  </svg>
+                {multi ? (
+                  /* Multi list item — real Checkbox */
+                  <Checkbox checked={isSelected} onChange={() => {}} label={lbl} />
+                ) : (
+                  <>
+                    <span>{lbl}</span>
+                    {isSelected && <Ph n="check" size={15} c="var(--ob-blue)" />}
+                  </>
                 )}
               </div>
             );
@@ -844,7 +821,7 @@ const Select = ({
 
       {error && (
         <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 5, display: 'flex', alignItems: 'center', gap: 4 }}>
-          <svg width="13" height="13" viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round"><circle cx="128" cy="128" r="96"/><path d="M128 120v-40"/><circle cx="128" cy="172" r="10" fill="currentColor" stroke="none"/></svg>
+          <Ph n="warning-circle" size={13} c="var(--ob-danger)" />
           {error}
         </div>
       )}
