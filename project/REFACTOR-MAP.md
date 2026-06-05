@@ -55,7 +55,31 @@ Previews que reimplementavam o componente inline agora carregam `Primitives.jsx`
 - **badge, chip, modal, drawer, tabs, table** ✅ — removida a reimplementação inline; usam o componente real.
 - **inputs, buttons, cards** ✅ — eram vitrines CSS estáticas com **hex e raios hardcoded**; tokenizadas (`--ob-blue`, `--ob-r-control/surface`, `--ob-shadow-md/pop`, etc.) e agora theme-aware.
 
-**Pendência F1:** `components-datepicker.html` ainda é uma reimplementação vanilla-JS completa, com muito hex/raio hardcoded. Merece passada própria — idealmente convertendo para o `Datepicker` React real (também destrava **A6**). Rastreado para execução futura.
+**Pendência F1:** ~~`components-datepicker.html` ainda é uma reimplementação vanilla-JS completa~~ ✅ **resolvido no Passo 5.**
+
+---
+
+## ✅ Execução — Passo 5: Datepicker compõe FieldShell + preview real (A6 + F1 final)
+
+- **A6 ✅** — `Datepicker` (Primitives.jsx) agora compõe `FieldShell` em todos os campos (range start/end e single). Removido o `inputStyle()` próprio e os handlers de foco manuais (`onFocus`/`onBlur` mexendo em `e.target.style`); foco/erro/raio agora vêm do primitivo. Adicionados estados `startFocus`/`endFocus`.
+- **F1 ✅ (datepicker)** — `components-datepicker.html` deixou de ser reimplementação vanilla-JS (435 linhas → ~115). Agora carrega `Primitives.jsx` e renderiza o `Datepicker` React real, com 7 variações mapeadas às **props reais** do componente (range, single, nosubmit via `showSubmitButton`, resetOnSubmit, prefilled via `defaultValues`, mindate via `minBookingDate`, error). Eliminado todo o hex/raio hardcoded da preview.
+
+---
+
+## Estado final da refatoração
+
+Todas as categorias do mapa executadas:
+- **A (composição)** ✅ — A1–A6 resolvidos.
+- **B (campo de texto)** ✅ — `FieldShell` unifica os 5 campos.
+- **C (hardcodes)** ✅ — raios/sombras/focus/cor → tokens.
+- **D (ícones)** ✅ — Select usa Phosphor; `Ph` aceita `style`.
+- **E (adoção de tokens)** ✅ — tokens semânticos agora têm uso real.
+- **F (previews)** ✅ — todas importam a fonte real ou estão tokenizadas.
+- **H1** ✅ — backdrops via `--ob-opacity-scrim`.
+
+**Aberto (rastreado, fora do escopo de consistência interna):**
+- **G2** — glyphs `✓`/`✕` como texto nos docs (decisão tipográfica, menor).
+- **H3** — brand logos SVG → `@phosphor-icons/react` (pendente do pacote React, já no CLAUDE.md).
 
 ---
 

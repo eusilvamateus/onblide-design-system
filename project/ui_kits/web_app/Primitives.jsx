@@ -337,6 +337,8 @@ const Datepicker = ({
   const [endText, setEndText] = useState(dpFmt(values?.endDate || defaultValues?.endDate));
   const [startErr, setStartErr] = useState('');
   const [endErr, setEndErr] = useState('');
+  const [startFocus, setStartFocus] = useState(false);
+  const [endFocus, setEndFocus] = useState(false);
 
   // Close on outside click
   React.useEffect(() => {
@@ -428,14 +430,12 @@ const Datepicker = ({
   const prevMonth = () => setMonth(new Date(month.getFullYear(), month.getMonth() - 1));
   const nextMonth = () => setMonth(new Date(month.getFullYear(), month.getMonth() + 1));
 
-  const inputStyle = (hasErr) => ({
-    width: '100%', padding: '10px 14px', borderRadius: 'var(--ob-r-control)',
-    border: `1.5px solid ${hasErr ? 'var(--ob-danger)' : 'var(--ob-border)'}`,
-    fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', background: 'var(--ob-surface)',
-    boxSizing: 'border-box', outline: 'none', transition: 'border-color 160ms, box-shadow 160ms',
-  });
-
   const handleInputClick = (e) => { e.stopPropagation(); setOpen(true); };
+
+  const dpInputStyle = {
+    flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
+    fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: '10px 0',
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, position: 'relative' }}
@@ -446,36 +446,39 @@ const Datepicker = ({
           <>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ob-fg-soft)', marginBottom: 4 }}>{startDateLabel}</div>
-              <input
-                type="text" value={startText} maxLength={10} placeholder="dd/mm/yyyy"
-                onChange={handleStartInput} onClick={handleInputClick}
-                style={inputStyle(!!startErr)}
-                onFocus={(e) => { if (!startErr) e.target.style.borderColor='var(--ob-blue)'; e.target.style.boxShadow='0 0 0 4px var(--ob-focus-ring)'; }}
-                onBlur={(e) => { e.target.style.borderColor=startErr?'var(--ob-danger)':'var(--ob-border)'; e.target.style.boxShadow='none'; }}
-              />
+              <FieldShell focused={startFocus} error={!!startErr} onClick={handleInputClick}>
+                <input
+                  type="text" value={startText} maxLength={10} placeholder="dd/mm/yyyy"
+                  onChange={handleStartInput} onClick={handleInputClick}
+                  onFocus={() => setStartFocus(true)} onBlur={() => setStartFocus(false)}
+                  style={dpInputStyle}
+                />
+              </FieldShell>
               {startErr && <div style={{ fontSize: 11, color: 'var(--ob-danger)', marginTop: 4 }}>{startErr}</div>}
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ob-fg-soft)', marginBottom: 4 }}>{endDateLabel}</div>
-              <input
-                type="text" value={endText} maxLength={10} placeholder="dd/mm/yyyy"
-                onChange={handleEndInput} onClick={handleInputClick}
-                style={inputStyle(!!endErr)}
-                onFocus={(e) => { if (!endErr) e.target.style.borderColor='var(--ob-blue)'; e.target.style.boxShadow='0 0 0 4px var(--ob-focus-ring)'; }}
-                onBlur={(e) => { e.target.style.borderColor=endErr?'var(--ob-danger)':'var(--ob-border)'; e.target.style.boxShadow='none'; }}
-              />
+              <FieldShell focused={endFocus} error={!!endErr} onClick={handleInputClick}>
+                <input
+                  type="text" value={endText} maxLength={10} placeholder="dd/mm/yyyy"
+                  onChange={handleEndInput} onClick={handleInputClick}
+                  onFocus={() => setEndFocus(true)} onBlur={() => setEndFocus(false)}
+                  style={dpInputStyle}
+                />
+              </FieldShell>
               {endErr && <div style={{ fontSize: 11, color: 'var(--ob-danger)', marginTop: 4 }}>{endErr}</div>}
             </div>
           </>
         ) : (
           <div style={{ flex: 1 }}>
-            <input
-              type="text" value={startText} maxLength={10} placeholder="dd/mm/yyyy"
-              onChange={handleStartInput} onClick={handleInputClick}
-              style={inputStyle(!!startErr)}
-              onFocus={(e) => { if (!startErr) e.target.style.borderColor='var(--ob-blue)'; e.target.style.boxShadow='0 0 0 4px var(--ob-focus-ring)'; }}
-              onBlur={(e) => { e.target.style.borderColor=startErr?'var(--ob-danger)':'var(--ob-border)'; e.target.style.boxShadow='none'; }}
-            />
+            <FieldShell focused={startFocus} error={!!startErr} onClick={handleInputClick}>
+              <input
+                type="text" value={startText} maxLength={10} placeholder="dd/mm/yyyy"
+                onChange={handleStartInput} onClick={handleInputClick}
+                onFocus={() => setStartFocus(true)} onBlur={() => setStartFocus(false)}
+                style={dpInputStyle}
+              />
+            </FieldShell>
             {startErr && <div style={{ fontSize: 11, color: 'var(--ob-danger)', marginTop: 4 }}>{startErr}</div>}
           </div>
         )}

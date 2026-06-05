@@ -1,61 +1,18 @@
+<!-- @dsCard group="Components" -->
 <!doctype html>
-<html><head><meta charset="utf-8"><title>Datepicker</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Datepicker</title>
 <link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
 <style>
-  body { margin: 0; padding: 24px; background: #fff; font-family: var(--ob-font); color: #545454; }
-
-  .var-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #f4f4f4; }
-  .var-bar label { font-family: var(--ob-font-mono); font-size: 11px; color: #a8a8a8; white-space: nowrap; }
-  .var-select { padding: 6px 10px 6px 12px; border-radius: 8px; border: 1.5px solid #ececec; font-family: inherit; font-size: 13px; font-weight: 500; color: #2a2a2a; background: #fff; cursor: pointer; outline: none; transition: border-color 160ms; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 256 256' fill='%23a8a8a8'%3E%3Cpath d='m208 96-80 80-80-80'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
-  .var-select:focus { border-color: #0a4ee4; }
-
-  .grid { display: grid; gap: 18px; grid-template-columns: 90px 1fr; align-items: start; }
-  .lbl { font-family: var(--ob-font-mono); font-size: 11px; color: #a8a8a8; padding-top: 28px; }
-  .variation { display: none; }
-  .variation.active { display: contents; }
-
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field-lbl { font-size: 11px; font-weight: 600; color: #7a7a7a; }
-  .input { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #ececec; font-family: inherit; font-size: 14px; color: #2a2a2a; background: #fff; box-sizing: border-box; cursor: text; outline: none; transition: border-color 160ms, box-shadow 160ms; }
-  .input:hover { border-color: #d8d8d8; }
-  .input:focus { border-color: #0a4ee4; box-shadow: 0 0 0 4px rgba(10,78,228,0.16); }
-  .input.invalid { border-color: var(--ob-danger); box-shadow: 0 0 0 4px rgba(210,56,56,0.12); }
-  .input.error { border-color: var(--ob-danger); }
-  .input.empty { color: #a8a8a8; }
-  .err-msg { font-size: 11px; color: var(--ob-danger); min-height: 16px; margin-top: -2px; }
-  .row { display: flex; gap: 8px; align-items: flex-start; flex-wrap: wrap; }
-  .pair { display: flex; gap: 8px; width: 280px; }
-  .pair .field { flex: 1; min-width: 0; }
-  .w180 { width: 180px; }
-  .help { font-size: 11px; color: #a8a8a8; }
-  .help.error { color: var(--ob-danger); }
-
-  .dp { position: relative; display: inline-block; }
-  .cal-pop { position: absolute; top: calc(100% + 6px); left: 0; z-index: 50; display: none; }
-  .cal-pop.open { display: block; }
-  .cal { background: #fff; border: 1px solid #ececec; border-radius: 12px; padding: 14px; box-shadow: 0 8px 24px rgba(20,20,20,0.12); width: 268px; box-sizing: border-box; }
-  .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  .cal-head span { font-size: 13px; font-weight: 600; color: #2a2a2a; }
-  .cal-head button { background: none; border: none; cursor: pointer; padding: 4px 8px; color: #0a4ee4; font-size: 14px; border-radius: 6px; }
-  .cal-head button:hover { background: #f1f5ff; }
-  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; margin-bottom: 10px; }
-  .dow { text-align: center; font-size: 10px; font-weight: 600; color: #a8a8a8; padding: 4px 0; }
-  .day { padding: 6px 0; border-radius: 6px; border: none; background: #fff; color: #2a2a2a; font-size: 12px; font-weight: 500; font-family: inherit; text-align: center; cursor: pointer; transition: background 100ms; }
-  .day:hover { background: #fbfbfb; }
-  .day.in-range { background: #e0eaff; }
-  .day.in-range:hover { background: #cfdcff; }
-  .day.start, .day.end { background: #0a4ee4; color: #fff; }
-  .day.start:hover, .day.end:hover { background: #0840b8; }
-  .day.muted { color: #d8d8d8; cursor: default; }
-  .day.muted:hover { background: #fff; }
-  .day.disabled { color: #d8d8d8; cursor: not-allowed; }
-  .day.disabled:hover { background: #fff; }
-  .cal-actions { display: flex; gap: 6px; border-top: 1px solid #ececec; padding-top: 10px; }
-  .btn { padding: 7px 10px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; flex: 1; transition: background 120ms; }
-  .btn-ghost { background: transparent; color: #0a4ee4; }
-  .btn-ghost:hover { background: #f1f5ff; }
-  .btn-primary { background: #0a4ee4; color: #fff; }
-  .btn-primary:hover { background: #0840b8; }
+  body { margin: 0; padding: 24px; background: var(--ob-surface); font-family: var(--ob-font); color: var(--ob-fg-soft); }
+  .var-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px solid var(--ob-line-soft); }
+  .var-bar label { font-family: var(--ob-font-mono); font-size: 11px; color: var(--ob-fg-mute); white-space: nowrap; }
+  .var-select { padding: 6px 28px 6px 12px; border-radius: var(--ob-r-sm); border: 1.5px solid var(--ob-border); font-family: inherit; font-size: 13px; font-weight: 500; color: var(--ob-fg-strong); background: var(--ob-surface); cursor: pointer; outline: none; transition: border-color 160ms; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 256 256' fill='%23a8a8a8'%3E%3Cpath d='m208 96-80 80-80-80'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
+  .var-select:focus { border-color: var(--ob-blue); }
+  .grid { display: grid; gap: 18px; grid-template-columns: 96px 1fr; align-items: start; }
+  .lbl { font-family: var(--ob-font-mono); font-size: 11px; color: var(--ob-fg-mute); padding-top: 4px; }
+  .desc { font-size: 12.5px; color: var(--ob-fg-mute); margin-top: 14px; max-width: 460px; line-height: 1.5; }
+  .stage { min-height: 130px; }
 </style></head><body>
 
   <div class="var-bar">
@@ -64,371 +21,51 @@
       <option value="range">Range (padrão)</option>
       <option value="single">Single date</option>
       <option value="nosubmit">Sem botão enviar</option>
-      <option value="noactions">Sem ações (auto-fecha)</option>
+      <option value="resetonsubmit">Reset ao enviar</option>
       <option value="prefilled">Pré-preenchido</option>
       <option value="mindate">Data mínima</option>
-      <option value="states">Estados</option>
+      <option value="error">Estado de erro</option>
     </select>
   </div>
 
-  <div class="grid" id="main-grid">
+  <div id="root"></div>
 
-    <!-- RANGE -->
-    <div class="variation active" data-var="range">
-      <div class="lbl">RANGE</div>
-      <div class="row">
-        <div class="dp" data-cal="range">
-          <div class="pair">
-            <div class="field">
-              <span class="field-lbl">de</span>
-              <input class="input" id="range-start" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off"/>
-              <div class="err-msg" id="range-start-err"></div>
-            </div>
-            <div class="field">
-              <span class="field-lbl">até</span>
-              <input class="input" id="range-end" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off"/>
-              <div class="err-msg" id="range-end-err"></div>
-            </div>
-          </div>
-          <div class="cal-pop" id="range-pop">
-            <div class="cal">
-              <div class="cal-head"><button data-nav="-1" data-cal="range">←</button><span id="range-title"></span><button data-nav="1" data-cal="range">→</button></div>
-              <div class="cal-grid" id="range-grid"></div>
-              <div class="cal-actions"><button class="btn btn-ghost" data-action="clear" data-cal="range">Limpar</button><button class="btn btn-primary" data-action="submit" data-cal="range">Confirmar</button></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="../../ui_kits/web_app/Primitives.jsx"></script>
+  <script type="text/babel">
+    const { useState } = React;
 
-    <!-- SINGLE -->
-    <div class="variation" data-var="single">
-      <div class="lbl">SINGLE</div>
-      <div class="row">
-        <div class="dp" data-cal="single">
-          <div class="field w180">
-            <span class="field-lbl">data</span>
-            <input class="input" id="single-input" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off"/>
-            <div class="err-msg" id="single-input-err"></div>
-          </div>
-          <div class="cal-pop" id="single-pop">
-            <div class="cal">
-              <div class="cal-head"><button data-nav="-1" data-cal="single">←</button><span id="single-title"></span><button data-nav="1" data-cal="single">→</button></div>
-              <div class="cal-grid" id="single-grid"></div>
-              <div class="cal-actions"><button class="btn btn-ghost" data-action="clear" data-cal="single">Limpar</button><button class="btn btn-primary" data-action="submit" data-cal="single">Confirmar</button></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    const VARIATIONS = {
+      range:         { props: { startDateLabel: 'de', endDateLabel: 'até' }, desc: 'Seleção de intervalo. Clique no campo, escolha início e fim no calendário ou digite manualmente (dd/mm/aaaa).' },
+      single:        { props: { singleDate: true }, desc: 'Seleção de data única. Ao escolher, o calendário fecha automaticamente.' },
+      nosubmit:      { props: { showSubmitButton: false }, desc: 'showSubmitButton=false — apenas o botão Limpar; o intervalo se aplica ao selecionar a data final.' },
+      resetonsubmit: { props: { resetOnSubmit: true }, desc: 'resetOnSubmit=true — ao confirmar, os campos são limpos automaticamente.' },
+      prefilled:     { props: { defaultValues: { startDate: '2026-05-24', endDate: '2026-05-31' } }, desc: 'defaultValues — abre já preenchido com um intervalo inicial.' },
+      mindate:       { props: { singleDate: true, minBookingDate: new Date(2026, 4, 20) }, desc: 'minBookingDate — datas anteriores a 20/05/2026 ficam desabilitadas.' },
+      error:         { props: { error: 'Data inválida', defaultValues: { startDate: '2026-05-31', endDate: null }, singleDate: true }, desc: 'error — mensagem de validação exibida abaixo do campo.' },
+    };
 
-    <!-- NO SUBMIT -->
-    <div class="variation" data-var="nosubmit">
-      <div class="lbl">NO SUBMIT</div>
-      <div class="row">
-        <div class="dp" data-cal="nosubmit">
-          <div class="pair">
-            <div class="field">
-              <span class="field-lbl">de</span>
-              <input class="input" id="nosubmit-start" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off"/>
-              <div class="err-msg" id="nosubmit-start-err"></div>
-            </div>
-            <div class="field">
-              <span class="field-lbl">até</span>
-              <input class="input" id="nosubmit-end" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off"/>
-              <div class="err-msg" id="nosubmit-end-err"></div>
-            </div>
-          </div>
-          <div class="cal-pop" id="nosubmit-pop">
-            <div class="cal">
-              <div class="cal-head"><button data-nav="-1" data-cal="nosubmit">←</button><span id="nosubmit-title"></span><button data-nav="1" data-cal="nosubmit">→</button></div>
-              <div class="cal-grid" id="nosubmit-grid"></div>
-              <div class="cal-actions" style="justify-content:flex-end;"><button class="btn btn-ghost" style="flex:0;" data-action="clear" data-cal="nosubmit">Limpar</button></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- NO ACTIONS -->
-    <div class="variation" data-var="noactions">
-      <div class="lbl">NO ACTIONS</div>
-      <div class="row">
-        <div class="dp" data-cal="noactions">
-          <div class="pair">
-            <div class="field">
-              <span class="field-lbl">de</span>
-              <input class="input" id="noactions-start" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off"/>
-              <div class="err-msg" id="noactions-start-err"></div>
-            </div>
-            <div class="field">
-              <span class="field-lbl">até</span>
-              <input class="input" id="noactions-end" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off"/>
-              <div class="err-msg" id="noactions-end-err"></div>
-            </div>
-          </div>
-          <div class="cal-pop" id="noactions-pop">
-            <div class="cal">
-              <div class="cal-head"><button data-nav="-1" data-cal="noactions">←</button><span id="noactions-title"></span><button data-nav="1" data-cal="noactions">→</button></div>
-              <div class="cal-grid" id="noactions-grid"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PRE-FILLED -->
-    <div class="variation" data-var="prefilled">
-      <div class="lbl">PRÉ-PREEN.</div>
-      <div class="row">
-        <div class="dp" data-cal="prefilled">
-          <div class="pair">
-            <div class="field">
-              <span class="field-lbl">de</span>
-              <input class="input" id="prefilled-start" maxlength="10" autocomplete="off"/>
-              <div class="err-msg" id="prefilled-start-err"></div>
-            </div>
-            <div class="field">
-              <span class="field-lbl">até</span>
-              <input class="input" id="prefilled-end" maxlength="10" autocomplete="off"/>
-              <div class="err-msg" id="prefilled-end-err"></div>
-            </div>
-          </div>
-          <div class="cal-pop" id="prefilled-pop">
-            <div class="cal">
-              <div class="cal-head"><button data-nav="-1" data-cal="prefilled">←</button><span id="prefilled-title"></span><button data-nav="1" data-cal="prefilled">→</button></div>
-              <div class="cal-grid" id="prefilled-grid"></div>
-              <div class="cal-actions"><button class="btn btn-ghost" data-action="clear" data-cal="prefilled">Limpar</button><button class="btn btn-primary" data-action="submit" data-cal="prefilled">Confirmar</button></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MIN DATE -->
-    <div class="variation" data-var="mindate">
-      <div class="lbl">MIN DATE</div>
-      <div class="row">
-        <div class="dp" data-cal="mindate">
-          <div class="field w180">
-            <span class="field-lbl">a partir de 20/05</span>
-            <input class="input" id="mindate-input" placeholder="dd/mm/yyyy" maxlength="10" autocomplete="off"/>
-            <div class="err-msg" id="mindate-input-err"></div>
-          </div>
-          <div class="cal-pop" id="mindate-pop">
-            <div class="cal">
-              <div class="cal-head"><button data-nav="-1" data-cal="mindate">←</button><span id="mindate-title"></span><button data-nav="1" data-cal="mindate">→</button></div>
-              <div class="cal-grid" id="mindate-grid"></div>
-              <div class="cal-actions"><button class="btn btn-ghost" data-action="clear" data-cal="mindate">Limpar</button><button class="btn btn-primary" data-action="submit" data-cal="mindate">Confirmar</button></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- STATES (readonly — visual only) -->
-    <div class="variation" data-var="states">
-      <div class="lbl">STATES</div>
-      <div class="row" style="align-items:flex-start;">
-        <div class="field w180"><span class="field-lbl">vazio</span><input class="input empty" placeholder="dd/mm/yyyy" readonly/><div class="err-msg"></div></div>
-        <div class="field w180"><span class="field-lbl">foco</span><input class="input" style="border-color:#0a4ee4;box-shadow:0 0 0 4px rgba(10,78,228,0.16);" value="24/05/2026" readonly/><div class="err-msg"></div></div>
-        <div class="field w180"><span class="field-lbl">erro</span><input class="input invalid" value="31/05/2026" readonly/><div class="err-msg" style="color:var(--ob-danger);">Data inválida</div></div>
-      </div>
-    </div>
-
-  </div>
-
-<script>
-const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const DOW = ['D','S','T','Q','Q','S','S'];
-
-const configs = {
-  range:     { mode: 'range',  inputs: ['range-start','range-end'],           view: new Date(2026,4,1), start: null, end: null, minDate: null },
-  single:    { mode: 'single', inputs: ['single-input'],                       view: new Date(2026,4,1), start: null, end: null, minDate: null },
-  nosubmit:  { mode: 'range',  inputs: ['nosubmit-start','nosubmit-end'],      view: new Date(2026,4,1), start: null, end: null, minDate: null },
-  noactions: { mode: 'range',  inputs: ['noactions-start','noactions-end'],    view: new Date(2026,4,1), start: null, end: null, minDate: null },
-  prefilled: { mode: 'range',  inputs: ['prefilled-start','prefilled-end'],    view: new Date(2026,4,1), start: new Date(2026,4,24), end: new Date(2026,4,31), minDate: null },
-  mindate:   { mode: 'single', inputs: ['mindate-input'],                      view: new Date(2026,4,1), start: null, end: null, minDate: new Date(2026,4,20) },
-};
-
-// ── helpers ──────────────────────────────────────────────
-function fmt(d) { if (!d) return ''; return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`; }
-function pad(n) { return String(n).padStart(2,'0'); }
-function same(a,b) { return !!(a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()); }
-function between(d,a,b) { if (!a||!b) return false; return d>a&&d<b; }
-
-function parseDate(str) {
-  // accepts dd/mm/yyyy
-  if (!/^\d{2}\/\d{2}\/\d{4}$/.test(str)) return null;
-  const [dd, mm, yyyy] = str.split('/').map(Number);
-  if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return null;
-  const d = new Date(yyyy, mm-1, dd);
-  if (d.getDate() !== dd || d.getMonth() !== mm-1 || d.getFullYear() !== yyyy) return null;
-  return d;
-}
-
-function setErr(id, msg) {
-  const el = document.getElementById(`${id}-err`);
-  if (!el) return;
-  el.textContent = msg;
-  const input = document.getElementById(id);
-  if (input) input.classList.toggle('invalid', !!msg);
-}
-
-// ── input mask: auto-insert slashes ──────────────────────
-function applyMask(e) {
-  const el = e.target;
-  const key = e.inputType;
-  // only mask on insertions
-  if (key && key.startsWith('delete')) return;
-  let v = el.value.replace(/\D/g, '');
-  if (v.length > 8) v = v.slice(0, 8);
-  let masked = v;
-  if (v.length > 2) masked = v.slice(0,2) + '/' + v.slice(2);
-  if (v.length > 4) masked = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
-  el.value = masked;
-}
-
-// ── calendar render ───────────────────────────────────────
-function render(key) {
-  const s = configs[key];
-  if (!s) return;
-  const titleEl = document.getElementById(`${key}-title`);
-  const grid = document.getElementById(`${key}-grid`);
-  if (!titleEl || !grid) return;
-  titleEl.textContent = `${MONTHS[s.view.getMonth()]} ${s.view.getFullYear()}`;
-  grid.innerHTML = '';
-  DOW.forEach(d => { const el=document.createElement('div'); el.className='dow'; el.textContent=d; grid.appendChild(el); });
-  const firstDow = new Date(s.view.getFullYear(),s.view.getMonth(),1).getDay();
-  const lastDay  = new Date(s.view.getFullYear(),s.view.getMonth()+1,0).getDate();
-  const prevLast = new Date(s.view.getFullYear(),s.view.getMonth(),0).getDate();
-  for (let i=firstDow-1;i>=0;i--) { const b=document.createElement('button'); b.className='day muted'; b.textContent=prevLast-i; b.disabled=true; grid.appendChild(b); }
-  for (let d=1;d<=lastDay;d++) {
-    const date=new Date(s.view.getFullYear(),s.view.getMonth(),d);
-    const btn=document.createElement('button'); btn.className='day'; btn.textContent=d;
-    if (s.minDate && date < s.minDate) { btn.classList.add('disabled'); btn.disabled=true; }
-    else {
-      if (same(date,s.start)) btn.classList.add('start');
-      if (s.mode==='range' && same(date,s.end)) btn.classList.add('end');
-      if (s.mode==='range' && between(date,s.start,s.end)) btn.classList.add('in-range');
-      btn.addEventListener('click', (e) => { e.stopPropagation(); pick(key,date); });
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    function mount(v) {
+      root.render(<DemoWrapper variation={v} />);
     }
-    grid.appendChild(btn);
-  }
-  const trailing = (7-((firstDow+lastDay)%7))%7;
-  for (let i=1;i<=trailing;i++) { const b=document.createElement('button'); b.className='day muted'; b.textContent=i; b.disabled=true; grid.appendChild(b); }
-}
-
-function syncInputs(key) {
-  const s = configs[key];
-  if (!s) return;
-  if (s.mode==='single') {
-    const el=document.getElementById(s.inputs[0]); if(el) el.value=fmt(s.start);
-    setErr(s.inputs[0], '');
-  } else {
-    const a=document.getElementById(s.inputs[0]), b=document.getElementById(s.inputs[1]);
-    if(a) { a.value=fmt(s.start); setErr(s.inputs[0],''); }
-    if(b) { b.value=fmt(s.end);   setErr(s.inputs[1],''); }
-  }
-}
-
-function pick(key, date) {
-  const s = configs[key];
-  if (s.mode==='single') {
-    s.start=date; s.end=null;
-    syncInputs(key); render(key); closeAll();
-  } else {
-    if (!s.start || (s.start&&s.end) || date<s.start) { s.start=date; s.end=null; }
-    else { s.end=date; if (s.end && key==='noactions') { setTimeout(closeAll, 160); } }
-    syncInputs(key); render(key);
-  }
-}
-
-// ── handle manual text input ──────────────────────────────
-function handleManualInput(key, inputId, role) {
-  const el = document.getElementById(inputId);
-  if (!el) return;
-
-  // Open calendar on click (stopPropagation prevents document listener from closing it)
-  el.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const pop = document.getElementById(`${key}-pop`);
-    if (!pop) return;
-    const wasOpen = pop.classList.contains('open');
-    closeAll();
-    if (!wasOpen) { pop.classList.add('open'); render(key); }
-  });
-
-  el.addEventListener('input', (e) => {
-    applyMask(e);
-    const v = el.value;
-    if (v.length < 10) { setErr(inputId, ''); return; }
-    const d = parseDate(v);
-    const s = configs[key];
-    if (!d) { setErr(inputId, 'Data inválida'); return; }
-    if (s.minDate && d < s.minDate) { setErr(inputId, `Mínimo: ${fmt(s.minDate)}`); return; }
-    setErr(inputId, '');
-    if (role === 'start' || role === 'single') {
-      s.start = d; s.end = role==='single' ? null : s.end;
-      s.view = new Date(d.getFullYear(), d.getMonth(), 1);
-    } else if (role === 'end') {
-      if (s.start && d < s.start) { setErr(inputId, 'Deve ser depois da data inicial'); return; }
-      s.end = d;
-      s.view = new Date(d.getFullYear(), d.getMonth(), 1);
+    function DemoWrapper({ variation }) {
+      const cfg = VARIATIONS[variation];
+      return (
+        <div className="grid">
+          <div className="lbl">{variation.toUpperCase()}</div>
+          <div>
+            <div className="stage" style={{ maxWidth: 300 }}>
+              <Datepicker key={variation} {...cfg.props} />
+            </div>
+            <div className="desc">{cfg.desc}</div>
+          </div>
+        </div>
+      );
     }
-    render(key);
-  });
-}
-
-// ── open/close ────────────────────────────────────────────
-function closeAll() {
-  document.querySelectorAll('.cal-pop').forEach(p=>p.classList.remove('open'));
-}
-
-// ── nav buttons ───────────────────────────────────────────
-document.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const k=b.dataset.cal, delta=parseInt(b.dataset.nav,10), s=configs[k];
-  if (!s) return;
-  s.view=new Date(s.view.getFullYear(), s.view.getMonth()+delta, 1);
-  render(k);
-}));
-
-// ── action buttons ────────────────────────────────────────
-document.querySelectorAll('[data-action]').forEach(b => b.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const k=b.dataset.cal, action=b.dataset.action, s=configs[k];
-  if (!s) return;
-  if (action==='clear') { s.start=null; s.end=null; syncInputs(k); render(k); }
-  else { closeAll(); }
-}));
-
-// ── click outside ─────────────────────────────────────────
-document.querySelectorAll('.cal-pop').forEach(p=>p.addEventListener('click',(e)=>e.stopPropagation()));
-document.addEventListener('click', closeAll);
-
-// ── variation switcher ────────────────────────────────────
-document.getElementById('var-select').addEventListener('change', (e) => {
-  const v = e.target.value;
-  document.querySelectorAll('.variation').forEach(el => el.classList.remove('active'));
-  const target = document.querySelector(`[data-var="${v}"]`);
-  if (target) { target.classList.add('active'); render(v); }
-  closeAll();
-});
-
-// ── wire manual input per variation ──────────────────────
-handleManualInput('range',     'range-start',     'start');
-handleManualInput('range',     'range-end',       'end');
-handleManualInput('single',    'single-input',    'single');
-handleManualInput('nosubmit',  'nosubmit-start',  'start');
-handleManualInput('nosubmit',  'nosubmit-end',    'end');
-handleManualInput('noactions', 'noactions-start', 'start');
-handleManualInput('noactions', 'noactions-end',   'end');
-handleManualInput('prefilled', 'prefilled-start', 'start');
-handleManualInput('prefilled', 'prefilled-end',   'end');
-handleManualInput('mindate',   'mindate-input',   'single');
-
-// ── init ──────────────────────────────────────────────────
-Object.keys(configs).forEach(k => { render(k); syncInputs(k); });
-</script>
+    document.getElementById('var-select').addEventListener('change', (e) => mount(e.target.value));
+    mount('range');
+  </script>
 </body></html>
