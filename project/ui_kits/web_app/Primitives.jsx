@@ -165,7 +165,7 @@ const BrandTile = ({ brand, size = 44 }) => {
 const Button = ({ kind = 'primary', size = 'md', icon, children, onClick, style = {} }) => {
   const base = {
     display: 'inline-flex', alignItems: 'center', gap: 8, justifyContent: 'center',
-    fontFamily: 'inherit', fontWeight: 600, border: 'none', borderRadius: 10,
+    fontFamily: 'inherit', fontWeight: 600, border: 'none', borderRadius: 'var(--ob-r-control)',
     cursor: 'pointer', transition: 'all 160ms cubic-bezier(0.2,0.7,0.2,1)',
     fontSize: size === 'sm' ? 13 : size === 'lg' ? 15 : 14,
     padding: size === 'sm' ? '7px 12px' : size === 'lg' ? '14px 22px' : '10px 18px',
@@ -273,10 +273,10 @@ const Badge = ({ tone = 'blue', variant = 'subtle', dot = true, size = 'md', chi
 // Card
 const Card = ({ children, style = {}, padding = 20, elevation = 'border' }) => {
   const ev = elevation === 'shadow'
-    ? { boxShadow: '0 4px 12px rgba(20,20,20,0.06), 0 1px 3px rgba(20,20,20,0.04)' }
+    ? { boxShadow: 'var(--ob-shadow-md)' }
     : { border: '1px solid var(--ob-border)' };
   return (
-    <div style={{ background: 'var(--ob-surface)', borderRadius: 12, padding, ...ev, ...style }}>{children}</div>
+    <div style={{ background: 'var(--ob-surface)', borderRadius: 'var(--ob-r-surface)', padding, ...ev, ...style }}>{children}</div>
   );
 };
 

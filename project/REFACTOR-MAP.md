@@ -37,6 +37,17 @@ Concluído nesta passada (web app source — `Primitives.jsx`, `Components.jsx`)
 
 ---
 
+## ✅ Execução — Passo 3: varredura de hardcodes → tokens (C + E + H1)
+
+- **C1 ✅** — raios numéricos → tokens: Button 10 → `--ob-r-control`; Card 12 → `--ob-r-surface`; Modal 16 → `--ob-r-overlay`; Pagination, Modal/Drawer close-btn, SideNav logo 8 → `--ob-r-sm`.
+- **C2 ✅** — sombras hardcoded → tokens: Card elevated → `--ob-shadow-md`; Toast → `--ob-shadow-lg`.
+- **H1 ✅** — backdrops de Modal e Drawer (`rgba(20,20,20,.45/.40)`) → `rgba(20,20,20,var(--ob-opacity-scrim))`; unificados em 0.45.
+- **E1/E2/E3 ✅ (adoção)** — os tokens semânticos `--ob-r-control/surface/overlay` e `--ob-opacity-scrim` agora têm uso real.
+
+**Pendências:** Toggle knob shadow (micro-sombra de controle, mantida deliberadamente); BrandTile branco/borda/sombra (tema-independente, intencional como os brand logos — H3).
+
+---
+
 ---
 
 ## A · Composição — componentes reinventam outros componentes

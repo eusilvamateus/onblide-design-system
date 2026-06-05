@@ -149,7 +149,7 @@ const Pagination = ({ page = 1, total = 10, onChange, siblings = 1 }) => {
 
   const Arrow = ({ dir, disabled }) => (
     <button disabled={disabled} onClick={() => onChange?.(dir === 'prev' ? page - 1 : page + 1)} style={{
-      width: 34, height: 34, borderRadius: 8, border: '1px solid var(--ob-border)',
+      width: 34, height: 34, borderRadius: 'var(--ob-r-sm)', border: '1px solid var(--ob-border)',
       background: 'var(--ob-surface)', color: disabled ? 'var(--ob-fg-mute)' : 'var(--ob-fg)',
       cursor: disabled ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
       transition: 'all 120ms',
@@ -165,7 +165,7 @@ const Pagination = ({ page = 1, total = 10, onChange, siblings = 1 }) => {
         <span key={`e${i}`} style={{ width: 34, textAlign: 'center', color: 'var(--ob-fg-mute)' }}>…</span>
       ) : (
         <button key={p} onClick={() => onChange?.(p)} style={{
-          minWidth: 34, height: 34, padding: '0 8px', borderRadius: 8,
+          minWidth: 34, height: 34, padding: '0 8px', borderRadius: 'var(--ob-r-sm)',
           border: `1px solid ${p === page ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
           background: p === page ? 'var(--ob-blue)' : 'var(--ob-surface)',
           color: p === page ? '#fff' : 'var(--ob-fg)', fontFamily: 'inherit', fontSize: 14,
@@ -253,17 +253,17 @@ const Modal = ({ open, onClose, title, children, footer, width, size = 'md' }) =
   return (
     <div onClick={onClose} style={{
       position: 'fixed', inset: 0, zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'rgba(20,20,20,0.45)', backdropFilter: 'blur(2px)', padding: 24,
+      background: 'rgba(20,20,20,var(--ob-opacity-scrim))', backdropFilter: 'blur(2px)', padding: 24,
       animation: 'ob-fade 160ms ease-out',
     }}>
       <div onClick={(e) => e.stopPropagation()} style={{
-        width: resolvedWidth, maxWidth: '100%', background: 'var(--ob-surface)', borderRadius: 16,
+        width: resolvedWidth, maxWidth: '100%', background: 'var(--ob-surface)', borderRadius: 'var(--ob-r-overlay)',
         boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden', animation: 'ob-pop 200ms var(--ob-ease-spring)',
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, padding: '20px 24px 0' }}>
           <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</h3>
           <button onClick={onClose} style={{
-            flex: 'none', width: 30, height: 30, borderRadius: 8, border: 'none', background: 'transparent',
+            flex: 'none', width: 30, height: 30, borderRadius: 'var(--ob-r-sm)', border: 'none', background: 'transparent',
             color: 'var(--ob-fg-soft)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
           onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ob-bg-alt)'; }}
@@ -444,7 +444,7 @@ const Drawer = ({ open, onClose, title, children, side = 'right', width = 400, f
     <>
       {/* Backdrop */}
       <div onClick={onClose} style={{
-        position: 'fixed', inset: 0, background: 'rgba(20,20,20,.40)',
+        position: 'fixed', inset: 0, background: 'rgba(20,20,20,var(--ob-opacity-scrim))',
         backdropFilter: 'blur(2px)', zIndex: 8000,
         opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none',
         transition: 'opacity 0.22s ease',
@@ -467,7 +467,7 @@ const Drawer = ({ open, onClose, title, children, side = 'right', width = 400, f
         }}>
           <span style={{ fontSize: 17, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</span>
           <button onClick={onClose} style={{
-            width: 32, height: 32, borderRadius: 8, border: 'none', background: 'none',
+            width: 32, height: 32, borderRadius: 'var(--ob-r-sm)', border: 'none', background: 'none',
             color: 'var(--ob-fg-mute)', cursor: 'pointer', fontSize: 18,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>✕</button>
@@ -603,7 +603,7 @@ const Alert = ({ tone = 'info', title, children, dismissible = false, onClose, a
 const Toast = ({ tone = 'info', title, body, action, onAction, onClose }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
   return (
-    <div role="status" style={{ display: 'flex', gap: 12, width: 360, padding: '14px 14px 14px 16px', background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderLeft: `3px solid ${t.fg}`, borderRadius: 'var(--ob-r-md)', boxShadow: '0 10px 30px rgba(0,0,0,0.13)' }}>
+    <div role="status" style={{ display: 'flex', gap: 12, width: 360, padding: '14px 14px 14px 16px', background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderLeft: `3px solid ${t.fg}`, borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)' }}>
       <Ph n={t.icon} size={20} c={t.fg} />
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{title}</div>
@@ -654,7 +654,7 @@ const SideNav = ({ items = [], active, onNav, collapsed = false, onToggle, flush
         </div>
       : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 4px 14px 8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <span style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--ob-blue)', color: '#fff', fontWeight: 800, fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>O</span>
+            <span style={{ width: 28, height: 28, borderRadius: 'var(--ob-r-sm)', background: 'var(--ob-blue)', color: '#fff', fontWeight: 800, fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>O</span>
             <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--ob-fg-strong)', letterSpacing: '-0.02em' }}>Onblide</span>
           </div>
           {onToggle && <button onClick={onToggle} title="Recolher" style={{ width: 30, height: 30, borderRadius: 'var(--ob-r-md)', border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}
