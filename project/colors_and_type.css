@@ -518,6 +518,38 @@
   --ob-opacity-strong:   0.75;   /* hover link, ícone secundário ativo        */
 
   /* ------------------------------------------------------------
+     BREAKPOINTS — mobile-first
+     (referência de documentação; use valores literais em @media)
+     ------------------------------------------------------------ */
+  --ob-bp-xs:   480px;   /* large phones                    */
+  --ob-bp-sm:   768px;   /* tablets / small landscape       */
+  --ob-bp-md:  1024px;   /* small laptops, landscape tablet */
+  --ob-bp-lg:  1280px;   /* standard desktop                */
+  --ob-bp-xl:  1440px;   /* wide desktop                    */
+
+  /* ------------------------------------------------------------
+     GRID — columns, gutter, margin per breakpoint
+     ------------------------------------------------------------ */
+  --ob-grid-cols-mobile:    4;
+  --ob-grid-cols-tablet:    8;
+  --ob-grid-cols-desktop:  12;
+
+  --ob-grid-gutter-mobile:  var(--ob-s-4);   /* 16px */
+  --ob-grid-gutter-tablet:  var(--ob-s-5);   /* 24px */
+  --ob-grid-gutter-desktop: var(--ob-s-5);   /* 24px */
+
+  --ob-grid-margin-mobile:  var(--ob-s-4);   /* 16px */
+  --ob-grid-margin-tablet:  var(--ob-s-6);   /* 32px */
+  --ob-grid-margin-desktop: var(--ob-s-7);   /* 48px */
+
+  --ob-max-w-sm:    640px;
+  --ob-max-w-md:    768px;
+  --ob-max-w-lg:   1024px;
+  --ob-max-w-xl:   1280px;
+  --ob-max-w-2xl:  1440px;
+  --ob-max-w-page: var(--ob-max-w-xl);   /* default page max-width */
+
+  /* ------------------------------------------------------------
      RADII — soft (8–12px personality)
      ------------------------------------------------------------ */
   --ob-r-xs:    4px;
