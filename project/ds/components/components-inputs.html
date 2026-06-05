@@ -6,7 +6,7 @@
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
   .field { display: flex; flex-direction: column; gap: 6px; }
   .lbl { font-size: 12px; font-weight: 600; color: var(--ob-fg-strong); }
-  .input { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--ob-border); font-family: inherit; font-size: 14px; color: var(--ob-fg-strong); background: var(--ob-surface); box-sizing: border-box; transition: border-color 160ms; }
+  .input { width: 100%; padding: 10px 14px; border-radius: var(--ob-r-control); border: 1.5px solid var(--ob-border); font-family: inherit; font-size: 14px; color: var(--ob-fg-strong); background: var(--ob-surface); box-sizing: border-box; transition: border-color 160ms; }
   .input:focus { outline: none; border-color: var(--ob-blue); box-shadow: 0 0 0 4px var(--ob-focus-ring); }
   .input.error { border-color: var(--ob-danger); }
   .input:disabled { background: var(--ob-bg-alt); color: var(--ob-fg-mute); cursor: not-allowed; }

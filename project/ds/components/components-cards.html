@@ -2,16 +2,16 @@
 <html><head><meta charset="utf-8"><title>Cards</title>
 <link rel="stylesheet" href="../../colors_and_type.css">
 <style>
-  body { margin: 0; padding: 24px; background: #fbfbfb; font-family: var(--ob-font); color: #545454; }
+  body { margin: 0; padding: 24px; background: var(--ob-bg); font-family: var(--ob-font); color: var(--ob-fg-soft); }
   .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .card { background: #fff; border-radius: 12px; padding: 16px; }
-  .card.bordered { border: 1px solid #ececec; }
-  .card.shadowed { box-shadow: 0 4px 12px rgba(20,20,20,0.06), 0 1px 3px rgba(20,20,20,0.04); }
-  .card.warm { background: #f2f0e8; }
-  .title { font-weight: 600; color: #2a2a2a; margin: 0 0 4px; font-size: 16px; }
-  .meta { font-size: 12px; color: #7a7a7a; }
-  .num { font-size: 32px; font-weight: 700; color: #2a2a2a; letter-spacing: -0.02em; line-height: 1; margin-top: 6px; }
-  .accent { width: 32px; height: 4px; background: #0a4ee4; border-radius: 2px; margin-bottom: 12px; }
+  .card { background: var(--ob-surface); border-radius: var(--ob-r-surface); padding: 16px; }
+  .card.bordered { border: 1px solid var(--ob-border); }
+  .card.shadowed { box-shadow: var(--ob-shadow-md); }
+  .card.warm { background: var(--ob-bg-warm); }
+  .title { font-weight: 600; color: var(--ob-fg-strong); margin: 0 0 4px; font-size: 16px; }
+  .meta { font-size: 12px; color: var(--ob-fg-mute); }
+  .num { font-size: 32px; font-weight: 700; color: var(--ob-fg-strong); letter-spacing: -0.02em; line-height: 1; margin-top: 6px; }
+  .accent { width: 32px; height: 4px; background: var(--ob-blue); border-radius: 2px; margin-bottom: 12px; }
 </style></head><body>
   <div class="row">
     <div class="card bordered">
@@ -23,12 +23,12 @@
     <div class="card shadowed">
       <div class="title">Elevated</div>
       <div class="meta">shadow-md, no border</div>
-      <div class="num" style="color:#0a4ee4;">+18%</div>
+      <div class="num" style="color:var(--ob-blue);">+18%</div>
     </div>
     <div class="card warm">
       <div class="title">Warm overlay</div>
       <div class="meta">Cream on white</div>
-      <div class="num" style="color:#eb7c2d;">3.2x</div>
+      <div class="num" style="color:var(--ob-orange);">3.2x</div>
     </div>
   </div>
 </body></html>

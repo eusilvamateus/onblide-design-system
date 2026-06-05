@@ -13,14 +13,14 @@
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../../ui_kits/web_app/Primitives.jsx"></script>
+<script type="text/babel" src="../../ui_kits/web_app/Components.jsx"></script>
 <script type="text/babel">
-const { useState, useEffect } = React;
-
-const SIZES = { sm: 360, md: 440, lg: 720, full: '92vw' };
+const { useState } = React;
 
 const Btn = ({ kind = 'secondary', onClick, children, danger }) => {
   const base = {
-    padding: '10px 18px', borderRadius: 10, border: 'none', cursor: 'pointer',
+    padding: '10px 18px', borderRadius: 'var(--ob-r-control)', border: 'none', cursor: 'pointer',
     fontFamily: 'var(--ob-font)', fontSize: 14, fontWeight: 600, transition: 'all .12s',
   };
   const kinds = {
@@ -29,57 +29,6 @@ const Btn = ({ kind = 'secondary', onClick, children, danger }) => {
     danger:    { background: 'var(--ob-danger)', color: '#fff' },
   };
   return <button style={{ ...base, ...kinds[kind] }} onClick={onClick}>{children}</button>;
-};
-
-const Modal = ({ open, onClose, size = 'md', title, children, footer }) => {
-  const w = SIZES[size] ?? SIZES.md;
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [open, onClose]);
-
-  if (!open) return null;
-
-  return ReactDOM.createPortal(
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0, background: 'rgba(20,20,20,.45)',
-        backdropFilter: 'blur(2px)', display: 'flex', alignItems: 'center',
-        justifyContent: 'center', zIndex: 9000, padding: 16,
-      }}
-    >
-      <div
-        onClick={e => e.stopPropagation()}
-        style={{
-          width: w, maxWidth: '100%', maxHeight: '90vh', display: 'flex',
-          flexDirection: 'column', background: 'var(--ob-surface)',
-          borderRadius: 16, boxShadow: '0 24px 64px rgba(0,0,0,.22)',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderBottom: '1px solid var(--ob-border)' }}>
-          <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</span>
-          <button onClick={onClose} style={{ width: 32, height: 32, borderRadius: 8, border: 'none', background: 'none', color: 'var(--ob-fg-mute)', cursor: 'pointer', fontSize: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
-        </div>
-        {/* Body */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px', fontSize: 15, lineHeight: 1.6, color: 'var(--ob-fg)' }}>
-          {children}
-        </div>
-        {/* Footer */}
-        {footer && (
-          <div style={{ padding: '16px 24px', borderTop: '1px solid var(--ob-border)', background: 'var(--ob-bg-alt)', display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
-            {footer}
-          </div>
-        )}
-      </div>
-    </div>,
-    document.body
-  );
 };
 
 function Demo() {

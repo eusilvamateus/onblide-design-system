@@ -48,6 +48,17 @@ Concluído nesta passada (web app source — `Primitives.jsx`, `Components.jsx`)
 
 ---
 
+## ✅ Execução — Passo 4: previews importam a fonte real (F1)
+
+Previews que reimplementavam o componente inline agora carregam `Primitives.jsx` + `Components.jsx` reais e usam os componentes do `window` (paridade garantida, sem drift):
+
+- **badge, chip, modal, drawer, tabs, table** ✅ — removida a reimplementação inline; usam o componente real.
+- **inputs, buttons, cards** ✅ — eram vitrines CSS estáticas com **hex e raios hardcoded**; tokenizadas (`--ob-blue`, `--ob-r-control/surface`, `--ob-shadow-md/pop`, etc.) e agora theme-aware.
+
+**Pendência F1:** `components-datepicker.html` ainda é uma reimplementação vanilla-JS completa, com muito hex/raio hardcoded. Merece passada própria — idealmente convertendo para o `Datepicker` React real (também destrava **A6**). Rastreado para execução futura.
+
+---
+
 ---
 
 ## A · Composição — componentes reinventam outros componentes
