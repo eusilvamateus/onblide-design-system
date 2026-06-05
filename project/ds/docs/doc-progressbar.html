@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Progress Bar</title>
 <link rel="stylesheet" href="../../ds/docs/doc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
 </head><body><div class="wrap">
 
   <p class="eyebrow">Componente · Feedback</p>
@@ -8,14 +9,14 @@
   <p class="lede">Barra que comunica progresso — determinado (valor 0–100), indeterminado (carregando) ou segmentado (etapas de um fluxo). Compartilha o <code>OB_TONES</code> com <strong>Alert</strong> e <strong>Toast</strong> para consistência de cor.</p>
 
   <div class="matrix">
-    <div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div>
-    <div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div>
-    <div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div>
-    <div class="crit"><span class="mark yes">✓</span> Possui motion</div>
-    <div class="crit"><span class="mark yes">✓</span> Possui versão web</div>
-    <div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div>
-    <div class="crit"><span class="mark yes">✓</span> Possui versão mobile</div>
-    <div class="crit off"><span class="mark no">–</span> —</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Usa os design tokens</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui motion</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão web</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão responsiva</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no"><i class="ph ph-minus"></i></span> —</div>
   </div>
 
   <section>
@@ -28,8 +29,8 @@
       <li><strong>Segmentado</strong> — N passos discretos; os concluídos ficam coloridos.</li>
     </ul>
     <div class="do-dont">
-      <div class="dd do"><span class="tag">✓ Faça</span><p>Mostre rótulo de porcentagem (<code>showLabel</code>) quando o valor é relevante para o usuário — upload, cota de armazenamento.</p></div>
-      <div class="dd dont"><span class="tag">✕ Evite</span><p>Usar a barra indeterminada por mais de 8–10 s sem feedback; prefira um skeleton ou estado de loading mais descritivo.</p></div>
+      <div class="dd do"><span class="tag"><i class="ph ph-check"></i> Faça</span><p>Mostre rótulo de porcentagem (<code>showLabel</code>) quando o valor é relevante para o usuário — upload, cota de armazenamento.</p></div>
+      <div class="dd dont"><span class="tag"><i class="ph ph-x"></i> Evite</span><p>Usar a barra indeterminada por mais de 8–10 s sem feedback; prefira um skeleton ou estado de loading mais descritivo.</p></div>
     </div>
     <h3>Composição com outros componentes</h3>
     <ul>

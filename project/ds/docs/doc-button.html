@@ -1,15 +1,16 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Button</title>
 <link rel="stylesheet" href="../../ds/docs/doc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
 </head><body>
 <div class="wrap">
   <p class="eyebrow">Componente · Ação</p>
   <h1>Button <em>doc</em></h1>
   <p class="lede">Aciona uma ação. O CTA primário carrega a voz da marca — azul sólido com glow azul no hover.</p>
-  <div class="matrix"><div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div><div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div><div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div><div class="crit"><span class="mark yes">✓</span> Possui motion</div><div class="crit"><span class="mark yes">✓</span> Possui versão web</div><div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div><div class="crit"><span class="mark yes">✓</span> Possui versão mobile</div><div class="crit empty"></div></div>
+  <div class="matrix"><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de uso</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de conteúdo</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Usa os design tokens</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui motion</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão web</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão responsiva</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão mobile</div><div class="crit empty"></div></div>
   <section><h2>1 · Uso</h2><p>Use para ações diretas: enviar, confirmar, criar. Um único botão <strong>primary</strong> por contexto — ele é o destino principal do olhar.</p>
       <ul><li><strong>primary</strong> — ação principal (azul).</li><li><strong>secondary</strong> — ação alternativa (borda).</li><li><strong>ghost</strong> — ação terciária / links de ação.</li><li><strong>cream</strong> — ação suave sobre branco.</li><li><strong>danger</strong> — ações destrutivas.</li></ul>
-      <div class="do-dont"><div class="dd do"><span class="tag">✓ Faça</span><p>Um primary por tela; o resto secondary/ghost.</p></div><div class="dd dont"><span class="tag">✕ Evite</span><p>Vários botões azuis competindo pela atenção.</p></div></div></section>
+      <div class="do-dont"><div class="dd do"><span class="tag"><i class="ph ph-check"></i> Faça</span><p>Um primary por tela; o resto secondary/ghost.</p></div><div class="dd dont"><span class="tag"><i class="ph ph-x"></i> Evite</span><p>Vários botões azuis competindo pela atenção.</p></div></div></section>
   <section><h2>2 · Formatação</h2><pre><code>&lt;Button kind="primary" icon={&lt;Icons.plus/&gt;}&gt;Nova tarefa&lt;/Button&gt;
 &lt;Button kind="secondary" size="sm"&gt;Cancelar&lt;/Button&gt;</code></pre>
       <table class="props"><thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead><tbody>

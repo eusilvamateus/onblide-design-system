@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Card</title>
 <link rel="stylesheet" href="../../ds/docs/doc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
 </head><body>
 <div class="wrap">
   <p class="eyebrow">Componente · Container</p>
   <h1>Card <em>doc</em></h1>
   <p class="lede">Superfície que agrupa conteúdo relacionado. Dois padrões: bordered (hairline) ou elevated (sombra).</p>
-  <div class="matrix"><div class="crit"><span class="mark yes">✓</span> Tem guia de uso</div><div class="crit"><span class="mark yes">✓</span> Tem guia de conteúdo</div><div class="crit"><span class="mark yes">✓</span> Usa os design tokens</div><div class="crit off"><span class="mark no">–</span> Possui motion</div><div class="crit"><span class="mark yes">✓</span> Possui versão web</div><div class="crit"><span class="mark yes">✓</span> Possui versão responsiva</div><div class="crit"><span class="mark yes">✓</span> Possui versão mobile</div><div class="crit empty"></div></div>
+  <div class="matrix"><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de uso</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de conteúdo</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Usa os design tokens</div><div class="crit off"><span class="mark no"><i class="ph ph-minus"></i></span> Possui motion</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão web</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão responsiva</div><div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão mobile</div><div class="crit empty"></div></div>
   <section><h2>1 · Uso</h2><p>Agrupe informação coesa — uma métrica, uma tarefa, um formulário. Escolha <strong>um</strong> padrão de elevação por contexto, nunca os dois juntos.</p>
-      <div class="do-dont"><div class="dd do"><span class="tag">✓ Faça</span><p>Bordered OU elevated — consistente por seção.</p></div><div class="dd dont"><span class="tag">✕ Evite</span><p>Borda + sombra no mesmo card.</p></div></div></section>
+      <div class="do-dont"><div class="dd do"><span class="tag"><i class="ph ph-check"></i> Faça</span><p>Bordered OU elevated — consistente por seção.</p></div><div class="dd dont"><span class="tag"><i class="ph ph-x"></i> Evite</span><p>Borda + sombra no mesmo card.</p></div></div></section>
   <section><h2>2 · Formatação</h2><pre><code>&lt;Card elevation="border" padding={20}&gt;…&lt;/Card&gt;
 &lt;Card elevation="shadow"&gt;…&lt;/Card&gt;</code></pre>
       <table class="props"><thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead><tbody>

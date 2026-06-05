@@ -1,6 +1,9 @@
 /* Onblide — shared documentation page styles */
 @import url('../../colors_and_type.css');
 
+/* Phosphor icons in matrix/do-dont — enforce consistent size */
+.mark i, .dd .tag i { font-size: 12px; line-height: 1; }
+
 body { margin: 0; padding: 0; background: var(--ob-surface); font-family: var(--ob-font); color: var(--ob-fg); }
 .wrap { max-width: 760px; margin: 0 auto; padding: 48px 32px 80px; }
 
