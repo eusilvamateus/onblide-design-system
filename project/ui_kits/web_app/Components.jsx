@@ -871,7 +871,7 @@ const ToastStack = () => {
   }, [dismiss]);
   if (!toasts.length) return null;
   return (
-    <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 9999, display: 'flex', flexDirection: 'column-reverse', gap: 10, pointerEvents: 'none' }}>
+    <div id="ob-toast-stack" style={{ position: 'fixed', top: 24, right: 24, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: 10, pointerEvents: 'none' }}>
       {toasts.map(t => (
         <div key={t.id} style={{ pointerEvents: 'all', animation: t.leaving ? 'ob-toast-out 0.18s ease-in both' : 'ob-toast-in 0.22s cubic-bezier(0.16,1,0.3,1) both' }}>
           <Toast {...t} onClose={() => dismiss(t.id)} />
@@ -887,6 +887,11 @@ if (typeof document !== 'undefined' && !document.getElementById('ob-toast-kf')) 
     '@keyframes ob-toast-out{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(20px)}}',
   ].join('');
   document.head.appendChild(st);
+}
+if (typeof document !== 'undefined' && !document.getElementById('ob-toast-pos')) {
+  const sp = document.createElement('style'); sp.id = 'ob-toast-pos';
+  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;right:12px!important;left:12px!important;align-items:center!important}}';
+  document.head.appendChild(sp);
 }
 window.obToast = (detail) => window.dispatchEvent(new CustomEvent('ob-toast', { detail }));
 

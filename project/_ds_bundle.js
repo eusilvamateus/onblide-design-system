@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"50162e36919e","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"324e89d2348b","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -3890,13 +3890,14 @@ const ToastStack = () => {
   }, [dismiss]);
   if (!toasts.length) return null;
   return /*#__PURE__*/React.createElement("div", {
+    id: "ob-toast-stack",
     style: {
       position: 'fixed',
-      bottom: 24,
+      top: 24,
       right: 24,
       zIndex: 9999,
       display: 'flex',
-      flexDirection: 'column-reverse',
+      flexDirection: 'column',
       gap: 10,
       pointerEvents: 'none'
     }
@@ -3915,6 +3916,12 @@ if (typeof document !== 'undefined' && !document.getElementById('ob-toast-kf')) 
   st.id = 'ob-toast-kf';
   st.textContent = ['@keyframes ob-toast-in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}', '@keyframes ob-toast-out{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(20px)}}'].join('');
   document.head.appendChild(st);
+}
+if (typeof document !== 'undefined' && !document.getElementById('ob-toast-pos')) {
+  const sp = document.createElement('style');
+  sp.id = 'ob-toast-pos';
+  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;right:12px!important;left:12px!important;align-items:center!important}}';
+  document.head.appendChild(sp);
 }
 window.obToast = detail => window.dispatchEvent(new CustomEvent('ob-toast', {
   detail

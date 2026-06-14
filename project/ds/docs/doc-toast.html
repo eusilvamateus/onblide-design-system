@@ -43,7 +43,7 @@
 
   <section>
     <h2>2 · Formatação</h2>
-    <p>Largura fixa de 360px. Borda esquerda colorida (3px) como acento do tom. Stacking vertical com gap de 10px, ancoragem <code>bottom-right</code> (24px da borda).</p>
+    <p>Largura fixa de 360px. Borda esquerda colorida (3px) como acento do tom. Stacking vertical com gap de 10px, ancoragem <code>top-right</code> (24px das bordas superior e direita). Em mobile (&lt;600px), ancoragem <code>bottom-center</code> com 16px das bordas.</p>
     <pre><code>&lt;Toast
   tone="success"
   title="Deploy concluído"
@@ -80,7 +80,8 @@
     <h2>4 · Guia de design</h2>
     <p><strong>Tokens.</strong> Fundo <code>--ob-surface</code>, borda <code>--ob-border</code>, borda esquerda colorida (3px) como acento do tom. Sombra <code>--ob-shadow-lg</code>.</p>
     <p><strong>Ícone.</strong> Tamanho 20px quando há body ou action, 18px quando há só título. Alinhado ao topo do conteúdo (<code>align-self: flex-start</code> + <code>margin-top: 1px</code> óptico) — nunca centralizado verticalmente.</p>
-    <p><strong>Motion.</strong> Entrada: <code>translateX(20px) → translateX(0)</code> + fade, 220ms <code>cubic-bezier(0.16,1,0.3,1)</code> (ease-out limpo, sem bounce). Saída: <code>translateX(0) → translateX(20px)</code> + fade, 180ms <code>ease-in</code>. A direção de slide corresponde à âncora (bottom-right → desliza da direita). Hover pausa o timer de auto-dismiss.</p>
+    <p><strong>Motion.</strong> Entrada: <code>translateX(20px) → translateX(0)</code> + fade, 220ms <code>cubic-bezier(0.16,1,0.3,1)</code> (ease-out limpo, sem bounce). Saída: <code>translateX(0) → translateX(20px)</code> + fade, 180ms <code>ease-in</code>. Desliza da direita — direção corresponde à âncora <code>top-right</code>. Hover pausa o timer de auto-dismiss.</p>
+    <p><strong>Mobile.</strong> Em viewports &lt;600px, ancoragem muda para <code>bottom-center</code> (16px das bordas) — evita conflito com teclado virtual e garante legibilidade.</p> → translateX(20px)</code> + fade, 180ms <code>ease-in</code>. A direção de slide corresponde à âncora (bottom-right → desliza da direita). Hover pausa o timer de auto-dismiss.</p>
     <p><strong>Mobile.</strong> Largura 100% da viewport menos 24px de cada lado, ancoragem <code>bottom-center</code>.</p>
   </section>
 
