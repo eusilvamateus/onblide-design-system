@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- @dsCard group="Docs" name="Doc · Toast" -->
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Toast</title>
 <link rel="stylesheet" href="../../ds/docs/doc.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
@@ -77,10 +78,29 @@
 
   <section>
     <h2>4 · Guia de design</h2>
-    <p><strong>Tokens.</strong> Fundo <code>--ob-surface</code>, borda <code>--ob-border</code>, borda esquerda na cor do tom. Sombra <code>0 10px 30px rgba(0,0,0,0.13)</code>.</p>
-    <p><strong>Motion.</strong> Entrada: slide-up + fade-in de 240ms (<code>--ob-ease-spring</code>). Saída: fade-out de 160ms. Hover pausa o timer de auto-dismiss.</p>
-    <p><strong>Mobile.</strong> Em mobile, largura 100% da viewport menos 24px de cada lado, ancoragem <code>bottom-center</code>.</p>
-    <div class="note"><strong>Toast vs Alert:</strong> a regra de ouro — se o usuário precisa ver a mensagem pra continuar, use Alert. Se é só confirmação de que algo funcionou, use Toast.</div>
+    <p><strong>Tokens.</strong> Fundo <code>--ob-surface</code>, borda <code>--ob-border</code>, borda esquerda colorida (3px) como acento do tom. Sombra <code>--ob-shadow-lg</code>.</p>
+    <p><strong>Ícone.</strong> Tamanho 20px quando há body ou action, 18px quando há só título. Alinhado ao topo do conteúdo (<code>align-self: flex-start</code> + <code>margin-top: 1px</code> óptico) — nunca centralizado verticalmente.</p>
+    <p><strong>Motion.</strong> Entrada: <code>translateX(20px) → translateX(0)</code> + fade, 220ms <code>cubic-bezier(0.16,1,0.3,1)</code> (ease-out limpo, sem bounce). Saída: <code>translateX(0) → translateX(20px)</code> + fade, 180ms <code>ease-in</code>. A direção de slide corresponde à âncora (bottom-right → desliza da direita). Hover pausa o timer de auto-dismiss.</p>
+    <p><strong>Mobile.</strong> Largura 100% da viewport menos 24px de cada lado, ancoragem <code>bottom-center</code>.</p>
+  </section>
+
+  <section>
+    <h2>5 · Toast vs Modal de diálogo</h2>
+    <p>A escolha errada entre os dois cria fricção ou deixa o usuário sem contexto. Use esta tabela como guia de decisão.</p>
+    <table class="props">
+      <thead>
+        <tr><th style="width:160px">Critério</th><th>Toast</th><th>Modal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Requer ação do usuário?</td><td>Não — some automaticamente</td><td>Sim — requer confirmação ou input</td></tr>
+        <tr><td>Ação irreversível / destrutiva?</td><td>Não (ou já há "Desfazer")</td><td>Sim — deletar, publicar, pagar</td></tr>
+        <tr><td>Interrompe o fluxo?</td><td>Não — usuário continua trabalhando</td><td>Sim — bloqueia o fundo</td></tr>
+        <tr><td>Quem iniciou?</td><td>Confirmação de ação já concluída</td><td>Confirmação antes de executar</td></tr>
+        <tr><td>Volume de conteúdo</td><td>Título + máximo 2 linhas</td><td>Pode ter campos, listas, detalhes</td></tr>
+        <tr><td>Exemplos</td><td>"Arquivo salvo", "Deploy concluído", "Sincronizando…"</td><td>"Excluir conta?", "Confirmar pagamento", "Preencha os dados"</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Regra de ouro:</strong> se o usuário precisa decidir algo ou se o erro bloqueia a continuação do fluxo, use Modal. Se é só confirmação de que algo aconteceu em segundo plano, use Toast.</div>
   </section>
 
 </div></body></html>

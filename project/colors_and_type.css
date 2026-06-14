@@ -456,12 +456,12 @@
   --ob-font-mono:   'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   /* Weights — Poppins shines with bold contrast */
-  --ob-w-light:     300;
-  --ob-w-regular:   400;
-  --ob-w-medium:    500;
-  --ob-w-semibold:  600;
-  --ob-w-bold:      700;
-  --ob-w-black:     800;
+  --ob-w-light:     300; /* @kind font */
+  --ob-w-regular:   400; /* @kind font */
+  --ob-w-medium:    500; /* @kind font */
+  --ob-w-semibold:  600; /* @kind font */
+  --ob-w-bold:      700; /* @kind font */
+  --ob-w-black:     800; /* @kind font */
 
   /* Type scale (1.25 ratio, optical adjustments) */
   --ob-fs-xs:       12px;
@@ -475,14 +475,14 @@
   --ob-fs-4xl:      64px;
   --ob-fs-5xl:      88px;
 
-  --ob-lh-tight:    1.05;
-  --ob-lh-snug:     1.2;
-  --ob-lh-normal:   1.45;
-  --ob-lh-relaxed:  1.6;
+  --ob-lh-tight:    1.05; /* @kind font */
+  --ob-lh-snug:     1.2; /* @kind font */
+  --ob-lh-normal:   1.45; /* @kind font */
+  --ob-lh-relaxed:  1.6; /* @kind font */
 
-  --ob-tracking-tight: -0.02em;
-  --ob-tracking-snug:  -0.01em;
-  --ob-tracking-wide:   0.04em;
+  --ob-tracking-tight: -0.02em; /* @kind font */
+  --ob-tracking-snug:  -0.01em; /* @kind font */
+  --ob-tracking-wide:   0.04em; /* @kind font */
 
   /* ------------------------------------------------------------
      SPACING (4px base)
@@ -499,40 +499,40 @@
   --ob-s-10: 128px;
 
   /* Spacing — semantic aliases (intent-based) */
-  --ob-gap-xs:     var(--ob-s-1);   /* 4px  — ícone+texto, badge+ícone        */
-  --ob-gap-sm:     var(--ob-s-2);   /* 8px  — gap de chip, botão+ícone        */
-  --ob-gap-md:     var(--ob-s-4);   /* 16px — gap padrão entre elementos      */
-  --ob-gap-lg:     var(--ob-s-5);   /* 24px — gap de seção interna           */
-  --ob-pad-card:   var(--ob-s-5);   /* 24px — padding interno de card        */
-  --ob-pad-page:   var(--ob-s-6);   /* 32px — padding horizontal de página   */
-  --ob-stack-sm:   var(--ob-s-3);   /* 12px — ritmo vertical — parágrafos   */
-  --ob-stack-md:   var(--ob-s-5);   /* 24px — ritmo vertical — seções     */
+  --ob-gap-xs:     var(--ob-s-1); /* @kind spacing */   /* 4px  — ícone+texto, badge+ícone        */
+  --ob-gap-sm:     var(--ob-s-2); /* @kind spacing */   /* 8px  — gap de chip, botão+ícone        */
+  --ob-gap-md:     var(--ob-s-4); /* @kind spacing */   /* 16px — gap padrão entre elementos      */
+  --ob-gap-lg:     var(--ob-s-5); /* @kind spacing */   /* 24px — gap de seção interna           */
+  --ob-pad-card:   var(--ob-s-5); /* @kind spacing */   /* 24px — padding interno de card        */
+  --ob-pad-page:   var(--ob-s-6); /* @kind spacing */   /* 32px — padding horizontal de página   */
+  --ob-stack-sm:   var(--ob-s-3); /* @kind spacing */   /* 12px — ritmo vertical — parágrafos   */
+  --ob-stack-md:   var(--ob-s-5); /* @kind spacing */   /* 24px — ritmo vertical — seções     */
 
   /* ------------------------------------------------------------
      OPACITY — semantic scale
      ------------------------------------------------------------ */
-  --ob-opacity-hover:    0.08;   /* hover overlay sobre cor sólida           */
-  --ob-opacity-focus:    0.32;   /* anel de foco (focus-ring alpha)           */
-  --ob-opacity-scrim:    0.45;   /* backdrop de modal e drawer                */
-  --ob-opacity-disabled: 0.45;   /* elemento desabilitado                     */
-  --ob-opacity-strong:   0.75;   /* hover link, ícone secundário ativo        */
+  --ob-opacity-hover:    0.08; /* @kind other */   /* hover overlay sobre cor sólida           */
+  --ob-opacity-focus:    0.32; /* @kind other */   /* anel de foco (focus-ring alpha)           */
+  --ob-opacity-scrim:    0.45; /* @kind other */   /* backdrop de modal e drawer                */
+  --ob-opacity-disabled: 0.45; /* @kind other */   /* elemento desabilitado                     */
+  --ob-opacity-strong:   0.75; /* @kind other */   /* hover link, ícone secundário ativo        */
 
   /* ------------------------------------------------------------
      BREAKPOINTS — mobile-first
      (referência de documentação; use valores literais em @media)
      ------------------------------------------------------------ */
-  --ob-bp-xs:   480px;   /* large phones                    */
-  --ob-bp-sm:   768px;   /* tablets / small landscape       */
-  --ob-bp-md:  1024px;   /* small laptops, landscape tablet */
-  --ob-bp-lg:  1280px;   /* standard desktop                */
-  --ob-bp-xl:  1440px;   /* wide desktop                    */
+  --ob-bp-xs:   480px; /* @kind other */   /* large phones                    */
+  --ob-bp-sm:   768px; /* @kind other */   /* tablets / small landscape       */
+  --ob-bp-md:  1024px; /* @kind other */   /* small laptops, landscape tablet */
+  --ob-bp-lg:  1280px; /* @kind other */   /* standard desktop                */
+  --ob-bp-xl:  1440px; /* @kind other */   /* wide desktop                    */
 
   /* ------------------------------------------------------------
      GRID — columns, gutter, margin per breakpoint
      ------------------------------------------------------------ */
-  --ob-grid-cols-mobile:    4;
-  --ob-grid-cols-tablet:    8;
-  --ob-grid-cols-desktop:  12;
+  --ob-grid-cols-mobile:    4; /* @kind other */
+  --ob-grid-cols-tablet:    8; /* @kind other */
+  --ob-grid-cols-desktop:  12; /* @kind other */
 
   --ob-grid-gutter-mobile:  var(--ob-s-4);   /* 16px */
   --ob-grid-gutter-tablet:  var(--ob-s-5);   /* 24px */
@@ -542,12 +542,12 @@
   --ob-grid-margin-tablet:  var(--ob-s-6);   /* 32px */
   --ob-grid-margin-desktop: var(--ob-s-7);   /* 48px */
 
-  --ob-max-w-sm:    640px;
-  --ob-max-w-md:    768px;
-  --ob-max-w-lg:   1024px;
-  --ob-max-w-xl:   1280px;
-  --ob-max-w-2xl:  1440px;
-  --ob-max-w-page: var(--ob-max-w-xl);   /* default page max-width */
+  --ob-max-w-sm:    640px; /* @kind spacing */
+  --ob-max-w-md:    768px; /* @kind spacing */
+  --ob-max-w-lg:   1024px; /* @kind spacing */
+  --ob-max-w-xl:   1280px; /* @kind spacing */
+  --ob-max-w-2xl:  1440px; /* @kind spacing */
+  --ob-max-w-page: var(--ob-max-w-xl); /* @kind spacing */   /* default page max-width */
 
   /* ------------------------------------------------------------
      RADII — soft (8–12px personality)
@@ -572,12 +572,12 @@
   /* ------------------------------------------------------------
      MOTION
      ------------------------------------------------------------ */
-  --ob-ease:        cubic-bezier(0.2, 0.7, 0.2, 1);
-  --ob-ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
-  --ob-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ob-dur-fast:    120ms;
-  --ob-dur-base:    200ms;
-  --ob-dur-slow:    400ms;
+  --ob-ease:        cubic-bezier(0.2, 0.7, 0.2, 1); /* @kind other */
+  --ob-ease-out:    cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ob-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* @kind other */
+  --ob-dur-fast:    120ms; /* @kind other */
+  --ob-dur-base:    200ms; /* @kind other */
+  --ob-dur-slow:    400ms; /* @kind other */
 }
 
 /* ============================================================

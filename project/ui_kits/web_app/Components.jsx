@@ -602,15 +602,27 @@ const Alert = ({ tone = 'info', title, children, dismissible = false, onClose, a
 // ── TOAST ───────────────────────────────────────────────
 const Toast = ({ tone = 'info', title, body, action, onAction, onClose }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
+  const hasBody = !!body || !!action;
   return (
-    <div role="status" style={{ display: 'flex', gap: 12, width: 360, padding: '14px 14px 14px 16px', background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderLeft: `3px solid ${t.fg}`, borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)' }}>
-      <Ph n={t.icon} size={20} c={t.fg} />
+    <div role="status" aria-live="polite" style={{
+      display: 'flex', alignItems: 'flex-start', gap: 12,
+      width: 360, padding: '14px 14px 14px 16px',
+      background: 'var(--ob-surface)',
+      border: '1px solid var(--ob-border)',
+      borderLeft: `3px solid ${t.fg}`,
+      borderRadius: 'var(--ob-r-surface)',
+      boxShadow: 'var(--ob-shadow-lg)',
+    }}>
+      {/* Icon — top-aligned, optically offset to sit on the title baseline */}
+      <span style={{ flexShrink: 0, marginTop: hasBody ? 1 : 2, display: 'flex' }}>
+        <Ph n={t.icon} size={hasBody ? 20 : 18} c={t.fg} />
+      </span>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{title}</div>
-        {body && <div style={{ fontSize: 13, color: 'var(--ob-fg-soft)', marginTop: 2, lineHeight: 1.45 }}>{body}</div>}
+        <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.4 }}>{title}</div>
+        {body && <div style={{ fontSize: 13, color: 'var(--ob-fg-soft)', marginTop: 3, lineHeight: 1.5 }}>{body}</div>}
         {action && <button onClick={onAction} style={{ marginTop: 8, border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: t.strong, fontWeight: 700, fontSize: 13, fontFamily: 'var(--ob-font)' }}>{action}</button>}
       </div>
-      {onClose && <button onClick={onClose} aria-label="Fechar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flex: 'none' }}><Ph n="x" size={15} /></button>}
+      {onClose && <button onClick={onClose} aria-label="Fechar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flexShrink: 0, marginTop: 1 }}><Ph n="x" size={15} /></button>}
     </div>
   );
 };
@@ -844,21 +856,25 @@ const Select = ({
 // ── TOAST STACK (global singleton) ────────────────────────
 const ToastStack = () => {
   const [toasts, setToasts] = useState([]);
+  const dismiss = React.useCallback((id) => {
+    setToasts(ts => ts.map(t => t.id === id ? { ...t, leaving: true } : t));
+    setTimeout(() => setToasts(ts => ts.filter(t => t.id !== id)), 200);
+  }, []);
   useEffect(() => {
     const handler = (e) => {
       const id = Date.now() + Math.random();
-      setToasts(ts => [...ts.slice(-2), { ...e.detail, id }]);
-      setTimeout(() => setToasts(ts => ts.filter(t => t.id !== id)), 4800);
+      setToasts(ts => [...ts.slice(-2), { ...e.detail, id, leaving: false }]);
+      setTimeout(() => dismiss(id), 4800);
     };
     window.addEventListener('ob-toast', handler);
     return () => window.removeEventListener('ob-toast', handler);
-  }, []);
+  }, [dismiss]);
   if (!toasts.length) return null;
   return (
     <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 9999, display: 'flex', flexDirection: 'column-reverse', gap: 10, pointerEvents: 'none' }}>
       {toasts.map(t => (
-        <div key={t.id} style={{ pointerEvents: 'all', animation: 'ob-toast-in 0.24s cubic-bezier(.2,1.3,.4,1) both' }}>
-          <Toast {...t} onClose={() => setToasts(ts => ts.filter(x => x.id !== t.id))} />
+        <div key={t.id} style={{ pointerEvents: 'all', animation: t.leaving ? 'ob-toast-out 0.18s ease-in both' : 'ob-toast-in 0.22s cubic-bezier(0.16,1,0.3,1) both' }}>
+          <Toast {...t} onClose={() => dismiss(t.id)} />
         </div>
       ))}
     </div>
@@ -866,7 +882,10 @@ const ToastStack = () => {
 };
 if (typeof document !== 'undefined' && !document.getElementById('ob-toast-kf')) {
   const st = document.createElement('style'); st.id = 'ob-toast-kf';
-  st.textContent = '@keyframes ob-toast-in{from{opacity:0;transform:translateY(16px) scale(0.95)}to{opacity:1;transform:none}}';
+  st.textContent = [
+    '@keyframes ob-toast-in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}',
+    '@keyframes ob-toast-out{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(20px)}}',
+  ].join('');
   document.head.appendChild(st);
 }
 window.obToast = (detail) => window.dispatchEvent(new CustomEvent('ob-toast', { detail }));

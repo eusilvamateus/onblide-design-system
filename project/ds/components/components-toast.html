@@ -1,59 +1,165 @@
+<!-- @dsCard group="Components" name="Toast" -->
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Toast</title>
 <link rel="stylesheet" href="../../colors_and_type.css"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"/>
 <style>
   body { margin: 0; padding: 24px; background: var(--ob-surface); font-family: var(--ob-font); }
-  .grid { display: grid; gap: 22px; grid-template-columns: 100px 1fr; align-items: start; }
-  .lbl { font-family: var(--ob-font-mono); font-size: 11px; color: var(--ob-fg-mute); padding-top: 14px; }
-  .col { display: flex; flex-direction: column; gap: 10px; }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .btn { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border-radius: 10px; border: 1.5px solid var(--ob-border); background: var(--ob-surface); color: var(--ob-fg); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .section { margin-bottom: 32px; }
+  .kicker { font-family: var(--ob-font-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--ob-fg-mute); margin: 0 0 14px; }
+  .col { display: flex; flex-direction: column; gap: 10px; max-width: 380px; }
+  .dispatch-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px;
+         border-radius: var(--ob-r-control); border: 1.5px solid var(--ob-border);
+         background: var(--ob-surface); color: var(--ob-fg); font-family: inherit;
+         font-size: 13px; font-weight: 600; cursor: pointer; transition: border-color .15s, color .15s; }
   .btn:hover { border-color: var(--ob-blue); color: var(--ob-blue); }
   .muted { font-size: 12px; color: var(--ob-fg-mute); }
+  .live-stage { min-height: 100px; display: flex; flex-direction: column; gap: 10px; max-width: 380px;
+                position: relative; }
+  .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; max-width: 660px; }
+  .rule-table th { text-align: left; padding: 8px 12px; border-bottom: 1.5px solid var(--ob-border);
+                   font-family: var(--ob-font-mono); font-size: 11px; text-transform: uppercase;
+                   letter-spacing: .05em; color: var(--ob-fg-mute); }
+  .rule-table td { padding: 10px 12px; border-bottom: 1px solid var(--ob-line-soft); color: var(--ob-fg);
+                   vertical-align: top; line-height: 1.45; }
+  .rule-table td:first-child { font-weight: 600; color: var(--ob-fg-strong); white-space: nowrap; }
+  .rule-table tr:last-child td { border-bottom: none; }
+  .toast-col { border-left: 3px solid var(--ob-blue); }
+  .modal-col { border-left: 3px solid var(--ob-orange); }
+  .badge-toast { display: inline-block; background: var(--ob-blue-100); color: var(--ob-blue-700);
+                 font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+  .badge-modal { display: inline-block; background: color-mix(in srgb, var(--ob-orange) 14%, var(--ob-surface));
+                 color: #9a4000; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
 </style></head>
 <body><div id="root"></div>
+
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script>window.Icons = window.Icons || {};</script>
+<script type="text/babel" src="../../ui_kits/web_app/Primitives.jsx"></script>
 <script type="text/babel" src="../../ui_kits/web_app/Components.jsx"></script>
 <script type="text/babel">
-  const { useState, useRef } = React;
+  const { useState, useRef, useCallback } = React;
+
   const PRESETS = {
-    success: { title: 'Tarefa concluída', body: 'O relatório de maio foi publicado.', action: 'Ver' },
-    info:    { title: 'Sincronizando…',   body: 'Buscando atualizações do Spotify.' },
-    warning: { title: 'Cota quase no limite', body: 'Você usou 90% do plano atual.' },
-    danger:  { title: 'Falha no deploy', body: 'Não foi possível subir a build #482.', action: 'Tentar de novo' },
+    success: { title: 'Tarefa concluída',       body: null,                             action: null },
+    info:    { title: 'Sincronizando…',          body: 'Buscando dados do Spotify.',     action: null },
+    warning: { title: 'Cota quase no limite',    body: 'Você usou 90% do plano atual.',  action: 'Fazer upgrade' },
+    danger:  { title: 'Falha no deploy',         body: 'Não foi possível subir a build #482.', action: 'Tentar de novo' },
   };
-  function Demo() {
-    const [stack, setStack] = useState([]);
-    const id = useRef(0);
-    const push = (tone) => {
-      const n = ++id.current;
-      setStack(s => [...s, { id: n, tone, ...PRESETS[tone] }]);
-      setTimeout(() => setStack(s => s.filter(t => t.id !== n)), 4500);
-    };
+
+  // Local animated toast for the live stage (not the global stack)
+  const LocalToastStack = ({ items, onDismiss }) => {
+    if (!items.length) return <p className="muted">Nenhum toast ativo — dispare um acima.</p>;
     return (
-      <div className="grid">
-        <div className="lbl">4 TONS</div>
-        <div className="col">
-          <Toast tone="success" title="Tarefa concluída" body="O relatório de maio foi publicado." action="Ver" onClose={()=>{}} />
-          <Toast tone="info"    title="Sincronizando…"   body="Buscando atualizações do Spotify." onClose={()=>{}} />
-          <Toast tone="warning" title="Cota quase no limite" body="Você usou 90% do plano atual." onClose={()=>{}} />
-          <Toast tone="danger"  title="Falha no deploy" body="Não foi possível subir a build #482." action="Tentar de novo" onClose={()=>{}} />
-        </div>
-        <div className="lbl">AO VIVO</div>
-        <div>
-          <div className="row" style={{marginBottom:14}}>
-            {['success','info','warning','danger'].map(t => <button key={t} className="btn" onClick={()=>push(t)}>{t}</button>)}
-            <span className="muted">Dispare — somem em ~4,5 s.</span>
+      <div className="live-stage">
+        {items.map(t => (
+          <div key={t.id} style={{ animation: t.leaving ? 'ob-toast-out 0.18s ease-in both' : 'ob-toast-in 0.22s cubic-bezier(0.16,1,0.3,1) both' }}>
+            <Toast {...t} onClose={() => onDismiss(t.id)} />
           </div>
-          <div className="col">{stack.map(t => <Toast key={t.id} {...t} onClose={()=>setStack(s=>s.filter(x=>x.id!==t.id))} />)}</div>
-          {stack.length===0 && <p className="muted">Nenhum toast ativo.</p>}
-        </div>
+        ))}
       </div>
     );
+  };
+
+  function Demo() {
+    const [stack, setStack] = useState([]);
+    const idRef = useRef(0);
+
+    const dismiss = useCallback((id) => {
+      setStack(s => s.map(t => t.id === id ? { ...t, leaving: true } : t));
+      setTimeout(() => setStack(s => s.filter(t => t.id !== id)), 200);
+    }, []);
+
+    const push = (tone) => {
+      const id = ++idRef.current;
+      setStack(s => [...s.slice(-2), { id, tone, ...PRESETS[tone] }]);
+      setTimeout(() => dismiss(id), 4800);
+    };
+
+    return (
+      <>
+        {/* ── 1. Variações de conteúdo (proporção de ícone) ── */}
+        <div className="section">
+          <p className="kicker">Variações de conteúdo</p>
+          <div className="col">
+            <Toast tone="success" title="Tarefa concluída"
+              onClose={()=>{}} />
+            <Toast tone="info"    title="Sincronizando com Spotify…"
+              body="Importando playlists e histórico de plays." onClose={()=>{}} />
+            <Toast tone="warning" title="Cota quase no limite"
+              body="Você usou 90% do armazenamento incluído no plano atual."
+              action="Fazer upgrade" onClose={()=>{}} />
+            <Toast tone="danger"  title="Falha no deploy"
+              body="Não foi possível subir a build #482. Verifique o log."
+              action="Tentar de novo" onClose={()=>{}} />
+          </div>
+        </div>
+
+        {/* ── 2. Live dispatch ── */}
+        <div className="section">
+          <p className="kicker">Animação — entrada e saída</p>
+          <div className="dispatch-row">
+            {['success','info','warning','danger'].map(t => (
+              <button key={t} className="btn" onClick={() => push(t)}>
+                <i className="ph ph-arrow-up-right" style={{fontSize:13}}/>{t}
+              </button>
+            ))}
+          </div>
+          <LocalToastStack items={stack} onDismiss={dismiss} />
+        </div>
+
+        {/* ── 3. Toast vs Modal ── */}
+        <div className="section">
+          <p className="kicker">Toast vs Modal — quando usar cada um</p>
+          <table className="rule-table">
+            <thead>
+              <tr>
+                <th style={{width:160}}>Critério</th>
+                <th className="toast-col">Toast <span className="badge-toast">efêmero</span></th>
+                <th className="modal-col">Modal de diálogo <span className="badge-modal">bloqueante</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ação do usuário necessária?</td>
+                <td>Não — some sozinho</td>
+                <td>Sim — requer confirmação ou input</td>
+              </tr>
+              <tr>
+                <td>Irreversível / destrutivo?</td>
+                <td>Não — ou já pode ser desfeito ("Desfazer")</td>
+                <td>Sim — deletar, publicar, pagar</td>
+              </tr>
+              <tr>
+                <td>Interrompe o fluxo?</td>
+                <td>Não — o usuário continua o que estava fazendo</td>
+                <td>Sim — bloqueia interação com o fundo</td>
+              </tr>
+              <tr>
+                <td>O usuário iniciou a ação?</td>
+                <td>Confirmação de ação já realizada</td>
+                <td>Confirmação antes de realizar</td>
+              </tr>
+              <tr>
+                <td>Conteúdo longo/complexo?</td>
+                <td>Não — máximo título + 2 linhas</td>
+                <td>Pode ter campos, listas, detalhes</td>
+              </tr>
+              <tr>
+                <td>Exemplos típicos</td>
+                <td>"Arquivo salvo", "Publicado", "Sincronizando…"</td>
+                <td>"Excluir conta?", "Confirmar pagamento", "Preencha os dados"</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </>
+    );
   }
+
   ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
-</script></body></html>
+</script>
+</body></html>
