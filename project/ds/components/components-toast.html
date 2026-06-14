@@ -5,56 +5,44 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"/>
 <style>
   body { margin: 0; padding: 24px; background: var(--ob-surface); font-family: var(--ob-font); }
-  .section { margin-bottom: 36px; }
-  .kicker { font-family: var(--ob-font-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--ob-fg-mute); margin: 0 0 6px; }
-  .sub { font-size: 13px; color: var(--ob-fg-soft); margin: 0 0 16px; max-width: 560px; line-height: 1.5; }
-  .col { display: flex; flex-direction: column; gap: 10px; max-width: 400px; }
+  .wrap { display: grid; grid-template-columns: 280px 1fr; gap: 28px; align-items: start; max-width: 1000px; }
+  @media (max-width: 760px) { .wrap { grid-template-columns: 1fr; } }
 
-  /* Position playground */
-  .stage { position: relative; height: 380px; border: 1.5px dashed var(--ob-border); border-radius: var(--ob-r-surface);
-           background: var(--ob-bg-warm); overflow: hidden; }
-  .stage-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center;
-                font-size: 13px; color: var(--ob-fg-mute); pointer-events: none; }
-  .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 360px; margin-bottom: 16px; }
-  .pos-btn { height: 40px; border-radius: var(--ob-r-control); border: 1.5px solid var(--ob-border);
-             background: var(--ob-surface); color: var(--ob-fg-soft); font-family: var(--ob-font-mono);
-             font-size: 10px; letter-spacing: .04em; text-transform: uppercase; cursor: pointer;
-             transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 5px; }
-  .pos-btn:hover { border-color: var(--ob-blue); color: var(--ob-blue); }
-  .pos-btn.active { background: var(--ob-blue); color: #fff; border-color: var(--ob-blue); }
+  .panel { display: flex; flex-direction: column; gap: 22px; }
+  .ctrl { display: flex; flex-direction: column; gap: 9px; }
+  .ctrl > label.head { font-family: var(--ob-font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ob-fg-mute); }
 
-  .dispatch-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px;
-         border-radius: var(--ob-r-control); border: 1.5px solid var(--ob-border);
-         background: var(--ob-surface); color: var(--ob-fg); font-family: inherit;
-         font-size: 13px; font-weight: 600; cursor: pointer; transition: border-color .15s, color .15s; }
-  .btn:hover { border-color: var(--ob-blue); color: var(--ob-blue); }
-  .muted { font-size: 12px; color: var(--ob-fg-mute); }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 7px; }
 
-  /* Phone frames */
-  .phone-row { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 8px; }
-  .phone { width: 360px; height: 640px; border-radius: 44px; border: 8px solid var(--ob-fg-strong); background: var(--ob-bg); position: relative; overflow: hidden; flex-shrink: 0; box-shadow: 0 24px 48px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.08); }
-  .phone-status { height: 42px; background: var(--ob-surface); display: flex; align-items: flex-end; justify-content: space-between; padding: 0 26px 7px; font-size: 12px; font-weight: 600; color: var(--ob-fg-soft); }
-  .phone-content { padding: 18px; display: flex; flex-direction: column; gap: 11px; }
-  .phone-bar { height: 46px; border-radius: var(--ob-r-sm); background: var(--ob-surface); border: 1px solid var(--ob-border); display: flex; align-items: center; padding: 0 15px; gap: 10px; font-size: 14px; font-weight: 600; color: var(--ob-fg-strong); }
-  .phone-card { height: 68px; border-radius: var(--ob-r-surface); background: var(--ob-surface); border: 1px solid var(--ob-border); }
-  .phone-card-sm { height: 46px; border-radius: var(--ob-r-surface); background: var(--ob-bg-warm); }
-  .phone-label { font-family: var(--ob-font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ob-fg-mute); text-align: center; margin-top: 10px; }
-  .phone-toast { position: absolute; bottom: 16px; left: 12px; right: 12px; }
-  .phone-toast-top { position: absolute; top: 52px; left: 12px; right: 12px; }
+  .seg { display: inline-flex; background: var(--ob-bg-alt); border: 1px solid var(--ob-border); border-radius: var(--ob-r-sm); padding: 3px; gap: 3px; }
+  .seg button { border: none; background: none; cursor: pointer; font-family: var(--ob-font); font-size: 12.5px; font-weight: 600; padding: 6px 12px; border-radius: var(--ob-r-xs); color: var(--ob-fg-soft); transition: all .12s; }
+  .seg button.on { background: var(--ob-surface); color: var(--ob-fg-strong); box-shadow: var(--ob-shadow-xs); }
 
-  .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; max-width: 680px; }
-  .rule-table th { text-align: left; padding: 8px 12px; border-bottom: 1.5px solid var(--ob-border);
-                   font-family: var(--ob-font-mono); font-size: 11px; text-transform: uppercase;
-                   letter-spacing: .05em; color: var(--ob-fg-mute); }
-  .rule-table td { padding: 10px 12px; border-bottom: 1px solid var(--ob-line-soft); color: var(--ob-fg);
-                   vertical-align: top; line-height: 1.45; }
-  .rule-table td:first-child { font-weight: 600; color: var(--ob-fg-strong); white-space: nowrap; }
-  .rule-table tr:last-child td { border-bottom: none; }
-  .badge-toast { display: inline-block; background: var(--ob-blue-100); color: var(--ob-blue-700);
-                 font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
-  .badge-modal { display: inline-block; background: var(--ob-orange-100);
-                 color: var(--ob-orange-700); font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+  .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+  .pos-btn { height: 38px; border-radius: var(--ob-r-control); border: 1.5px solid var(--ob-border); background: var(--ob-surface); color: var(--ob-fg-soft); font-family: var(--ob-font-mono); font-size: 9px; letter-spacing: .03em; text-transform: uppercase; cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 4px; }
+  .pos-btn:hover:not(:disabled) { border-color: var(--ob-blue); color: var(--ob-blue); }
+  .pos-btn.on { background: var(--ob-blue); color: #fff; border-color: var(--ob-blue); }
+  .pos-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+  .fire { display: flex; gap: 8px; }
+  .btn-primary { flex: 1; height: 42px; border: none; border-radius: var(--ob-r-control); background: var(--ob-blue); color: #fff; font-family: var(--ob-font); font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: background .12s; }
+  .btn-primary:hover { background: var(--ob-blue-700); }
+  .btn-ghost { height: 42px; padding: 0 14px; border: 1.5px solid var(--ob-border); border-radius: var(--ob-r-control); background: var(--ob-surface); color: var(--ob-fg-soft); font-family: var(--ob-font); font-size: 13px; font-weight: 600; cursor: pointer; }
+  .btn-ghost:hover { border-color: var(--ob-fg-soft); color: var(--ob-fg-strong); }
+
+  /* Stage */
+  .stage-wrap { display: flex; flex-direction: column; gap: 10px; }
+  .stage-meta { font-size: 12px; color: var(--ob-fg-mute); font-family: var(--ob-font-mono); }
+  .stage { position: relative; height: 440px; border: 1.5px dashed var(--ob-border); border-radius: var(--ob-r-surface); background: var(--ob-bg-warm); overflow: hidden; transition: all .2s; }
+  .stage.mobile { width: 320px; margin: 0 auto; border-radius: 36px; border: 8px solid var(--ob-fg-strong); background: var(--ob-bg); box-shadow: 0 24px 48px rgba(0,0,0,.16); }
+  .stage-app { padding: 18px; display: flex; flex-direction: column; gap: 11px; opacity: .65; pointer-events: none; }
+  .stage.mobile .stage-app { padding-top: 30px; }
+  .app-bar { height: 44px; border-radius: var(--ob-r-sm); background: var(--ob-surface); border: 1px solid var(--ob-border); }
+  .app-card { height: 60px; border-radius: var(--ob-r-surface); background: var(--ob-surface); border: 1px solid var(--ob-border); }
+  .app-card-sm { height: 40px; border-radius: var(--ob-r-surface); background: var(--ob-bg-warm); }
+  .stage.mobile .app-card-sm { background: var(--ob-bg-alt); }
+  .stage-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; font-size: 13px; color: var(--ob-fg-mute); width: 70%; line-height: 1.5; }
+  .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 110px; height: 22px; background: var(--ob-fg-strong); border-radius: 0 0 14px 14px; }
 </style></head>
 <body><div id="root"></div>
 
@@ -67,64 +55,21 @@
 <script type="text/babel">
   const { useState, useRef, useCallback } = React;
 
-  const PRESETS = {
-    success: { title: 'Tarefa concluída',       body: null,                                   action: null },
-    info:    { title: 'Sincronizando…',          body: 'Buscando dados do Spotify.',           action: null },
-    warning: { title: 'Cota quase no limite',    body: 'Você usou 90% do plano atual.',        action: 'Fazer upgrade' },
-    danger:  { title: 'Falha no deploy',         body: 'Não foi possível subir a build #482.', action: 'Tentar de novo' },
+  const COPY = {
+    success: { title: 'Tarefa concluída',     body: 'O relatório de maio foi publicado.',     action: 'Ver' },
+    info:    { title: 'Sincronizando…',         body: 'Buscando dados do Spotify.',            action: 'Detalhes' },
+    warning: { title: 'Cota quase no limite',   body: 'Você usou 90% do plano atual.',         action: 'Fazer upgrade' },
+    danger:  { title: 'Falha no deploy',        body: 'Não foi possível subir a build #482.',  action: 'Tentar de novo' },
   };
-
-  const POSITIONS = [
-    'top-left', 'top-center', 'top-right',
-    'bottom-left', 'bottom-center', 'bottom-right',
-  ];
-
-  // Anchor styles for the playground stage (mirror of the real ToastStack)
-  const stageAnchor = (position) => {
-    const map = {
-      'top-left':      { top: 14, left: 14, alignItems: 'flex-start' },
-      'top-center':    { top: 14, left: '50%', transform: 'translateX(-50%)', alignItems: 'center' },
-      'top-right':     { top: 14, right: 14, alignItems: 'flex-end' },
-      'bottom-left':   { bottom: 14, left: 14, alignItems: 'flex-start' },
-      'bottom-center': { bottom: 14, left: '50%', transform: 'translateX(-50%)', alignItems: 'center' },
-      'bottom-right':  { bottom: 14, right: 14, alignItems: 'flex-end' },
-    };
-    return map[position];
-  };
-
-  const PhoneShell = ({ label, children }) => (
-    <div>
-      <div className="phone">
-        <div className="phone-status">
-          <span>9:41</span>
-          <div style={{ display:'flex', gap:5, alignItems:'center' }}>
-            <i className="ph ph-signal-high" style={{fontSize:12}}/>
-            <i className="ph ph-wifi-high"   style={{fontSize:12}}/>
-            <i className="ph ph-battery-full" style={{fontSize:12}}/>
-          </div>
-        </div>
-        <div className="phone-content">
-          <div className="phone-bar">
-            <i className="ph ph-grid-four" style={{fontSize:15,color:'var(--ob-fg-mute)'}}/>
-            <span>Início</span>
-            <i className="ph ph-bell" style={{fontSize:15,color:'var(--ob-fg-mute)',marginLeft:'auto'}}/>
-          </div>
-          <div className="phone-card"/>
-          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-            <div className="phone-card-sm"/>
-            <div className="phone-card-sm"/>
-          </div>
-          <div className="phone-card"/>
-          <div className="phone-card-sm"/>
-        </div>
-        {children}
-      </div>
-      <p className="phone-label">{label}</p>
-    </div>
-  );
+  const TONES = ['success', 'info', 'warning', 'danger'];
+  const POSITIONS = ['top-left','top-center','top-right','bottom-left','bottom-center','bottom-right'];
 
   function Demo() {
+    const [tone, setTone] = useState('success');
+    const [content, setContent] = useState('action');  // 'title' | 'body' | 'action'
+    const [showIcon, setShowIcon] = useState(true);
     const [position, setPosition] = useState('bottom-right');
+    const [viewport, setViewport] = useState('desktop'); // 'desktop' | 'mobile'
     const [stack, setStack] = useState([]);
     const idRef = useRef(0);
 
@@ -133,61 +78,126 @@
       setTimeout(() => setStack(s => s.filter(t => t.id !== id)), 200);
     }, []);
 
-    const push = (tone) => {
-      const id = ++idRef.current;
-      setStack(s => [...s.slice(-2), { id, tone, ...PRESETS[tone] }]);
-      setTimeout(() => dismiss(id), 4500);
+    const fire = (forcedTone) => {
+      const tn = forcedTone || tone;
+      const c = COPY[tn];
+      const t = { id: ++idRef.current, tone: tn, icon: showIcon, title: c.title };
+      if (content !== 'title') t.body = c.body;
+      if (content === 'action') t.action = c.action;
+      setStack(s => [...s.slice(-2), t]);
+      setTimeout(() => dismiss(t.id), 4500);
     };
 
+    const isMobile = viewport === 'mobile';
     const isTop = position.startsWith('top');
     const animIn  = isTop ? 'ob-toast-in-top'  : 'ob-toast-in-bottom';
     const animOut = isTop ? 'ob-toast-out-top' : 'ob-toast-out-bottom';
 
+    // Stage anchoring mirrors the real ToastStack (desktop: 6 anchors; mobile: full-width, keep top/bottom)
+    const anchor = () => {
+      const edge = isTop ? { top: isMobile ? 14 : 14 } : { bottom: 14 };
+      if (isMobile) return { ...edge, left: 12, right: 12, alignItems: 'stretch' };
+      const h = position.endsWith('left') ? { left: 14, alignItems: 'flex-start' }
+              : position.endsWith('right') ? { right: 14, alignItems: 'flex-end' }
+              : { left: '50%', transform: 'translateX(-50%)', alignItems: 'center' };
+      return { ...edge, ...h };
+    };
+
     return (
-      <>
-        {/* ── 1. Anatomia / tons ── */}
-        <div className="section">
-          <p className="kicker">Anatomia — sem direcionalidade</p>
-          <p className="sub">O sinal de cor vem do <strong>chip de ícone</strong>, não de uma borda lateral. O toast é simétrico — funciona ancorado em qualquer canto ou centro, sem sugerir uma direção de origem.</p>
-          <div className="col">
-            <Toast tone="success" title="Tarefa concluída" onClose={()=>{}} />
-            <Toast tone="info"    title="Sincronizando com Spotify…"
-              body="Importando playlists e histórico de plays." onClose={()=>{}} />
-            <Toast tone="warning" title="Cota quase no limite"
-              body="Você usou 90% do armazenamento incluído no plano atual."
-              action="Fazer upgrade" onClose={()=>{}} />
-            <Toast tone="danger"  title="Falha no deploy"
-              body="Não foi possível subir a build #482. Verifique o log."
-              action="Tentar de novo" onClose={()=>{}} />
+      <div className="wrap">
+
+        {/* ── Controls ── */}
+        <div className="panel">
+          <div className="ctrl">
+            <label className="head">Tom</label>
+            <div className="chip-row">
+              {TONES.map(tn => (
+                <Chip key={tn} label={tn} size="sm" selected={tone === tn} onToggle={() => setTone(tn)} />
+              ))}
+            </div>
+          </div>
+
+          <div className="ctrl">
+            <label className="head">Conteúdo</label>
+            <RadioGroup
+              name="content"
+              value={content}
+              onChange={setContent}
+              options={[
+                { value: 'title',  label: 'Só título' },
+                { value: 'body',   label: 'Título + corpo' },
+                { value: 'action', label: 'Título + corpo + ação' },
+              ]}
+            />
+          </div>
+
+          <div className="ctrl">
+            <label className="head">Ícone</label>
+            <Toggle checked={showIcon} onChange={setShowIcon} label={showIcon ? 'Com chip de ícone' : 'Sem ícone'} />
+          </div>
+
+          <div className="ctrl">
+            <label className="head">Viewport</label>
+            <div className="seg">
+              <button className={!isMobile ? 'on' : ''} onClick={() => setViewport('desktop')}>Desktop</button>
+              <button className={isMobile ? 'on' : ''} onClick={() => {
+                setViewport('mobile');
+                if (!position.endsWith('center')) setPosition(isTop ? 'top-center' : 'bottom-center');
+              }}>Mobile</button>
+            </div>
+          </div>
+
+          <div className="ctrl">
+            <label className="head">Posição {isMobile && '· mobile usa full-width'}</label>
+            <div className="pos-grid">
+              {POSITIONS.map(p => {
+                const horizontalLocked = isMobile && !p.endsWith('center');
+                return (
+                  <button key={p}
+                    className={'pos-btn' + (p === position ? ' on' : '')}
+                    disabled={horizontalLocked}
+                    title={horizontalLocked ? 'No mobile o toast é full-width — use top/bottom center' : ''}
+                    onClick={() => setPosition(p)}>
+                    {p === position && <i className="ph ph-check" style={{fontSize:10}}/>}
+                    {p.replace('-', ' ')}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="fire">
+            <button className="btn-primary" onClick={() => fire()}>
+              <i className="ph ph-bell-ringing" style={{fontSize:16}}/>Disparar toast
+            </button>
+            <button className="btn-ghost" onClick={() => setStack([])}>Limpar</button>
           </div>
         </div>
 
-        {/* ── 2. Position playground ── */}
-        <div className="section">
-          <p className="kicker">Posicionamento — 6 âncoras</p>
-          <p className="sub">Escolha a âncora e dispare. A animação é <strong>vertical</strong> (desce no topo, sobe embaixo) — nunca horizontal — então qualquer posição é coerente.</p>
-          <div className="pos-grid">
-            {POSITIONS.map(p => (
-              <button key={p} className={'pos-btn' + (p === position ? ' active' : '')} onClick={() => setPosition(p)}>
-                {p === position && <i className="ph ph-check" style={{fontSize:11}}/>}
-                {p.replace('-', ' ')}
-              </button>
-            ))}
-          </div>
-          <div className="dispatch-row" style={{marginBottom:16}}>
-            {['success','info','warning','danger'].map(t => (
-              <button key={t} className="btn" onClick={() => push(t)}>
-                <i className="ph ph-plus" style={{fontSize:13}}/>{t}
-              </button>
-            ))}
-          </div>
-          <div className="stage">
-            {stack.length === 0 && <div className="stage-hint">Dispare um toast — ele aparece em <strong>{position.replace('-',' ')}</strong></div>}
+        {/* ── Live stage ── */}
+        <div className="stage-wrap">
+          <div className="stage-meta">{isMobile ? 'MOBILE' : 'DESKTOP'} · {position.replace('-',' ')} · {stack.length} ativo(s)</div>
+          <div className={'stage' + (isMobile ? ' mobile' : '')}>
+            {isMobile && <div className="notch"/>}
+            <div className="stage-app">
+              <div className="app-bar"/>
+              <div className="app-card"/>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+                <div className="app-card-sm"/><div className="app-card-sm"/>
+              </div>
+              <div className="app-card"/>
+              {!isMobile && <div className="app-card-sm"/>}
+            </div>
+
+            {stack.length === 0 && (
+              <div className="stage-hint">Configure ao lado e <strong>dispare</strong> — o toast aparece aqui, anima, empilha e some.</div>
+            )}
+
             <div style={{
               position: 'absolute', display: 'flex', gap: 10,
               flexDirection: isTop ? 'column-reverse' : 'column',
-              width: 'min(360px, calc(100% - 28px))',
-              ...stageAnchor(position),
+              width: isMobile ? 'auto' : 'min(360px, calc(100% - 28px))',
+              ...anchor(),
             }}>
               {stack.map(t => (
                 <div key={t.id} style={{ width: '100%', animation: `${t.leaving ? animOut : animIn} 0.2s cubic-bezier(0.16,1,0.3,1) both` }}>
@@ -198,55 +208,7 @@
           </div>
         </div>
 
-        {/* ── 3. Mobile ── */}
-        <div className="section">
-          <p className="kicker">Mobile — full-width, top ou bottom</p>
-          <p className="sub">Em telas &lt;600px o toast ocupa a largura quase total (12px de cada lado). A âncora <strong>top/bottom é preservada</strong>: use <strong>bottom</strong> quando há ação (alcance do polegar), <strong>top</strong> para notificações passivas que não competem com a navegação inferior. Empilha a partir da borda ancorada.</p>
-          <div className="phone-row">
-            <PhoneShell label="Bottom + ação · alcance do polegar">
-              <div className="phone-toast">
-                <Toast tone="warning"
-                  title="Cota quase no limite"
-                  body="Você usou 90% do armazenamento do plano atual."
-                  action="Fazer upgrade" onClose={()=>{}} />
-              </div>
-            </PhoneShell>
-            <PhoneShell label="Top · notificação passiva">
-              <div className="phone-toast-top">
-                <Toast tone="info" title="Sincronizando…" body="Buscando dados do Spotify." onClose={()=>{}} />
-              </div>
-            </PhoneShell>
-            <PhoneShell label="Bottom · empilhamento (2 toasts)">
-              <div className="phone-toast" style={{display:'flex',flexDirection:'column',gap:8}}>
-                <Toast tone="info" title="Sincronizando…" body="Buscando dados do Spotify." onClose={()=>{}} />
-                <Toast tone="success" title="Tarefa concluída" onClose={()=>{}} />
-              </div>
-            </PhoneShell>
-          </div>
-        </div>
-
-        {/* ── 4. Toast vs Modal ── */}
-        <div className="section">
-          <p className="kicker">Toast vs Modal — quando usar cada um</p>
-          <table className="rule-table">
-            <thead>
-              <tr>
-                <th style={{width:160}}>Critério</th>
-                <th>Toast <span className="badge-toast">efêmero</span></th>
-                <th>Modal de diálogo <span className="badge-modal">bloqueante</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Ação do usuário necessária?</td><td>Não — some sozinho</td><td>Sim — requer confirmação ou input</td></tr>
-              <tr><td>Irreversível / destrutivo?</td><td>Não — ou já pode ser desfeito ("Desfazer")</td><td>Sim — deletar, publicar, pagar</td></tr>
-              <tr><td>Interrompe o fluxo?</td><td>Não — o usuário continua o que estava fazendo</td><td>Sim — bloqueia interação com o fundo</td></tr>
-              <tr><td>O usuário iniciou a ação?</td><td>Confirmação de ação já realizada</td><td>Confirmação antes de realizar</td></tr>
-              <tr><td>Conteúdo longo/complexo?</td><td>Não — máximo título + 2 linhas</td><td>Pode ter campos, listas, detalhes</td></tr>
-              <tr><td>Exemplos típicos</td><td>"Arquivo salvo", "Publicado", "Sincronizando…"</td><td>"Excluir conta?", "Confirmar pagamento"</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </>
+      </div>
     );
   }
 
