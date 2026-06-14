@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"6eab5b18289d","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"ad29188d90e7","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -3319,8 +3319,7 @@ const Toast = ({
       color: 'var(--ob-fg-mute)',
       display: 'flex',
       padding: 2,
-      flexShrink: 0,
-      alignSelf: 'flex-start'
+      flexShrink: 0
     }
   }, /*#__PURE__*/React.createElement(Ph, {
     n: "x",
