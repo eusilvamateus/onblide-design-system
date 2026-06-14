@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"6d9c0d8b4593","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"7911d67b7c83","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -3951,7 +3951,7 @@ const ToastStack = ({
       ...anchor,
       transform: cx ? 'translateX(-50%)' : undefined,
       display: 'flex',
-      flexDirection: isTop ? 'column' : 'column-reverse',
+      flexDirection: isTop ? 'column-reverse' : 'column',
       gap: 10,
       alignItems: align,
       pointerEvents: 'none',
@@ -3978,7 +3978,7 @@ if (typeof document !== 'undefined' && !document.getElementById('ob-toast-pos'))
   const sp = document.createElement('style');
   sp.id = 'ob-toast-pos';
   // Mobile: always bottom-center, edge-to-edge — overrides any desktop anchor
-  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;align-items:stretch!important;width:calc(100vw - 24px)!important;flex-direction:column-reverse!important}}';
+  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;align-items:stretch!important;width:calc(100vw - 24px)!important;flex-direction:column!important}}';
   document.head.appendChild(sp);
 }
 window.obToast = detail => window.dispatchEvent(new CustomEvent('ob-toast', {

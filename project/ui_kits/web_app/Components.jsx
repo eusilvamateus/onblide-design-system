@@ -892,7 +892,7 @@ const ToastStack = ({ position = 'bottom-right' }) => {
     <div id="ob-toast-stack" data-pos={position} style={{
       position: 'fixed', zIndex: 9999, ...anchor,
       transform: cx ? 'translateX(-50%)' : undefined,
-      display: 'flex', flexDirection: isTop ? 'column' : 'column-reverse',
+      display: 'flex', flexDirection: isTop ? 'column-reverse' : 'column',
       gap: 10, alignItems: align, pointerEvents: 'none',
       width: 'min(400px, calc(100vw - 32px))',
     }}>
@@ -917,7 +917,7 @@ if (typeof document !== 'undefined' && !document.getElementById('ob-toast-kf')) 
 if (typeof document !== 'undefined' && !document.getElementById('ob-toast-pos')) {
   const sp = document.createElement('style'); sp.id = 'ob-toast-pos';
   // Mobile: always bottom-center, edge-to-edge — overrides any desktop anchor
-  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;align-items:stretch!important;width:calc(100vw - 24px)!important;flex-direction:column-reverse!important}}';
+  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;align-items:stretch!important;width:calc(100vw - 24px)!important;flex-direction:column!important}}';
   document.head.appendChild(sp);
 }
 window.obToast = (detail) => window.dispatchEvent(new CustomEvent('ob-toast', { detail }));

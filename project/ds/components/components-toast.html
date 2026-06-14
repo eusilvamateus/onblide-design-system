@@ -185,7 +185,7 @@
             {stack.length === 0 && <div className="stage-hint">Dispare um toast — ele aparece em <strong>{position.replace('-',' ')}</strong></div>}
             <div style={{
               position: 'absolute', display: 'flex', gap: 10,
-              flexDirection: isTop ? 'column' : 'column-reverse',
+              flexDirection: isTop ? 'column-reverse' : 'column',
               width: 'min(360px, calc(100% - 28px))',
               ...stageAnchor(position),
             }}>
