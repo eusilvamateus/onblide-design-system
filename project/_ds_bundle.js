@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"324e89d2348b","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"e1f098cadd6d","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -3242,34 +3242,42 @@ const Toast = ({
   body,
   action,
   onAction,
-  onClose
+  onClose,
+  icon = true
 }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
-  const hasBody = !!body || !!action;
+  const hasBody = !!body;
   return /*#__PURE__*/React.createElement("div", {
     role: "status",
     "aria-live": "polite",
     style: {
       display: 'flex',
-      alignItems: 'flex-start',
+      alignItems: hasBody ? 'flex-start' : 'center',
       gap: 12,
-      width: 360,
-      padding: '14px 14px 14px 16px',
+      width: '100%',
+      maxWidth: 400,
+      padding: 14,
+      boxSizing: 'border-box',
       background: 'var(--ob-surface)',
       border: '1px solid var(--ob-border)',
-      borderLeft: `3px solid ${t.fg}`,
       borderRadius: 'var(--ob-r-surface)',
       boxShadow: 'var(--ob-shadow-lg)'
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, icon && /*#__PURE__*/React.createElement("span", {
     style: {
       flexShrink: 0,
-      marginTop: hasBody ? 1 : 2,
-      display: 'flex'
+      width: 30,
+      height: 30,
+      borderRadius: 'var(--ob-r-sm)',
+      background: t.bg,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: hasBody ? 1 : 0
     }
   }, /*#__PURE__*/React.createElement(Ph, {
     n: t.icon,
-    size: hasBody ? 20 : 18,
+    size: 17,
     c: t.fg
   })), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3314,11 +3322,11 @@ const Toast = ({
       display: 'flex',
       padding: 2,
       flexShrink: 0,
-      marginTop: 1
+      marginTop: hasBody ? 1 : 0
     }
   }, /*#__PURE__*/React.createElement(Ph, {
     n: "x",
-    size: 15
+    size: 16
   })));
 };
 
@@ -3866,7 +3874,45 @@ const Select = ({
 };
 
 // ── TOAST STACK (global singleton) ────────────────────────
-const ToastStack = () => {
+// position: 'top-left' | 'top-center' | 'top-right' |
+//           'bottom-left' | 'bottom-center' | 'bottom-right'
+const OB_TOAST_POS = {
+  'top-left': {
+    top: 24,
+    left: 24,
+    align: 'flex-start'
+  },
+  'top-center': {
+    top: 24,
+    left: '50%',
+    align: 'center',
+    cx: true
+  },
+  'top-right': {
+    top: 24,
+    right: 24,
+    align: 'flex-end'
+  },
+  'bottom-left': {
+    bottom: 24,
+    left: 24,
+    align: 'flex-start'
+  },
+  'bottom-center': {
+    bottom: 24,
+    left: '50%',
+    align: 'center',
+    cx: true
+  },
+  'bottom-right': {
+    bottom: 24,
+    right: 24,
+    align: 'flex-end'
+  }
+};
+const ToastStack = ({
+  position = 'bottom-right'
+}) => {
   const [toasts, setToasts] = useState([]);
   const dismiss = React.useCallback(id => {
     setToasts(ts => ts.map(t => t.id === id ? {
@@ -3889,23 +3935,36 @@ const ToastStack = () => {
     return () => window.removeEventListener('ob-toast', handler);
   }, [dismiss]);
   if (!toasts.length) return null;
+  const pos = OB_TOAST_POS[position] || OB_TOAST_POS['bottom-right'];
+  const isTop = position.startsWith('top');
+  const animIn = isTop ? 'ob-toast-in-top' : 'ob-toast-in-bottom';
+  const animOut = isTop ? 'ob-toast-out-top' : 'ob-toast-out-bottom';
+  const {
+    align,
+    cx,
+    ...anchor
+  } = pos;
   return /*#__PURE__*/React.createElement("div", {
     id: "ob-toast-stack",
+    "data-pos": position,
     style: {
       position: 'fixed',
-      top: 24,
-      right: 24,
       zIndex: 9999,
+      ...anchor,
+      transform: cx ? 'translateX(-50%)' : undefined,
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: isTop ? 'column' : 'column-reverse',
       gap: 10,
-      pointerEvents: 'none'
+      alignItems: align,
+      pointerEvents: 'none',
+      width: 'min(400px, calc(100vw - 32px))'
     }
   }, toasts.map(t => /*#__PURE__*/React.createElement("div", {
     key: t.id,
     style: {
+      width: '100%',
       pointerEvents: 'all',
-      animation: t.leaving ? 'ob-toast-out 0.18s ease-in both' : 'ob-toast-in 0.22s cubic-bezier(0.16,1,0.3,1) both'
+      animation: `${t.leaving ? animOut : animIn} 0.2s cubic-bezier(0.16,1,0.3,1) both`
     }
   }, /*#__PURE__*/React.createElement(Toast, _extends({}, t, {
     onClose: () => dismiss(t.id)
@@ -3914,13 +3973,14 @@ const ToastStack = () => {
 if (typeof document !== 'undefined' && !document.getElementById('ob-toast-kf')) {
   const st = document.createElement('style');
   st.id = 'ob-toast-kf';
-  st.textContent = ['@keyframes ob-toast-in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}', '@keyframes ob-toast-out{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(20px)}}'].join('');
+  st.textContent = ['@keyframes ob-toast-in-top{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}', '@keyframes ob-toast-out-top{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-16px)}}', '@keyframes ob-toast-in-bottom{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}', '@keyframes ob-toast-out-bottom{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(16px)}}'].join('');
   document.head.appendChild(st);
 }
 if (typeof document !== 'undefined' && !document.getElementById('ob-toast-pos')) {
   const sp = document.createElement('style');
   sp.id = 'ob-toast-pos';
-  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;right:12px!important;left:12px!important;align-items:center!important}}';
+  // Mobile: always bottom-center, edge-to-edge — overrides any desktop anchor
+  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;align-items:stretch!important;width:calc(100vw - 24px)!important;flex-direction:column-reverse!important}}';
   document.head.appendChild(sp);
 }
 window.obToast = detail => window.dispatchEvent(new CustomEvent('ob-toast', {

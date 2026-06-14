@@ -5,19 +5,45 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"/>
 <style>
   body { margin: 0; padding: 24px; background: var(--ob-surface); font-family: var(--ob-font); }
-  .section { margin-bottom: 32px; }
-  .kicker { font-family: var(--ob-font-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--ob-fg-mute); margin: 0 0 14px; }
-  .col { display: flex; flex-direction: column; gap: 10px; max-width: 380px; }
-  .dispatch-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .section { margin-bottom: 36px; }
+  .kicker { font-family: var(--ob-font-mono); font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--ob-fg-mute); margin: 0 0 6px; }
+  .sub { font-size: 13px; color: var(--ob-fg-soft); margin: 0 0 16px; max-width: 560px; line-height: 1.5; }
+  .col { display: flex; flex-direction: column; gap: 10px; max-width: 400px; }
+
+  /* Position playground */
+  .stage { position: relative; height: 380px; border: 1.5px dashed var(--ob-border); border-radius: var(--ob-r-surface);
+           background: var(--ob-bg-warm); overflow: hidden; }
+  .stage-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center;
+                font-size: 13px; color: var(--ob-fg-mute); pointer-events: none; }
+  .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 360px; margin-bottom: 16px; }
+  .pos-btn { height: 40px; border-radius: var(--ob-r-control); border: 1.5px solid var(--ob-border);
+             background: var(--ob-surface); color: var(--ob-fg-soft); font-family: var(--ob-font-mono);
+             font-size: 10px; letter-spacing: .04em; text-transform: uppercase; cursor: pointer;
+             transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+  .pos-btn:hover { border-color: var(--ob-blue); color: var(--ob-blue); }
+  .pos-btn.active { background: var(--ob-blue); color: #fff; border-color: var(--ob-blue); }
+
+  .dispatch-row { display: flex; gap: 8px; flex-wrap: wrap; }
   .btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px;
          border-radius: var(--ob-r-control); border: 1.5px solid var(--ob-border);
          background: var(--ob-surface); color: var(--ob-fg); font-family: inherit;
          font-size: 13px; font-weight: 600; cursor: pointer; transition: border-color .15s, color .15s; }
   .btn:hover { border-color: var(--ob-blue); color: var(--ob-blue); }
   .muted { font-size: 12px; color: var(--ob-fg-mute); }
-  .live-stage { min-height: 100px; display: flex; flex-direction: column; gap: 10px; max-width: 380px;
-                position: relative; }
-  .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; max-width: 660px; }
+
+  /* Phone frames */
+  .phone-row { display: flex; gap: 24px; overflow-x: auto; padding-bottom: 8px; }
+  .phone { width: 360px; height: 640px; border-radius: 44px; border: 8px solid var(--ob-fg-strong); background: var(--ob-bg); position: relative; overflow: hidden; flex-shrink: 0; box-shadow: 0 24px 48px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.08); }
+  .phone-status { height: 42px; background: var(--ob-surface); display: flex; align-items: flex-end; justify-content: space-between; padding: 0 26px 7px; font-size: 12px; font-weight: 600; color: var(--ob-fg-soft); }
+  .phone-content { padding: 18px; display: flex; flex-direction: column; gap: 11px; }
+  .phone-bar { height: 46px; border-radius: var(--ob-r-sm); background: var(--ob-surface); border: 1px solid var(--ob-border); display: flex; align-items: center; padding: 0 15px; gap: 10px; font-size: 14px; font-weight: 600; color: var(--ob-fg-strong); }
+  .phone-card { height: 68px; border-radius: var(--ob-r-surface); background: var(--ob-surface); border: 1px solid var(--ob-border); }
+  .phone-card-sm { height: 46px; border-radius: var(--ob-r-surface); background: var(--ob-bg-warm); }
+  .phone-label { font-family: var(--ob-font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ob-fg-mute); text-align: center; margin-top: 10px; }
+  .phone-toast { position: absolute; bottom: 16px; left: 12px; right: 12px; }
+  .phone-toast-top { position: absolute; top: 52px; left: 12px; right: 12px; }
+
+  .rule-table { width: 100%; border-collapse: collapse; font-size: 13px; max-width: 680px; }
   .rule-table th { text-align: left; padding: 8px 12px; border-bottom: 1.5px solid var(--ob-border);
                    font-family: var(--ob-font-mono); font-size: 11px; text-transform: uppercase;
                    letter-spacing: .05em; color: var(--ob-fg-mute); }
@@ -25,12 +51,10 @@
                    vertical-align: top; line-height: 1.45; }
   .rule-table td:first-child { font-weight: 600; color: var(--ob-fg-strong); white-space: nowrap; }
   .rule-table tr:last-child td { border-bottom: none; }
-  .toast-col { border-left: 3px solid var(--ob-blue); }
-  .modal-col { border-left: 3px solid var(--ob-orange); }
   .badge-toast { display: inline-block; background: var(--ob-blue-100); color: var(--ob-blue-700);
                  font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
-  .badge-modal { display: inline-block; background: color-mix(in srgb, var(--ob-orange) 14%, var(--ob-surface));
-                 color: #9a4000; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+  .badge-modal { display: inline-block; background: var(--ob-orange-100);
+                 color: var(--ob-orange-700); font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
 </style></head>
 <body><div id="root"></div>
 
@@ -44,27 +68,63 @@
   const { useState, useRef, useCallback } = React;
 
   const PRESETS = {
-    success: { title: 'Tarefa concluída',       body: null,                             action: null },
-    info:    { title: 'Sincronizando…',          body: 'Buscando dados do Spotify.',     action: null },
-    warning: { title: 'Cota quase no limite',    body: 'Você usou 90% do plano atual.',  action: 'Fazer upgrade' },
+    success: { title: 'Tarefa concluída',       body: null,                                   action: null },
+    info:    { title: 'Sincronizando…',          body: 'Buscando dados do Spotify.',           action: null },
+    warning: { title: 'Cota quase no limite',    body: 'Você usou 90% do plano atual.',        action: 'Fazer upgrade' },
     danger:  { title: 'Falha no deploy',         body: 'Não foi possível subir a build #482.', action: 'Tentar de novo' },
   };
 
-  // Local animated toast for the live stage (not the global stack)
-  const LocalToastStack = ({ items, onDismiss }) => {
-    if (!items.length) return <p className="muted">Nenhum toast ativo — dispare um acima.</p>;
-    return (
-      <div className="live-stage">
-        {items.map(t => (
-          <div key={t.id} style={{ animation: t.leaving ? 'ob-toast-out 0.18s ease-in both' : 'ob-toast-in 0.22s cubic-bezier(0.16,1,0.3,1) both' }}>
-            <Toast {...t} onClose={() => onDismiss(t.id)} />
-          </div>
-        ))}
-      </div>
-    );
+  const POSITIONS = [
+    'top-left', 'top-center', 'top-right',
+    'bottom-left', 'bottom-center', 'bottom-right',
+  ];
+
+  // Anchor styles for the playground stage (mirror of the real ToastStack)
+  const stageAnchor = (position) => {
+    const map = {
+      'top-left':      { top: 14, left: 14, alignItems: 'flex-start' },
+      'top-center':    { top: 14, left: '50%', transform: 'translateX(-50%)', alignItems: 'center' },
+      'top-right':     { top: 14, right: 14, alignItems: 'flex-end' },
+      'bottom-left':   { bottom: 14, left: 14, alignItems: 'flex-start' },
+      'bottom-center': { bottom: 14, left: '50%', transform: 'translateX(-50%)', alignItems: 'center' },
+      'bottom-right':  { bottom: 14, right: 14, alignItems: 'flex-end' },
+    };
+    return map[position];
   };
 
+  const PhoneShell = ({ label, children }) => (
+    <div>
+      <div className="phone">
+        <div className="phone-status">
+          <span>9:41</span>
+          <div style={{ display:'flex', gap:5, alignItems:'center' }}>
+            <i className="ph ph-signal-high" style={{fontSize:12}}/>
+            <i className="ph ph-wifi-high"   style={{fontSize:12}}/>
+            <i className="ph ph-battery-full" style={{fontSize:12}}/>
+          </div>
+        </div>
+        <div className="phone-content">
+          <div className="phone-bar">
+            <i className="ph ph-grid-four" style={{fontSize:15,color:'var(--ob-fg-mute)'}}/>
+            <span>Início</span>
+            <i className="ph ph-bell" style={{fontSize:15,color:'var(--ob-fg-mute)',marginLeft:'auto'}}/>
+          </div>
+          <div className="phone-card"/>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+            <div className="phone-card-sm"/>
+            <div className="phone-card-sm"/>
+          </div>
+          <div className="phone-card"/>
+          <div className="phone-card-sm"/>
+        </div>
+        {children}
+      </div>
+      <p className="phone-label">{label}</p>
+    </div>
+  );
+
   function Demo() {
+    const [position, setPosition] = useState('bottom-right');
     const [stack, setStack] = useState([]);
     const idRef = useRef(0);
 
@@ -76,17 +136,21 @@
     const push = (tone) => {
       const id = ++idRef.current;
       setStack(s => [...s.slice(-2), { id, tone, ...PRESETS[tone] }]);
-      setTimeout(() => dismiss(id), 4800);
+      setTimeout(() => dismiss(id), 4500);
     };
+
+    const isTop = position.startsWith('top');
+    const animIn  = isTop ? 'ob-toast-in-top'  : 'ob-toast-in-bottom';
+    const animOut = isTop ? 'ob-toast-out-top' : 'ob-toast-out-bottom';
 
     return (
       <>
-        {/* ── 1. Variações de conteúdo (proporção de ícone) ── */}
+        {/* ── 1. Anatomia / tons ── */}
         <div className="section">
-          <p className="kicker">Variações de conteúdo</p>
+          <p className="kicker">Anatomia — sem direcionalidade</p>
+          <p className="sub">O sinal de cor vem do <strong>chip de ícone</strong>, não de uma borda lateral. O toast é simétrico — funciona ancorado em qualquer canto ou centro, sem sugerir uma direção de origem.</p>
           <div className="col">
-            <Toast tone="success" title="Tarefa concluída"
-              onClose={()=>{}} />
+            <Toast tone="success" title="Tarefa concluída" onClose={()=>{}} />
             <Toast tone="info"    title="Sincronizando com Spotify…"
               body="Importando playlists e histórico de plays." onClose={()=>{}} />
             <Toast tone="warning" title="Cota quase no limite"
@@ -98,61 +162,87 @@
           </div>
         </div>
 
-        {/* ── 2. Live dispatch ── */}
+        {/* ── 2. Position playground ── */}
         <div className="section">
-          <p className="kicker">Animação — entrada e saída</p>
-          <div className="dispatch-row">
-            {['success','info','warning','danger'].map(t => (
-              <button key={t} className="btn" onClick={() => push(t)}>
-                <i className="ph ph-arrow-up-right" style={{fontSize:13}}/>{t}
+          <p className="kicker">Posicionamento — 6 âncoras</p>
+          <p className="sub">Escolha a âncora e dispare. A animação é <strong>vertical</strong> (desce no topo, sobe embaixo) — nunca horizontal — então qualquer posição é coerente.</p>
+          <div className="pos-grid">
+            {POSITIONS.map(p => (
+              <button key={p} className={'pos-btn' + (p === position ? ' active' : '')} onClick={() => setPosition(p)}>
+                {p === position && <i className="ph ph-check" style={{fontSize:11}}/>}
+                {p.replace('-', ' ')}
               </button>
             ))}
           </div>
-          <LocalToastStack items={stack} onDismiss={dismiss} />
+          <div className="dispatch-row" style={{marginBottom:16}}>
+            {['success','info','warning','danger'].map(t => (
+              <button key={t} className="btn" onClick={() => push(t)}>
+                <i className="ph ph-plus" style={{fontSize:13}}/>{t}
+              </button>
+            ))}
+          </div>
+          <div className="stage">
+            {stack.length === 0 && <div className="stage-hint">Dispare um toast — ele aparece em <strong>{position.replace('-',' ')}</strong></div>}
+            <div style={{
+              position: 'absolute', display: 'flex', gap: 10,
+              flexDirection: isTop ? 'column' : 'column-reverse',
+              width: 'min(360px, calc(100% - 28px))',
+              ...stageAnchor(position),
+            }}>
+              {stack.map(t => (
+                <div key={t.id} style={{ width: '100%', animation: `${t.leaving ? animOut : animIn} 0.2s cubic-bezier(0.16,1,0.3,1) both` }}>
+                  <Toast {...t} onClose={() => dismiss(t.id)} />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* ── 3. Toast vs Modal ── */}
+        {/* ── 3. Mobile ── */}
+        <div className="section">
+          <p className="kicker">Mobile — edge-to-edge, bottom-center</p>
+          <p className="sub">Em telas &lt;600px o toast ocupa a largura quase total (bottom-center, 12px de cada lado) e empilha para cima — longe do teclado e fácil de alcançar.</p>
+          <div className="phone-row">
+            <PhoneShell label="Título apenas · success">
+              <div className="phone-toast">
+                <Toast tone="success" title="Tarefa concluída" onClose={()=>{}} />
+              </div>
+            </PhoneShell>
+            <PhoneShell label="Corpo + ação · warning">
+              <div className="phone-toast">
+                <Toast tone="warning"
+                  title="Cota quase no limite"
+                  body="Você usou 90% do armazenamento do plano atual."
+                  action="Fazer upgrade" onClose={()=>{}} />
+              </div>
+            </PhoneShell>
+            <PhoneShell label="Empilhamento · 2 toasts">
+              <div className="phone-toast" style={{display:'flex',flexDirection:'column',gap:8}}>
+                <Toast tone="info" title="Sincronizando…" body="Buscando dados do Spotify." onClose={()=>{}} />
+                <Toast tone="success" title="Tarefa concluída" onClose={()=>{}} />
+              </div>
+            </PhoneShell>
+          </div>
+        </div>
+
+        {/* ── 4. Toast vs Modal ── */}
         <div className="section">
           <p className="kicker">Toast vs Modal — quando usar cada um</p>
           <table className="rule-table">
             <thead>
               <tr>
                 <th style={{width:160}}>Critério</th>
-                <th className="toast-col">Toast <span className="badge-toast">efêmero</span></th>
-                <th className="modal-col">Modal de diálogo <span className="badge-modal">bloqueante</span></th>
+                <th>Toast <span className="badge-toast">efêmero</span></th>
+                <th>Modal de diálogo <span className="badge-modal">bloqueante</span></th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Ação do usuário necessária?</td>
-                <td>Não — some sozinho</td>
-                <td>Sim — requer confirmação ou input</td>
-              </tr>
-              <tr>
-                <td>Irreversível / destrutivo?</td>
-                <td>Não — ou já pode ser desfeito ("Desfazer")</td>
-                <td>Sim — deletar, publicar, pagar</td>
-              </tr>
-              <tr>
-                <td>Interrompe o fluxo?</td>
-                <td>Não — o usuário continua o que estava fazendo</td>
-                <td>Sim — bloqueia interação com o fundo</td>
-              </tr>
-              <tr>
-                <td>O usuário iniciou a ação?</td>
-                <td>Confirmação de ação já realizada</td>
-                <td>Confirmação antes de realizar</td>
-              </tr>
-              <tr>
-                <td>Conteúdo longo/complexo?</td>
-                <td>Não — máximo título + 2 linhas</td>
-                <td>Pode ter campos, listas, detalhes</td>
-              </tr>
-              <tr>
-                <td>Exemplos típicos</td>
-                <td>"Arquivo salvo", "Publicado", "Sincronizando…"</td>
-                <td>"Excluir conta?", "Confirmar pagamento", "Preencha os dados"</td>
-              </tr>
+              <tr><td>Ação do usuário necessária?</td><td>Não — some sozinho</td><td>Sim — requer confirmação ou input</td></tr>
+              <tr><td>Irreversível / destrutivo?</td><td>Não — ou já pode ser desfeito ("Desfazer")</td><td>Sim — deletar, publicar, pagar</td></tr>
+              <tr><td>Interrompe o fluxo?</td><td>Não — o usuário continua o que estava fazendo</td><td>Sim — bloqueia interação com o fundo</td></tr>
+              <tr><td>O usuário iniciou a ação?</td><td>Confirmação de ação já realizada</td><td>Confirmação antes de realizar</td></tr>
+              <tr><td>Conteúdo longo/complexo?</td><td>Não — máximo título + 2 linhas</td><td>Pode ter campos, listas, detalhes</td></tr>
+              <tr><td>Exemplos típicos</td><td>"Arquivo salvo", "Publicado", "Sincronizando…"</td><td>"Excluir conta?", "Confirmar pagamento"</td></tr>
             </tbody>
           </table>
         </div>

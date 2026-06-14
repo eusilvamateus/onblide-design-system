@@ -600,29 +600,34 @@ const Alert = ({ tone = 'info', title, children, dismissible = false, onClose, a
 };
 
 // ── TOAST ───────────────────────────────────────────────
-const Toast = ({ tone = 'info', title, body, action, onAction, onClose }) => {
+const Toast = ({ tone = 'info', title, body, action, onAction, onClose, icon = true }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
-  const hasBody = !!body || !!action;
+  const hasBody = !!body;
   return (
     <div role="status" aria-live="polite" style={{
-      display: 'flex', alignItems: 'flex-start', gap: 12,
-      width: 360, padding: '14px 14px 14px 16px',
+      display: 'flex', alignItems: hasBody ? 'flex-start' : 'center', gap: 12,
+      width: '100%', maxWidth: 400, padding: 14, boxSizing: 'border-box',
       background: 'var(--ob-surface)',
       border: '1px solid var(--ob-border)',
-      borderLeft: `3px solid ${t.fg}`,
       borderRadius: 'var(--ob-r-surface)',
       boxShadow: 'var(--ob-shadow-lg)',
     }}>
-      {/* Icon — top-aligned, optically offset to sit on the title baseline */}
-      <span style={{ flexShrink: 0, marginTop: hasBody ? 1 : 2, display: 'flex' }}>
-        <Ph n={t.icon} size={hasBody ? 20 : 18} c={t.fg} />
-      </span>
+      {/* Icon chip — color signal is contained and symmetric (no directional border) */}
+      {icon && (
+        <span style={{
+          flexShrink: 0, width: 30, height: 30, borderRadius: 'var(--ob-r-sm)',
+          background: t.bg, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          marginTop: hasBody ? 1 : 0,
+        }}>
+          <Ph n={t.icon} size={17} c={t.fg} />
+        </span>
+      )}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.4 }}>{title}</div>
         {body && <div style={{ fontSize: 13, color: 'var(--ob-fg-soft)', marginTop: 3, lineHeight: 1.5 }}>{body}</div>}
         {action && <button onClick={onAction} style={{ marginTop: 8, border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: t.strong, fontWeight: 700, fontSize: 13, fontFamily: 'var(--ob-font)' }}>{action}</button>}
       </div>
-      {onClose && <button onClick={onClose} aria-label="Fechar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flexShrink: 0, marginTop: 1 }}><Ph n="x" size={15} /></button>}
+      {onClose && <button onClick={onClose} aria-label="Fechar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flexShrink: 0, marginTop: hasBody ? 1 : 0 }}><Ph n="x" size={16} /></button>}
     </div>
   );
 };
@@ -854,7 +859,17 @@ const Select = ({
 };
 
 // ── TOAST STACK (global singleton) ────────────────────────
-const ToastStack = () => {
+// position: 'top-left' | 'top-center' | 'top-right' |
+//           'bottom-left' | 'bottom-center' | 'bottom-right'
+const OB_TOAST_POS = {
+  'top-left':      { top: 24, left: 24,  align: 'flex-start' },
+  'top-center':    { top: 24, left: '50%', align: 'center', cx: true },
+  'top-right':     { top: 24, right: 24, align: 'flex-end' },
+  'bottom-left':   { bottom: 24, left: 24,  align: 'flex-start' },
+  'bottom-center': { bottom: 24, left: '50%', align: 'center', cx: true },
+  'bottom-right':  { bottom: 24, right: 24, align: 'flex-end' },
+};
+const ToastStack = ({ position = 'bottom-right' }) => {
   const [toasts, setToasts] = useState([]);
   const dismiss = React.useCallback((id) => {
     setToasts(ts => ts.map(t => t.id === id ? { ...t, leaving: true } : t));
@@ -870,10 +885,21 @@ const ToastStack = () => {
     return () => window.removeEventListener('ob-toast', handler);
   }, [dismiss]);
   if (!toasts.length) return null;
+  const pos = OB_TOAST_POS[position] || OB_TOAST_POS['bottom-right'];
+  const isTop = position.startsWith('top');
+  const animIn  = isTop ? 'ob-toast-in-top'  : 'ob-toast-in-bottom';
+  const animOut = isTop ? 'ob-toast-out-top' : 'ob-toast-out-bottom';
+  const { align, cx, ...anchor } = pos;
   return (
-    <div id="ob-toast-stack" style={{ position: 'fixed', top: 24, right: 24, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: 10, pointerEvents: 'none' }}>
+    <div id="ob-toast-stack" data-pos={position} style={{
+      position: 'fixed', zIndex: 9999, ...anchor,
+      transform: cx ? 'translateX(-50%)' : undefined,
+      display: 'flex', flexDirection: isTop ? 'column' : 'column-reverse',
+      gap: 10, alignItems: align, pointerEvents: 'none',
+      width: 'min(400px, calc(100vw - 32px))',
+    }}>
       {toasts.map(t => (
-        <div key={t.id} style={{ pointerEvents: 'all', animation: t.leaving ? 'ob-toast-out 0.18s ease-in both' : 'ob-toast-in 0.22s cubic-bezier(0.16,1,0.3,1) both' }}>
+        <div key={t.id} style={{ width: '100%', pointerEvents: 'all', animation: `${t.leaving ? animOut : animIn} 0.2s cubic-bezier(0.16,1,0.3,1) both` }}>
           <Toast {...t} onClose={() => dismiss(t.id)} />
         </div>
       ))}
@@ -883,14 +909,17 @@ const ToastStack = () => {
 if (typeof document !== 'undefined' && !document.getElementById('ob-toast-kf')) {
   const st = document.createElement('style'); st.id = 'ob-toast-kf';
   st.textContent = [
-    '@keyframes ob-toast-in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}',
-    '@keyframes ob-toast-out{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(20px)}}',
+    '@keyframes ob-toast-in-top{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}',
+    '@keyframes ob-toast-out-top{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-16px)}}',
+    '@keyframes ob-toast-in-bottom{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}',
+    '@keyframes ob-toast-out-bottom{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(16px)}}',
   ].join('');
   document.head.appendChild(st);
 }
 if (typeof document !== 'undefined' && !document.getElementById('ob-toast-pos')) {
   const sp = document.createElement('style'); sp.id = 'ob-toast-pos';
-  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;right:12px!important;left:12px!important;align-items:center!important}}';
+  // Mobile: always bottom-center, edge-to-edge — overrides any desktop anchor
+  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;align-items:stretch!important;width:calc(100vw - 24px)!important;flex-direction:column-reverse!important}}';
   document.head.appendChild(sp);
 }
 window.obToast = (detail) => window.dispatchEvent(new CustomEvent('ob-toast', { detail }));

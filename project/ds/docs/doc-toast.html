@@ -7,7 +7,7 @@
 
   <p class="eyebrow">Componente · Feedback</p>
   <h1>Toast <em>doc</em></h1>
-  <p class="lede">Notificação flutuante e efêmera que confirma ações ou informa eventos em segundo plano. Aparece na borda inferior-direita e some após ~4,5 s. Compõe com <strong>Alert</strong> — use Alert quando a mensagem deve persistir.</p>
+  <p class="lede">Notificação flutuante e efêmera que confirma ações ou informa eventos em segundo plano. É simétrica — sem borda direcional — e pode ser ancorada em qualquer um dos 6 cantos/centros. Some sozinha após ~4,5 s. Compõe com <strong>Alert</strong> — use Alert quando a mensagem deve persistir.</p>
 
   <div class="matrix">
     <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de uso</div>
@@ -43,15 +43,15 @@
 
   <section>
     <h2>2 · Formatação</h2>
-    <p>Largura fixa de 360px. Borda esquerda colorida (3px) como acento do tom. Stacking vertical com gap de 10px, ancoragem <code>top-right</code> (24px das bordas superior e direita). Em mobile (&lt;600px), ancoragem <code>bottom-center</code> com 16px das bordas.</p>
-    <pre><code>&lt;Toast
-  tone="success"
-  title="Deploy concluído"
-  body="Build #482 está no ar."
-  action="Ver log"
-  onAction={openLog}
-  onClose={dismiss}
-/&gt;</code></pre>
+    <p>Largura responsiva (máx. 400px; em mobile ocupa a viewport menos 24px). Sinal de cor pelo <strong>chip de ícone</strong> tonal — sem borda lateral direcional. Stacking vertical com gap de 10px (máximo 3 simultâneos). Posição configurável via <code>ToastStack position</code>; padrão <code>bottom-right</code> no desktop, sempre <code>bottom-center</code> em mobile (&lt;600px).</p>
+    <pre><code>&lt;ToastStack position="bottom-right" /&gt;   // monte uma vez na raiz do app
+
+window.obToast({
+  tone: "success",
+  title: "Deploy concluído",
+  body: "Build #482 está no ar.",
+  action: "Ver log",
+});</code></pre>
     <table class="props">
       <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
       <tbody>
@@ -61,6 +61,8 @@
         <tr><td><code>action</code></td><td><code>string</code></td><td>—</td></tr>
         <tr><td><code>onAction</code></td><td><code>() => void</code></td><td>—</td></tr>
         <tr><td><code>onClose</code></td><td><code>() => void</code></td><td>—</td></tr>
+        <tr><td><code>icon</code></td><td><code>boolean</code></td><td><code>true</code></td></tr>
+        <tr><td><code>position</code> <span style="color:var(--ob-fg-mute)">(ToastStack)</span></td><td><code>'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'</code></td><td><code>'bottom-right'</code></td></tr>
       </tbody>
     </table>
   </section>
@@ -78,11 +80,10 @@
 
   <section>
     <h2>4 · Guia de design</h2>
-    <p><strong>Tokens.</strong> Fundo <code>--ob-surface</code>, borda <code>--ob-border</code>, borda esquerda colorida (3px) como acento do tom. Sombra <code>--ob-shadow-lg</code>.</p>
-    <p><strong>Ícone.</strong> Tamanho 20px quando há body ou action, 18px quando há só título. Alinhado ao topo do conteúdo (<code>align-self: flex-start</code> + <code>margin-top: 1px</code> óptico) — nunca centralizado verticalmente.</p>
-    <p><strong>Motion.</strong> Entrada: <code>translateX(20px) → translateX(0)</code> + fade, 220ms <code>cubic-bezier(0.16,1,0.3,1)</code> (ease-out limpo, sem bounce). Saída: <code>translateX(0) → translateX(20px)</code> + fade, 180ms <code>ease-in</code>. Desliza da direita — direção corresponde à âncora <code>top-right</code>. Hover pausa o timer de auto-dismiss.</p>
-    <p><strong>Mobile.</strong> Em viewports &lt;600px, ancoragem muda para <code>bottom-center</code> (16px das bordas) — evita conflito com teclado virtual e garante legibilidade.</p> → translateX(20px)</code> + fade, 180ms <code>ease-in</code>. A direção de slide corresponde à âncora (bottom-right → desliza da direita). Hover pausa o timer de auto-dismiss.</p>
-    <p><strong>Mobile.</strong> Largura 100% da viewport menos 24px de cada lado, ancoragem <code>bottom-center</code>.</p>
+    <p><strong>Tokens.</strong> Fundo <code>--ob-surface</code>, borda <code>--ob-border</code> (uniforme, 1px em todos os lados — sem acento lateral). Chip de ícone <code>30×30px</code> com fundo <code>OB_TONES[tone].bg</code> e ícone na cor <code>.fg</code>. Raio <code>--ob-r-surface</code>. Sombra <code>--ob-shadow-lg</code>.</p>
+    <p><strong>Ícone.</strong> O chip tonal carrega todo o sinal de cor — contido e simétrico, sem reforçar direção de origem. Ícone Phosphor 17px centralizado no chip. Centralizado verticalmente quando há só título; alinhado ao topo quando há corpo.</p>
+    <p><strong>Motion.</strong> Animação <strong>vertical</strong> — nunca horizontal. Âncoras de topo: <code>translateY(-16px) → 0</code>; âncoras de base: <code>translateY(16px) → 0</code>. 200ms <code>cubic-bezier(0.16,1,0.3,1)</code> (ease-out limpo, sem bounce); saída inverte o mesmo eixo. Como o eixo é sempre vertical, qualquer âncora horizontal (left/center/right) fica coerente. Hover pausa o timer de auto-dismiss.</p>
+    <p><strong>Posicionamento.</strong> 6 âncoras via <code>ToastStack position</code>. Centralização horizontal fica no container do stack (<code>translateX(-50%)</code>), separada da animação vertical de cada toast — sem conflito de transform. Mobile (&lt;600px) força <code>bottom-center</code> edge-to-edge, independente do <code>position</code> do desktop.</p>
   </section>
 
   <section>
