@@ -602,10 +602,9 @@ const Alert = ({ tone = 'info', title, children, dismissible = false, onClose, a
 // ── TOAST ───────────────────────────────────────────────
 const Toast = ({ tone = 'info', title, body, action, onAction, onClose, icon = true }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
-  const hasBody = !!body;
   return (
     <div role="status" aria-live="polite" style={{
-      display: 'flex', alignItems: hasBody ? 'flex-start' : 'center', gap: 12,
+      display: 'flex', alignItems: 'center', gap: 12,
       width: '100%', maxWidth: 400, padding: 14, boxSizing: 'border-box',
       background: 'var(--ob-surface)',
       border: '1px solid var(--ob-border)',
@@ -617,7 +616,6 @@ const Toast = ({ tone = 'info', title, body, action, onAction, onClose, icon = t
         <span style={{
           flexShrink: 0, width: 30, height: 30, borderRadius: 'var(--ob-r-sm)',
           background: t.bg, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          marginTop: hasBody ? 1 : 0,
         }}>
           <Ph n={t.icon} size={17} c={t.fg} />
         </span>
@@ -627,7 +625,7 @@ const Toast = ({ tone = 'info', title, body, action, onAction, onClose, icon = t
         {body && <div style={{ fontSize: 13, color: 'var(--ob-fg-soft)', marginTop: 3, lineHeight: 1.5 }}>{body}</div>}
         {action && <button onClick={onAction} style={{ marginTop: 8, border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: t.strong, fontWeight: 700, fontSize: 13, fontFamily: 'var(--ob-font)' }}>{action}</button>}
       </div>
-      {onClose && <button onClick={onClose} aria-label="Fechar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flexShrink: 0, marginTop: hasBody ? 1 : 0 }}><Ph n="x" size={16} /></button>}
+      {onClose && <button onClick={onClose} aria-label="Fechar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flexShrink: 0, alignSelf: 'flex-start' }}><Ph n="x" size={16} /></button>}
     </div>
   );
 };

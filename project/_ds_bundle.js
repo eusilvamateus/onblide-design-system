@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"e1f098cadd6d","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"6d9c0d8b4593","ui_kits/web_app/Primitives.jsx":"ecb3a5c5c140","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -3246,13 +3246,12 @@ const Toast = ({
   icon = true
 }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
-  const hasBody = !!body;
   return /*#__PURE__*/React.createElement("div", {
     role: "status",
     "aria-live": "polite",
     style: {
       display: 'flex',
-      alignItems: hasBody ? 'flex-start' : 'center',
+      alignItems: 'center',
       gap: 12,
       width: '100%',
       maxWidth: 400,
@@ -3272,8 +3271,7 @@ const Toast = ({
       background: t.bg,
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: hasBody ? 1 : 0
+      justifyContent: 'center'
     }
   }, /*#__PURE__*/React.createElement(Ph, {
     n: t.icon,
@@ -3322,7 +3320,7 @@ const Toast = ({
       display: 'flex',
       padding: 2,
       flexShrink: 0,
-      marginTop: hasBody ? 1 : 0
+      alignSelf: 'flex-start'
     }
   }, /*#__PURE__*/React.createElement(Ph, {
     n: "x",

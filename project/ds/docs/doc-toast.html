@@ -81,7 +81,7 @@ window.obToast({
   <section>
     <h2>4 · Guia de design</h2>
     <p><strong>Tokens.</strong> Fundo <code>--ob-surface</code>, borda <code>--ob-border</code> (uniforme, 1px em todos os lados — sem acento lateral). Chip de ícone <code>30×30px</code> com fundo <code>OB_TONES[tone].bg</code> e ícone na cor <code>.fg</code>. Raio <code>--ob-r-surface</code>. Sombra <code>--ob-shadow-lg</code>.</p>
-    <p><strong>Ícone.</strong> O chip tonal carrega todo o sinal de cor — contido e simétrico, sem reforçar direção de origem. Ícone Phosphor 17px centralizado no chip. Centralizado verticalmente quando há só título; alinhado ao topo quando há corpo.</p>
+    <p><strong>Ícone.</strong> O chip tonal carrega todo o sinal de cor — contido e simétrico, sem reforçar direção de origem. Ícone Phosphor 17px centralizado no chip, e o chip é centralizado verticalmente no toast (mesmo com corpo de 2 linhas). O botão fechar fica alinhado ao topo.</p>
     <p><strong>Motion.</strong> Animação <strong>vertical</strong> — nunca horizontal. Âncoras de topo: <code>translateY(-16px) → 0</code>; âncoras de base: <code>translateY(16px) → 0</code>. 200ms <code>cubic-bezier(0.16,1,0.3,1)</code> (ease-out limpo, sem bounce); saída inverte o mesmo eixo. Como o eixo é sempre vertical, qualquer âncora horizontal (left/center/right) fica coerente. Hover pausa o timer de auto-dismiss.</p>
     <p><strong>Posicionamento.</strong> 6 âncoras via <code>ToastStack position</code>. Centralização horizontal fica no container do stack (<code>translateX(-50%)</code>), separada da animação vertical de cada toast — sem conflito de transform. Mobile (&lt;600px) força <code>bottom-center</code> edge-to-edge, independente do <code>position</code> do desktop.</p>
   </section>
