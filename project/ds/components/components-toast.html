@@ -200,15 +200,10 @@
 
         {/* ── 3. Mobile ── */}
         <div className="section">
-          <p className="kicker">Mobile — edge-to-edge, bottom-center</p>
-          <p className="sub">Em telas &lt;600px o toast ocupa a largura quase total (bottom-center, 12px de cada lado) e empilha para cima — longe do teclado e fácil de alcançar.</p>
+          <p className="kicker">Mobile — full-width, top ou bottom</p>
+          <p className="sub">Em telas &lt;600px o toast ocupa a largura quase total (12px de cada lado). A âncora <strong>top/bottom é preservada</strong>: use <strong>bottom</strong> quando há ação (alcance do polegar), <strong>top</strong> para notificações passivas que não competem com a navegação inferior. Empilha a partir da borda ancorada.</p>
           <div className="phone-row">
-            <PhoneShell label="Título apenas · success">
-              <div className="phone-toast">
-                <Toast tone="success" title="Tarefa concluída" onClose={()=>{}} />
-              </div>
-            </PhoneShell>
-            <PhoneShell label="Corpo + ação · warning">
+            <PhoneShell label="Bottom + ação · alcance do polegar">
               <div className="phone-toast">
                 <Toast tone="warning"
                   title="Cota quase no limite"
@@ -216,7 +211,12 @@
                   action="Fazer upgrade" onClose={()=>{}} />
               </div>
             </PhoneShell>
-            <PhoneShell label="Empilhamento · 2 toasts">
+            <PhoneShell label="Top · notificação passiva">
+              <div className="phone-toast-top">
+                <Toast tone="info" title="Sincronizando…" body="Buscando dados do Spotify." onClose={()=>{}} />
+              </div>
+            </PhoneShell>
+            <PhoneShell label="Bottom · empilhamento (2 toasts)">
               <div className="phone-toast" style={{display:'flex',flexDirection:'column',gap:8}}>
                 <Toast tone="info" title="Sincronizando…" body="Buscando dados do Spotify." onClose={()=>{}} />
                 <Toast tone="success" title="Tarefa concluída" onClose={()=>{}} />

@@ -916,8 +916,16 @@ if (typeof document !== 'undefined' && !document.getElementById('ob-toast-kf')) 
 }
 if (typeof document !== 'undefined' && !document.getElementById('ob-toast-pos')) {
   const sp = document.createElement('style'); sp.id = 'ob-toast-pos';
-  // Mobile: always bottom-center, edge-to-edge — overrides any desktop anchor
-  sp.textContent = '@media(max-width:600px){#ob-toast-stack{top:auto!important;bottom:16px!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;align-items:stretch!important;width:calc(100vw - 24px)!important;flex-direction:column!important}}';
+  // Mobile: keep the top/bottom intent (thumb reach for bottom, passive for top),
+  // collapse horizontal to full-width center. Per Mobbin: both anchors are valid;
+  // bottom is ideal when the toast carries an action.
+  sp.textContent = [
+    '@media(max-width:600px){',
+    '#ob-toast-stack{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100vw - 24px)!important;align-items:stretch!important}',
+    '#ob-toast-stack[data-pos^="top"]{top:16px!important;bottom:auto!important;flex-direction:column-reverse!important}',
+    '#ob-toast-stack[data-pos^="bottom"]{bottom:16px!important;top:auto!important;flex-direction:column!important}',
+    '}',
+  ].join('');
   document.head.appendChild(sp);
 }
 window.obToast = (detail) => window.dispatchEvent(new CustomEvent('ob-toast', { detail }));
