@@ -527,4 +527,186 @@ const Datepicker = ({
   );
 };
 
-Object.assign(window, { Logo, Icons, Brands, BrandTile, Button, Input, Badge, Card, Avatar, Datepicker, FieldShell });
+// ── SLIDER ──────────────────────────────────────────────────
+const Slider = ({
+  value, min = 0, max = 100, step = 1,
+  onChange, label, hint, error, disabled = false,
+  showValue = true, marks = false,
+  tone = 'default',
+  range = false,
+}) => {
+  const { useRef } = React;
+  const trackRef    = useRef(null);
+  const draggingRef = useRef(null); // null | 'lo' | 'hi'
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  const lo = range ? (value?.[0] ?? min) : (value ?? min);
+  const hi = range ? (value?.[1] ?? max) : null;
+
+  const toneColor = tone === 'success' ? 'var(--ob-green)'
+                  : tone === 'warning' ? 'var(--ob-orange)'
+                  : tone === 'danger'  ? 'var(--ob-danger)'
+                  : 'var(--ob-blue)';
+  const toneRing  = tone === 'success' ? 'rgba(119,158,61,.28)'
+                  : tone === 'warning' ? 'rgba(235,124,45,.28)'
+                  : tone === 'danger'  ? 'rgba(214,54,54,.28)'
+                  : 'var(--ob-focus-ring)';
+
+  const clamp  = (v) => Math.min(max, Math.max(min, v));
+  const snap   = (v) => Math.round((v - min) / step) * step + min;
+  const pct    = (v) => ((v - min) / (max - min)) * 100;
+  const fmt    = (v) => Number.isInteger(v) ? v : v.toFixed(1);
+
+  const valFromX = (clientX) => {
+    const rect = trackRef.current.getBoundingClientRect();
+    return clamp(snap(min + ((clientX - rect.left) / rect.width) * (max - min)));
+  };
+
+  const applyVal = (which, v) => {
+    const cb = onChangeRef.current;
+    if (!cb) return;
+    if (!range) { cb(v); return; }
+    if (which === 'lo') cb([Math.min(v, hi), hi]);
+    else                cb([lo, Math.max(v, lo)]);
+  };
+
+  // Drag: add/remove document listeners — survives re-renders
+  const startDrag = (which, e) => {
+    if (disabled) return;
+    e.preventDefault();
+    draggingRef.current = which;
+    applyVal(which, valFromX(e.clientX));
+
+    const onMove = (ev) => {
+      if (!draggingRef.current) return;
+      applyVal(draggingRef.current, valFromX(ev.clientX));
+    };
+    const onUp = () => {
+      draggingRef.current = null;
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      document.removeEventListener('pointercancel', onUp);
+    };
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+    document.addEventListener('pointercancel', onUp);
+  };
+
+  const onKeyThumb = (which) => (e) => {
+    if (disabled) return;
+    const delta = e.shiftKey ? step * 10 : step;
+    const cur   = which === 'hi' ? hi : lo;
+    let next = cur;
+    if      (e.key === 'ArrowRight' || e.key === 'ArrowUp')   next = clamp(cur + delta);
+    else if (e.key === 'ArrowLeft'  || e.key === 'ArrowDown') next = clamp(cur - delta);
+    else if (e.key === 'Home') next = min;
+    else if (e.key === 'End')  next = max;
+    else return;
+    e.preventDefault();
+    applyVal(which, next);
+  };
+
+  const [loFocus, setLoFocus] = useState(false);
+  const [hiFocus, setHiFocus] = useState(false);
+
+  const thumbStyle = (val, focused) => ({
+    position: 'absolute', top: '50%', left: `${pct(val)}%`,
+    transform: 'translate(-50%, -50%)',
+    width: 20, height: 20, borderRadius: '50%',
+    background: 'var(--ob-surface)',
+    border: `2px solid ${error ? 'var(--ob-danger)' : toneColor}`,
+    boxShadow: focused
+      ? `0 0 0 4px ${error ? 'rgba(214,54,54,.22)' : toneRing}, var(--ob-shadow-sm)`
+      : 'var(--ob-shadow-sm)',
+    cursor: disabled ? 'not-allowed' : 'grab',
+    transition: 'box-shadow .15s',
+    zIndex: 2, outline: 'none',
+    opacity: disabled ? 0.5 : 1,
+    boxSizing: 'border-box',
+    touchAction: 'none', userSelect: 'none',
+  });
+
+  const fillLeft  = range ? pct(lo) : 0;
+  const fillRight = range ? 100 - pct(hi) : 100 - pct(lo);
+
+  const stepCount     = Math.round((max - min) / step);
+  const markPositions = marks && stepCount <= 20
+    ? Array.from({ length: stepCount + 1 }, (_, i) => min + i * step)
+    : [];
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, opacity: disabled ? 0.6 : 1 }}>
+      {(label || showValue) && (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
+          {showValue && (
+            <span style={{ fontSize: 12, fontWeight: 700, fontFamily: 'var(--ob-font-mono)', color: error ? 'var(--ob-danger)' : toneColor }}>
+              {range ? `${fmt(lo)} – ${fmt(hi)}` : fmt(lo)}
+            </span>
+          )}
+        </div>
+      )}
+      {/* Track — only handles click-to-jump, NOT drag */}
+      <div ref={trackRef}
+        style={{ position: 'relative', height: 20, cursor: disabled ? 'not-allowed' : 'pointer', touchAction: 'none', userSelect: 'none' }}
+        onClick={(e) => {
+          // Suppress click if we just finished a drag
+          if (disabled || draggingRef.current) return;
+          const v = valFromX(e.clientX);
+          if (!range) { onChange?.(v); return; }
+          const mid = (lo + hi) / 2;
+          onChange?.(v <= mid ? [clamp(snap(v)), hi] : [lo, clamp(snap(v))]);
+        }}>
+        {/* Rail */}
+        <div style={{
+          position: 'absolute', top: '50%', left: 0, right: 0,
+          height: 5, transform: 'translateY(-50%)',
+          background: 'var(--ob-bg-alt)', borderRadius: 999, overflow: 'hidden',
+        }}>
+          <div style={{
+            position: 'absolute', top: 0, bottom: 0,
+            left: `${fillLeft}%`, right: `${fillRight}%`,
+            background: error ? 'var(--ob-danger)' : toneColor, borderRadius: 999,
+          }}/>
+        </div>
+        {/* Marks */}
+        {markPositions.map((v) => (
+          <div key={v} style={{
+            position: 'absolute', top: '50%', left: `${pct(v)}%`,
+            width: 4, height: 4, borderRadius: '50%',
+            background: v <= lo ? 'var(--ob-surface)' : 'var(--ob-fg-mute)',
+            transform: 'translate(-50%, -50%)', opacity: .7, zIndex: 1, pointerEvents: 'none',
+          }}/>
+        ))}
+        {/* Thumb lo — onPointerDown only; drag handled via document listeners */}
+        <div role="slider" tabIndex={disabled ? -1 : 0}
+          aria-valuemin={min} aria-valuemax={max} aria-valuenow={lo}
+          onPointerDown={(e) => { e.stopPropagation(); startDrag('lo', e); }}
+          onKeyDown={onKeyThumb('lo')}
+          onFocus={() => setLoFocus(true)} onBlur={() => setLoFocus(false)}
+          style={thumbStyle(lo, loFocus)} />
+        {/* Thumb hi (range only) */}
+        {range && (
+          <div role="slider" tabIndex={disabled ? -1 : 0}
+            aria-valuemin={min} aria-valuemax={max} aria-valuenow={hi}
+            onPointerDown={(e) => { e.stopPropagation(); startDrag('hi', e); }}
+            onKeyDown={onKeyThumb('hi')}
+            onFocus={() => setHiFocus(true)} onBlur={() => setHiFocus(false)}
+            style={thumbStyle(hi, hiFocus)} />
+        )}
+      </div>
+      {marks && markPositions.length > 0 && (
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+          <span style={{ fontSize: 10, color: 'var(--ob-fg-mute)', fontFamily: 'var(--ob-font-mono)' }}>{min}</span>
+          <span style={{ fontSize: 10, color: 'var(--ob-fg-mute)', fontFamily: 'var(--ob-font-mono)' }}>{max}</span>
+        </div>
+      )}
+      {(hint || error) && (
+        <span style={{ fontSize: 11, color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{error || hint}</span>
+      )}
+    </div>
+  );
+};
+
+Object.assign(window, { Logo, Icons, Brands, BrandTile, Button, Input, Badge, Card, Avatar, Datepicker, FieldShell, Slider });
