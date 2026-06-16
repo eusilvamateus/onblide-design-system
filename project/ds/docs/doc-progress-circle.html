@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · ProgressCircle</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Componente · Feedback</p>
+  <h1>ProgressCircle <em>doc</em></h1>
+  <p class="lede">Indicador circular de progresso determinado (0–100%). Comunica a proporção concluída de uma meta ou processo com uma representação espacial. Irmão circular do <strong>ProgressBar</strong> — compartilham os mesmos tones via <code>OB_TONES</code>.</p>
+
+  <div class="matrix">
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Usa os design tokens</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui motion</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão web</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão responsiva</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no"><i class="ph ph-minus"></i></span> —</div>
+  </div>
+
+  <section>
+    <h2>1 · Uso</h2>
+    <p>Use quando o espaço for compacto e a representação radial for mais intuitiva que uma barra — dashboards de métricas, cards de KPI, progresso de metas individuais.</p>
+    <h3>Quando usar ProgressCircle vs ProgressBar</h3>
+    <ul>
+      <li><strong>ProgressCircle</strong> — espaço quadrado/compacto, uma única métrica em destaque, contexto visual (dashboard, card).</li>
+      <li><strong>ProgressBar</strong> — espaço horizontal amplo, múltiplas métricas em lista, uploads/downloads onde a linearidade é intuitiva.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag"><i class="ph ph-check"></i> Faça</span><p>Use tom automático por valor — verde para bom (≥80%), azul para neutro, laranja para alerta, vermelho para crítico. Comunica estado sem precisar de legenda.</p></div>
+      <div class="dd dont"><span class="tag"><i class="ph ph-x"></i> Evite</span><p>Mais de 4–5 ProgressCircles na mesma tela — perde o impacto visual. Para muitas métricas em lista, prefira ProgressBar.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>2 · Formatação</h2>
+    <pre><code>&lt;ProgressCircle value={67} size="md" tone="default" showLabel /&gt;
+
+&lt;!-- Rótulo personalizado --&gt;
+&lt;ProgressCircle value={100} size="lg" tone="success" showLabel label="✓" /&gt;
+
+&lt;!-- Sem rótulo --&gt;
+&lt;ProgressCircle value={40} size="sm" showLabel={false} /&gt;</code></pre>
+    <table class="props">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td><code>number (0–100)</code></td><td><code>0</code></td></tr>
+        <tr><td><code>size</code></td><td><code>'sm'(32) | 'md'(48) | 'lg'(64) | 'xl'(96)</code></td><td><code>'md'</code></td></tr>
+        <tr><td><code>tone</code></td><td><code>'default' | 'success' | 'warning' | 'danger'</code></td><td><code>'default'</code></td></tr>
+        <tr><td><code>showLabel</code></td><td><code>boolean</code></td><td><code>true</code></td></tr>
+        <tr><td><code>label</code></td><td><code>string | ReactNode</code></td><td><code>'N%'</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3 · Guia de conteúdo</h2>
+    <ul>
+      <li>Rótulo padrão: porcentagem — "67%". Simples, imediato.</li>
+      <li>Rótulo personalizado: use para substituir a % por uma unidade mais significativa no contexto — "R$ 48k", "12/15", "3 dias".</li>
+      <li>Ícone no rótulo: use um ícone Phosphor quando o estado é binário (concluído/erro) — <code>ph-check</code> no tom success, <code>ph-x</code> no tom danger.</li>
+      <li>Título abaixo (em cards): substantivo curto — "Sessões", "Receita", "Meta mensal". Nunca verbos.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · Guia de design</h2>
+    <p><strong>Tokens.</strong> Trilha <code>--ob-bg-alt</code>. Arco na cor do tone. Rótulo em <code>--ob-font-mono</code> peso 700 na cor do tone. O SVG usa <code>stroke-dasharray</code> + <code>stroke-dashoffset</code> para o preenchimento — sem pseudo-elementos, sem clip-path.</p>
+    <p><strong>Stroke-width escala.</strong> sm=3.5px, md=4.5px, lg=5px, xl=7px. A espessura proporcional mantém o arco visualmente consistente independente do tamanho.</p>
+    <p><strong>Motion.</strong> <code>stroke-dashoffset</code> com transição de 400ms <code>cubic-bezier(.4,0,.2,1)</code> ao mudar o valor — suave, sem bounce. O arco começa no topo (SVG rotacionado -90°).</p>
+    <p><strong>Tom automático.</strong> Pattern recomendado: <code>≥80% → success</code>, <code>≥50% → default</code>, <code>≥30% → warning</code>, <code>&lt;30% → danger</code>. Consistente com o comportamento do Alert e do Toast.</p>
+    <div class="note"><strong>Acessibilidade:</strong> use <code>role="progressbar"</code> com <code>aria-valuenow</code>, <code>aria-valuemin="0"</code> e <code>aria-valuemax="100"</code> quando necessário para leitores de tela. O rótulo visual de porcentagem cobre a maioria dos casos.</div>
+  </section>
+
+</div></body></html>

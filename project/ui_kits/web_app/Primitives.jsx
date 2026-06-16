@@ -709,4 +709,72 @@ const Slider = ({
   );
 };
 
-Object.assign(window, { Logo, Icons, Brands, BrandTile, Button, Input, Badge, Card, Avatar, Datepicker, FieldShell, Slider });
+// ── SPINNER ─────────────────────────────────────────────────
+// Circular indeterminate loading indicator.
+// size: 'xs'(12) | 'sm'(16) | 'md'(24) | 'lg'(40) | 'xl'(56)
+// tone: 'default' | 'success' | 'warning' | 'danger' | 'muted'
+const Spinner = ({ size = 'md', tone = 'default', label }) => {
+  const px     = { xs: 12, sm: 16, md: 24, lg: 40, xl: 56 }[size] || 24;
+  const sw     = px <= 16 ? 2 : px <= 24 ? 2.5 : 3.5;
+  const r      = (px - sw * 2) / 2;
+  const circ   = 2 * Math.PI * r;
+  const color  = tone === 'success' ? 'var(--ob-green)'
+               : tone === 'warning' ? 'var(--ob-orange)'
+               : tone === 'danger'  ? 'var(--ob-danger)'
+               : tone === 'muted'   ? 'var(--ob-fg-mute)'
+               : 'var(--ob-blue)';
+  return (
+    <span role="status" aria-label={label || 'Carregando…'} aria-live="polite"
+      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+      <svg width={px} height={px} viewBox={`0 0 ${px} ${px}`} fill="none"
+        style={{ animation: 'ob-spin 0.75s linear infinite' }}>
+        <circle cx={px/2} cy={px/2} r={r} stroke={color} strokeOpacity="0.15" strokeWidth={sw} />
+        <circle cx={px/2} cy={px/2} r={r} stroke={color} strokeWidth={sw} strokeLinecap="round"
+          strokeDasharray={`${circ * 0.72} ${circ * 0.28}`}
+          transform={`rotate(-90 ${px/2} ${px/2})`} />
+      </svg>
+    </span>
+  );
+};
+
+// ── PROGRESS CIRCLE ──────────────────────────────────────────
+// Circular determinate progress indicator.
+// value: 0–100
+// size: 'sm'(32) | 'md'(48) | 'lg'(64) | 'xl'(96)
+const ProgressCircle = ({ value = 0, size = 'md', tone = 'default', showLabel = true, label }) => {
+  const px    = { sm: 32, md: 48, lg: 64, xl: 96 }[size] || 48;
+  const sw    = px <= 32 ? 3.5 : px <= 48 ? 4.5 : px <= 64 ? 5 : 7;
+  const r     = (px - sw * 2) / 2;
+  const circ  = 2 * Math.PI * r;
+  const v     = Math.min(100, Math.max(0, value));
+  const offset = circ - (v / 100) * circ;
+  const color = tone === 'success' ? 'var(--ob-green)'
+              : tone === 'warning' ? 'var(--ob-orange)'
+              : tone === 'danger'  ? 'var(--ob-danger)'
+              : 'var(--ob-blue)';
+  const fs    = px <= 32 ? 9 : px <= 48 ? 11 : px <= 64 ? 14 : 20;
+  return (
+    <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+      <svg width={px} height={px} viewBox={`0 0 ${px} ${px}`} fill="none" style={{ transform: 'rotate(-90deg)' }}>
+        <circle cx={px/2} cy={px/2} r={r} stroke="var(--ob-bg-alt)" strokeWidth={sw} />
+        <circle cx={px/2} cy={px/2} r={r} stroke={color} strokeWidth={sw} strokeLinecap="round"
+          strokeDasharray={circ} strokeDashoffset={offset}
+          style={{ transition: 'stroke-dashoffset 0.4s cubic-bezier(.4,0,.2,1)' }} />
+      </svg>
+      {showLabel && (
+        <span style={{ position: 'absolute', fontSize: fs, fontWeight: 700, fontFamily: 'var(--ob-font-mono)', color, lineHeight: 1 }}>
+          {label || `${Math.round(v)}%`}
+        </span>
+      )}
+    </span>
+  );
+};
+
+// Inject keyframes once
+if (typeof document !== 'undefined' && !document.getElementById('ob-prim-kf')) {
+  const s = document.createElement('style'); s.id = 'ob-prim-kf';
+  s.textContent = '@keyframes ob-spin{to{transform:rotate(360deg)}}@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}';
+  document.head.appendChild(s);
+}
+
+Object.assign(window, { Logo, Icons, Brands, BrandTile, Button, Input, Badge, Card, Avatar, Datepicker, FieldShell, Slider, Spinner, ProgressCircle });

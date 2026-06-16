@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Spinner</title>
+<link rel="stylesheet" href="../../ds/docs/doc.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
+</head><body><div class="wrap">
+
+  <p class="eyebrow">Componente · Feedback</p>
+  <h1>Spinner <em>doc</em></h1>
+  <p class="lede">Indicador circular de carregamento indeterminado. Comunica que um processo está em curso sem saber quanto tempo levará. Compõe com <strong>Button</strong> (estado de loading) e com <strong>Skeleton</strong> (carregamento de conteúdo).</p>
+
+  <div class="matrix">
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de uso</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Tem guia de conteúdo</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Usa os design tokens</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui motion</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão web</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão responsiva</div>
+    <div class="crit"><span class="mark yes"><i class="ph ph-check"></i></span> Possui versão mobile</div>
+    <div class="crit off"><span class="mark no"><i class="ph ph-minus"></i></span> —</div>
+  </div>
+
+  <section>
+    <h2>1 · Uso</h2>
+    <p>Use quando a duração de um processo é desconhecida ou muito variável — envio de formulário, requisição de API, upload. Para durações conhecidas, prefira <strong>ProgressBar</strong> ou <strong>ProgressCircle</strong>.</p>
+    <h3>Contextos típicos</h3>
+    <ul>
+      <li><strong>Botão loading</strong> — substitui o ícone/texto do botão durante a ação (size sm, tone muted em botão primário, tone default em secundário).</li>
+      <li><strong>Card ou seção</strong> — centralizado no container com label opcional.</li>
+      <li><strong>Inline</strong> — ao lado de texto para indicar atualização parcial.</li>
+      <li><strong>Overlay de página</strong> — size lg/xl com backdrop.</li>
+    </ul>
+    <div class="do-dont">
+      <div class="dd do"><span class="tag"><i class="ph ph-check"></i> Faça</span><p>Use tone <code>muted</code> dentro de botões primários (fundo colorido) para manter o contraste. Use tone <code>default</code> em botões secundários.</p></div>
+      <div class="dd dont"><span class="tag"><i class="ph ph-x"></i> Evite</span><p>Spinner por mais de 8–10 s sem feedback adicional — forneça um texto de contexto ("Processando pedido…") para não deixar o usuário desorientado.</p></div>
+    </div>
+    <h3>Spinner vs Skeleton</h3>
+    <ul>
+      <li>Use <strong>Skeleton</strong> quando o conteúdo tem forma previsível (cards, linhas de texto, imagens).</li>
+      <li>Use <strong>Spinner</strong> para ações pontuais (submit, refresh) ou conteúdo sem forma previsível.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>2 · Formatação</h2>
+    <pre><code>&lt;Spinner size="md" tone="default" label="Carregando…" /&gt;</code></pre>
+    <table class="props">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Padrão</th></tr></thead>
+      <tbody>
+        <tr><td><code>size</code></td><td><code>'xs'(12) | 'sm'(16) | 'md'(24) | 'lg'(40) | 'xl'(56)</code></td><td><code>'md'</code></td></tr>
+        <tr><td><code>tone</code></td><td><code>'default' | 'success' | 'warning' | 'danger' | 'muted'</code></td><td><code>'default'</code></td></tr>
+        <tr><td><code>label</code></td><td><code>string</code> (aria-label)</td><td><code>'Carregando…'</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3 · Guia de conteúdo</h2>
+    <ul>
+      <li>O Spinner é mudo visualmente — forneça texto de contexto ao lado quando a ação não for óbvia.</li>
+      <li>Texto de loading: gerúndio descritivo. "Salvando…", "Enviando relatório…", "Sincronizando com Spotify…".</li>
+      <li>Nunca use "Aguarde…" ou "Processando…" sem contexto — diga o quê está processando.</li>
+      <li>O prop <code>label</code> é o <code>aria-label</code> do elemento — use sempre para acessibilidade, mesmo que não seja visível.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4 · Guia de design</h2>
+    <p><strong>Tokens.</strong> Arco na cor do tone (via tokens <code>--ob-blue</code>, <code>--ob-green</code> etc). Trilha circular em <code>stroke-opacity: 0.15</code> da mesma cor — mantém harmonia independente do fundo.</p>
+    <p><strong>Tamanhos.</strong> xs/sm para uso inline e em botões; md para estados de seção; lg/xl para overlays de página inteira. Stroke-width escala com o tamanho (2px no sm → 3.5px no xl).</p>
+    <p><strong>Motion.</strong> Rotação contínua de 0.75s linear (<code>ob-spin</code>) — velocidade que comunica atividade sem ansiedade. Não use <code>ease</code> ou <code>ease-in-out</code> — o loop precisa ser uniforme.</p>
+    <p><strong>Tone muted.</strong> Exclusivo para uso dentro de elementos com fundo colorido (botões primários, badges, banners). Usa <code>--ob-fg-mute</code> em vez de uma cor de marca.</p>
+    <div class="note"><strong>Acessibilidade:</strong> o elemento tem <code>role="status"</code> e <code>aria-live="polite"</code>. O <code>aria-label</code> descreve o que está carregando — nunca omita.</div>
+  </section>
+
+</div></body></html>
