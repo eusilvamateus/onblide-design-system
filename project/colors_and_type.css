@@ -518,6 +518,20 @@
   --ob-opacity-strong:   0.75; /* @kind other */   /* hover link, ícone secundário ativo        */
 
   /* ------------------------------------------------------------
+     LAYERS — z-index scale
+     Tokens semânticos para governança de camadas visuais.
+     Nunca use valores literais fora desta escala.
+     ------------------------------------------------------------ */
+  --ob-z-base:      0;    /* @kind other */   /* fluxo normal de stacking                  */
+  --ob-z-raised:   10;    /* @kind other */   /* sidebar fixa, sticky header               */
+  --ob-z-dropdown: 100;   /* @kind other */   /* FloatingPanel, Datepicker popup           */
+  --ob-z-tooltip:  200;   /* @kind other */   /* Tooltip (acima de dropdowns)              */
+  --ob-z-overlay:  300;   /* @kind other */   /* backdrop de Modal e Drawer                */
+  --ob-z-modal:    400;   /* @kind other */   /* Modal panel, Drawer panel                 */
+  --ob-z-toast:    500;   /* @kind other */   /* Toast (acima de tudo interativo)          */
+  --ob-z-system:  9000;   /* @kind other */   /* overlays de debug / dev tools             */
+
+  /* ------------------------------------------------------------
      BREAKPOINTS — mobile-first
      (referência de documentação; use valores literais em @media)
      ------------------------------------------------------------ */

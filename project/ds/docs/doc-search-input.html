@@ -43,7 +43,7 @@
 
   <section>
     <h2>2 · Formatação</h2>
-    <p>Altura padrão 44px. Ícone de lupa fixo à esquerda. Spinner substitui o ícone durante loading. Botão ×-círculo aparece quando há texto. Dropdown flutua abaixo com <code>z-index: 1200</code>.</p>
+    <p>Altura padrão 44px. Ícone de lupa fixo à esquerda. Spinner substitui o ícone durante loading. Botão ×-círculo aparece quando há texto. Dropdown flutua abaixo com <code>z-index: var(--ob-z-dropdown)</code> (camada <em>dropdown</em> da escala de layers).</p>
     <pre><code>&lt;SearchInput
   value={q}
   onChange={setQ}

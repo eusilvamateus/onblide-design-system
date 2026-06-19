@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"ad29188d90e7","ui_kits/web_app/Primitives.jsx":"c92488e90b11","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
+/* @ds-bundle: {"format":3,"namespace":"OnblideDesignSystem_019e06","components":[],"sourceHashes":{"slides/deck-stage.js":"aa08491f8fd6","ui_kits/web_app/Chrome.jsx":"f955caedf262","ui_kits/web_app/Components.jsx":"fbd5f26db593","ui_kits/web_app/Primitives.jsx":"77e5bfe1365f","ui_kits/web_app/Screens.jsx":"63fd3faf9e4e","ui_kits/web_app/tweaks-panel.jsx":"a1107c630a56"},"inlinedExternals":[],"unexposedExports":[]} */
 
 (() => {
 
@@ -2355,7 +2355,7 @@ const FloatingPanel = ({
     style: {
       position: 'absolute',
       top: 'calc(100% + 6px)',
-      zIndex: 1200,
+      zIndex: 'var(--ob-z-dropdown)',
       background: 'var(--ob-surface)',
       border: '1px solid var(--ob-border)',
       borderRadius: 'var(--ob-r-surface)',
@@ -2480,7 +2480,7 @@ const Modal = ({
     style: {
       position: 'fixed',
       inset: 0,
-      zIndex: 2000,
+      zIndex: 'var(--ob-z-overlay)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -2675,7 +2675,7 @@ const Tooltip = ({
     role: "tooltip",
     style: {
       position: 'absolute',
-      zIndex: 1500,
+      zIndex: 'var(--ob-z-tooltip)',
       ...pos,
       background: bg,
       color: fg,
@@ -2887,7 +2887,7 @@ const Drawer = ({
       inset: 0,
       background: 'rgba(20,20,20,var(--ob-opacity-scrim))',
       backdropFilter: 'blur(2px)',
-      zIndex: 8000,
+      zIndex: 'var(--ob-z-overlay)',
       opacity: open ? 1 : 0,
       pointerEvents: open ? 'all' : 'none',
       transition: 'opacity 0.22s ease'
@@ -2903,7 +2903,7 @@ const Drawer = ({
       background: 'var(--ob-surface)',
       borderLeft: side === 'right' ? '1px solid var(--ob-border)' : 'none',
       borderRight: side === 'left' ? '1px solid var(--ob-border)' : 'none',
-      zIndex: 8001,
+      zIndex: 'var(--ob-z-modal)',
       display: 'flex',
       flexDirection: 'column',
       transform,
@@ -3946,7 +3946,7 @@ const ToastStack = ({
     "data-pos": position,
     style: {
       position: 'fixed',
-      zIndex: 9999,
+      zIndex: 'var(--ob-z-toast)',
       ...anchor,
       transform: cx ? 'translateX(-50%)' : undefined,
       display: 'flex',
@@ -5319,7 +5319,7 @@ const Datepicker = ({
       borderRadius: 'var(--ob-r-surface)',
       padding: 16,
       boxShadow: 'var(--ob-shadow-lg)',
-      zIndex: 1000,
+      zIndex: 'var(--ob-z-dropdown)',
       minWidth: 300
     }
   }, /*#__PURE__*/React.createElement("div", {

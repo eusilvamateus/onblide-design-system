@@ -186,7 +186,7 @@ const FloatingPanel = ({ align = 'stretch', maxHeight, padding = 4, minWidth, st
   const pos = align === 'right' ? { right: 0 } : align === 'left' ? { left: 0 } : { left: 0, right: 0 };
   return (
     <div style={{
-      position: 'absolute', top: 'calc(100% + 6px)', zIndex: 1200,
+      position: 'absolute', top: 'calc(100% + 6px)', zIndex: 'var(--ob-z-dropdown)',
       background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
       borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)',
       padding, overflow: maxHeight ? 'hidden auto' : 'hidden',
@@ -252,7 +252,7 @@ const Modal = ({ open, onClose, title, children, footer, width, size = 'md' }) =
   if (!open) return null;
   return (
     <div onClick={onClose} style={{
-      position: 'fixed', inset: 0, zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center',
+      position: 'fixed', inset: 0, zIndex: 'var(--ob-z-overlay)', display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: 'rgba(20,20,20,var(--ob-opacity-scrim))', backdropFilter: 'blur(2px)', padding: 24,
       animation: 'ob-fade 160ms ease-out',
     }}>
@@ -327,7 +327,7 @@ const Tooltip = ({ children, variant = 'text', placement = 'top', label, shortcu
       {children}
       {open && (
         <span role="tooltip" style={{
-          position: 'absolute', zIndex: 1500, ...pos,
+          position: 'absolute', zIndex: 'var(--ob-z-tooltip)', ...pos,
           background: bg, color: fg, border: bordered,
           borderRadius: variant === 'image' ? 12 : 8,
           boxShadow: inverted ? 'var(--ob-shadow-md)' : '0 4px 12px rgba(0,0,0,0.18)',
@@ -445,7 +445,7 @@ const Drawer = ({ open, onClose, title, children, side = 'right', width = 400, f
       {/* Backdrop */}
       <div onClick={onClose} style={{
         position: 'fixed', inset: 0, background: 'rgba(20,20,20,var(--ob-opacity-scrim))',
-        backdropFilter: 'blur(2px)', zIndex: 8000,
+        backdropFilter: 'blur(2px)', zIndex: 'var(--ob-z-overlay)',
         opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none',
         transition: 'opacity 0.22s ease',
       }}/>
@@ -457,7 +457,7 @@ const Drawer = ({ open, onClose, title, children, side = 'right', width = 400, f
         background: 'var(--ob-surface)',
         borderLeft: side === 'right' ? '1px solid var(--ob-border)' : 'none',
         borderRight: side === 'left' ? '1px solid var(--ob-border)' : 'none',
-        zIndex: 8001, display: 'flex', flexDirection: 'column',
+        zIndex: 'var(--ob-z-modal)', display: 'flex', flexDirection: 'column',
         transform, transition: 'transform 0.25s var(--ob-ease)',
       }}>
         {/* Header */}
@@ -890,7 +890,7 @@ const ToastStack = ({ position = 'bottom-right' }) => {
   const { align, cx, ...anchor } = pos;
   return (
     <div id="ob-toast-stack" data-pos={position} style={{
-      position: 'fixed', zIndex: 9999, ...anchor,
+      position: 'fixed', zIndex: 'var(--ob-z-toast)', ...anchor,
       transform: cx ? 'translateX(-50%)' : undefined,
       display: 'flex', flexDirection: isTop ? 'column-reverse' : 'column',
       gap: 10, alignItems: align, pointerEvents: 'none',
