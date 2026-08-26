@@ -1,0 +1,14 @@
+<!doctype html>
+<!-- @dsCard group="Docs" name="Doc · Deadline Calendar" -->
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Deadline Calendar</title><link rel="stylesheet" href="../../ds/docs/doc.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"></head><body><div class="wrap">
+<p class="eyebrow">Componente · Operacional</p><h1>Deadline Calendar <em>doc</em></h1><p class="lede">Calendário somente leitura para explicar prazos compostos por fases, dias não úteis e uma data estimada.</p>
+<section><h2>1 · Uso</h2><p>Use quando o sistema já calculou datas e a pessoa precisa compreender produção, transporte e entrega. Não use como seletor de data.</p><div class="do-dont"><div class="dd do"><span class="tag"><i class="ph ph-check"></i> Faça</span><p>Forneça datas ISO já calculadas pelo domínio.</p></div><div class="dd dont"><span class="tag"><i class="ph ph-x"></i> Evite</span><p>Recalcular prazo ou buscar feriados no componente.</p></div></div></section>
+<section><h2>2 · Contrato</h2><pre><code>&lt;DeadlineCalendar
+  referenceDate="2026-09-18"
+  production={{ startDate, endDate }}
+  delivery={{ startDate, endDate }}
+  estimatedDate="2026-09-29"
+  holidays={[{ date, name }]}
+  holidayCoverage="national" /&gt;</code></pre><table class="props"><thead><tr><th>Prop</th><th>Tipo</th><th>Uso</th></tr></thead><tbody><tr><td><code>referenceDate</code></td><td><code>yyyy-mm-dd</code></td><td>Marco inicial e primeiro mês.</td></tr><tr><td><code>production</code>/<code>delivery</code></td><td><code>{startDate,endDate}</code></td><td>Fases úteis coloridas.</td></tr><tr><td><code>holidays</code></td><td><code>{date,name}[]</code></td><td>Datas não úteis e tooltip.</td></tr><tr><td><code>holidayCoverage</code></td><td><code>national | partial | unavailable</code></td><td>Comunica contingência de dados.</td></tr></tbody></table></section>
+<section><h2>3 · Guia de design</h2><p><strong>Semântica.</strong> Produção usa azul, transporte usa sucesso, entrega prevista recebe contorno forte e feriados usam aviso. Fins de semana permanecem neutros.</p><p><strong>Acessibilidade.</strong> Meses têm botões nomeados, a mudança é anunciada e feriados informam o nome por tooltip e rótulo acessível.</p></section>
+</div></body></html>
