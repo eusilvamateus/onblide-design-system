@@ -17,7 +17,7 @@ If the user invokes this skill without any other guidance, ask them what they wa
 - **Colors:** `#0a4ee4` blue (primary) · `#779e3d` green (success) · `#eb7c2d` orange (warning/accent) · `#545454` ink · `#f2f0e8` cream (overlay only — page bg is white)
 - **Fonts:** Poppins (UI/body, 300–800) · Playfair Display (editorial/italic accents) · JetBrains Mono (code, tokens, eyebrow labels)
 - **Radii:** 8–12px register; 12px default
-- **Components (27):** Button · Input · Badge · Chip · Card · Datepicker · Dropdown · Select · Modal · Drawer · Toggle · Radio · Checkbox · Pagination · Skeleton · Link · Tooltip · Code Input · Search Input · Alert · Toast · Progress Bar · Side Navigation · Tabs · Table · Slider · **Spinner · ProgressCircle** Input · Alert · Toast · Progress Bar · Side Navigation · Select · Tabs · Table
+- **Components (30):** Button · Input · Badge · Status dot · Chip · Card · Datepicker · Deadline calendar · Dropdown · Select · Modal · Drawer · Toggle · Radio · Checkbox · Pagination · Skeleton · Link · Tooltip · Code Input · Search Input · Alert · Toast · Progress Bar · Side Navigation · Tabs · Table · Slider · Spinner · ProgressCircle
 - **Shared primitives:** `FieldShell` (field surface — border, radius, focus ring, error, disabled) · `FloatingPanel` (floating list surface) · `OB_TONES` (info/success/warning/danger) · `Slider` (single + range, tone-aware, pointer-captured drag).
 - **Iconography:** Phosphor only (regular weight) — never mix icon libraries; UI icons via `@phosphor-icons/web`, ~18–20px nav, 16px inline, 32–40px empty states. See `CLAUDE.md`.
 - **Voice:** PT-BR, conversational, sentence case, no emoji

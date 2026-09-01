@@ -5,7 +5,7 @@ A click-through, hi-fi recreation of the Onblide web app dashboard. All visuals 
 ## Files
 
 - `index.html` — entry point; sidebar nav switches between screens
-- `Primitives.jsx` — `Logo`, `Icons`, `Button`, `Input`, `Badge`, `Card`, `Avatar`
+- `Primitives.jsx` — `Logo`, `Icons`, `Button`, `Input`, `Badge`, `StatusDot`, `Card`, `Avatar`
 - `Chrome.jsx` — `Sidebar`, `Topbar`
 - `Screens.jsx` — `HomeScreen`, `TasksScreen`, `MetricsScreen`, `SettingsScreen`
 

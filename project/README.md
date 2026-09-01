@@ -17,8 +17,8 @@ The design system in this folder powers the Onblide web app, slide template, and
 | `assets/` | Brand marks: `logo.svg` (wordmark) and `logomark.svg` (glyph) |
 | `fonts/` | Self-hosted `.ttf` for Poppins, Playfair Display & JetBrains Mono (all weights), wired via `@font-face` in `colors_and_type.css` |
 | `ds/foundations/` | Foundation cards: color, type semantics, spacing, radii, shadows, iconography, brand |
-| `ds/components/` | Component specs: buttons, inputs, badges, cards, datepicker, dropdown, modal, drawer, toggle, radio, checkbox, pagination, skeleton, link, tooltip, code-input, search-input, alert, toast, progressbar, side-nav, select, tabs, table + dark theme |
-| `ds/docs/` | Per-component documentation (usage · formatting · content · design guidance) — 22 components documented |
+| `ds/components/` | Component specs: buttons, inputs, badges, status dots, cards, datepicker, deadline calendar, dropdown, modal, drawer, toggle, radio, checkbox, pagination, skeleton, link, tooltip, code-input, search-input, alert, toast, progressbar, side-nav, select, tabs, table + dark theme |
+| `ds/docs/` | Per-component documentation (usage · formatting · content · design guidance) |
 | `ui_kits/web_app/` | Click-through dashboard (Início · Tarefas · Métricas · Integrações · Ajustes) with light/dark theme — components live natively in real screens |
 | `slides/` | 8-slide template (title · agenda · section · content · comparison · stats · quote · closing) at 1280×720 |
 | `export/` | Standalone, self-contained HTML exports of the web app and slide deck |

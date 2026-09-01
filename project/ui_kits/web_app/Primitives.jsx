@@ -236,16 +236,23 @@ const Input = ({ label, hint, error, icon, ...rest }) => {
   );
 };
 
+const BADGE_TONES = {
+  blue:   { bg: 'var(--ob-blue-100)',    fg: 'var(--ob-blue-700)',    dot: 'var(--ob-blue)',    solid: 'var(--ob-blue)',    border: 'color-mix(in srgb, var(--ob-blue) 35%, transparent)' },
+  green:  { bg: 'var(--ob-green-100)',   fg: 'var(--ob-green-700)',   dot: 'var(--ob-green)',   solid: 'var(--ob-green)',   border: 'color-mix(in srgb, var(--ob-green) 35%, transparent)' },
+  orange: { bg: 'color-mix(in srgb, var(--ob-orange) 15%, var(--ob-surface))', fg: '#9a4000', dot: 'var(--ob-orange)', solid: 'var(--ob-orange)', border: 'color-mix(in srgb, var(--ob-orange) 45%, transparent)' },
+  red:    { bg: 'var(--ob-danger-bg)',   fg: 'var(--ob-danger)',      dot: 'var(--ob-danger)',  solid: 'var(--ob-danger)',  border: 'color-mix(in srgb, var(--ob-danger) 40%, transparent)' },
+  grey:   { bg: 'var(--ob-bg-warm)',     fg: 'var(--ob-fg-soft)',     dot: 'var(--ob-fg-mute)', solid: 'var(--ob-fg-mute)', border: 'var(--ob-border)' },
+};
+
+// StatusDot — decorativo; comunica o tom junto de um rótulo visível.
+const StatusDot = ({ tone = 'blue' }) => {
+  const color = (BADGE_TONES[tone] || BADGE_TONES.blue).dot;
+  return <span aria-hidden="true" style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: color, flexShrink: 0 }}/>;
+};
+
 // Badge — variant: subtle (default) | solid | outline | numeric
 const Badge = ({ tone = 'blue', variant = 'subtle', dot = true, size = 'md', children }) => {
-  const T = {
-    blue:   { bg: 'var(--ob-blue-100)',    fg: 'var(--ob-blue-700)',    dot: 'var(--ob-blue)',    solid: 'var(--ob-blue)',    border: 'color-mix(in srgb, var(--ob-blue) 35%, transparent)' },
-    green:  { bg: 'var(--ob-green-100)',   fg: 'var(--ob-green-700)',   dot: 'var(--ob-green)',   solid: 'var(--ob-green)',   border: 'color-mix(in srgb, var(--ob-green) 35%, transparent)' },
-    orange: { bg: 'color-mix(in srgb, var(--ob-orange) 15%, var(--ob-surface))', fg: '#9a4000', dot: 'var(--ob-orange)', solid: 'var(--ob-orange)', border: 'color-mix(in srgb, var(--ob-orange) 45%, transparent)' },
-    red:    { bg: 'var(--ob-danger-bg)',   fg: 'var(--ob-danger)',      dot: 'var(--ob-danger)',  solid: 'var(--ob-danger)',  border: 'color-mix(in srgb, var(--ob-danger) 40%, transparent)' },
-    grey:   { bg: 'var(--ob-bg-warm)',     fg: 'var(--ob-fg-soft)',     dot: 'var(--ob-fg-mute)', solid: 'var(--ob-fg-mute)', border: 'var(--ob-border)' },
-  };
-  const t = T[tone] || T.blue;
+  const t = BADGE_TONES[tone] || BADGE_TONES.blue;
   const fs = size === 'sm' ? 11 : 12;
   const px = size === 'sm' ? '2px 8px' : '4px 10px';
 
@@ -840,4 +847,4 @@ if (typeof document !== 'undefined' && !document.getElementById('ob-prim-kf')) {
   document.head.appendChild(s);
 }
 
-Object.assign(window, { Logo, Icons, Brands, BrandTile, Button, Input, Badge, Card, Avatar, Datepicker, FieldShell, Slider, DeadlineCalendar, Spinner, ProgressCircle });
+Object.assign(window, { Logo, Icons, Brands, BrandTile, Button, Input, StatusDot, Badge, Card, Avatar, Datepicker, FieldShell, Slider, DeadlineCalendar, Spinner, ProgressCircle });
