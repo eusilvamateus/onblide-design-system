@@ -79,7 +79,7 @@ const Checkbox = ({ checked, onChange, label, disabled = false, indeterminate = 
       transition: 'all 160ms var(--ob-ease)',
     }}>
       {checked && !indeterminate && (
-        <Icons.check size={12} style={{ color: '#fff', lineHeight: 1 }}/>
+        <Ph n="check" size={12} c="#fff" style={{ lineHeight: 1 }} />
       )}
       {indeterminate && <span style={{ width: 9, height: 2, background: '#fff', borderRadius: 1 }} />}
     </span>
