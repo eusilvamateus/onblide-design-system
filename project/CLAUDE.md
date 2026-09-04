@@ -39,6 +39,30 @@ icon set, and no ad-hoc hand-drawn SVG icons.
    UI kit) so the whole system can change weight, size, or source in one place. Don't scatter raw
    icon markup across files.
 
+## Git workflow
+
+This branch is exclusively Mateus's and the project is maintained by him alone, so
+rewriting already-pushed history on it is allowed under the rules below.
+
+1. Before creating a new commit, check whether the current change logically belongs to
+   the last commit (a fix, complement, or small adjustment to what was just committed).
+2. If it belongs to the last commit:
+   - Not yet pushed: `git add . && git commit --amend --no-edit`
+   - Already pushed: `git add . && git commit --amend --no-edit && git push --force-with-lease`
+     (never `git push --force` — always `--force-with-lease`)
+3. Create a new commit only when the change is a logically separate unit of work.
+4. Avoid generic fix commits ("fix typo", "small fix", "correção", "fix again", ...) — fold
+   that work into the commit it belongs to instead.
+5. Temporary/incremental commits during development are fine, but before calling a task
+   done, review the branch history and squash related commits into one logical commit
+   (`git rebase -i HEAD~N`, or `git reset --soft HEAD~N && git commit -m "..."` when
+   intermediate structure doesn't need preserving), then `git push --force-with-lease`.
+6. Decision rule before every commit: "does this change complete/fix the last commit, or
+   is it a new logical unit?" — amend for the former, new commit for the latter.
+
+Goal: the branch history reads as logical changes (`feat: ...`, `fix: ...`,
+`refactor: ...`), never as a trail of small "fix"/"adjust" commits on top of each other.
+
 ## Implementation notes
 
 **UI icons** are loaded via `@phosphor-icons/web@2.1.2` (CSS webfont, regular weight) in the web app.
