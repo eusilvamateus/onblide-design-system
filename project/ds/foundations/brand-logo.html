@@ -1,21 +1,49 @@
 <!doctype html>
-<!-- @dsCard group="Brand" name="Brand — Logo" subtitle="on/blide — variantes light, dark, laranja" viewport="760x130" -->
-<html><head><meta charset="utf-8"><title>Logo</title>
+<!-- @dsCard group="Brand" name="Brand — Logo" subtitle="Lockups horizontal, empilhada e símbolo — primary, white, dark" viewport="760x520" -->
+<html lang="pt-BR"><head><meta charset="utf-8"><title>Logo</title>
 <link rel="stylesheet" href="../../colors_and_type.css">
 <style>
-  body { margin: 0; padding: 24px; background: #fff; font-family: var(--ob-font); display: flex; align-items: center; justify-content: space-around; }
-  .mark { display: flex; align-items: center; gap: 10px; }
-  .glyph { width: 36px; height: 36px; border-radius: 10px; background: #0a4ee4; position: relative; display: flex; align-items: center; justify-content: center; }
-  .glyph::before { content:""; position: absolute; width: 14px; height: 14px; background: #f2f0e8; border-radius: 4px; transform: translate(-4px, -4px); }
-  .glyph::after { content:""; position: absolute; width: 14px; height: 14px; background: #eb7c2d; border-radius: 50%; transform: translate(5px, 5px); }
-  .word { font-weight: 800; font-size: 26px; letter-spacing: -0.03em; color: #2a2a2a; }
-  .word em { font-style: normal; color: #0a4ee4; }
-  .small { transform: scale(0.7); transform-origin: left; }
-  .reverse { background: #2a2a2a; padding: 14px 18px; border-radius: 12px; }
-  .reverse .word { color: #fff; }
-  .reverse .word em { color: #eb7c2d; }
+  body { margin: 0; padding: 28px; background: var(--ob-surface); font-family: var(--ob-font); color: var(--ob-fg-soft); }
+  h2 { font-family: var(--ob-font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ob-fg-mute); margin: 0 0 12px; }
+  section + section { margin-top: 28px; }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .cell { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 118px; padding: 18px; border-radius: var(--ob-r-surface); border: 1px solid var(--ob-border); }
+  .cell.on-light { background: var(--ob-surface); }
+  .cell.on-dark  { background: #2a2a2a; border-color: #2a2a2a; }
+  .cell.on-cream { background: var(--ob-cream); border-color: transparent; }
+  .cell img { display: block; }
+  .horizontal img { height: 30px; }
+  .stacked img    { height: 74px; }
+  .symbol img     { height: 46px; }
+  .tag { font-family: var(--ob-font-mono); font-size: 10px; color: var(--ob-fg-mute); }
+  .cell.on-dark .tag { color: rgba(255,255,255,0.5); }
 </style></head><body>
-  <div class="mark"><div class="glyph"></div><div class="word">on<em>blide</em></div></div>
-  <div class="mark reverse"><div class="glyph" style="background:#0a4ee4;"></div><div class="word">on<em>blide</em></div></div>
-  <div class="mark"><div class="glyph" style="background:#eb7c2d;"></div><div class="word">on<em>blide</em></div></div>
+
+  <section class="horizontal">
+    <h2>Horizontal — uso padrão</h2>
+    <div class="row">
+      <div class="cell on-light"><img src="../../assets/onblide-horizontal-primary.svg" alt="Onblide"><span class="tag">primary</span></div>
+      <div class="cell on-dark"><img src="../../assets/onblide-horizontal-white.svg" alt="Onblide"><span class="tag">white</span></div>
+      <div class="cell on-cream"><img src="../../assets/onblide-horizontal-dark.svg" alt="Onblide"><span class="tag">dark</span></div>
+    </div>
+  </section>
+
+  <section class="stacked">
+    <h2>Empilhada — espaços quadrados, selos</h2>
+    <div class="row">
+      <div class="cell on-light"><img src="../../assets/onblide-stacked-primary.svg" alt="Onblide"><span class="tag">primary</span></div>
+      <div class="cell on-dark"><img src="../../assets/onblide-stacked-white.svg" alt="Onblide"><span class="tag">white</span></div>
+      <div class="cell on-cream"><img src="../../assets/onblide-stacked-dark.svg" alt="Onblide"><span class="tag">dark</span></div>
+    </div>
+  </section>
+
+  <section class="symbol">
+    <h2>Símbolo — favicon, avatar, espaços mínimos</h2>
+    <div class="row">
+      <div class="cell on-light"><img src="../../assets/onblide-symbol-primary.svg" alt="Onblide"><span class="tag">primary</span></div>
+      <div class="cell on-dark"><img src="../../assets/onblide-symbol-white.svg" alt="Onblide"><span class="tag">white</span></div>
+      <div class="cell on-cream"><img src="../../assets/onblide-symbol-dark.svg" alt="Onblide"><span class="tag">dark</span></div>
+    </div>
+  </section>
+
 </body></html>

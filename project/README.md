@@ -14,7 +14,7 @@ The design system in this folder powers the Onblide web app, slide template, and
 |---|---|
 | `colors_and_type.css` | Single source of truth for every design token (colors, type, spacing, radii, shadows, motion) |
 | `CLAUDE.md` | Project rules injected into every session — currently the Phosphor-only iconography mandate |
-| `assets/` | Brand marks: `logo.svg` (wordmark) and `logomark.svg` (glyph) |
+| `assets/` | Brand marks: `onblide-{horizontal,stacked,symbol}-{primary,white,dark}.svg` — three lockups × three colorways |
 | `fonts/` | Self-hosted `.ttf` for Poppins, Playfair Display & JetBrains Mono (all weights), wired via `@font-face` in `colors_and_type.css` |
 | `ds/foundations/` | Foundation cards: color, type semantics, spacing, radii, shadows, iconography, brand |
 | `ds/components/` | Component specs: buttons, inputs, badges, status dots, cards, datepicker, deadline calendar, dropdown, modal, drawer, toggle, radio, checkbox, pagination, skeleton, link, tooltip, code-input, search-input, alert, toast, progressbar, side-nav, select, tabs, table + dark theme |
@@ -143,6 +143,6 @@ Geometric / abstract shapes only. Composed from circles, squares, pills, arcs an
 ## Caveats &amp; substitutions
 
 - **Fonts:** Poppins, Playfair Display and JetBrains Mono are now **self-hosted** as `.ttf` files in `fonts/`, wired via `@font-face` in `colors_and_type.css`. No external font CDN is required.
-- **Logo:** A wordmark + logomark were generated from your color palette as a placeholder (`assets/logo.svg`, `assets/logomark.svg`). Swap when you have a real mark.
+- **Logo:** The real brand mark lives in `assets/` as three lockups (horizontal, stacked, symbol), each in `primary`, `white` and `dark`. The `Logo` component in `ui_kits/web_app/Primitives.jsx` inlines the horizontal lockup with token-driven fills so it adapts to light/dark; `ds/foundations/brand-logo.html` shows every variant.
 - **Brand logos:** Third-party brand marks in the Integrations hub are faithful Phosphor-style reproductions; swap for the official `@phosphor-icons/react` glyphs once a bundler is in place.
 - **Brand voice samples:** Copywriting examples are guesses based on the "bold &amp; energetic + conversational" direction. Treat them as a starting register, not a locked guideline.
