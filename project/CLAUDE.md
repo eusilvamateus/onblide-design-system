@@ -41,8 +41,20 @@ icon set, and no ad-hoc hand-drawn SVG icons.
 
 ## Git workflow
 
-This branch is exclusively Mateus's and the project is maintained by him alone, so
-rewriting already-pushed history on it is allowed under the rules below.
+This repo is exclusively Mateus's — no clones, forks, or collaborators — so
+rewriting already-pushed history on his working branch is allowed under the rules below.
+
+### Branch model
+
+- **`main`** — release-only. Nothing is developed directly here; it only receives merges
+  from `dev` at release points (see Versioning below). Default branch on GitHub.
+- **`dev`** — the standing development branch. All day-to-day work happens here. This is
+  the branch the amend/rewrite rules below apply to.
+
+Renamed from `master` on 2026-09-22 (real rename, pushed to remote — no leftover
+`master` branch); `dev` was created from `main` the same day.
+
+### Commit hygiene (on `dev`)
 
 1. Before creating a new commit, check whether the current change logically belongs to
    the last commit (a fix, complement, or small adjustment to what was just committed).
@@ -60,8 +72,21 @@ rewriting already-pushed history on it is allowed under the rules below.
 6. Decision rule before every commit: "does this change complete/fix the last commit, or
    is it a new logical unit?" — amend for the former, new commit for the latter.
 
-Goal: the branch history reads as logical changes (`feat: ...`, `fix: ...`,
-`refactor: ...`), never as a trail of small "fix"/"adjust" commits on top of each other.
+Goal: `dev`'s history reads as logical changes, never as a trail of small "fix"/"adjust"
+commits on top of each other. `main` only ever moves via merges from `dev`, never
+rewritten.
+
+### Commit message format — Conventional Commits, in Portuguese
+
+`tipo(escopo): descrição` — description in Portuguese, lowercase, short imperative
+("adiciona", "corrige", "remove" — never "adicionado"/"adicionando"), no trailing period.
+
+- Types: `feat`, `fix`, `docs`, `refactor`, `style` (formatting/visual only, no behavior
+  change), `chore` (build/deps/config), `test`
+- Scope: the component or area touched (`feat(checkbox): ...`); omit it when the change
+  is broad (`feat: ...`)
+- Not enforced by tooling (no commitlint/husky) — this is documented discipline, not a
+  commit hook.
 
 ## Implementation notes
 
