@@ -71,16 +71,19 @@ Os dois existem e nenhum foi removido:
   `Pagination` e `Modal` usam `Icons`.
 - **`Ph`**: `<Ph n="check" size={18} c="var(--ob-blue)" />` renderiza qualquer glifo Phosphor
   pelo nome (`n`), com cor por prop (`c`). Tamanho padrão 18. Use quando o ícone não estiver
-  no registro. A maioria dos componentes (`Alert`, `Select`, `SideNav`, ...) usa `Ph`.
+  no registro. `Alert`, `Checkbox`, `SearchInput`, `Select`, `SideNav`, `Tabs` e `Toast` usam
+  `Ph`; `Chip`, `SearchInput` (ícone de carregamento) e `DeadlineCalendar` montam o
+  `<i class="ph ph-...">` diretamente.
 
 ## Efeitos colaterais no import
 
-Alguns módulos injetam `<style>` (keyframes) no `<head>` quando o pacote é importado, e
+Alguns módulos injetam `<style>` (keyframes e uma regra de mídia) no `<head>` quando o pacote é importado, e
 `ToastStack` define `window.obToast`. Por isso o `package.json` **não** declara
 `"sideEffects": false`: com ele, um bundler poderia descartar essas injeções.
 
 ## Versionamento
 
 Versões e changelog via [Changesets](https://github.com/changesets/changesets): escreva um
-arquivo em `.changeset/`, rode `npx changeset version` e commite `package.json` e
-`CHANGELOG.md`. Commits seguem Conventional Commits em português (`project/CLAUDE.md`).
+arquivo em `.changeset/`, rode `npx changeset version`, depois `npm install --package-lock-only`
+(o `changeset version` não atualiza o `package-lock.json`) e commite `package.json`,
+`CHANGELOG.md` e `package-lock.json`. Commits seguem Conventional Commits em português (`project/CLAUDE.md`).
