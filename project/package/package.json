@@ -23,7 +23,9 @@
   ],
   "scripts": {
     "build": "tsup",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.types.json"
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.types.json",
+    "smoke": "node scripts/run-smokes.mjs",
+    "verify": "npm run typecheck && npm run build && npm run smoke"
   },
   "peerDependencies": {
     "react": "^18.3.1",
