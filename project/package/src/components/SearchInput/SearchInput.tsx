@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FieldShell } from '../../primitives/FieldShell/FieldShell';
 import { FloatingPanel } from '../FloatingPanel/FloatingPanel';
 import { Ph } from '../Ph/Ph';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export interface SearchInputResult {
   label: string;
@@ -55,8 +56,4 @@ export const SearchInput: React.FC<SearchInputProps> = ({ value = '', onChange, 
 // Spinner.tsx injeta sob outro id ('ob-prim-kf') — duplicação já existente
 // no original (SearchInput.jsx e Primitives.jsx guardam com ids
 // diferentes), preservada verbatim; não consolidar com Spinner.tsx.
-if (typeof document !== 'undefined' && !document.getElementById('ob-spin-kf')) {
-  const st = document.createElement('style'); st.id = 'ob-spin-kf';
-  st.textContent = '@keyframes ob-spin{to{transform:rotate(360deg)}}';
-  document.head.appendChild(st);
-}
+injectStyleOnce('ob-spin-kf', '@keyframes ob-spin{to{transform:rotate(360deg)}}');

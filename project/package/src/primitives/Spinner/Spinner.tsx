@@ -1,4 +1,5 @@
 import React from 'react';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export type SpinnerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type SpinnerTone = 'default' | 'success' | 'warning' | 'danger' | 'muted';
@@ -38,8 +39,7 @@ export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', tone = 'default',
 // injeta as keyframes ob-spin (usada aqui) e ob-pulse (não usada por
 // Spinner nem ProgressCircle, mas presente no bloco original — mantida
 // para paridade exata com Primitives.jsx:847-852)
-if (typeof document !== 'undefined' && !document.getElementById('ob-prim-kf')) {
-  const st = document.createElement('style'); st.id = 'ob-prim-kf';
-  st.textContent = '@keyframes ob-spin{to{transform:rotate(360deg)}}@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}';
-  document.head.appendChild(st);
-}
+injectStyleOnce(
+  'ob-prim-kf',
+  '@keyframes ob-spin{to{transform:rotate(360deg)}}@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}',
+);

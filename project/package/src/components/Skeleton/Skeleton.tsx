@@ -1,4 +1,5 @@
 import React from 'react';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export interface SkeletonProps {
   width?: number | string;
@@ -22,9 +23,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({ width = '100%', height = 16,
 );
 
 // injeta a keyframe do shimmer uma única vez
-if (typeof document !== 'undefined' && !document.getElementById('ob-skeleton-kf')) {
-  const st = document.createElement('style');
-  st.id = 'ob-skeleton-kf';
-  st.textContent = '@keyframes ob-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }';
-  document.head.appendChild(st);
-}
+injectStyleOnce(
+  'ob-skeleton-kf',
+  '@keyframes ob-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }',
+);

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export type TooltipVariant = 'text' | 'inverted' | 'image';
 export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
@@ -89,9 +90,4 @@ export const Tooltip: React.FC<TooltipProps> = ({
   );
 };
 
-if (typeof document !== 'undefined' && !document.getElementById('ob-tip-kf')) {
-  const st = document.createElement('style');
-  st.id = 'ob-tip-kf';
-  st.textContent = '@keyframes ob-tip { from { opacity: 0; } }';
-  document.head.appendChild(st);
-}
+injectStyleOnce('ob-tip-kf', '@keyframes ob-tip { from { opacity: 0; } }');

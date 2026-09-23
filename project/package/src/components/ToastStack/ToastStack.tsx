@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Toast, ToastProps } from '../Toast/Toast';
 import { OB_TOAST_POS, OBToastPosition } from '../obToastPos';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export interface ToastStackProps {
   position?: OBToastPosition;
@@ -53,27 +54,19 @@ export const ToastStack: React.FC<ToastStackProps> = ({ position = 'bottom-right
 
 // injeta as keyframes de entrada/saída do toast e o ajuste de layout mobile,
 // uma única vez (mesmo padrão de Skeleton/Tooltip/Spinner no Lote A)
-if (typeof document !== 'undefined' && !document.getElementById('ob-toast-kf')) {
-  const st = document.createElement('style'); st.id = 'ob-toast-kf';
-  st.textContent = [
-    '@keyframes ob-toast-in-top{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}',
-    '@keyframes ob-toast-out-top{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-16px)}}',
-    '@keyframes ob-toast-in-bottom{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}',
-    '@keyframes ob-toast-out-bottom{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(16px)}}',
-  ].join('');
-  document.head.appendChild(st);
-}
-if (typeof document !== 'undefined' && !document.getElementById('ob-toast-pos')) {
-  const sp = document.createElement('style'); sp.id = 'ob-toast-pos';
-  sp.textContent = [
-    '@media(max-width:600px){',
-    '#ob-toast-stack{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100vw - 24px)!important;align-items:stretch!important}',
-    '#ob-toast-stack[data-pos^="top"]{top:16px!important;bottom:auto!important;flex-direction:column-reverse!important}',
-    '#ob-toast-stack[data-pos^="bottom"]{bottom:16px!important;top:auto!important;flex-direction:column!important}',
-    '}',
-  ].join('');
-  document.head.appendChild(sp);
-}
+injectStyleOnce('ob-toast-kf', [
+  '@keyframes ob-toast-in-top{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}',
+  '@keyframes ob-toast-out-top{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-16px)}}',
+  '@keyframes ob-toast-in-bottom{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}',
+  '@keyframes ob-toast-out-bottom{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(16px)}}',
+].join(''));
+injectStyleOnce('ob-toast-pos', [
+  '@media(max-width:600px){',
+  '#ob-toast-stack{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100vw - 24px)!important;align-items:stretch!important}',
+  '#ob-toast-stack[data-pos^="top"]{top:16px!important;bottom:auto!important;flex-direction:column-reverse!important}',
+  '#ob-toast-stack[data-pos^="bottom"]{bottom:16px!important;top:auto!important;flex-direction:column!important}',
+  '}',
+].join(''));
 declare global {
   interface Window {
     obToast?: (detail: ToastProps) => void;

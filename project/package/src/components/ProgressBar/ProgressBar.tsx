@@ -1,5 +1,6 @@
 import React from 'react';
 import { OB_TONES, OBTone } from '../obTones';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export interface ProgressBarProps {
   value?: number;
@@ -32,8 +33,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ value = 0, tone = 'inf
 };
 
 // injeta a keyframe do modo indeterminado uma única vez
-if (typeof document !== 'undefined' && !document.getElementById('ob-indet-kf')) {
-  const st = document.createElement('style'); st.id = 'ob-indet-kf';
-  st.textContent = '@keyframes ob-indet{0%{left:-40%;width:40%}50%{width:55%}100%{left:100%;width:40%}}';
-  document.head.appendChild(st);
-}
+injectStyleOnce(
+  'ob-indet-kf',
+  '@keyframes ob-indet{0%{left:-40%;width:40%}50%{width:55%}100%{left:100%;width:40%}}',
+);
