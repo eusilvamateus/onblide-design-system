@@ -123,6 +123,23 @@ Antes de servir essas páginas num clone novo do repositório, rode uma vez:
 cd project/package && npm install && npm run build
 ```
 
+## Verificação do pacote @onblide/ui
+
+Tudo em `project/package/`:
+
+```bash
+npm run verify   # typecheck (src) → build → typecheck:dist (tipos como o consumidor vê) → smoke
+```
+
+- `npm run typecheck` só compila `src` e funciona sem `dist/`; `npm run typecheck:dist` compila
+  `scripts/types-check.tsx` contra o `dist/index.d.ts` publicado e precisa do build antes.
+- `npm run smoke` roda todos os `scripts/smoke-*.mjs` (falha se nenhum for encontrado). O golden do
+  CSS injetado (`scripts/fixtures/injected-styles.json`) só muda de propósito, com
+  `node scripts/smoke-injected-styles.mjs --update`.
+- **Nenhum agente abre, fecha ou encerra Chrome/Edge** (nem headless, CDP ou `taskkill`) nem usa
+  `mcp__claude-in-chrome__*`: uma verificação headless já encerrou o navegador do usuário e
+  destruiu o trabalho manual dele. A conferência visual das páginas de preview é do usuário.
+
 ## Implementation notes
 
 **UI icons** are loaded via `@phosphor-icons/web@2.1.2` (CSS webfont, regular weight) in the web app.
