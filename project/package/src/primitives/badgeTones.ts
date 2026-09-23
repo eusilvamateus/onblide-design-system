@@ -1,0 +1,21 @@
+// Tabela de tons compartilhada por StatusDot e Badge (o original em
+// Primitives.jsx define isso uma vez, solto no meio do arquivo, e os dois
+// componentes leem dali — este arquivo é essa mesma tabela isolada, não uma
+// abstração nova).
+export type BadgeTone = 'blue' | 'green' | 'orange' | 'red' | 'grey';
+
+export interface BadgeToneColors {
+  bg: string;
+  fg: string;
+  dot: string;
+  solid: string;
+  border: string;
+}
+
+export const BADGE_TONES: Record<BadgeTone, BadgeToneColors> = {
+  blue:   { bg: 'var(--ob-blue-100)',    fg: 'var(--ob-blue-700)',    dot: 'var(--ob-blue)',    solid: 'var(--ob-blue)',    border: 'color-mix(in srgb, var(--ob-blue) 35%, transparent)' },
+  green:  { bg: 'var(--ob-green-100)',   fg: 'var(--ob-green-700)',   dot: 'var(--ob-green)',   solid: 'var(--ob-green)',   border: 'color-mix(in srgb, var(--ob-green) 35%, transparent)' },
+  orange: { bg: 'color-mix(in srgb, var(--ob-orange) 15%, var(--ob-surface))', fg: '#9a4000', dot: 'var(--ob-orange)', solid: 'var(--ob-orange)', border: 'color-mix(in srgb, var(--ob-orange) 45%, transparent)' },
+  red:    { bg: 'var(--ob-danger-bg)',   fg: 'var(--ob-danger)',      dot: 'var(--ob-danger)',  solid: 'var(--ob-danger)',  border: 'color-mix(in srgb, var(--ob-danger) 40%, transparent)' },
+  grey:   { bg: 'var(--ob-bg-warm)',     fg: 'var(--ob-fg-soft)',     dot: 'var(--ob-fg-mute)', solid: 'var(--ob-fg-mute)', border: 'var(--ob-border)' },
+};
