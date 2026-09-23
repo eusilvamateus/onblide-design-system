@@ -39,3 +39,4 @@ export * from './primitives/Brands/Brands';
 export * from './primitives/BrandTile/BrandTile';
 export * from './components/Link/Link';
 export * from './components/Pagination/Pagination';
+export * from './components/Modal/Modal';

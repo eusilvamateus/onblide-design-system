@@ -1,5 +1,6 @@
 {
   "ob-indet-kf": "@keyframes ob-indet{0%{left:-40%;width:40%}50%{width:55%}100%{left:100%;width:40%}}",
+  "ob-modal-kf": "@keyframes ob-fade { from { opacity: 0; } to { opacity: 1; } } @keyframes ob-pop { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }",
   "ob-prim-kf": "@keyframes ob-spin{to{transform:rotate(360deg)}}@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}",
   "ob-shake-kf": "@keyframes ob-shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}",
   "ob-skeleton-kf": "@keyframes ob-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }",
