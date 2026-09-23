@@ -10,7 +10,7 @@ export interface PaginationProps {
 
 export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, onChange, siblings = 1 }) => {
   const range = (s: number, e: number) => Array.from({ length: e - s + 1 }, (_, i) => s + i);
-  let pages: (number | '…')[] = [];
+  const pages: (number | '…')[] = [];
   const left = Math.max(2, page - siblings);
   const right = Math.min(total - 1, page + siblings);
   pages.push(1);
@@ -18,7 +18,6 @@ export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, on
   pages.push(...range(left, right));
   if (right < total - 1) pages.push('…');
   if (total > 1) pages.push(total);
-  pages = [...new Set(pages)];
 
   const Arrow = ({ dir, disabled }: { dir: 'prev' | 'next'; disabled: boolean }) => (
     <button disabled={disabled} onClick={() => onChange?.(dir === 'prev' ? page - 1 : page + 1)} style={{
