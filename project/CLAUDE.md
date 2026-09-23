@@ -103,7 +103,7 @@ fazem contra o texto dos briefs extraídos do plano.
 
 ## Preview de componentes portados para @onblide/ui
 
-24 páginas em `ds/components/` carregam `project/package/dist/onblide-ui.browser.js` — um
+27 páginas em `ds/components/` carregam `project/package/dist/onblide-ui.browser.js` — um
 arquivo gerado (`dist/` é git-ignored, não versionado). São as 3 da Fase 1
 (`components-checkbox.html`, `components-datepicker.html`, `components-dropdown.html`) mais
 as 9 do Lote A (`components-radio.html`, `components-toggle.html`, `components-skeleton.html`,
@@ -112,7 +112,8 @@ as 9 do Lote A (`components-radio.html`, `components-toggle.html`, `components-s
 as 12 do Lote B (`components-alert.html`, `components-progressbar.html`, `components-toast.html`,
 `components-drawer.html`, `components-code-input.html`, `components-search-input.html`,
 `components-side-nav.html`, `components-tabs.html`, `components-table.html`,
-`components-deadline-calendar.html`, `components-select.html`, `components-slider.html`).
+`components-deadline-calendar.html`, `components-select.html`, `components-slider.html`) mais
+as 3 do Lote C (`components-link.html`, `components-pagination.html`, `components-modal.html`).
 Para achar a lista atualizada a qualquer momento: `grep -rl onblide-ui.browser.js ds/components/`.
 
 Sem o `dist/` gerado, qualquer uma dessas páginas abre em branco, sem explicação no HTML.
