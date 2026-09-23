@@ -26,3 +26,4 @@ export * from './components/ToastStack/ToastStack';
 export * from './components/Drawer/Drawer';
 export * from './components/CodeInput/CodeInput';
 export * from './components/SearchInput/SearchInput';
+export * from './components/SideNav/SideNav';
