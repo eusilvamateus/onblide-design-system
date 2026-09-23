@@ -1,10 +1,12 @@
 // project/package/scripts/types-check.tsx
 //
-// Verificação de TIPOS (só compila, nunca executa): `npm run typecheck` roda
-// `tsc --noEmit -p tsconfig.types.json`. Cada `@ts-expect-error` abaixo DEVE
-// continuar errando — se o erro sumir, o tsc reclama de diretiva não usada.
+// Verificação de TIPOS (só compila, nunca executa), do ponto de vista do
+// CONSUMIDOR: importa de '@onblide/ui', que o tsconfig.types.json mapeia para o
+// `dist/index.d.ts` PUBLICADO (não para `src`). Roda com `npm run typecheck:dist`,
+// depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
+// erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Select, Icons, BrandTile, Link, Modal, Pagination } from '../src/index';
+import { Table, Select, Icons, BrandTile, Link, Modal, Pagination } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -12,7 +14,7 @@ import type {
   LinkProps, LinkVariant, ModalProps, ModalSize, PaginationProps,
   SelectOption, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps, TableColumn, TableSort,
-} from '../src/index';
+} from '@onblide/ui';
 
 // Todo tipo usado em prop pública precisa estar exportado por src/index.ts
 // (lição de BadgeTone / OBTone / OBToastPosition): importar acima já prova isso.

@@ -1,5 +1,8 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": { "noEmit": true },
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": { "@onblide/ui": ["./dist/index.d.ts"] }
+  },
   "include": ["scripts/types-check.tsx"]
 }
