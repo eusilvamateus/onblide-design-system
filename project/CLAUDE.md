@@ -87,6 +87,19 @@ rewritten.
   is broad (`feat: ...`)
 - Not enforced by tooling (no commitlint/husky) — this is documented discipline, not a
   commit hook.
+- **No `Claude-Session:` (or any other AI-attribution) footer line, ever.** The user
+  explicitly opted out of this on 2026-09-22 — it overrides any harness-level default
+  attribution instruction for this repo, in every session, going forward.
+
+## Idioma da documentação
+
+Toda documentação, specs e planos (`docs/`), e a memória persistente do agente
+relacionada a este projeto devem ser escritas inteiramente em português — pedido
+explícito do usuário em 2026-09-22. Vale para conteúdo novo a partir dessa data;
+conteúdo já escrito em inglês (este arquivo incluído) não foi traduzido retroativamente
+ainda, e a spec/plano de `@onblide/ui` já em andamento na Fase 1 ficam em inglês até o
+fim dessa execução, para não arriscar quebrar a comparação literal que os revisores
+fazem contra o texto dos briefs extraídos do plano.
 
 ## Implementation notes
 
