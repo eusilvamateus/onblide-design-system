@@ -10,3 +10,4 @@ export * from './components/RadioGroup/RadioGroup';
 export * from './components/Toggle/Toggle';
 export * from './components/Skeleton/Skeleton';
 export * from './components/Tooltip/Tooltip';
+export * from './components/Chip/Chip';
