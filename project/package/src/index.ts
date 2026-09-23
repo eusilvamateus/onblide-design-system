@@ -21,3 +21,4 @@ export * from './primitives/Slider/Slider';
 export type { BadgeTone } from './primitives/badgeTones';
 export * from './components/Alert/Alert';
 export * from './components/ProgressBar/ProgressBar';
+export * from './components/Toast/Toast';
