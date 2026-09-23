@@ -10,12 +10,21 @@ export interface ToggleProps {
 
 export const Toggle: React.FC<ToggleProps> = ({ checked, onChange, label, disabled = false, size = 'md' }) => {
   const w = size === 'sm' ? 32 : 40, h = size === 'sm' ? 18 : 22, knob = h - 4;
+  const alternar = () => { if (!disabled) onChange?.(!checked); };
   return (
     <label style={{ display: 'inline-flex', alignItems: 'center', gap: 10, cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.5 : 1 }}>
-      <span onClick={() => !disabled && onChange?.(!checked)} style={{
-        width: w, height: h, borderRadius: 999, flex: 'none', position: 'relative',
-        background: checked ? 'var(--ob-blue)' : 'var(--ob-border)', transition: 'background 200ms var(--ob-ease)',
-      }}>
+      <span
+        role="switch"
+        aria-checked={checked}
+        aria-disabled={disabled || undefined}
+        aria-label={typeof label === 'string' ? label : undefined}
+        tabIndex={disabled ? -1 : 0}
+        onClick={alternar}
+        onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); alternar(); } }}
+        style={{
+          width: w, height: h, borderRadius: 999, flex: 'none', position: 'relative',
+          background: checked ? 'var(--ob-blue)' : 'var(--ob-border)', transition: 'background 200ms var(--ob-ease)',
+        }}>
         <span style={{
           position: 'absolute', top: 2, left: checked ? w - knob - 2 : 2, width: knob, height: knob,
           borderRadius: '50%', background: '#fff', transition: 'left 200ms var(--ob-ease)',

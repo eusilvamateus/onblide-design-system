@@ -1,0 +1,46 @@
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { Toggle } from '../dist/index.js';
+
+function fail(msg, extra) {
+  console.error('FAIL:', msg, extra ?? '');
+  process.exit(1);
+}
+const render = (props) => renderToStaticMarkup(React.createElement(Toggle, props));
+
+// Semântica de switch (leitores de tela) e ordem de tab.
+const ligado = render({ checked: true, label: 'Notificações' });
+const desligado = render({ checked: false, label: 'Notificações' });
+if (!ligado.includes('role="switch"') || !ligado.includes('aria-checked="true"')) fail('switch ligado', ligado);
+if (!desligado.includes('aria-checked="false"')) fail('switch desligado', desligado);
+if (!ligado.includes('aria-label="Notificações"')) fail('nome acessível quando o label é string', ligado);
+if (!ligado.includes('tabindex="0"')) fail('deveria entrar na ordem de tab', ligado);
+if (desligado.includes('aria-disabled')) fail('habilitado não deveria ter aria-disabled', desligado);
+const desabilitado = render({ checked: false, disabled: true });
+if (!desabilitado.includes('tabindex="-1"') || !desabilitado.includes('aria-disabled="true"')) fail('desabilitado', desabilitado);
+if (render({ checked: false, label: React.createElement('b', null, 'x') }).includes('aria-label=')) fail('label que não é string não vira aria-label');
+
+// Teclado. O Toggle não usa hooks, então dá para chamá-lo como função e acionar
+// os handlers do elemento retornado, sem DOM.
+function elementoSwitch(props) {
+  const raiz = Toggle(props);
+  return React.Children.toArray(raiz.props.children)[0];
+}
+function acionar(props, evento) {
+  const chamadas = [];
+  const el = elementoSwitch({ ...props, onChange: (v) => chamadas.push(v) });
+  let bloqueado = false;
+  if (evento === 'click') el.props.onClick();
+  else el.props.onKeyDown({ key: evento, preventDefault: () => { bloqueado = true; } });
+  return { chamadas, bloqueado };
+}
+const espaco = acionar({ checked: false }, ' ');
+if (espaco.chamadas.join() !== 'true' || !espaco.bloqueado) fail('Espaço deveria ligar e bloquear o scroll', espaco);
+const enter = acionar({ checked: true }, 'Enter');
+if (enter.chamadas.join() !== 'false') fail('Enter deveria desligar', enter);
+if (acionar({ checked: false }, 'a').chamadas.length) fail('outras teclas não fazem nada');
+if (acionar({ checked: false, disabled: true }, ' ').chamadas.length) fail('desabilitado ignora o teclado');
+if (acionar({ checked: false }, 'click').chamadas.join() !== 'true') fail('clique continua alternando');
+if (acionar({ checked: false, disabled: true }, 'click').chamadas.length) fail('desabilitado ignora o clique');
+
+console.log('OK: Toggle (role=switch, aria-checked, tab, Espaço/Enter, clique, desabilitado)');
