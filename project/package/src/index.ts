@@ -25,3 +25,4 @@ export * from './components/Toast/Toast';
 export * from './components/ToastStack/ToastStack';
 export * from './components/Drawer/Drawer';
 export * from './components/CodeInput/CodeInput';
+export * from './components/SearchInput/SearchInput';
