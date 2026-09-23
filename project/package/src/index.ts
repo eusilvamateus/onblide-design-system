@@ -18,3 +18,4 @@ export * from './primitives/Avatar/Avatar';
 export * from './primitives/Spinner/Spinner';
 export * from './primitives/ProgressCircle/ProgressCircle';
 export * from './primitives/Slider/Slider';
+export type { BadgeTone } from './primitives/badgeTones';

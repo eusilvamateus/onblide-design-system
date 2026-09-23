@@ -103,10 +103,16 @@ fazem contra o texto dos briefs extraídos do plano.
 
 ## Preview de componentes portados para @onblide/ui
 
-As páginas `ds/components/components-checkbox.html`, `components-datepicker.html` e
-`components-dropdown.html` carregam `project/package/dist/onblide-ui.browser.js` — um
-arquivo gerado (`dist/` é git-ignored, não versionado). Antes de servir essas páginas
-num clone novo do repositório, rode uma vez:
+12 páginas em `ds/components/` carregam `project/package/dist/onblide-ui.browser.js` — um
+arquivo gerado (`dist/` é git-ignored, não versionado). São as 3 da Fase 1
+(`components-checkbox.html`, `components-datepicker.html`, `components-dropdown.html`) mais
+as 9 do Lote A (`components-radio.html`, `components-toggle.html`, `components-skeleton.html`,
+`components-tooltip.html`, `components-chip.html`, `components-badge.html`,
+`components-status-dot.html`, `components-spinner.html`, `components-progress-circle.html`).
+Para achar a lista atualizada a qualquer momento: `grep -rl onblide-ui.browser.js ds/components/`.
+
+Sem o `dist/` gerado, qualquer uma dessas páginas abre em branco, sem explicação no HTML.
+Antes de servir essas páginas num clone novo do repositório, rode uma vez:
 
 ```bash
 cd project/package && npm install && npm run build
