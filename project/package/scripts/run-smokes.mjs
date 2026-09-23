@@ -11,6 +11,12 @@ import { fileURLToPath } from 'node:url';
 const dir = dirname(fileURLToPath(import.meta.url));
 const arquivos = readdirSync(dir).filter((f) => /^smoke-.+\.mjs$/.test(f)).sort();
 
+// Um glob errado ou um diretório movido não pode virar "0/0 smokes ok" com exit 0.
+if (arquivos.length === 0) {
+  console.error(`FAIL: nenhum smoke-*.mjs encontrado em ${dir}`);
+  process.exit(1);
+}
+
 let falhas = 0;
 for (const arquivo of arquivos) {
   const r = spawnSync(process.execPath, [join(dir, arquivo)], { stdio: 'inherit' });
