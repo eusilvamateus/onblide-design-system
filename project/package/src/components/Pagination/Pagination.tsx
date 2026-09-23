@@ -20,7 +20,7 @@ export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, on
   if (total > 1) pages.push(total);
 
   const Arrow = ({ dir, disabled }: { dir: 'prev' | 'next'; disabled: boolean }) => (
-    <button disabled={disabled} onClick={() => onChange?.(dir === 'prev' ? page - 1 : page + 1)} style={{
+    <button disabled={disabled} onClick={() => onChange?.(dir === 'prev' ? page - 1 : page + 1)} aria-label={dir === 'prev' ? 'Página anterior' : 'Próxima página'} style={{
       width: 34, height: 34, borderRadius: 'var(--ob-r-sm)', border: '1px solid var(--ob-border)',
       background: 'var(--ob-surface)', color: disabled ? 'var(--ob-fg-mute)' : 'var(--ob-fg)',
       cursor: disabled ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -31,12 +31,12 @@ export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, on
   );
 
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+    <nav aria-label="Paginação" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
       <Arrow dir="prev" disabled={page === 1} />
       {pages.map((p, i) => p === '…' ? (
         <span key={`e${i}`} style={{ width: 34, textAlign: 'center', color: 'var(--ob-fg-mute)' }}>…</span>
       ) : (
-        <button key={p} onClick={() => onChange?.(p)} style={{
+        <button key={p} onClick={() => onChange?.(p)} aria-current={p === page ? 'page' : undefined} style={{
           minWidth: 34, height: 34, padding: '0 8px', borderRadius: 'var(--ob-r-sm)',
           border: `1px solid ${p === page ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
           background: p === page ? 'var(--ob-blue)' : 'var(--ob-surface)',
@@ -45,6 +45,6 @@ export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, on
         }}>{p}</button>
       ))}
       <Arrow dir="next" disabled={page === total} />
-    </div>
+    </nav>
   );
 };

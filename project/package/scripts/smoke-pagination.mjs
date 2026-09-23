@@ -96,4 +96,10 @@ if (preenchidos.length !== 1 || !preenchidos[0].includes('>6</button>')) fail('s
 // Setas usam os ícones caret-left / caret-right (16px).
 if (!ativa.includes('ph-caret-left') || !ativa.includes('ph-caret-right') || !ativa.includes('font-size:16px')) fail('ícones das setas', ativa);
 
-console.log('OK: Pagination (janela de páginas, duas reticências, setas desabilitadas, página ativa)');
+// Acessibilidade (Fase 3): navegação rotulada, página atual e setas com nome.
+if (!ativa.startsWith('<nav aria-label="Paginação"')) fail('a raiz deveria ser <nav aria-label="Paginação">', ativa);
+if ((ativa.match(/aria-current="page"/g) || []).length !== 1) fail('só a página atual deveria ter aria-current', ativa);
+if (!/aria-current="page"[^>]*>6<\/button>/.test(ativa)) fail('aria-current deveria estar na página 6', ativa);
+if (!ativa.includes('aria-label="Página anterior"') || !ativa.includes('aria-label="Próxima página"')) fail('setas sem nome acessível', ativa);
+
+console.log('OK: Pagination (janela de páginas, duas reticências, setas desabilitadas, página ativa, acessibilidade)');
