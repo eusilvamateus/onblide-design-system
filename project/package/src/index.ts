@@ -15,3 +15,4 @@ export * from './primitives/StatusDot/StatusDot';
 export * from './primitives/Badge/Badge';
 export * from './primitives/Card/Card';
 export * from './primitives/Avatar/Avatar';
+export * from './primitives/Spinner/Spinner';
