@@ -116,6 +116,10 @@ as 12 do Lote B (`components-alert.html`, `components-progressbar.html`, `compon
 as 3 do Lote C (`components-link.html`, `components-pagination.html`, `components-modal.html`).
 Para achar a lista atualizada a qualquer momento: `grep -rl onblide-ui.browser.js ds/components/`.
 
+O comentário `<!-- @dsCard group="…" name="…" -->` de cada página de preview deve ficar na
+**primeira linha** do HTML, antes do `<!doctype html>`: o Design System pane (`/design-sync`) monta
+o índice de cards lendo só essa linha (regra da ferramenta `DesignSync`).
+
 Sem o `dist/` gerado, qualquer uma dessas páginas abre em branco, sem explicação no HTML.
 Antes de servir essas páginas num clone novo do repositório, rode uma vez:
 
