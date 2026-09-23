@@ -26,7 +26,7 @@ dependem de componentes já portados (Fase 1 ou Lote A) para funcionar.
 | `SearchInput` | `Components.jsx:549-586` | `FieldShell`, `FloatingPanel`, `Ph` |
 | `Select` | `Components.jsx:707-861` | `Checkbox`, `Chip`, `FieldShell`, `FloatingPanel`, `Ph` |
 | `Input` | `Primitives.jsx:221-242` | `FieldShell` |
-| `Toast` | `Components.jsx:603-633` | `Ph` |
+| `Toast` | `Components.jsx:603-633` | `Ph`, `OB_TONES` |
 | `ToastStack` | `Components.jsx:870-933` | `Toast` (mesmo lote — ordem importa) |
 
 Verificado por grep de uso (`<Nome` / `Nome.algo`) em cada bloco. `Table`
@@ -35,14 +35,29 @@ dependência daí. Grupo de destino (mesma convenção da Fase 1/Lote A):
 `src/components/` para os de `Components.jsx`, `src/primitives/` para os de
 `Primitives.jsx` (`Input`, `DeadlineCalendar`).
 
+**Correção pós-escrita da spec:** `Alert`, `Toast` e `ProgressBar` também
+dependem de um objeto de dados module-level, `OB_TONES`
+(`Components.jsx:495-500` — tabela com 4 tons: `info`/`success`/`warning`/
+`danger`, cada um com `fg`/`bg`/`strong`/`icon`, onde `icon` é uma STRING de
+nome de ícone Phosphor passada para `<Ph n={t.icon} .../>`, não uma
+referência ao objeto `Icons` — portanto **não** cria dependência de
+`Icons`/Lote C, ao contrário do que a seção de Não-objetivos abaixo sugeria
+antes desta correção). Como 3 componentes deste lote usam essa tabela, ela
+precisa ser portada agora como módulo interno compartilhado (mesmo padrão
+de `src/primitives/badgeTones.ts` no Lote A): novo arquivo
+`src/components/obTones.ts`, exportando `OBTone` (tipo) e `OB_TONES`
+(tabela), **não** reexportado em `src/index.ts`.
+
 ## Não-objetivos
 
 - **`Modal`** (`Components.jsx:243-293`), **`Link`** (`Components.jsx:94-115`)
   e **`Pagination`** (`Components.jsx:138-184`) — os três usam `Icons`
   (`Icons.x`, `Icons.caretL`/`caretR`, etc.), que só entra no Lote C. Ficam
   para lá (ou logo depois), junto de `Icons`/`Brands`.
-- **Lote C** (`Icons`, `Brands`, `OB_TONES`/`OB_TOAST_POS`) — módulos de
-  dados tipados, sem ritual de verificação visual por item, spec própria.
+- **Lote C** (`Icons`, `Brands`, `OB_TOAST_POS`) — módulos de dados
+  tipados, sem ritual de verificação visual por item, spec própria.
+  `OB_TONES` sai desta lista (ver correção acima) — é portado neste Lote B,
+  não no C, porque 3 componentes deste lote já dependem dele.
 - Tudo que já era não-objetivo nos lotes anteriores continua sendo:
   `Chrome.jsx`, `Screens.jsx`, `tweaks-panel.jsx`, `Logo`; suíte de testes
   automatizados; mudança de comportamento/visual de qualquer componente;
