@@ -8,3 +8,4 @@ export * from './components/Dropdown/Dropdown';
 export * from './components/Radio/Radio';
 export * from './components/RadioGroup/RadioGroup';
 export * from './components/Toggle/Toggle';
+export * from './components/Skeleton/Skeleton';
