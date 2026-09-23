@@ -19,6 +19,8 @@ export * from './primitives/Spinner/Spinner';
 export * from './primitives/ProgressCircle/ProgressCircle';
 export * from './primitives/Slider/Slider';
 export type { BadgeTone } from './primitives/badgeTones';
+export type { OBTone } from './components/obTones';
+export type { OBToastPosition } from './components/obToastPos';
 export * from './components/Alert/Alert';
 export * from './components/ProgressBar/ProgressBar';
 export * from './components/Toast/Toast';
