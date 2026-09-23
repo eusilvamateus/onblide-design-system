@@ -6,3 +6,4 @@ export * from './primitives/Datepicker/Datepicker';
 export * from './components/FloatingPanel/FloatingPanel';
 export * from './components/Dropdown/Dropdown';
 export * from './components/Radio/Radio';
+export * from './components/RadioGroup/RadioGroup';
