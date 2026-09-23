@@ -11,11 +11,8 @@ export interface SelectOption {
   [key: string]: unknown;
 }
 
-export interface SelectProps {
+interface SelectBaseProps {
   options?: (string | SelectOption)[];
-  value?: string | string[] | null;
-  onChange?: (value: string | string[]) => void;
-  multi?: boolean;
   label?: React.ReactNode;
   placeholder?: string;
   disabled?: boolean;
@@ -23,17 +20,40 @@ export interface SelectProps {
   width?: number | string;
 }
 
-export const Select: React.FC<SelectProps> = ({
-  options = [],
-  value = null,
-  onChange,
-  multi = false,
-  label,
-  placeholder = 'Selecione…',
-  disabled = false,
-  error,
-  width,
-}) => {
+export interface SingleSelectProps extends SelectBaseProps {
+  multi?: false;
+  value?: string | null;
+  onChange?: (value: string) => void;
+}
+
+export interface MultiSelectProps extends SelectBaseProps {
+  multi: true;
+  value?: string[] | null;
+  onChange?: (value: string[]) => void;
+}
+
+export type SelectProps = SingleSelectProps | MultiSelectProps;
+
+// Forma frouxa (idêntica à SelectProps original), usada só dentro do corpo:
+// a discriminação por `multi` existe na API pública, não na implementação.
+interface SelectLooseProps extends SelectBaseProps {
+  multi?: boolean;
+  value?: string | string[] | null;
+  onChange?: (value: string | string[]) => void;
+}
+
+export const Select: React.FC<SelectProps> = (props) => {
+  const {
+    options = [],
+    value = null,
+    onChange,
+    multi = false,
+    label,
+    placeholder = 'Selecione…',
+    disabled = false,
+    error,
+    width,
+  } = props as SelectLooseProps;
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [highlighted, setHighlighted] = useState(0);

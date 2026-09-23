@@ -29,7 +29,9 @@ export interface TableProps<T> {
 // Componente genérico — React.FC<TableProps<T>> não permite que TS infira T
 // a partir do uso (React.FC não é genérico), então Table é declarado como
 // função direta, igual a como o React documenta componentes genéricos.
-export function Table<T extends Record<string, unknown> = Record<string, unknown>>({
+// `T extends object` (e não Record<string, unknown>) para aceitar também
+// `interface` sem index signature como tipo de linha.
+export function Table<T extends object = Record<string, unknown>>({
   columns = [], rows = [], selectable = false, onSelect, loading = false, emptyState, onSort, sort,
 }: TableProps<T>) {
   const [selected, setSelected] = useState<number[]>([]);
@@ -117,7 +119,7 @@ export function Table<T extends Record<string, unknown> = Record<string, unknown
                 )}
                 {columns.map(col => (
                   <td key={col.key} style={{ ...tdStyle, fontWeight: col.bold ? 600 : 400, color: col.bold ? 'var(--ob-fg-strong)' : 'var(--ob-fg)' }}>
-                    {col.render ? col.render(row[col.key], row) : (row[col.key] as React.ReactNode)}
+                    {col.render ? col.render((row as Record<string, unknown>)[col.key], row) : ((row as Record<string, unknown>)[col.key] as React.ReactNode)}
                   </td>
                 ))}
               </tr>
