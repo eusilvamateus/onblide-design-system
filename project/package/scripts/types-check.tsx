@@ -12,7 +12,7 @@ import type {
   IconName, IconProps, IconComponent,
   Brand, BrandKey, BrandTileProps,
   LinkProps, LinkVariant, ModalProps, ModalSize, PaginationProps,
-  SelectOption, SelectProps, SingleSelectProps, MultiSelectProps,
+  SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps, TableColumn, TableSort,
 } from '@onblide/ui';
 
@@ -23,7 +23,7 @@ export type TiposExportados = [
   IconName, IconProps, IconComponent,
   Brand, BrandKey, BrandTileProps,
   LinkProps, LinkVariant, ModalProps, ModalSize, PaginationProps,
-  SelectOption, SelectProps, SingleSelectProps, MultiSelectProps,
+  SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps<object>, TableColumn<object>, TableSort,
 ];
 
@@ -75,3 +75,24 @@ export function Verificacoes({ linhas, aliases }: { linhas: Linha[]; aliases: Li
     </>
   );
 }
+
+// Migração 0.3.x → 0.4.0+: SelectProps virou uma união (por `multi`). Os padrões
+// abaixo deixaram de compilar (cada um travado por um @ts-expect-error); os `Ok*`
+// são as alternativas que funcionam, usando os tipos exportados.
+// @ts-expect-error uma interface não pode estender uma união
+interface QuebradoExtends extends SelectProps { extra?: string }
+
+interface OkExtendsBase extends SelectBaseProps { extra?: string }    // estender a base
+interface OkExtendsRamo extends SingleSelectProps { extra?: string }  // ou um ramo da união
+type OkOmitBase = Omit<SelectBaseProps, 'label'>;                     // Omit na base
+export type UsosMigrados = [OkExtendsBase, OkExtendsRamo, OkOmitBase, QuebradoExtends];
+
+export function Wrapper(p: OkOmitBase) {
+  return <Select {...p} />;
+}
+export function WrapperQuebrado(p: Omit<SelectProps, 'label'>) {
+  // @ts-expect-error Omit sobre a união perde a discriminação de `multi`
+  return <Select {...p} />;
+}
+// @ts-expect-error `v` fica implicitamente any ao indexar a união
+export const handlerImplicito: SelectProps['onChange'] = (v) => v;

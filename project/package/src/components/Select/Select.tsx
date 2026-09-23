@@ -11,7 +11,7 @@ export interface SelectOption {
   [key: string]: unknown;
 }
 
-interface SelectBaseProps {
+export interface SelectBaseProps {
   options?: (string | SelectOption)[];
   label?: React.ReactNode;
   placeholder?: string;
