@@ -59,6 +59,9 @@ export const Select: React.FC<SelectProps> = (props) => {
   const [highlighted, setHighlighted] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  // O foco já abre a lista (onFocus). Sem saber se o campo JÁ estava focado quando o mouse
+  // desceu, o click do campo alternava logo em seguida e o primeiro clique terminava fechado.
+  const focadoNoMouseDown = useRef(false);
 
   // normaliza o valor
   const selected: string | string[] | null = multi
@@ -114,14 +117,21 @@ export const Select: React.FC<SelectProps> = (props) => {
   const displayValue = !multi && selected && !open ? (selected as string) : '';
 
   return (
-    <div ref={rootRef} style={{ position: 'relative', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
+    <div ref={rootRef}
+      onMouseDownCapture={() => { focadoNoMouseDown.current = document.activeElement === inputRef.current; }}
+      style={{ position: 'relative', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
       {label && (
         <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>{label}</div>
       )}
       <FieldShell
         focused={open} error={!!error} disabled={disabled}
         padding={multi && (selected as string[]).length ? '6px 10px' : '0 12px'}
-        onClick={() => { if (!disabled) { setOpen(o => !o); setTimeout(() => inputRef.current?.focus(), 0); } }}
+        onClick={() => {
+          if (disabled) return;
+          const abrir = focadoNoMouseDown.current ? !open : true;
+          setOpen(abrir);
+          if (abrir) setTimeout(() => inputRef.current?.focus(), 0);
+        }}
         style={{ flexWrap: 'wrap', gap: 6, cursor: disabled ? 'not-allowed' : 'pointer' }}>
         {/* Chips do modo multi — Chip real */}
         {multi && (selected as string[]).map(s => (
