@@ -3,3 +3,5 @@ export * from './primitives/Button/Button';
 export * from './components/Checkbox/Checkbox';
 export * from './primitives/FieldShell/FieldShell';
 export * from './primitives/Datepicker/Datepicker';
+export * from './components/FloatingPanel/FloatingPanel';
+export * from './components/Dropdown/Dropdown';
