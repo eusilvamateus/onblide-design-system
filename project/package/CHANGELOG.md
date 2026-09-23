@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.5.1
+
+### Patch Changes
+
+- `Select`: o primeiro clique no campo (sem foco) agora abre a lista; antes ela abria e fechava em seguida, e só o segundo clique abria. Clicar na seta, no espaço vazio do campo ou no corpo de um chip com a lista aberta agora fecha e mantém fechada (antes reabria por causa do refoco). Ao fechar por clique o foco não volta ao campo.
+
 ## 0.5.0
 
 ### Minor Changes
