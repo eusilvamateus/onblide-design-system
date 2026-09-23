@@ -6,7 +6,7 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Select, Icons, BrandTile, Link, Modal, Pagination } from '@onblide/ui';
+import { Table, Select, Slider, Icons, BrandTile, Link, Modal, Pagination } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -14,6 +14,7 @@ import type {
   LinkProps, LinkVariant, ModalProps, ModalSize, PaginationProps,
   SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps, TableColumn, TableSort,
+  SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
 } from '@onblide/ui';
 
 // Todo tipo usado em prop pública precisa estar exportado por src/index.ts
@@ -25,6 +26,7 @@ export type TiposExportados = [
   LinkProps, LinkVariant, ModalProps, ModalSize, PaginationProps,
   SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps<object>, TableColumn<object>, TableSort,
+  SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
 ];
 
 interface Linha { id: number; nome: string } // interface: sem index signature
@@ -34,6 +36,8 @@ export function Verificacoes({ linhas, aliases }: { linhas: Linha[]; aliases: Li
   const [texto, setTexto] = useState<string>('');
   const [textoOuNulo, setTextoOuNulo] = useState<string | null>(null);
   const [lista, setLista] = useState<string[]>([]);
+  const [num, setNum] = useState<number>(0);
+  const [par, setPar] = useState<[number, number]>([10, 20]);
   const dinamico = Math.random() > 0.5;
 
   return (
@@ -55,6 +59,25 @@ export function Verificacoes({ linhas, aliases }: { linhas: Linha[]; aliases: Li
       <Select value={lista} />
       {/* @ts-expect-error multi vindo de variável boolean não discrimina a união */}
       <Select multi={dinamico} value={lista} onChange={setLista} />
+
+      {/* Slider: props discriminadas por `range`.
+          Custo de API: deixam de compilar (a) value em par sem `range` literal,
+          (b) `range={boolean}` vindo de variável (não discrimina a união) e
+          (c) onChange tipado como (v: SliderValue) => void continua aceito, mas
+          onChange de número com `range` não. Quem tem um boolean dinâmico deve
+          ramificar em <Slider range .../> e <Slider .../>. */}
+      <Slider />
+      <Slider value={num} onChange={setNum} />
+      <Slider value={num} onChange={(v) => void v.toFixed()} />
+      <Slider range value={par} onChange={setPar} />
+      <Slider range value={par} onChange={(v) => void v[0].toFixed()} />
+      <Slider min={0} max={10} step={2} tone="success" marks label="x" />
+      {/* @ts-expect-error modo simples com value em par */}
+      <Slider value={par} />
+      {/* @ts-expect-error range com onChange de número */}
+      <Slider range value={par} onChange={setNum} />
+      {/* @ts-expect-error range vindo de variável boolean não discrimina a união */}
+      <Slider range={dinamico} value={num} onChange={setNum} />
 
       {/* Icons / BrandTile / Link / Pagination / Modal */}
       <Icons.check size={12} style={{ color: '#fff' }} />

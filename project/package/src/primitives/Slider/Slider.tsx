@@ -3,12 +3,10 @@ import React, { useRef, useState } from 'react';
 export type SliderValue = number | [number, number];
 export type SliderTone = 'default' | 'success' | 'warning' | 'danger';
 
-export interface SliderProps {
-  value?: SliderValue;
+export interface SliderBaseProps {
   min?: number;
   max?: number;
   step?: number;
-  onChange?: (value: SliderValue) => void;
   label?: React.ReactNode;
   hint?: React.ReactNode;
   error?: React.ReactNode;
@@ -16,18 +14,40 @@ export interface SliderProps {
   showValue?: boolean;
   marks?: boolean;
   tone?: SliderTone;
+}
+
+export interface SingleSliderProps extends SliderBaseProps {
+  range?: false;
+  value?: number;
+  onChange?: (value: number) => void;
+}
+
+export interface RangeSliderProps extends SliderBaseProps {
+  range: true;
+  value?: [number, number];
+  onChange?: (value: [number, number]) => void;
+}
+
+export type SliderProps = SingleSliderProps | RangeSliderProps;
+
+// Forma frouxa (idêntica à SliderProps original), usada só dentro do corpo:
+// a discriminação por `range` existe na API pública, não na implementação.
+interface SliderLooseProps extends SliderBaseProps {
   range?: boolean;
+  value?: SliderValue;
+  onChange?: (value: SliderValue) => void;
 }
 
 type Thumb = 'lo' | 'hi';
 
-export const Slider: React.FC<SliderProps> = ({
-  value, min = 0, max = 100, step = 1,
-  onChange, label, hint, error, disabled = false,
-  showValue = true, marks = false,
-  tone = 'default',
-  range = false,
-}) => {
+export const Slider: React.FC<SliderProps> = (props) => {
+  const {
+    value, min = 0, max = 100, step = 1,
+    onChange, label, hint, error, disabled = false,
+    showValue = true, marks = false,
+    tone = 'default',
+    range = false,
+  } = props as SliderLooseProps;
   const trackRef = useRef<HTMLDivElement>(null);
   const draggingRef = useRef<Thumb | null>(null);
   const onChangeRef = useRef(onChange);
