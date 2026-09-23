@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.3.1
+
+### Patch Changes
+
+- Exporta os tipos OBTone e OBToastPosition, usados nas props públicas de Alert, Toast, ProgressBar e ToastStack.
+
 ## 0.3.0
 
 ### Minor Changes
