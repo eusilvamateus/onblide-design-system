@@ -34,3 +34,4 @@ export * from './components/Table/Table';
 export * from './primitives/DeadlineCalendar/DeadlineCalendar';
 export * from './components/Select/Select';
 export * from './primitives/Input/Input';
+export * from './primitives/Icons/Icons';
