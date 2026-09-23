@@ -23,4 +23,17 @@ if (!disabledHtml.includes('cursor:not-allowed')) {
   process.exit(1);
 }
 
-console.log('OK: single, range e disabled renderizam corretamente');
+// min === max: sem NaN (a divisão por zero em pct() virava `left:NaN%` / `right:NaN%`)
+for (const props of [
+  { value: 5, min: 5, max: 5 },
+  { value: [5, 5], min: 5, max: 5, range: true },
+  { value: 5, min: 5, max: 5, marks: true },
+]) {
+  const html = renderToStaticMarkup(React.createElement(Slider, props));
+  if (html.includes('NaN')) {
+    console.error(`FAIL (min === max): NaN no markup para ${JSON.stringify(props)}:`, html);
+    process.exit(1);
+  }
+}
+
+console.log('OK: single, range, disabled e min === max renderizam corretamente');

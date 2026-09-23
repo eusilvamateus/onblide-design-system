@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export type SliderValue = number | [number, number];
 export type SliderTone = 'default' | 'success' | 'warning' | 'danger';
@@ -53,6 +53,12 @@ export const Slider: React.FC<SliderProps> = (props) => {
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
 
+  // Listeners de arrasto ativos (no document). Se o componente desmontar no meio de
+  // um arrasto, o `pointerup` nunca chega ao onUp e os listeners ficariam pendurados,
+  // chamando valFromX com trackRef.current === null.
+  const dragCleanups = useRef(new Set<() => void>());
+  useEffect(() => () => { dragCleanups.current.forEach((limpar) => limpar()); }, []);
+
   const rangeValue = range ? (value as [number, number] | undefined) : undefined;
   const singleValue = !range ? (value as number | undefined) : undefined;
   const lo = range ? (rangeValue?.[0] ?? min) : (singleValue ?? min);
@@ -69,7 +75,7 @@ export const Slider: React.FC<SliderProps> = (props) => {
 
   const clamp = (v: number) => Math.min(max, Math.max(min, v));
   const snap  = (v: number) => Math.round((v - min) / step) * step + min;
-  const pct   = (v: number) => ((v - min) / (max - min)) * 100;
+  const pct   = (v: number) => (max === min ? 0 : ((v - min) / (max - min)) * 100);
   const fmt   = (v: number) => Number.isInteger(v) ? v : v.toFixed(1);
 
   const valFromX = (clientX: number) => {
@@ -97,10 +103,12 @@ export const Slider: React.FC<SliderProps> = (props) => {
     };
     const onUp = () => {
       draggingRef.current = null;
+      dragCleanups.current.delete(onUp);
       document.removeEventListener('pointermove', onMove);
       document.removeEventListener('pointerup', onUp);
       document.removeEventListener('pointercancel', onUp);
     };
+    dragCleanups.current.add(onUp);
     document.addEventListener('pointermove', onMove);
     document.addEventListener('pointerup', onUp);
     document.addEventListener('pointercancel', onUp);
