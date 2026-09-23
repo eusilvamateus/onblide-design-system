@@ -35,3 +35,5 @@ export * from './primitives/DeadlineCalendar/DeadlineCalendar';
 export * from './components/Select/Select';
 export * from './primitives/Input/Input';
 export * from './primitives/Icons/Icons';
+export * from './primitives/Brands/Brands';
+export * from './primitives/BrandTile/BrandTile';
