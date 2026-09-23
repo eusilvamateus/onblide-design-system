@@ -47,6 +47,7 @@ export const Chip: React.FC<ChipProps> = ({
       {label}
       {removable && (
         <button
+          type="button"
           onClick={e => { e.stopPropagation(); if (!disabled) onRemove?.(); }}
           aria-label={`Remover ${typeof label === 'string' ? label : ''}`}
           style={{
