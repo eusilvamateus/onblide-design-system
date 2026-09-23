@@ -32,4 +32,19 @@ if (!custom.includes('width:500px')) fail('width explícito deveria vencer o siz
 const semRodape = render({ open: true, title: 't' }, 'c');
 if (semRodape.includes('border-top:1px solid var(--ob-border)')) fail('sem footer não deveria renderizar o rodapé', semRodape);
 
-console.log('OK: Modal (fechado, aberto, tamanhos, largura explícita, rodapé opcional)');
+// Acessibilidade (Fase 3): role, aria-modal, título associado e botão de fechar com nome.
+const a11y = render({ open: true, title: 'Título' }, 'c');
+if (!a11y.includes('role="dialog"') || !a11y.includes('aria-modal="true"')) fail('role="dialog" / aria-modal', a11y);
+const rotulado = a11y.match(/aria-labelledby="([^"]+)"/);
+const idTitulo = a11y.match(/<h3 id="([^"]+)"/);
+if (!rotulado || !idTitulo || rotulado[1] !== idTitulo[1]) fail('aria-labelledby deveria apontar para o id do <h3>', a11y);
+if (!a11y.includes('aria-label="Fechar"')) fail('botão de fechar sem nome acessível', a11y);
+if (render({ open: true }, 'c').includes('aria-labelledby')) fail('sem título não deveria ter aria-labelledby');
+// Dois modais abertos na mesma página não podem compartilhar o id do título.
+const dois = renderToStaticMarkup(React.createElement('div', null,
+  React.createElement(Modal, { open: true, title: 'A' }, 'a'),
+  React.createElement(Modal, { open: true, title: 'B' }, 'b')));
+const ids = [...dois.matchAll(/<h3 id="([^"]+)"/g)].map((m) => m[1]);
+if (ids.length !== 2 || ids[0] === ids[1]) fail('ids de título deveriam ser únicos por instância', ids);
+
+console.log('OK: Modal (fechado, aberto, tamanhos, largura explícita, rodapé opcional, acessibilidade)');
