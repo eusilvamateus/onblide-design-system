@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.4.0
+
+### Minor Changes
+
+- Adiciona Icons, Brands, BrandTile, Link, Pagination e Modal (Fase 2, Lote C); Table aceita interface como tipo de linha e Select ganha props discriminadas por multi (onChange recebe string no modo simples e string[] no multi); migra components-link, components-pagination e components-modal.
+
 ## 0.3.1
 
 ### Patch Changes
