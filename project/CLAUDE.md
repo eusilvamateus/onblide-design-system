@@ -101,6 +101,17 @@ ainda, e a spec/plano de `@onblide/ui` já em andamento na Fase 1 ficam em ingl�
 fim dessa execução, para não arriscar quebrar a comparação literal que os revisores
 fazem contra o texto dos briefs extraídos do plano.
 
+## Preview de componentes portados para @onblide/ui
+
+As páginas `ds/components/components-checkbox.html`, `components-datepicker.html` e
+`components-dropdown.html` carregam `project/package/dist/onblide-ui.browser.js` — um
+arquivo gerado (`dist/` é git-ignored, não versionado). Antes de servir essas páginas
+num clone novo do repositório, rode uma vez:
+
+```bash
+cd project/package && npm install && npm run build
+```
+
 ## Implementation notes
 
 **UI icons** are loaded via `@phosphor-icons/web@2.1.2` (CSS webfont, regular weight) in the web app.

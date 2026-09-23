@@ -11,12 +11,15 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./styles.css": "./src/styles.css",
+    "./tokens.css": "./src/tokens.css"
   },
   "files": [
     "dist",
     "src/styles.css",
-    "src/tokens.css"
+    "src/tokens.css",
+    "src/fonts"
   ],
   "scripts": {
     "build": "tsup",
@@ -27,7 +30,7 @@
     "react-dom": "^18.3.1"
   },
   "dependencies": {
-    "@phosphor-icons/web": "^2.1.2"
+    "@phosphor-icons/web": "2.1.2"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.0",

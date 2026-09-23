@@ -7,6 +7,12 @@ import type { Plugin } from 'esbuild';
 // hooks (useState, useEffect, ...) run against the SAME React instance that
 // actually renders the page. Two separate React module instances in one page
 // is the classic cause of "Cannot read properties of null (reading 'useState')".
+// Note: this only intercepts exact bare specifiers ("react", "react-dom").
+// A future direct import of a subpath (react/jsx-runtime, react-dom/client,
+// ...) is not a regression risk, though: those entry points internally
+// require('react')/require('react-dom') with the bare specifier too, which
+// this plugin still catches — it would just add a little bundle size, not
+// reintroduce a second React instance.
 function externalGlobalPlugin(mapping: Record<string, string>): Plugin {
   return {
     name: 'external-global',
@@ -44,15 +50,16 @@ export default defineConfig([
     clean: false,
     minify: true,
     outDir: 'dist',
+    // Selects react/jsx-runtime's production build at build time and strips
+    // its "process.env.NODE_ENV" check — the browser has no `process` global,
+    // so without this the bundle throws "process is not defined" on load.
     define: { 'process.env.NODE_ENV': JSON.stringify('production') },
     esbuildPlugins: [
       externalGlobalPlugin({ react: 'window.React', 'react-dom': 'window.ReactDOM' }),
     ],
-    esbuildOptions(options) {
-      options.jsx = 'transform';
-      options.jsxFactory = 'React.createElement';
-      options.jsxFragment = 'React.Fragment';
-    },
+    // tsup/esbuild suffix iife/umd output with ".global.js" by default; the
+    // preview pages hardcode the plain "onblide-ui.browser.js" filename, so
+    // this keeps the plain extension instead.
     outExtension: () => ({
       js: '.js',
     }),
