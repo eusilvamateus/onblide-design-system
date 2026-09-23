@@ -54,10 +54,13 @@ de `src/primitives/badgeTones.ts` no Lote A): novo arquivo
   e **`Pagination`** (`Components.jsx:138-184`) — os três usam `Icons`
   (`Icons.x`, `Icons.caretL`/`caretR`, etc.), que só entra no Lote C. Ficam
   para lá (ou logo depois), junto de `Icons`/`Brands`.
-- **Lote C** (`Icons`, `Brands`, `OB_TOAST_POS`) — módulos de dados
-  tipados, sem ritual de verificação visual por item, spec própria.
-  `OB_TONES` sai desta lista (ver correção acima) — é portado neste Lote B,
-  não no C, porque 3 componentes deste lote já dependem dele.
+- **Lote C** (`Icons`, `Brands`) — módulos de dados tipados, sem ritual de
+  verificação visual por item, spec própria. `OB_TONES` e `OB_TOAST_POS`
+  saem desta lista (ver correção acima) — os dois são portados neste
+  Lote B como módulos internos compartilhados (`src/components/obTones.ts`,
+  `src/components/obToastPos.ts`), porque componentes deste próprio lote
+  (`Alert`/`Toast`/`ProgressBar` e `ToastStack`, respectivamente) já
+  dependem deles, mesmo raciocínio de `badgeTones.ts` no Lote A.
 - Tudo que já era não-objetivo nos lotes anteriores continua sendo:
   `Chrome.jsx`, `Screens.jsx`, `tweaks-panel.jsx`, `Logo`; suíte de testes
   automatizados; mudança de comportamento/visual de qualquer componente;
