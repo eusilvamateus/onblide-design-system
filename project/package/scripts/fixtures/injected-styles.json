@@ -1,0 +1,10 @@
+{
+  "ob-indet-kf": "@keyframes ob-indet{0%{left:-40%;width:40%}50%{width:55%}100%{left:100%;width:40%}}",
+  "ob-prim-kf": "@keyframes ob-spin{to{transform:rotate(360deg)}}@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}",
+  "ob-shake-kf": "@keyframes ob-shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}",
+  "ob-skeleton-kf": "@keyframes ob-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }",
+  "ob-spin-kf": "@keyframes ob-spin{to{transform:rotate(360deg)}}",
+  "ob-tip-kf": "@keyframes ob-tip { from { opacity: 0; } }",
+  "ob-toast-kf": "@keyframes ob-toast-in-top{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}@keyframes ob-toast-out-top{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-16px)}}@keyframes ob-toast-in-bottom{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes ob-toast-out-bottom{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(16px)}}",
+  "ob-toast-pos": "@media(max-width:600px){#ob-toast-stack{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100vw - 24px)!important;align-items:stretch!important}#ob-toast-stack[data-pos^=\"top\"]{top:16px!important;bottom:auto!important;flex-direction:column-reverse!important}#ob-toast-stack[data-pos^=\"bottom\"]{bottom:16px!important;top:auto!important;flex-direction:column!important}}"
+}
