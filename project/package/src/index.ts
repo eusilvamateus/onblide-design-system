@@ -17,3 +17,4 @@ export * from './primitives/Card/Card';
 export * from './primitives/Avatar/Avatar';
 export * from './primitives/Spinner/Spinner';
 export * from './primitives/ProgressCircle/ProgressCircle';
+export * from './primitives/Slider/Slider';
