@@ -12,3 +12,4 @@ export * from './components/Skeleton/Skeleton';
 export * from './components/Tooltip/Tooltip';
 export * from './components/Chip/Chip';
 export * from './primitives/StatusDot/StatusDot';
+export * from './primitives/Badge/Badge';
