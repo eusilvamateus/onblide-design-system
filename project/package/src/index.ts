@@ -28,3 +28,4 @@ export * from './components/CodeInput/CodeInput';
 export * from './components/SearchInput/SearchInput';
 export * from './components/SideNav/SideNav';
 export * from './components/Tabs/Tabs';
+export * from './components/Table/Table';
