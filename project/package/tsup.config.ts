@@ -21,6 +21,7 @@ export default defineConfig([
     clean: false,
     minify: true,
     outDir: 'dist',
+    define: { 'process.env.NODE_ENV': JSON.stringify('production') },
     outExtension: () => ({
       js: '.js',
     }),
