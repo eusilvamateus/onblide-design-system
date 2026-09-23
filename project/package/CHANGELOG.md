@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.3.0
+
+### Minor Changes
+
+- Adiciona Alert, ProgressBar, Toast, ToastStack, Drawer, CodeInput, SearchInput, SideNav, Tabs, Table, DeadlineCalendar, Select e Input (Fase 2, Lote B); migra components-slider.html.
+
 ## 0.2.0
 
 ### Minor Changes
