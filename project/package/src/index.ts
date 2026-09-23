@@ -22,3 +22,4 @@ export type { BadgeTone } from './primitives/badgeTones';
 export * from './components/Alert/Alert';
 export * from './components/ProgressBar/ProgressBar';
 export * from './components/Toast/Toast';
+export * from './components/ToastStack/ToastStack';
