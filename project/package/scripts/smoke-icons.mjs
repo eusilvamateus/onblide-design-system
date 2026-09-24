@@ -3,7 +3,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Icons } from '../dist/index.js';
 
-// Tabela independente (copiada do legado, Primitives.jsx:33-60): chave da API -> glifo Phosphor.
+// Tabela independente (conferida contra o UI kit antigo na Fase 4, antes da remoção): chave da API -> glifo Phosphor.
 const esperado = {
   search: 'magnifying-glass', house: 'house', user: 'user', chart: 'chart-line',
   gear: 'gear', bell: 'bell', plus: 'plus', check: 'check', x: 'x',
@@ -21,7 +21,7 @@ function fail(msg, extra) {
 
 const chaves = Object.keys(esperado).sort().join(',');
 const reais = Object.keys(Icons).sort().join(',');
-if (chaves !== reais) fail('conjunto de chaves de Icons difere do legado', { esperado: chaves, reais });
+if (chaves !== reais) fail('conjunto de chaves de Icons difere da tabela', { esperado: chaves, reais });
 if (Object.keys(esperado).length !== 28) fail('a tabela esperada deveria ter 28 ícones');
 
 for (const [chave, glifo] of Object.entries(esperado)) {

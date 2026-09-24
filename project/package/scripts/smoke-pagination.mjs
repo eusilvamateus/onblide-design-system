@@ -12,9 +12,9 @@ const render = (props) => renderToStaticMarkup(React.createElement(Pagination, p
 const rotulos = (html) => [...html.matchAll(/>([^<]+)<\/(?:button|span)>/g)].map((m) => m[1]);
 const desabilitados = (html) => (html.match(/disabled=""/g) || []).length;
 
-// Algoritmo do ORIGINAL (Components.jsx) em Node puro. O legado fazia
-// `[...new Set(pages)]`, que também colapsava os DOIS '…' em um só.
-function legado({ page = 1, total = 10, siblings = 1 }) {
+// Algoritmo de antes da Fase 3 (até a 0.4.0), congelado aqui como referência.
+// Ele fazia `[...new Set(pages)]`, que também colapsava os DOIS '…' em um só.
+function ate040({ page = 1, total = 10, siblings = 1 }) {
   const range = (s, e) => Array.from({ length: e - s + 1 }, (_, i) => s + i);
   let pages = [];
   const left = Math.max(2, page - siblings);
@@ -43,15 +43,15 @@ function corrigido({ page = 1, total = 10, siblings = 1 }) {
   return pages.map(String);
 }
 
-// Única mudança de comportamento da Fase 3: corrigido == legado, exceto que o
+// Única mudança de comportamento da Fase 3: corrigido == ate040, exceto que o
 // segundo '…' volta a existir. Provado por varredura em todo o espaço de uso.
 for (const total of [1, 2, 3, 5, 7, 10, 20, 50]) {
   for (const siblings of [0, 1, 2]) {
     for (let page = 1; page <= total; page++) {
       const novo = corrigido({ page, total, siblings });
-      const antigo = legado({ page, total, siblings });
+      const antigo = ate040({ page, total, siblings });
       const semDuplicata = novo.filter((r, i) => r !== '…' || novo.indexOf('…') === i);
-      if (semDuplicata.join('|') !== antigo.join('|')) fail(`corrigido diverge do legado além das reticências: page=${page} total=${total} siblings=${siblings}`, { novo, antigo });
+      if (semDuplicata.join('|') !== antigo.join('|')) fail(`corrigido diverge da 0.4.0 além das reticências: page=${page} total=${total} siblings=${siblings}`, { novo, antigo });
     }
   }
 }

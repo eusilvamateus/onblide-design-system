@@ -8,26 +8,20 @@ function fail(msg, extra) {
   process.exit(1);
 }
 
-// Dados lidos do ORIGINAL (Primitives.jsx), nao do porte.
-const src = fs.readFileSync(new URL('../../ui_kits/web_app/Primitives.jsx', import.meta.url), 'utf8');
-const bloco = src.slice(src.indexOf('const Brands = {'), src.indexOf('const BrandTile'));
-const re = /^  (\w+): \{\s*\n\s*name: '([^']*)', hex: '([^']*)', cat: '([^']*)',\s*\n\s*desc: '([^']*)',/gm;
-const esperado = {};
-let m;
-while ((m = re.exec(bloco))) esperado[m[1]] = { name: m[2], hex: m[3], cat: m[4], desc: m[5] };
-if (Object.keys(esperado).length !== 7) fail('parse do original nao achou 7 marcas', Object.keys(esperado));
+// Dados e marcas congelados em scripts/fixtures/brands.json (gerado na Fase 4,
+// antes da remoção do UI kit antigo, renderizando o original em Node).
+const esperado = JSON.parse(fs.readFileSync(new URL('./fixtures/brands.json', import.meta.url), 'utf8'));
+if (Object.keys(esperado).length !== 7) fail('a fixture deveria ter 7 marcas', Object.keys(esperado));
 
 if (Object.keys(Brands).sort().join(',') !== Object.keys(esperado).sort().join(',')) {
-  fail('conjunto de marcas difere do legado', Object.keys(Brands));
+  fail('conjunto de marcas difere da fixture', Object.keys(Brands));
 }
 
 for (const [chave, d] of Object.entries(esperado)) {
   const b = Brands[chave];
   if (b.name !== d.name || b.hex !== d.hex || b.cat !== d.cat || b.desc !== d.desc) fail(`dados de ${chave} divergem`, b);
-  for (const s of [24, 40]) {
-    const svg = renderToStaticMarkup(b.mark(s));
-    if (!svg.startsWith(`<svg width="${s}" height="${s}" viewBox="0 0 24 24">`)) fail(`mark(${s}) de ${chave} com cabecalho inesperado`, svg);
-  }
+  if (renderToStaticMarkup(b.mark(24)) !== d.mark24) fail(`mark(24) de ${chave} diverge da fixture`);
+  if (renderToStaticMarkup(b.mark(40)) !== d.mark40) fail(`mark(40) de ${chave} diverge da fixture`);
 }
 
 const tile = renderToStaticMarkup(React.createElement(BrandTile, { brand: 'github' }));
