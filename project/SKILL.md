@@ -18,6 +18,7 @@ If the user invokes this skill without any other guidance, ask them what they wa
 - **Fonts:** Poppins (UI/body, 300–800) · Playfair Display (editorial/italic accents) · JetBrains Mono (code, tokens, eyebrow labels)
 - **Radii:** 8–12px register; 12px default
 - **Components (30):** Button · Input · Badge · Status dot · Chip · Card · Datepicker · Deadline calendar · Dropdown · Select · Modal · Drawer · Toggle · Radio · Checkbox · Pagination · Skeleton · Link · Tooltip · Code Input · Search Input · Alert · Toast · Progress Bar · Side Navigation · Tabs · Table · Slider · Spinner · ProgressCircle
-- **Shared primitives:** `FieldShell` (field surface — border, radius, focus ring, error, disabled) · `FloatingPanel` (floating list surface) · `OB_TONES` (info/success/warning/danger) · `Slider` (single + range, tone-aware, pointer-captured drag).
+- **Shared primitives:** `FieldShell` (field surface — border, radius, focus ring, error, disabled) · `FloatingPanel` (floating list surface) · tons semânticos `OBTone` (info/success/warning/danger) · `Slider` (single + range, tone-aware, pointer-captured drag).
+- **Código:** `@onblide/ui` em `package/` — 40 exports de runtime (componentes, `Icons`, `Brands`, `Logo`, `Ph`), fonte única dos componentes das páginas de preview e do web app; valide com `npm run verify`.
 - **Iconography:** Phosphor only (regular weight) — never mix icon libraries; UI icons via `@phosphor-icons/web`, ~18–20px nav, 16px inline, 32–40px empty states. See `CLAUDE.md`.
 - **Voice:** PT-BR, conversational, sentence case, no emoji

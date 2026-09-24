@@ -35,7 +35,7 @@ export const Exemplo = () => (
 `react` e `react-dom` (^18.3.1) são peer dependencies. O pacote também exporta
 `@onblide/ui/tokens.css` (só os tokens) e `@onblide/ui/styles.css` (tokens + Phosphor).
 
-### Como bundle de navegador (páginas de preview)
+### Como bundle de navegador (páginas de preview e web app)
 
 `dist/onblide-ui.browser.js` é um IIFE que registra todos os componentes como globais em
 `window` (`Button`, `Select`, ...). Carregue-o **depois** de React e ReactDOM (UMD), pois ele
@@ -62,11 +62,11 @@ ele precisa estar carregado na página, senão os ícones aparecem vazios.
 
 ### `Ph` ou `Icons`?
 
-Os dois existem e nenhum foi removido:
+Os dois existem, e `Icons` é construído sobre `Ph`:
 
 - **`Icons`**: registro com 28 ícones semânticos (`Icons.check`, `Icons.caretR`, ...). Cada
   entrada é uma função: `<Icons.check size={16} />` ou `Icons.check({ size: 16 })`. Tamanho
-  padrão 20; a cor vem de `style`. Use para os ícones do registro, porque trocar o peso ou a
+  padrão 20; a cor vem de `style`; a marcação é a mesma de `<Ph n="…" size={20} />`. Use para os ícones do registro, porque trocar o peso ou a
   fonte dos ícones num lugar só é a regra do projeto (`project/CLAUDE.md`). `Link`,
   `Pagination` e `Modal` usam `Icons`.
 - **`Ph`**: `<Ph n="check" size={18} c="var(--ob-blue)" />` renderiza qualquer glifo Phosphor
@@ -74,6 +74,12 @@ Os dois existem e nenhum foi removido:
   no registro. `Alert`, `Checkbox`, `SearchInput`, `Select`, `SideNav`, `Tabs` e `Toast` usam
   `Ph`; `Chip`, `SearchInput` (ícone de carregamento) e `DeadlineCalendar` montam o
   `<i class="ph ph-...">` diretamente.
+
+## Marca
+
+`<Logo />` renderiza o lockup horizontal da marca (SVG inline, cores pelos tokens `--ob-*`, então
+acompanha o tema claro/escuro). `size` é a altura em px (padrão 28). As demais variantes (empilhada,
+símbolo, em arquivo) ficam em `project/assets/`.
 
 ## Efeitos colaterais no import
 

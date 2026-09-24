@@ -35,8 +35,8 @@ icon set, and no ad-hoc hand-drawn SVG icons.
    a different shape or a different library's version.
 4. Brand/company logos: Phosphor's brand-logo set (e.g. SpotifyLogo, SlackLogo, GithubLogo) is the
    source for those too. Keep them recognizable and on-brand (authentic colors/shapes).
-5. Centralize icons behind a single icon component/registry (e.g. the `Icons` object in the web-app
-   UI kit) so the whole system can change weight, size, or source in one place. Don't scatter raw
+5. Centralize icons behind a single icon component/registry (e.g. the `Icons` registry of
+   `@onblide/ui`, built on `Ph`) so the whole system can change weight, size, or source in one place. Don't scatter raw
    icon markup across files.
 
 ## Git workflow
@@ -116,11 +116,16 @@ as 12 do Lote B (`components-alert.html`, `components-progressbar.html`, `compon
 as 3 do Lote C (`components-link.html`, `components-pagination.html`, `components-modal.html`).
 Para achar a lista atualizada a qualquer momento: `grep -rl onblide-ui.browser.js ds/components/`.
 
+O web app (`ui_kits/web_app/index.html`) também carrega esse bundle, logo depois do Babel
+standalone: `Chrome.jsx`, `Screens.jsx` e `tweaks-panel.jsx` usam os componentes do pacote
+(`Button`, `Card`, `Icons`, `Logo`, ...) como globais. O pacote é a única fonte dos componentes;
+não existe mais um UI kit paralelo em JSX.
+
 O comentário `<!-- @dsCard group="…" name="…" -->` de cada página de preview deve ficar na
 **primeira linha** do HTML, antes do `<!doctype html>`: o Design System pane (`/design-sync`) monta
 o índice de cards lendo só essa linha (regra da ferramenta `DesignSync`).
 
-Sem o `dist/` gerado, qualquer uma dessas páginas abre em branco, sem explicação no HTML.
+Sem o `dist/` gerado, qualquer uma dessas páginas — e o web app — abre em branco, sem explicação no HTML.
 Antes de servir essas páginas num clone novo do repositório, rode uma vez:
 
 ```bash
@@ -140,9 +145,12 @@ npm run verify   # typecheck (src) → build → typecheck:dist (tipos como o co
 - `npm run smoke` roda todos os `scripts/smoke-*.mjs` (falha se nenhum for encontrado). O golden do
   CSS injetado (`scripts/fixtures/injected-styles.json`) só muda de propósito, com
   `node scripts/smoke-injected-styles.mjs --update`.
+- `scripts/smoke-web-app.mjs` executa em Node o bundle e os scripts do web app (JSX transformado pelo
+  `esbuild` que vem com o `tsup`) e falha se o app usar um componente que o pacote não exporta.
+  `scripts/fixtures/brands.json` e `logo.json` congelam a marcação das marcas e do `Logo`.
 - **Nenhum agente abre, fecha ou encerra Chrome/Edge** (nem headless, CDP ou `taskkill`) nem usa
   `mcp__claude-in-chrome__*`: uma verificação headless já encerrou o navegador do usuário e
-  destruiu o trabalho manual dele. A conferência visual das páginas de preview é do usuário.
+  destruiu o trabalho manual dele. A conferência visual das páginas de preview e do web app é do usuário.
 
 ## Implementation notes
 

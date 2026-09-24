@@ -19,7 +19,8 @@ The design system in this folder powers the Onblide web app, slide template, and
 | `ds/foundations/` | Foundation cards: color, type semantics, spacing, radii, shadows, iconography, brand |
 | `ds/components/` | Component specs: buttons, inputs, badges, status dots, cards, datepicker, deadline calendar, dropdown, modal, drawer, toggle, radio, checkbox, pagination, skeleton, link, tooltip, code-input, search-input, alert, toast, progressbar, side-nav, select, tabs, table + dark theme |
 | `ds/docs/` | Per-component documentation (usage · formatting · content · design guidance) |
-| `ui_kits/web_app/` | Click-through dashboard (Início · Tarefas · Métricas · Integrações · Ajustes) with light/dark theme — components live natively in real screens |
+| `package/` | `@onblide/ui` — biblioteca React/TypeScript com todos os componentes, `Icons`, `Brands` e `Logo`; `npm run build` gera `dist/onblide-ui.browser.js`, carregado pelas páginas de `ds/components/` e pelo web app |
+| `ui_kits/web_app/` | Click-through dashboard (Início · Tarefas · Métricas · Integrações · Ajustes) with light/dark theme — as telas usam os componentes do `@onblide/ui` (rode o build do pacote antes de abrir) |
 | `slides/` | 8-slide template (title · agenda · section · content · comparison · stats · quote · closing) at 1280×720 |
 | `export/` | Export HTML autocontido do slide deck (`Onblide-Slide-Deck.html`) |
 | `SKILL.md` | Cross-compatible Skill manifest if you want to use this in Claude Code |
