@@ -35,7 +35,7 @@ export const Exemplo = () => (
 `react` e `react-dom` (^18.3.1) são peer dependencies. O pacote também exporta
 `@onblide/ui/tokens.css` (só os tokens) e `@onblide/ui/styles.css` (tokens + Phosphor).
 
-### Como bundle de navegador (páginas de preview)
+### Como bundle de navegador (páginas de preview e web app)
 
 `dist/onblide-ui.browser.js` é um IIFE que registra todos os componentes como globais em
 `window` (`Button`, `Select`, ...). Carregue-o **depois** de React e ReactDOM (UMD), pois ele

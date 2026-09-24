@@ -3,7 +3,7 @@
 ## No legacy left behind
 
 Whenever **any** part of the design system changes — a token, a component, a foundation,
-a doc, the package, the README — you MUST leave **zero** legacy files or dead
+a doc, the web app, the package, the README — you MUST leave **zero** legacy files or dead
 code behind. The system's own files must always reflect the system's current state; a
 design system whose own artifacts don't follow it is broken.
 
@@ -11,7 +11,7 @@ design system whose own artifacts don't follow it is broken.
 1. Delete superseded/orphaned files and unregister their manifest entries (don't just stop
    linking them).
 2. Update every downstream artifact that depends on what changed — including compiled/
-   exported snapshots, the preview pages, `README.md` and `SKILL.md`.
+   exported snapshots, the web app, the preview pages, `README.md` and `SKILL.md`.
    Regenerate standalone bundles so they match the live source.
 3. Grep the whole project for stale references (old filenames, old values, renamed folders,
    replaced libraries) and fix or remove every hit.
@@ -116,11 +116,16 @@ as 12 do Lote B (`components-alert.html`, `components-progressbar.html`, `compon
 as 3 do Lote C (`components-link.html`, `components-pagination.html`, `components-modal.html`).
 Para achar a lista atualizada a qualquer momento: `grep -rl onblide-ui.browser.js ds/components/`.
 
+O web app (`ui_kits/web_app/index.html`) também carrega esse bundle, logo depois do Babel
+standalone: `Chrome.jsx`, `Screens.jsx` e `tweaks-panel.jsx` usam os componentes do pacote
+(`Button`, `Card`, `Icons`, `Logo`, ...) como globais. O pacote é a única fonte dos componentes;
+não existe mais um UI kit paralelo em JSX.
+
 O comentário `<!-- @dsCard group="…" name="…" -->` de cada página de preview deve ficar na
 **primeira linha** do HTML, antes do `<!doctype html>`: o Design System pane (`/design-sync`) monta
 o índice de cards lendo só essa linha (regra da ferramenta `DesignSync`).
 
-Sem o `dist/` gerado, qualquer uma dessas páginas abre em branco, sem explicação no HTML.
+Sem o `dist/` gerado, qualquer uma dessas páginas — e o web app — abre em branco, sem explicação no HTML.
 Antes de servir essas páginas num clone novo do repositório, rode uma vez:
 
 ```bash
@@ -140,14 +145,16 @@ npm run verify   # typecheck (src) → build → typecheck:dist (tipos como o co
 - `npm run smoke` roda todos os `scripts/smoke-*.mjs` (falha se nenhum for encontrado). O golden do
   CSS injetado (`scripts/fixtures/injected-styles.json`) só muda de propósito, com
   `node scripts/smoke-injected-styles.mjs --update`.
-- `scripts/fixtures/brands.json` e `logo.json` congelam a marcação das marcas e do `Logo`.
+- `scripts/smoke-web-app.mjs` executa em Node o bundle e os scripts do web app (JSX transformado pelo
+  `esbuild` que vem com o `tsup`) e falha se o app usar um componente que o pacote não exporta.
+  `scripts/fixtures/brands.json` e `logo.json` congelam a marcação das marcas e do `Logo`.
 - **Nenhum agente abre, fecha ou encerra Chrome/Edge** (nem headless, CDP ou `taskkill`) nem usa
   `mcp__claude-in-chrome__*`: uma verificação headless já encerrou o navegador do usuário e
-  destruiu o trabalho manual dele. A conferência visual das páginas de preview é do usuário.
+  destruiu o trabalho manual dele. A conferência visual das páginas de preview e do web app é do usuário.
 
 ## Implementation notes
 
-**UI icons** are loaded via `@phosphor-icons/web@2.1.2` (CSS webfont, regular weight) in the preview pages.
+**UI icons** are loaded via `@phosphor-icons/web@2.1.2` (CSS webfont, regular weight) in the web app.
 This covers all interface icons (`ph-house`, `ph-gear`, `ph-check`, etc.).
 
 **Brand logos** (`ph-spotify-logo`, `ph-slack-logo`, etc.) are NOT included in the webfont CSS —

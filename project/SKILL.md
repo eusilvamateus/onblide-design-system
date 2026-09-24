@@ -4,9 +4,9 @@ description: Use this skill to generate well-branded interfaces and assets for O
 user-invocable: true
 ---
 
-Read the `README.md` and `CLAUDE.md` files within this skill, and explore the other available files (`colors_and_type.css`, `assets/`, `ds/` — foundations + components + docs, `package/`).
+Read the `README.md` and `CLAUDE.md` files within this skill, and explore the other available files (`colors_and_type.css`, `assets/`, `ds/` — foundations + components + docs, `ui_kits/`).
 
-If creating visual artifacts (slides, mocks, throwaway prototypes, etc), copy assets out and create static HTML files for the user to view. Reuse the components of `@onblide/ui` (`package/`): load `package/dist/onblide-ui.browser.js` after `npm run build`, as the preview pages in `ds/components/` do.
+If creating visual artifacts (slides, mocks, throwaway prototypes, etc), copy assets out and create static HTML files for the user to view. The web-app UI kit at `ui_kits/web_app/` is a click-through reference built on `@onblide/ui` (`package/`) — reuse the package's components (load `package/dist/onblide-ui.browser.js` after `npm run build`, as the app does) and copy `Chrome.jsx` when prototyping app-style interfaces.
 
 If working on production code, you can copy assets and read the rules here to become an expert in designing with this brand. The single source of truth for tokens is `colors_and_type.css`.
 
@@ -19,6 +19,6 @@ If the user invokes this skill without any other guidance, ask them what they wa
 - **Radii:** 8–12px register; 12px default
 - **Components (30):** Button · Input · Badge · Status dot · Chip · Card · Datepicker · Deadline calendar · Dropdown · Select · Modal · Drawer · Toggle · Radio · Checkbox · Pagination · Skeleton · Link · Tooltip · Code Input · Search Input · Alert · Toast · Progress Bar · Side Navigation · Tabs · Table · Slider · Spinner · ProgressCircle
 - **Shared primitives:** `FieldShell` (field surface — border, radius, focus ring, error, disabled) · `FloatingPanel` (floating list surface) · tons semânticos `OBTone` (info/success/warning/danger) · `Slider` (single + range, tone-aware, pointer-captured drag).
-- **Código:** `@onblide/ui` em `package/` — 40 exports de runtime (componentes, `Icons`, `Brands`, `Logo`, `Ph`), fonte única dos componentes das páginas de preview; valide com `npm run verify`.
+- **Código:** `@onblide/ui` em `package/` — 40 exports de runtime (componentes, `Icons`, `Brands`, `Logo`, `Ph`), fonte única dos componentes das páginas de preview e do web app; valide com `npm run verify`.
 - **Iconography:** Phosphor only (regular weight) — never mix icon libraries; UI icons via `@phosphor-icons/web`, ~18–20px nav, 16px inline, 32–40px empty states. See `CLAUDE.md`.
 - **Voice:** PT-BR, conversational, sentence case, no emoji
