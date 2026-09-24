@@ -129,7 +129,7 @@ Geometric / abstract shapes only. Composed from circles, squares, pills, arcs an
 
 **Phosphor only.** The brand uses **Phosphor (regular weight)** as its single icon system — no other library, ever. This is a hard rule, documented in `CLAUDE.md` and specced in `ds/foundations/iconography.html`.
 
-- **UI icons** are loaded from the official `@phosphor-icons/web@2.1.2` CSS webfont (`<i class="ph ph-house">`), centralized behind the `Icons` registry in `ui_kits/web_app/Primitives.jsx` so weight, size, or source can change in one place.
+- **UI icons** are loaded from the official `@phosphor-icons/web@2.1.2` CSS webfont (`<i class="ph ph-house">`), centralized behind the `Icons` registry of `@onblide/ui` (`package/src/primitives/Icons/Icons.tsx`, built on `Ph`) so weight, size, or source can change in one place.
 - **Brand logos** (Spotify, Slack, GitHub, etc.) come from Phosphor's brand-logo set. Marks not yet in the webfont are reproduced faithfully in the Phosphor glyph style, pending migration to `@phosphor-icons/react`.
 
 **Rules**
@@ -143,6 +143,6 @@ Geometric / abstract shapes only. Composed from circles, squares, pills, arcs an
 ## Caveats &amp; substitutions
 
 - **Fonts:** Poppins, Playfair Display and JetBrains Mono are now **self-hosted** as `.ttf` files in `fonts/`, wired via `@font-face` in `colors_and_type.css`. No external font CDN is required.
-- **Logo:** The real brand mark lives in `assets/` as three lockups (horizontal, stacked, symbol), each in `primary`, `white` and `dark`. The `Logo` component in `ui_kits/web_app/Primitives.jsx` inlines the horizontal lockup with token-driven fills so it adapts to light/dark; `ds/foundations/brand-logo.html` shows every variant.
+- **Logo:** The real brand mark lives in `assets/` as three lockups (horizontal, stacked, symbol), each in `primary`, `white` and `dark`. The `Logo` component of `@onblide/ui` (`package/src/primitives/Logo/Logo.tsx`) inlines the horizontal lockup with token-driven fills so it adapts to light/dark; `ds/foundations/brand-logo.html` shows every variant.
 - **Brand logos:** Third-party brand marks in the Integrations hub are faithful Phosphor-style reproductions; swap for the official `@phosphor-icons/react` glyphs once a bundler is in place.
 - **Brand voice samples:** Copywriting examples are guesses based on the "bold &amp; energetic + conversational" direction. Treat them as a starting register, not a locked guideline.

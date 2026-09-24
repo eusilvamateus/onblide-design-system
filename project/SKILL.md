@@ -6,7 +6,7 @@ user-invocable: true
 
 Read the `README.md` and `CLAUDE.md` files within this skill, and explore the other available files (`colors_and_type.css`, `assets/`, `ds/` — foundations + components + docs, `ui_kits/`, `slides/`).
 
-If creating visual artifacts (slides, mocks, throwaway prototypes, etc), copy assets out and create static HTML files for the user to view. The web-app UI kit at `ui_kits/web_app/` is a click-through reference — copy its primitives (`Primitives.jsx`, `Chrome.jsx`) when prototyping app-style interfaces; copy `slides/index.html` as the starting point for any deck.
+If creating visual artifacts (slides, mocks, throwaway prototypes, etc), copy assets out and create static HTML files for the user to view. The web-app UI kit at `ui_kits/web_app/` is a click-through reference built on `@onblide/ui` (`package/`) — reuse the package's components (load `package/dist/onblide-ui.browser.js` after `npm run build`, as the app does) and copy `Chrome.jsx` when prototyping app-style interfaces; copy `slides/index.html` as the starting point for any deck.
 
 If working on production code, you can copy assets and read the rules here to become an expert in designing with this brand. The single source of truth for tokens is `colors_and_type.css`.
 
