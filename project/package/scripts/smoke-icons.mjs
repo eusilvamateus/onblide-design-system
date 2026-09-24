@@ -1,7 +1,7 @@
 // project/package/scripts/smoke-icons.mjs
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Icons } from '../dist/index.js';
+import { Icons, Ph } from '../dist/index.js';
 
 // Tabela independente (conferida contra o UI kit antigo na Fase 4, antes da remoção): chave da API -> glifo Phosphor.
 const esperado = {
@@ -38,5 +38,12 @@ if (!padrao.includes('font-size:20px')) fail('tamanho padrão deveria ser 20px',
 // style repassado e mesclado depois dos estilos base.
 const comStyle = renderToStaticMarkup(Icons.plus({ size: 12, style: { color: 'red' } }));
 if (!comStyle.includes('color:red') || !comStyle.includes('font-size:12px')) fail('style/size não repassados', comStyle);
+
+// Icons é construído sobre Ph: cada entrada renderiza exatamente o <Ph> do glifo,
+// com o tamanho padrão 20 do registro (o padrão do Ph sozinho é 18).
+for (const [chave, glifo] of Object.entries(esperado)) {
+  const viaPh = renderToStaticMarkup(React.createElement(Ph, { n: glifo, size: 20 }));
+  if (renderToStaticMarkup(Icons[chave]()) !== viaPh) fail(`Icons.${chave} deveria renderizar como <Ph n="${glifo}" size={20}/>`, renderToStaticMarkup(Icons[chave]()));
+}
 
 console.log('OK: 28 ícones mapeiam para os glifos Phosphor esperados');

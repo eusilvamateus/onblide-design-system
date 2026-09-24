@@ -1,6 +1,6 @@
 // project/package/src/primitives/Icons/Icons.tsx
 import React from 'react';
-import { PhIcon } from './PhIcon';
+import { Ph } from '../../components/Ph/Ph';
 
 export interface IconProps {
   size?: number;
@@ -16,32 +16,32 @@ export type IconName =
 export type IconComponent = (p?: IconProps) => React.ReactElement;
 
 export const Icons: Record<IconName, IconComponent> = {
-  search:         (p = {}) => <PhIcon name="magnifying-glass"    size={p.size} style={p.style}/>,
-  house:          (p = {}) => <PhIcon name="house"               size={p.size} style={p.style}/>,
-  user:           (p = {}) => <PhIcon name="user"                size={p.size} style={p.style}/>,
-  chart:          (p = {}) => <PhIcon name="chart-line"          size={p.size} style={p.style}/>,
-  gear:           (p = {}) => <PhIcon name="gear"                size={p.size} style={p.style}/>,
-  bell:           (p = {}) => <PhIcon name="bell"                size={p.size} style={p.style}/>,
-  plus:           (p = {}) => <PhIcon name="plus"                size={p.size} style={p.style}/>,
-  check:          (p = {}) => <PhIcon name="check"               size={p.size} style={p.style}/>,
-  x:              (p = {}) => <PhIcon name="x"                   size={p.size} style={p.style}/>,
-  arrowR:         (p = {}) => <PhIcon name="arrow-right"         size={p.size} style={p.style}/>,
-  caretD:         (p = {}) => <PhIcon name="caret-down"          size={p.size} style={p.style}/>,
-  caretL:         (p = {}) => <PhIcon name="caret-left"          size={p.size} style={p.style}/>,
-  caretR:         (p = {}) => <PhIcon name="caret-right"         size={p.size} style={p.style}/>,
-  folder:         (p = {}) => <PhIcon name="folder"              size={p.size} style={p.style}/>,
-  file:           (p = {}) => <PhIcon name="file"                size={p.size} style={p.style}/>,
-  calendar:       (p = {}) => <PhIcon name="calendar"            size={p.size} style={p.style}/>,
-  kanban:         (p = {}) => <PhIcon name="kanban"              size={p.size} style={p.style}/>,
-  bolt:           (p = {}) => <PhIcon name="lightning"           size={p.size} style={p.style}/>,
-  chat:           (p = {}) => <PhIcon name="chat-text"           size={p.size} style={p.style}/>,
-  logout:         (p = {}) => <PhIcon name="sign-out"            size={p.size} style={p.style}/>,
-  star:           (p = {}) => <PhIcon name="star"                size={p.size} style={p.style}/>,
-  heart:          (p = {}) => <PhIcon name="heart"               size={p.size} style={p.style}/>,
-  more:           (p = {}) => <PhIcon name="dots-three"          size={p.size} style={p.style}/>,
-  grid:           (p = {}) => <PhIcon name="squares-four"        size={p.size} style={p.style}/>,
-  sync:           (p = {}) => <PhIcon name="arrows-clockwise"    size={p.size} style={p.style}/>,
-  link:           (p = {}) => <PhIcon name="link"                size={p.size} style={p.style}/>,
-  info:           (p = {}) => <PhIcon name="info"                size={p.size} style={p.style}/>,
-  arrowSquareOut: (p = {}) => <PhIcon name="arrow-square-out"    size={p.size} style={p.style}/>,
+  search:         (p = {}) => <Ph n="magnifying-glass"    size={p.size ?? 20} style={p.style}/>,
+  house:          (p = {}) => <Ph n="house"               size={p.size ?? 20} style={p.style}/>,
+  user:           (p = {}) => <Ph n="user"                size={p.size ?? 20} style={p.style}/>,
+  chart:          (p = {}) => <Ph n="chart-line"          size={p.size ?? 20} style={p.style}/>,
+  gear:           (p = {}) => <Ph n="gear"                size={p.size ?? 20} style={p.style}/>,
+  bell:           (p = {}) => <Ph n="bell"                size={p.size ?? 20} style={p.style}/>,
+  plus:           (p = {}) => <Ph n="plus"                size={p.size ?? 20} style={p.style}/>,
+  check:          (p = {}) => <Ph n="check"               size={p.size ?? 20} style={p.style}/>,
+  x:              (p = {}) => <Ph n="x"                   size={p.size ?? 20} style={p.style}/>,
+  arrowR:         (p = {}) => <Ph n="arrow-right"         size={p.size ?? 20} style={p.style}/>,
+  caretD:         (p = {}) => <Ph n="caret-down"          size={p.size ?? 20} style={p.style}/>,
+  caretL:         (p = {}) => <Ph n="caret-left"          size={p.size ?? 20} style={p.style}/>,
+  caretR:         (p = {}) => <Ph n="caret-right"         size={p.size ?? 20} style={p.style}/>,
+  folder:         (p = {}) => <Ph n="folder"              size={p.size ?? 20} style={p.style}/>,
+  file:           (p = {}) => <Ph n="file"                size={p.size ?? 20} style={p.style}/>,
+  calendar:       (p = {}) => <Ph n="calendar"            size={p.size ?? 20} style={p.style}/>,
+  kanban:         (p = {}) => <Ph n="kanban"              size={p.size ?? 20} style={p.style}/>,
+  bolt:           (p = {}) => <Ph n="lightning"           size={p.size ?? 20} style={p.style}/>,
+  chat:           (p = {}) => <Ph n="chat-text"           size={p.size ?? 20} style={p.style}/>,
+  logout:         (p = {}) => <Ph n="sign-out"            size={p.size ?? 20} style={p.style}/>,
+  star:           (p = {}) => <Ph n="star"                size={p.size ?? 20} style={p.style}/>,
+  heart:          (p = {}) => <Ph n="heart"               size={p.size ?? 20} style={p.style}/>,
+  more:           (p = {}) => <Ph n="dots-three"          size={p.size ?? 20} style={p.style}/>,
+  grid:           (p = {}) => <Ph n="squares-four"        size={p.size ?? 20} style={p.style}/>,
+  sync:           (p = {}) => <Ph n="arrows-clockwise"    size={p.size ?? 20} style={p.style}/>,
+  link:           (p = {}) => <Ph n="link"                size={p.size ?? 20} style={p.style}/>,
+  info:           (p = {}) => <Ph n="info"                size={p.size ?? 20} style={p.style}/>,
+  arrowSquareOut: (p = {}) => <Ph n="arrow-square-out"    size={p.size ?? 20} style={p.style}/>,
 };
