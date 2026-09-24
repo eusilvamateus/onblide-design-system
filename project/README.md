@@ -21,7 +21,7 @@ The design system in this folder powers the Onblide web app, slide template, and
 | `ds/docs/` | Per-component documentation (usage · formatting · content · design guidance) |
 | `ui_kits/web_app/` | Click-through dashboard (Início · Tarefas · Métricas · Integrações · Ajustes) with light/dark theme — components live natively in real screens |
 | `slides/` | 8-slide template (title · agenda · section · content · comparison · stats · quote · closing) at 1280×720 |
-| `export/` | Standalone, self-contained HTML exports of the web app and slide deck |
+| `export/` | Export HTML autocontido do slide deck (`Onblide-Slide-Deck.html`) |
 | `SKILL.md` | Cross-compatible Skill manifest if you want to use this in Claude Code |
 
 ---
