@@ -8,8 +8,8 @@
     "css": "@keyframes ob-tip { from { opacity: 0; } }"
   },
   {
-    "id": "ob-prim-kf",
-    "css": "@keyframes ob-spin{to{transform:rotate(360deg)}}@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}"
+    "id": "ob-spin-kf",
+    "css": "@keyframes ob-spin{to{transform:rotate(360deg)}}"
   },
   {
     "id": "ob-indet-kf",
@@ -28,8 +28,8 @@
     "css": "@keyframes ob-shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}"
   },
   {
-    "id": "ob-spin-kf",
-    "css": "@keyframes ob-spin{to{transform:rotate(360deg)}}"
+    "id": "ob-pulse-kf",
+    "css": "@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}"
   },
   {
     "id": "ob-modal-kf",

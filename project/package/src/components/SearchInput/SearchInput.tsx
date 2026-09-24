@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FieldShell } from '../../primitives/FieldShell/FieldShell';
 import { FloatingPanel } from '../FloatingPanel/FloatingPanel';
 import { Ph } from '../Ph/Ph';
-import { injectStyleOnce } from '../../internal/injectStyleOnce';
+import { injectSpinKeyframes } from '../../internal/keyframes';
 
 export interface SearchInputResult {
   label: string;
@@ -52,8 +52,4 @@ export const SearchInput: React.FC<SearchInputProps> = ({ value = '', onChange, 
   );
 };
 
-// injeta a keyframe do spinner de loading uma única vez. Mesmo conteúdo que
-// Spinner.tsx injeta sob outro id ('ob-prim-kf') — duplicação já existente
-// no original (SearchInput.jsx e Primitives.jsx guardam com ids
-// diferentes), preservada verbatim; não consolidar com Spinner.tsx.
-injectStyleOnce('ob-spin-kf', '@keyframes ob-spin{to{transform:rotate(360deg)}}');
+injectSpinKeyframes();

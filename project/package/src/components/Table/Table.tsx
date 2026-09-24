@@ -1,5 +1,9 @@
 // project/package/src/components/Table/Table.tsx
 import React, { useState } from 'react';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
+
+// `ob-pulse`: pulsação das linhas-esqueleto do estado `loading`.
+injectStyleOnce('ob-pulse-kf', '@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}');
 
 export interface TableColumn<T> {
   key: string;
