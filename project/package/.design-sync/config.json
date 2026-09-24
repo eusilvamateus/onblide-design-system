@@ -1,0 +1,76 @@
+{
+  "projectId": "d73fe4ff-2cfe-463f-b020-6c07241729e6",
+  "pkg": "@onblide/ui",
+  "globalName": "OnblideUI",
+  "shape": "package",
+  "buildCmd": "npm run build",
+  "cssEntry": "src/tokens.css",
+  "componentSrcMap": {
+    "Brands": null
+  },
+  "tokensPkg": "@phosphor-icons/web",
+  "tokensGlob": "src/regular/style.css",
+  "extraFonts": [
+    "node_modules/@phosphor-icons/web/src/regular/style.css"
+  ],
+  "readmeHeader": ".design-sync/conventions.md",
+  "overrides": {
+    "CodeInput": {
+      "cardMode": "column"
+    },
+    "Pagination": {
+      "cardMode": "column"
+    },
+    "RadioGroup": {
+      "cardMode": "column"
+    },
+    "SearchInput": {
+      "cardMode": "column"
+    },
+    "Select": {
+      "cardMode": "column"
+    },
+    "Skeleton": {
+      "cardMode": "column"
+    },
+    "Table": {
+      "cardMode": "column"
+    },
+    "Tabs": {
+      "cardMode": "column"
+    },
+    "Toast": {
+      "cardMode": "column"
+    },
+    "Card": {
+      "cardMode": "column"
+    },
+    "Datepicker": {
+      "cardMode": "column"
+    },
+    "DeadlineCalendar": {
+      "cardMode": "column"
+    },
+    "FieldShell": {
+      "cardMode": "column"
+    },
+    "Input": {
+      "cardMode": "column"
+    },
+    "Slider": {
+      "cardMode": "column"
+    },
+    "Drawer": {
+      "cardMode": "single",
+      "primaryStory": "Direita"
+    },
+    "Modal": {
+      "cardMode": "single",
+      "primaryStory": "Confirmacao"
+    },
+    "ToastStack": {
+      "cardMode": "single",
+      "primaryStory": "FilaDeAvisos"
+    }
+  }
+}
