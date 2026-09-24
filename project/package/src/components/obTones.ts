@@ -1,10 +1,8 @@
 // project/package/src/components/obTones.ts
 //
-// Tabela de tons compartilhada por Alert, Toast e ProgressBar (o original em
-// Components.jsx define isso uma vez, solto no meio do arquivo, e os três
-// componentes leem dali — este arquivo é essa mesma tabela isolada, não uma
-// abstração nova). `icon` é o nome de um ícone Phosphor (string), consumido
-// via <Ph n={t.icon} .../> — não uma referência ao objeto `Icons`.
+// Tabela de tons compartilhada por Alert, Toast e ProgressBar. `icon` é o nome
+// de um ícone Phosphor (string), consumido via <Ph n={t.icon} .../> — não uma
+// referência ao objeto `Icons`.
 export type OBTone = 'info' | 'success' | 'warning' | 'danger';
 
 export interface OBToneColors {

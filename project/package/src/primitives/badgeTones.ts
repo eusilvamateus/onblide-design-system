@@ -1,7 +1,4 @@
-// Tabela de tons compartilhada por StatusDot e Badge (o original em
-// Primitives.jsx define isso uma vez, solto no meio do arquivo, e os dois
-// componentes leem dali — este arquivo é essa mesma tabela isolada, não uma
-// abstração nova).
+// Tabela de tons compartilhada por StatusDot e Badge.
 export type BadgeTone = 'blue' | 'green' | 'orange' | 'red' | 'grey';
 
 export interface BadgeToneColors {

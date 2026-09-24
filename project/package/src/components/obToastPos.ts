@@ -1,8 +1,6 @@
 // project/package/src/components/obToastPos.ts
 //
-// Tabela de âncoras de posição usada só por ToastStack (o original define
-// isso solto em Components.jsx, logo antes de ToastStack — este arquivo é
-// essa mesma tabela isolada).
+// Tabela de âncoras de posição usada só por ToastStack.
 export type OBToastPosition =
   | 'top-left' | 'top-center' | 'top-right'
   | 'bottom-left' | 'bottom-center' | 'bottom-right';

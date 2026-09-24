@@ -72,11 +72,8 @@ declare global {
     obToast?: (detail: ToastProps) => void;
   }
 }
-// Guard de `typeof window !== 'undefined'` NÃO existe no original (que só
-// roda em navegador via Babel) — é necessário aqui porque este módulo agora
-// também é importado sob Node (o smoke script desta tarefa), onde `window`
-// não existe. Sem impacto de comportamento no navegador (window sempre
-// existe lá); ver Global Constraints.
+// O guard de `typeof window` permite importar o pacote em Node (SSR e os
+// smokes), onde `window` não existe; no navegador ele sempre passa.
 if (typeof window !== 'undefined') {
   window.obToast = (detail) => window.dispatchEvent(new CustomEvent('ob-toast', { detail }));
 }

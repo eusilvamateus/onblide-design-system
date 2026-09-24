@@ -2,7 +2,8 @@ import { defineConfig } from 'tsup';
 import type { Plugin } from 'esbuild';
 
 // Maps react/react-dom imports to the page's own window.React / window.ReactDOM
-// globals (loaded via <script src=unpkg react...> on the preview pages) instead
+// globals (loaded via <script src=unpkg react...> on the preview pages and the
+// web app) instead
 // of bundling a second private copy of React — required so the IIFE bundle's
 // hooks (useState, useEffect, ...) run against the SAME React instance that
 // actually renders the page. Two separate React module instances in one page
@@ -40,8 +41,8 @@ export default defineConfig([
     outDir: 'dist',
   },
   {
-    // Browser-global compatibility bundle for the existing ds/components/*.html
-    // preview pages. clean:false is required here — tsup runs array entries as
+    // Browser-global bundle for the ds/components/*.html preview pages and the
+    // web app (ui_kits/web_app/). clean:false is required here — tsup runs array entries as
     // separate builds, and a second clean:true would delete the first build's
     // output before this one starts.
     entry: { 'onblide-ui.browser': 'src/browser.ts' },
