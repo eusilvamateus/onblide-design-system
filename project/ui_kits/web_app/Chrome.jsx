@@ -1,4 +1,4 @@
-/* global React, Logo, Icons, Avatar, Dropdown, Tooltip, SideNav, SearchInput */
+/* global React, Dropdown, SideNav, SearchInput */
 const { useState } = React;
 
 const Sidebar = ({ active = 'home', onNav }) => {

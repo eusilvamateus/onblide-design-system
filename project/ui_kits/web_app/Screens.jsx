@@ -1,6 +1,6 @@
 /* global React, Card, Badge, Button, Avatar, Icons, Input, Datepicker, Brands, BrandTile,
    Radio, RadioGroup, Toggle, Checkbox, Link, Skeleton, Pagination, Dropdown, Modal, Tooltip,
-   Alert, ProgressBar, CodeInput, Tabs, Table */
+   Alert, ProgressBar, CodeInput, Tabs, Table, Logo */
 const { useState, useEffect } = React;
 
 // ============================================================
