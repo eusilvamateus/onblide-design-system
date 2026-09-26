@@ -265,9 +265,9 @@ export const Datepicker: React.FC<DatepickerProps> = ({
               const inRange = isInRange(day) || emPrevia(iso);
               const alvoDaPrevia = aguardandoFim && hoverIso === iso && !isStart;
               return (
-                <button key={day} onClick={() => handleDayClick(day)} onMouseEnter={() => setHoverIso(iso)} style={{
+                <button key={day} onClick={() => handleDayClick(day)} onMouseEnter={() => setHoverIso(iso)} onFocus={() => setHoverIso(iso)} style={{
                   padding: '6px 0', borderRadius: 'var(--ob-r-xs)', border: 'none', textAlign: 'center',
-                  background: isStart || isEnd ? 'var(--ob-blue)' : inRange ? 'var(--ob-blue-100)' : 'var(--ob-surface)',
+                  background: isStart || isEnd ? 'var(--ob-blue)' : inRange ? 'var(--ob-blue-100)' : (hoverIso === iso ? 'var(--ob-bg-warm)' : 'var(--ob-surface)'),
                   color: isStart || isEnd ? '#fff' : 'var(--ob-fg-strong)',
                   boxShadow: alvoDaPrevia ? 'inset 0 0 0 1.5px var(--ob-blue)' : 'none',
                   fontFamily: 'inherit', fontSize: 12, fontWeight: 500, cursor: 'pointer', transition: 'background 100ms',

@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.8.2
+
+### Patch Changes
+
+- `Datepicker`: qualquer dia do calendário ganha destaque ao passar o mouse (ou receber foco), em todos os modos, não só na pré-visualização do intervalo.
+
 ## 0.8.1
 
 ### Patch Changes
