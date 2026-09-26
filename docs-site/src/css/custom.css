@@ -45,8 +45,6 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 }
 .ob-topbar__inner {
   height: 100%;
-  max-width: var(--ob-max-w-page);
-  margin: 0 auto;
   padding: 0 var(--ob-grid-margin-mobile);
   display: flex;
   align-items: center;
@@ -58,11 +56,7 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-topbar__menu { display: inline-flex; }
 
 /* ---------- Estrutura: navegação + conteúdo ---------- */
-.ob-shell {
-  max-width: var(--ob-max-w-page);
-  margin: 0 auto;
-  display: block;
-}
+.ob-shell { display: block; }
 .ob-shell__nav { display: none; }
 .ob-shell__main { min-width: 0; }
 
@@ -85,14 +79,12 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
     align-self: start;
     height: calc(100vh - 64px);
     overflow-y: auto;
-    padding: var(--ob-s-4) 0 var(--ob-s-4) var(--ob-grid-margin-tablet);
     box-sizing: border-box;
   }
   .ob-wrap { padding-left: var(--ob-grid-margin-tablet); padding-right: var(--ob-grid-margin-tablet); }
 }
 @media (min-width: 1024px) {
   .ob-topbar__inner { padding: 0 var(--ob-grid-margin-desktop); }
-  .ob-shell__nav { padding-left: var(--ob-grid-margin-desktop); }
   .ob-wrap { padding-left: var(--ob-grid-margin-desktop); padding-right: var(--ob-grid-margin-desktop); }
 }
 
