@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.7.0
+
+### Minor Changes
+
+- `Button` agora aceita as props nativas do `<button>` (`disabled`, `type`, `aria-*`, `name`...) e usa `type="button"` por padrão; desabilitado fica com opacidade reduzida, cursor `not-allowed` e sem brilho no hover.
+
 ## 0.6.0
 
 ### Minor Changes

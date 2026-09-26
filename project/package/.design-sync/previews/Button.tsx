@@ -23,3 +23,11 @@ export const ComIcone = () => (
     <Button kind="primary" icon={<Icons.plus size={16} />}>Nova tarefa</Button>
   </div>
 );
+
+export const Desabilitado = () => (
+  <div style={{ display: 'flex', gap: 12, padding: 16 }}>
+    <Button kind="primary" disabled>Enviar</Button>
+    <Button kind="secondary" disabled>Cancelar</Button>
+    <Button kind="danger" disabled>Excluir</Button>
+  </div>
+);
