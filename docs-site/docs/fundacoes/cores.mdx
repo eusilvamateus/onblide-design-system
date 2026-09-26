@@ -1,0 +1,44 @@
+---
+title: Cores
+sidebar_position: 2
+description: Paleta da marca, neutros e cores semânticas.
+---
+
+import { TokenTable } from '@site/src/components/Tokens';
+
+Cinco cores carregam o sistema inteiro: **azul** é a voz da marca (ação principal, links, foco), **verde** é só
+sucesso, **laranja** é aviso e acento, **tinta** é o texto e **creme** é uma sobreposição de calor, nunca o fundo da página.
+
+## Azul (marca)
+
+<TokenTable prefixos={['--ob-blue']} tipo="cor" />
+
+## Verde (sucesso)
+
+<TokenTable prefixos={['--ob-green']} tipo="cor" />
+
+## Laranja (aviso e acento)
+
+<TokenTable prefixos={['--ob-orange']} tipo="cor" />
+
+## Vermelho (perigo)
+
+<TokenTable prefixos={['--ob-red', '--ob-danger']} tipo="cor" />
+
+## Tinta (texto)
+
+<TokenTable prefixos={['--ob-ink']} tipo="cor" />
+
+## Creme
+
+<TokenTable prefixos={['--ob-cream']} tipo="cor" />
+
+## Superfícies e texto por função
+
+Prefira estes apelidos aos valores da paleta: eles se reescrevem sozinhos no tema escuro.
+
+<TokenTable prefixos={['--ob-bg', '--ob-surface', '--ob-fg', '--ob-line', '--ob-border', '--ob-scrim']} tipo="cor" />
+
+## Estados semânticos
+
+<TokenTable prefixos={['--ob-success', '--ob-warning', '--ob-focus']} tipo="cor" />

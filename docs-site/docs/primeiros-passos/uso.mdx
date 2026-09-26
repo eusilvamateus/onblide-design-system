@@ -1,0 +1,56 @@
+---
+title: Uso
+sidebar_position: 2
+description: Importar componentes, carregar os estilos e alternar o tema.
+---
+
+## Carregue os estilos uma vez
+
+```ts
+import '@onblide/ui/styles.css';
+```
+
+Isso traz os tokens (`--ob-*`), as fontes Poppins, Playfair Display e JetBrains Mono, e os ícones do Phosphor.
+
+## Use os componentes
+
+```tsx
+import { Button, Input, Icons } from '@onblide/ui';
+
+export function Formulario() {
+  return (
+    <form>
+      <Input label="E-mail" type="email" placeholder="voce@empresa.com" />
+      <Button kind="primary" icon={<Icons.check size={16} />}>Salvar</Button>
+    </form>
+  );
+}
+```
+
+Exemplo ao vivo (edite o código):
+
+```jsx live
+<div style={{ display: 'grid', gap: 12, maxWidth: 320, padding: 16 }}>
+  <Input label="E-mail" type="email" placeholder="voce@empresa.com" />
+  <Button kind="primary" icon={<Icons.check size={16} />}>Salvar</Button>
+</div>
+```
+
+## Tema claro e escuro
+
+O tema é controlado pelo atributo `data-theme` no elemento raiz. O padrão é o claro.
+
+```ts
+document.documentElement.setAttribute('data-theme', 'dark');
+```
+
+Nesta documentação, o botão de tema no topo faz exatamente isso, então os exemplos acompanham.
+
+## Cores e medidas sempre por token
+
+Nunca escreva o valor solto: use `var(--ob-blue)`, `var(--ob-r-md)` e afins. Veja todos em [Fundações](../fundacoes/visao-geral).
+
+## Bundle de navegador
+
+Para páginas simples (sem bundler), o pacote gera `dist/onblide-ui.browser.js`, que registra todos os
+componentes como globais em `window`. Ele espera `window.React` e `window.ReactDOM` já carregados.

@@ -1,0 +1,37 @@
+---
+title: Tipografia
+sidebar_position: 3
+description: Famílias, pesos, escala de tamanhos e entrelinhas.
+---
+
+import { TokenTable } from '@site/src/components/Tokens';
+
+Três famílias, cada uma com um trabalho:
+
+- **Poppins** (`--ob-font`) é a base: interface, títulos e corpo.
+- **Playfair Display** (`--ob-font-serif`) é o acento editorial, em itálico, usada com parcimônia.
+- **JetBrains Mono** (`--ob-font-mono`) é para código, tokens e rótulos pequenos.
+
+```jsx live
+<div style={{ display: 'grid', gap: 8, padding: 16 }}>
+  <div style={{ fontFamily: 'var(--ob-font)', fontSize: 32, fontWeight: 800, letterSpacing: '-0.03em' }}>Poppins, o texto da interface</div>
+  <div style={{ fontFamily: 'var(--ob-font-serif)', fontSize: 28, fontStyle: 'italic' }}>Playfair Display, o acento editorial</div>
+  <div style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 14 }}>JetBrains Mono: --ob-blue: #0a4ee4;</div>
+</div>
+```
+
+## Famílias
+
+<TokenTable prefixos={['--ob-font']} />
+
+## Pesos
+
+<TokenTable prefixos={['--ob-w']} />
+
+## Escala de tamanhos
+
+<TokenTable prefixos={['--ob-fs']} tipo="texto" />
+
+## Entrelinhas e espaçamento entre letras
+
+<TokenTable prefixos={['--ob-lh', '--ob-tracking']} />

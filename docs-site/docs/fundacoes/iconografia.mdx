@@ -1,0 +1,25 @@
+---
+title: Iconografia
+sidebar_position: 10
+description: Phosphor, o registro Icons e as marcas.
+---
+
+**Só Phosphor**, no peso regular. Nunca outra biblioteca, nem SVG desenhado à mão. Os ícones da interface passam pelo
+registro `Icons`, para que peso, tamanho ou fonte possam mudar num lugar só.
+
+- **Tamanhos:** 18 a 20 px na navegação, 16 px junto de texto, 32 a 40 px em estados vazios.
+- **Cor:** `currentColor`, herdando do texto ao redor.
+- **Sem emoji** e sem ícone multicolorido na interface.
+- **Marcas de terceiros** usam os glifos `ph-<marca>-logo` do Phosphor, na cor da marca. Marca sem glifo no Phosphor não é implementada.
+
+```jsx live
+<div style={{ display: 'flex', gap: 16, alignItems: 'center', padding: 16, color: 'var(--ob-fg-strong)' }}>
+  <Icons.plus size={16} />
+  <Icons.check size={20} />
+  <Icons.gear size={24} />
+  <Ph n="house" size={32} />
+  <BrandTile brand="github" />
+</div>
+```
+
+Componentes: [Icons](../componentes/iconography/Icons), [Ph](../componentes/iconography/Ph) e [BrandTile](../componentes/brand/BrandTile).

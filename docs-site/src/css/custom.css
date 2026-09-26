@@ -1,0 +1,34 @@
+@import '@onblide/ui/styles.css';
+
+:root {
+  --ifm-color-primary: #0a4ee4;
+  --ifm-color-primary-dark: #0946cd;
+  --ifm-color-primary-darker: #0842c2;
+  --ifm-color-primary-darkest: #0636a0;
+  --ifm-color-primary-light: #1f60ee;
+  --ifm-color-primary-lighter: #2a68ef;
+  --ifm-color-primary-lightest: #5486f2;
+  --ifm-font-family-base: var(--ob-font, 'Poppins', system-ui, sans-serif);
+  --ifm-font-family-monospace: var(--ob-font-mono, 'JetBrains Mono', monospace);
+  --ifm-heading-font-family: var(--ob-font, 'Poppins', system-ui, sans-serif);
+  --ifm-global-radius: 12px;
+  --docusaurus-highlighted-code-line-bg: rgba(10, 78, 228, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #6b95ff;
+  --ifm-color-primary-dark: #4a7eff;
+  --ifm-color-primary-darker: #3a72ff;
+  --ifm-color-primary-darkest: #0f52ff;
+  --ifm-color-primary-light: #8cabff;
+  --ifm-color-primary-lighter: #9cb7ff;
+  --ifm-color-primary-lightest: #c1d2ff;
+}
+
+/* área de resultado dos exemplos ao vivo */
+[class*='playgroundPreview'] {
+  background: var(--ob-bg, #fff);
+  color: var(--ob-fg, inherit);
+  border-radius: 0 0 var(--ifm-global-radius) var(--ifm-global-radius);
+  overflow: visible;
+}

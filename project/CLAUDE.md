@@ -100,6 +100,13 @@ tipos e interfaces (`Datepicker`, `ButtonProps`), **UPPER_SNAKE_CASE** para cons
 (`BADGE_TONES`) e nomes de pastas/arquivos de componente iguais ao componente (`Datepicker/Datepicker.tsx`).
 Não usar snake_case nem kebab-case em identificadores.
 
+## Site de documentação (`docs-site/`)
+
+Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, https://onblide-design-system.vercel.app),
+independente do pacote e do `/design-sync`. Páginas de componentes, tabelas de props e de tokens são **geradas**
+(`npm run gerar`) do pacote e dos exemplos em `project/package/.design-sync/previews/`; primeiros passos e
+fundações são escritos à mão em `docs-site/docs/`. Não editar os arquivos gerados. Deploy: ver `docs-site/README.md`.
+
 ## Idioma da documentação
 
 Toda documentação, specs e planos (`docs/`), e a memória persistente do agente

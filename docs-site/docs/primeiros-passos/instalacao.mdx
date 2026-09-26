@@ -1,0 +1,25 @@
+---
+title: Instalação
+sidebar_position: 1
+description: Como adicionar o @onblide/ui ao seu projeto.
+---
+
+```bash
+npm install @onblide/ui
+```
+
+O pacote precisa de **React 18** (`react` e `react-dom` na versão `^18.3.1`) como dependência do seu projeto.
+Os ícones vêm do `@phosphor-icons/web`, que já é dependência do pacote.
+
+## O que o pacote entrega
+
+| Entrada | Conteúdo |
+|---|---|
+| `@onblide/ui` | Componentes React (ESM e CJS) com tipos TypeScript. |
+| `@onblide/ui/styles.css` | Tokens, fontes e a folha de ícones do Phosphor. |
+| `@onblide/ui/tokens.css` | Só os tokens e as fontes, sem a folha de ícones. |
+
+## Efeitos colaterais no import
+
+Alguns módulos injetam o próprio `<style>` no primeiro uso e o `ToastStack` registra `window.obToast`. Por isso o
+pacote **não** declara `sideEffects: false`: um bundler não deve descartar esses módulos.
