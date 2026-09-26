@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.9.1
+
+### Patch Changes
+
+- Remove o web app de demonstração (`ui_kits/web_app`) e o smoke que o executava; o pacote não muda.
+
 ## 0.9.0
 
 ### Minor Changes

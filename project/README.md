@@ -4,7 +4,7 @@
 
 Onblide nasce da ideia de "build online": desenvolver, conectar e colocar soluções digitais no ar. A marca representa a construção de soluções digitais online, com foco em desenvolvimento web, sistemas, automações e infraestrutura moderna.
 
-The design system in this folder powers the Onblide web app and any future product surface. It's a living manifest — open the **Design System** tab to browse cards, or read the files in this folder directly.
+The design system in this folder powers Onblide's product surfaces. It's a living manifest — open the **Design System** tab to browse cards, or read the files in this folder directly.
 
 ---
 
@@ -20,7 +20,6 @@ The design system in this folder powers the Onblide web app and any future produ
 | `ds/components/` | Component specs: buttons, inputs, badges, status dots, cards, datepicker, deadline calendar, dropdown, modal, drawer, toggle, radio, checkbox, pagination, skeleton, link, tooltip, code-input, search-input, alert, toast, progressbar, side-nav, select, tabs, table + dark theme |
 | `ds/docs/` | Per-component documentation (usage · formatting · content · design guidance) |
 | `package/` | `@onblide/ui` — biblioteca React/TypeScript com todos os componentes, `Icons`, `Brands` e `Logo`; `npm run build` gera `dist/onblide-ui.browser.js`, carregado pelas páginas de `ds/components/` e pelo web app |
-| `ui_kits/web_app/` | Click-through dashboard (Início · Tarefas · Métricas · Integrações · Ajustes) with light/dark theme — as telas usam os componentes do `@onblide/ui` (rode o build do pacote antes de abrir) |
 | `SKILL.md` | Cross-compatible Skill manifest if you want to use this in Claude Code |
 
 ---
