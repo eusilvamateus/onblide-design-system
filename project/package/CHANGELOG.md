@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.9.0
+
+### Minor Changes
+
+- `Brands` e `BrandTile` passam a usar os glifos oficiais de marca do Phosphor (`ph-<marca>-logo`, já presentes no webfont), na cor de cada marca, no lugar dos SVGs desenhados à mão. Marcas sem glifo no Phosphor não são implementadas.
+
 ## 0.8.3
 
 ### Patch Changes

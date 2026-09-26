@@ -735,7 +735,7 @@ const SettingsScreen = () => {
 // ============================================================
 // INTEGRATIONS HUB
 //   Spotify is the featured, already-connected integration.
-//   · BrandTile → authentic brand logos
+//   · BrandTile → logos de marca do Phosphor
 //   · Toggle    → enable/disable a connected service
 //   · Badge     → connection status
 //   · Dropdown  → per-integration actions (sync / configure / disconnect)

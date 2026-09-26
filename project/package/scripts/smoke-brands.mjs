@@ -20,16 +20,18 @@ if (Object.keys(Brands).sort().join(',') !== Object.keys(esperado).sort().join('
 for (const [chave, d] of Object.entries(esperado)) {
   const b = Brands[chave];
   if (b.name !== d.name || b.hex !== d.hex || b.cat !== d.cat || b.desc !== d.desc) fail(`dados de ${chave} divergem`, b);
-  if (renderToStaticMarkup(b.mark(24)) !== d.mark24) fail(`mark(24) de ${chave} diverge da fixture`);
-  if (renderToStaticMarkup(b.mark(40)) !== d.mark40) fail(`mark(40) de ${chave} diverge da fixture`);
+  const m = renderToStaticMarkup(b.mark(24));
+  if (!m.includes(`class="ph ph-${chave}-logo"`)) fail(`mark de ${chave} deveria usar o glifo ph-${chave}-logo do Phosphor`, m);
+  if (!m.includes('font-size:24px') || !m.includes(`color:${d.hex}`)) fail(`mark(24) de ${chave} deveria ter 24px e a cor da marca`, m);
+  if (m.includes('<svg')) fail(`mark de ${chave} não deve usar SVG desenhado à mão`, m);
 }
 
 const tile = renderToStaticMarkup(React.createElement(BrandTile, { brand: 'github' }));
-if (!tile.includes('width:44px;height:44px') || !tile.includes('background:#ffffff') || !tile.includes(`<svg width="${Math.round(44 * 0.56)}" height="${Math.round(44 * 0.56)}"`)) {
-  fail('BrandTile github deveria ter moldura 44px e marca 25px', tile);
+if (!tile.includes('width:44px;height:44px') || !tile.includes('background:#ffffff') || !tile.includes(`font-size:${Math.round(44 * 0.56)}px`)) {
+  fail('BrandTile github deveria ter moldura 44px e marca 25px (glifo Phosphor)', tile);
 }
 const tileGrande = renderToStaticMarkup(React.createElement(BrandTile, { brand: 'figma', size: 100 }));
-if (!tileGrande.includes('width:100px;height:100px') || !tileGrande.includes('<svg width="56" height="56"')) {
+if (!tileGrande.includes('width:100px;height:100px') || !tileGrande.includes('font-size:56px')) {
   fail('BrandTile size=100 deveria ter marca 56px', tileGrande);
 }
 

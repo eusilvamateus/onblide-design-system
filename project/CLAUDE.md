@@ -157,7 +157,6 @@ npm run verify   # typecheck (src) → build → typecheck:dist (tipos como o co
 **UI icons** are loaded via `@phosphor-icons/web@2.1.2` (CSS webfont, regular weight) in the web app.
 This covers all interface icons (`ph-house`, `ph-gear`, `ph-check`, etc.).
 
-**Brand logos** (`ph-spotify-logo`, `ph-slack-logo`, etc.) are NOT included in the webfont CSS —
-they only exist in `@phosphor-icons/react` (requires a bundler). Until the React package is set up,
-brand logo marks should be reproduced faithfully as SVG in the Phosphor glyph style and noted as
-pending migration.
+**Brand logos** (`ph-spotify-logo`, `ph-slack-logo`, etc.) are included in the `@phosphor-icons/web`
+webfont. `Brands`/`BrandTile` render them via `Ph` in each brand's color. A brand with no Phosphor
+glyph is simply not implemented — never draw a lookalike SVG.
