@@ -2,7 +2,8 @@
 
 - Config em `project/package/.design-sync/` (rodar tudo de dentro de `project/package`). Pacote construído com `npm run build`; entrada `./dist/index.js`, `--node-modules ./node_modules`.
 - `Brands` é objeto, não componente: excluído via `componentSrcMap`. `Icons` é namespace (`Icons.plus`), aceito como composto.
-- Tokens/fontes: `cssEntry` = `src/tokens.css`. Phosphor (glifos) entra por `tokensPkg`+`tokensGlob` (só `style.css`) e as fontes por `extraFonts` (o `tokensGlob` não copia binários).
+- CSS: `cssEntry` = `.design-sync/.cache/css/styles.css`, gerado por `.design-sync/build-css.mjs` (parte do `buildCmd`): esbuild resolve os `@import` de `src/styles.css` (tokens + Phosphor) num arquivo só, com as fontes em `fonts/`, e remove a fonte SVG do Phosphor. Não usar `tokensPkg`/`tokensGlob`/`extraFonts` para o Phosphor: isso duplicava o `@font-face` e deixava `url()` quebradas (apontado pelo agente do Claude Design em 2026-09-26).
+- Envio: sempre completo (todos os `components/**`, `_preview/**`, fontes e bundle). Envio parcial deixa `.d.ts` de versões antigas ao lado de um bundle novo e o app acusa componentes desatualizados.
 - Sem `docsDir`: as docs em `ds/docs` são HTML, não `.md`; os `.prompt.md` saem do `.d.ts` + previews.
 - `Button` não tem prop `disabled`. `Tooltip` só abre com hover: o preview simula `mouseover` ao montar; `Dropdown` clica o gatilho ao montar. `Modal`/`Drawer` ficam contidos com `transform: translateZ(0)`.
 - Chromium do playwright instalado em `.ds-sync` (bundled, perfil próprio). NUNCA usar/fechar Edge/Chrome do usuário nem matar processos.

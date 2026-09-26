@@ -3,16 +3,11 @@
   "pkg": "@onblide/ui",
   "globalName": "OnblideUI",
   "shape": "package",
-  "buildCmd": "npm run build",
-  "cssEntry": "src/tokens.css",
+  "buildCmd": "npm run build && node .design-sync/build-css.mjs",
+  "cssEntry": ".design-sync/.cache/css/styles.css",
   "componentSrcMap": {
     "Brands": null
   },
-  "tokensPkg": "@phosphor-icons/web",
-  "tokensGlob": "src/regular/style.css",
-  "extraFonts": [
-    "node_modules/@phosphor-icons/web/src/regular/style.css"
-  ],
   "readmeHeader": ".design-sync/conventions.md",
   "overrides": {
     "CodeInput": {
