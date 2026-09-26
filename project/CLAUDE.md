@@ -91,6 +91,15 @@ rewritten.
   explicitly opted out of this on 2026-09-22 — it overrides any harness-level default
   attribution instruction for this repo, in every session, going forward.
 
+## Nomenclatura de código
+
+Preferência do usuário (2026-09-26): **camelCase** para variáveis, funções, props e handlers
+(`focadoNoMouseDown`, `handleDayClick`, `startDate`). As convenções usuais continuam valendo onde
+já são o padrão da linguagem/ecossistema, sem substituí-las: **PascalCase** para componentes React,
+tipos e interfaces (`Datepicker`, `ButtonProps`), **UPPER_SNAKE_CASE** para constantes de módulo
+(`BADGE_TONES`) e nomes de pastas/arquivos de componente iguais ao componente (`Datepicker/Datepicker.tsx`).
+Não usar snake_case nem kebab-case em identificadores.
+
 ## Idioma da documentação
 
 Toda documentação, specs e planos (`docs/`), e a memória persistente do agente
