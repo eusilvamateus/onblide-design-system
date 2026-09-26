@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { Button } from '../Button/Button';
+import { Ph } from '../../components/Ph/Ph';
 
 export interface DatepickerValues {
   startDate: string | null;
@@ -248,9 +249,9 @@ export const Datepicker: React.FC<DatepickerProps> = ({
           minWidth: 300,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <button onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}>←</button>
+            <button type="button" aria-label="Mês anterior" onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'inline-flex', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}><Ph n="caret-left" size={16} /></button>
             <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{monthNames[month.getMonth()]} {month.getFullYear()}</span>
-            <button onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}>→</button>
+            <button type="button" aria-label="Próximo mês" onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'inline-flex', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}><Ph n="caret-right" size={16} /></button>
           </div>
           <div onMouseLeave={() => setHoverIso(null)} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 2, marginBottom: 10 }}>
             {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d, i) => (

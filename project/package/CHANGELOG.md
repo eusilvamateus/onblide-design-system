@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.8.1
+
+### Patch Changes
+
+- `Datepicker`: as setas de mês passam a usar ícones Phosphor (`caret-left`/`caret-right`) em vez do caractere de texto, com `type="button"` e `aria-label`.
+
 ## 0.8.0
 
 ### Minor Changes
