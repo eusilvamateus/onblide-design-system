@@ -79,26 +79,62 @@ const titulos = {
   TamanhosECores: 'Tamanhos e cores', Texto: 'Texto', Tons: 'Tons', Variantes: 'Variantes', Vazio: 'Vazio',
 };
 
+// Remove só as anotações de tipo (o editor ao vivo entende JSX, não TypeScript), preservando o texto original.
+const semTipos = (sf, no) => {
+  const cortes = [];
+  const visitar = (n) => {
+    if ((ts.isParameter(n) || ts.isVariableDeclaration(n)) && n.type) cortes.push([n.name.end, n.type.end]);
+    else if (ts.isAsExpression(n)) cortes.push([n.expression.end, n.end]);
+    else if ((ts.isCallExpression(n) || ts.isNewExpression(n)) && n.typeArguments) cortes.push([n.typeArguments.pos - 1, n.typeArguments.end + 1]);
+    ts.forEachChild(n, visitar);
+  };
+  visitar(no);
+  let texto = sf.text.slice(no.getStart(sf), no.end);
+  const base = no.getStart(sf);
+  for (const [a, b] of cortes.sort((x, y) => y[0] - x[0])) texto = texto.slice(0, a - base) + texto.slice(b - base);
+  return texto;
+};
+
+// Tira a indentação comum das linhas, para o JSX extraído começar na coluna zero.
+const dedentar = (texto) => {
+  const linhas = texto.split('\n');
+  const recuo = Math.min(...linhas.slice(1).filter((l) => l.trim()).map((l) => l.match(/^ */)[0].length));
+  return [linhas[0], ...linhas.slice(1).map((l) => l.slice(Number.isFinite(recuo) ? recuo : 0))].join('\n');
+};
+
+// Cada export do preview vira um exemplo. Se ele for só um JSX sem auxiliares, o exemplo mostra apenas esse JSX
+// (modo em linha); se depender de auxiliares ou hooks, mostra o código completo com render(), como foi escrito.
 const exemplosDe = (nome) => {
   const arq = path.join(previews, `${nome}.tsx`);
   if (!fs.existsSync(arq)) return [];
-  const js = ts.transpileModule(fs.readFileSync(arq, 'utf8'), {
-    compilerOptions: { jsx: ts.JsxEmit.Preserve, target: ts.ScriptTarget.ESNext, module: ts.ModuleKind.ESNext },
-    fileName: `${nome}.tsx`,
-  }).outputText;
-  const sf = ts.createSourceFile(`${nome}.jsx`, js, ts.ScriptTarget.ESNext, true, ts.ScriptKind.JSX);
+  const sf = ts.createSourceFile(`${nome}.tsx`, fs.readFileSync(arq, 'utf8'), ts.ScriptTarget.ESNext, true, ts.ScriptKind.TSX);
   const auxiliares = [];
+  const nomesAux = [];
   const exemplos = [];
   for (const st of sf.statements) {
     if (ts.isImportDeclaration(st)) continue;
-    const texto = st.getText(sf);
     const exportado = ts.isVariableStatement(st) && st.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
-    if (exportado) {
-      const id = st.declarationList.declarations[0].name.text;
-      exemplos.push({ id, codigo: texto.replace(/^export\s+/, '') });
-    } else auxiliares.push(texto);
+    if (!exportado) {
+      auxiliares.push(semTipos(sf, st));
+      if (ts.isVariableStatement(st)) nomesAux.push(...st.declarationList.declarations.map((d) => d.name.getText(sf)));
+      else if (st.name) nomesAux.push(st.name.getText(sf));
+      continue;
+    }
+    const decl = st.declarationList.declarations[0];
+    const id = decl.name.getText(sf);
+    const fn = decl.initializer;
+    let corpo = fn && ts.isArrowFunction(fn) ? fn.body : null;
+    while (corpo && ts.isParenthesizedExpression(corpo)) corpo = corpo.expression;
+    const jsx = corpo && (ts.isJsxElement(corpo) || ts.isJsxFragment(corpo) || ts.isJsxSelfClosingElement(corpo)) ? corpo : null;
+    const textoJsx = jsx ? semTipos(sf, jsx) : '';
+    const usaAux = nomesAux.some((n) => new RegExp(`\\b${n}\\b`).test(textoJsx));
+    if (jsx && !usaAux) exemplos.push({ id, modo: 'live', codigo: dedentar(textoJsx) });
+    else {
+      const proprio = semTipos(sf, st).replace(/^export\s+/, '');
+      exemplos.push({ id, modo: 'live noInline', codigo: `${[...auxiliares, proprio].join('\n\n')}\n\nrender(<${id} />);` });
+    }
   }
-  return exemplos.map((e) => ({ ...e, codigo: `${[...auxiliares, e.codigo].join('\n\n')}\n\nrender(<${e.id} />);` }));
+  return exemplos;
 };
 
 fs.rmSync(saida, { recursive: true, force: true });
@@ -133,7 +169,7 @@ for (const [dir, [rotulo, resumo]] of Object.entries(categorias)) {
     ];
     if (ex.length) {
       partes.push('## Exemplos', '');
-      for (const e of ex) partes.push(`### ${titulos[e.id] ?? e.id}`, '', '```jsx live noInline', e.codigo, '```', '');
+      for (const e of ex) partes.push(`### ${titulos[e.id] ?? e.id}`, '', `\`\`\`jsx ${e.modo}`, e.codigo, '```', '');
     }
     if (temProps) partes.push('## Props', '', `<PropsTable nome="${nome}" />`, '');
     fs.writeFileSync(path.join(alvo, `${nome}.mdx`), partes.join('\n'));
