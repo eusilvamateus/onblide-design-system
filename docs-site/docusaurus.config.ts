@@ -30,7 +30,7 @@ const config: Config = {
     [
       'classic',
       {
-        docs: { routeBasePath: '/', sidebarPath: './sidebars.ts' },
+        docs: { routeBasePath: '/', sidebarPath: './sidebars.ts', breadcrumbs: false },
         blog: false,
         theme: { customCss: './src/css/custom.css' },
       } satisfies Preset.Options,
@@ -38,15 +38,7 @@ const config: Config = {
   ],
   themeConfig: {
     colorMode: { defaultMode: 'light', respectPrefersColorScheme: true },
-    navbar: {
-      title: 'Onblide Design System',
-      logo: { alt: 'Onblide', src: 'img/logo.svg' },
-      items: [
-        { type: 'docSidebar', sidebarId: 'principal', position: 'left', label: 'Documentação' },
-        { href: 'https://github.com/eusilvamateus/onblide-design-system', label: 'GitHub', position: 'right' },
-      ],
-    },
-    footer: { style: 'dark', copyright: 'Onblide · Design System' },
+    docs: { sidebar: { hideable: false } },
     liveCodeBlock: { playgroundPosition: 'bottom' },
     prism: { theme: prismThemes.github, darkTheme: prismThemes.dracula },
   } satisfies Preset.ThemeConfig,

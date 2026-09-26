@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.10.0
+
+### Minor Changes
+
+- `SideNav`: novas props opcionais `hideBrand`, `hideAccount` e `menuLabel` para usar o componente como lista de navegação simples, sem a marca e sem a conta do usuário. O comportamento padrão não muda.
+
 ## 0.9.2
 
 ### Patch Changes

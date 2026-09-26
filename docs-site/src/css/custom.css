@@ -1,34 +1,181 @@
 @import '@onblide/ui/styles.css';
 
+/*
+ * Tudo aqui deriva dos tokens do design system (--ob-*) e repete a linguagem das páginas de documentação
+ * originais (ds/docs/doc.css): superfície branca, coluna de leitura de 760px, eyebrow em mono, títulos em 800,
+ * seções em caixa-alta com filete, códigos em cream. Breakpoints: sm 768px e md 1024px (--ob-bp-*).
+ * Variáveis CSS não funcionam em @media, então os números aparecem literais.
+ */
+
 :root {
-  --ifm-color-primary: #0a4ee4;
-  --ifm-color-primary-dark: #0946cd;
-  --ifm-color-primary-darker: #0842c2;
-  --ifm-color-primary-darkest: #0636a0;
-  --ifm-color-primary-light: #1f60ee;
-  --ifm-color-primary-lighter: #2a68ef;
-  --ifm-color-primary-lightest: #5486f2;
-  --ifm-font-family-base: var(--ob-font, 'Poppins', system-ui, sans-serif);
-  --ifm-font-family-monospace: var(--ob-font-mono, 'JetBrains Mono', monospace);
-  --ifm-heading-font-family: var(--ob-font, 'Poppins', system-ui, sans-serif);
-  --ifm-global-radius: 12px;
-  --docusaurus-highlighted-code-line-bg: rgba(10, 78, 228, 0.1);
+  --ifm-color-primary: var(--ob-blue);
+  --ifm-background-color: var(--ob-surface);
+  --ifm-background-surface-color: var(--ob-surface);
+  --ifm-font-color-base: var(--ob-fg);
+  --ifm-font-family-base: var(--ob-font);
+  --ifm-font-family-monospace: var(--ob-font-mono);
+  --ifm-heading-font-family: var(--ob-font);
+  --ifm-global-radius: var(--ob-r-md);
+  --ifm-link-color: var(--ob-blue);
+  --ifm-code-background: var(--ob-bg-warm);
+  --ifm-navbar-height: 64px;
+  --ifm-toc-border-color: var(--ob-border);
+  --ifm-color-emphasis-300: var(--ob-border);
 }
 
-[data-theme='dark'] {
-  --ifm-color-primary: #6b95ff;
-  --ifm-color-primary-dark: #4a7eff;
-  --ifm-color-primary-darker: #3a72ff;
-  --ifm-color-primary-darkest: #0f52ff;
-  --ifm-color-primary-light: #8cabff;
-  --ifm-color-primary-lighter: #9cb7ff;
-  --ifm-color-primary-lightest: #c1d2ff;
+html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: var(--ob-font); }
+
+.ob-eyebrow {
+  font-family: var(--ob-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ob-blue);
+  margin: 0 0 8px;
 }
 
-/* área de resultado dos exemplos ao vivo */
-[class*='playgroundPreview'] {
-  background: var(--ob-bg, #fff);
-  color: var(--ob-fg, inherit);
-  border-radius: 0 0 var(--ifm-global-radius) var(--ifm-global-radius);
-  overflow: visible;
+/* ---------- Barra superior ---------- */
+.ob-topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--ob-z-raised);
+  height: 64px;
+  background: var(--ob-surface);
+  border-bottom: 1px solid var(--ob-border);
 }
+.ob-topbar__inner {
+  height: 100%;
+  max-width: var(--ob-max-w-page);
+  margin: 0 auto;
+  padding: 0 var(--ob-grid-margin-mobile);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ob-gap-md);
+}
+.ob-topbar__brand, .ob-topbar__actions { display: flex; align-items: center; gap: var(--ob-gap-md); }
+.ob-topbar__label { margin: 0; color: var(--ob-fg-mute); display: none; }
+.ob-topbar__menu { display: inline-flex; }
+
+/* ---------- Estrutura: navegação + conteúdo ---------- */
+.ob-shell {
+  max-width: var(--ob-max-w-page);
+  margin: 0 auto;
+  display: block;
+}
+.ob-shell__nav { display: none; }
+.ob-shell__main { min-width: 0; }
+
+.ob-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--ob-s-7) var(--ob-grid-margin-mobile) 80px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .ob-topbar__inner { padding: 0 var(--ob-grid-margin-tablet); }
+  .ob-topbar__menu { display: none; }
+  .ob-topbar__label { display: block; }
+  .ob-shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); }
+  .ob-shell__nav {
+    display: block;
+    position: sticky;
+    top: 64px;
+    align-self: start;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    padding: var(--ob-s-4) 0 var(--ob-s-4) var(--ob-grid-margin-tablet);
+    box-sizing: border-box;
+  }
+  .ob-wrap { padding-left: var(--ob-grid-margin-tablet); padding-right: var(--ob-grid-margin-tablet); }
+}
+@media (min-width: 1024px) {
+  .ob-topbar__inner { padding: 0 var(--ob-grid-margin-desktop); }
+  .ob-shell__nav { padding-left: var(--ob-grid-margin-desktop); }
+  .ob-wrap { padding-left: var(--ob-grid-margin-desktop); padding-right: var(--ob-grid-margin-desktop); }
+}
+
+/* ---------- Tipografia do conteúdo (mesma das páginas ds/docs) ---------- */
+.ob-wrap .markdown h1, .ob-wrap h1 {
+  font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+  color: var(--ob-fg-strong); margin: 0 0 12px;
+}
+.ob-lede, .ob-wrap .markdown > h1 + p {
+  font-size: 17px; line-height: 1.6; color: var(--ob-fg); margin: 0 0 28px; max-width: 600px;
+}
+.ob-wrap .markdown h2 {
+  font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ob-fg-soft); margin: 44px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--ob-border);
+}
+.ob-wrap .markdown h3 { font-size: 16px; font-weight: 700; color: var(--ob-fg-strong); margin: 22px 0 8px; }
+.ob-wrap .markdown p { font-size: 15px; line-height: 1.65; color: var(--ob-fg); margin: 0 0 12px; }
+.ob-wrap .markdown ul, .ob-wrap .markdown ol { margin: 0 0 12px; padding-left: 20px; }
+.ob-wrap .markdown li { font-size: 15px; line-height: 1.7; color: var(--ob-fg); }
+.ob-wrap .markdown a { color: var(--ob-blue); text-decoration: none; }
+.ob-wrap .markdown a:hover { text-decoration: underline; }
+.ob-wrap .markdown code {
+  font-family: var(--ob-font-mono); font-size: 0.88em; background: var(--ob-bg-warm);
+  padding: 2px 6px; border-radius: 5px; color: var(--ob-fg-strong); border: none;
+}
+
+/* Blocos de código estáticos */
+.ob-wrap .markdown pre, .ob-wrap .markdown div[class*='codeBlockContainer'] {
+  background: var(--ob-bg-alt); border: 1px solid var(--ob-border); border-radius: 10px;
+  box-shadow: none; margin: 0 0 12px;
+}
+.ob-wrap .markdown pre code { background: none; padding: 0; font-size: 13px; line-height: 1.6; color: var(--ob-fg-strong); }
+.ob-wrap .markdown pre { padding: 14px 16px; overflow-x: auto; }
+.ob-wrap .markdown button[class*='copyButton'] { display: none; }
+
+/* Tabelas (props, tokens e as do markdown) */
+.ob-wrap .markdown table {
+  display: table; width: 100%; border-collapse: collapse; font-size: 13px; margin: 0 0 16px; border: none;
+}
+.ob-wrap .markdown table th {
+  text-align: left; padding: 8px 10px; border: none; border-bottom: 1.5px solid var(--ob-border); background: none;
+  color: var(--ob-fg-soft); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.ob-wrap .markdown table td {
+  padding: 9px 10px; border: none; border-bottom: 1px solid var(--ob-line-soft); background: none;
+  color: var(--ob-fg); vertical-align: top;
+}
+.ob-wrap .markdown table tr { background: none; }
+.ob-wrap .markdown table td code { font-size: 12px; }
+
+/* ---------- Exemplos ao vivo ---------- */
+.ob-playground {
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-r-surface);
+  overflow: hidden;
+  margin: 0 0 20px;
+  background: var(--ob-surface);
+}
+.ob-playground__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 12px; background: var(--ob-bg-alt); border-top: 1px solid var(--ob-border);
+}
+.ob-playground__header:first-child { border-top: none; }
+.ob-playground__header .ob-eyebrow { margin: 0; color: var(--ob-fg-soft); }
+.ob-playground__preview { padding: var(--ob-pad-card); background: var(--ob-surface); overflow: auto; }
+.ob-playground__error { color: var(--ob-danger); font-family: var(--ob-font-mono); font-size: 12px; white-space: pre-wrap; }
+.ob-playground__editor, .ob-playground__editor pre {
+  font-family: var(--ob-font-mono) !important; font-size: 13px !important; line-height: 1.6;
+  background: var(--ob-bg-alt) !important; color: var(--ob-fg-strong);
+}
+.ob-playground__editor { padding: 6px 4px; }
+
+/* ---------- Cartões do índice de categoria ---------- */
+.ob-cards { display: grid; grid-template-columns: 1fr; gap: var(--ob-gap-md); }
+@media (min-width: 768px) { .ob-cards { grid-template-columns: 1fr 1fr; } }
+
+@media (max-width: 767px) {
+  .ob-topbar__github { display: none; }
+}
+
+/* Blocos de código: sem colorização de sintaxe (o design system não define uma), como nas páginas ds/docs */
+.ob-wrap .markdown div[class*='codeBlockContainer'] pre { background: none !important; border: none; margin: 0; border-radius: 0; }
+.ob-wrap .markdown pre span, .ob-playground__editor span { color: inherit !important; font-style: normal !important; }
+.ob-wrap .ob-playground pre { border: none; border-radius: 0; margin: 0; padding: 6px 8px; }
+
+.ob-wrap .markdown code, .ob-wrap .markdown pre, .ob-playground__editor { font-variant-ligatures: none; }

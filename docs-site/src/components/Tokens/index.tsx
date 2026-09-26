@@ -12,7 +12,7 @@ const celula: React.CSSProperties = { verticalAlign: 'middle' };
 
 function Amostra({ nome, tipo }: { nome: string; tipo: Tipo }) {
   const v = `var(${nome})`;
-  const base: React.CSSProperties = { width: 44, height: 28, border: '1px solid var(--ifm-color-emphasis-300)' };
+  const base: React.CSSProperties = { width: 44, height: 28, border: '1px solid var(--ob-border)' };
   if (tipo === 'cor') return <div style={{ ...base, borderRadius: 6, background: v }} />;
   if (tipo === 'raio') return <div style={{ ...base, borderRadius: v, background: 'var(--ob-blue-100)' }} />;
   if (tipo === 'sombra') return <div style={{ ...base, border: 'none', borderRadius: 6, background: 'var(--ob-surface)', boxShadow: v }} />;
