@@ -83,6 +83,7 @@ export const Datepicker: React.FC<DatepickerProps> = ({
   const [endErr, setEndErr] = useState('');
   const [startFocus, setStartFocus] = useState(false);
   const [endFocus, setEndFocus] = useState(false);
+  const [hoverIso, setHoverIso] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -136,6 +137,15 @@ export const Datepicker: React.FC<DatepickerProps> = ({
     return dIso > localValues.startDate && dIso < localValues.endDate;
   };
 
+  // Só o início foi escolhido: passar o mouse sobre outro dia prevê o intervalo inteiro,
+  // para a frente ou para trás do início, sem exigir o segundo clique.
+  const aguardandoFim = !singleDate && !!localValues.startDate && !localValues.endDate;
+  const emPrevia = (iso: string) => {
+    if (!aguardandoFim || !hoverIso || !localValues.startDate) return false;
+    const [de, ate] = hoverIso < localValues.startDate ? [hoverIso, localValues.startDate] : [localValues.startDate, hoverIso];
+    return iso > de && iso < ate;
+  };
+
   const handleDayClick = (day: number) => {
     const d = new Date(month.getFullYear(), month.getMonth(), day);
     const iso = dpToIso(d);
@@ -144,10 +154,15 @@ export const Datepicker: React.FC<DatepickerProps> = ({
       setLocalValues(newVals); setStartText(dpFmt(d)); setStartErr('');
       onChange?.(newVals); setOpen(false);
     } else {
-      if (!localValues.startDate || (localValues.startDate && localValues.endDate) || iso! < localValues.startDate!) {
+      if (!localValues.startDate || (localValues.startDate && localValues.endDate)) {
         const newVals = { startDate: iso, endDate: null };
         setLocalValues(newVals); setStartText(dpFmt(d)); setEndText(''); setStartErr(''); setEndErr('');
         onChange?.(newVals);
+      } else if (iso! < localValues.startDate) {
+        // dia anterior ao início: o intervalo vai dele até o início já escolhido
+        const newVals = { startDate: iso, endDate: localValues.startDate };
+        setLocalValues(newVals); setStartText(dpFmt(d)); setEndText(dpFmt(localValues.startDate)); setStartErr(''); setEndErr('');
+        onChange?.(newVals); setOpen(false);
       } else {
         const newVals = { ...localValues, endDate: iso };
         setLocalValues(newVals); setEndText(dpFmt(d)); setEndErr('');
@@ -233,11 +248,11 @@ export const Datepicker: React.FC<DatepickerProps> = ({
           minWidth: 300,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <button onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}>←</button>
+            <button onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}>←</button>
             <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{monthNames[month.getMonth()]} {month.getFullYear()}</span>
-            <button onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}>→</button>
+            <button onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}>→</button>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 2, marginBottom: 10 }}>
+          <div onMouseLeave={() => setHoverIso(null)} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 2, marginBottom: 10 }}>
             {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d, i) => (
               <div key={i} style={{ textAlign: 'center', fontSize: 10, fontWeight: 600, color: 'var(--ob-fg-mute)', padding: '4px 0' }}>{d}</div>
             ))}
@@ -246,13 +261,15 @@ export const Datepicker: React.FC<DatepickerProps> = ({
               const iso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
               const isStart = iso === localValues.startDate;
               const isEnd = iso === localValues.endDate;
-              const inRange = isInRange(day);
+              const inRange = isInRange(day) || emPrevia(iso);
+              const alvoDaPrevia = aguardandoFim && hoverIso === iso && !isStart;
               return (
-                <button key={day} onClick={() => handleDayClick(day)} style={{
+                <button key={day} onClick={() => handleDayClick(day)} onMouseEnter={() => setHoverIso(iso)} style={{
                   padding: '6px 0', borderRadius: 'var(--ob-r-xs)', border: 'none', textAlign: 'center',
                   background: isStart || isEnd ? 'var(--ob-blue)' : inRange ? 'var(--ob-blue-100)' : 'var(--ob-surface)',
                   color: isStart || isEnd ? '#fff' : 'var(--ob-fg-strong)',
-                  fontSize: 12, fontWeight: 500, cursor: 'pointer', transition: 'background 100ms',
+                  boxShadow: alvoDaPrevia ? 'inset 0 0 0 1.5px var(--ob-blue)' : 'none',
+                  fontFamily: 'inherit', fontSize: 12, fontWeight: 500, cursor: 'pointer', transition: 'background 100ms',
                 }}>{day}</button>
               );
             })}

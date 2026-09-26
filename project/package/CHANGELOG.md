@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.8.0
+
+### Minor Changes
+
+- `Datepicker` (intervalo): com só o início escolhido, passar o mouse sobre outro dia destaca o intervalo inteiro (para a frente ou para trás do início); clicar num dia anterior ao início agora fecha o intervalo entre eles, em vez de reiniciar a seleção. Os dias e as setas do calendário também passam a herdar a fonte do design system.
+
 ## 0.7.0
 
 ### Minor Changes
