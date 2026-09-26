@@ -15,6 +15,23 @@ npm run verify   # typecheck + build + teste de tipos (contra o .d.ts) + smokes
 `dist/` é gerado e não é versionado: rode o build antes de usar o pacote ou de abrir as
 páginas de preview em `project/ds/components/`.
 
+## Estrutura do código
+
+Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<categoria>/<Nome>/<Nome>.tsx`):
+
+| Categoria | Componentes |
+|---|---|
+| `actions` | Button, Link |
+| `forms` | Input, SearchInput, Select, Datepicker, CodeInput, Checkbox, Radio, RadioGroup, Toggle, Slider, FieldShell |
+| `feedback` | Alert, Toast, ToastStack, ProgressBar, ProgressCircle, Spinner, Skeleton, StatusDot |
+| `overlays` | Modal, Drawer, Dropdown, Tooltip, FloatingPanel |
+| `navigation` | Tabs, SideNav, Pagination |
+| `data-display` | Table, Card, Avatar, Badge, Chip, DeadlineCalendar |
+| `brand` | Logo, Brands, BrandTile |
+| `iconography` | Icons, Ph |
+
+`src/internal/` guarda o que é compartilhado e não faz parte da API pública (tons de cor, posições do toast, injeção de CSS). Ao criar um componente, escolha a categoria pelo que ele faz para o usuário e exporte-o em `src/index.ts`.
+
 ## Uso
 
 ### Como módulo (ESM ou CJS)

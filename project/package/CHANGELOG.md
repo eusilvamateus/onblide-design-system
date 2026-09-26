@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.8.3
+
+### Patch Changes
+
+- Reorganiza o código-fonte por papel na interface (`actions`, `forms`, `feedback`, `overlays`, `navigation`, `data-display`, `brand`, `iconography`), no lugar da divisão antiga `components`/`primitives`. A API pública não muda.
+
 ## 0.8.2
 
 ### Patch Changes
