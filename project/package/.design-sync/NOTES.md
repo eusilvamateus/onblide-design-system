@@ -15,3 +15,10 @@
 - Previews de Tooltip/Dropdown dependem de eventos simulados; se o componente mudar a forma de abrir, revisar.
 - `overrides` de cardMode (column/single) ligados aos nomes das células dos previews.
 - Fontes/glifos Phosphor dependem de `@phosphor-icons/web@2.1.2` em node_modules.
+
+## Fluxo com o Claude Design (código é a fonte)
+- O sync é só código → Claude Design. Trabalho feito lá volta ao código por portagem manual.
+- O agente do Claude Design é orientado (pelo README gerado do `conventions.md`) a não editar as pastas geradas e a criar propostas em `proposals/<Nome>/`. A pasta `proposals/` não está nos globs de escrita/exclusão do sync, então não é apagada.
+- Antes de cada sync: `DesignSync(list_files)` e conferir arquivos remotos fora do conjunto enviado (ignorar `_adherence.oxlintrc.json`, `_ds_manifest.json`, `support.js`, gerados pelo app); avisar o usuário do que for novo. Edições dentro das pastas geradas só se detectam baixando os arquivos um a um.
+- Para trazer uma proposta: ler `proposals/<Nome>/` (poucos arquivos), portar para `project/package/src/<categoria>/<Nome>/`, exemplo em `.design-sync/previews/`, changeset, `npm run verify`, release e sync.
+

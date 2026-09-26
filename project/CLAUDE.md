@@ -112,6 +112,13 @@ links e os botões são componentes do `@onblide/ui`; a coluna de leitura de 760
 repetem `ds/docs/doc.css`; os breakpoints são `sm` 768px e `md` 1024px. Não adicionar elementos que o design system
 não tem (rodapé, breadcrumbs, sumário lateral, paginação, colorização de sintaxe) nem cores fora dos tokens.
 
+## Fluxo com o Claude Design
+
+O código (`@onblide/ui`) é a única fonte; o sync (`/design-sync`) vai só do código para o Claude Design. O agente de
+lá recebe, no README gerado de `project/package/.design-sync/conventions.md`, a regra de não editar as pastas geradas
+e de propor mudanças em `proposals/<Nome>/`. Para trazer uma proposta ao código, portar manualmente (ver
+`.design-sync/NOTES.md`). Antes de cada sync, listar o projeto remoto e avisar o usuário de arquivos novos ou fora do lugar.
+
 ## Idioma da documentação
 
 Toda documentação, specs e planos (`docs/`), e a memória persistente do agente

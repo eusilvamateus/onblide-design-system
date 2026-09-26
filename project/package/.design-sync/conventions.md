@@ -26,3 +26,10 @@ Leia isto antes de montar qualquer tela. Tudo vem de `window.OnblideUI` (o bundl
 - `Modal`, `Drawer`, `Dropdown` e `Tooltip` são overlays: renderize-os dentro de um contêiner com altura definida.
 - `ToastStack` fica uma vez na raiz do app; toasts disparam pelo evento `ob-toast`.
 - `Table`, `Tabs`, `Pagination`, `SideNav` recebem dados por props; use conteúdo realista, nunca "foo/test".
+
+## Como propor mudanças (importante)
+- **Não edite** `components/`, `tokens/`, `fonts/`, `_preview/`, `styles.css` nem `_ds_bundle.*`: são gerados do código e o próximo sync sobrescreve qualquer alteração.
+- Para **propor um componente novo ou uma mudança** num existente, crie os arquivos em `proposals/<Nome>/` (um `index.html` ou `.jsx` de protótipo e um `NOTAS.md` com o que muda e por quê). Use só tokens `--ob-*` e os componentes existentes; não invente cores, raios ou espaçamentos.
+- Telas e protótipos que apenas **usam** os componentes existentes podem ficar em qualquer outra pasta.
+- Uma proposta só entra no design system depois de ser portada para o código (`@onblide/ui`) e sincronizada de volta.
+
