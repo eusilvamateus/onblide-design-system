@@ -4,11 +4,11 @@ description: Use this skill to generate well-branded interfaces and assets for O
 user-invocable: true
 ---
 
-Read the `README.md` and `CLAUDE.md` files within this skill, and explore the other available files (`colors_and_type.css`, `assets/`, `ds/` — foundations + components + docs).
+Read the `README.md` and `CLAUDE.md` files within this skill, and explore the other available files (`package/src/tokens.css`, `assets/`, `ds/` — foundations + components + docs).
 
 If creating visual artifacts (slides, mocks, throwaway prototypes, etc), copy assets out and create static HTML files for the user to view. Reuse the components of `@onblide/ui` (`package/`): load `package/dist/onblide-ui.browser.js` after `npm run build`, as the preview pages in `ds/components/` do.
 
-If working on production code, you can copy assets and read the rules here to become an expert in designing with this brand. The single source of truth for tokens is `colors_and_type.css`.
+If working on production code, you can copy assets and read the rules here to become an expert in designing with this brand. The single source of truth for tokens is `package/src/tokens.css`.
 
 If the user invokes this skill without any other guidance, ask them what they want to build or design, ask some questions (audience, surface, content), and act as an expert designer who outputs HTML artifacts *or* production code, depending on the need.
 

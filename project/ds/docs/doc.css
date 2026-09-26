@@ -1,5 +1,5 @@
 /* Onblide — shared documentation page styles */
-@import url('../../colors_and_type.css');
+@import url('../../package/src/tokens.css');
 
 /* Phosphor icons in matrix/do-dont — enforce consistent size */
 .mark i, .dd .tag i { font-size: 12px; line-height: 1; }

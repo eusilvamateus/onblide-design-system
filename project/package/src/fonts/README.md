@@ -10,7 +10,7 @@ Three families, all **self-hosted** in this folder (`fonts/`). No CDN dependency
 
 ## @font-face
 
-All three families are declared in `colors_and_type.css` via `@font-face` blocks pointing to `fonts/*.ttf`. No `@import` from Google Fonts.
+All three families are declared in `tokens.css` via `@font-face` blocks pointing to `fonts/*.ttf`. No `@import` from Google Fonts.
 
 ## Offline use
 

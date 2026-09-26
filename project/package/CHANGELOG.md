@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.9.2
+
+### Patch Changes
+
+- Unifica os tokens: `src/tokens.css` passa a ser o único arquivo (o antigo `colors_and_type.css` da raiz e a pasta `fonts/` duplicada foram removidos) e as páginas de `ds/` apontam para ele.
+
 ## 0.9.1
 
 ### Patch Changes
