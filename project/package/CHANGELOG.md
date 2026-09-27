@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.13.2
+
+### Patch Changes
+
+- `Checkbox`: check e traço passam a ser os SVGs oficiais do Phosphor (peso bold, `@phosphor-icons/core`, embutidos no build) em 14px, centralizados pela geometria — antes eram glifos de fonte de 12px, finos e deslocados em meio pixel. O contorno vira sombra interna (miolo de 18px inteiros, 2px de respiro exatos) e a caixa fica alinhada ao pixel mesmo em posição fracionada. `Radio` recebe a mesma correção no ponto central. Os dois usam entrelinha de 18px no rótulo.
+
 ## 0.13.1
 
 ### Patch Changes

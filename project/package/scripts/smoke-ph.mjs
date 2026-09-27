@@ -23,10 +23,10 @@ if (!regular.includes('width:18px;height:18px')) fail('ícone deveria ocupar uma
 const reg = renderToStaticMarkup(Icons.star({ weight: 'fill' }));
 if (!reg.includes('class="ph-fill ph-star"')) fail('Icons deveria repassar o peso', reg);
 
-// Checkbox: check e traço no mesmo peso (bold).
+// Checkbox: check e traço são os SVGs oficiais do Phosphor (bold, @phosphor-icons/core), em 14px.
 const marcado = renderToStaticMarkup(h(Checkbox, { checked: true, label: 'x' }));
 const parcial = renderToStaticMarkup(h(Checkbox, { checked: false, indeterminate: true, label: 'x' }));
-if (!marcado.includes('class="ph-bold ph-check"')) fail('check deveria ser ph-bold', marcado);
-if (!parcial.includes('class="ph-bold ph-minus"')) fail('indeterminado deveria ser ph-bold ph-minus', parcial);
+if (!marcado.includes('<svg width="14" height="14"') || !marcado.includes('M232.49,80.49')) fail('check deveria ser o SVG bold do Phosphor em 14px', marcado);
+if (!parcial.includes('<svg width="14" height="14"') || !parcial.includes('M228,128')) fail('traço deveria ser o SVG bold do Phosphor em 14px', parcial);
 
-console.log('OK: Ph (6 pesos, caixa quadrada), Icons repassa peso, Checkbox em bold');
+console.log('OK: Ph (6 pesos, caixa quadrada), Icons repassa peso, Checkbox com SVG bold do Phosphor');

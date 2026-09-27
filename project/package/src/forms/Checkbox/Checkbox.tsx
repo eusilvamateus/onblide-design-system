@@ -1,5 +1,6 @@
 import React from 'react';
-import { Ph } from '../../iconography/Ph/Ph';
+import checkBold from '@phosphor-icons/core/assets/bold/check-bold.svg';
+import minusBold from '@phosphor-icons/core/assets/bold/minus-bold.svg';
 
 export interface CheckboxProps {
   /** Define se a caixa está marcada. */
@@ -18,12 +19,25 @@ export interface CheckboxProps {
   ariaLabel?: string;
 }
 
+const CAIXA = 18;
+const ICONE = 14;
+
+// Glifos oficiais do Phosphor (peso bold) em SVG: centralizam pela geometria, não pela linha de base de uma fonte.
+// O viewBox desloca cada glifo para que o centro do desenho (medido com getBBox) caia no centro da caixa:
+// o check do Phosphor fica 4 unidades à direita e 8 abaixo do centro da grade de 256.
+const caminho = (svg: string) => svg.match(/ d="([^"]+)"/)?.[1] ?? '';
+const GLIFOS = {
+  check: { d: caminho(checkBold), viewBox: '4 8 256 256' },
+  minus: { d: caminho(minusBold), viewBox: '0 0 256 256' },
+};
+
 /** Caixa de seleção para escolhas múltiplas ou confirmação, com suporte a estado indeterminado. */
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked, onChange, label, disabled = false, indeterminate = false, description, ariaLabel,
 }) => {
   const ativo = checked || indeterminate;
   const temTexto = label != null || description != null;
+  const glifo = GLIFOS[indeterminate ? 'minus' : 'check'];
   return (
     <label
       role="checkbox"
@@ -37,19 +51,26 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         display: temTexto ? 'flex' : 'inline-flex', alignItems: 'flex-start', gap: 10,
         cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.5 : 1,
       }}>
-      {/* Check e traço são glifos do Phosphor no mesmo peso (bold: ícone pequeno sobre fundo sólido). */}
+      {/* Contorno como sombra interna (não border): o miolo fica com os 18px inteiros e o ícone de 14px sobra 2px de
+          cada lado. translateZ(0) põe a caixa numa camada própria, alinhada ao pixel mesmo em posição fracionada. */}
       <span style={{
-        flex: 'none', marginTop: temTexto ? 1 : 0, width: 18, height: 18, boxSizing: 'border-box', borderRadius: 6,
-        border: `1.5px solid ${ativo ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
+        flex: 'none', width: CAIXA, height: CAIXA, borderRadius: 6,
+        boxShadow: `inset 0 0 0 1.5px ${ativo ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
         background: ativo ? 'var(--ob-blue)' : 'var(--ob-surface)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        transition: 'all 160ms var(--ob-ease)',
+        transform: 'translateZ(0)',
+        transition: 'background 160ms var(--ob-ease), box-shadow 160ms var(--ob-ease)',
       }}>
-        {ativo && <Ph n={indeterminate ? 'minus' : 'check'} size={12} c="#fff" weight="bold" />}
+        {ativo && (
+          <svg width={ICONE} height={ICONE} viewBox={glifo.viewBox} fill="#fff" aria-hidden="true" style={{ display: 'block' }}>
+            <path d={glifo.d} />
+          </svg>
+        )}
       </span>
       {temTexto && (
         <span>
-          {label != null && <span style={{ fontSize: 14, color: 'var(--ob-fg-strong)', fontWeight: 500, lineHeight: 1.3, display: 'block' }}>{label}</span>}
+          {/* Entrelinha igual à altura da caixa (18px): o texto não empurra a caixa para meio pixel. */}
+          {label != null && <span style={{ fontSize: 14, color: 'var(--ob-fg-strong)', fontWeight: 500, lineHeight: `${CAIXA}px`, display: 'block' }}>{label}</span>}
           {description != null && <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 2, display: 'block' }}>{description}</span>}
         </span>
       )}

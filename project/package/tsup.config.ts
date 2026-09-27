@@ -38,6 +38,10 @@ export default defineConfig([
     sourcemap: true,
     clean: true,
     outDir: 'dist',
+    // Glifos SVG oficiais do Phosphor (@phosphor-icons/core) usados pelo Checkbox: entram no build como texto,
+    // para o consumidor não precisar de loader de SVG.
+    noExternal: [/^@phosphor-icons\/core/],
+    loader: { '.svg': 'text' },
   },
   {
     // Browser-global bundle for the ds/components/*.html preview pages.
@@ -50,6 +54,7 @@ export default defineConfig([
     clean: false,
     minify: true,
     outDir: 'dist',
+    loader: { '.svg': 'text' },
     // Selects react/jsx-runtime's production build at build time and strips
     // its "process.env.NODE_ENV" check — the browser has no `process` global,
     // so without this the bundle throws "process is not defined" on load.
