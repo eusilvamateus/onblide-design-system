@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table, type TableColumn } from '@onblide/ui';
 import tokens from '@site/src/data/tokens.json';
 
 type Token = { nome: string; valor: string; escuro: string | null };
@@ -7,8 +8,6 @@ type Tipo = 'cor' | 'raio' | 'sombra' | 'espaco' | 'texto' | 'nenhuma';
 const todos = tokens as Token[];
 const filtrar = (prefixos: string[]) =>
   todos.filter((t) => prefixos.some((p) => t.nome === p || t.nome.startsWith(`${p}-`)));
-
-const celula: React.CSSProperties = { verticalAlign: 'middle' };
 
 function Amostra({ nome, tipo }: { nome: string; tipo: Tipo }) {
   const v = `var(${nome})`;
@@ -21,30 +20,15 @@ function Amostra({ nome, tipo }: { nome: string; tipo: Tipo }) {
   return null;
 }
 
+// A tabela de tokens é a própria Table do design system — mesma regra da PropsTable: nenhuma tabela do site
+// nasce como <table> crua.
 export function TokenTable({ prefixos, tipo = 'nenhuma' }: { prefixos: string[]; tipo?: Tipo }) {
   const linhas = filtrar(prefixos);
-  return (
-    <div style={{ overflowX: 'auto' }}>
-      <table>
-        <thead>
-          <tr>
-            {tipo !== 'nenhuma' && <th>Amostra</th>}
-            <th>Token</th>
-            <th>Valor (claro)</th>
-            <th>Valor (escuro)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {linhas.map((t) => (
-            <tr key={t.nome}>
-              {tipo !== 'nenhuma' && <td style={celula}><Amostra nome={t.nome} tipo={tipo} /></td>}
-              <td style={celula}><code>{t.nome}</code></td>
-              <td style={celula}><code>{t.valor}</code></td>
-              <td style={celula}>{t.escuro ? <code>{t.escuro}</code> : '—'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+  const colunas: TableColumn<Token>[] = [
+    ...(tipo !== 'nenhuma' ? [{ key: 'amostra', label: 'Amostra', render: (_v, row) => <Amostra nome={row.nome} tipo={tipo} /> } satisfies TableColumn<Token>] : []),
+    { key: 'nome', label: 'Token', sortable: true, render: (v) => <code>{v as string}</code> },
+    { key: 'valor', label: 'Valor (claro)', render: (v) => <code>{v as string}</code> },
+    { key: 'escuro', label: 'Valor (escuro)', render: (v) => (v ? <code>{v as string}</code> : '—') },
+  ];
+  return <Table columns={colunas} rows={linhas} />;
 }
