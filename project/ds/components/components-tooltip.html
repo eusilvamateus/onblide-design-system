@@ -13,7 +13,13 @@
   .colored { background: var(--ob-blue); border-radius: 16px; padding: 24px 28px; display: inline-flex; gap: 20px; align-items: center; }
   .colored .pill { padding: 9px 16px; border-radius: 999px; background: rgba(255,255,255,0.18); color: #fff; font-size: 14px; font-weight: 600; cursor: default; }
   .hint { font-size: 12px; color: var(--ob-fg-mute); margin-top: 10px; }
-</style></head>
+</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/thin/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/light/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css">
+</head>
 <body>
   <div id="root"></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
@@ -45,7 +51,7 @@
             <div className="row">
               <Tooltip label="Salvar alterações" shortcut="⌘S">
                 <span className="icon-btn">
-                  <svg width="18" height="18" viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth="16" strokeLinecap="round" strokeLinejoin="round"><path d="M40 128l56 56 120-120"/></svg>
+                  <Ph n="check" size={18} />
                 </span>
               </Tooltip>
               <Tooltip label="Criada em 24/05/2026, 14:32" placement="bottom">
@@ -53,7 +59,7 @@
               </Tooltip>
               <Tooltip label="Buscar" shortcut="/" placement="right">
                 <span className="icon-btn">
-                  <svg width="18" height="18" viewBox="0 0 256 256" fill="none" stroke="currentColor" strokeWidth="16" strokeLinecap="round" strokeLinejoin="round"><circle cx="116" cy="116" r="76"/><path d="m172 172 44 44"/></svg>
+                  <Ph n="magnifying-glass" size={18} />
                 </span>
               </Tooltip>
             </div>

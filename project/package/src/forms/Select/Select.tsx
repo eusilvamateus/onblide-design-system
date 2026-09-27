@@ -213,7 +213,7 @@ export const Select: React.FC<SelectProps> = (props) => {
 
       {error && (
         <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 5, display: 'flex', alignItems: 'center', gap: 4 }}>
-          <Ph n="warning-circle" size={13} c="var(--ob-danger)" />
+          <Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />
           {error}
         </div>
       )}

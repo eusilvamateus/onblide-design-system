@@ -40,7 +40,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({ value = '', onChange, 
         <input value={value} onChange={e => onChange?.(e.target.value)} placeholder={placeholder}
           onFocus={() => setFocus(true)} onBlur={() => setTimeout(() => setFocus(false), 150)}
           style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'none', fontFamily: 'var(--ob-font)', fontSize: 14.5, color: 'var(--ob-fg-strong)' }} />
-        {loading && <i className="ph ph-circle-notch" style={{ fontSize: 17, color: 'var(--ob-blue)', animation: 'ob-spin 0.8s linear infinite', flex: 'none' }} />}
+        {loading && <Ph n="circle-notch" size={17} c="var(--ob-blue)" style={{ animation: 'ob-spin 0.8s linear infinite' }} />}
         {!loading && value && <button onClick={() => onChange?.('')} aria-label="Limpar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flex: 'none' }}><Ph n="x-circle" size={17} /></button>}
       </FieldShell>
       {showDrop && (
@@ -52,7 +52,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({ value = '', onChange, 
                 style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '11px 14px', border: 'none', borderBottom: i < results.length - 1 ? '1px solid var(--ob-line-soft)' : 'none', background: 'transparent', cursor: 'pointer', fontFamily: 'var(--ob-font)', fontSize: 14, color: 'var(--ob-fg)', textAlign: 'left' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}>
-                <Ph n="arrow-elbow-down-right" size={14} c="var(--ob-fg-mute)" />{lbl}
+                <Ph n="arrow-elbow-down-right" size={14} c="var(--ob-fg-mute)" weight="bold" />{lbl}
               </button>
             );
           })}

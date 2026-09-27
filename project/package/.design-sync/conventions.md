@@ -14,7 +14,7 @@ Leia isto antes de montar qualquer tela. Tudo vem de `window.OnblideUI` (o bundl
 - Cartão com borda OU com sombra, nunca os dois.
 
 ## Ícones
-- Só Phosphor (peso regular), sempre pelo registro `Icons` (ex.: `<Icons.plus size={16} />`) ou `Ph`. Nunca outra biblioteca nem SVG desenhado à mão. 16px inline, 18–20px na navegação.
+- Só Phosphor, nos seis pesos, cada um com seu papel: `regular` padrão; `fill` estado ligado (em par com regular); `bold` até 14px ou sobre fundo sólido; `light` 32–48px; `thin` editorial 64px+; `duotone` só destaque ilustrativo. Um peso por região. Sempre pelo registro `Icons` (ex.: `<Icons.plus size={16} />`, `<Icons.star weight="fill" />`) ou `<Ph n="…" weight="…" />`. Nunca outra biblioteca nem SVG desenhado à mão. 16px inline, 18–20px na navegação.
 
 ## Copy
 - Português do Brasil, tom conversacional, frases curtas, sentence case ("Nova tarefa", não "Nova Tarefa").

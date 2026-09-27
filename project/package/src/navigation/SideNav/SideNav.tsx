@@ -40,7 +40,7 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
       onMouseEnter={e => { if (!on) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
       onMouseLeave={e => { if (!on) e.currentTarget.style.background = 'transparent'; }}>
       {on && <span style={{ position: 'absolute', left: 0, top: nivel ? 8 : 10, bottom: nivel ? 8 : 10, width: 3, borderRadius: 3, background: 'var(--ob-blue)' }} />}
-      {it.icon && <Ph n={it.icon} size={20} />}
+      {it.icon && <Ph n={it.icon} size={20} weight={on ? 'fill' : 'regular'} />}
       {!collapsed && <span style={{ flex: 1, textAlign: 'left' }}>{it.label}</span>}
       {!collapsed && it.badge != null && <span style={{ minWidth: 20, height: 20, padding: '0 6px', borderRadius: 999, background: 'var(--ob-orange)', color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{it.badge}</span>}
       {!collapsed && grupo && <Ph n="caret-down" size={14} style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />}

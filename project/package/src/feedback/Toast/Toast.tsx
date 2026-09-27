@@ -36,7 +36,7 @@ export const Toast: React.FC<ToastProps> = ({ tone = 'info', title, body, action
           flexShrink: 0, width: 30, height: 30, borderRadius: 'var(--ob-r-sm)',
           background: t.bg, display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          <Ph n={t.icon} size={17} c={t.fg} />
+          <Ph n={t.icon} size={17} c={t.fg} weight="fill" />
         </span>
       )}
       <div style={{ flex: 1, minWidth: 0 }}>

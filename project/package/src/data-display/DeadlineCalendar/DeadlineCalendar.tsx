@@ -1,5 +1,6 @@
 // project/package/src/data-display/DeadlineCalendar/DeadlineCalendar.tsx
 import React, { useEffect, useState } from 'react';
+import { Ph } from '../../iconography/Ph/Ph';
 
 export interface DeadlineCalendarPhase {
   /** Data de início da fase, no formato AAAA-MM-DD. */
@@ -70,11 +71,11 @@ export const DeadlineCalendar: React.FC<DeadlineCalendarProps> = ({
 
   return (
     <section aria-label="Calendário de prazos" style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: 12, border: '1px solid var(--ob-border)', borderRadius: 'var(--ob-r-surface)', background: 'var(--ob-surface)' }}>
-      <strong style={{ color: 'var(--ob-fg-strong)', fontSize: 12 }}><i className="ph ph-calendar-blank" aria-hidden="true" /> Calendário de prazos</strong>
+      <strong style={{ color: 'var(--ob-fg-strong)', fontSize: 12 }}><Ph n="calendar-blank" size={12} weight="bold" style={{ verticalAlign: '-2px' }} /> Calendário de prazos</strong>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-        <button type="button" aria-label="Mês anterior" disabled={monthKey(activeMonth) <= monthKey(minMonth)} onClick={() => setMonth(new Date(activeMonth.getFullYear(), activeMonth.getMonth() - 1, 1))} style={buttonStyle(monthKey(activeMonth) <= monthKey(minMonth))}><i className="ph ph-caret-left" aria-hidden="true" /></button>
+        <button type="button" aria-label="Mês anterior" disabled={monthKey(activeMonth) <= monthKey(minMonth)} onClick={() => setMonth(new Date(activeMonth.getFullYear(), activeMonth.getMonth() - 1, 1))} style={buttonStyle(monthKey(activeMonth) <= monthKey(minMonth))}><Ph n="caret-left" size={14} weight="bold" /></button>
         <strong aria-live="polite" style={{ minWidth: 142, color: 'var(--ob-fg-strong)', fontSize: 12, textAlign: 'center' }}>{monthNames[activeMonth.getMonth()]} de {activeMonth.getFullYear()}</strong>
-        <button type="button" aria-label="Próximo mês" disabled={monthKey(activeMonth) >= monthKey(maxMonth)} onClick={() => setMonth(new Date(activeMonth.getFullYear(), activeMonth.getMonth() + 1, 1))} style={buttonStyle(monthKey(activeMonth) >= monthKey(maxMonth))}><i className="ph ph-caret-right" aria-hidden="true" /></button>
+        <button type="button" aria-label="Próximo mês" disabled={monthKey(activeMonth) >= monthKey(maxMonth)} onClick={() => setMonth(new Date(activeMonth.getFullYear(), activeMonth.getMonth() + 1, 1))} style={buttonStyle(monthKey(activeMonth) >= monthKey(maxMonth))}><Ph n="caret-right" size={14} weight="bold" /></button>
       </div>
       <div aria-hidden="true" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: 3 }}>{weekdayNames.map((name, index) => <span key={`${name}-${index}`} style={{ color: 'var(--ob-fg-mute)', fontFamily: 'var(--ob-font-mono)', fontSize: 9, fontWeight: 700, textAlign: 'center' }}>{name}</span>)}</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))', gap: 3 }}>

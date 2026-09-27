@@ -1,4 +1,5 @@
 import React from 'react';
+import { Ph } from '../../iconography/Ph/Ph';
 
 export interface ChipProps {
   /** Texto ou conteúdo exibido no chip. */
@@ -51,7 +52,7 @@ export const Chip: React.FC<ChipProps> = ({
       onKeyDown={e => { if (!disabled && (e.key === 'Enter' || e.key === ' ')) onToggle?.(); }}
       style={{ ...base, ...stateStyle }}
     >
-      {icon && <i className={`ph ph-${icon}`} style={{ fontSize: size === 'sm' ? 13 : 15, lineHeight: 1 }}/>}
+      {icon && <Ph n={icon} size={size === 'sm' ? 13 : 15} weight={size === 'sm' ? 'bold' : 'regular'} />}
       {label}
       {removable && (
         <button

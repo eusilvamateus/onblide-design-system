@@ -34,7 +34,7 @@ export const Link: React.FC<LinkProps> = ({ href = '#', children, variant = 'def
         ...variants[variant],
       }}>
       {children}
-      {external && <Icons.arrowSquareOut size={13}/>}
+      {external && <Icons.arrowSquareOut size={13} weight="bold"/>}
     </a>
   );
 };

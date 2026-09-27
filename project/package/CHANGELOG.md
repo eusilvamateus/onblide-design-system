@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.13.0
+
+### Minor Changes
+
+- Biblioteca Phosphor inteira, nos seis pesos. `Ph` e `Icons` ganham a prop `weight` (`regular`, `fill`, `bold`, `light`, `thin`, `duotone`; padrão `regular`) e `styles.css` passa a carregar as seis fontes (cada uma só é baixada quando usada). Os componentes aplicam o peso pelo papel: `fill` no item ativo do `SideNav`, na aba ativa dos `Tabs` e no ícone de status do `Alert` e do `Toast`; `bold` em ícones de até 14px e no check/traço do `Checkbox`, que agora usam o mesmo peso e ficam centralizados. A `Table` passa a usar o `Checkbox` do design system (com estado indeterminado no "selecionar tudo") e `Checkbox` ganha `ariaLabel`. `Chip`, `SearchInput` e `DeadlineCalendar` deixam de montar `<i class="ph">` à mão.
+
 ## 0.12.0
 
 ### Minor Changes

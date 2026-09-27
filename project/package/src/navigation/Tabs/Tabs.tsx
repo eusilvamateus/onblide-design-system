@@ -64,7 +64,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
                 boxShadow: (!isLine && isActive) ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
               }}
             >
-              {tab.icon && <Ph n={tab.icon} size={15}/>}
+              {tab.icon && <Ph n={tab.icon} size={15} weight={isActive ? 'fill' : 'regular'}/>}
               {tab.label}
               {tab.badge != null && (
                 <span style={{

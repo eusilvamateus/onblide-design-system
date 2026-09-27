@@ -66,15 +66,20 @@ usa o `window.React` e o `window.ReactDOM` da página e não embute uma cópia p
 
 ## Ícones
 
-Os componentes renderizam `<i class="ph ph-...">`. O pacote **não** injeta o CSS do Phosphor:
+Os componentes renderizam `<i class="ph ph-...">` (peso regular) ou `<i class="ph-<peso> ph-...">`. O pacote **não** injeta o CSS do Phosphor:
 ele precisa estar carregado na página, senão os ícones aparecem vazios.
 
-- Com bundler: `import '@onblide/ui/styles.css'` já traz o Phosphor (dependência
-  `@phosphor-icons/web`) junto dos tokens.
+- Com bundler: `import '@onblide/ui/styles.css'` já traz os seis pesos do Phosphor (dependência
+  `@phosphor-icons/web`) junto dos tokens. Cada fonte só é baixada quando algum ícone usa aquele peso.
 - Com o bundle de navegador (IIFE) o CSS não vem junto. Use o CDN:
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/thin/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/light/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css">
 ```
 
 ### `Ph` ou `Icons`?
@@ -86,11 +91,18 @@ Os dois existem, e `Icons` é construído sobre `Ph`:
   padrão 20; a cor vem de `style`; a marcação é a mesma de `<Ph n="…" size={20} />`. Use para os ícones do registro, porque trocar o peso ou a
   fonte dos ícones num lugar só é a regra do projeto (`project/CLAUDE.md`). `Link`,
   `Pagination` e `Modal` usam `Icons`.
-- **`Ph`**: `<Ph n="check" size={18} c="var(--ob-blue)" />` renderiza qualquer glifo Phosphor
-  pelo nome (`n`), com cor por prop (`c`). Tamanho padrão 18. Use quando o ícone não estiver
+- **`Ph`**: `<Ph n="check" size={18} c="var(--ob-blue)" weight="bold" />` renderiza qualquer glifo Phosphor
+  pelo nome (`n`), com cor por prop (`c`) e peso (`weight`: regular, fill, bold, light, thin, duotone). Tamanho padrão 18. Use quando o ícone não estiver
   no registro. `Alert`, `Checkbox`, `SearchInput`, `Select`, `SideNav`, `Tabs` e `Toast` usam
-  `Ph`; `Chip`, `SearchInput` (ícone de carregamento) e `DeadlineCalendar` montam o
-  `<i class="ph ph-...">` diretamente.
+  `Ph`; `Chip` e `DeadlineCalendar` também. Nenhum componente monta `<i class="ph ...">` à mão.
+
+### Pesos
+
+Cada peso tem um papel: **regular** é o padrão; **fill** é o estado ligado (item ativo do `SideNav`,
+aba ativa dos `Tabs`, ícone de status do `Alert` e do `Toast`); **bold** é para ícones de até 14px ou sobre
+fundo sólido (check e traço do `Checkbox`); **light** para 32–48px; **thin** só editorial (64px+);
+**duotone** só em destaques ilustrativos. As regras completas estão no site de documentação, em
+Fundações › Iconografia.
 
 ## Marca
 

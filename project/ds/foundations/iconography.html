@@ -2,7 +2,6 @@
 <!-- @dsCard group="Brand" name="Iconography" subtitle="Spec completo: escala, grid, weight, álbum 60+ ícones, ícones conhecidos, uso" viewport="760x700" -->
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Doc · Iconography</title>
 <link rel="stylesheet" href="doc.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"/>
 <style>
 /* ── Extra styles on top of doc.css ── */
 .spec-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0 0 16px; }
@@ -54,6 +53,12 @@
 .u-note { font-size: 12px; color: var(--ob-fg-soft); line-height: 1.55; margin: 6px 0 0; }
 .pill-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: var(--ob-r-sm); font-size: 13px; font-weight: 600; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/thin/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/light/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css">
 </head><body><div class="wrap">
 
   <p class="eyebrow">Foundation · Iconografia</p>
@@ -108,9 +113,7 @@
             <line x1="1.5" y1="44" x2="86.5" y2="44" stroke="var(--ob-border)" stroke-width=".5"/>
             <rect x="6.5" y="6.5" width="75" height="75" fill="var(--ob-blue-100)" stroke="var(--ob-blue)" stroke-width="1" stroke-dasharray="3 2" rx="2"/>
             <text x="44" y="84" text-anchor="middle" font-size="6" fill="var(--ob-fg-mute)" font-family="sans-serif">256 px</text>
-            <g fill="none" stroke="var(--ob-blue)" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" transform="translate(22,18) scale(.172)">
-              <path d="M40 200V112l88-72 88 72v88a8 8 0 0 1-8 8h-48v-56h-64v56H48a8 8 0 0 1-8-8Z"/>
-            </g>
+            <foreignObject x="6.5" y="6.5" width="75" height="75"><div xmlns="http://www.w3.org/1999/xhtml" style="width:75px;height:75px;display:flex;align-items:center;justify-content:center"><i class="ph ph-house" style="font-size:75px;color:var(--ob-blue);line-height:1"></i></div></foreignObject>
             <text x="10" y="20" font-size="5.5" fill="var(--ob-blue)" font-family="sans-serif">safe</text>
           </svg>
           <div class="grid-meta">
@@ -136,9 +139,11 @@
     </div>
 
     <h3>Implementação</h3>
-    <pre><code>&lt;!-- Via webfont CSS (UI icons) --&gt;
+    <pre><code>&lt;!-- Via webfont CSS: um arquivo por peso (regular, thin, light, bold, fill, duotone) --&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css"/&gt;
-&lt;i class="ph ph-house"&gt;&lt;/i&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css"/&gt;
+&lt;i class="ph ph-house"&gt;&lt;/i&gt;        &lt;!-- regular --&gt;
+&lt;i class="ph-fill ph-house"&gt;&lt;/i&gt;   &lt;!-- fill: estado ligado --&gt;
 
 &lt;!-- Tamanho via font-size --&gt;
 &lt;i class="ph ph-gear" style="font-size:20px"&gt;&lt;/i&gt;</code></pre>
@@ -153,9 +158,10 @@
 
   <section>
     <h2>4 · Guia de design</h2>
-    <p><strong>Biblioteca única.</strong> Phosphor Icons (peso Regular). Nunca misture Lucide, Feather, Material, Heroicons ou Font Awesome.</p>
+    <p><strong>Biblioteca única, inteira.</strong> Phosphor Icons, com os seis pesos disponíveis. Nunca misture Lucide, Feather, Material, Heroicons ou Font Awesome.</p>
+    <p><strong>Papel de cada peso.</strong> <strong>Regular</strong> é o padrão da interface. <strong>Fill</strong> é o estado ligado, sempre em par com o regular (item ativo, aba selecionada, favorito, ícone de status em Alert/Toast). <strong>Bold</strong> dá legibilidade até 14 px ou sobre fundo sólido. <strong>Light</strong> é para ícones grandes (32–48 px). <strong>Thin</strong> só em momentos editoriais (64 px+). <strong>Duotone</strong> só em destaques ilustrativos, nunca em interface densa. Um peso por região.</p>
     <p><strong>Tokens.</strong> Tamanho via variável semântica (sm 16 px, md 20 px, lg 24 px, xl 32 px). Cor via <code>currentColor</code> — herda do contexto, não use hexadecimal inline.</p>
-    <p><strong>Fill.</strong> Use somente em estados ativos (ex: botão primário preenchido). Em ações secundárias, sempre Regular.</p>
+    <p><strong>Fill.</strong> Só para estado ligado, trocando com o regular do estado desligado. Em ações secundárias e decoração, nunca.</p>
     <div class="do-dont">
       <div class="dd do"><span class="tag">✓ Faça</span><p>Ícone lg (24 px) para SideNav; md (20 px) para ações e alertas; sm (16 px) para badges e inline de texto.</p></div>
       <div class="dd dont"><span class="tag">✕ Evite</span><p>Tamanhos e gaps inconsistentes (ex: 22 px + 5 px de gap). Sempre use os tamanhos tokenizados.</p></div>
@@ -166,63 +172,63 @@
 </div>
 
 <script>
-const S = 'viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"';
+// Ícones do álbum: glifos reais do Phosphor (peso regular), nunca SVG redesenhado.
 const IC = {
-  home:           `<path d="M40 200V112l88-72 88 72v88a8 8 0 0 1-8 8h-48v-56h-64v56H48a8 8 0 0 1-8-8Z"/>`,
-  menu:           `<path d="M40 64h176M40 128h176M40 192h176"/>`,
-  grid:           `<path d="M40 40h72v72H40ZM144 40h72v72h-72ZM40 144h72v72H40ZM144 144h72v72h-72Z"/>`,
-  'arrow-left':   `<path d="M216 128H40M112 56 40 128l72 72"/>`,
-  'arrow-right':  `<path d="M40 128h176M144 56l72 72-72 72"/>`,
-  'chev-left':    `<path d="M160 48 80 128l80 80"/>`,
-  'chev-right':   `<path d="M96 48l80 80-80 80"/>`,
-  'chev-up':      `<path d="M48 160l80-80 80 80"/>`,
-  'chev-down':    `<path d="m208 96-80 80-80-80"/>`,
-  logout:         `<path d="M104 216H40a8 8 0 0 1-8-8V48a8 8 0 0 1 8-8h64M168 168l40-40-40-40M88 128h120"/>`,
-  search:         `<circle cx="116" cy="116" r="76"/><path d="m172 172 44 44"/>`,
-  plus:           `<path d="M40 128h176M128 40v176"/>`,
-  minus:          `<path d="M40 128h176"/>`,
-  check:          `<path d="M40 128l56 56 120-120"/>`,
-  trash:          `<path d="M216 56H40M88 56V40a8 8 0 0 1 8-8h64a8 8 0 0 1 8 8v16M192 56l-16 160a8 8 0 0 1-8 8H88a8 8 0 0 1-8-8L64 56"/>`,
-  download:       `<path d="M128 32v128M72 112l56 56 56-56M224 176v32a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-32"/>`,
-  upload:         `<path d="M128 160V32M72 80l56-56 56 56M224 176v32a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-32"/>`,
-  copy:           `<path d="M168 56H72a8 8 0 0 0-8 8v128M104 24h120a8 8 0 0 1 8 8v128a8 8 0 0 1-8 8H104a8 8 0 0 1-8-8V32a8 8 0 0 1 8-8Z"/>`,
-  link:           `<path d="M104 176H64a56 56 0 0 1 0-112h40M152 80h40a56 56 0 0 1 0 112h-40M88 128h80"/>`,
-  refresh:        `<path d="M200 56A96 96 0 1 0 216 128M200 56v48h-48"/>`,
-  filter:         `<path d="M32 56h192l-72 80v80l-48-24V136Z"/>`,
-  eye:            `<path d="M128 56c-56 0-96 72-96 72s40 72 96 72 96-72 96-72-40-72-96-72Z"/><circle cx="128" cy="128" r="32"/>`,
-  lock:           `<path d="M80 112V88a48 48 0 0 1 96 0v24M40 112h176a8 8 0 0 1 8 8v88a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-88a8 8 0 0 1 8-8Z"/>`,
-  share:          `<circle cx="64" cy="128" r="24"/><circle cx="192" cy="48" r="24"/><circle cx="192" cy="208" r="24"/><path d="M88 116l80-44M88 140l80 44"/>`,
-  file:           `<path d="M40 32h120l56 56v128a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8ZM160 32v56h56"/>`,
-  folder:         `<path d="M32 64a8 8 0 0 1 8-8h64l24 24h88a8 8 0 0 1 8 8v112a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8Z"/>`,
-  image:          `<path d="M32 32h192a8 8 0 0 1 8 8v176a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8Z"/><circle cx="88" cy="96" r="24"/><path d="M24 184l56-56 40 40 40-32 64 72"/>`,
-  calendar:       `<path d="M40 56h176a8 8 0 0 1 8 8v144a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8V64a8 8 0 0 1 8-8ZM32 96h192M80 24v40M176 24v40"/>`,
-  clock:          `<circle cx="128" cy="128" r="96"/><path d="M128 72v56l40 40"/>`,
-  bookmark:       `<path d="M184 32H72a8 8 0 0 0-8 8v176l64-40 64 40V40a8 8 0 0 0-8-8Z"/>`,
-  tag:            `<path d="M136 32H56a8 8 0 0 0-8 8v80l96 104 96-96L136 32Z"/><circle cx="92" cy="92" r="16" fill="currentColor" stroke="none"/>`,
-  code:           `<path d="M88 56 32 128l56 72M168 56l56 72-56 72"/>`,
-  'chart-bar':    `<path d="M32 32v176a8 8 0 0 0 8 8h176M72 192v-64M112 192v-96M152 192V96M192 192V64"/>`,
-  database:       `<ellipse cx="128" cy="80" rx="96" ry="32"/><path d="M32 80v96c0 18 44 32 96 32s96-14 96-32V80M32 128c0 18 44 32 96 32s96-14 96-32"/>`,
-  chat:           `<path d="M40 32h176a8 8 0 0 1 8 8v144a8 8 0 0 1-8 8h-72l-40 40v-40H40a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8Z"/>`,
-  mail:           `<path d="M32 64h192a8 8 0 0 1 8 8v112a8 8 0 0 1-8 8H32a8 8 0 0 1-8-8V72a8 8 0 0 1 8-8ZM32 80l96 64 96-64"/>`,
-  bell:           `<path d="M56 104a72 72 0 0 1 144 0c0 35 16 56 16 56H40s16-21 16-56ZM96 200a32 32 0 0 0 64 0"/>`,
-  user:           `<path d="M128 144a48 48 0 1 0 0-96 48 48 0 0 0 0 96ZM32 224c12-44 52-72 96-72s84 28 96 72"/>`,
-  users:          `<path d="M96 144a40 40 0 1 0 0-80 40 40 0 0 0 0 80ZM16 216c10-37 44-60 80-60s70 23 80 60M176 80a40 40 0 0 1 0 56M210 144c14 12 24 32 30 72"/>`,
-  'check-circle': `<circle cx="128" cy="128" r="96"/><path d="M88 128l28 28 52-52"/>`,
-  'x-circle':     `<circle cx="128" cy="128" r="96"/><path d="M96 96l64 64M160 96l-64 64"/>`,
-  warning:        `<path d="M128 40 24 216h208L128 40Z"/><path d="M128 136v40"/><circle cx="128" cy="192" r="8" fill="currentColor" stroke="none"/>`,
-  info:           `<circle cx="128" cy="128" r="96"/><path d="M128 120v64"/><circle cx="128" cy="88" r="8" fill="currentColor" stroke="none"/>`,
-  star:           `<path d="m128 24 32 64 72 8-52 48 16 72-68-36-68 36 16-72-52-48 72-8Z"/>`,
-  bolt:           `<path d="M144 24 40 144h72L96 232 216 112h-72Z"/>`,
-  shield:         `<path d="M128 24l88 32v56c0 56-40 104-88 120C80 216 40 168 40 112V56l88-32Z"/>`,
-  'more-horiz':   `<circle cx="64" cy="128" r="16" fill="currentColor" stroke="none"/><circle cx="128" cy="128" r="16" fill="currentColor" stroke="none"/><circle cx="192" cy="128" r="16" fill="currentColor" stroke="none"/>`,
-  'more-vert':    `<circle cx="128" cy="64" r="16" fill="currentColor" stroke="none"/><circle cx="128" cy="128" r="16" fill="currentColor" stroke="none"/><circle cx="128" cy="192" r="16" fill="currentColor" stroke="none"/>`,
-  briefcase:      `<path d="M40 64h176a8 8 0 0 1 8 8v128a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8V72a8 8 0 0 1 8-8ZM168 64V48a8 8 0 0 0-8-8H96a8 8 0 0 0-8 8v16M32 128h192"/>`,
-  settings:       `<circle cx="128" cy="128" r="40"/><path d="M128 48v16M128 192v16M48 128H32M224 128h-16M76 76l-11-11M191 191l-11-11M76 180l-11 11M191 65l-11 11"/>`,
+  "menu": "list",
+  "grid": "squares-four",
+  "arrow-left": "arrow-left",
+  "arrow-right": "arrow-right",
+  "chev-left": "caret-left",
+  "chev-right": "caret-right",
+  "chev-up": "caret-up",
+  "chev-down": "caret-down",
+  "logout": "sign-out",
+  "search": "magnifying-glass",
+  "plus": "plus",
+  "minus": "minus",
+  "check": "check",
+  "trash": "trash",
+  "download": "download-simple",
+  "upload": "upload-simple",
+  "copy": "copy",
+  "link": "link",
+  "refresh": "arrows-clockwise",
+  "filter": "funnel",
+  "eye": "eye",
+  "lock": "lock",
+  "share": "share-network",
+  "file": "file",
+  "folder": "folder",
+  "image": "image",
+  "calendar": "calendar",
+  "clock": "clock",
+  "bookmark": "bookmark-simple",
+  "tag": "tag",
+  "code": "code",
+  "chart-bar": "chart-bar",
+  "database": "database",
+  "chat": "chat-text",
+  "mail": "envelope",
+  "bell": "bell",
+  "user": "user",
+  "users": "users",
+  "check-circle": "check-circle",
+  "x-circle": "x-circle",
+  "warning": "warning",
+  "info": "info",
+  "star": "star",
+  "bolt": "lightning",
+  "shield": "shield",
+  "more-horiz": "dots-three",
+  "more-vert": "dots-three-vertical",
+  "briefcase": "briefcase",
+  "settings": "gear",
+  "home": "house"
 };
 
 function ic(key, size = 20, color) {
-  const col = color ? `style="color:${color}"` : '';
-  return `<svg width="${size}" height="${size}" ${S} ${col}>${IC[key] || ''}</svg>`;
+  const cor = color ? `color:${color};` : '';
+  return `<i class="ph ph-${IC[key] || key}" aria-hidden="true" style="font-size:${size}px;${cor}line-height:1;display:inline-flex"></i>`;
 }
 
 // Known icons
@@ -256,19 +262,17 @@ document.getElementById('size-demo').innerHTML = [
     </div>
   </div>`).join('');
 
-// Weight demo
-const STAR = `m128 24 32 64 72 8-52 48 16 72-68-36-68 36 16-72-52-48 72-8Z`;
+// Pesos: o glifo real do Phosphor em cada peso
 document.getElementById('weight-demo').innerHTML = [
-  { w: 8,    name: 'Thin'    },
-  { w: 12,   name: 'Light'   },
-  { w: 16,   name: 'Regular', def: true },
-  { w: 24,   name: 'Bold'    },
-  { w: null, name: 'Fill', note: 'só active' },
+  { p: 'thin',    name: 'Thin',    note: 'editorial 64px+' },
+  { p: 'light',   name: 'Light',   note: '32–48px' },
+  { p: 'regular', name: 'Regular', def: true },
+  { p: 'bold',    name: 'Bold',    note: 'até 14px' },
+  { p: 'fill',    name: 'Fill',    note: 'estado ligado' },
+  { p: 'duotone', name: 'Duotone', note: 'ilustrativo' },
 ].map(wt => {
   const clr = wt.def ? 'var(--ob-blue)' : 'var(--ob-fg-strong)';
-  const svg = wt.w === null
-    ? `<svg width="24" height="24" viewBox="0 0 256 256" fill="currentColor" stroke="none" style="color:${clr}"><path d="${STAR}"/></svg>`
-    : `<svg width="24" height="24" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="${wt.w}" stroke-linecap="round" stroke-linejoin="round" style="color:${clr}"><path d="${STAR}"/></svg>`;
+  const svg = `<i class="${wt.p === 'regular' ? 'ph' : 'ph-' + wt.p} ph-star" aria-hidden="true" style="font-size:24px;color:${clr}"></i>`;
   return `
     <div class="weight-item">
       ${svg}

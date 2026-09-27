@@ -125,12 +125,13 @@ Geometric / abstract shapes only. Composed from circles, squares, pills, arcs an
 
 ## Iconography
 
-**Phosphor only.** The brand uses **Phosphor (regular weight)** as its single icon system — no other library, ever. This is a hard rule, documented in `CLAUDE.md` and specced in `ds/foundations/iconography.html`.
+**Phosphor only.** The brand uses **Phosphor** as its single icon system — no other library, ever — and the whole library is available in its six weights (regular, fill, bold, light, thin, duotone), each with a defined job. This is a hard rule, documented in `CLAUDE.md` and specced in `ds/foundations/iconography.html`.
 
-- **UI icons** are loaded from the official `@phosphor-icons/web@2.1.2` CSS webfont (`<i class="ph ph-house">`), centralized behind the `Icons` registry of `@onblide/ui` (`package/src/iconography/Icons/Icons.tsx`, built on `Ph`) so weight, size, or source can change in one place.
+- **UI icons** are loaded from the official `@phosphor-icons/web@2.1.2` CSS webfont (`<i class="ph ph-house">`, `<i class="ph-fill ph-house">`…), centralized behind the `Icons` registry of `@onblide/ui` (`package/src/iconography/Icons/Icons.tsx`, built on `Ph`) so weight, size, or source can change in one place.
 - **Brand logos** (Spotify, Slack, GitHub, etc.) come from Phosphor's brand-logo set. They are rendered from the `@phosphor-icons/web` glyphs (`ph-<brand>-logo`); a brand without a Phosphor glyph is not implemented.
 
 **Rules**
+- Weights: **regular** default UI · **fill** "on" state (paired with regular) · **bold** ≤14px or on solid fills · **light** 32–48px empty states · **thin** editorial 64px+ · **duotone** illustrative highlights only. One weight per region.
 - Default size: 18–20px in nav and chrome, 16px inline with text, 32–40px in empty states
 - Color: `currentColor` — tints inherit from parent text color
 - No emoji. No multi-color UI icons. No mixing icon libraries.

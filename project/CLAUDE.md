@@ -28,8 +28,17 @@ icon set, and no ad-hoc hand-drawn SVG icons.
 **Rules**
 1. Use Phosphor icons exclusively. Never mix in other libraries (Lucide, Feather, Material,
    Heroicons, Font Awesome, etc.) and never invent freehand `<svg>` glyphs to stand in for an icon.
-2. Match the iconography foundation spec (`ds/foundations/iconography.html`): the default size,
-   single stroke weight, and grid defined there apply to every icon.
+2. The whole Phosphor library is available, in all six weights — but each weight has one job
+   (full guide: docs site › Fundações › Iconografia, and `ds/foundations/iconography.html`):
+   - **regular** — default UI (nav, buttons, fields, icons next to text, 16–24px);
+   - **fill** — "on" state, always paired with regular for "off" (active SideNav item, selected tab,
+     favourited star, status icon in Alert/Toast);
+   - **bold** — legibility at ≤14px or on a solid fill (Checkbox check/minus, small inline icons);
+   - **light** — large calm icons, 32–48px (empty states);
+   - **thin** — editorial moments only, 64px+ (hero, covers, brand pieces);
+   - **duotone** — illustrative highlights only (onboarding, feature cards); never in dense UI.
+   One weight per region (the regular↔fill state swap is the only exception); thin and duotone never
+   appear inside `@onblide/ui` components. Set the weight with `<Ph weight="…">` / `Icons.x({ weight })`.
 3. Reproduce Phosphor glyphs faithfully. When the exact Phosphor path can't be pulled in,
    reproduce the real Phosphor glyph as closely as possible in its line style — do not substitute
    a different shape or a different library's version.
@@ -175,7 +184,7 @@ npm run verify   # typecheck (src) → build → typecheck:dist (tipos como o co
 
 ## Implementation notes
 
-**UI icons** are loaded via `@phosphor-icons/web@2.1.2` (CSS webfont, regular weight) in the preview pages.
+**UI icons** are loaded via `@phosphor-icons/web@2.1.2` (CSS webfont, all six weights: `@onblide/ui/styles.css` imports them; each font only downloads when a glyph of that weight is used).
 This covers all interface icons (`ph-house`, `ph-gear`, `ph-check`, etc.).
 
 **Brand logos** (`ph-spotify-logo`, `ph-slack-logo`, etc.) are included in the `@phosphor-icons/web`

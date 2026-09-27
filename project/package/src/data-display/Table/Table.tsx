@@ -1,6 +1,7 @@
 // project/package/src/data-display/Table/Table.tsx
 import React, { useState } from 'react';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
+import { Checkbox } from '../../forms/Checkbox/Checkbox';
 
 // `ob-pulse`: pulsação das linhas-esqueleto do estado `loading`.
 injectStyleOnce('ob-pulse-kf', '@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}');
@@ -89,8 +90,7 @@ export function Table<T extends object = Record<string, unknown>>({
           <tr>
             {selectable && (
               <th style={{ ...thStyle, width: 44, padding: '10px 14px' }}>
-                <input type="checkbox" checked={allChecked} ref={el => { if (el) el.indeterminate = partChecked; }}
-                  onChange={toggleAll} style={{ accentColor: 'var(--ob-blue)', width: 15, height: 15, cursor: 'pointer' }}/>
+                <Checkbox checked={allChecked} indeterminate={partChecked} onChange={toggleAll} ariaLabel="Selecionar todas as linhas" />
               </th>
             )}
             {columns.map(col => (
@@ -134,8 +134,7 @@ export function Table<T extends object = Record<string, unknown>>({
                 onMouseLeave={e => { e.currentTarget.style.background = selected.includes(i) ? 'var(--ob-blue-100)' : 'none'; }}>
                 {selectable && (
                   <td style={tdStyle}>
-                    <input type="checkbox" checked={selected.includes(i)} onChange={() => toggleRow(i)}
-                      style={{ accentColor: 'var(--ob-blue)', width: 15, height: 15, cursor: 'pointer' }}/>
+                    <Checkbox checked={selected.includes(i)} onChange={() => toggleRow(i)} ariaLabel={`Selecionar linha ${i + 1}`} />
                   </td>
                 )}
                 {columns.map(col => (

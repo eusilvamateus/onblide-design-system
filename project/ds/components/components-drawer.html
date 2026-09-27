@@ -8,6 +8,12 @@
   .lbl { font-family: var(--ob-font-mono); font-size: 11px; color: var(--ob-fg-mute); }
   .row { display: flex; gap: 12px; flex-wrap: wrap; }
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/thin/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/light/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css">
 </head>
 <body>
 <div id="root"></div>
@@ -49,6 +55,17 @@ const TaskRow = ({ title, tag, done }) => (
 );
 
 /* ── Demo ── */
+// Filtro de status com o Checkbox do design system.
+function FiltroStatus() {
+  const [marcados, setMarcados] = useState(['Todos']);
+  const alternar = (s) => setMarcados((m) => (m.includes(s) ? m.filter((x) => x !== s) : [...m, s]));
+  return ['Todos', 'Em progresso', 'Concluído', 'Atrasado'].map((s) => (
+    <div key={s} style={{ padding: '10px 0', borderBottom: '1px solid var(--ob-line-soft)' }}>
+      <Checkbox label={s} checked={marcados.includes(s)} onChange={() => alternar(s)} />
+    </div>
+  ));
+}
+
 function Demo() {
   const [form,   setForm]   = useState(false);
   const [tasks,  setTasks]  = useState(false);
@@ -116,12 +133,7 @@ function Demo() {
         </>}>
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 10 }}>Status</div>
-          {['Todos', 'Em progresso', 'Concluído', 'Atrasado'].map((s, i) => (
-            <label key={s} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: '1px solid var(--ob-line-soft)', cursor: 'pointer' }}>
-              <input type="checkbox" defaultChecked={i === 0} style={{ accentColor: 'var(--ob-blue)', width: 16, height: 16 }}/>
-              <span style={{ fontSize: 14, color: 'var(--ob-fg)' }}>{s}</span>
-            </label>
-          ))}
+          <FiltroStatus />
         </div>
         <div>
           <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 10 }}>Responsável</div>

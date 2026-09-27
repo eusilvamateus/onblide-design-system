@@ -1,25 +1,84 @@
 ---
 title: Iconografia
 sidebar_position: 10
-description: Phosphor, o registro Icons e as marcas.
+description: Phosphor em seis pesos, cada um com um papel, e o navegador com todos os ícones.
 ---
 
-**Só Phosphor**, no peso regular. Nunca outra biblioteca, nem SVG desenhado à mão. Os ícones da interface passam pelo
-registro `Icons`, para que peso, tamanho ou fonte possam mudar num lugar só.
+import { ComparadorPesos, NavegadorIcones } from '@site/src/components/Iconografia';
 
-- **Tamanhos:** 18 a 20 px na navegação, 16 px junto de texto, 32 a 40 px em estados vazios.
-- **Cor:** `currentColor`, herdando do texto ao redor.
-- **Sem emoji** e sem ícone multicolorido na interface.
-- **Marcas de terceiros** usam os glifos `ph-<marca>-logo` do Phosphor, na cor da marca. Marca sem glifo no Phosphor não é implementada.
+O **Phosphor** é a única biblioteca de ícones do design system, e **ela inteira está disponível**: cerca de 1.500 ícones
+em seis pesos. O peso não é escolha de gosto: cada um tem um papel, e é isso que mantém a interface coesa.
 
-```jsx live
-<div style={{ display: 'flex', gap: 16, alignItems: 'center', padding: 16, color: 'var(--ob-fg-strong)' }}>
-  <Icons.plus size={16} />
-  <Icons.check size={20} />
-  <Icons.gear size={24} />
-  <Ph n="house" size={32} />
-  <BrandTile brand="github" />
-</div>
+## Os seis pesos
+
+<ComparadorPesos />
+
+| Peso | Papel | Onde | Nunca |
+|---|---|---|---|
+| **Regular** | Padrão da interface | Navegação, botões, campos, ícones junto de texto (16–24px) | — |
+| **Fill** | Estado "ligado" | Item ativo no `SideNav`, aba selecionada, favorito marcado, ícone de status em `Alert` e `Toast`. Sempre em par com o regular do estado desligado. | Decoração; misturar com regular sem ser troca de estado |
+| **Bold** | Legibilidade em tamanho pequeno ou sobre fundo sólido | Ícones de até 14px; glifos sobre preenchimento colorido (check e traço do `Checkbox`) | Tamanhos grandes; ênfase decorativa |
+| **Light** | Ícone grande e calmo | Estados vazios e ilustrações de 32–48px | Abaixo de 32px, onde fica fino demais |
+| **Thin** | Momento editorial | Hero, capas e peças de marca, a partir de 64px | Qualquer tela operacional |
+| **Duotone** | Destaque ilustrativo | Onboarding, cards de funcionalidade, estado vazio de destaque | Interfaces densas, tabelas, navegação |
+
+## Regras
+
+- **Um peso por região.** Numa mesma barra, lista ou grupo de botões, todos os ícones usam o mesmo peso. A única
+  exceção é a troca de estado regular ↔ fill (o item ativo ganha fill; os outros continuam regular).
+- **O peso acompanha o tamanho.** Até 14px, bold; de 16 a 24px, regular; de 32 a 48px, light; a partir de 64px, thin.
+- **Duotone e thin nunca entram em componentes do pacote**, só em composições de página.
+- **Cor:** `currentColor` por padrão, herdando do texto. O duotone usa a mesma cor, com a segunda camada em opacidade
+  reduzida (definida pelo próprio Phosphor).
+- **Sem emoji, sem outras bibliotecas e sem SVG desenhado à mão.** Marcas de terceiros usam os glifos
+  `ph-<marca>-logo` do Phosphor, na cor da marca; marca sem glifo no Phosphor não é implementada.
+- **Ícone não substitui texto**, exceto os ícones conhecidos (fechar, buscar, menu, voltar), que sempre levam um
+  `aria-label` no botão.
+
+<FacaEvite>
+<Faca>
+
+Item ativo do menu em **fill** e os demais em **regular**, todos no mesmo tamanho.
+
+</Faca>
+<Evite>
+
+Misturar bold e regular na mesma barra só porque um ícone "ficou fraco": ajuste o tamanho, não o peso.
+
+</Evite>
+</FacaEvite>
+
+<FacaEvite>
+<Faca>
+
+Estado vazio com ícone **light** de 40px acima do texto.
+
+</Faca>
+<Evite>
+
+Ícone **thin** ou **duotone** dentro de botões, campos, tabelas ou navegação.
+
+</Evite>
+</FacaEvite>
+
+## Como usar
+
+```tsx
+import { Ph, Icons } from '@onblide/ui';
+
+<Ph n="house" />                    // regular (padrão)
+<Ph n="house" weight="fill" />      // estado ligado
+<Ph n="check" size={12} weight="bold" />
+<Icons.star weight="fill" />        // o registro Icons também aceita peso
 ```
 
-Componentes: [Icons](../componentes/iconography/Icons), [Ph](../componentes/iconography/Ph) e [BrandTile](../componentes/brand/BrandTile).
+Os seis pesos já vêm em `@onblide/ui/styles.css`. Cada fonte só é baixada pelo navegador quando algum ícone usa aquele
+peso, então disponibilizar a biblioteca inteira não pesa para quem usa só o regular.
+
+## Todos os ícones
+
+Busque pelo nome em inglês, troque o peso e clique num ícone para ver o código.
+
+<NavegadorIcones />
+
+Componentes: [Ph](../componentes/iconography/Ph), [Icons](../componentes/iconography/Icons) e [BrandTile](../componentes/brand/BrandTile).

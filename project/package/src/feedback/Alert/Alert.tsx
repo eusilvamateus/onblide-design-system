@@ -24,7 +24,7 @@ export const Alert: React.FC<AlertProps> = ({ tone = 'info', title, children, di
   const t = OB_TONES[tone] || OB_TONES.info;
   return (
     <div role="alert" style={{ display: 'flex', gap: 13, width: '100%', padding: '14px 16px', background: t.bg, border: `1px solid color-mix(in srgb, ${t.fg} 28%, transparent)`, borderRadius: 'var(--ob-r-md)', boxSizing: 'border-box' }}>
-      <Ph n={t.icon} size={20} c={t.fg} />
+      <Ph n={t.icon} size={20} c={t.fg} weight="fill" />
       <div style={{ flex: 1, minWidth: 0 }}>
         {title && <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: children ? 3 : 0 }}>{title}</div>}
         {children && <div style={{ fontSize: 13.5, color: 'var(--ob-fg)', lineHeight: 1.5 }}>{children}</div>}

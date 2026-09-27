@@ -197,3 +197,25 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 
 .ob-demo__opcoes { display: flex; flex-wrap: wrap; gap: var(--ob-gap-sm) var(--ob-gap-lg); margin: 0 0 var(--ob-gap-lg); }
 @media (min-width: 768px) { .ob-criterio:last-child:nth-child(odd) { grid-column: 1 / -1; } }
+
+/* ---------- Iconografia: comparador de pesos e navegador de ícones ---------- */
+.ob-icones { border: 1px solid var(--ob-border); border-radius: var(--ob-r-surface); padding: var(--ob-pad-card); margin: 0 0 24px; display: flex; flex-direction: column; gap: var(--ob-gap-md); }
+.ob-icones__controles { display: grid; grid-template-columns: 1fr; gap: var(--ob-gap-md); }
+@media (min-width: 768px) { .ob-icones__controles { grid-template-columns: 1fr 1fr; align-items: end; } }
+.ob-icones__pesos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--ob-border); border: 1px solid var(--ob-border); border-radius: var(--ob-r-md); overflow: hidden; }
+@media (min-width: 768px) { .ob-icones__pesos { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ob-icones__peso { background: var(--ob-surface); padding: var(--ob-s-4); display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.ob-icones__amostra { height: 104px; display: flex; align-items: center; justify-content: center; color: var(--ob-fg-strong); }
+.ob-icones__peso strong { font-size: 13px; color: var(--ob-fg-strong); }
+.ob-icones__peso span { font-size: 12px; color: var(--ob-fg-mute); }
+.ob-icones__escolhido { display: flex; align-items: center; gap: var(--ob-gap-md); padding: var(--ob-s-3) var(--ob-s-4); background: var(--ob-bg-alt); border-radius: var(--ob-r-md); color: var(--ob-fg-strong); }
+.ob-icones__escolhido strong { display: block; font-size: 14px; }
+.ob-icones__escolhido code { font-size: 12px; }
+.ob-icones__grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 4px; max-height: 520px; overflow-y: auto; }
+.ob-icones__item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px; border: none; background: none;
+  border-radius: var(--ob-r-sm); cursor: pointer; color: var(--ob-fg-strong); font-family: var(--ob-font);
+}
+.ob-icones__item:hover { background: var(--ob-bg-warm); }
+.ob-icones__item--ativo { background: var(--ob-blue-100); color: var(--ob-blue-700); }
+.ob-icones__item span { font-size: 10px; color: var(--ob-fg-mute); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
