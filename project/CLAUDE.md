@@ -114,7 +114,9 @@ Não usar snake_case nem kebab-case em identificadores.
 Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, https://onblide-design-system.vercel.app),
 independente do pacote e do `/design-sync`. Páginas de componentes, tabelas de props e de tokens são **geradas**
 (`npm run gerar`) do pacote e dos exemplos em `project/package/.design-sync/previews/`; primeiros passos e
-fundações são escritos à mão em `docs-site/docs/`. Não editar os arquivos gerados. Deploy: ver `docs-site/README.md`.
+fundações são escritos à mão em `docs-site/docs/`, os guias em `docs-site/guias/` e o ponto de partida de cada
+demo interativa em `docs-site/demos/`. Não editar os arquivos gerados. Antes de publicar: `npm run build && npm run
+verificar`. Deploy: ver `docs-site/README.md`.
 **O site segue o design system, não o tema padrão do Docusaurus:** cores, tipografia, raios e espaçamentos vêm dos
 tokens `--ob-*`; a barra superior, a navegação (`SideNav`), o Drawer mobile, o interruptor de tema (`Toggle`), os
 links e os botões são componentes do `@onblide/ui`; a coluna de leitura de 760px, os títulos, tabelas e códigos

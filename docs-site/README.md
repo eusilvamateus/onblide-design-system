@@ -22,7 +22,7 @@ npm start                                            # gera os dados e abre em h
 | Changelog | Cópia do `CHANGELOG.md` do pacote |
 | Primeiros passos e fundações | Escritos à mão em `docs/` |
 | Guias de uso, conteúdo e design de cada componente | Escritos à mão em `guias/<Componente>.mdx` (frontmatter `resumo` e `criterios`); entram na página gerada |
-| Demo interativa | Controles gerados das props; o ponto de partida é o uso mais completo do componente nos exemplos |
+| Demo interativa | Controles gerados das props; o ponto de partida é `demos/<Componente>.jsx`, escrito à mão (o `<Componente>` do arquivo define os valores iniciais; o que estiver em volta, como o botão que abre uma sobreposição, aparece igual no resultado e no código) |
 
 Os arquivos gerados não são versionados (`docs/componentes/`, `docs/changelog.md`, `src/data/`): `npm run gerar`
 os recria, e o `npm run build` já faz isso. Para mudar um exemplo de componente, edite o `.tsx` em `.design-sync/previews/`.
@@ -36,3 +36,13 @@ npm run gerar
 vercel build --prod
 vercel deploy --prebuilt --prod
 ```
+
+## Verificar
+
+```bash
+npm run build && npm run verificar   # ou VERIFICAR_URL=https://onblide-design-system.vercel.app npm run verificar
+```
+
+Abre todas as páginas num Chromium de testes (Playwright) e falha se alguma tiver erro, sobreposição aberta ao
+carregar, aba da demo que não esconde o painel inativo, demo sem o botão Restaurar, ou demo/exemplo vazio ou espremido.
+

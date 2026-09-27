@@ -137,56 +137,30 @@ const exemplosDe = (nome) => {
   return exemplos;
 };
 
-// Nomes exportados pelo pacote: identificadores que um exemplo pode usar sem declarar.
-const exportados = new Set(
-  [...fs.readFileSync(path.join(pacote, 'dist/index.d.ts'), 'utf8').matchAll(/declare const (\w+)/g)].map((m) => m[1]),
-);
-const GLOBAIS = new Set(['React', 'useState', 'useEffect', 'useRef', 'Math', 'Date', 'console', 'window', 'document', 'String', 'Number', 'Array', 'Object', 'JSON', 'undefined', 'Boolean', 'setTimeout']);
-
-// Identificadores livres de uma expressão (os que precisam existir fora dela).
-const livres = (no) => {
-  const declarados = new Set();
-  const usados = new Set();
-  const visitar = (n) => {
-    if ((ts.isParameter(n) || ts.isVariableDeclaration(n) || ts.isBindingElement(n)) && ts.isIdentifier(n.name)) declarados.add(n.name.text);
-    if (ts.isIdentifier(n)) {
-      const pai = n.parent;
-      const ehNome = (ts.isPropertyAccessExpression(pai) && pai.name === n) || (ts.isPropertyAssignment(pai) && pai.name === n)
-        || ts.isJsxAttribute(pai) || (ts.isParameter(pai) && pai.name === n) || (ts.isVariableDeclaration(pai) && pai.name === n)
-        || (ts.isBindingElement(pai) && (pai.name === n || pai.propertyName === n));
-      if (!ehNome) usados.add(n.text);
-    }
-    ts.forEachChild(n, visitar);
-  };
-  visitar(no);
-  return [...usados].filter((x) => !declarados.has(x));
-};
-
-// Demo interativa: o uso mais completo do componente nos exemplos vira o ponto de partida dos controles.
+// Demo interativa: docs-site/demos/<Nome>.jsx, escrito à mão. O arquivo tem declarações auxiliares (opcionais) e,
+// por último, um JSX; dentro dele, o elemento <Nome> é o que os controles editam. O que estiver em volta dele (um botão
+// que abre a sobreposição, por exemplo) vira a moldura, mostrada no resultado e no código como está.
 const demoDe = (nome) => {
-  const arq = path.join(previews, `${nome}.tsx`);
+  const arq = path.resolve('demos', `${nome}.jsx`);
   if (!fs.existsSync(arq)) return null;
-  const sf = ts.createSourceFile(`${nome}.tsx`, fs.readFileSync(arq, 'utf8').replace(/\r\n/g, '\n'), ts.ScriptTarget.ESNext, true, ts.ScriptKind.TSX);
-  const aux = new Map();
-  for (const st of sf.statements) {
-    const exportado = st.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
-    if (ts.isImportDeclaration(st) || exportado) continue;
-    const nomes = ts.isVariableStatement(st) ? st.declarationList.declarations.map((d) => d.name.getText(sf)) : st.name ? [st.name.getText(sf)] : [];
-    for (const n of nomes) aux.set(n, st);
-  }
-  let melhor = null;
+  const texto = fs.readFileSync(arq, 'utf8').replace(/\r\n/g, '\n');
+  const sf = ts.createSourceFile(`${nome}.jsx`, texto, ts.ScriptTarget.ESNext, true, ts.ScriptKind.JSX);
+  const ultimo = sf.statements.at(-1);
+  if (!ultimo || !ts.isExpressionStatement(ultimo)) throw new Error(`demos/${nome}.jsx: a última instrução deve ser o JSX da demo`);
+  let raiz = ultimo.expression;
+  while (ts.isParenthesizedExpression(raiz)) raiz = raiz.expression;
+  let alvo = null;
   const visitar = (n) => {
+    if (alvo) return;
     const abre = ts.isJsxElement(n) ? n.openingElement : ts.isJsxSelfClosingElement(n) ? n : null;
-    if (abre && abre.tagName.getText(sf) === nome && (!melhor || abre.attributes.properties.length > melhor.abre.attributes.properties.length)) melhor = { no: n, abre };
+    if (abre && abre.tagName.getText(sf) === nome) { alvo = { no: n, abre }; return; }
     ts.forEachChild(n, visitar);
   };
-  visitar(sf);
-  if (!melhor) return null;
-  const conhecido = (id) => GLOBAIS.has(id) || exportados.has(id) || aux.has(id);
-  const precisa = new Set();
+  visitar(raiz);
+  if (!alvo) throw new Error(`demos/${nome}.jsx: não há <${nome}> no JSX da demo`);
   const literais = {};
   const brutos = {};
-  for (const a of melhor.abre.attributes.properties) {
+  for (const a of alvo.abre.attributes.properties) {
     if (!ts.isJsxAttribute(a)) continue;
     const k = a.name.getText(sf);
     const ini = a.initializer;
@@ -194,29 +168,21 @@ const demoDe = (nome) => {
     if (ts.isStringLiteral(ini)) { literais[k] = ini.text; continue; }
     const ex = ini.expression;
     if (!ex) continue;
-    if (ts.isNumericLiteral(ex)) { literais[k] = Number(ex.text); continue; }
-    if (ex.kind === ts.SyntaxKind.TrueKeyword || ex.kind === ts.SyntaxKind.FalseKeyword) { literais[k] = ex.kind === ts.SyntaxKind.TrueKeyword; continue; }
-    if (ts.isStringLiteral(ex) || ts.isNoSubstitutionTemplateLiteral(ex)) { literais[k] = ex.text; continue; }
-    const ids = livres(ex);
-    if (ids.every(conhecido)) { brutos[k] = semTipos(sf, ex); ids.filter((x) => aux.has(x)).forEach((x) => precisa.add(x)); }
+    if (ts.isNumericLiteral(ex)) literais[k] = Number(ex.text);
+    else if (ex.kind === ts.SyntaxKind.TrueKeyword || ex.kind === ts.SyntaxKind.FalseKeyword) literais[k] = ex.kind === ts.SyntaxKind.TrueKeyword;
+    else if (ts.isStringLiteral(ex) || ts.isNoSubstitutionTemplateLiteral(ex)) literais[k] = ex.text;
+    else brutos[k] = ex.getText(sf);
   }
   let filhos = null;
-  if (ts.isJsxElement(melhor.no) && melhor.no.children.length) {
-    const ids = melhor.no.children.flatMap((c) => livres(c));
-    if (ids.every(conhecido)) {
-      const ini = melhor.no.openingElement.end;
-      const fim = melhor.no.closingElement.getStart(sf);
-      const texto = dedentar(sf.text.slice(ini, fim).replace(/^\s*\n/, '').replace(/\s+$/, ''));
-      filhos = texto.trim() ? texto.trim() : null;
-      ids.filter((x) => aux.has(x)).forEach((x) => precisa.add(x));
-    }
+  if (ts.isJsxElement(alvo.no) && alvo.no.children.length) {
+    const t = dedentar(texto.slice(alvo.no.openingElement.end, alvo.no.closingElement.getStart(sf)).replace(/^\s*\n/, '').replace(/\s+$/, '')).trim();
+    filhos = t || null;
   }
-  // Auxiliares que os auxiliares usados também usam.
-  for (const x of [...precisa]) for (const y of livres(aux.get(x))) if (aux.has(y)) precisa.add(y);
-  const auxiliares = sf.statements.filter((st) => [...precisa].some((x) => aux.get(x) === st)).map((st) => semTipos(sf, st)).join('\n\n');
-  // Sobreposições começam fechadas: abrir é uma das coisas que a demo deixa você fazer.
-  if (literais.open === true) literais.open = false;
-  return { literais, brutos, filhos, auxiliares };
+  const rIni = raiz.getStart(sf);
+  const moldura = raiz === alvo.no ? null
+    : texto.slice(rIni, alvo.no.getStart(sf)) + '__DEMO__' + texto.slice(alvo.no.end, raiz.end);
+  const auxiliares = sf.statements.slice(0, -1).map((st) => st.getText(sf)).join('\n\n');
+  return { literais, brutos, filhos, auxiliares, moldura };
 };
 
 // Guia de uso/conteúdo/design do componente (docs-site/guias/<Nome>.mdx), se existir.
@@ -264,7 +230,7 @@ for (const [dir, rotulo] of Object.entries(categorias)) {
     ];
     if (demo) {
       partes.push('## Demo interativa', '', 'Ajuste as propriedades e veja o componente e o código mudarem juntos.', '',
-        `<Playground nome="${nome}" literais=${j(demo.literais)} brutos=${j(demo.brutos)} filhos=${j(demo.filhos)} auxiliares=${j(demo.auxiliares)} />`, '');
+        `<Playground nome="${nome}" literais=${j(demo.literais)} brutos=${j(demo.brutos)} filhos=${j(demo.filhos)} auxiliares=${j(demo.auxiliares)} moldura=${j(demo.moldura)} />`, '');
     }
     if (nome !== 'Icons') partes.push('## Propriedades', '', `<PropsTable nome="${nome}" />`, '');
     if (ex.length) {

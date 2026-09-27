@@ -189,7 +189,9 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
   display: grid; grid-template-columns: 1fr; gap: var(--ob-gap-md); align-items: end; margin: 0 0 var(--ob-gap-lg);
 }
 @media (min-width: 768px) { .ob-demo__controles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.ob-demo__resultado { min-height: 160px; display: flex; align-items: center; justify-content: center; }
+.ob-demo__resultado { min-height: 160px; display: flex; flex-direction: column; justify-content: center; }
+/* Palco da demo: largura de um formulário real, para quem ocupa a largura (barra, slider, campo) não encolher. */
+.ob-demo__palco { width: 100%; max-width: 480px; margin: 0 auto; }
 .ob-demo__codigo {
   margin: 0; padding: 14px 16px; background: var(--ob-bg-alt); font-family: var(--ob-font-mono);
   font-size: 13px; line-height: 1.6; overflow-x: auto; border-radius: 0;

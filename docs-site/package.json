@@ -15,7 +15,8 @@
     "typecheck": "tsc",
     "gerar": "node scripts/gerar-tokens.mjs && node scripts/gerar-icones.mjs && node scripts/gerar-props.mjs && node scripts/gerar-componentes.mjs",
     "prebuild": "npm --prefix ../project/package ci && npm --prefix ../project/package run build && npm run gerar",
-    "prestart": "npm run gerar"
+    "prestart": "npm run gerar",
+    "verificar": "node scripts/verificar.mjs"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.2",
@@ -35,7 +36,8 @@
     "@docusaurus/types": "3.10.2",
     "@types/react": "^18.3.0",
     "typescript": "~6.0.2",
-    "react-docgen-typescript": "^2.4.0"
+    "react-docgen-typescript": "^2.4.0",
+    "playwright": "1.63.0"
   },
   "browserslist": {
     "production": [

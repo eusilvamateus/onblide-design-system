@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { LiveError, LivePreview, LiveProvider } from 'react-live';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import * as OnblideUI from '@onblide/ui';
-import { Checkbox, Input, Select, Tabs } from '@onblide/ui';
+import { Button, Checkbox, Input, Ph, Select, Tabs } from '@onblide/ui';
 import props from '@site/src/data/props.json';
 import { Highlight } from 'prism-react-renderer';
 import temaCodigo from '@site/src/prism/tema';
@@ -24,8 +24,8 @@ function controlesDe(nome: string, brutos: Record<string, string>): Controle[] {
     const opcoes = p.tipo.match(/^"[^"]*"(\s*\|\s*"[^"]*")+$/) ? [...p.tipo.matchAll(/"([^"]*)"/g)].map((m) => m[1]) : null;
     if (p.tipo === 'boolean') lista.push({ prop: p, tipo: 'booleano' });
     else if (opcoes) lista.push({ prop: p, tipo: 'opcoes', opcoes });
-    else if (p.tipo === 'number') lista.push({ prop: p, tipo: 'numero' });
-    else if (['string', 'ReactNode', 'string | number', 'number | string'].includes(p.tipo)) lista.push({ prop: p, tipo: 'texto' });
+    else if (['number', 'string | number', 'number | string'].includes(p.tipo)) lista.push({ prop: p, tipo: 'numero' });
+    else if (['string', 'ReactNode'].includes(p.tipo)) lista.push({ prop: p, tipo: 'texto' });
   }
   return lista;
 }
@@ -34,17 +34,21 @@ const padraoDe = (c: Controle): Valor => {
   const v = c.prop.padrao?.replace(/^['"]|['"]$/g, '');
   if (v == null) return undefined;
   if (c.tipo === 'booleano') return v === 'true';
-  if (c.tipo === 'numero') return Number(v);
+  if (c.tipo === 'numero') return Number.isFinite(Number(v)) ? Number(v) : v;
   return v;
 };
 
-function atributo(nome: string, v: Valor): string | null {
-  if (v === undefined || v === '') return null;
+// Prop obrigatória nunca some do código: vazia, vira string vazia (e o controle mostra o erro).
+function atributo(c: Controle, v: Valor): string | null {
+  const nome = c.prop.nome;
+  if (v === undefined || v === '') return c.prop.obrigatoria && c.tipo !== 'booleano' ? `${nome}=""` : null;
   if (v === true) return nome;
   if (v === false) return `${nome}={false}`;
   if (typeof v === 'number') return `${nome}={${v}}`;
   return v.includes('"') ? `${nome}={${JSON.stringify(v)}}` : `${nome}="${v}"`;
 }
+
+const recuar = (t: string, n = 2) => t.split('\n').join('\n' + ' '.repeat(n));
 
 export default function Playground({
   nome,
@@ -52,26 +56,36 @@ export default function Playground({
   brutos = {},
   filhos = null,
   auxiliares = '',
+  moldura = null,
 }: {
   nome: string;
   literais?: Record<string, Valor>;
   brutos?: Record<string, string>;
   filhos?: string | null;
   auxiliares?: string;
+  /** JSX em volta do componente (ex.: botão que abre a sobreposição), com `__DEMO__` no lugar dele. */
+  moldura?: string | null;
 }) {
   const controles = useMemo(() => controlesDe(nome, brutos), [nome, brutos]);
   const temProp = (p: string) => (dados[nome]?.props ?? []).some((x) => x.nome === p);
-  const [valores, setValores] = useState<Record<string, Valor>>(() => {
+  const inicial = () => {
     const ini: Record<string, Valor> = {};
     for (const c of controles) ini[c.prop.nome] = c.prop.nome in literais ? literais[c.prop.nome] : padraoDe(c);
     // Conteúdo interno em texto puro vira o valor inicial do controle `children`.
     if (filhos && !/[<{]/.test(filhos) && controles.some((c) => c.prop.nome === 'children')) ini.children = filhos;
     if (temProp('open') && !('open' in ini)) ini.open = false;
     return ini;
-  });
+  };
+  const [valores, setValores] = useState<Record<string, Valor>>(inicial);
   const [valorVivo, setValorVivo] = useState<unknown>(() => literais.value ?? literais.checked);
+  const [versao, setVersao] = useState(0);
   const [aba, setAba] = useState('resultado');
   const definir = (p: string, v: Valor) => setValores((a) => ({ ...a, [p]: v }));
+  const restaurar = () => {
+    setValores(inicial());
+    setValorVivo(literais.value ?? literais.checked);
+    setVersao((n) => n + 1);
+  };
 
   // Liga o estado da demo: fechar (onClose) e mudar valor (onChange) atualizam os controles.
   const ligacoes: string[] = [];
@@ -83,22 +97,24 @@ export default function Playground({
   }
 
   const attrs = [
-    ...controles.filter((c) => c.prop.nome !== 'children').map((c) => atributo(c.prop.nome, valores[c.prop.nome])),
+    ...controles.filter((c) => c.prop.nome !== 'children').map((c) => atributo(c, valores[c.prop.nome])),
     ...Object.entries(brutos).filter(([k]) => !LIGADAS.includes(k)).map(([k, v]) => `${k}={${v}}`),
     ...ligacoes,
   ].filter(Boolean) as string[];
   const abre = attrs.length > 2 ? `<${nome}\n  ${attrs.join('\n  ')}\n` : `<${nome}${attrs.length ? ' ' + attrs.join(' ') : ''}`;
-  // `children` editável substitui o conteúdo em texto; conteúdo com JSX continua o do exemplo.
+  // `children` editável substitui o conteúdo em texto; conteúdo com JSX continua o da demo.
   const controleFilhos = controles.some((c) => c.prop.nome === 'children');
   const textoFilhos = typeof valores.children === 'string' && valores.children !== '' ? valores.children : null;
   const conteudo = !controleFilhos ? filhos : textoFilhos ?? (/[<{]/.test(filhos ?? '') ? filhos : null);
-  const jsx = conteudo ? `${abre}>\n  ${conteudo.split('\n').join('\n  ')}\n</${nome}>` : `${abre}${attrs.length > 2 ? '' : ' '}/>`;
-  const codigo = auxiliares ? `${auxiliares}\n\nrender(\n  ${jsx.split('\n').join('\n  ')}\n);` : jsx;
+  const elemento = conteudo ? `${abre}>\n  ${recuar(conteudo)}\n</${nome}>` : `${abre}${attrs.length > 2 ? '' : ' '}/>`;
+  const jsx = moldura ? moldura.replace('__DEMO__', recuar(elemento, (moldura.split('__DEMO__')[0].match(/[ \t]*$/)?.[0].length ?? 0))) : elemento;
+  const codigo = auxiliares ? `${auxiliares}\n\nrender(\n  ${recuar(jsx)}\n);` : jsx;
 
   const scope = {
     ...OnblideUI,
     React,
     useState,
+    abrir: () => definir('open', true),
     fechar: () => definir('open', false),
     valor: valorVivo,
     alterar: (v: unknown) => {
@@ -108,6 +124,8 @@ export default function Playground({
       if (controles.some((c) => c.prop.nome === 'value')) definir('value', novo as string);
     },
   };
+
+  const erroDe = (c: Controle) => (c.prop.obrigatoria && (valores[c.prop.nome] === undefined || valores[c.prop.nome] === '') ? 'Obrigatória' : undefined);
 
   return (
     <div className="ob-demo">
@@ -126,6 +144,7 @@ export default function Playground({
               label={rotulo}
               type={c.tipo === 'numero' ? 'number' : 'text'}
               value={v === undefined ? '' : String(v)}
+              error={erroDe(c)}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 definir(rotulo, c.tipo === 'numero' ? (e.target.value === '' ? undefined : Number(e.target.value)) : e.target.value)}
             />
@@ -142,13 +161,19 @@ export default function Playground({
       <div className="ob-playground">
         <div className="ob-playground__tabs">
           <Tabs tabs={[{ id: 'resultado', label: 'Resultado', icon: 'eye' }, { id: 'codigo', label: 'Código', icon: 'code' }]} active={aba} onChange={setAba} size="sm" />
+          <Button kind="ghost" size="sm" onClick={restaurar} icon={<Ph n="arrow-counter-clockwise" size={14} />}>Restaurar</Button>
         </div>
         <BrowserOnly fallback={<div className="ob-playground__preview" />}>
           {() => (
-            <LiveProvider code={codigo} scope={scope} noInline={!!auxiliares} theme={temaCodigo}>
-              <div hidden={aba !== 'resultado'} className="ob-playground__preview ob-demo__resultado">
-                <LivePreview />
-                <LiveError className="ob-playground__error" />
+            <LiveProvider key={versao} code={codigo} scope={scope} noInline={!!auxiliares} theme={temaCodigo}>
+              {/* O atributo hidden fica num invólucro sem classe: nenhuma regra de CSS consegue anulá-lo. */}
+              <div hidden={aba !== 'resultado'}>
+                <div className="ob-playground__preview ob-demo__resultado">
+                  <div className="ob-demo__palco">
+                    <LivePreview />
+                  </div>
+                  <LiveError className="ob-playground__error" />
+                </div>
               </div>
               <div hidden={aba !== 'codigo'}>
                 <Highlight code={codigo} language="jsx" theme={temaCodigo}>
