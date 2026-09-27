@@ -31,7 +31,6 @@ export * from './forms/SearchInput/SearchInput';
 export * from './navigation/SideNav/SideNav';
 export * from './navigation/Tabs/Tabs';
 export * from './data-display/Table/Table';
-export * from './data-display/DeadlineCalendar/DeadlineCalendar';
 export * from './forms/Select/Select';
 export * from './forms/Input/Input';
 export * from './iconography/Icons/Icons';

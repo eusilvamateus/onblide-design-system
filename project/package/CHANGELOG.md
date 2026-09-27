@@ -1,5 +1,14 @@
 # @onblide/ui
 
+## 1.0.0
+
+### Major Changes
+
+- Remove o componente `DeadlineCalendar`. Ele nasceu como uma variante do calendário feita
+  para uma implementação específica e nunca deveria ter virado componente do design system —
+  não há substituto, nem migração: quem precisar dessa funcionalidade deve construí-la fora
+  do pacote.
+
 ## 0.16.0
 
 ### Minor Changes

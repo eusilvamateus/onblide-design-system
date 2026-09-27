@@ -43,9 +43,6 @@
     "Datepicker": {
       "cardMode": "column"
     },
-    "DeadlineCalendar": {
-      "cardMode": "column"
-    },
     "FieldShell": {
       "cardMode": "column"
     },

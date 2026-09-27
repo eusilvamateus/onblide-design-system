@@ -150,10 +150,10 @@ arquivo gerado (`dist/` é git-ignored, não versionado). São as 3 da Fase 1
 as 9 do Lote A (`components-radio.html`, `components-toggle.html`, `components-skeleton.html`,
 `components-tooltip.html`, `components-chip.html`, `components-badge.html`,
 `components-status-dot.html`, `components-spinner.html`, `components-progress-circle.html`) mais
-as 12 do Lote B (`components-alert.html`, `components-progressbar.html`, `components-toast.html`,
+as 11 do Lote B (`components-alert.html`, `components-progressbar.html`, `components-toast.html`,
 `components-drawer.html`, `components-code-input.html`, `components-search-input.html`,
 `components-side-nav.html`, `components-tabs.html`, `components-table.html`,
-`components-deadline-calendar.html`, `components-select.html`, `components-slider.html`) mais
+`components-select.html`, `components-slider.html`) mais
 as 3 do Lote C (`components-link.html`, `components-pagination.html`, `components-modal.html`).
 Para achar a lista atualizada a qualquer momento: `grep -rl onblide-ui.browser.js ds/components/`.
 

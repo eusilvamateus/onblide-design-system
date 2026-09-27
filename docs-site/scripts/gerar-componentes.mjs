@@ -55,7 +55,6 @@ const descricoes = {
   Avatar: 'Avatar com imagem ou iniciais, em tamanhos e cores.',
   Badge: 'Selo de status ou contagem, em cinco tons.',
   Chip: 'Chip de filtro, selecionável e removível.',
-  DeadlineCalendar: 'Calendário mensal de prazos, com feriados.',
   Logo: 'Logo horizontal da Onblide, que se adapta ao tema.',
   BrandTile: 'Moldura com o logo de uma marca de terceiros.',
   Icons: 'Registro central de ícones da interface.',

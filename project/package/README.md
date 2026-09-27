@@ -26,7 +26,7 @@ Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<catego
 | `feedback` | Alert, Toast, ToastStack, ProgressBar, ProgressCircle, Spinner, Skeleton, StatusDot |
 | `overlays` | Modal, Drawer, Dropdown, Tooltip, FloatingPanel, Menu (+ ContextMenu, MenuPanel), Popover |
 | `navigation` | Tabs, SideNav, Pagination, Breadcrumbs, Stepper, Menubar (+ KeyList) |
-| `data-display` | Table, Card, Avatar, Badge, Chip, DeadlineCalendar, Divider, List (+ ListItem, ListSubheader, ListDivider), Timeline, TreeView |
+| `data-display` | Table, Card, Avatar, Badge, Chip, Divider, List (+ ListItem, ListSubheader, ListDivider), Timeline, TreeView |
 | `brand` | Logo, Brands, BrandTile |
 | `iconography` | Icons, Ph |
 
@@ -94,7 +94,7 @@ Os dois existem, e `Icons` é construído sobre `Ph`:
 - **`Ph`**: `<Ph n="check" size={18} c="var(--ob-blue)" weight="bold" />` renderiza qualquer glifo Phosphor
   pelo nome (`n`), com cor por prop (`c`) e peso (`weight`: regular, fill, bold, light, thin, duotone). Tamanho padrão 18. Use quando o ícone não estiver
   no registro. `Alert`, `Checkbox`, `SearchInput`, `Select`, `SideNav`, `Tabs` e `Toast` usam
-  `Ph`; `Chip` e `DeadlineCalendar` também. Nenhum componente monta `<i class="ph ...">` à mão.
+  `Ph`; `Chip` também. Nenhum componente monta `<i class="ph ...">` à mão.
 
 ### Pesos
 
