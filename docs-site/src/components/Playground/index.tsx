@@ -80,27 +80,37 @@ export default function Playground({
     return ini;
   };
   const [valores, setValores] = useState<Record<string, Valor>>(inicial);
-  const [valorVivo, setValorVivo] = useState<unknown>(() => literais.value ?? literais.checked);
   const [versao, setVersao] = useState(0);
   const [aba, setAba] = useState('resultado');
   const definir = (p: string, v: Valor) => setValores((a) => ({ ...a, [p]: v }));
   const restaurar = () => {
     setValores(inicial());
-    setValorVivo(literais.value ?? literais.checked);
     setVersao((n) => n + 1);
   };
 
-  // Liga o estado da demo: fechar (onClose) e mudar valor (onChange) atualizam os controles.
+  // `value`/`checked` + `onChange`: o valor ao vivo (o que o usuário digita/marca dentro do preview) precisa
+  // viver DENTRO do código avaliado pelo react-live (um `useState` local), nunca no estado do próprio
+  // Playground. O `LiveProvider` do react-live re-executa `generateElement` a cada mudança de `scope`
+  // (efeito com `scope` na lista de dependências) e essa função sempre cria uma classe de error boundary
+  // nova — ou seja, qualquer mudança no objeto `scope` do Playground remonta a árvore inteira e derruba o
+  // foco. Se o valor ficasse em `scope.valor`/estado do Playground, cada tecla digitada trocaria a
+  // identidade de `scope` e remontaria o campo a cada caractere (bug observado no CodeInput: o input
+  // nunca avançava para a próxima célula porque a célula era recriada antes do focus() ter efeito).
+  const controlado = temProp('onChange') && (temProp('checked') || temProp('value'));
+  const alvoLigado = temProp('checked') ? 'checked' : 'value';
+
+  // Liga o estado da demo: fechar (onClose) atualiza o controle correspondente.
   const ligacoes: string[] = [];
   if (temProp('onClose') && temProp('open')) ligacoes.push('onClose={fechar}');
-  if (temProp('onChange') && (temProp('checked') || temProp('value'))) {
-    const alvo = temProp('checked') ? 'checked' : 'value';
-    if (!controles.some((c) => c.prop.nome === alvo)) ligacoes.push(`${alvo}={valor}`);
+  if (controlado) {
+    ligacoes.push(`${alvoLigado}={valor}`);
     ligacoes.push('onChange={alterar}');
   }
 
   const attrs = [
-    ...controles.filter((c) => c.prop.nome !== 'children').map((c) => atributo(c, valores[c.prop.nome])),
+    ...controles
+      .filter((c) => c.prop.nome !== 'children' && !(controlado && c.prop.nome === alvoLigado))
+      .map((c) => atributo(c, valores[c.prop.nome])),
     ...Object.entries(brutos).filter(([k]) => !LIGADAS.includes(k)).map(([k, v]) => `${k}={${v}}`),
     ...ligacoes,
   ].filter(Boolean) as string[];
@@ -111,7 +121,20 @@ export default function Playground({
   const conteudo = !controleFilhos ? filhos : textoFilhos ?? (/[<{]/.test(filhos ?? '') ? filhos : null);
   const elemento = conteudo ? `${abre}>\n  ${recuar(conteudo)}\n</${nome}>` : `${abre}${attrs.length > 2 ? '' : ' '}/>`;
   const jsx = moldura ? moldura.replace('__DEMO__', recuar(elemento, (moldura.split('__DEMO__')[0].match(/[ \t]*$/)?.[0].length ?? 0))) : elemento;
-  const codigo = auxiliares ? `${auxiliares}\n\nrender(\n  ${recuar(jsx)}\n);` : jsx;
+  // `valor`/`alterar` do estado ao vivo viram um `useState` local — mas hooks só podem ser chamados dentro
+  // do corpo de um componente de verdade, nunca soltos no topo do código avaliado (o react-live roda o
+  // `useState` de fora de qualquer render caso não esteja dentro de uma função componente). Por isso, quando
+  // `controlado`, a demo inteira é envolvida num `function Demo() { ... }` que o `render(<Demo />)` final
+  // efetivamente monta através do ciclo normal do React.
+  const usaNoInline = controlado || !!auxiliares;
+  let codigo: string;
+  if (controlado) {
+    const declaracaoEstado = `const [valor, setValor] = useState(${JSON.stringify(valores[alvoLigado])});\n  const alterar = (v) => setValor(v && v.target ? v.target.value : v);`;
+    const corpoFuncao = `function Demo() {\n  ${declaracaoEstado}\n  return (\n${recuar(jsx, 4)}\n  );\n}`;
+    codigo = `${auxiliares ? `${auxiliares}\n\n` : ''}${corpoFuncao}\n\nrender(<Demo />);`;
+  } else {
+    codigo = auxiliares ? `${auxiliares}\n\nrender(\n  ${recuar(jsx)}\n);` : jsx;
+  }
 
   const scope = {
     ...OnblideUI,
@@ -119,13 +142,6 @@ export default function Playground({
     useState,
     abrir: () => definir('open', true),
     fechar: () => definir('open', false),
-    valor: valorVivo,
-    alterar: (v: unknown) => {
-      const novo = v && typeof v === 'object' && 'target' in (v as object) ? (v as { target: { value: unknown } }).target.value : v;
-      setValorVivo(novo);
-      if (controles.some((c) => c.prop.nome === 'checked')) definir('checked', novo as boolean);
-      if (controles.some((c) => c.prop.nome === 'value')) definir('value', novo as string);
-    },
   };
 
   const erroDe = (c: Controle) => (c.prop.obrigatoria && (valores[c.prop.nome] === undefined || valores[c.prop.nome] === '') ? 'Obrigatória' : undefined);
@@ -168,7 +184,7 @@ export default function Playground({
         </div>
         <BrowserOnly fallback={<div className="ob-playground__preview" />}>
           {() => (
-            <LiveProvider key={versao} code={codigo} scope={scope} noInline={!!auxiliares} theme={temaCodigo}>
+            <LiveProvider key={versao} code={codigo} scope={scope} noInline={usaNoInline} theme={temaCodigo}>
               {/* O atributo hidden fica num invólucro sem classe: nenhuma regra de CSS consegue anulá-lo. */}
               <div hidden={aba !== 'resultado'}>
                 <div className="ob-playground__preview ob-demo__resultado">
