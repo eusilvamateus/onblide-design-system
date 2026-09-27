@@ -108,7 +108,7 @@ Fundações › Iconografia.
 
 `<Logo />` renderiza o lockup horizontal da marca (SVG inline, cores pelos tokens `--ob-*`, então
 acompanha o tema claro/escuro). `size` é a altura em px (padrão 28). As demais variantes (empilhada,
-símbolo, em arquivo) ficam em `project/assets/`.
+símbolo, em arquivo) ficam em `project/marca/`.
 
 ## Efeitos colaterais no import
 
