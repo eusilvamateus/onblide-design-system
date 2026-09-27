@@ -1,0 +1,2 @@
+# Arquivos de texto do site sempre com LF (os scripts de geração leem frontmatter e código-fonte).
+* text=auto eol=lf

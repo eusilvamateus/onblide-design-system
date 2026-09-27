@@ -30,3 +30,19 @@ export const Flush = () => (
     </div>
   </div>
 );
+
+export const ComGrupos = () => (
+  <div style={{ height: 420, width: 260 }}>
+    <SideNav
+      hideAccount
+      menuLabel={null}
+      active="button"
+      items={[
+        { id: 'inicio', label: 'Início', icon: 'house' },
+        { section: 'Componentes' },
+        { id: 'acoes', label: 'Ações', children: [{ id: 'button', label: 'Button' }, { id: 'link', label: 'Link' }] },
+        { id: 'formularios', label: 'Formulários', children: [{ id: 'input', label: 'Input' }, { id: 'select', label: 'Select' }] },
+      ]}
+    />
+  </div>
+);

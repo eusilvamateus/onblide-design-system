@@ -1,5 +1,5 @@
 // project/package/src/navigation/SideNav/SideNav.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 
 export interface SideNavItem {
@@ -13,7 +13,48 @@ export interface SideNavItem {
   icon?: string;
   /** Conteúdo do badge exibido ao lado do rótulo, geralmente uma contagem. */
   badge?: React.ReactNode;
+  /** Subitens: o item vira um grupo que abre e fecha (começa aberto se contiver o item ativo). */
+  children?: SideNavItem[];
 }
+
+const contemAtivo = (it: SideNavItem, active?: string): boolean =>
+  it.id === active || (it.children ?? []).some((c) => contemAtivo(c, active));
+
+interface ItemProps {
+  it: SideNavItem;
+  active?: string;
+  onNav?: (id?: string) => void;
+  collapsed: boolean;
+  nivel: number;
+}
+
+// Um item da lista; com `children`, vira um grupo recolhível com seta.
+const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
+  const grupo = !!it.children?.length;
+  const [aberto, setAberto] = useState(() => grupo && contemAtivo(it, active));
+  const on = !grupo && active === it.id;
+  const botao = (
+    <button type="button" onClick={() => (grupo ? setAberto((a) => !a) : onNav?.(it.id))} aria-expanded={grupo ? aberto : undefined}
+      title={collapsed ? (typeof it.label === 'string' ? it.label : undefined) : undefined}
+      style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: collapsed ? 'center' : 'flex-start', width: '100%', height: nivel ? 36 : 42, padding: collapsed ? 0 : `0 12px 0 ${12 + nivel * 14}px`, borderRadius: 'var(--ob-r-md)', border: 'none', cursor: 'pointer', position: 'relative', background: on ? 'var(--ob-blue-100)' : 'transparent', color: on ? 'var(--ob-blue-700)' : grupo ? 'var(--ob-fg-strong)' : 'var(--ob-fg-soft)', fontFamily: 'var(--ob-font)', fontSize: nivel ? 13 : 14, fontWeight: on || grupo ? 600 : 500, transition: 'background 0.12s' }}
+      onMouseEnter={e => { if (!on) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
+      onMouseLeave={e => { if (!on) e.currentTarget.style.background = 'transparent'; }}>
+      {on && <span style={{ position: 'absolute', left: 0, top: nivel ? 8 : 10, bottom: nivel ? 8 : 10, width: 3, borderRadius: 3, background: 'var(--ob-blue)' }} />}
+      {it.icon && <Ph n={it.icon} size={20} />}
+      {!collapsed && <span style={{ flex: 1, textAlign: 'left' }}>{it.label}</span>}
+      {!collapsed && it.badge != null && <span style={{ minWidth: 20, height: 20, padding: '0 6px', borderRadius: 999, background: 'var(--ob-orange)', color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{it.badge}</span>}
+      {!collapsed && grupo && <Ph n="caret-down" size={14} style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />}
+      {collapsed && it.badge != null && <span style={{ position: 'absolute', top: 7, right: 9, width: 8, height: 8, borderRadius: 999, background: 'var(--ob-orange)', border: '2px solid var(--ob-surface)' }} />}
+    </button>
+  );
+  if (!grupo) return botao;
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {botao}
+      {aberto && !collapsed && it.children!.map((c, i) => <Item key={c.id || i} it={c} active={active} onNav={onNav} collapsed={collapsed} nivel={nivel + 1} />)}
+    </div>
+  );
+};
 
 export interface SideNavProps {
   /** Itens e seções exibidos na lista de navegação. */
@@ -66,19 +107,7 @@ export const SideNav: React.FC<SideNavProps> = ({ items = [], active, onNav, col
     {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 10px 6px' }}>{menuLabel}</p>}
     {items.map((it, i) => {
       if (it.section) return !collapsed ? <p key={i} style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '12px 10px 4px' }}>{it.section}</p> : null;
-      const on = active === it.id;
-      return (
-        <button key={it.id || i} onClick={() => onNav?.(it.id)} title={collapsed ? (typeof it.label === 'string' ? it.label : undefined) : undefined}
-          style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: collapsed ? 'center' : 'flex-start', height: 42, padding: collapsed ? 0 : '0 12px', borderRadius: 'var(--ob-r-md)', border: 'none', cursor: 'pointer', position: 'relative', background: on ? 'var(--ob-blue-100)' : 'transparent', color: on ? 'var(--ob-blue-700)' : 'var(--ob-fg-soft)', fontFamily: 'var(--ob-font)', fontSize: 14, fontWeight: on ? 600 : 500, transition: 'background 0.12s' }}
-          onMouseEnter={e => { if (!on) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
-          onMouseLeave={e => { if (!on) e.currentTarget.style.background = 'transparent'; }}>
-          {on && <span style={{ position: 'absolute', left: 0, top: 10, bottom: 10, width: 3, borderRadius: 3, background: 'var(--ob-blue)' }} />}
-          {it.icon && <Ph n={it.icon} size={20} />}
-          {!collapsed && <span style={{ flex: 1, textAlign: 'left' }}>{it.label}</span>}
-          {!collapsed && it.badge != null && <span style={{ minWidth: 20, height: 20, padding: '0 6px', borderRadius: 999, background: 'var(--ob-orange)', color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{it.badge}</span>}
-          {collapsed && it.badge != null && <span style={{ position: 'absolute', top: 7, right: 9, width: 8, height: 8, borderRadius: 999, background: 'var(--ob-orange)', border: '2px solid var(--ob-surface)' }} />}
-        </button>
-      );
+      return <Item key={it.id || i} it={it} active={active} onNav={onNav} collapsed={collapsed} nivel={0} />;
     })}
     {!hideAccount && <div style={{ marginTop: 'auto', borderTop: '1px solid var(--ob-line-soft)', display: 'flex', alignItems: 'center', gap: 10, padding: collapsed ? '10px 0 2px' : '10px 8px 2px', justifyContent: collapsed ? 'center' : 'flex-start' }}>
       <span style={{ width: 30, height: 30, borderRadius: 999, background: 'var(--ob-blue)', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>{userInitials}</span>

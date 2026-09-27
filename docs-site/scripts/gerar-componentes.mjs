@@ -10,14 +10,14 @@ const previews = path.join(pacote, '.design-sync/previews');
 const saida = path.resolve('docs/componentes');
 
 const categorias = {
-  actions: ['Ações', 'Botões e links que disparam uma ação ou levam a outro lugar.'],
-  forms: ['Formulários', 'Campos e controles para o usuário informar dados.'],
-  feedback: ['Feedback', 'Avisos, progresso e estados de carregamento.'],
-  overlays: ['Sobreposições', 'Elementos que aparecem por cima da tela: modais, gavetas, menus e dicas.'],
-  navigation: ['Navegação', 'Componentes para se mover entre telas, seções e páginas.'],
-  'data-display': ['Exibição de dados', 'Tabelas, cartões, avatares, selos e calendários.'],
-  brand: ['Marca', 'Logo e marcas de terceiros.'],
-  iconography: ['Ícones', 'Registro de ícones e o componente base do Phosphor.'],
+  actions: 'Ações',
+  forms: 'Formulários',
+  feedback: 'Feedback',
+  overlays: 'Sobreposições',
+  navigation: 'Navegação',
+  'data-display': 'Exibição de dados',
+  brand: 'Marca',
+  iconography: 'Ícones',
 };
 
 const descricoes = {
@@ -223,7 +223,7 @@ const demoDe = (nome) => {
 const guiaDe = (nome) => {
   const arq = path.resolve('guias', `${nome}.mdx`);
   if (!fs.existsSync(arq)) return null;
-  const texto = fs.readFileSync(arq, 'utf8');
+  const texto = fs.readFileSync(arq, 'utf8').replace(/\r\n/g, '\n');
   const [, cab, corpo] = texto.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
   const resumo = JSON.parse(cab.match(/^resumo: (.*)$/m)[1]);
   const criterios = JSON.parse(cab.match(/^criterios: (.*)$/m)[1]);
@@ -234,7 +234,7 @@ fs.rmSync(saida, { recursive: true, force: true });
 fs.mkdirSync(saida, { recursive: true });
 fs.writeFileSync(
   path.join(saida, '_category_.json'),
-  JSON.stringify({ label: 'Componentes', position: 4, link: { type: 'generated-index', slug: '/componentes', description: 'Todos os componentes do @onblide/ui, por categoria.' } }, null, 2),
+  JSON.stringify({ label: 'Componentes', position: 4 }, null, 2),
 );
 
 // Histórico de versões: cópia do CHANGELOG do pacote, gerado pelo changesets.
@@ -245,12 +245,12 @@ fs.writeFileSync(
 );
 let posCat = 1;
 let total = 0;
-for (const [dir, [rotulo, resumo]] of Object.entries(categorias)) {
+for (const [dir, rotulo] of Object.entries(categorias)) {
   const pasta = path.join(src, dir);
   if (!fs.existsSync(pasta)) continue;
   const alvo = path.join(saida, dir);
   fs.mkdirSync(alvo, { recursive: true });
-  fs.writeFileSync(path.join(alvo, '_category_.json'), JSON.stringify({ label: rotulo, position: posCat++, link: { type: 'generated-index', description: resumo } }, null, 2));
+  fs.writeFileSync(path.join(alvo, '_category_.json'), JSON.stringify({ label: rotulo, position: posCat++ }, null, 2));
   const nomes = fs.readdirSync(pasta, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort();
   nomes.forEach((nome, i) => {
     const ex = exemplosDe(nome);

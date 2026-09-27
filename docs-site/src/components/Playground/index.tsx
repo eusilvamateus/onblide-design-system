@@ -64,6 +64,8 @@ export default function Playground({
   const [valores, setValores] = useState<Record<string, Valor>>(() => {
     const ini: Record<string, Valor> = {};
     for (const c of controles) ini[c.prop.nome] = c.prop.nome in literais ? literais[c.prop.nome] : padraoDe(c);
+    // Conteúdo interno em texto puro vira o valor inicial do controle `children`.
+    if (filhos && !/[<{]/.test(filhos) && controles.some((c) => c.prop.nome === 'children')) ini.children = filhos;
     if (temProp('open') && !('open' in ini)) ini.open = false;
     return ini;
   });
@@ -81,12 +83,16 @@ export default function Playground({
   }
 
   const attrs = [
-    ...controles.map((c) => atributo(c.prop.nome, valores[c.prop.nome])),
+    ...controles.filter((c) => c.prop.nome !== 'children').map((c) => atributo(c.prop.nome, valores[c.prop.nome])),
     ...Object.entries(brutos).filter(([k]) => !LIGADAS.includes(k)).map(([k, v]) => `${k}={${v}}`),
     ...ligacoes,
   ].filter(Boolean) as string[];
   const abre = attrs.length > 2 ? `<${nome}\n  ${attrs.join('\n  ')}\n` : `<${nome}${attrs.length ? ' ' + attrs.join(' ') : ''}`;
-  const jsx = filhos ? `${abre}>\n  ${filhos.split('\n').join('\n  ')}\n</${nome}>` : `${abre}${attrs.length > 2 ? '' : ' '}/>`;
+  // `children` editável substitui o conteúdo em texto; conteúdo com JSX continua o do exemplo.
+  const controleFilhos = controles.some((c) => c.prop.nome === 'children');
+  const textoFilhos = typeof valores.children === 'string' && valores.children !== '' ? valores.children : null;
+  const conteudo = !controleFilhos ? filhos : textoFilhos ?? (/[<{]/.test(filhos ?? '') ? filhos : null);
+  const jsx = conteudo ? `${abre}>\n  ${conteudo.split('\n').join('\n  ')}\n</${nome}>` : `${abre}${attrs.length > 2 ? '' : ' '}/>`;
   const codigo = auxiliares ? `${auxiliares}\n\nrender(\n  ${jsx.split('\n').join('\n  ')}\n);` : jsx;
 
   const scope = {

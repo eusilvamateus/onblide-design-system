@@ -156,9 +156,6 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 }
 .ob-playground__editor { padding: 6px 4px; }
 
-/* ---------- Cartões do índice de categoria ---------- */
-.ob-cards { display: grid; grid-template-columns: 1fr; gap: var(--ob-gap-md); }
-@media (min-width: 768px) { .ob-cards { grid-template-columns: 1fr 1fr; } }
 
 @media (max-width: 767px) {
   .ob-topbar__github { display: none; }

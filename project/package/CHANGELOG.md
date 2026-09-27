@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.12.0
+
+### Minor Changes
+
+- `SideNav`: itens aceitam `children` e viram grupos que abrem e fecham, com seta; o grupo começa aberto quando contém o item ativo.
+
 ## 0.11.1
 
 ### Patch Changes

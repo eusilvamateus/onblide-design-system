@@ -3,26 +3,20 @@ import { useHistory, useLocation } from '@docusaurus/router';
 import { useDocsSidebar } from '@docusaurus/plugin-content-docs/client';
 import { SideNav, type SideNavItem } from '@onblide/ui';
 
-type ItemDoc = { type: string; label?: string; href?: string; items?: ItemDoc[]; docId?: string };
+type ItemDoc = { type: string; label?: string; href?: string; items?: ItemDoc[] };
 
-// Achata a árvore de navegação do Docusaurus no formato do SideNav do design system:
-// cada categoria vira um título de seção e cada página vira um item.
-function paraItens(itens: ItemDoc[], titulo?: string): SideNavItem[] {
-  const saida: SideNavItem[] = [];
-  const links = itens.filter((i) => i.type === 'link' || (i.type === 'category' && !i.items?.length && i.href));
-  const categorias = itens.filter((i) => i.type === 'category' && i.items?.length);
-  if (links.length || (titulo && !categorias.length)) {
-    if (titulo) saida.push({ section: titulo });
-    for (const l of links) saida.push({ id: l.href, label: l.label });
-  }
-  for (const c of categorias) {
-    const proprios = c.items!.filter((i) => i.type === 'link');
-    if (c.href && c.items!.some((i) => i.type === 'category')) {
-      saida.push({ section: c.label }, { id: c.href, label: 'Todos os componentes' });
-      for (const sub of c.items!.filter((i) => i.type === 'category')) saida.push(...paraItens(sub.items ?? [], sub.label));
-    } else {
-      saida.push({ section: c.label });
-      for (const l of proprios) saida.push({ id: l.href, label: l.label });
+const links = (itens: ItemDoc[]): SideNavItem[] =>
+  itens.filter((i) => i.type === 'link').map((l) => ({ id: l.href, label: l.label }));
+
+// Converte a árvore do Docusaurus para o SideNav do design system: categorias de primeiro nível viram títulos
+// de seção; subcategorias (as categorias de componentes) viram grupos que abrem e fecham.
+function paraItens(itens: ItemDoc[]): SideNavItem[] {
+  const saida: SideNavItem[] = [...links(itens)];
+  for (const c of itens.filter((i) => i.type === 'category')) {
+    saida.push({ section: c.label });
+    saida.push(...links(c.items ?? []));
+    for (const sub of (c.items ?? []).filter((i) => i.type === 'category')) {
+      saida.push({ id: `grupo:${sub.label}`, label: sub.label, children: links(sub.items ?? []) });
     }
   }
   return saida;
