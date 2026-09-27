@@ -1,17 +1,25 @@
 import React from 'react';
 
 export interface ChipProps {
+  /** Texto ou conteúdo exibido no chip. */
   label: React.ReactNode;
+  /** Marca o chip como selecionado, aplicando o estilo preenchido. */
   selected?: boolean;
+  /** Chamado ao clicar ou ativar o chip por teclado. */
   onToggle?: () => void;
+  /** Exibe o botão de remoção (✕) ao final do chip. */
   removable?: boolean;
+  /** Chamado ao clicar no botão de remoção. */
   onRemove?: () => void;
   /** Nome do ícone Phosphor (sem o prefixo "ph-"), ex.: "check". */
   icon?: string;
+  /** Tamanho do texto e do espaçamento interno. */
   size?: 'sm' | 'md';
+  /** Desabilita interações e reduz a opacidade. */
   disabled?: boolean;
 }
 
+/** Elemento compacto e interativo para seleção, filtro ou remoção de itens. */
 export const Chip: React.FC<ChipProps> = ({
   label, selected = false, onToggle, removable = false, onRemove, icon, size = 'md', disabled = false,
 }) => {

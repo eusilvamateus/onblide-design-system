@@ -1,14 +1,20 @@
 import React from 'react';
 
+/** Estilo visual do botão: define a hierarquia da ação (primária, secundária, terciária, suave ou destrutiva). */
 export type ButtonKind = 'primary' | 'secondary' | 'ghost' | 'cream' | 'danger';
+/** Tamanho do botão, que ajusta fonte e espaçamento interno. */
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Hierarquia visual da ação: use um único `primary` por contexto. */
   kind?: ButtonKind;
+  /** Tamanho do botão. */
   size?: ButtonSize;
+  /** Ícone exibido antes do conteúdo do botão. */
   icon?: React.ReactNode;
 }
 
+/** Botão de ação com variações de estilo, tamanho e suporte a ícone. */
 export const Button: React.FC<ButtonProps> = ({
   kind = 'primary',
   size = 'md',

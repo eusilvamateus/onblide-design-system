@@ -109,7 +109,7 @@ fundações são escritos à mão em `docs-site/docs/`. Não editar os arquivos 
 **O site segue o design system, não o tema padrão do Docusaurus:** cores, tipografia, raios e espaçamentos vêm dos
 tokens `--ob-*`; a barra superior, a navegação (`SideNav`), o Drawer mobile, o interruptor de tema (`Toggle`), os
 links e os botões são componentes do `@onblide/ui`; a coluna de leitura de 760px, os títulos, tabelas e códigos
-repetem `ds/docs/doc.css`; os breakpoints são `sm` 768px e `md` 1024px. Não adicionar elementos que o design system
+repetem a linguagem de `ds/foundations/doc.css`; os breakpoints são `sm` 768px e `md` 1024px. Não adicionar elementos que o design system
 não tem (rodapé, breadcrumbs, sumário lateral, paginação, colorização de sintaxe) nem cores fora dos tokens.
 
 ## Fluxo com o Claude Design

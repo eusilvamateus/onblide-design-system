@@ -6,32 +6,47 @@ import { FloatingPanel } from '../../overlays/FloatingPanel/FloatingPanel';
 import { Ph } from '../../iconography/Ph/Ph';
 import { FieldShell } from '../FieldShell/FieldShell';
 
+/** Uma opção da lista, no formato de objeto — aceita campos extras além do rótulo exibido. */
 export interface SelectOption {
+  /** Texto exibido para a opção e usado como valor selecionado. */
   label: string;
   [key: string]: unknown;
 }
 
 export interface SelectBaseProps {
+  /** Lista de opções, como strings ou objetos `{ label }`. */
   options?: (string | SelectOption)[];
+  /** Rótulo exibido acima do campo. */
   label?: React.ReactNode;
+  /** Texto exibido quando nenhuma opção está selecionada. */
   placeholder?: string;
+  /** Desabilita a interação com o campo. */
   disabled?: boolean;
+  /** Mensagem de erro exibida abaixo do campo. */
   error?: React.ReactNode;
+  /** Largura do campo. */
   width?: number | string;
 }
 
 export interface SingleSelectProps extends SelectBaseProps {
+  /** Modo de seleção única (uma opção por vez). */
   multi?: false;
+  /** Rótulo da opção selecionada. */
   value?: string | null;
+  /** Chamado com o rótulo da opção escolhida. */
   onChange?: (value: string) => void;
 }
 
 export interface MultiSelectProps extends SelectBaseProps {
+  /** Ativa o modo de seleção múltipla, com opções escolhidas exibidas como chips. */
   multi: true;
+  /** Rótulos das opções selecionadas. */
   value?: string[] | null;
+  /** Chamado com a lista atualizada de rótulos selecionados. */
   onChange?: (value: string[]) => void;
 }
 
+/** Props do Select, discriminadas pelo modo `multi` (seleção única ou múltipla). */
 export type SelectProps = SingleSelectProps | MultiSelectProps;
 
 // Forma frouxa (idêntica à SelectProps original), usada só dentro do corpo:
@@ -42,6 +57,7 @@ interface SelectLooseProps extends SelectBaseProps {
   onChange?: (value: string | string[]) => void;
 }
 
+/** Campo de seleção com lista de opções, busca por digitação e modos de seleção única ou múltipla. */
 export const Select: React.FC<SelectProps> = (props) => {
   const {
     options = [],

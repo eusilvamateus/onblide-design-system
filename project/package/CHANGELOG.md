@@ -1,5 +1,12 @@
 # @onblide/ui
 
+## 0.11.1
+
+### Patch Changes
+
+- `Checkbox`: o rótulo inteiro passa a alternar a seleção (antes só o quadrado respondia ao clique), com `role="checkbox"`, `aria-checked` (incluindo `mixed` no indeterminado), foco por teclado e Espaço/Enter.
+- Todas as props dos componentes ganham descrição (JSDoc), que aparece nos tipos, na documentação e no Claude Design. Os exemplos passam a cobrir as variantes que faltavam.
+
 ## 0.11.0
 
 ### Minor Changes

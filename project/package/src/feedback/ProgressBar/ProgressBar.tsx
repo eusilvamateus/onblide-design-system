@@ -3,15 +3,23 @@ import { OB_TONES, OBTone } from '../../internal/obTones';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export interface ProgressBarProps {
+  /** Progresso atual, de 0 a 100. */
   value?: number;
+  /** Tom que define a cor do preenchimento. */
   tone?: OBTone;
+  /** Espessura da barra. */
   size?: 'sm' | 'md' | 'lg';
+  /** Exibe uma animação de carregamento em loop, sem valor definido. */
   indeterminate?: boolean;
+  /** Exibe o rótulo de porcentagem ao lado da barra. */
   showLabel?: boolean;
+  /** Número de etapas discretas; quando definido, renderiza a barra segmentada. */
   segments?: number;
+  /** Índice da última etapa concluída no modo segmentado. */
   currentSegment?: number;
 }
 
+/** Barra que comunica progresso determinado, indeterminado ou por etapas. */
 export const ProgressBar: React.FC<ProgressBarProps> = ({ value = 0, tone = 'info', size = 'md', indeterminate = false, showLabel = false, segments, currentSegment = 0 }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
   const h = size === 'sm' ? 6 : size === 'lg' ? 14 : 10;

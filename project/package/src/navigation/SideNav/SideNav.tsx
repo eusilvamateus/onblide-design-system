@@ -3,21 +3,34 @@ import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 
 export interface SideNavItem {
+  /** Identificador do item de navegação, usado em `active` e `onNav`. */
   id?: string;
+  /** Quando definido, o item vira um cabeçalho de seção em vez de um link. */
   section?: string;
+  /** Rótulo do item de navegação. */
   label?: React.ReactNode;
+  /** Nome do ícone Phosphor (sem o prefixo "ph-") exibido ao lado do rótulo. */
   icon?: string;
+  /** Conteúdo do badge exibido ao lado do rótulo, geralmente uma contagem. */
   badge?: React.ReactNode;
 }
 
 export interface SideNavProps {
+  /** Itens e seções exibidos na lista de navegação. */
   items?: SideNavItem[];
+  /** Id do item atualmente ativo. */
   active?: string;
+  /** Chamado com o id do item clicado. */
   onNav?: (id?: string) => void;
+  /** Exibe a navegação no modo recolhido, só com ícones. */
   collapsed?: boolean;
+  /** Chamado ao clicar no botão de recolher/expandir; omitido, o botão some. */
   onToggle?: () => void;
+  /** Ocupa 100% do espaço disponível, sem borda arredondada nem largura fixa. */
   flush?: boolean;
+  /** Nome do workspace exibido no rodapé de conta. */
   workspaceName?: string;
+  /** Iniciais exibidas no avatar do rodapé de conta. */
   userInitials?: string;
   /** Oculta o cabeçalho com a marca e o botão de recolher (útil quando a navegação é só uma lista). */
   hideBrand?: boolean;
@@ -27,6 +40,7 @@ export interface SideNavProps {
   menuLabel?: string | null;
 }
 
+/** Navegação lateral com seções, itens ativos, badges e modo recolhido. */
 export const SideNav: React.FC<SideNavProps> = ({ items = [], active, onNav, collapsed = false, onToggle, flush = false, workspaceName = 'Workspace', userInitials = 'OB', hideBrand = false, hideAccount = false, menuLabel = 'Menu' }) => (
   <div style={{ width: flush ? '100%' : (collapsed ? 72 : 240), minWidth: 0, boxSizing: 'border-box', overflow: 'hidden', height: flush ? '100%' : undefined, background: 'var(--ob-surface)', border: flush ? 'none' : '1px solid var(--ob-border)', borderRight: flush ? '1px solid var(--ob-border)' : undefined, borderRadius: flush ? 0 : 'var(--ob-r-lg)', padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
     {hideBrand ? null : collapsed

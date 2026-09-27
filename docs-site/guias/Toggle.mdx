@@ -1,0 +1,42 @@
+---
+resumo: "Liga/desliga uma configuração com efeito imediato — sem botão de salvar."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Toggle: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use para estados binários que aplicam na hora (notificações, tema). Se exigir confirmação, prefira `Checkbox`.
+
+<FacaEvite>
+<Faca>
+
+Aplicar a mudança imediatamente.
+
+</Faca>
+<Evite>
+
+Toggle que só vale após "Salvar".
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<Toggle checked={on} onChange={setOn} label="Notificações" size="sm" />
+```
+
+## Guia de conteúdo
+
+- Label descreve o que é ligado: "Modo escuro".
+- Sem "ativar/desativar" no label — o estado já comunica.
+
+## Guia de design
+
+**Tokens.** Trilho `--ob-blue` on / `--ob-border` off; knob branco.
+
+**Motion.** Knob desliza 200ms `--ob-ease`.
+
+**Responsivo / mobile.** Alvo de toque adequado; tamanho `sm` para densidade.

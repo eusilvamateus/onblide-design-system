@@ -18,7 +18,7 @@ The design system in this folder powers Onblide's product surfaces. It's a livin
 | `package/src/fonts/` | Self-hosted `.ttf` for Poppins, Playfair Display & JetBrains Mono (all weights), wired via `@font-face` in `package/src/tokens.css` |
 | `ds/foundations/` | Foundation cards: color, type semantics, spacing, radii, shadows, iconography, brand |
 | `ds/components/` | Component specs: buttons, inputs, badges, status dots, cards, datepicker, deadline calendar, dropdown, modal, drawer, toggle, radio, checkbox, pagination, skeleton, link, tooltip, code-input, search-input, alert, toast, progressbar, side-nav, select, tabs, table + dark theme |
-| `ds/docs/` | Per-component documentation (usage · formatting · content · design guidance) |
+| `../docs-site/` | Documentation site (Docusaurus): demos interativas, propriedades, exemplos e guias de uso, conteúdo e design de cada componente |
 | `package/` | `@onblide/ui` — biblioteca React/TypeScript com todos os componentes, `Icons`, `Brands` e `Logo`; `npm run build` gera `dist/onblide-ui.browser.js`, carregado pelas páginas de `ds/components/` e pelo web app |
 | `SKILL.md` | Cross-compatible Skill manifest if you want to use this in Claude Code |
 

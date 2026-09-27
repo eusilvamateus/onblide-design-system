@@ -1,0 +1,44 @@
+---
+resumo: "Campo de texto com label, hint e estado de erro. Borda azul + ring no foco."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Input: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Coleta texto curto. Sempre com label visível (nunca só placeholder). Hint abaixo explica o formato esperado; erro substitui o hint.
+
+<FacaEvite>
+<Faca>
+
+Label sempre visível acima do campo.
+
+</Faca>
+<Evite>
+
+Usar placeholder como label.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<Input label="E-mail" hint="Usado para login"
+  error={err} icon={<Icons.search/>} />
+```
+
+## Guia de conteúdo
+
+- Label curto e nominal: "E-mail", "Nome de exibição".
+- Hint orienta o formato: "Usado para login e recuperação".
+- Erro é específico e gentil: "Formato inválido", não "Erro".
+
+## Guia de design
+
+**Tokens.** Borda `--ob-border 1.5px`; foco `--ob-blue` + ring `--ob-focus-ring`; erro `--ob-danger`. Raio `10px`.
+
+**Motion.** Transição de borda 160ms. Sem deslocamento de layout ao mostrar erro.
+
+**Responsivo / mobile.** Largura total por padrão; font-size ≥16px evita zoom automático no iOS.

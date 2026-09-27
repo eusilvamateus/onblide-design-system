@@ -3,15 +3,23 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { OB_TONES, OBTone } from '../../internal/obTones';
 
 export interface ToastProps {
+  /** Tom da notificação, que define o ícone e a cor do chip. */
   tone?: OBTone;
+  /** Título curto exibido em destaque. */
   title?: React.ReactNode;
+  /** Detalhe opcional exibido abaixo do título. */
   body?: React.ReactNode;
+  /** Rótulo do botão de ação, exibido abaixo do corpo. */
   action?: React.ReactNode;
+  /** Chamado ao clicar no botão de ação. */
   onAction?: () => void;
+  /** Chamado ao clicar no botão de fechar; quando ausente, o botão não é exibido. */
   onClose?: () => void;
+  /** Exibe o chip com ícone tonal à esquerda. */
   icon?: boolean;
 }
 
+/** Notificação flutuante e efêmera que confirma ações ou informa eventos em segundo plano. */
 export const Toast: React.FC<ToastProps> = ({ tone = 'info', title, body, action, onAction, onClose, icon = true }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
   return (

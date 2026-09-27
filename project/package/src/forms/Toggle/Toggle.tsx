@@ -1,13 +1,19 @@
 import React from 'react';
 
 export interface ToggleProps {
+  /** Estado atual do interruptor: `true` para ligado, `false` para desligado. */
   checked: boolean;
+  /** Chamado com o novo valor sempre que o usuário alterna o interruptor. */
   onChange?: (checked: boolean) => void;
+  /** Texto ou conteúdo exibido ao lado do interruptor, descrevendo o que é ligado. */
   label?: React.ReactNode;
+  /** Impede a alternância e reduz a opacidade, indicando que o controle está bloqueado. */
   disabled?: boolean;
+  /** Dimensão do trilho e do knob. */
   size?: 'sm' | 'md';
 }
 
+/** Interruptor binário que aplica uma configuração imediatamente, sem exigir confirmação. */
 export const Toggle: React.FC<ToggleProps> = ({ checked, onChange, label, disabled = false, size = 'md' }) => {
   const w = size === 'sm' ? 32 : 40, h = size === 'sm' ? 18 : 22, knob = h - 4;
   const alternar = () => { if (!disabled) onChange?.(!checked); };

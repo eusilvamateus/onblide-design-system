@@ -1,0 +1,66 @@
+---
+resumo: "Dica contextual que aparece no hover ou foco. Três variações: imagem (preview), texto complementar (hora, atalhos) e invertida (fundos coloridos). Este documento é o **modelo padrão** de toda a documentação Onblide."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Tooltip: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use o tooltip para informação **secundária e opcional** — algo que ajuda mas não é essencial pra completar a tarefa. Aparece após um pequeno `delay` de 120ms pra não disparar em movimentos acidentais do cursor.
+
+### Quando usar
+
+- **Imagem** — preview de produto ou avatar de usuário ao passar sobre um nome ou miniatura.
+- **Texto** — revelar atalho de teclado, data/hora completa, ou rótulo de um ícone sem label.
+- **Invertida** — quando o gatilho está sobre um fundo colorido da marca (azul, laranja), pra garantir contraste.
+
+<FacaEvite>
+<Faca>
+
+Tooltip em ícones sem texto, pra esclarecer a ação.
+
+</Faca>
+<Evite>
+
+Colocar informação crítica ou ações clicáveis dentro do tooltip.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+Acionamento por `hover` e `focus` (acessível por teclado). Seta de 8px aponta pro gatilho. Posiciona em `top` (padrão), `bottom`, `left` ou `right`.
+
+```jsx
+<Tooltip label="Salvar" shortcut="⌘S">
+  <button>…</button>
+</Tooltip>
+
+<Tooltip variant="image" image={src}
+  title="Onblide" subtitle="Atualizado há 2h" />
+
+<Tooltip variant="inverted" label="Destaque" />
+```
+
+## Guia de conteúdo
+
+- Máximo **uma frase curta**. Tooltip não é parágrafo.
+- Sentence case, sem ponto final em rótulos de uma linha ("Salvar alterações", não "Salvar alterações.").
+- Atalhos em `kbd` com símbolos nativos: `⌘S`, `/`, `⌘K`.
+- Datas por extenso quando complementares: "Criada em 24/05/2026, 14:32".
+- Voz Onblide: direto e conversacional. Evite "Clique aqui para…".
+
+## Guia de design
+
+**Tokens.** Fundo padrão `--ob-ink-strong` com texto branco; invertida usa `--ob-surface` + borda `--ob-border`. Raio `8px` (texto) ou `12px` (imagem). Sombra `--ob-shadow-md`.
+
+**Motion.** Entrada com fade de 140ms usando `--ob-ease-out`. Sem bounce. O delay de 120ms evita disparos acidentais.
+
+**Responsivo.** Largura máxima de 240px (texto) / 200px (imagem); o conteúdo quebra linha na variação imagem. Em telas estreitas, prefira `placement` que não saia da viewport.
+
+<Nota>
+
+**Versão mobile:** tooltips dependem de hover, que não existe em toque. Em mobile, substitua por `tap-to-reveal` (popover) ou texto inline. Por isso este componente **não marca** "versão mobile" na matriz acima.
+
+</Nota>

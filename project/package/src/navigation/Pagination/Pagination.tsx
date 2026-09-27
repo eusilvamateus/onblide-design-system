@@ -2,12 +2,17 @@ import React from 'react';
 import { Icons } from '../../iconography/Icons/Icons';
 
 export interface PaginationProps {
+  /** Página atual (1-indexada). */
   page?: number;
+  /** Número total de páginas. */
   total?: number;
+  /** Chamado com o número da página escolhida. */
   onChange?: (page: number) => void;
+  /** Quantidade de páginas vizinhas exibidas de cada lado da página atual. */
   siblings?: number;
 }
 
+/** Navegação entre páginas de uma lista, com reticências para intervalos longos. */
 export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, onChange, siblings = 1 }) => {
   const range = (s: number, e: number) => Array.from({ length: e - s + 1 }, (_, i) => s + i);
   const pages: (number | '…')[] = [];

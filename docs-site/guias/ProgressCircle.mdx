@@ -1,0 +1,63 @@
+---
+resumo: "Indicador circular de progresso determinado (0–100%). Comunica a proporção concluída de uma meta ou processo com uma representação espacial. Irmão circular do **ProgressBar** — compartilham os mesmos tones via `OB_TONES`."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do ProgressCircle: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use quando o espaço for compacto e a representação radial for mais intuitiva que uma barra — dashboards de métricas, cards de KPI, progresso de metas individuais.
+
+### Quando usar ProgressCircle vs ProgressBar
+
+- **ProgressCircle** — espaço quadrado/compacto, uma única métrica em destaque, contexto visual (dashboard, card).
+- **ProgressBar** — espaço horizontal amplo, múltiplas métricas em lista, uploads/downloads onde a linearidade é intuitiva.
+
+<FacaEvite>
+<Faca>
+
+Use tom automático por valor — verde para bom (≥80%), azul para neutro, laranja para alerta, vermelho para crítico. Comunica estado sem precisar de legenda.
+
+</Faca>
+<Evite>
+
+Mais de 4–5 ProgressCircles na mesma tela — perde o impacto visual. Para muitas métricas em lista, prefira ProgressBar.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<ProgressCircle value={67} size="md" tone="default" showLabel />
+
+<!-- Rótulo personalizado -->
+<ProgressCircle value={100} size="lg" tone="success" showLabel label="✓" />
+
+<!-- Sem rótulo -->
+<ProgressCircle value={40} size="sm" showLabel={false} />
+```
+
+## Guia de conteúdo
+
+- Rótulo padrão: porcentagem — "67%". Simples, imediato.
+- Rótulo personalizado: use para substituir a % por uma unidade mais significativa no contexto — "R$ 48k", "12/15", "3 dias".
+- Ícone no rótulo: use um ícone Phosphor quando o estado é binário (concluído/erro) — `ph-check` no tom success, `ph-x` no tom danger.
+- Título abaixo (em cards): substantivo curto — "Sessões", "Receita", "Meta mensal". Nunca verbos.
+
+## Guia de design
+
+**Tokens.** Trilha `--ob-bg-alt`. Arco na cor do tone. Rótulo em `--ob-font-mono` peso 700 na cor do tone. O SVG usa `stroke-dasharray` + `stroke-dashoffset` para o preenchimento — sem pseudo-elementos, sem clip-path.
+
+**Stroke-width escala.** sm=3.5px, md=4.5px, lg=5px, xl=7px. A espessura proporcional mantém o arco visualmente consistente independente do tamanho.
+
+**Motion.** `stroke-dashoffset` com transição de 400ms `cubic-bezier(.4,0,.2,1)` ao mudar o valor — suave, sem bounce. O arco começa no topo (SVG rotacionado -90°).
+
+**Tom automático.** Pattern recomendado: `≥80% → success`, `≥50% → default`, `≥30% → warning`, `<30% → danger`. Consistente com o comportamento do Alert e do Toast.
+
+<Nota>
+
+**Acessibilidade:** use `role="progressbar"` com `aria-valuenow`, `aria-valuemin="0"` e `aria-valuemax="100"` quando necessário para leitores de tela. O rótulo visual de porcentagem cobre a maioria dos casos.
+
+</Nota>

@@ -5,6 +5,7 @@ import { OB_TOAST_POS, OBToastPosition } from '../../internal/obToastPos';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export interface ToastStackProps {
+  /** Canto ou centro da tela onde os toasts são ancorados. */
   position?: OBToastPosition;
 }
 
@@ -13,6 +14,7 @@ interface QueuedToast extends ToastProps {
   leaving: boolean;
 }
 
+/** Monta o container fixo que empilha e anima os toasts disparados via `window.obToast`. */
 export const ToastStack: React.FC<ToastStackProps> = ({ position = 'bottom-right' }) => {
   const [toasts, setToasts] = useState<QueuedToast[]>([]);
   const dismiss = useCallback((id: number) => {

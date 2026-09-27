@@ -1,0 +1,38 @@
+---
+resumo: "Menu de ações contextuais ancorado a um gatilho. Suporta ícones, divisores e item destrutivo."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Dropdown: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Agrupe ações secundárias de um item (editar, duplicar, excluir) atrás de um gatilho "⋯" ou botão. Fecha ao clicar fora ou escolher.
+
+## Formatação
+
+```jsx
+<Dropdown align="right" trigger={<button>Ações</button>}
+  items={[
+    {label:'Editar', icon, onClick},
+    {divider:true},
+    {label:'Excluir', danger:true, onClick}
+  ]} />
+```
+
+## Guia de conteúdo
+
+- Verbos de ação: "Renomear", "Mover", "Excluir".
+- Item destrutivo por último, separado por divisor.
+
+## Guia de design
+
+**Tokens.** Painel `--ob-surface` + `--ob-shadow-lg`; hover `--ob-bg-alt`; perigo `--ob-danger`. Raio `12px`.
+
+**Motion.** Abre instantâneo; hover dos itens 120ms.
+
+<Nota>
+
+**Versão mobile:** menus ancorados são imprecisos no toque. Em mobile, converta para *action sheet* que sobe da base. Por isso **não marca** "versão mobile".
+
+</Nota>

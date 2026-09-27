@@ -3,20 +3,30 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FloatingPanel, FloatingPanelAlign } from '../FloatingPanel/FloatingPanel';
 
 export interface DropdownItem {
+  /** Texto ou conteúdo do item. */
   label?: React.ReactNode;
+  /** Chamado ao clicar no item; o menu fecha em seguida. */
   onClick?: () => void;
+  /** Desabilita o item, impedindo clique. */
   disabled?: boolean;
+  /** Estiliza o item como ação destrutiva. */
   danger?: boolean;
+  /** Renderiza uma linha divisória no lugar de um item. */
   divider?: boolean;
+  /** Ícone exibido à esquerda do rótulo. */
   icon?: React.ReactNode;
 }
 
 export interface DropdownProps {
+  /** Elemento que abre o menu ao ser clicado. */
   trigger: React.ReactNode;
+  /** Itens exibidos no menu. */
   items: DropdownItem[];
+  /** Alinhamento horizontal do menu em relação ao trigger. */
   align?: FloatingPanelAlign;
 }
 
+/** Menu de ações flutuante, aberto a partir de um elemento disparador. */
 export const Dropdown: React.FC<DropdownProps> = ({ trigger, items, align = 'left' }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);

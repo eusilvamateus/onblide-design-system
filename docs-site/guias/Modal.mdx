@@ -1,0 +1,73 @@
+---
+resumo: "Diálogo que interrompe o fluxo para uma decisão ou foco. Backdrop escurecido + Esc para fechar. Disponível em quatro tamanhos: **sm · md · lg · full**."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Modal: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Reserve para ações que exigem foco total: confirmações destrutivas, formulários curtos, detalhes e prévias de dados. Não empilhe modais.
+
+### Tamanhos e quando usar
+
+<FacaEvite>
+<Faca>
+
+Escolha o menor tamanho que acomoda o conteúdo. Ação primária + cancelar no footer.
+
+</Faca>
+<Evite>
+
+Modal `lg` para confirmações simples — use `sm`. Nunca empilhe modais.
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **Select** ou **Input** dentro do corpo para formulários.
+- **Alert** no corpo para erros de validação.
+- **ProgressBar** segmentada no topo para fluxos multi-passo (`lg` ou `full`).
+- **Skeleton** no corpo enquanto dados carregam assincronamente (`lg`).
+- **Toast** após fechar o modal para confirmar ação concluída.
+
+## Formatação
+
+```jsx
+<Modal open={o} onClose={fn} title="Excluir?" size="sm"
+  footer={<>…</>}>Conteúdo</Modal>
+
+<Modal open={o} onClose={fn} title="Prévia" size="lg"
+  footer={…}><Tabela /></Modal>
+```
+
+<Nota>
+
+**width vs size:** se `width` for passado diretamente, sobrepõe `size`. Use `size` para os casos padrão.
+
+</Nota>
+
+## Guia de conteúdo
+
+- Título: pergunta ou ação direta. "Excluir projeto?", "Novo membro", "Métricas de sessão".
+- Corpo: 1–3 frases para `sm/md`; conteúdo rico para `lg/full`.
+- Botão de confirmação: verbo da ação. "Excluir", "Criar", "Exportar" — nunca "OK".
+- Cancelar sempre à esquerda do botão primário no footer.
+- Para `lg` com tabela ou dados: inclua título descritivo e CTA de exportação se aplicável.
+
+## Guia de design
+
+**Tokens.** Card `--ob-surface` + `--ob-shadow-lg`; backdrop `rgba(20,20,20,.45)` com `blur(2px)`. Raio `16 px`. Footer fundo `--ob-bg-alt`.
+
+**Motion.** Backdrop fade 160ms ease-out; card scale + fade 200ms `--ob-ease-spring`.
+
+**Responsivo / mobile.** Em viewports estreitas, todos os tamanhos reduzem com margem de 16 px. Em mobile (`< 480 px`), `lg` e `full` viram folha de largura total ancorada na base.
+
+**Scroll.** O corpo do modal tem `overflow-y: auto` quando o conteúdo excede a altura. O header e o footer ficam fixos.
+
+<Nota>
+
+**Acessibilidade:** aplique `role="dialog"`, `aria-modal="true"`, `aria-labelledby` apontando para o título. Foco deve entrar no modal ao abrir e retornar ao trigger ao fechar. Esc sempre fecha.
+
+</Nota>

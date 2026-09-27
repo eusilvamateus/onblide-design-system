@@ -6,27 +6,43 @@ import { injectStyleOnce } from '../../internal/injectStyleOnce';
 injectStyleOnce('ob-pulse-kf', '@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}');
 
 export interface TableColumn<T> {
+  /** Chave da coluna, usada para ler o valor da linha e identificar ordenação. */
   key: string;
+  /** Rótulo exibido no cabeçalho da coluna. */
   label: React.ReactNode;
+  /** Largura fixa da coluna. */
   width?: number | string;
+  /** Habilita clique no cabeçalho para ordenar por essa coluna. */
   sortable?: boolean;
+  /** Exibe o valor da coluna em negrito e com cor de destaque. */
   bold?: boolean;
+  /** Customiza a renderização da célula a partir do valor bruto e da linha. */
   render?: (value: unknown, row: T) => React.ReactNode;
 }
 
 export interface TableSort {
+  /** Chave da coluna pela qual a tabela está ordenada. */
   key: string;
+  /** Direção da ordenação atual. */
   dir: 'asc' | 'desc';
 }
 
 export interface TableProps<T> {
+  /** Definição das colunas exibidas. */
   columns?: TableColumn<T>[];
+  /** Linhas de dados exibidas na tabela. */
   rows?: T[];
+  /** Exibe checkboxes para seleção de linhas. */
   selectable?: boolean;
+  /** Chamado com as linhas selecionadas sempre que a seleção muda. */
   onSelect?: (rows: T[]) => void;
+  /** Exibe linhas-esqueleto animadas no lugar dos dados. */
   loading?: boolean;
+  /** Conteúdo exibido quando não há linhas; padrão: mensagem de nenhum resultado. */
   emptyState?: React.ReactNode;
+  /** Chamado com a chave da coluna clicada, quando `sortable`. */
   onSort?: (key: string) => void;
+  /** Coluna e direção de ordenação atualmente aplicadas. */
   sort?: TableSort;
 }
 
@@ -35,6 +51,7 @@ export interface TableProps<T> {
 // função direta, igual a como o React documenta componentes genéricos.
 // `T extends object` (e não Record<string, unknown>) para aceitar também
 // `interface` sem index signature como tipo de linha.
+/** Tabela de dados com seleção, ordenação, carregamento e estado vazio. */
 export function Table<T extends object = Record<string, unknown>>({
   columns = [], rows = [], selectable = false, onSelect, loading = false, emptyState, onSort, sort,
 }: TableProps<T>) {

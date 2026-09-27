@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { Icons } from '../../iconography/Icons/Icons';
 
+/** Nível de ênfase visual do link: `default` (cor de destaque), `subtle` (cor do texto) ou `quiet` (cor esmaecida). */
 export type LinkVariant = 'default' | 'subtle' | 'quiet';
 
 export interface LinkProps {
+  /** Destino do link, usado no atributo `href` da âncora. */
   href?: string;
+  /** Conteúdo textual (ou nós React) exibido dentro do link. */
   children?: React.ReactNode;
+  /** Variante de ênfase que define a cor do link. */
   variant?: LinkVariant;
+  /** Marca o link como externo: abre em nova aba e exibe um ícone de seta indicando saída do site. */
   external?: boolean;
+  /** Handler chamado ao clicar no link. */
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }
 
+/** Link de navegação textual com variantes de ênfase e indicador opcional de destino externo. */
 export const Link: React.FC<LinkProps> = ({ href = '#', children, variant = 'default', external = false, onClick }) => {
   const [hover, setHover] = useState(false);
   const variants: Record<LinkVariant, React.CSSProperties> = {

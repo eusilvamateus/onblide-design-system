@@ -3,30 +3,49 @@ import { FieldShell } from '../FieldShell/FieldShell';
 import { Button } from '../../actions/Button/Button';
 import { Ph } from '../../iconography/Ph/Ph';
 
+/** Par de datas (início e fim) em formato ISO usado pelo Datepicker. */
 export interface DatepickerValues {
+  /** Data inicial em formato ISO (yyyy-mm-dd), ou `null` quando não selecionada. */
   startDate: string | null;
+  /** Data final em formato ISO (yyyy-mm-dd), ou `null` quando não selecionada. */
   endDate: string | null;
 }
 
 export interface DatepickerProps {
+  /** Restringe a seleção a uma única data em vez de um intervalo (de/até). */
   singleDate?: boolean;
+  /** Texto do botão que limpa as datas selecionadas. */
   clearLabel?: string;
+  /** Valores iniciais não controlados, usados quando `values` não é informado. */
   defaultValues?: DatepickerValues;
+  /** Rótulo exibido acima do campo de data final. */
   endDateLabel?: string;
+  /** Chamado sempre que os valores selecionados mudam. */
   onChange?: (values: DatepickerValues) => void;
+  /** Chamado quando o usuário limpa as datas selecionadas. */
   onClear?: () => void;
+  /** Limpa os campos automaticamente logo após confirmar a seleção. */
   resetOnSubmit?: boolean;
+  /** Exibe o botão de confirmação no rodapé do calendário. */
   showSubmitButton?: boolean;
+  /** Rótulo exibido acima do campo de data inicial. */
   startDateLabel?: string;
+  /** Chamado ao confirmar a seleção, recebendo a data inicial e a final. */
   onSubmit?: (startDate: string | null, endDate: string | null) => void;
+  /** Texto do botão de confirmação. */
   submitLabel?: string;
+  /** Valores selecionados em modo controlado. */
   values?: DatepickerValues;
+  /** Data mínima permitida; datas anteriores são tratadas como inválidas. */
   minBookingDate?: Date | null;
   /** Accepted for API compatibility with the pre-port component; not
    * enforced anywhere — same as before the port. See Task 9 notes. */
   maxBookingDays?: number;
+  /** Rótulo exibido acima do campo. */
   label?: React.ReactNode;
+  /** Texto de apoio exibido abaixo do campo quando não há erro. */
   hint?: React.ReactNode;
+  /** Mensagem de erro exibida abaixo do campo, substituindo o hint. */
   error?: React.ReactNode;
 }
 
@@ -57,6 +76,7 @@ const dpMask = (val: string): string => {
 const dpToIso = (d: Date | null): string | null =>
   d ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` : null;
 
+/** Campo de seleção de data única ou intervalo, com digitação mascarada e calendário popup. */
 export const Datepicker: React.FC<DatepickerProps> = ({
   singleDate = false,
   clearLabel = 'Limpar',

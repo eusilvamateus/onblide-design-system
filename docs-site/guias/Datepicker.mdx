@@ -1,0 +1,49 @@
+---
+resumo: "Seleção de data única ou intervalo, com entrada manual mascarada e calendário popup."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Datepicker: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Filtros por período, agendamentos, prazos. Modo `singleDate` para uma data; padrão é intervalo (de/até).
+
+<FacaEvite>
+<Faca>
+
+Permitir digitação além do calendário.
+
+</Faca>
+<Evite>
+
+Calendário-only para datas distantes (ex: nascimento).
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<Datepicker singleDate startDateLabel="de"
+  endDateLabel="até" maxBookingDays={90}
+  values={v} onChange={setV} onSubmit={fn} />
+```
+
+## Guia de conteúdo
+
+- Formato `dd/mm/yyyy` (pt-BR).
+- Labels curtos: "de", "até".
+- Erros claros: "Data inválida", "Deve ser após data inicial".
+
+## Guia de design
+
+**Tokens.** Inputs como `Input`; dia selecionado `--ob-blue`, intervalo `--ob-blue-100`. Popup `--ob-shadow-md`.
+
+**Motion.** Popup com fade; transições de hover nos dias.
+
+<Nota>
+
+**Versão mobile:** o calendário de duas colunas e o popup ancorado não cabem bem em telas pequenas. Em mobile, use um seletor full-screen nativo ou stepper. Por isso **não marca** "versão mobile".
+
+</Nota>

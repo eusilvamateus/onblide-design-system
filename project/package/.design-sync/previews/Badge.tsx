@@ -10,6 +10,16 @@ export const Tons = () => (
   </div>
 );
 
+export const SemPonto = () => (
+  <div style={{ display: 'flex', gap: 10, padding: 16, flexWrap: 'wrap' }}>
+    <Badge tone="blue" dot={false}>Em andamento</Badge>
+    <Badge tone="green" dot={false}>Concluído</Badge>
+    <Badge tone="orange" dot={false}>Pendente</Badge>
+    <Badge tone="red" dot={false}>Atrasado</Badge>
+    <Badge tone="grey" dot={false}>Rascunho</Badge>
+  </div>
+);
+
 export const Variantes = () => (
   <div style={{ display: 'flex', gap: 10, padding: 16, flexWrap: 'wrap', alignItems: 'center' }}>
     <Badge variant="subtle" tone="blue">Sutil</Badge>

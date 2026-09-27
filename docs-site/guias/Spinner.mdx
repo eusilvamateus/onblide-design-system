@@ -1,0 +1,64 @@
+---
+resumo: "Indicador circular de carregamento indeterminado. Comunica que um processo está em curso sem saber quanto tempo levará. Compõe com **Button** (estado de loading) e com **Skeleton** (carregamento de conteúdo)."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Spinner: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use quando a duração de um processo é desconhecida ou muito variável — envio de formulário, requisição de API, upload. Para durações conhecidas, prefira **ProgressBar** ou **ProgressCircle**.
+
+### Contextos típicos
+
+- **Botão loading** — substitui o ícone/texto do botão durante a ação (size sm, tone muted em botão primário, tone default em secundário).
+- **Card ou seção** — centralizado no container com label opcional.
+- **Inline** — ao lado de texto para indicar atualização parcial.
+- **Overlay de página** — size lg/xl com backdrop.
+
+<FacaEvite>
+<Faca>
+
+Use tone `muted` dentro de botões primários (fundo colorido) para manter o contraste. Use tone `default` em botões secundários.
+
+</Faca>
+<Evite>
+
+Spinner por mais de 8–10 s sem feedback adicional — forneça um texto de contexto ("Processando pedido…") para não deixar o usuário desorientado.
+
+</Evite>
+</FacaEvite>
+
+### Spinner vs Skeleton
+
+- Use **Skeleton** quando o conteúdo tem forma previsível (cards, linhas de texto, imagens).
+- Use **Spinner** para ações pontuais (submit, refresh) ou conteúdo sem forma previsível.
+
+## Formatação
+
+```jsx
+<Spinner size="md" tone="default" label="Carregando…" />
+```
+
+## Guia de conteúdo
+
+- O Spinner é mudo visualmente — forneça texto de contexto ao lado quando a ação não for óbvia.
+- Texto de loading: gerúndio descritivo. "Salvando…", "Enviando relatório…", "Sincronizando com Spotify…".
+- Nunca use "Aguarde…" ou "Processando…" sem contexto — diga o quê está processando.
+- O prop `label` é o `aria-label` do elemento — use sempre para acessibilidade, mesmo que não seja visível.
+
+## Guia de design
+
+**Tokens.** Arco na cor do tone (via tokens `--ob-blue`, `--ob-green` etc). Trilha circular em `stroke-opacity: 0.15` da mesma cor — mantém harmonia independente do fundo.
+
+**Tamanhos.** xs/sm para uso inline e em botões; md para estados de seção; lg/xl para overlays de página inteira. Stroke-width escala com o tamanho (2px no sm → 3.5px no xl).
+
+**Motion.** Rotação contínua de 0.75s linear (`ob-spin`) — velocidade que comunica atividade sem ansiedade. Não use `ease` ou `ease-in-out` — o loop precisa ser uniforme.
+
+**Tone muted.** Exclusivo para uso dentro de elementos com fundo colorido (botões primários, badges, banners). Usa `--ob-fg-mute` em vez de uma cor de marca.
+
+<Nota>
+
+**Acessibilidade:** o elemento tem `role="status"` e `aria-live="polite"`. O `aria-label` descreve o que está carregando — nunca omita.
+
+</Nota>

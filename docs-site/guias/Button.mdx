@@ -1,0 +1,51 @@
+---
+resumo: "Aciona uma ação. O CTA primário carrega a voz da marca — azul sólido com glow azul no hover."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Button: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use para ações diretas: enviar, confirmar, criar. Um único botão **primary** por contexto — ele é o destino principal do olhar.
+
+- **primary** — ação principal (azul).
+- **secondary** — ação alternativa (borda).
+- **ghost** — ação terciária / links de ação.
+- **cream** — ação suave sobre branco.
+- **danger** — ações destrutivas.
+
+<FacaEvite>
+<Faca>
+
+Um primary por tela; o resto secondary/ghost.
+
+</Faca>
+<Evite>
+
+Vários botões azuis competindo pela atenção.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<Button kind="primary" icon={<Icons.plus/>}>Nova tarefa</Button>
+<Button kind="secondary" size="sm">Cancelar</Button>
+```
+
+## Guia de conteúdo
+
+- Verbo no infinitivo: "Salvar", "Adicionar", "Excluir".
+- Sentence case, sem ponto final.
+- 1–3 palavras. Evite "Clique aqui".
+- Destrutivo é explícito: "Excluir projeto", não "OK".
+
+## Guia de design
+
+**Tokens.** Fundo `--ob-blue`, hover `--ob-blue-700` + sombra `--ob-shadow-pop` (glow azul, assinatura da marca). Raio `10px`.
+
+**Motion.** Transição de 160ms `--ob-ease`. Sem encolher no press — só escurece um tom.
+
+**Responsivo / mobile.** Alvo mínimo de toque 44px (use `size="lg"` em mobile). Pode ocupar largura total em telas estreitas.

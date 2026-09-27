@@ -2,7 +2,7 @@
 
 /*
  * Tudo aqui deriva dos tokens do design system (--ob-*) e repete a linguagem das páginas de documentação
- * originais (ds/docs/doc.css): superfície branca, coluna de leitura de 760px, eyebrow em mono, títulos em 800,
+ * de ds/foundations/doc.css: superfície branca, coluna de leitura de 760px, eyebrow em mono, títulos em 800,
  * seções em caixa-alta com filete, códigos em cream. Breakpoints: sm 768px e md 1024px (--ob-bp-*).
  * Variáveis CSS não funcionam em @media, então os números aparecem literais.
  */
@@ -88,7 +88,7 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
   .ob-wrap { padding-left: var(--ob-grid-margin-desktop); padding-right: var(--ob-grid-margin-desktop); }
 }
 
-/* ---------- Tipografia do conteúdo (mesma das páginas ds/docs) ---------- */
+/* ---------- Tipografia do conteúdo (mesma de ds/foundations/doc.css) ---------- */
 .ob-wrap .markdown h1, .ob-wrap h1 {
   font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
   color: var(--ob-fg-strong); margin: 0 0 12px;
@@ -169,3 +169,34 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-wrap .ob-playground pre { border: none; border-radius: 0; margin: 0; padding: 6px 8px; }
 
 .ob-wrap .markdown code, .ob-wrap .markdown pre, .ob-playground__editor { font-variant-ligatures: none; }
+
+/* ---------- Guias (mesma linguagem de ds/foundations/doc.css) ---------- */
+.ob-faca-evite { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 8px 0 16px; }
+@media (min-width: 768px) { .ob-faca-evite { grid-template-columns: 1fr 1fr; } }
+.ob-faca-evite__tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+.ob-wrap .markdown .ob-faca-evite__texto p { font-size: 13px; margin: 0; color: var(--ob-fg-soft); }
+.ob-nota { margin: 0 0 16px; }
+.ob-wrap .markdown .ob-nota p { margin: 0; font-size: 14px; }
+.ob-criterios {
+  display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--ob-border);
+  border: 1px solid var(--ob-border); border-radius: var(--ob-r-surface); overflow: hidden; margin: 0 0 24px;
+}
+@media (min-width: 768px) { .ob-criterios { grid-template-columns: 1fr 1fr; } }
+.ob-criterio { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--ob-surface); font-size: 13px; font-weight: 500; color: var(--ob-fg-strong); }
+.ob-criterio--nao { color: var(--ob-fg-mute); }
+.ob-criterio__marca { flex: none; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--ob-bg-alt); color: var(--ob-fg-mute); }
+.ob-criterio__marca--sim { background: var(--ob-green-100); color: var(--ob-green-700); }
+
+/* ---------- Demo interativa ---------- */
+.ob-demo__controles {
+  display: grid; grid-template-columns: 1fr; gap: var(--ob-gap-md); align-items: end; margin: 0 0 var(--ob-gap-lg);
+}
+@media (min-width: 768px) { .ob-demo__controles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ob-demo__resultado { min-height: 160px; display: flex; align-items: center; justify-content: center; }
+.ob-demo__codigo {
+  margin: 0; padding: 14px 16px; background: var(--ob-bg-alt); font-family: var(--ob-font-mono);
+  font-size: 13px; line-height: 1.6; overflow-x: auto; border-radius: 0;
+}
+
+.ob-demo__opcoes { display: flex; flex-wrap: wrap; gap: var(--ob-gap-sm) var(--ob-gap-lg); margin: 0 0 var(--ob-gap-lg); }
+@media (min-width: 768px) { .ob-criterio:last-child:nth-child(odd) { grid-column: 1 / -1; } }

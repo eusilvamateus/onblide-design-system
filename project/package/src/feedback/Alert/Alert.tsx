@@ -3,15 +3,23 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { OB_TONES, OBTone } from '../../internal/obTones';
 
 export interface AlertProps {
+  /** Tom do alerta, que define ícone e cores. */
   tone?: OBTone;
+  /** Título curto exibido em destaque no topo do conteúdo. */
   title?: React.ReactNode;
+  /** Corpo da mensagem, exibido abaixo do título. */
   children?: React.ReactNode;
+  /** Exibe o botão de fechar quando `true`. */
   dismissible?: boolean;
+  /** Chamado ao clicar no botão de fechar. */
   onClose?: () => void;
+  /** Rótulo do link de ação exibido abaixo do conteúdo. */
   action?: React.ReactNode;
+  /** Chamado ao clicar no link de ação. */
   onAction?: () => void;
 }
 
+/** Mensagem de feedback contextual e persistente exibida dentro do conteúdo da página. */
 export const Alert: React.FC<AlertProps> = ({ tone = 'info', title, children, dismissible = false, onClose, action, onAction }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
   return (

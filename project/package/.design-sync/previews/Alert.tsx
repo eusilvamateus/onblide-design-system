@@ -22,3 +22,9 @@ export const Dispensavel = () => (
     <Alert tone="info" dismissible onClose={() => {}}>Você foi adicionado à equipe de Design.</Alert>
   </div>
 );
+
+export const Compacto = () => (
+  <div style={{ padding: 16, maxWidth: 520 }}>
+    <Alert tone="info">Versão compacta, apenas texto e tom.</Alert>
+  </div>
+);

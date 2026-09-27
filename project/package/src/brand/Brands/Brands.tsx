@@ -4,15 +4,21 @@ import { Ph } from '../../iconography/Ph/Ph';
 export type BrandKey = 'spotify' | 'slack' | 'notion' | 'figma' | 'github' | 'dropbox' | 'discord';
 
 export interface Brand {
+  /** Nome de exibição da marca. */
   name: string;
+  /** Cor hexadecimal oficial da marca. */
   hex: string;
+  /** Categoria da integração (ex.: "Comunicação", "Design"). */
   cat: string;
+  /** Descrição curta do que a integração com essa marca oferece. */
   desc: string;
+  /** Renderiza o logotipo da marca no tamanho `s` (em px). */
   mark: (s: number) => React.ReactElement;
 }
 
 // Logos de marca: glifos oficiais do Phosphor (ph-<marca>-logo, já incluídos no webfont),
 // na cor autêntica de cada marca. Marca sem glifo no Phosphor não é implementada.
+/** Catálogo de marcas integráveis, com nome, cor, categoria, descrição e logotipo. */
 export const Brands: Record<BrandKey, Brand> = {
   spotify: {
     name: 'Spotify', hex: '#1DB954', cat: 'Mídia',

@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'style'> {
+  /** Rótulo exibido acima do campo. */
   label?: React.ReactNode;
+  /** Texto de apoio abaixo do campo, explicando o formato esperado. Some quando `error` está presente. */
   hint?: React.ReactNode;
+  /** Mensagem de erro exibida no lugar do hint e que deixa a borda do campo vermelha. */
   error?: React.ReactNode;
+  /** Ícone exibido à esquerda do texto digitado. */
   icon?: React.ReactNode;
 }
 
+/** Campo de texto com label, hint e estado de erro, com borda e ring de foco nos tokens do design system. */
 export const Input: React.FC<InputProps> = ({ label, hint, error, icon, ...rest }) => {
   const [focused, setFocused] = useState(false);
   return (

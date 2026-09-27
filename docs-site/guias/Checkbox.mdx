@@ -1,0 +1,30 @@
+---
+resumo: "Seleção múltipla ou confirmação. Suporta estado indeterminado para \"selecionar tudo\"."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Checkbox: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Várias escolhas independentes, ou um aceite ("Li os termos"). Use `indeterminate` no pai de uma lista parcialmente marcada.
+
+## Formatação
+
+```jsx
+<Checkbox checked={v} indeterminate={some}
+  onChange={setV} label="Selecionar tudo" />
+```
+
+## Guia de conteúdo
+
+- Label afirmativo: "Enviar resumo diário".
+- Descrição opcional para detalhes.
+
+## Guia de design
+
+**Tokens.** Preenchido `--ob-blue` com check branco; raio `6px`.
+
+**Motion.** Transição de preenchimento 160ms.
+
+**Responsivo / mobile.** Linha inteira clicável, alvo ≥44px.

@@ -1,0 +1,76 @@
+---
+resumo: "Elemento interativo e compacto para filtros, seleções e tags. Toggle (ativo/inativo), removível (×) e agrupável em linhas de múltipla seleção. Diferente do **Badge**, o Chip responde ao clique."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Chip: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use Chip sempre que o usuário precisar **selecionar, filtrar ou categorizar** algo. Pode operar em modo single-select (radio) ou multi-select (checkbox).
+
+### Modos
+
+- **Toggle single** — grupo de chips onde só um pode estar ativo (ex: filtro de status).
+- **Toggle multi** — múltiplos chips podem estar ativos simultaneamente (ex: filtro de categoria).
+- **Removível** — chip com botão ✕ para excluir a tag/item do contexto (ex: tags de projeto, filtros aplicados).
+
+<FacaEvite>
+<Faca>
+
+Agrupe chips de mesma natureza. Para filtros, mostre "N selecionados" quando ≥ 3 estiverem ativos.
+
+</Faca>
+<Evite>
+
+Chips com mais de 3 palavras. Misturar chips single e multi no mesmo grupo sem separação visual clara.
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **SearchInput** — linha de chips de filtros ativos abaixo da busca.
+- **Table** — chips como filtros de coluna acima da tabela.
+- **Input** — chips removíveis dentro de campo de tags (composição inline).
+- **Tabs** — chips size sm como alternativa compacta a Tabs pill para ≤ 4 opções curtas.
+
+## Formatação
+
+```jsx
+// Toggle single
+<Chip label="Tudo" selected={filter === 'all'} onToggle={() => setFilter('all')}/>
+
+// Toggle multi
+<Chip label="Design" icon="pen-nib" selected={active.includes('design')} onToggle={() => toggle('design')}/>
+
+// Removível
+<Chip label="Design System" removable onRemove={() => remove('Design System')}/>
+<Chip label="Q3 2026" selected removable onRemove={() => remove('Q3 2026')}/>
+```
+
+## Guia de conteúdo
+
+- Rótulo: 1–3 palavras, Sentence case. "Em andamento", "UX", "Alta prioridade".
+- Ícone: à esquerda do rótulo. Auxiliar — nunca substitui o rótulo.
+- Grupo de filtro: inclua sempre uma opção "Tudo" ou "Todos" como reset.
+- Removível selecionado: ✕ deve ser claro. Tooltip "Remover [rótulo]" se o espaço for pequeno.
+- Estado desabilitado: mostre Tooltip explicando o motivo (ex: "Disponível somente no plano Pro").
+
+## Guia de design
+
+**Inativo.** Fundo `--ob-surface`, borda `--ob-border`, texto `--ob-fg-strong`. Hover: fundo `--ob-bg-warm`.
+
+**Ativo.** Fundo `--ob-blue`, borda `--ob-blue`, texto branco.
+
+**Botão ✕.** Fundo `rgba(255,255,255,.25)` quando ativo; `--ob-bg-warm` quando inativo. Hit target mínimo 18×18 px.
+
+**Motion.** Transição de background e cor: 150ms `--ob-ease`. Sem escala ou bounce.
+
+**Touch.** Altura mínima de 44px no mobile para hit target adequado. Use `size="md"` sempre em contextos mobile.
+
+<Nota>
+
+**Chip vs Badge:** Se o usuário não interage com ele, use Badge. Se clica, filtra ou remove — use Chip.
+
+</Nota>

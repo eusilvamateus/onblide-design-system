@@ -3,12 +3,17 @@ import React, { useRef } from 'react';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export interface CodeInputProps {
+  /** Quantidade de células (dígitos) exibidas pelo campo. */
   length?: number;
+  /** Código atual, como string de dígitos (uma posição por célula). */
   value?: string;
+  /** Chamado com o novo valor sempre que um dígito é digitado, apagado ou colado. */
   onChange?: (value: string) => void;
+  /** Estado visual do campo: padrão, erro (com animação de shake) ou sucesso. */
   status?: 'default' | 'error' | 'success';
 }
 
+/** Campo de verificação por código (OTP), com uma célula por dígito, navegação por teclado e suporte a colar. */
 export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', onChange, status = 'default' }) => {
   const refs = useRef<Array<HTMLInputElement | null>>([]);
   const vals = value.split('');

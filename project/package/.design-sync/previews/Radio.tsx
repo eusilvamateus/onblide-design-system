@@ -23,3 +23,12 @@ export const Desabilitado = () => (
     <Radio name="d" value="b" checked disabled label="Login com e-mail" />
   </div>
 );
+
+export const TodosOsEstados = () => (
+  <div style={{ display: 'flex', gap: 40, flexWrap: 'wrap' as const, padding: 16 }}>
+    <Radio name="estado-selecionado" value="a" checked label="Selecionado" />
+    <Radio name="estado-vazio" value="a" checked={false} label="Vazio" />
+    <Radio name="estado-desabilitado" value="a" checked={false} disabled label="Desabilitado" />
+    <Radio name="estado-desabilitado-marcado" value="a" checked disabled label="Desab. marcado" />
+  </div>
+);

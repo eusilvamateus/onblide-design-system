@@ -1,0 +1,77 @@
+---
+resumo: "Alterna entre seções de conteúdo relacionado sem mudar de página. Disponível em duas variantes: **Line** (padrão, underline) e **Pill** (segmentado)."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Tabs: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use Tabs quando o conteúdo pode ser dividido em categorias paralelas e o usuário precisa alternar entre elas com frequência. Não use para passos sequenciais — use Stepper.
+
+### Variantes
+
+- **Line** — padrão. Para seções dentro de uma página (ex: abas de projeto, abas de configuração). Ocupa largura da área disponível.
+- **Pill** — para filtros e alternâncias curtas (ex: Mensal / Semanal / Diário). Mais compacto e autocontido.
+
+<FacaEvite>
+<Faca>
+
+Máximo de 6 abas. Use badges numéricos para indicar contagem de itens. Ícone à esquerda do rótulo (opcional).
+
+</Faca>
+<Evite>
+
+Tabs para fluxos sequenciais — use Stepper. Não misture Line e Pill na mesma tela.
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **Table** — conteúdo mais comum dentro de uma aba.
+- **Badge** — contagem de itens no rótulo da aba.
+- **SearchInput** — filtro acima da área de conteúdo das Tabs.
+- **Skeleton** — enquanto o conteúdo da aba carrega assincronamente.
+
+## Formatação
+
+```jsx
+<Tabs
+  tabs={[
+    { id: 'overview', label: 'Visão geral' },
+    { id: 'tasks',    label: 'Tarefas', badge: 3 },
+    { id: 'settings', label: 'Ajustes', icon: 'gear', disabled: true },
+  ]}
+  active={active}
+  onChange={setActive}
+  variant="line"
+  size="md"
+/>
+```
+
+Tipo `Tab`: `{ id: string, label: string, icon?: string, badge?: number, disabled?: boolean }`
+
+## Guia de conteúdo
+
+- Rótulos: substantivos curtos e paralelos. "Visão geral", "Tarefas", "Membros" — nunca verbos.
+- Máximo de 2 palavras por rótulo. Prefira uma.
+- Badge: contagem de itens (ex: pendentes, não lidos). Não use para status.
+- Ícone: auxiliar ao rótulo — nunca substituto. Use ícones do álbum Phosphor.
+- Aba desabilitada: use quando a seção existe mas não está disponível no contexto atual — com Tooltip explicando o motivo.
+
+## Guia de design
+
+**Line.** Indicador azul de 2 px abaixo da aba ativa, flush com a borda do container. Rótulo ativo em `--ob-fg-strong`, inativo em `--ob-fg-mute`.
+
+**Pill.** Aba ativa com fundo `--ob-surface` + sombra sutil sobre fundo `--ob-bg-alt`. Raio `--ob-r-sm`.
+
+**Motion.** Transição de cor e indicador: 150ms `--ob-ease`. Sem animação de slide de conteúdo — troca instantânea.
+
+**Responsivo.** Em viewports estreitas, Tabs Line com scroll horizontal (sem quebra de linha). Tabs Pill: mantém em linha e reduz padding com `size="sm"`.
+
+<Nota>
+
+**Acessibilidade:** use `role="tablist"` no container, `role="tab"` em cada botão e `role="tabpanel"` no painel de conteúdo. Navegação por ←/→.
+
+</Nota>

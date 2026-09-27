@@ -19,6 +19,14 @@ export const Removiveis = () => (
   </div>
 );
 
+export const Pequeno = () => (
+  <div style={row}>
+    <Chip label="Mensal" size="sm" selected />
+    <Chip label="Semanal" size="sm" />
+    <Chip label="Diário" size="sm" />
+  </div>
+);
+
 export const Desabilitado = () => (
   <div style={row}>
     <Chip label="Arquivados" disabled />

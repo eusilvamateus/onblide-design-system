@@ -1,0 +1,43 @@
+---
+resumo: "Superfície que agrupa conteúdo relacionado. Dois padrões: bordered (hairline) ou elevated (sombra)."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Card: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Agrupe informação coesa — uma métrica, uma tarefa, um formulário. Escolha **um** padrão de elevação por contexto, nunca os dois juntos.
+
+<FacaEvite>
+<Faca>
+
+Bordered OU elevated — consistente por seção.
+
+</Faca>
+<Evite>
+
+Borda + sombra no mesmo card.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<Card elevation="border" padding={20}>…</Card>
+<Card elevation="shadow">…</Card>
+```
+
+## Guia de conteúdo
+
+- Título do card opcional, sempre 600+.
+- Hierarquia interna clara: título → métrica → meta.
+
+## Guia de design
+
+**Tokens.** Fundo `--ob-surface`, borda `--ob-border` ou sombra `--ob-shadow-md`. Raio `12px`.
+
+**Motion.** Estático por padrão. *(não marca motion)*
+
+**Responsivo / mobile.** Reflui em grid; em mobile ocupa largura total empilhado.

@@ -31,3 +31,26 @@ export const Desabilitado = () => (
     <Select label="Equipe" value="Financeiro" options={equipes} disabled width={300} />
   </div>
 );
+
+export const MultiplaVazia = () => (
+  <div style={{ padding: 16 }}>
+    <Select multi label="Times" placeholder="Selecione os times…" options={['Design', 'Engenharia', 'Marketing', 'Produto', 'Dados']} value={[]} width={340} />
+  </div>
+);
+
+export const OpcoesComObjeto = () => (
+  <div style={{ padding: 16 }}>
+    <Select
+      label="País"
+      placeholder="Selecione um país…"
+      value="Brasil"
+      options={[
+        { label: 'Brasil', sigla: 'BR' },
+        { label: 'Portugal', sigla: 'PT' },
+        { label: 'Espanha', sigla: 'ES' },
+        { label: 'França', sigla: 'FR' },
+      ]}
+      width={280}
+    />
+  </div>
+);

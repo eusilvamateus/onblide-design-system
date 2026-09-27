@@ -1,11 +1,15 @@
 import React from 'react';
 
 export interface AvatarProps {
+  /** Nome usado para gerar as iniciais exibidas (dois primeiros caracteres). */
   name?: string;
+  /** Diâmetro do avatar em px. */
   size?: number;
+  /** Cor de fundo do avatar. */
   color?: string;
 }
 
+/** Avatar circular com as iniciais de um nome. */
 export const Avatar: React.FC<AvatarProps> = ({ name = 'OB', size = 32, color = 'var(--ob-blue)' }) => (
   <div style={{
     width: size, height: size, borderRadius: '50%', background: color,

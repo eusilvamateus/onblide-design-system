@@ -1,0 +1,29 @@
+---
+resumo: "Representação visual de usuário ou workspace — iniciais sobre cor da marca."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Avatar: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Identifica pessoas em listas, comentários e headers. Use iniciais quando não houver foto.
+
+## Formatação
+
+```jsx
+<Avatar name="Marina Costa" size={32} color="var(--ob-orange)" />
+```
+
+## Guia de conteúdo
+
+- Duas iniciais, sempre maiúsculas.
+- Cor consistente por pessoa (derive do nome).
+
+## Guia de design
+
+**Tokens.** Fundo em cor da marca, texto branco. Círculo perfeito.
+
+**Motion.** Estático. *(não marca motion)*
+
+**Responsivo / mobile.** Escala por `size`; nítido em qualquer densidade.

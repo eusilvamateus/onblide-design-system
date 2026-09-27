@@ -17,3 +17,10 @@ export const Tamanhos = () => (
     <ProgressCircle value={60} size="xl" showLabel label="Sprint" />
   </div>
 );
+
+export const RotuloPersonalizado = () => (
+  <div style={{ display: 'flex', gap: 20, padding: 16, alignItems: 'center' }}>
+    <ProgressCircle value={100} size="lg" tone="success" showLabel label={<span style={{ fontSize: 18 }}>✓</span>} />
+    <ProgressCircle value={0} size="lg" tone="danger" showLabel={false} />
+  </div>
+);

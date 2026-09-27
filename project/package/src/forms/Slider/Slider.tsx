@@ -4,27 +4,43 @@ export type SliderValue = number | [number, number];
 export type SliderTone = 'default' | 'success' | 'warning' | 'danger';
 
 export interface SliderBaseProps {
+  /** Valor mínimo permitido na escala. */
   min?: number;
+  /** Valor máximo permitido na escala. */
   max?: number;
+  /** Incremento entre valores possíveis ao arrastar, usar as setas do teclado ou clicar na trilha. */
   step?: number;
+  /** Rótulo exibido acima da trilha, identificando o que o slider controla. */
   label?: React.ReactNode;
+  /** Texto de apoio exibido abaixo da trilha, com instruções ou contexto adicional. */
   hint?: React.ReactNode;
+  /** Mensagem de erro; quando definida, substitui o hint e destaca o slider no tom de perigo. */
   error?: React.ReactNode;
+  /** Desabilita a interação (arrasto, teclado e clique na trilha) e reduz a opacidade do componente. */
   disabled?: boolean;
+  /** Exibe o valor atual (ou o intervalo) ao lado do rótulo. */
   showValue?: boolean;
+  /** Exibe marcações de passo ao longo da trilha, além dos rótulos de mínimo e máximo. */
   marks?: boolean;
+  /** Tom semântico aplicado ao preenchimento, ao thumb e ao valor exibido. */
   tone?: SliderTone;
 }
 
 export interface SingleSliderProps extends SliderBaseProps {
+  /** Marca o slider como controle de valor único (padrão quando omitido). */
   range?: false;
+  /** Valor único selecionado. */
   value?: number;
+  /** Chamado com o novo valor único a cada mudança. */
   onChange?: (value: number) => void;
 }
 
 export interface RangeSliderProps extends SliderBaseProps {
+  /** Marca o slider como controle de intervalo, habilitando os dois thumbs. */
   range: true;
+  /** Intervalo selecionado, como `[mínimo, máximo]`. */
   value?: [number, number];
+  /** Chamado com o novo intervalo `[mínimo, máximo]` a cada mudança. */
   onChange?: (value: [number, number]) => void;
 }
 
@@ -40,6 +56,7 @@ interface SliderLooseProps extends SliderBaseProps {
 
 type Thumb = 'lo' | 'hi';
 
+/** Controle de entrada contínua ou discreta para valores numéricos, com suporte a valor único ou intervalo (range). */
 export const Slider: React.FC<SliderProps> = (props) => {
   const {
     value, min = 0, max = 100, step = 1,

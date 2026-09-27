@@ -6,20 +6,30 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { injectSpinKeyframes } from '../../internal/keyframes';
 
 export interface SearchInputResult {
+  /** Texto exibido para o resultado na lista de sugestões. */
   label: string;
+  /** Dados adicionais associados ao resultado, repassados como estão para `onSelect`. */
   [key: string]: unknown;
 }
 
 export interface SearchInputProps {
+  /** Texto atual do campo de busca. */
   value?: string;
+  /** Chamado a cada alteração do texto digitado, recebendo o novo valor. */
   onChange?: (value: string) => void;
+  /** Exibe um spinner no lugar do ícone de lupa, indicando uma busca em andamento. */
   loading?: boolean;
+  /** Texto de apoio exibido quando o campo está vazio. */
   placeholder?: string;
+  /** Lista de sugestões exibidas no dropdown; cada item pode ser uma string ou um objeto com `label`. */
   results?: (string | SearchInputResult)[];
+  /** Chamado ao escolher um item da lista de sugestões. */
   onSelect?: (result: string | SearchInputResult) => void;
+  /** Largura do campo de busca. */
   width?: number | string;
 }
 
+/** Campo de busca com ícone de lupa, botão de limpar e dropdown de sugestões. */
 export const SearchInput: React.FC<SearchInputProps> = ({ value = '', onChange, loading = false, placeholder = 'Buscar…', results = [], onSelect, width = 320 }) => {
   const [focus, setFocus] = useState(false);
   const showDrop = focus && results.length > 0;

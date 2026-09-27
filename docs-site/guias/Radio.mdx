@@ -1,0 +1,31 @@
+---
+resumo: "Escolha única entre opções mutuamente exclusivas. Use RadioGroup para o conjunto."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Radio: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+2–6 opções visíveis onde só uma vale. Para muitas opções, prefira `Select`. Cada opção pode ter descrição.
+
+## Formatação
+
+```jsx
+<RadioGroup value={v} onChange={setV} options={[
+  {value:'pro', label:'Pro', description:'…'}
+]} />
+```
+
+## Guia de conteúdo
+
+- Labels paralelos e curtos.
+- Descrição opcional explica a diferença entre opções.
+
+## Guia de design
+
+**Tokens.** Anel `--ob-blue` quando marcado; borda `--ob-border` quando vazio.
+
+**Motion.** Transição de borda 160ms ao selecionar.
+
+**Responsivo / mobile.** Alvo de toque ≥44px na linha inteira (label clicável).

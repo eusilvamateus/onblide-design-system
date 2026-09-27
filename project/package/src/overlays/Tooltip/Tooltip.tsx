@@ -5,18 +5,29 @@ export type TooltipVariant = 'text' | 'inverted' | 'image';
 export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
 
 export interface TooltipProps {
+  /** Elemento que dispara o tooltip no hover ou foco. */
   children: React.ReactNode;
+  /** Estilo visual do balão. */
   variant?: TooltipVariant;
+  /** Lado do gatilho em que o balão aparece. */
   placement?: TooltipPlacement;
+  /** Texto principal, usado nas variantes `text` e `inverted`. */
   label?: React.ReactNode;
+  /** Atalho de teclado exibido ao lado do rótulo. */
   shortcut?: React.ReactNode;
+  /** URL da imagem de preview, usada na variante `image`. */
   image?: string;
+  /** Título exibido abaixo da imagem, na variante `image`. */
   title?: React.ReactNode;
+  /** Subtítulo exibido abaixo do título, na variante `image`. */
   subtitle?: React.ReactNode;
+  /** Tempo em ms de espera antes de exibir o tooltip. */
   delay?: number;
+  /** Largura máxima do balão nas variantes de texto. */
   maxWidth?: number;
 }
 
+/** Dica contextual que aparece sobre um elemento ao passar o mouse ou focar nele. */
 export const Tooltip: React.FC<TooltipProps> = ({
   children, variant = 'text', placement = 'top', label, shortcut, image, title, subtitle, delay = 120, maxWidth = 240,
 }) => {

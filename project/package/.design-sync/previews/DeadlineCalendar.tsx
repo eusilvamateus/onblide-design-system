@@ -13,7 +13,7 @@ export const Completo = () => (
       delivery={{ startDate: '2026-10-19', endDate: '2026-10-23' }}
       estimatedDate="2026-10-23"
       holidays={feriados}
-      holidayCoverage="Feriados nacionais de 2026"
+      holidayCoverage="national"
     />
   </div>
 );
@@ -25,6 +25,27 @@ export const EntregaPendente = () => (
       production={{ startDate: '2026-10-05', endDate: '2026-10-16' }}
       deliveryPending
       holidays={feriados}
+    />
+  </div>
+);
+
+export const CoberturaParcial = () => (
+  <div style={{ padding: 16, width: 360 }}>
+    <DeadlineCalendar
+      referenceDate="2026-10-01"
+      production={{ startDate: '2026-10-05', endDate: '2026-10-16' }}
+      delivery={{ startDate: '2026-10-19', endDate: '2026-10-23' }}
+      estimatedDate="2026-10-23"
+      holidayCoverage="partial"
+    />
+  </div>
+);
+
+export const RetiradaCombinada = () => (
+  <div style={{ padding: 16, width: 360 }}>
+    <DeadlineCalendar
+      referenceDate="2026-10-01"
+      production={{ startDate: '2026-10-05', endDate: '2026-10-16' }}
     />
   </div>
 );

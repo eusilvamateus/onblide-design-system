@@ -1,12 +1,17 @@
 import React from 'react';
 
 export interface CardProps {
+  /** Conteúdo exibido dentro do card. */
   children?: React.ReactNode;
+  /** Estilos inline adicionais aplicados ao container, mesclados por cima do padrão. */
   style?: React.CSSProperties;
+  /** Espaçamento interno do card. */
   padding?: number | string;
+  /** Forma de destaque: borda sutil (`border`) ou sombra (`shadow`). */
   elevation?: 'border' | 'shadow';
 }
 
+/** Container de superfície para agrupar conteúdo relacionado. */
 export const Card: React.FC<CardProps> = ({ children, style = {}, padding = 20, elevation = 'border' }) => {
   const ev: React.CSSProperties = elevation === 'shadow'
     ? { boxShadow: 'var(--ob-shadow-md)' }

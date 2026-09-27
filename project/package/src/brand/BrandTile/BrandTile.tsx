@@ -2,12 +2,15 @@ import React from 'react';
 import { Brands, BrandKey } from '../Brands/Brands';
 
 export interface BrandTileProps {
+  /** Chave da marca a exibir, conforme o catálogo `Brands`. */
   brand: BrandKey;
+  /** Tamanho do lado da moldura quadrada, em px. */
   size?: number;
 }
 
 // Moldura que emoldura a marca — mantém um fundo claro constante nos dois
 // temas para que marcas escuras (GitHub, Notion) continuem legíveis.
+/** Moldura quadrada com fundo claro fixo que exibe o logotipo de uma marca. */
 export const BrandTile: React.FC<BrandTileProps> = ({ brand, size = 44 }) => {
   const b = Brands[brand];
   if (!b) return null;

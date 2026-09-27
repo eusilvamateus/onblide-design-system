@@ -4,13 +4,19 @@ import { BADGE_TONES, BadgeTone } from '../../internal/badgeTones';
 export type BadgeVariant = 'subtle' | 'solid' | 'outline' | 'numeric';
 
 export interface BadgeProps {
+  /** Cor semântica do badge. */
   tone?: BadgeTone;
+  /** Estilo visual do badge. */
   variant?: BadgeVariant;
+  /** Exibe um ponto colorido antes do conteúdo (ignorado na variante `numeric`). */
   dot?: boolean;
+  /** Tamanho do texto e do espaçamento interno. */
   size?: 'sm' | 'md';
+  /** Conteúdo do badge, geralmente um rótulo curto ou número. */
   children?: React.ReactNode;
 }
 
+/** Rótulo curto e colorido para status, categorias ou contagens. */
 export const Badge: React.FC<BadgeProps> = ({ tone = 'blue', variant = 'subtle', dot = true, size = 'md', children }) => {
   const t = BADGE_TONES[tone] || BADGE_TONES.blue;
   const fs = size === 'sm' ? 11 : 12;

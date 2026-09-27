@@ -3,7 +3,9 @@ import React from 'react';
 import { Ph } from '../Ph/Ph';
 
 export interface IconProps {
+  /** Tamanho do ícone em px. */
   size?: number;
+  /** Estilos inline adicionais aplicados ao ícone. */
   style?: React.CSSProperties;
 }
 
@@ -15,6 +17,7 @@ export type IconName =
 
 export type IconComponent = (p?: IconProps) => React.ReactElement;
 
+/** Registro central de ícones da interface, construído sobre `Ph`. */
 export const Icons: Record<IconName, IconComponent> = {
   search:         (p = {}) => <Ph n="magnifying-glass"    size={p.size ?? 20} style={p.style}/>,
   house:          (p = {}) => <Ph n="house"               size={p.size ?? 20} style={p.style}/>,

@@ -7,15 +7,23 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'full';
 const MODAL_WIDTHS: Record<ModalSize, number | string> = { sm: 360, md: 440, lg: 720, full: '92vw' };
 
 export interface ModalProps {
+  /** Controla se o modal está visível. */
   open: boolean;
+  /** Chamado ao clicar no backdrop, no botão de fechar ou pressionar Esc. */
   onClose?: () => void;
+  /** Título exibido no cabeçalho. */
   title?: React.ReactNode;
+  /** Conteúdo do corpo do modal. */
   children?: React.ReactNode;
+  /** Conteúdo exibido no rodapé, geralmente botões de ação. */
   footer?: React.ReactNode;
+  /** Largura explícita, que sobrepõe a derivada de `size`. */
   width?: number | string;
+  /** Tamanho predefinido do modal. */
   size?: ModalSize;
 }
 
+/** Diálogo que interrompe o fluxo, com backdrop escurecido, para uma decisão ou foco. */
 export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, footer, width, size = 'md' }) => {
   const resolvedWidth = width ?? MODAL_WIDTHS[size] ?? MODAL_WIDTHS.md;
   const titleId = useId();

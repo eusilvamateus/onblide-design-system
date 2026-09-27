@@ -21,6 +21,8 @@ npm start                                            # gera os dados e abre em h
 | Tabelas de tokens | Geradas de `project/package/src/tokens.css` (`scripts/gerar-tokens.mjs`) |
 | Changelog | Cópia do `CHANGELOG.md` do pacote |
 | Primeiros passos e fundações | Escritos à mão em `docs/` |
+| Guias de uso, conteúdo e design de cada componente | Escritos à mão em `guias/<Componente>.mdx` (frontmatter `resumo` e `criterios`); entram na página gerada |
+| Demo interativa | Controles gerados das props; o ponto de partida é o uso mais completo do componente nos exemplos |
 
 Os arquivos gerados não são versionados (`docs/componentes/`, `docs/changelog.md`, `src/data/`): `npm run gerar`
 os recria, e o `npm run build` já faz isso. Para mudar um exemplo de componente, edite o `.tsx` em `.design-sync/previews/`.

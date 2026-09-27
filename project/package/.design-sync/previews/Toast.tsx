@@ -16,3 +16,15 @@ export const ComAcao = () => (
     <Toast tone="success" title="Tarefa excluída" body="Você removeu a tarefa Revisar proposta." action="Desfazer" onAction={() => {}} onClose={() => {}} />
   </div>
 );
+
+export const SemIcone = () => (
+  <div style={box}>
+    <Toast tone="info" title="Sincronizando…" body="Buscando dados do Spotify." icon={false} onClose={() => {}} />
+  </div>
+);
+
+export const SoTitulo = () => (
+  <div style={box}>
+    <Toast tone="warning" title="Cota quase no limite" onClose={() => {}} />
+  </div>
+);

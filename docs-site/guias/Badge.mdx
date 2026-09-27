@@ -1,0 +1,74 @@
+---
+resumo: "Rótulo compacto e estático que comunica status, categoria ou contagem. **Não é interativo** — para filtros clicáveis use **Chip**."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Badge: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use Badge para comunicar informação sobre um item sem nenhuma ação. É um indicador visual passivo.
+
+### Variantes
+
+- **Subtle** — padrão. Fundo suave + ponto colorido. Para status em cards, listas e tabelas.
+- **Solid** — fundo preenchido na cor do tom. Para rótulos de plano (Pro, Beta), categorias em destaque.
+- **Outline** — somente borda. Contextos onde o fundo precisa respirar ou há sobreposição visual.
+- **Numeric** — contagem circular. Para notificações, mensagens não lidas, alertas em ícones.
+
+<FacaEvite>
+<Faca>
+
+Use Badge para informar — status de integração, plano ativo, contagem de notificações.
+
+</Faca>
+<Evite>
+
+Badge clicável ou como filtro. Para isso, use **Chip**. Badge nunca deve ter cursor pointer.
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **Table** — célula de status via prop `render`.
+- **SideNav** — contador numérico no item de navegação.
+- **Card** — indicador de plano ou estado no header do card.
+- **Tabs** — contagem de itens no rótulo da aba.
+
+## Formatação
+
+```jsx
+<Badge tone="green">Ativo</Badge>
+<Badge tone="blue" variant="solid" dot={false}>Pro</Badge>
+<Badge tone="red" variant="numeric">3</Badge>
+<Badge tone="orange" variant="outline" dot={false}>Pendente</Badge>
+```
+
+<Nota>
+
+**dot** é ignorado em `variant="numeric"` automaticamente.
+
+</Nota>
+
+## Guia de conteúdo
+
+- 1–2 palavras. Substantivo de estado: "Ativo", "Rascunho", "Pendente".
+- Sentence case. Nunca all-caps (exceto siglas: "Pro", "Beta").
+- Semântica de cor: verde = positivo, vermelho = erro/urgente, laranja = atenção, azul = neutro/informação, cinza = inativo.
+- Numeric: máximo 2 dígitos. Acima de 99, mostre "99+".
+- Solid sem dot: para rótulos de produto (Pro, Beta, Novo) onde o tom comunica novidade, não status.
+
+## Guia de design
+
+**Tokens.** Subtle: `--ob-*-100` fundo, `--ob-*-700` texto, `--ob-*` dot. Solid: `--ob-*` fundo, branco texto. Outline: transparente fundo, borda `color-mix(--ob-* 35%)`.
+
+**Tamanhos.** md (padrão) = 12 px, padding 4×10. sm = 11 px, padding 2×8. Raio sempre pílula (999px).
+
+**Motion.** Estático — sem animação. Não marca motion na matriz.
+
+<Nota>
+
+**Badge vs Chip:** Badge informa (passivo). Chip filtra (ativo). Se o usuário precisa clicar nele, use Chip.
+
+</Nota>

@@ -22,3 +22,14 @@ export const Desabilitado = () => (
     <Checkbox checked disabled label="Backup automático" />
   </div>
 );
+
+export const SelecionarTudo = () => (
+  <div style={col}>
+    <Checkbox checked={false} indeterminate label="Selecionar tudo" />
+    <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12, paddingLeft: 28 }}>
+      <Checkbox checked label="Deploy automático" description="Publica ao fazer merge" />
+      <Checkbox checked={false} label="Notificar equipe" />
+      <Checkbox checked label="Rodar testes" />
+    </div>
+  </div>
+);

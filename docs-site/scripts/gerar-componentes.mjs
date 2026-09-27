@@ -107,7 +107,7 @@ const dedentar = (texto) => {
 const exemplosDe = (nome) => {
   const arq = path.join(previews, `${nome}.tsx`);
   if (!fs.existsSync(arq)) return [];
-  const sf = ts.createSourceFile(`${nome}.tsx`, fs.readFileSync(arq, 'utf8'), ts.ScriptTarget.ESNext, true, ts.ScriptKind.TSX);
+  const sf = ts.createSourceFile(`${nome}.tsx`, fs.readFileSync(arq, 'utf8').replace(/\r\n/g, '\n'), ts.ScriptTarget.ESNext, true, ts.ScriptKind.TSX);
   const auxiliares = [];
   const nomesAux = [];
   const exemplos = [];
@@ -137,6 +137,99 @@ const exemplosDe = (nome) => {
   return exemplos;
 };
 
+// Nomes exportados pelo pacote: identificadores que um exemplo pode usar sem declarar.
+const exportados = new Set(
+  [...fs.readFileSync(path.join(pacote, 'dist/index.d.ts'), 'utf8').matchAll(/declare const (\w+)/g)].map((m) => m[1]),
+);
+const GLOBAIS = new Set(['React', 'useState', 'useEffect', 'useRef', 'Math', 'Date', 'console', 'window', 'document', 'String', 'Number', 'Array', 'Object', 'JSON', 'undefined', 'Boolean', 'setTimeout']);
+
+// Identificadores livres de uma expressão (os que precisam existir fora dela).
+const livres = (no) => {
+  const declarados = new Set();
+  const usados = new Set();
+  const visitar = (n) => {
+    if ((ts.isParameter(n) || ts.isVariableDeclaration(n) || ts.isBindingElement(n)) && ts.isIdentifier(n.name)) declarados.add(n.name.text);
+    if (ts.isIdentifier(n)) {
+      const pai = n.parent;
+      const ehNome = (ts.isPropertyAccessExpression(pai) && pai.name === n) || (ts.isPropertyAssignment(pai) && pai.name === n)
+        || ts.isJsxAttribute(pai) || (ts.isParameter(pai) && pai.name === n) || (ts.isVariableDeclaration(pai) && pai.name === n)
+        || (ts.isBindingElement(pai) && (pai.name === n || pai.propertyName === n));
+      if (!ehNome) usados.add(n.text);
+    }
+    ts.forEachChild(n, visitar);
+  };
+  visitar(no);
+  return [...usados].filter((x) => !declarados.has(x));
+};
+
+// Demo interativa: o uso mais completo do componente nos exemplos vira o ponto de partida dos controles.
+const demoDe = (nome) => {
+  const arq = path.join(previews, `${nome}.tsx`);
+  if (!fs.existsSync(arq)) return null;
+  const sf = ts.createSourceFile(`${nome}.tsx`, fs.readFileSync(arq, 'utf8').replace(/\r\n/g, '\n'), ts.ScriptTarget.ESNext, true, ts.ScriptKind.TSX);
+  const aux = new Map();
+  for (const st of sf.statements) {
+    const exportado = st.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
+    if (ts.isImportDeclaration(st) || exportado) continue;
+    const nomes = ts.isVariableStatement(st) ? st.declarationList.declarations.map((d) => d.name.getText(sf)) : st.name ? [st.name.getText(sf)] : [];
+    for (const n of nomes) aux.set(n, st);
+  }
+  let melhor = null;
+  const visitar = (n) => {
+    const abre = ts.isJsxElement(n) ? n.openingElement : ts.isJsxSelfClosingElement(n) ? n : null;
+    if (abre && abre.tagName.getText(sf) === nome && (!melhor || abre.attributes.properties.length > melhor.abre.attributes.properties.length)) melhor = { no: n, abre };
+    ts.forEachChild(n, visitar);
+  };
+  visitar(sf);
+  if (!melhor) return null;
+  const conhecido = (id) => GLOBAIS.has(id) || exportados.has(id) || aux.has(id);
+  const precisa = new Set();
+  const literais = {};
+  const brutos = {};
+  for (const a of melhor.abre.attributes.properties) {
+    if (!ts.isJsxAttribute(a)) continue;
+    const k = a.name.getText(sf);
+    const ini = a.initializer;
+    if (!ini) { literais[k] = true; continue; }
+    if (ts.isStringLiteral(ini)) { literais[k] = ini.text; continue; }
+    const ex = ini.expression;
+    if (!ex) continue;
+    if (ts.isNumericLiteral(ex)) { literais[k] = Number(ex.text); continue; }
+    if (ex.kind === ts.SyntaxKind.TrueKeyword || ex.kind === ts.SyntaxKind.FalseKeyword) { literais[k] = ex.kind === ts.SyntaxKind.TrueKeyword; continue; }
+    if (ts.isStringLiteral(ex) || ts.isNoSubstitutionTemplateLiteral(ex)) { literais[k] = ex.text; continue; }
+    const ids = livres(ex);
+    if (ids.every(conhecido)) { brutos[k] = semTipos(sf, ex); ids.filter((x) => aux.has(x)).forEach((x) => precisa.add(x)); }
+  }
+  let filhos = null;
+  if (ts.isJsxElement(melhor.no) && melhor.no.children.length) {
+    const ids = melhor.no.children.flatMap((c) => livres(c));
+    if (ids.every(conhecido)) {
+      const ini = melhor.no.openingElement.end;
+      const fim = melhor.no.closingElement.getStart(sf);
+      const texto = dedentar(sf.text.slice(ini, fim).replace(/^\s*\n/, '').replace(/\s+$/, ''));
+      filhos = texto.trim() ? texto.trim() : null;
+      ids.filter((x) => aux.has(x)).forEach((x) => precisa.add(x));
+    }
+  }
+  // Auxiliares que os auxiliares usados também usam.
+  for (const x of [...precisa]) for (const y of livres(aux.get(x))) if (aux.has(y)) precisa.add(y);
+  const auxiliares = sf.statements.filter((st) => [...precisa].some((x) => aux.get(x) === st)).map((st) => semTipos(sf, st)).join('\n\n');
+  // Sobreposições começam fechadas: abrir é uma das coisas que a demo deixa você fazer.
+  if (literais.open === true) literais.open = false;
+  return { literais, brutos, filhos, auxiliares };
+};
+
+// Guia de uso/conteúdo/design do componente (docs-site/guias/<Nome>.mdx), se existir.
+const guiaDe = (nome) => {
+  const arq = path.resolve('guias', `${nome}.mdx`);
+  if (!fs.existsSync(arq)) return null;
+  const texto = fs.readFileSync(arq, 'utf8');
+  const [, cab, corpo] = texto.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const resumo = JSON.parse(cab.match(/^resumo: (.*)$/m)[1]);
+  const criterios = JSON.parse(cab.match(/^criterios: (.*)$/m)[1]);
+  return { resumo, criterios, corpo: corpo.replace(/^\s*\{\/\*[\s\S]*?\*\/\}\s*/, '').trim() };
+};
+
 fs.rmSync(saida, { recursive: true, force: true });
 fs.mkdirSync(saida, { recursive: true });
 fs.writeFileSync(
@@ -161,17 +254,27 @@ for (const [dir, [rotulo, resumo]] of Object.entries(categorias)) {
   const nomes = fs.readdirSync(pasta, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort();
   nomes.forEach((nome, i) => {
     const ex = exemplosDe(nome);
-    const temProps = nome !== 'Icons';
+    const demo = nome === 'Icons' ? null : demoDe(nome);
+    const guia = guiaDe(nome);
+    const resumo = guia?.resumo || descricoes[nome] || '';
+    const j = (v) => `{${JSON.stringify(v)}}`;
     const partes = [
       '---', `title: ${nome}`, `sidebar_position: ${i + 1}`, `description: ${JSON.stringify(descricoes[nome] ?? nome)}`, '---', '',
-      "import PropsTable from '@site/src/components/PropsTable';", '',
-      `${descricoes[nome] ?? ''}`, '', '```ts', `import { ${nome} } from '@onblide/ui';`, '```', '',
+      resumo, '', '```ts', `import { ${nome} } from '@onblide/ui';`, '```', '',
     ];
+    if (demo) {
+      partes.push('## Demo interativa', '', 'Ajuste as propriedades e veja o componente e o código mudarem juntos.', '',
+        `<Playground nome="${nome}" literais=${j(demo.literais)} brutos=${j(demo.brutos)} filhos=${j(demo.filhos)} auxiliares=${j(demo.auxiliares)} />`, '');
+    }
+    if (nome !== 'Icons') partes.push('## Propriedades', '', `<PropsTable nome="${nome}" />`, '');
     if (ex.length) {
       partes.push('## Exemplos', '');
       for (const e of ex) partes.push(`### ${titulos[e.id] ?? e.id}`, '', `\`\`\`jsx ${e.modo}`, e.codigo, '```', '');
     }
-    if (temProps) partes.push('## Props', '', `<PropsTable nome="${nome}" />`, '');
+    if (guia) {
+      partes.push(guia.corpo, '');
+      if (guia.criterios.length) partes.push('## Critérios de qualidade', '', `<Criterios itens=${j(guia.criterios)} />`, '');
+    }
     fs.writeFileSync(path.join(alvo, `${nome}.mdx`), partes.join('\n'));
     total++;
   });

@@ -19,3 +19,13 @@ export const Sombra = () => (
     </Card>
   </div>
 );
+
+export const FundoQuente = () => (
+  <div style={{ padding: 16, width: 320 }}>
+    <Card elevation="border" padding={20} style={{ background: 'var(--ob-bg-warm)' }}>
+      <Badge tone="orange">Destaque</Badge>
+      <h3 style={{ margin: '12px 0 4px' }}>Meta do trimestre</h3>
+      <p style={{ margin: 0 }}>Overlay quente sobre a superfície padrão.</p>
+    </Card>
+  </div>
+);

@@ -1,0 +1,70 @@
+---
+resumo: "Campo de verificação por código (OTP). Cada dígito ocupa uma célula isolada, com navegação por teclado, suporte a colar e estados de erro/sucesso visuais. Compõe com **Input** e **Alert** em fluxos de autenticação."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do CodeInput: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use para verificação de identidade: código enviado por SMS, e-mail ou autenticador TOTP. Cada célula aceita um único dígito; o foco avança automaticamente ao digitar.
+
+### Quando usar
+
+- Confirmação de e-mail ou telefone no onboarding.
+- Segundo fator de autenticação (2FA / TOTP).
+- PIN de acesso a área sensível.
+
+<FacaEvite>
+<Faca>
+
+Aplique o estado de sucesso ao completar o código correto e submeta automaticamente quando o último campo for preenchido.
+
+</Faca>
+<Evite>
+
+Usar para texto livre ou CPF — o campo é otimizado para sequências de dígitos curtas (4–8).
+
+</Evite>
+</FacaEvite>
+
+### Composição com outros componentes
+
+- **Alert** abaixo do campo para erro de código inválido ou expirado.
+- **Link** para "Reenviar código" com cooldown.
+- **ProgressBar** segmentada para indicar etapa do fluxo multi-step.
+
+## Formatação
+
+O campo renderiza `length` células de 48×56px cada, com gap de 10px. Navegação: Tab entra no conjunto; ←/→ move entre células; Backspace apaga e recua.
+
+```jsx
+<CodeInput
+  length={6}
+  value={code}
+  onChange={setCode}
+  status="default"   // 'default' | 'error' | 'success'
+/>
+```
+
+## Guia de conteúdo
+
+- Label acima: "Insira o código de verificação" — Sentence case, direto.
+- Ajuda: "Enviamos um código de 6 dígitos para ••••@empresa.com".
+- Erro: "Código incorreto ou expirado. Tente de novo ou reenvie."
+- Sucesso: não precisa de mensagem adicional — o estado visual comunica.
+- Reenvio: "Reenviar código" com contagem regressiva "em 45 s".
+
+## Guia de design
+
+**Tokens.** Borda idle `--ob-border`, preenchida `--ob-blue`, erro `--ob-danger`, sucesso `--ob-green`. Focus ring `--ob-blue-100` (4px). Texto `--ob-fg-strong` peso 700.
+
+**Motion.** Foco/blur: `border-color` + `box-shadow` com transição de 150ms (`--ob-ease`). Erro: animação `ob-shake` de 400ms no container inteiro.
+
+**Responsivo/mobile.** No mobile, `inputMode="numeric"` exibe o teclado numérico nativo. Células de 44px mínimo (hit target). Gap reduz para 8px em viewports estreitas.
+
+<Nota>
+
+**Acessibilidade:** aplique `aria-label="Dígito N de M"` em cada input. O grupo deve ter um `role="group"` com label descritivo para leitores de tela.
+
+</Nota>

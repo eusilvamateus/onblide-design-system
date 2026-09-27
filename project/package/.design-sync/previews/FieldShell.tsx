@@ -1,4 +1,4 @@
-import { FieldShell } from '@onblide/ui';
+import { FieldShell, Icons } from '@onblide/ui';
 
 const Conteudo = ({ t }: { t: string }) => <span style={{ fontSize: 14 }}>{t}</span>;
 

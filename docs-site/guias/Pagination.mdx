@@ -1,0 +1,34 @@
+---
+resumo: "Navegação entre páginas de uma lista longa, com ellipsis dinâmico e setas."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Pagination: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Listas paginadas (tabelas, resultados). Mostra primeira, última, vizinhas da atual e ellipsis no meio.
+
+## Formatação
+
+```jsx
+<Pagination page={p} total={20}
+  siblings={1} onChange={setP} />
+```
+
+## Guia de conteúdo
+
+- Números apenas; setas com ícone, não texto.
+- Página atual em destaque azul sólido.
+
+## Guia de design
+
+**Tokens.** Atual `--ob-blue`; demais `--ob-surface` + borda. Raio `8px`.
+
+**Motion.** Transição de hover/seleção 120ms.
+
+<Nota>
+
+**Versão mobile:** a régua de números não cabe em telas estreitas. Em mobile, reduza para "‹ Anterior · 3/20 · Próximo ›" ou scroll infinito. Por isso **não marca** "versão mobile".
+
+</Nota>

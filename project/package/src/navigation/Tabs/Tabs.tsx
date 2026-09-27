@@ -2,21 +2,32 @@ import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 
 export interface TabItem {
+  /** Identificador único da aba, usado em `active` e `onChange`. */
   id: string;
+  /** Rótulo exibido na aba — substantivo curto, nunca verbo. */
   label: React.ReactNode;
+  /** Nome do ícone Phosphor (sem o prefixo "ph-") exibido à esquerda do rótulo. */
   icon?: string;
+  /** Conteúdo do badge exibido ao lado do rótulo, geralmente uma contagem. */
   badge?: React.ReactNode;
+  /** Desabilita a aba, impedindo a seleção. */
   disabled?: boolean;
 }
 
 export interface TabsProps {
+  /** Lista de abas a exibir. */
   tabs?: TabItem[];
+  /** Id da aba atualmente ativa. */
   active?: string;
+  /** Chamado com o id da aba clicada. */
   onChange?: (id: string) => void;
+  /** Estilo visual: sublinhado (`line`) ou segmentado (`pill`). */
   variant?: 'line' | 'pill';
+  /** Tamanho do texto e do espaçamento interno das abas. */
   size?: 'sm' | 'md';
 }
 
+/** Alterna entre seções de conteúdo relacionado sem mudar de página. */
 export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant = 'line', size = 'md' }) => {
   const isLine = variant === 'line';
   const pad = size === 'sm' ? '7px 14px' : '10px 18px';

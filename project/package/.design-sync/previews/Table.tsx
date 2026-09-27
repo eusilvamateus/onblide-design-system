@@ -1,4 +1,4 @@
-import { Table } from '@onblide/ui';
+import { Table, Badge } from '@onblide/ui';
 
 const colunas = [
   { key: 'tarefa', label: 'Tarefa', bold: true, sortable: true },
@@ -33,5 +33,28 @@ export const Vazio = () => (
 export const Carregando = () => (
   <div style={{ padding: 16, width: 720 }}>
     <Table columns={colunas} rows={[]} loading />
+  </div>
+);
+
+const linhasComStatus = [
+  { tarefa: 'Revisar proposta comercial', status: 'progress', prioridade: 'Alta' },
+  { tarefa: 'Atualizar guia de marca', status: 'pending', prioridade: 'Média' },
+  { tarefa: 'Publicar relatório mensal', status: 'done', prioridade: 'Baixa' },
+];
+const statusMap: Record<string, ['blue' | 'orange' | 'green', string]> = {
+  progress: ['blue', 'Em andamento'], pending: ['orange', 'Pendente'], done: ['green', 'Concluído'],
+};
+
+export const ComBadges = () => (
+  <div style={{ padding: 16, width: 640 }}>
+    <Table
+      selectable
+      columns={[
+        { key: 'tarefa', label: 'Tarefa', bold: true },
+        { key: 'status', label: 'Status', render: (v) => { const [tom, rotulo] = statusMap[v as string]; return <Badge tone={tom}>{rotulo}</Badge>; } },
+        { key: 'prioridade', label: 'Prioridade', render: (v) => <Badge tone={v === 'Alta' ? 'red' : v === 'Média' ? 'orange' : 'blue'}>{v as string}</Badge> },
+      ]}
+      rows={linhasComStatus}
+    />
   </div>
 );

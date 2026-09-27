@@ -1,0 +1,90 @@
+---
+resumo: "Campo com lista de opções pré-definidas e autocomplete. Use quando houver mais de 3 opções para coletar. Existe em variação **single** (uma escolha) e **multi** (várias). Obedece às mesmas regras de alinhamento que o **Input**."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Select: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use o Select quando o usuário precisar escolher de uma lista pré-definida. A regra de corte: até 3 opções, use Radio; a partir de 4, use Select.
+
+### Variações
+
+### Regras de layout
+
+- O menu ocupa a **mesma largura** do campo de input.
+- Altura máxima do menu: **240 px** com scroll quando ultrapassar.
+- Alinhamento segue as mesmas regras do **Input** — nunca mais largo que o container pai.
+
+<FacaEvite>
+<Faca>
+
+Use autocomplete: o usuário digita e a lista filtra. Essencial para listas longas (\> 10 itens).
+
+</Faca>
+<Evite>
+
+Usar Select para 2–3 opções — Radio é mais rápido. Evite listas sem ordem lógica (use alfabético ou por relevância).
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **Alert** ou mensagem de erro abaixo quando a validação falha.
+- **Skeleton** no lugar do Select enquanto as opções carregam assincronamente.
+
+## Formatação
+
+```jsx
+<!-- Single -->
+<Select
+  label="País"
+  options={['Brasil', 'Argentina', 'Chile']}
+  value={country}
+  onChange={setCountry}
+  placeholder="Selecione um país…"
+/>
+
+<!-- Multi -->
+<Select
+  label="Times"
+  options={teams}
+  value={selected}
+  onChange={setSelected}
+  multi
+  placeholder="Selecione os times…"
+/>
+```
+
+### Teclado
+
+- **↓ / ↑** — navega entre opções.
+- **Enter** — seleciona a opção destacada.
+- **Esc** — fecha o menu.
+- **Backspace** (multi, campo vazio) — remove o último chip.
+
+## Guia de conteúdo
+
+- Label: Sentence case, sem dois pontos. "País", "Time responsável".
+- Placeholder: "Selecione um [item]…" — nunca "Clique para selecionar".
+- Opções: consistentes no estilo — todas substantivos ou todas verbos, nunca misturadas.
+- Multi: placeholder some quando há chips; não repita o label no placeholder.
+- Estado vazio de busca: "Nenhuma opção encontrada" — neutro, sem sugestão de digitação errada.
+
+## Guia de design
+
+**Tokens.** Borda idle `--ob-border`, focus `--ob-blue` + ring `--ob-focus-ring`. Menu sombra `0 8px 24px rgba(0,0,0,.12)`. Chips fundo `--ob-blue-100`, texto `--ob-blue-700`.
+
+**Motion.** Caret gira 180° com transição de 150ms. Borda e ring: 150ms `--ob-ease`. Dropdown aparece instantaneamente — sem animação de entrada para parecer responsivo.
+
+**Estados.** Idle → Focus (border + ring) → Filled → Disabled (opacity 60%, cursor not-allowed) → Error (border danger + mensagem abaixo).
+
+**Multi.** O campo cresce verticalmente para acomodar chips — nunca trunca. Chip tem botão × para remoção individual.
+
+<Nota>
+
+**Acessibilidade:** use `role="combobox"`, `aria-expanded`, `aria-autocomplete="list"`. Opções com `role="option"` e `aria-selected`. O grupo deve ter `aria-label` descritivo.
+
+</Nota>

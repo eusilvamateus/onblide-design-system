@@ -1,0 +1,30 @@
+---
+resumo: "Navegação textual. Três variantes de ênfase + indicador de link externo."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Link: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Navegar entre páginas ou destinos. Para ações use `Button` (ghost). Links externos ganham ícone automático.
+
+## Formatação
+
+```jsx
+<Link href="/docs">Documentação</Link>
+<Link external href="…">Repositório</Link>
+```
+
+## Guia de conteúdo
+
+- Texto descreve o destino: "Documentação", não "clique aqui".
+- Inline dentro de frases, em fluxo natural.
+
+## Guia de design
+
+**Tokens.** `--ob-blue` (default), `--ob-fg` (subtle), `--ob-fg-soft` (quiet). Sublinhado no hover.
+
+**Motion.** Transição de cor 120ms; sublinhado aparece no hover.
+
+**Responsivo / mobile.** Herda tamanho do texto; alvo de toque confortável inline.

@@ -1,0 +1,45 @@
+---
+resumo: "Calendário somente leitura para explicar prazos compostos por fases, dias não úteis e uma data estimada."
+criterios: []
+---
+
+{/* Guia do DeadlineCalendar: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use quando o sistema já calculou datas e a pessoa precisa compreender produção, transporte e entrega. Não use como seletor de data.
+
+<FacaEvite>
+<Faca>
+
+Forneça datas ISO já calculadas pelo domínio.
+
+</Faca>
+<Evite>
+
+Recalcular prazo ou buscar feriados no componente.
+
+</Evite>
+</FacaEvite>
+
+## Contrato
+
+```jsx
+<DeadlineCalendar
+  referenceDate="2026-09-18"
+  production={{ startDate, endDate }}
+  delivery={{ startDate, endDate }}
+  estimatedDate="2026-09-29"
+  holidays={[{ date, name }]}
+  holidayCoverage="national" />
+```
+
+## Guia de design
+
+**Semântica.** Produção usa azul, transporte usa sucesso, entrega prevista recebe contorno forte e feriados usam aviso. Fins de semana permanecem neutros.
+
+**Acessibilidade.** Meses têm botões nomeados, a mudança é anunciada e feriados informam o nome por tooltip e rótulo acessível.
+
+## Variante de impressão
+
+Em PDF, o componente é estático e usa a mesma entrada normalizada. As condições comerciais ficam em coluna ao lado da linha do tempo. Mostre um mês quando o intervalo couber nele; para dois ou mais meses, mostre o mês inicial e o mês da entrega. Quando houver meses intermediários, sinalize continuidade em vez de ampliar indefinidamente o documento.

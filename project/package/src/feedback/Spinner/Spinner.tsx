@@ -5,13 +5,17 @@ export type SpinnerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type SpinnerTone = 'default' | 'success' | 'warning' | 'danger' | 'muted';
 
 export interface SpinnerProps {
+  /** Diâmetro do spinner. */
   size?: SpinnerSize;
+  /** Tom que define a cor do arco. */
   tone?: SpinnerTone;
+  /** Texto acessível (`aria-label`) descrevendo o que está carregando. */
   label?: string;
 }
 
 const SPINNER_SIZES: Record<SpinnerSize, number> = { xs: 12, sm: 16, md: 24, lg: 40, xl: 56 };
 
+/** Indicador circular de carregamento indeterminado. */
 export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', tone = 'default', label }) => {
   const px = SPINNER_SIZES[size] || 24;
   const sw = px <= 16 ? 2 : px <= 24 ? 2.5 : 3.5;

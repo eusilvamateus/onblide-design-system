@@ -8,6 +8,7 @@ export interface LogoProps {
 // Marca Onblide — lockup horizontal (símbolo + wordmark), com a arte inline
 // para não depender de arquivo externo. Os preenchimentos seguem o tema ativo
 // pelos tokens --ob-*; as variantes em arquivo ficam em project/assets/.
+/** Logotipo da Onblide (símbolo + wordmark) como SVG inline, adaptado ao tema ativo. */
 export const Logo: React.FC<LogoProps> = ({ size = 28 }) => (
   <svg height={size} viewBox="0 0 2048 313.44" role="img" aria-label="Onblide"
        style={{ display: 'block', width: 'auto' }}>

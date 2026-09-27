@@ -2,25 +2,37 @@
 import React, { useEffect, useState } from 'react';
 
 export interface DeadlineCalendarPhase {
+  /** Data de início da fase, no formato AAAA-MM-DD. */
   startDate?: string;
+  /** Data de término da fase, no formato AAAA-MM-DD. */
   endDate?: string;
 }
 
 export interface DeadlineCalendarHoliday {
+  /** Data do feriado, no formato AAAA-MM-DD. */
   date: string;
+  /** Nome do feriado exibido no tooltip. */
   name: string;
 }
 
 export interface DeadlineCalendarProps {
+  /** Data de referência (marco inicial); define o mês inicial exibido. */
   referenceDate?: string;
+  /** Intervalo de produção, destacado em azul no calendário. */
   production?: DeadlineCalendarPhase | null;
+  /** Intervalo de transporte/entrega, destacado em verde no calendário. */
   delivery?: DeadlineCalendarPhase | null;
+  /** Data estimada de entrega, destacada com contorno e marcador. */
   estimatedDate?: string;
+  /** Feriados nacionais exibidos com tooltip e cor de aviso. */
   holidays?: DeadlineCalendarHoliday[];
+  /** Indica se a cobertura de feriados é nacional ou apenas fins de semana. */
   holidayCoverage?: string;
+  /** Indica que a data de entrega ainda depende da escolha de um frete. */
   deliveryPending?: boolean;
 }
 
+/** Calendário que visualiza fases de produção, transporte, feriados e data estimada de entrega. */
 export const DeadlineCalendar: React.FC<DeadlineCalendarProps> = ({
   referenceDate,
   production = null,

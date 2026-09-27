@@ -17,3 +17,15 @@ export const ComErro = () => (
     <Input label="E-mail" defaultValue="mariana@empresa" error="Informe um e-mail válido" />
   </div>
 );
+
+export const Desabilitado = () => (
+  <div style={{ padding: 16, width: 320 }}>
+    <Input label="Plano" defaultValue="Não editável" hint="Campo bloqueado" disabled />
+  </div>
+);
+
+export const EmFoco = () => (
+  <div style={{ padding: 16, width: 320 }}>
+    <Input label="Nome" defaultValue="Em foco — borda azul" autoFocus />
+  </div>
+);

@@ -31,3 +31,10 @@ export const Desabilitado = () => (
     <Button kind="danger" disabled>Excluir</Button>
   </div>
 );
+
+export const LarguraTotal = () => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: 16, maxWidth: 320 }}>
+    <Button kind="primary" size="lg" style={{ width: '100%' }}>Confirmar pedido</Button>
+    <Button kind="secondary" size="lg" style={{ width: '100%' }}>Voltar</Button>
+  </div>
+);

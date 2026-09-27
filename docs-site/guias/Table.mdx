@@ -1,0 +1,81 @@
+---
+resumo: "Exibe conjuntos de dados estruturados em linhas e colunas. Suporta seleção de linhas, ordenação por coluna, estado de loading (skeleton) e estado vazio. Compõe com **Tabs**, **Badge**, **Pagination** e **SearchInput**."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Table: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use Table para dados estruturados com 3+ colunas onde o usuário precisa escanear, comparar ou selecionar itens. Para listas simples de 1–2 atributos, prefira uma lista comum.
+
+### Quando usar cada feature
+
+- **Seleção** (`selectable`) — quando há ações em lote: excluir, exportar, mover selecionados.
+- **Ordenação** (`sortable` por coluna) — quando a ordem importa para o usuário (data, valor, status).
+- **Loading skeleton** (`loading`) — sempre que os dados vêm de requisição assíncrona.
+- **Estado vazio** (`emptyState`) — nunca deixe a tabela simplesmente sem linhas; oriente o próximo passo.
+
+<FacaEvite>
+<Faca>
+
+Coluna de nome/título sempre em negrito (`bold: true`). Use `render` para Badges de status. Paginação abaixo para listas longas.
+
+</Faca>
+<Evite>
+
+Mais de 7 colunas sem scroll horizontal. Tabela em mobile sem adaptação — prefira cards verticais abaixo de 640 px.
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **Tabs** acima para filtrar categoria de dados.
+- **SearchInput** para filtro inline.
+- **Badge** nas células de status/prioridade via prop `render`.
+- **Pagination** abaixo para conjuntos grandes.
+- **Dropdown** (kebab) por linha para ações contextuais.
+
+## Formatação
+
+```jsx
+<Table
+  columns={[
+    { key: 'name',   label: 'Tarefa',  bold: true },
+    { key: 'status', label: 'Status',  render: (v) => <Badge tone="green">{v}</Badge> },
+    { key: 'due',    label: 'Prazo',   sortable: true, width: 90 },
+  ]}
+  rows={tasks}
+  selectable
+  sort={sort}
+  onSort={handleSort}
+  loading={isLoading}
+  emptyState="Nenhuma tarefa. Crie uma acima."
+/>
+```
+
+Tipo `Column`: `{ key, label, bold?, sortable?, width?, render?: (value, row) => ReactNode }`
+
+## Guia de conteúdo
+
+- Cabeçalhos: substantivos curtos. "Tarefa", "Status", "Prazo" — nunca verbos.
+- Coluna de nome: sempre a primeira, em negrito, com o identificador principal do item.
+- Status: use Badge com tom semântico (green=concluído, blue=andamento, orange=pendente, red=atrasado).
+- Datas: formato "dd mmm" (ex: "04 jun") — compacto e legível.
+- Estado vazio: inclua um CTA. "Nenhuma tarefa encontrada. Criar tarefa."
+- Estado de loading: skeleton automático — não adicione texto.
+
+## Guia de design
+
+**Tokens.** Cabeçalho: mono 11px uppercase, cor `--ob-fg-mute`, borda `1.5px solid --ob-border`. Linha: 14px, hover `--ob-bg-warm`, selecionada `color-mix(--ob-blue 8%)`. Borda entre linhas `--ob-line-soft`.
+
+**Scroll horizontal.** O container tem `overflow-x: auto` para não quebrar o layout em viewports estreitas. Em mobile (\< 640px), considere uma visualização alternativa em cards empilhados.
+
+**Seleção.** Checkbox indeterminate quando parte das linhas está selecionada. Linha selecionada com background azul sutil. Ação em lote deve aparecer acima da tabela ao selecionar ≥ 1 linha.
+
+<Nota>
+
+**Table não é mobile-first.** Para viewports abaixo de 640px, converta os dados em cards verticais ou use um layout responsivo alternativo. Tabela com scroll horizontal é aceitável somente em contextos de uso desktop.
+
+</Nota>

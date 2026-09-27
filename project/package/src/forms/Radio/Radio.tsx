@@ -1,15 +1,23 @@
 import React from 'react';
 
 export interface RadioProps {
+  /** Nome do grupo de radios (atributo `name` nativo); radios com o mesmo nome se excluem mutuamente. */
   name?: string;
+  /** Valor associado a esta opção, enviado ao `onChange` quando ela é selecionada. */
   value: string;
+  /** Define se esta opção está selecionada no momento. */
   checked: boolean;
+  /** Chamado com o `value` da opção quando ela é selecionada pelo usuário. */
   onChange?: (value: string) => void;
+  /** Texto ou conteúdo exibido ao lado do círculo de seleção. */
   label?: React.ReactNode;
+  /** Desabilita a interação e reduz a opacidade da opção. */
   disabled?: boolean;
+  /** Texto complementar exibido abaixo do label, explicando a opção. */
   description?: React.ReactNode;
 }
 
+/** Opção de escolha única (radio button) com label e descrição opcionais. */
 export const Radio: React.FC<RadioProps> = ({
   name, value, checked, onChange, label, disabled = false, description,
 }) => (

@@ -1,0 +1,83 @@
+---
+resumo: "Painel lateral que desliza sobre o conteúdo ao ser acionado. Mantém o usuário no contexto atual enquanto completa uma ação secundária — formulário, detalhes ou filtros."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Drawer: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use o Drawer quando a ação exige espaço razoável mas **não deve remover o usuário da tela atual**. A diferença do Modal: o Drawer é lateral e permite que o usuário veja o conteúdo da página por trás do backdrop.
+
+### Quando usar
+
+- **Formulários** — adicionar colaborador, criar item, editar perfil.
+- **Detalhes** — tarefas de um projeto, histórico, propriedades de um item.
+- **Filtros** — painel de refinamento de listagens e tabelas.
+- **Navegação temporária** — sidebar colapsada que abre como Drawer em mobile.
+
+<FacaEvite>
+<Faca>
+
+Sempre inclua o Header (título + botão fechar) e feche o Drawer ao concluir a ação via footer. Esc e clique no backdrop também fecham.
+
+</Faca>
+<Evite>
+
+Abrir um Modal dentro de um Drawer — empilhar overlays confunde o usuário. Prefira um único overlay por vez.
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **Input / Select** no corpo para formulários.
+- **ProgressBar** sm no header para progresso de etapas.
+- **Alert** no corpo para erros de validação.
+- **Skeleton** no corpo enquanto dados carregam.
+- **Toast** após fechar para confirmar ação concluída.
+
+## Formatação
+
+```jsx
+<Drawer
+  open={open}
+  onClose={onClose}
+  title="Novo colaborador"
+  side="right"
+  width={420}
+  footer={<Button kind="primary" onClick={onClose}>Salvar</Button>}
+>
+  <Field label="Nome" />
+</Drawer>
+```
+
+<Nota>
+
+**Estrutura interna:** o Drawer compõe Header (título + fechar) + Body (scroll) + Footer (fixo). Nunca coloque elementos críticos de ação no body — use sempre o footer.
+
+</Nota>
+
+## Guia de conteúdo
+
+- Título no header: substantivo descritivo da ação. "Novo colaborador", "Filtrar resultados", "Tarefas do projeto".
+- Botão primário no footer: verbo da ação. "Convidar", "Aplicar", "Salvar" — nunca "OK".
+- Cancelar sempre à esquerda do botão primário.
+- Para drawers de detalhe sem ação: um único botão "Fechar" é suficiente.
+- Evite títulos com mais de 4 palavras — o header tem espaço limitado.
+
+## Guia de design
+
+**Largura.** Padrão 400 px. Para formulários com muitos campos, até 480 px. Nunca ultrapasse 560 px — prefira um Modal `lg` para conteúdo mais rico.
+
+**Tokens.** Fundo `--ob-surface`. Borda `--ob-border`. Footer fundo `--ob-bg-alt`. Backdrop `rgba(20,20,20,.40)` + blur(2px).
+
+**Motion.** Painel: `transform: translateX(±100%)` → `translateX(0)` em 250ms `cubic-bezier(.4,0,.2,1)`. Backdrop: fade 220ms ease. A animação de entrada deve terminar antes de qualquer foco ser movido para o interior do painel.
+
+**Responsivo.** Em viewports menores que 480 px, o Drawer ocupa 100% da largura e se comporta como uma sheet de baixo para cima (bottom sheet). Nesse caso, `side` é ignorado.
+
+<Nota>
+
+**Acessibilidade:** aplique `role="dialog"`, `aria-modal="true"` e `aria-labelledby` no painel. Mova o foco para o primeiro elemento interativo ao abrir; retorne ao trigger ao fechar. Esc sempre fecha.
+
+</Nota>

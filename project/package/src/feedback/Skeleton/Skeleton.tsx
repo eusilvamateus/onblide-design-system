@@ -2,13 +2,19 @@ import React from 'react';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export interface SkeletonProps {
+  /** Largura do placeholder. */
   width?: number | string;
+  /** Altura do placeholder. */
   height?: number | string;
+  /** Raio das bordas. */
   radius?: number | string;
+  /** Renderiza como círculo (útil para avatares), ignorando `width`. */
   circle?: boolean;
+  /** Estilos inline adicionais, mesclados por último. */
   style?: React.CSSProperties;
 }
 
+/** Placeholder animado com shimmer, exibido durante o carregamento de conteúdo. */
 export const Skeleton: React.FC<SkeletonProps> = ({ width = '100%', height = 16, radius = 6, circle = false, style = {} }) => (
   <span style={{
     display: 'block',

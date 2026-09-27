@@ -1,0 +1,42 @@
+---
+resumo: "Placeholder animado durante o carregamento, espelhando a forma do conteúdo final."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Skeleton: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Mostre enquanto dados carregam, no formato do que virá (linhas de texto, avatar, card). Reduz a percepção de espera.
+
+<FacaEvite>
+<Faca>
+
+Espelhar o layout real do conteúdo.
+
+</Faca>
+<Evite>
+
+Spinner genérico quando o layout é previsível.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<Skeleton width="60%" height={20} />
+<Skeleton height={40} circle />
+```
+
+## Guia de conteúdo
+
+Sem texto — é puramente visual. *(não marca guia de conteúdo na matriz)*
+
+## Guia de design
+
+**Tokens.** Gradiente entre `--ob-bg-alt` e `--ob-border` — adapta a light/dark.
+
+**Motion.** Shimmer de 1.4s em loop (`ob-shimmer`).
+
+**Responsivo / mobile.** Dimensões fluidas; acompanha o container.

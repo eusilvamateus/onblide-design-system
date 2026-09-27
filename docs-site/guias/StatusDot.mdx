@@ -1,0 +1,49 @@
+---
+resumo: "Indicador decorativo compacto para reforçar um estado já escrito. Ele não é interativo nem substitui um rótulo de status."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do StatusDot: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use antes de um rótulo visível em filtros, listas ou navegações compactas quando a cor ajuda a escanear estados paralelos.
+
+<FacaEvite>
+<Faca>
+
+Use junto de texto: **ponto laranja + Pendente**.
+
+</Faca>
+<Evite>
+
+Usar o ponto sozinho para transmitir um estado ou torná-lo clicável.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<StatusDot tone="orange" />
+<span><StatusDot tone="green" />Concluída</span>
+```
+
+## Guia de conteúdo
+
+- Azul = informação ou andamento; verde = concluído ou positivo.
+- Laranja = atenção ou pendência; vermelho = erro ou urgência.
+- Cinza = inativo, rascunho ou histórico.
+- A cor reforça o texto; não é a única forma de comunicar o estado.
+
+## Guia de design
+
+**Tamanho.** Sempre 6 × 6 px, circular e sem animação. Mantém 6–7 px de espaço até o rótulo.
+
+**Acessibilidade.** É decorativo e recebe `aria-hidden="true"`; o texto ao lado comunica o significado.
+
+<Nota>
+
+**Relação com Badge:** Status dot usa exatamente os mesmos cinco tons semânticos do Badge, sem criar uma paleta paralela.
+
+</Nota>

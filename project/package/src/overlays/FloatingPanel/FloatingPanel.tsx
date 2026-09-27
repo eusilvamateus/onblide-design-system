@@ -4,14 +4,21 @@ import React from 'react';
 export type FloatingPanelAlign = 'left' | 'right' | 'stretch';
 
 export interface FloatingPanelProps {
+  /** Lado ao qual o painel se alinha em relação ao elemento de referência. */
   align?: FloatingPanelAlign;
+  /** Altura máxima; acima dela o conteúdo rola. */
   maxHeight?: number | string;
+  /** Espaçamento interno do painel. */
   padding?: number | string;
+  /** Largura mínima do painel. */
   minWidth?: number | string;
+  /** Estilos inline adicionais, mesclados por último. */
   style?: React.CSSProperties;
+  /** Conteúdo exibido dentro do painel. */
   children?: React.ReactNode;
 }
 
+/** Painel flutuante base usado por Dropdown e outros overlays ancorados a um elemento. */
 export const FloatingPanel: React.FC<FloatingPanelProps> = ({
   align = 'stretch', maxHeight, padding = 4, minWidth, style = {}, children,
 }) => {

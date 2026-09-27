@@ -28,3 +28,19 @@ export const ComTitulo = () => (
     <Tooltip variant="image" placement="bottom" title="Painel de metas" subtitle="Acompanhe o progresso do trimestre"><Button kind="secondary">Metas</Button></Tooltip>
   </Aberto>
 );
+
+const IMG = "data:image/svg+xml;utf8," + encodeURIComponent(
+  "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='120'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#0a4ee4'/><stop offset='1' stop-color='#eb7c2d'/></linearGradient></defs><rect width='200' height='120' fill='url(#g)'/></svg>"
+);
+
+export const ComImagem = () => (
+  <Aberto>
+    <Tooltip variant="image" placement="bottom" image={IMG} title="Onblide Dashboard" subtitle="Atualizado há 2h · v2.4"><Button kind="secondary">Pré-visualizar</Button></Tooltip>
+  </Aberto>
+);
+
+export const PosicaoDireita = () => (
+  <Aberto>
+    <Tooltip label="Buscar" shortcut="/" placement="right"><Button kind="ghost">Buscar</Button></Tooltip>
+  </Aberto>
+);
