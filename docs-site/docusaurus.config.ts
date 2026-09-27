@@ -1,4 +1,4 @@
-import { themes as prismThemes } from 'prism-react-renderer';
+import temaCodigo from './src/prism/tema';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import path from 'node:path';
@@ -40,7 +40,7 @@ const config: Config = {
     colorMode: { defaultMode: 'light', respectPrefersColorScheme: true },
     docs: { sidebar: { hideable: false } },
     liveCodeBlock: { playgroundPosition: 'bottom' },
-    prism: { theme: prismThemes.github, darkTheme: prismThemes.dracula },
+    prism: { theme: temaCodigo, darkTheme: temaCodigo },
   } satisfies Preset.ThemeConfig,
 };
 

@@ -164,9 +164,8 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
   .ob-topbar__github { display: none; }
 }
 
-/* Blocos de código: sem colorização de sintaxe (o design system não define uma), como nas páginas ds/docs */
+/* Blocos de código: cores de sintaxe vêm dos tokens --ob-code-* (src/prism/tema.ts) */
 .ob-wrap .markdown div[class*='codeBlockContainer'] pre { background: none !important; border: none; margin: 0; border-radius: 0; }
-.ob-wrap .markdown pre span, .ob-playground__editor span { color: inherit !important; font-style: normal !important; }
 .ob-wrap .ob-playground pre { border: none; border-radius: 0; margin: 0; padding: 6px 8px; }
 
 .ob-wrap .markdown code, .ob-wrap .markdown pre, .ob-playground__editor { font-variant-ligatures: none; }

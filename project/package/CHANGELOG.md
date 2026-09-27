@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.11.0
+
+### Minor Changes
+
+- Novos tokens de realce de sintaxe (`--ob-code-tag`, `--ob-code-attr`, `--ob-code-string`, `--ob-code-number`, `--ob-code-punct`, `--ob-code-comment`, `--ob-code-text`), derivados da paleta e válidos nos temas claro e escuro.
+
 ## 0.10.0
 
 ### Minor Changes

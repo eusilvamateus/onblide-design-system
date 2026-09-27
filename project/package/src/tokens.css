@@ -353,6 +353,15 @@
   --ob-fg-disabled: var(--ob-fg-mute);   /* desabilitado — texto/ícone */
   --ob-bg-disabled: var(--ob-bg-warm);   /* desabilitado — fundo */
 
+  /* Code — syntax highlighting; aliases of the palette, so they follow the dark theme too */
+  --ob-code-tag:     var(--ob-blue);
+  --ob-code-attr:    var(--ob-orange-700);
+  --ob-code-string:  var(--ob-green-700);
+  --ob-code-number:  var(--ob-danger);
+  --ob-code-punct:   var(--ob-fg-mute);
+  --ob-code-comment: var(--ob-fg-mute);
+  --ob-code-text:    var(--ob-fg-strong);
+
   /* Shadows (light theme) */
   --ob-shadow-xs: 0 1px 2px rgba(20, 20, 20, 0.04);
   --ob-shadow-sm: 0 1px 3px rgba(20, 20, 20, 0.05), 0 1px 2px rgba(20, 20, 20, 0.03);
