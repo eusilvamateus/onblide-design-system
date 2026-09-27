@@ -1,12 +1,12 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Toggle } from '../dist/index.js';
+import { Switch } from '../dist/index.js';
 
 function fail(msg, extra) {
   console.error('FAIL:', msg, extra ?? '');
   process.exit(1);
 }
-const render = (props) => renderToStaticMarkup(React.createElement(Toggle, props));
+const render = (props) => renderToStaticMarkup(React.createElement(Switch, props));
 
 // Semântica de switch (leitores de tela) e ordem de tab.
 const ligado = render({ checked: true, label: 'Notificações' });
@@ -20,10 +20,10 @@ const desabilitado = render({ checked: false, disabled: true });
 if (!desabilitado.includes('tabindex="-1"') || !desabilitado.includes('aria-disabled="true"')) fail('desabilitado', desabilitado);
 if (render({ checked: false, label: React.createElement('b', null, 'x') }).includes('aria-label=')) fail('label que não é string não vira aria-label');
 
-// Teclado. O Toggle não usa hooks, então dá para chamá-lo como função e acionar
+// Teclado. O Switch não usa hooks, então dá para chamá-lo como função e acionar
 // os handlers do elemento retornado, sem DOM.
 function elementoSwitch(props) {
-  const raiz = Toggle(props);
+  const raiz = Switch(props);
   return React.Children.toArray(raiz.props.children)[0];
 }
 function acionar(props, evento) {
@@ -43,4 +43,4 @@ if (acionar({ checked: false, disabled: true }, ' ').chamadas.length) fail('desa
 if (acionar({ checked: false }, 'click').chamadas.join() !== 'true') fail('clique continua alternando');
 if (acionar({ checked: false, disabled: true }, 'click').chamadas.length) fail('desabilitado ignora o clique');
 
-console.log('OK: Toggle (role=switch, aria-checked, tab, Espaço/Enter, clique, desabilitado)');
+console.log('OK: Switch (role=switch, aria-checked, tab, Espaço/Enter, clique, desabilitado)');

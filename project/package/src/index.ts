@@ -7,7 +7,7 @@ export * from './overlays/FloatingPanel/FloatingPanel';
 export * from './overlays/Dropdown/Dropdown';
 export * from './forms/Radio/Radio';
 export * from './forms/RadioGroup/RadioGroup';
-export * from './forms/Toggle/Toggle';
+export * from './forms/Switch/Switch';
 export * from './feedback/Skeleton/Skeleton';
 export * from './overlays/Tooltip/Tooltip';
 export * from './data-display/Chip/Chip';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface ToggleProps {
+export interface SwitchProps {
   /** Estado atual do interruptor: `true` para ligado, `false` para desligado. */
   checked: boolean;
   /** Chamado com o novo valor sempre que o usuário alterna o interruptor. */
@@ -14,7 +14,7 @@ export interface ToggleProps {
 }
 
 /** Interruptor binário que aplica uma configuração imediatamente, sem exigir confirmação. */
-export const Toggle: React.FC<ToggleProps> = ({ checked, onChange, label, disabled = false, size = 'md' }) => {
+export const Switch: React.FC<SwitchProps> = ({ checked, onChange, label, disabled = false, size = 'md' }) => {
   const w = size === 'sm' ? 32 : 40, h = size === 'sm' ? 18 : 22, knob = h - 4;
   const alternar = () => { if (!disabled) onChange?.(!checked); };
   return (

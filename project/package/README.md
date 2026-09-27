@@ -22,7 +22,7 @@ Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<catego
 | Categoria | Componentes |
 |---|---|
 | `actions` | Button, Link |
-| `forms` | Input, SearchInput, Select, Datepicker, CodeInput, Checkbox, Radio, RadioGroup, Toggle, Slider, FieldShell |
+| `forms` | Input, SearchInput, Select, Datepicker, CodeInput, Checkbox, Radio, RadioGroup, Switch, Slider, FieldShell |
 | `feedback` | Alert, Toast, ToastStack, ProgressBar, ProgressCircle, Spinner, Skeleton, StatusDot |
 | `overlays` | Modal, Drawer, Dropdown, Tooltip, FloatingPanel |
 | `navigation` | Tabs, SideNav, Pagination |

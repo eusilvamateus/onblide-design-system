@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.14.0
+
+### Minor Changes
+
+- **Breaking:** o componente `Toggle` foi renomeado para `Switch` (junto com o tipo `ToggleProps` → `SwitchProps`), alinhando o nome ao papel ARIA que ele já tinha (`role="switch"`) e ao nome mais usado no mercado para essa forma — pílula com bolinha deslizante, liga/desliga imediato. `Toggle` não existe mais; troque `import { Toggle } from '@onblide/ui'` por `import { Switch } from '@onblide/ui'` (mesma API, só o nome muda).
+
 ## 0.13.6
 
 ### Patch Changes

@@ -31,7 +31,7 @@ const descricoes = {
   Checkbox: 'Caixa de seleção, com estado indeterminado.',
   Radio: 'Botão de opção única.',
   RadioGroup: 'Grupo de opções únicas com navegação por teclado.',
-  Toggle: 'Interruptor liga/desliga.',
+  Switch: 'Interruptor liga/desliga.',
   Slider: 'Controle deslizante de valor único ou de faixa.',
   FieldShell: 'Superfície comum dos campos: borda, foco, erro e desabilitado.',
   Alert: 'Aviso em linha, em quatro tons, com ação e opção de dispensar.',

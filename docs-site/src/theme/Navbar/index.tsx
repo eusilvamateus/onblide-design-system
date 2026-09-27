@@ -1,7 +1,7 @@
 import React, { useEffect, useState, type ReactNode } from 'react';
 import { useHistory } from '@docusaurus/router';
 import { useColorMode } from '@docusaurus/theme-common';
-import { Button, Link, Logo, Ph, Toggle } from '@onblide/ui';
+import { Button, Link, Logo, Ph, Switch } from '@onblide/ui';
 
 // Abaixo do breakpoint `sm` (768px) o rótulo do interruptor some para a barra caber.
 function useTelaPequena(): boolean {
@@ -42,7 +42,7 @@ export default function Navbar(): ReactNode {
           <span className="ob-topbar__github">
             <Link href="https://github.com/eusilvamateus/onblide-design-system" external variant="subtle">GitHub</Link>
           </span>
-          <Toggle
+          <Switch
             size="sm"
             label={pequena ? undefined : 'Tema escuro'}
             checked={colorMode === 'dark'}
