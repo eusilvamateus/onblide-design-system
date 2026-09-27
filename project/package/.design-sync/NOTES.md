@@ -16,6 +16,8 @@
 - Previews de Tooltip/Dropdown dependem de eventos simulados; se o componente mudar a forma de abrir, revisar.
 - `overrides` de cardMode (column/single) ligados aos nomes das células dos previews.
 - Fontes/glifos Phosphor dependem de `@phosphor-icons/web@2.1.2` em node_modules.
+- **SEMPRE buscar `_ds_sync.json` remoto de novo antes de rodar `resync.mjs`** (`DesignSync(get_file, path: "_ds_sync.json")` → sobrescrever `.design-sync/.cache/remote-sync.json`). Em 2026-09-27 usei o cache local de uma sessão anterior sem atualizar, e o diff comparou contra um anchor de antes da reorganização em categorias (`primitives`/`general`), gerando um `deletePaths` gigante e errado. Nunca reusar `remote-sync.json` de sessão para sessão sem refazer o fetch.
+- Remoto tinha `ds/`, `package/` e `assets/` na raiz — upload manual de antes do formato atual do sync, fora dos globs (`ds/docs` nem existe mais localmente, virou docs-site). Removidos em 2026-09-27 com aprovação do usuário. Se voltar a aparecer algo assim fora do conjunto do sync, avisar antes de mexer.
 
 ## Fluxo com o Claude Design (código é a fonte)
 - O sync é só código → Claude Design. Trabalho feito lá volta ao código por portagem manual.
