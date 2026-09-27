@@ -99,8 +99,8 @@ Os dois existem, e `Icons` é construído sobre `Ph`:
 ### Pesos
 
 Cada peso tem um papel: **regular** é o padrão; **fill** é o estado ligado (item ativo do `SideNav`,
-aba ativa dos `Tabs`, ícone de status do `Alert` e do `Toast`); **bold** é para ícones de até 14px ou sobre
-fundo sólido (check e traço do `Checkbox`); **light** para 32–48px; **thin** só editorial (64px+);
+aba ativa dos `Tabs`, ícone de status do `Alert` e do `Toast`, check do `Checkbox`); **bold** é para ícones
+de até 14px ou sobre fundo sólido; **light** para 32–48px; **thin** só editorial (64px+);
 **duotone** só em destaques ilustrativos. As regras completas estão no site de documentação, em
 Fundações › Iconografia.
 
