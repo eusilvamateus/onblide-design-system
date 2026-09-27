@@ -1,5 +1,13 @@
 # @onblide/ui
 
+## 1.0.1
+
+### Patch Changes
+
+- `CodeInput` passa a usar `--ob-font-mono` (JetBrains Mono) nos dígitos, alinhado à
+  convenção do design system para números e código — antes usava `--ob-font` (Poppins)
+  por descuido.
+
 ## 1.0.0
 
 ### Major Changes

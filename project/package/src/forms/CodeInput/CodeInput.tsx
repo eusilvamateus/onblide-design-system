@@ -41,7 +41,7 @@ export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', on
         <input key={i} ref={el => { refs.current[i] = el; }} inputMode="numeric" maxLength={1}
           value={vals[i] || ''} onChange={e => set(i, e.target.value.replace(/\D/g, ''))} onKeyDown={e => keyDown(i, e)}
           style={{
-            width: 48, height: 56, textAlign: 'center', fontFamily: 'var(--ob-font)', fontSize: 22, fontWeight: 700,
+            width: 48, height: 56, textAlign: 'center', fontFamily: 'var(--ob-font-mono)', fontSize: 22, fontWeight: 700,
             borderRadius: 'var(--ob-r-md)', caretColor: 'var(--ob-blue)', outline: 'none',
             color: status === 'error' ? 'var(--ob-danger)' : status === 'success' ? 'var(--ob-green-700)' : 'var(--ob-fg-strong)',
             background: 'var(--ob-surface)', border: `2px solid ${borderFor(!!vals[i])}`,
