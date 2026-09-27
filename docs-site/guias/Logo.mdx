@@ -1,87 +1,60 @@
 ---
-resumo: "Lockup horizontal da Onblide, com as cores dirigidas pelos tokens do tema ativo. Fora do produto — apresentações, redes sociais, favicon, impressos — use os arquivos de marca das outras duas formas e das cores fixas, documentados abaixo."
+resumo: "Lockup horizontal da Onblide, com as cores dirigidas pelos tokens do tema ativo. Fora do produto — apresentações, redes sociais, favicon, impressos — use os arquivos das outras formas e cores fixas, abaixo."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
-{/* Guia do Logo: as outras variantes da marca, fora do que o componente React renderiza. Editado à mão. */}
+{/* Guia do Logo: as outras variantes de arquivo da marca, como exemplos (preview + código), não o texto das fundações. Editado à mão. */}
 
-## As outras variantes da marca
+## Variantes de arquivo
 
-O componente acima é só a forma **horizontal** com cor de tema — para dentro do produto. A marca Onblide tem
-mais duas formas (**empilhada** e **símbolo**) e três cores fixas por arquivo (**primary**, **white**, **dark**),
-para usar fora do produto: apresentações, documentos, redes sociais, favicon, impressos. Nenhuma delas é uma
-substituta da outra — cada uma é a certa para um contexto.
+O componente acima é a forma horizontal com cor de tema. Para fora do produto, a marca tem mais duas formas —
+**empilhada** e **símbolo** — cada uma em três cores fixas — **primary**, **white**, **dark** — nos arquivos de
+`project/assets/`. Uso de cada uma, escolha de cor e área de proteção: [Fundações › Marca](../../fundacoes/marca).
 
-### Horizontal — uso padrão
+### Horizontal
 
-Símbolo e nome lado a lado. Primeira opção sempre que houver largura disponível.
-
-<div className="ob-marca-grade">
-  <figure className="ob-marca-celula ob-marca-celula--clara">
-    <img src="/img/marca/onblide-horizontal-primary.svg" alt="Onblide, variante horizontal, primary" height={30} />
-    <figcaption>primary — fundo claro</figcaption>
-  </figure>
-  <figure className="ob-marca-celula ob-marca-celula--escura">
-    <img src="/img/marca/onblide-horizontal-white.svg" alt="Onblide, variante horizontal, white" height={30} />
-    <figcaption>white — fundo escuro ou de marca</figcaption>
-  </figure>
-  <figure className="ob-marca-celula ob-marca-celula--creme">
-    <img src="/img/marca/onblide-horizontal-dark.svg" alt="Onblide, variante horizontal, dark" height={30} />
-    <figcaption>dark — fundo claro neutro (nunca branco puro)</figcaption>
-  </figure>
+```jsx live
+<div style={{ display: 'flex', gap: 16 }}>
+  <div style={{ background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderRadius: 8, padding: 16 }}>
+    <img src="/img/marca/onblide-horizontal-primary.svg" height={30} alt="Onblide, primary" />
+  </div>
+  <div style={{ background: '#2a2a2a', borderRadius: 8, padding: 16 }}>
+    <img src="/img/marca/onblide-horizontal-white.svg" height={30} alt="Onblide, white" />
+  </div>
+  <div style={{ background: 'var(--ob-cream)', borderRadius: 8, padding: 16 }}>
+    <img src="/img/marca/onblide-horizontal-dark.svg" height={30} alt="Onblide, dark" />
+  </div>
 </div>
+```
 
-### Empilhada — espaços quadrados ou estreitos
+### Empilhada
 
-Símbolo acima do nome. Use quando a largura for curta e a altura sobrar: selos, carimbos, posts quadrados,
-capas de documento.
-
-<div className="ob-marca-grade">
-  <figure className="ob-marca-celula ob-marca-celula--clara">
-    <img src="/img/marca/onblide-stacked-primary.svg" alt="Onblide, variante empilhada, primary" height={74} />
-    <figcaption>primary — fundo claro</figcaption>
-  </figure>
-  <figure className="ob-marca-celula ob-marca-celula--escura">
-    <img src="/img/marca/onblide-stacked-white.svg" alt="Onblide, variante empilhada, white" height={74} />
-    <figcaption>white — fundo escuro ou de marca</figcaption>
-  </figure>
-  <figure className="ob-marca-celula ob-marca-celula--creme">
-    <img src="/img/marca/onblide-stacked-dark.svg" alt="Onblide, variante empilhada, dark" height={74} />
-    <figcaption>dark — fundo claro neutro (nunca branco puro)</figcaption>
-  </figure>
+```jsx live
+<div style={{ display: 'flex', gap: 16 }}>
+  <div style={{ background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderRadius: 8, padding: 16 }}>
+    <img src="/img/marca/onblide-stacked-primary.svg" height={74} alt="Onblide, primary" />
+  </div>
+  <div style={{ background: '#2a2a2a', borderRadius: 8, padding: 16 }}>
+    <img src="/img/marca/onblide-stacked-white.svg" height={74} alt="Onblide, white" />
+  </div>
+  <div style={{ background: 'var(--ob-cream)', borderRadius: 8, padding: 16 }}>
+    <img src="/img/marca/onblide-stacked-dark.svg" height={74} alt="Onblide, dark" />
+  </div>
 </div>
+```
 
-### Símbolo — espaços mínimos
+### Símbolo
 
-Só o ícone, sem o nome. Use quando o nome não couber com um mínimo de legibilidade: favicon, avatar, ícone de
-app, marca d'água.
-
-<div className="ob-marca-grade">
-  <figure className="ob-marca-celula ob-marca-celula--clara">
-    <img src="/img/marca/onblide-symbol-primary.svg" alt="Símbolo Onblide, primary" height={46} />
-    <figcaption>primary — fundo claro</figcaption>
-  </figure>
-  <figure className="ob-marca-celula ob-marca-celula--escura">
-    <img src="/img/marca/onblide-symbol-white.svg" alt="Símbolo Onblide, white" height={46} />
-    <figcaption>white — fundo escuro ou de marca</figcaption>
-  </figure>
-  <figure className="ob-marca-celula ob-marca-celula--creme">
-    <img src="/img/marca/onblide-symbol-dark.svg" alt="Símbolo Onblide, dark" height={46} />
-    <figcaption>dark — fundo claro neutro (nunca branco puro)</figcaption>
-  </figure>
+```jsx live
+<div style={{ display: 'flex', gap: 16 }}>
+  <div style={{ background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderRadius: 8, padding: 16 }}>
+    <img src="/img/marca/onblide-symbol-primary.svg" height={46} alt="Símbolo Onblide, primary" />
+  </div>
+  <div style={{ background: '#2a2a2a', borderRadius: 8, padding: 16 }}>
+    <img src="/img/marca/onblide-symbol-white.svg" height={46} alt="Símbolo Onblide, white" />
+  </div>
+  <div style={{ background: 'var(--ob-cream)', borderRadius: 8, padding: 16 }}>
+    <img src="/img/marca/onblide-symbol-dark.svg" height={46} alt="Símbolo Onblide, dark" />
+  </div>
 </div>
-
-### Como escolher a cor
-
-- **primary** — padrão sobre fundo claro (branco, `--ob-surface`, cinza muito claro).
-- **white** — sobre fundo escuro ou sobre uma cor de marca saturada (ex.: um card azul).
-- **dark** — sobre fundo claro mas não branco puro (creme, bege, papel).
-
-### Área de proteção e tamanho mínimo
-
-- Espaço livre ao redor de no mínimo a altura do símbolo — nenhum texto, borda ou elemento entra nessa margem.
-- Tamanho mínimo legível: horizontal a partir de 20px de altura; empilhada a partir de 48px; símbolo a partir
-  de 16px (favicon).
-- Nunca redesenhe, recolora fora das três variantes, distorça a proporção ou separe o símbolo do nome.
-
-Guia completo de aplicação da marca: [Fundações › Marca](../../fundacoes/marca).
+```
