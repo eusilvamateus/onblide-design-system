@@ -19,4 +19,10 @@ if (!a.includes('aria-expanded="true"') || !a.includes('aria-expanded="false"'))
 const b = renderToStaticMarkup(h(SideNav, { items: [{ id: 'x', label: 'Simples' }], active: 'x' }));
 if (!b.includes('Simples') || b.includes('aria-expanded')) fail('item simples não deveria virar grupo', b);
 
-console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto)');
+// Itens não encolhem numa coluna cheia (senão ficam esmagados), e o ativo não tem barra lateral sólida.
+if ((b.match(/<button[^>]*flex:none/g) || []).length < 1) fail('itens deveriam ter flex:none', b);
+if (b.includes('width:3px')) fail('item ativo não deveria ter barra lateral', b);
+const c = renderToStaticMarkup(h(SideNav, { items: [{ id: 'x', label: 'Simples' }], flush: true }));
+if (!c.includes('overflow-y:auto')) fail('no modo flush a lista deveria rolar', c);
+
+console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto, itens sem encolher, sem barra no ativo)');

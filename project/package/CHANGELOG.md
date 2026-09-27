@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.13.1
+
+### Patch Changes
+
+- `SideNav`: itens, seções e grupos deixam de encolher quando a lista não cabe na altura (os itens ficavam esmagados, com cerca de metade da altura); no modo `flush` a lista rola. O item ativo perde a barra vertical sólida: fundo azul-claro e texto azul marcam a seleção.
+
 ## 0.13.0
 
 ### Minor Changes
