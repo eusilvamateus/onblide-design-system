@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.13.5
+
+### Patch Changes
+
+- Table: a linha embaixo do cabeçalho passa a usar a mesma cor das linhas do corpo (`--ob-line-soft`); só o contorno externo mantém `--ob-border`. A hierarquia do cabeçalho vem da tipografia, e a linha deixa de parecer mais grossa que as demais.
+
 ## 0.13.4
 
 ### Patch Changes

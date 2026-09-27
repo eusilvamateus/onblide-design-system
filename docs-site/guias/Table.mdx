@@ -68,7 +68,7 @@ Tipo `Column`: `{ key, label, bold?, sortable?, width?, render?: (value, row) =>
 
 ## Guia de design
 
-**Tokens.** Cabeçalho: mono 11px uppercase, cor `--ob-fg-mute`, borda `1.5px solid --ob-border`. Linha: 14px, hover `--ob-bg-warm`, selecionada `color-mix(--ob-blue 8%)`. Borda entre linhas `--ob-line-soft`.
+**Tokens.** Cabeçalho: mono 11px uppercase, cor `--ob-fg-mute`, borda de baixo `1px solid --ob-line-soft`, igual à das linhas (a hierarquia vem da tipografia; só o contorno externo usa `--ob-border`). Linha: 14px, hover `--ob-bg-warm`, selecionada `color-mix(--ob-blue 8%)`. Borda entre linhas `--ob-line-soft`.
 
 **Scroll horizontal.** O container tem `overflow-x: auto` para não quebrar o layout em viewports estreitas. Em mobile (\< 640px), considere uma visualização alternativa em cards empilhados.
 

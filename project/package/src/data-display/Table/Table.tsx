@@ -77,7 +77,7 @@ export function Table<T extends object = Record<string, unknown>>({
   const thStyle: React.CSSProperties = {
     padding: '10px 14px', textAlign: 'left', fontFamily: 'var(--ob-font-mono)',
     fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-    color: 'var(--ob-fg-mute)', borderBottom: '1px solid var(--ob-border)',
+    color: 'var(--ob-fg-mute)', borderBottom: '1px solid var(--ob-line-soft)',
     background: 'var(--ob-surface)', whiteSpace: 'nowrap', userSelect: 'none',
   };
   const tdStyle: React.CSSProperties = {

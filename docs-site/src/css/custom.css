@@ -192,6 +192,7 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-demo__resultado { min-height: 160px; display: flex; flex-direction: column; justify-content: center; }
 /* Palco da demo: largura de um formulário real, para quem ocupa a largura (barra, slider, campo) não encolher. */
 .ob-demo__palco { width: 100%; max-width: 480px; margin: 0 auto; }
+.ob-demo__palco--largo { max-width: none; }
 .ob-demo__codigo {
   margin: 0; padding: 14px 16px; background: var(--ob-bg-alt); font-family: var(--ob-font-mono);
   font-size: 13px; line-height: 1.6; overflow-x: auto; border-radius: 0;

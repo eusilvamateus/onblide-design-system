@@ -48,6 +48,9 @@ function atributo(c: Controle, v: Valor): string | null {
   return v.includes('"') ? `${nome}={${JSON.stringify(v)}}` : `${nome}="${v}"`;
 }
 
+// Componentes que ocupam a largura da página (tabela, abas) ou passam de 480px: o palco deles não é limitado.
+const LARGOS = ['Table', 'Tabs', 'Spinner'];
+
 const recuar = (t: string, n = 2) => t.split('\n').join('\n' + ' '.repeat(n));
 
 export default function Playground({
@@ -169,7 +172,7 @@ export default function Playground({
               {/* O atributo hidden fica num invólucro sem classe: nenhuma regra de CSS consegue anulá-lo. */}
               <div hidden={aba !== 'resultado'}>
                 <div className="ob-playground__preview ob-demo__resultado">
-                  <div className="ob-demo__palco">
+                  <div className={`ob-demo__palco${LARGOS.includes(nome) ? ' ob-demo__palco--largo' : ''}`}>
                     <LivePreview />
                   </div>
                   <LiveError className="ob-playground__error" />
