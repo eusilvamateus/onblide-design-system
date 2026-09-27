@@ -1,5 +1,13 @@
 # @onblide/ui
 
+## 0.16.0
+
+### Minor Changes
+
+- `Menu` ganha a prop `defaultOpen`, para montar o painel já aberto em demonstrações e capturas de tela (mesmo padrão do `Popover`).
+
+  Corrige também um regex de normalização de texto (usado por `Autocomplete` e `TreeView` para busca sem acento) que guardava os caracteres Unicode literais em vez do escape `̀-ͯ`, o que podia corromper em pipelines que leem o arquivo com uma codificação diferente de UTF-8. Passa a usar `\p{Diacritic}`, sem nenhum caractere não-ASCII na fonte.
+
 ## 0.15.0
 
 ### Minor Changes

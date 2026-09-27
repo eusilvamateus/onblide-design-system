@@ -8,7 +8,7 @@ import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { ListItem, ListSubheader, ListDivider } from '../../data-display/List/List';
 
-const normalize = (s: string) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const normalize = (s: string) => String(s || '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
 
 export type AutocompleteMode = 'restrict' | 'free' | 'creatable';
 export type AutocompleteCompletion = 'list' | 'inline';

@@ -8,13 +8,13 @@ const itens = [
 ];
 
 export const Padrao = () => (
-  <div style={{ padding: 16, width: 240 }}>
-    <Menu trigger={<Button kind="secondary" icon={<Ph n="dots-three" size={16} />}>Ações</Button>} items={itens} />
+  <div style={{ padding: 16, width: 240, height: 220 }}>
+    <Menu trigger={<Button kind="secondary" icon={<Ph n="dots-three" size={16} />}>Ações</Button>} items={itens} defaultOpen />
   </div>
 );
 
 export const ComSelecao = () => (
-  <div style={{ padding: 16, width: 240 }}>
+  <div style={{ padding: 16, width: 240, height: 220 }}>
     <Menu
       trigger={<Button kind="secondary">Zoom: 100%</Button>}
       items={[
@@ -22,6 +22,7 @@ export const ComSelecao = () => (
         { type: 'radio', group: 'zoom', label: '100%', checked: true, onSelect: () => {} },
         { type: 'radio', group: 'zoom', label: '200%', checked: false, onSelect: () => {} },
       ]}
+      defaultOpen
     />
   </div>
 );

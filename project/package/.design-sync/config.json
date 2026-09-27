@@ -66,6 +66,22 @@
     "ToastStack": {
       "cardMode": "single",
       "primaryStory": "FilaDeAvisos"
+    },
+    "Timeline": {
+      "cardMode": "column"
+    },
+    "FileUpload": {
+      "cardMode": "column"
+    },
+    "Breadcrumbs": {
+      "cardMode": "column"
+    },
+    "Stepper": {
+      "cardMode": "column"
+    },
+    "Popover": {
+      "cardMode": "single",
+      "primaryStory": "Padrao"
     }
   }
 }

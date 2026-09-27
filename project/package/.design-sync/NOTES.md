@@ -28,13 +28,30 @@
 sync foi rodado ainda para eles, então `_ds_sync.json` remoto não tem esses nomes e o próximo `resync.mjs` vai
 tratá-los como `added`, não `changed`.
 
-Pontos que o próximo sync deve conferir (não verificados aqui por não termos rodado o build-css/capture reais):
-- `Autocomplete`/`Popover`/`Menu`/`Menubar`: provável `[GRID_OVERFLOW]` nos exemplos com o painel aberto
-  (`open`/`defaultOpen: true`) — aplicar `cardMode: "single"` como já existe para Drawer/Modal/ToastStack.
-- `TreeView`: preview `Editavel` usa `draggable`; a alça e o "fantasma" que segue o cursor só aparecem em
-  interação real (pointer down), então a captura estática vai mostrar só a árvore parada — normal, não é bug.
+Sync feito em 2026-09-27 (58 componentes no ar). O que apareceu de verdade, pra próxima vez:
+
+- **`[BUNDLE_EXPORT] 58/58 not a component`** — todos falharam igual, incluindo componentes intocados. Causa
+  real: `Autocomplete.tsx` e `TreeView.tsx` tinham um regex de diacríticos (`normalize().replace(/[̀-ͯ]/g, '')`)
+  salvo com os CARACTERES UNICODE LITERAIS em vez do escape `\u`. Em algum ponto do pipeline (leitura/gravação
+  com encoding diferente de UTF-8) os bytes viravam mojibake e o regex quebrava (`Range out of order in
+  character class`) — um erro síncrono na avaliação do bundle que impedia `window.OnblideUI` de ser criado.
+  O render check por componente passava normal (mascarava o problema); só o smoke `[BUNDLE_EXPORT]`, que carrega
+  o bundle sozinho numa página em branco, pegou. Corrigido trocando por `/\p{Diacritic}/gu` — zero caractere
+  não-ASCII na fonte. **Se esse erro voltar (falha uniforme em 100% dos componentes), suspeitar primeiro de
+  regex/string com caractere Unicode literal em algum `.tsx`, não do pipeline.**
+- `Menu` não tinha nenhuma prop pra abrir o painel sem clique — toda captura/exemplo mostrava só o gatilho
+  fechado (reprovava "Completo" na rubrica). Adicionada `defaultOpen` (mesmo padrão do `Popover`).
+- `Timeline`, `FileUpload`, `Breadcrumbs`, `Stepper` precisaram de `cardMode: "column"`; `Popover`, de
+  `cardMode: "single"` (painel sai por portal, nenhum grid comporta) — todos já em `config.json`.
+- `ContextMenu`, `KeyList`, `ListDivider`, `ListItem`, `ListSubheader`, `MenuPanel` caem no grupo "general" no
+  catálogo remoto — são exports secundários de `Menu.tsx`/`List.tsx`/`Menubar.tsx`, e a heurística de grupo do
+  conversor só acerta quando o arquivo se chama igual ao componente. Cosmético (não afeta bundle/props/docs);
+  não vale a complexidade de forçar via `componentSrcMap` (o `dirname` apontaria pro arquivo errado). Se incomodar,
+  a correção de verdade é o conversor aceitar um override de grupo explícito por nome — não existe hoje.
 - `List`/`Menu` reexportam peças que não viram card próprio no site (`ListItem` etc.) nem devem virar
   `proposals/` novas — já são parte oficial do `List`/`Menu`.
+- `TreeView`: preview `Editavel` usa `draggable`; a alça e o "fantasma" que segue o cursor só aparecem em
+  interação real (pointer down), então a captura estática mostra só a árvore parada — normal, não é bug.
 
 ## Fluxo com o Claude Design (código é a fonte)
 - O sync é só código → Claude Design. Trabalho feito lá volta ao código por portagem manual.

@@ -10,7 +10,7 @@ Leia isto antes de montar qualquer tela. Tudo vem de `window.OnblideUI` (o bundl
 ## Marca e visual
 - Azul `#0a4ee4` é a voz da marca (CTA primário, links, foco). Verde só para sucesso, laranja para aviso/acento, tinta `#545454` no texto, creme `#f2f0e8` só como sobreposição (a página é branca).
 - Poppins para UI, Playfair Display (itálico) só como acento editorial, JetBrains Mono para código e rótulos pequenos.
-- Raios de 8–12px (12px é o padrão); pílulas (999px) só em badges e toggles. Sem gradientes no chrome, sem emoji.
+- Raios de 8–12px (12px é o padrão); pílulas (999px) só em badges e switches. Sem gradientes no chrome, sem emoji.
 - Cartão com borda OU com sombra, nunca os dois.
 
 ## Ícones

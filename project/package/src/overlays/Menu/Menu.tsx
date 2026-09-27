@@ -202,12 +202,14 @@ export interface MenuProps {
   size?: MenuSize;
   search?: MenuSearchProps;
   ariaLabel?: string;
+  /** Abre o painel já montado, sem esperar o clique — para demonstrações e capturas de tela. */
+  defaultOpen?: boolean;
 }
 
 /** Menu de comandos aberto a partir de um gatilho: itens simples, com ícone/atalho/descrição, seleção
  * única, radio, checkbox, toggle, busca, contas e submenus — com teclado completo. */
-export const Menu: React.FC<MenuProps> = ({ trigger, items, align = 'left', ariaLabel, ...panel }) => {
-  const [open, setOpen] = React.useState<{ kb: boolean } | null>(null);
+export const Menu: React.FC<MenuProps> = ({ trigger, items, align = 'left', ariaLabel, defaultOpen = false, ...panel }) => {
+  const [open, setOpen] = React.useState<{ kb: boolean } | null>(defaultOpen ? { kb: false } : null);
   const wrap = React.useRef<HTMLDivElement>(null);
   useOutside(wrap, !!open, () => setOpen(null));
   const close = () => { setOpen(null); const el = wrap.current?.querySelector<HTMLElement>('button, a, [tabindex="0"]'); el?.focus(); };

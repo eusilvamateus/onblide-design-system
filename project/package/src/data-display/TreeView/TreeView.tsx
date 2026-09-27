@@ -11,7 +11,7 @@ import { Menu, type MenuItem } from '../../overlays/Menu/Menu';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import type { BadgeTone } from '../../internal/badgeTones';
 
-const normalize = (s: string) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const normalize = (s: string) => String(s || '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
 const INDENT = { md: 16, sm: 14 } as const;
 const BASE = { md: 8, sm: 6 } as const;
 const PAD_Y = { md: 6, sm: 3 } as const;

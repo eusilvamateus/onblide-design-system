@@ -9,6 +9,10 @@ const fail = (msg, html) => { console.error('FAIL: ' + msg, html); process.exit(
 const closed = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }] }));
 if (closed.includes('role="menu"')) fail('menu fechado não deveria renderizar o painel', closed);
 
+// defaultOpen: painel já montado, sem precisar de clique — para demos e capturas de tela.
+const defaultOpen = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], defaultOpen: true }));
+if (!defaultOpen.includes('role="menu"') || !defaultOpen.includes('Editar')) fail('defaultOpen deveria montar o painel aberto', defaultOpen);
+
 // Itens: simples, checkbox, radio, toggle, submenu, separador, label.
 const items = [
   { label: 'Editar', icon: 'pencil-simple', shortcut: 'Ctrl+E' },
