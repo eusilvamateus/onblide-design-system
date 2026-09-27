@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.13.4
+
+### Patch Changes
+
+- Table: a última linha não tem mais borda de baixo (ela se somava à borda do invólucro numa linha de 2px no rodapé) e a linha do cabeçalho passa de 1,5px para 1px, sem espessura fracionada que engrossava em telas com escala. Vale para os estados normal, selecionável, carregando e vazio; novo smoke `smoke-table.mjs` garante isso.
+
 ## 0.13.3
 
 ### Patch Changes

@@ -53,6 +53,8 @@ export interface TableProps<T> {
 // `T extends object` (e não Record<string, unknown>) para aceitar também
 // `interface` sem index signature como tipo de linha.
 /** Tabela de dados com seleção, ordenação, carregamento e estado vazio. */
+const LINHAS_ESQUELETO = 4;
+
 export function Table<T extends object = Record<string, unknown>>({
   columns = [], rows = [], selectable = false, onSelect, loading = false, emptyState, onSort, sort,
 }: TableProps<T>) {
@@ -75,13 +77,16 @@ export function Table<T extends object = Record<string, unknown>>({
   const thStyle: React.CSSProperties = {
     padding: '10px 14px', textAlign: 'left', fontFamily: 'var(--ob-font-mono)',
     fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-    color: 'var(--ob-fg-mute)', borderBottom: '1.5px solid var(--ob-border)',
+    color: 'var(--ob-fg-mute)', borderBottom: '1px solid var(--ob-border)',
     background: 'var(--ob-surface)', whiteSpace: 'nowrap', userSelect: 'none',
   };
   const tdStyle: React.CSSProperties = {
     padding: '12px 14px', fontSize: 14, color: 'var(--ob-fg)',
     borderBottom: '1px solid var(--ob-line-soft)', verticalAlign: 'middle',
   };
+  // A borda do invólucro já fecha a tabela: a última linha fica sem borda de baixo, senão as duas se somam
+  // numa linha de 2px no rodapé.
+  const celula = (ultima: boolean): React.CSSProperties => (ultima ? { ...tdStyle, borderBottom: 'none' } : tdStyle);
 
   return (
     <div style={{ width: '100%', overflowX: 'auto', borderRadius: 'var(--ob-r-md)', border: '1px solid var(--ob-border)' }}>
@@ -110,11 +115,11 @@ export function Table<T extends object = Record<string, unknown>>({
         </thead>
         <tbody>
           {loading
-            ? Array.from({ length: 4 }).map((_, i) => (
+            ? Array.from({ length: LINHAS_ESQUELETO }).map((_, i) => (
               <tr key={i}>
-                {selectable && <td style={tdStyle}><div style={{ width: 15, height: 15, borderRadius: 3, background: 'var(--ob-bg-alt)' }}/></td>}
+                {selectable && <td style={celula(i === LINHAS_ESQUELETO - 1)}><div style={{ width: 15, height: 15, borderRadius: 3, background: 'var(--ob-bg-alt)' }}/></td>}
                 {columns.map(col => (
-                  <td key={col.key} style={tdStyle}>
+                  <td key={col.key} style={celula(i === LINHAS_ESQUELETO - 1)}>
                     <div style={{ height: 14, borderRadius: 4, background: 'var(--ob-bg-alt)', width: `${60 + Math.random() * 30}%`, animation: 'ob-pulse 1.4s ease-in-out infinite' }}/>
                   </td>
                 ))}
@@ -123,7 +128,7 @@ export function Table<T extends object = Record<string, unknown>>({
             : rows.length === 0
             ? (
               <tr>
-                <td colSpan={columns.length + (selectable ? 1 : 0)} style={{ ...tdStyle, textAlign: 'center', padding: '40px 14px', color: 'var(--ob-fg-mute)' }}>
+                <td colSpan={columns.length + (selectable ? 1 : 0)} style={{ ...celula(true), textAlign: 'center', padding: '40px 14px', color: 'var(--ob-fg-mute)' }}>
                   {emptyState || 'Nenhum resultado encontrado.'}
                 </td>
               </tr>
@@ -133,12 +138,12 @@ export function Table<T extends object = Record<string, unknown>>({
                 onMouseEnter={e => { if (!selected.includes(i)) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = selected.includes(i) ? 'var(--ob-blue-100)' : 'none'; }}>
                 {selectable && (
-                  <td style={tdStyle}>
+                  <td style={celula(i === rows.length - 1)}>
                     <Checkbox checked={selected.includes(i)} onChange={() => toggleRow(i)} ariaLabel={`Selecionar linha ${i + 1}`} />
                   </td>
                 )}
                 {columns.map(col => (
-                  <td key={col.key} style={{ ...tdStyle, fontWeight: col.bold ? 600 : 400, color: col.bold ? 'var(--ob-fg-strong)' : 'var(--ob-fg)' }}>
+                  <td key={col.key} style={{ ...celula(i === rows.length - 1), fontWeight: col.bold ? 600 : 400, color: col.bold ? 'var(--ob-fg-strong)' : 'var(--ob-fg)' }}>
                     {col.render ? col.render((row as Record<string, unknown>)[col.key], row) : ((row as Record<string, unknown>)[col.key] as React.ReactNode)}
                   </td>
                 ))}
