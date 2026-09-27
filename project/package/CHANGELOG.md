@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.13.6
+
+### Patch Changes
+
+- Table: clicar num cabeçalho `sortable` agora ordena de verdade — sem `onSort`, a Table cicla crescente → decrescente → sem ordenação sozinha, reconhecendo data em `dd/mm/aaaa`, número e texto. `onSort` continua disponível para ordenação controlada (paginação no servidor, por exemplo), caso em que a Table só avisa a coluna clicada e não reordena por conta própria.
+
 ## 0.13.5
 
 ### Patch Changes

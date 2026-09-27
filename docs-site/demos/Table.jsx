@@ -13,8 +13,9 @@ const linhas = [
   { tarefa: 'Publicar relatório mensal', responsavel: 'Carla Dias', prazo: '18/10/2026', status: 'Concluída' },
 ];
 
+// Sem onSort, a Table ordena sozinha ao clicar no cabeçalho de uma coluna sortable (crescente → decrescente → sem
+// ordenação); as datas em dd/mm/aaaa já ordenam como data, não como texto.
 <Table
   columns={colunas}
   rows={linhas}
-  sort={{ key: 'prazo', dir: 'asc' }}
 />

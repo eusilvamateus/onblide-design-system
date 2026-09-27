@@ -12,7 +12,11 @@ Use Table para dados estruturados com 3+ colunas onde o usuário precisa escanea
 ### Quando usar cada feature
 
 - **Seleção** (`selectable`) — quando há ações em lote: excluir, exportar, mover selecionados.
-- **Ordenação** (`sortable` por coluna) — quando a ordem importa para o usuário (data, valor, status).
+- **Ordenação** (`sortable` por coluna) — quando a ordem importa para o usuário (data, valor, status). Sem `onSort`,
+  a Table ordena as linhas sozinha ao clicar no cabeçalho (crescente → decrescente → sem ordenação), reconhecendo
+  data em `dd/mm/aaaa`, número e texto. Use `onSort` só quando quem busca os dados precisa decidir a ordenação —
+  paginação no servidor, por exemplo — caso em que a Table para de ordenar sozinha e só avisa qual coluna foi
+  clicada.
 - **Loading skeleton** (`loading`) — sempre que os dados vêm de requisição assíncrona.
 - **Estado vazio** (`emptyState`) — nunca deixe a tabela simplesmente sem linhas; oriente o próximo passo.
 
@@ -48,10 +52,20 @@ Mais de 7 colunas sem scroll horizontal. Tabela em mobile sem adaptação — pr
   ]}
   rows={tasks}
   selectable
-  sort={sort}
-  onSort={handleSort}
   loading={isLoading}
   emptyState="Nenhuma tarefa. Crie uma acima."
+/>
+```
+
+Sem `onSort`, é só isso — clicar em "Prazo" já ordena. Com dados paginados no servidor, controle a ordenação você
+mesmo:
+
+```jsx
+<Table
+  columns={columns}
+  rows={tasks}
+  sort={sort}
+  onSort={(key) => buscarPagina({ sort: proximaOrdenacao(sort, key) })}
 />
 ```
 

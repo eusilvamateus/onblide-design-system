@@ -41,10 +41,44 @@ export interface TableProps<T> {
   loading?: boolean;
   /** Conteúdo exibido quando não há linhas; padrão: mensagem de nenhum resultado. */
   emptyState?: React.ReactNode;
-  /** Chamado com a chave da coluna clicada, quando `sortable`. */
+  /** Chamado com a chave da coluna clicada, quando `sortable`. Com `onSort`, a Table só avisa o clique — quem usa
+   * decide a próxima direção e passa as linhas já ordenadas (ordenação no servidor, por exemplo). Sem `onSort`,
+   * a Table ordena as linhas sozinha, ciclando crescente → decrescente → sem ordenação a cada clique. */
   onSort?: (key: string) => void;
-  /** Coluna e direção de ordenação atualmente aplicadas. */
+  /** Coluna e direção de ordenação atualmente aplicadas (controla as setas do cabeçalho). Sem `onSort`, também
+   * serve de valor inicial da ordenação automática. */
   sort?: TableSort;
+}
+
+// Compara dois valores de célula para a ordenação automática (sem `onSort`): datas no formato dd/mm/aaaa, depois
+// números (nativos ou em texto) e por fim texto, em pt-BR. Cobre os tipos de dado mais comuns numa tabela sem
+// exigir que quem usa escreva um comparador.
+const paraData = (v: unknown): number | null => {
+  if (typeof v !== 'string') return null;
+  const m = v.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  return m ? new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1])).getTime() : null;
+};
+const comparar = (a: unknown, b: unknown): number => {
+  const da = paraData(a), db = paraData(b);
+  if (da !== null && db !== null) return da - db;
+  if (typeof a === 'number' && typeof b === 'number') return a - b;
+  const na = typeof a === 'string' && a.trim() !== '' && !Number.isNaN(Number(a)) ? Number(a) : null;
+  const nb = typeof b === 'string' && b.trim() !== '' && !Number.isNaN(Number(b)) ? Number(b) : null;
+  if (na !== null && nb !== null) return na - nb;
+  return String(a ?? '').localeCompare(String(b ?? ''), 'pt-BR', { numeric: true, sensitivity: 'base' });
+};
+// Ordena os índices originais (não as linhas em si): mantém `selected`/`toggleRow` funcionando por índice mesmo
+// com a tabela reordenada na tela.
+function indicesOrdenados<T extends object>(rows: T[], s: TableSort): number[] {
+  const idx = rows.map((_, i) => i);
+  const dir = s.dir === 'asc' ? 1 : -1;
+  idx.sort((a, b) => comparar((rows[a] as Record<string, unknown>)[s.key], (rows[b] as Record<string, unknown>)[s.key]) * dir);
+  return idx;
+}
+// Crescente → decrescente → sem ordenação; clicar numa coluna diferente sempre recomeça em crescente.
+function proximaOrdenacao(atual: TableSort | undefined, key: string): TableSort | undefined {
+  if (atual?.key !== key) return { key, dir: 'asc' };
+  return atual.dir === 'asc' ? { key, dir: 'desc' } : undefined;
 }
 
 // Componente genérico — React.FC<TableProps<T>> não permite que TS infira T
@@ -59,6 +93,15 @@ export function Table<T extends object = Record<string, unknown>>({
   columns = [], rows = [], selectable = false, onSelect, loading = false, emptyState, onSort, sort,
 }: TableProps<T>) {
   const [selected, setSelected] = useState<number[]>([]);
+  // Valor inicial da ordenação automática; ignora mudanças depois disso (mesmo padrão não controlado de `selected`
+  // acima). Some quando há `onSort`: aí quem usa é quem decide e passa as linhas já na ordem certa.
+  const [sortInterno, setSortInterno] = useState<TableSort | undefined>(sort);
+  const sortAtivo = onSort ? sort : sortInterno;
+  const ordemExibida = sortAtivo && !onSort ? indicesOrdenados(rows, sortAtivo) : rows.map((_, i) => i);
+  const alternarOrdenacao = (key: string) => {
+    if (onSort) { onSort(key); return; }
+    setSortInterno((atual) => proximaOrdenacao(atual, key));
+  };
 
   const toggleAll = () => {
     const next = selected.length === rows.length ? [] : rows.map((_, i) => i);
@@ -100,12 +143,12 @@ export function Table<T extends object = Record<string, unknown>>({
             )}
             {columns.map(col => (
               <th key={col.key} style={{ ...thStyle, cursor: col.sortable ? 'pointer' : 'default', width: col.width }}
-                onClick={() => col.sortable && onSort?.(col.key)}>
+                onClick={() => col.sortable && alternarOrdenacao(col.key)}>
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
                   {col.label}
                   {col.sortable && (
-                    <span style={{ opacity: sort?.key === col.key ? 1 : 0.35, color: 'var(--ob-blue)' }}>
-                      {sort?.key === col.key ? (sort.dir === 'asc' ? '↑' : '↓') : '↕'}
+                    <span style={{ opacity: sortAtivo?.key === col.key ? 1 : 0.35, color: 'var(--ob-blue)' }}>
+                      {sortAtivo?.key === col.key ? (sortAtivo.dir === 'asc' ? '↑' : '↓') : '↕'}
                     </span>
                   )}
                 </span>
@@ -133,7 +176,7 @@ export function Table<T extends object = Record<string, unknown>>({
                 </td>
               </tr>
             )
-            : rows.map((row, i) => (
+            : ordemExibida.map((i) => { const row = rows[i]; return (
               <tr key={i} style={{ background: selected.includes(i) ? 'var(--ob-blue-100)' : 'none', transition: 'background 0.1s' }}
                 onMouseEnter={e => { if (!selected.includes(i)) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = selected.includes(i) ? 'var(--ob-blue-100)' : 'none'; }}>
@@ -148,7 +191,7 @@ export function Table<T extends object = Record<string, unknown>>({
                   </td>
                 ))}
               </tr>
-            ))}
+            ); })}
         </tbody>
       </table>
     </div>
