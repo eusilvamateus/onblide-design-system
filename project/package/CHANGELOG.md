@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 0.13.3
+
+### Patch Changes
+
+- Checkbox: check marcado passa a usar o `check-fat` (fill) do Phosphor em 12px, que lê como marcado de fato — o check bold em 14px tinha traço de ~1,3px, visualmente igual ao regular. O indeterminado usa o minus bold oficial com contorno extra para ter a mesma espessura do check.
+
 ## 0.13.2
 
 ### Patch Changes

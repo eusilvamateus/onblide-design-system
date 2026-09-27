@@ -32,8 +32,8 @@ icon set, and no ad-hoc hand-drawn SVG icons.
    (full guide: docs site › Fundações › Iconografia, and `ds/foundations/iconography.html`):
    - **regular** — default UI (nav, buttons, fields, icons next to text, 16–24px);
    - **fill** — "on" state, always paired with regular for "off" (active SideNav item, selected tab,
-     favourited star, status icon in Alert/Toast);
-   - **bold** — legibility at ≤14px or on a solid fill (Checkbox check/minus, small inline icons);
+     favourited star, status icon in Alert/Toast, Checkbox check — `check-fat` fill at 12px);
+   - **bold** — legibility at ≤14px or on a solid fill (small inline icons);
    - **light** — large calm icons, 32–48px (empty states);
    - **thin** — editorial moments only, 64px+ (hero, covers, brand pieces);
    - **duotone** — illustrative highlights only (onboarding, feature cards); never in dense UI.
@@ -41,7 +41,9 @@ icon set, and no ad-hoc hand-drawn SVG icons.
    appear inside `@onblide/ui` components. Set the weight with `<Ph weight="…">` / `Icons.x({ weight })`.
 3. Reproduce Phosphor glyphs faithfully. When the exact Phosphor path can't be pulled in,
    reproduce the real Phosphor glyph as closely as possible in its line style — do not substitute
-   a different shape or a different library's version.
+   a different shape or a different library's version. Only documented exception: the Checkbox
+   indeterminate state uses the official `minus` bold path with an extra stroke (37 units) so its
+   thickness matches the `check-fat` check — Phosphor has no "minus-fat".
 4. Brand/company logos: Phosphor's brand-logo set (e.g. SpotifyLogo, SlackLogo, GithubLogo) is the
    source for those too. Keep them recognizable and on-brand (authentic colors/shapes).
 5. Centralize icons behind a single icon component/registry (e.g. the `Icons` registry of
