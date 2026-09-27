@@ -118,7 +118,7 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 }
 .ob-wrap .markdown pre code { background: none; padding: 0; font-size: 13px; line-height: 1.6; color: var(--ob-fg-strong); }
 .ob-wrap .markdown pre { padding: 14px 16px; overflow-x: auto; }
-.ob-wrap .markdown button[class*='copyButton'] { display: none; }
+.ob-wrap .markdown [class*='codeBlockContainer'] .clean-btn { display: none; }
 
 /* Tabelas (props, tokens e as do markdown) */
 .ob-wrap .markdown table {
@@ -143,12 +143,11 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
   margin: 0 0 20px;
   background: var(--ob-surface);
 }
-.ob-playground__header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 6px 12px; background: var(--ob-bg-alt); border-top: 1px solid var(--ob-border);
+.ob-playground__tabs {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: var(--ob-gap-sm);
+  padding: 4px 12px 0; background: var(--ob-surface);
 }
-.ob-playground__header:first-child { border-top: none; }
-.ob-playground__header .ob-eyebrow { margin: 0; color: var(--ob-fg-soft); }
+.ob-playground__tabs > div:first-child { flex: 1; }
 .ob-playground__preview { padding: var(--ob-pad-card); background: var(--ob-surface); overflow: auto; }
 .ob-playground__error { color: var(--ob-danger); font-family: var(--ob-font-mono); font-size: 12px; white-space: pre-wrap; }
 .ob-playground__editor, .ob-playground__editor pre {
