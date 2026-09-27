@@ -184,6 +184,24 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-criterio__marca { flex: none; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--ob-bg-alt); color: var(--ob-fg-mute); }
 .ob-criterio__marca--sim { background: var(--ob-green-100); color: var(--ob-green-700); }
 
+/* ---------- Marca (Fundações › Marca) ---------- */
+.ob-marca-grade {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--ob-gap-md); margin: var(--ob-gap-md) 0 var(--ob-gap-xl);
+}
+@media (max-width: 640px) { .ob-marca-grade { grid-template-columns: 1fr; } }
+.ob-marca-celula {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  min-height: 118px; padding: 18px; margin: 0; border-radius: var(--ob-r-surface); border: 1px solid var(--ob-border);
+}
+.ob-marca-celula--clara { background: var(--ob-surface); }
+.ob-marca-celula--escura { background: #2a2a2a; border-color: #2a2a2a; }
+.ob-marca-celula--creme { background: var(--ob-cream); border-color: transparent; }
+.ob-marca-celula img { display: block; width: auto; }
+.ob-marca-celula figcaption {
+  font-family: var(--ob-font-mono); font-size: 11px; color: var(--ob-fg-mute); text-align: center;
+}
+.ob-marca-celula--escura figcaption { color: rgba(255, 255, 255, 0.6); }
+
 /* ---------- Demo interativa ---------- */
 .ob-demo__controles {
   display: grid; grid-template-columns: 1fr; gap: var(--ob-gap-md); align-items: end; margin: 0 0 var(--ob-gap-lg);

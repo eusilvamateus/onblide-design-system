@@ -23,6 +23,7 @@ yarn-error.log*
 /docs/componentes/
 /docs/changelog.md
 /src/data/
+/static/img/marca/
 .vercel
 
 .vercel

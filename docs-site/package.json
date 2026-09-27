@@ -13,7 +13,7 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "gerar": "node scripts/gerar-tokens.mjs && node scripts/gerar-icones.mjs && node scripts/gerar-props.mjs && node scripts/gerar-componentes.mjs",
+    "gerar": "node scripts/gerar-tokens.mjs && node scripts/gerar-icones.mjs && node scripts/gerar-marca.mjs && node scripts/gerar-props.mjs && node scripts/gerar-componentes.mjs",
     "prebuild": "npm --prefix ../project/package ci && npm --prefix ../project/package run build && npm run gerar",
     "prestart": "npm run gerar",
     "verificar": "node scripts/verificar.mjs"

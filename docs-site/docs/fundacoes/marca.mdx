@@ -1,10 +1,17 @@
 ---
 title: Marca
 sidebar_position: 11
-description: Logo e variações.
+description: Logo, variantes e como aplicar cada uma.
 ---
 
-O `Logo` renderiza o lockup horizontal da Onblide com as cores dirigidas pelos tokens, então se adapta ao tema.
+A marca Onblide tem três formas — **horizontal**, **empilhada** e **símbolo** — cada uma em três cores —
+**primary**, **white** e **dark**. Nove arquivos ao todo, cada um para um contexto específico; nenhum deles é
+"a logo principal" com os outros como substitutos.
+
+## Uso em produto
+
+Dentro da interface (cabeçalhos, telas de carregamento, e-mails transacionais), use o componente `Logo`: é a
+forma horizontal com as cores dirigidas pelos tokens do tema ativo, então se adapta sozinho a claro e escuro.
 
 ```jsx live
 <div style={{ display: 'flex', gap: 32, alignItems: 'center', padding: 24 }}>
@@ -13,7 +20,95 @@ O `Logo` renderiza o lockup horizontal da Onblide com as cores dirigidas pelos t
 </div>
 ```
 
+```ts
+import { Logo } from '@onblide/ui';
+```
+
 Componente: [Logo](../componentes/brand/Logo).
+
+## Variantes de arquivo
+
+Fora do produto — apresentações, documentos, redes sociais, favicon, materiais impressos — use os arquivos em
+`project/assets/`. Eles não seguem o tema: a cor é fixa no próprio arquivo, escolhida para o fundo onde a marca
+vai aparecer.
+
+### Horizontal — uso padrão
+
+Símbolo e nome lado a lado. Primeira opção sempre que houver largura disponível.
+
+<div className="ob-marca-grade">
+  <figure className="ob-marca-celula ob-marca-celula--clara">
+    <img src="/img/marca/onblide-horizontal-primary.svg" alt="Onblide, variante horizontal, primary" height={30} />
+    <figcaption>primary — fundo claro</figcaption>
+  </figure>
+  <figure className="ob-marca-celula ob-marca-celula--escura">
+    <img src="/img/marca/onblide-horizontal-white.svg" alt="Onblide, variante horizontal, white" height={30} />
+    <figcaption>white — fundo escuro ou de marca</figcaption>
+  </figure>
+  <figure className="ob-marca-celula ob-marca-celula--creme">
+    <img src="/img/marca/onblide-horizontal-dark.svg" alt="Onblide, variante horizontal, dark" height={30} />
+    <figcaption>dark — fundo claro neutro (nunca branco puro)</figcaption>
+  </figure>
+</div>
+
+### Empilhada — espaços quadrados ou estreitos
+
+Símbolo acima do nome. Use quando a largura for curta e a altura sobrar: selos, carimbos, posts quadrados,
+capas de documento.
+
+<div className="ob-marca-grade">
+  <figure className="ob-marca-celula ob-marca-celula--clara">
+    <img src="/img/marca/onblide-stacked-primary.svg" alt="Onblide, variante empilhada, primary" height={74} />
+    <figcaption>primary — fundo claro</figcaption>
+  </figure>
+  <figure className="ob-marca-celula ob-marca-celula--escura">
+    <img src="/img/marca/onblide-stacked-white.svg" alt="Onblide, variante empilhada, white" height={74} />
+    <figcaption>white — fundo escuro ou de marca</figcaption>
+  </figure>
+  <figure className="ob-marca-celula ob-marca-celula--creme">
+    <img src="/img/marca/onblide-stacked-dark.svg" alt="Onblide, variante empilhada, dark" height={74} />
+    <figcaption>dark — fundo claro neutro (nunca branco puro)</figcaption>
+  </figure>
+</div>
+
+### Símbolo — espaços mínimos
+
+Só o ícone, sem o nome. Use quando o nome não couber com um mínimo de legibilidade: favicon, avatar, ícone de
+app, marca d'água.
+
+<div className="ob-marca-grade">
+  <figure className="ob-marca-celula ob-marca-celula--clara">
+    <img src="/img/marca/onblide-symbol-primary.svg" alt="Símbolo Onblide, primary" height={46} />
+    <figcaption>primary — fundo claro</figcaption>
+  </figure>
+  <figure className="ob-marca-celula ob-marca-celula--escura">
+    <img src="/img/marca/onblide-symbol-white.svg" alt="Símbolo Onblide, white" height={46} />
+    <figcaption>white — fundo escuro ou de marca</figcaption>
+  </figure>
+  <figure className="ob-marca-celula ob-marca-celula--creme">
+    <img src="/img/marca/onblide-symbol-dark.svg" alt="Símbolo Onblide, dark" height={46} />
+    <figcaption>dark — fundo claro neutro (nunca branco puro)</figcaption>
+  </figure>
+</div>
+
+## Como escolher a cor
+
+- **primary** — padrão sobre fundo claro (branco, `--ob-surface`, cinza muito claro).
+- **white** — sobre fundo escuro ou sobre uma cor de marca saturada (ex.: um card azul); garante contraste sem
+  disputar com o fundo.
+- **dark** — sobre fundo claro mas não branco puro (creme, bege, papel); o `primary` perderia força nesses tons.
+
+Nunca aplique `primary` sobre fundo escuro, nem `white`/`dark` sobre fundo que não sustente o contraste —
+teste sempre a variante contra o fundo real antes de aprovar uma peça.
+
+## Área de proteção e tamanho mínimo
+
+- Deixe ao redor da marca um espaço livre de no mínimo a altura do símbolo (a peça circular do lockup) — nenhum
+  texto, borda ou outro elemento entra nessa margem.
+- Tamanho mínimo legível: horizontal a partir de 20px de altura; empilhada a partir de 48px de altura; símbolo
+  a partir de 16px de altura (favicon).
+- Nunca redesenhe, recolora fora das três variantes, distorça a proporção ou separe o símbolo do nome na
+  horizontal/empilhada.
 
 ## Voz e tom
 
