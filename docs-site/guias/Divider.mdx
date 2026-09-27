@@ -1,0 +1,47 @@
+---
+resumo: "Linha de separação entre blocos de conteúdo, com rótulo opcional. Substitui as bordas soltas que cada componente desenhava por conta própria — inclusive o `ListDivider`, que é um Divider por baixo."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Divider: uso e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use para separar seções dentro de um cartão, formulário ou lista — nunca para dar espaçamento sozinho (use
+`gap`/margem pra isso). Com `label`, marca uma transição nomeada ("ou", "Hoje").
+
+<FacaEvite>
+<Faca>
+
+Usar `emphasis="subtle"` entre itens de uma lista, e `"default"` para separar seções maiores.
+
+</Faca>
+<Evite>
+
+Empilhar Dividers em vez de usar espaçamento — se não há nada pra nomear ou separar visualmente, um `gap` resolve.
+
+</Evite>
+</FacaEvite>
+
+## Composição
+
+- **List** usa o Divider como `ListDivider`, para separar grupos de itens.
+- **Menu**, **Menubar** e **Autocomplete** usam para separar seções de comandos ou opções.
+
+## Formatação
+
+```jsx
+<Divider />
+<Divider orientation="vertical" />
+<Divider label="ou" />
+<Divider variant="dashed" emphasis="subtle" />
+```
+
+## Guia de design
+
+**Tokens.** `emphasis`: `subtle` → `--ob-line-soft`; `default` → `--ob-border`; `strong` → `--ob-ink-mute`.
+
+**Vertical.** Estica até a altura do container (`align-self: stretch`) — o pai precisa ser um flex container.
+
+**`bleed`.** Estende a linha além do padding do container, em px — útil dentro de um Card ou painel com padding,
+quando a linha deve encostar nas bordas.

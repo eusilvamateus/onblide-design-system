@@ -1,5 +1,13 @@
 # @onblide/ui
 
+## 0.15.0
+
+### Minor Changes
+
+- 13 componentes novos, portados das propostas aprovadas no Claude Design: `Divider`, `List` (+ `ListItem`, `ListSubheader`, `ListDivider`), `Breadcrumbs`, `Textarea`, `NumberField`, `FileUpload`, `Autocomplete`, `Menu` (+ `ContextMenu`, `MenuPanel`), `Menubar` (+ `KeyList`), `Popover`, `Stepper` e `Timeline`. `TreeView` também entra nesta leva, com seleção simples/múltipla, busca, carregamento sob demanda, edição e arrastar-para-mover.
+
+  Todos seguem o padrão já estabelecido no pacote: TypeScript estrito, tokens do design system, ARIA e teclado completos, smoke tests e demos/guias no site de documentação.
+
 ## 0.14.0
 
 ### Minor Changes

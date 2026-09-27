@@ -1,0 +1,56 @@
+---
+resumo: "Trilha de navegação com a hierarquia da página atual. Cada nível acima é um link; o último item é a página atual, sem link."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Breadcrumbs: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use em telas com três ou mais níveis de profundidade (Cliente › Projeto › Peça), quando o `SideNav` só mostra
+o primeiro nível e o usuário precisa voltar rápido a qualquer ponto do caminho.
+
+<FacaEvite>
+<Faca>
+
+Primeiro item só com ícone (`icon` + `ariaLabel`, sem `label`) quando ele for a raiz ("Início").
+
+</Faca>
+<Evite>
+
+Usar em telas com um ou dois níveis — nesse caso um botão "Voltar" já resolve.
+
+</Evite>
+</FacaEvite>
+
+## Composição
+
+- **Ph** para o separador (`caret-right`) e os ícones dos itens.
+- **Dropdown** para o menu "…" quando `maxItems` recolhe o meio da trilha.
+
+## Formatação
+
+```jsx
+<Breadcrumbs
+  items={[
+    { icon: 'house', ariaLabel: 'Início' },
+    { label: 'Clientes' },
+    { label: 'Padaria Estrela' },
+  ]}
+/>
+```
+
+## Guia de conteúdo
+
+- Rótulo é o nome real do item (nome do cliente, do projeto) — nunca genérico ("Página").
+- Rótulos longos cortam em 220px com reticências; o texto completo fica no `title` (tooltip nativo).
+
+## Guia de design
+
+**Tokens.** Links em `--ob-fg-soft`, hover/atual em `--ob-fg-strong`, separador em `--ob-fg-mute`. Fundo do
+hover: `--ob-surface-2`.
+
+**Recolhimento.** Com `maxItems`, mantém o primeiro item e os últimos `maxItems - 1`; o meio vira um Dropdown
+aberto pelo botão "…".
+
+**Responsivo.** Quebra linha em vez de rolar horizontalmente quando falta espaço.

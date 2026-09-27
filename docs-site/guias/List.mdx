@@ -1,0 +1,53 @@
+---
+resumo: "Linha de lista oficial: define anatomia, densidade, estados e tons compartilhados. Select, Dropdown, Menu e Autocomplete desenhavam cada um a própria linha antes deste componente existir — agora todos usam o `ListItem`."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do List: uso, composição e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use para qualquer lista vertical de linhas com o mesmo formato — contatos, arquivos, resultados de busca.
+Para uma lista de comandos que abre de um gatilho, prefira `Menu`; para navegação de app, `SideNav`.
+
+A anatomia do `ListItem` é fixa: `leading` (ícone, Checkbox, Avatar) · `title` · `description` · `meta`
+(valor curto à direita) · `trailing` (ações, atalho).
+
+<FacaEvite>
+<Faca>
+
+Usar `selectedStyle="none"` quando o estado de seleção já aparece num Checkbox/Radio dentro do item — evita
+pintar o fundo duas vezes.
+
+</Faca>
+<Evite>
+
+Colocar mais de uma ação clicável dentro do `trailing` sem um menu — cada uma disputa o toque/clique com a
+linha inteira.
+
+</Evite>
+</FacaEvite>
+
+## Composição
+
+Base do `Select`, `Menu`, `Autocomplete`, `FileUpload` (lista de arquivos) e `TreeView`. `ListDivider` separa
+grupos; `ListSubheader` titula um grupo.
+
+## Formatação
+
+```jsx
+<List dividers>
+  <ListItem leading={<Ph n="user" size={16} />} title="Ana Souza" description="ana@onblide.com" />
+  <ListItem leading={<Ph n="user" size={16} />} title="Bruno Lima" description="bruno@onblide.com" selected />
+</List>
+```
+
+## Guia de design
+
+**Densidade.** `size="md"` (36px de altura mínima) é o padrão; `"sm"` (28px) para painéis densos — o `List`
+propaga o tamanho para os itens que não definem o próprio.
+
+**Estados.** Destacado (`highlighted`, ou automático em itens com `href`/`onClick`) usa `--ob-bg-warm`;
+selecionado com `selectedStyle="fill"` usa `--ob-blue-100`/`--ob-blue-700`; desabilitado reduz a 0,5 de opacidade.
+
+**Motion.** Transição de fundo em 120ms no hover/destaque.

@@ -1,0 +1,54 @@
+---
+resumo: "Eventos em ordem cronológica, para leitura — um registro histórico, sem interação própria. Diferente do Stepper: o Stepper é um fluxo que a pessoa percorre; a Timeline é histórico."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Timeline: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use para mostrar o histórico de algo que já aconteceu (pedido, aprovação, atividade) — não para um fluxo que
+a pessoa ainda vai percorrer (isso é `Stepper`).
+
+`orientation="vertical"` (padrão) para a maioria dos casos; `"horizontal"` para um resumo compacto no topo de
+um card. `align="alternate"` reveza o conteúdo dos dois lados — útil quando os eventos têm bastante texto.
+
+<FacaEvite>
+<Faca>
+
+Usar `marker="avatar"` quando o evento tem uma pessoa responsável clara (quem aprovou, quem comentou).
+
+</Faca>
+<Evite>
+
+Misturar `timePosition="opposite"` com `align="alternate"` — a posição oposta da hora só faz sentido com todo
+o conteúdo de um lado só; com `alternate`, ela é ignorada.
+
+</Evite>
+</FacaEvite>
+
+## Composição
+
+**StatusDot** (`marker="dot"`), **Ph** (`marker="icon"`), **Avatar** (`marker="avatar"`). O slot `content` de
+cada item aceita qualquer coisa — `Badge`, `Button`, `Card` — para eventos que precisam de mais que texto.
+
+## Formatação
+
+```jsx
+<Timeline items={[
+  { title: 'Pedido criado', time: '09:12', status: 'done' },
+  { title: 'Em separação', time: '10:40', status: 'current' },
+  { title: 'Entregue', status: 'pending' },
+]} />
+```
+
+## Guia de conteúdo
+
+- `title` no passado para eventos concluídos ("Pedido criado"), no presente para o atual ("Em separação").
+- `time` no formato da hora do produto — sem repetir a data se todos os eventos forem do mesmo dia.
+
+## Guia de design
+
+**Linha.** Fica tracejada até um item `pending`; depois de um item `done`, fica verde (`--ob-success`).
+
+**Estados.** `done`/`current`/`pending`/`error` — cada um muda a cor do marcador e do título.

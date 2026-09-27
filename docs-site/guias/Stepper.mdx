@@ -1,0 +1,54 @@
+---
+resumo: "Indicador de etapas de um fluxo. Cinco layouts, três marcadores, dois tamanhos — os estados são independentes da variante escolhida."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Stepper: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use em fluxos de várias etapas (briefing, cadastro de cliente) onde a pessoa precisa ver o nome e o estado de
+cada uma — diferente de `Tabs` ou de um `ProgressBar` com `segments`, que não nomeiam as etapas.
+
+- **`horizontal`** — fluxos em página ou modal largo.
+- **`vertical`** — painéis laterais, onboarding.
+- **`bar`** — barra contínua com marcadores sobre ela.
+- **`segmented`** — um segmento por etapa, cada um com o estado da própria etapa.
+- **`compact`** — "Etapa 2 de 4 · Escopo" + barra; use em mobile, modal ou Drawer.
+
+<FacaEvite>
+<Faca>
+
+Deixar `linear={true}` (padrão) sempre que a ordem importa de verdade — só etapas concluídas ficam clicáveis.
+
+</Faca>
+<Evite>
+
+Usar `status: "error"` pra qualquer aviso — reserve para quando a etapa realmente bloqueia o avanço.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<Stepper
+  steps={[{ label: 'Escopo' }, { label: 'Orçamento' }, { label: 'Aprovação', optional: true }]}
+  current={1}
+/>
+```
+
+## Guia de conteúdo
+
+- `label` é um substantivo curto ("Escopo"), não uma instrução ("Definir o escopo").
+- `hint` explica o que a etapa cobre em poucas palavras; some em `size="sm"`.
+
+## Guia de design
+
+**Estados.** `upcoming`/`current`/`done` são derivados do índice contra `current`; `error` e `disabled` vêm de
+`step.status` e sobrepõem o estado derivado.
+
+**Tokens.** Atual: anel `--ob-blue-100` ao redor de `--ob-blue`. Concluída: preenchida em `--ob-blue`. Erro:
+`--ob-danger`/`--ob-red-100`.
+
+**Motion.** Cor da linha entre marcadores e do rótulo faz transição em `--ob-dur-base`.

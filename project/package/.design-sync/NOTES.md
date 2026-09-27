@@ -19,6 +19,23 @@
 - **SEMPRE buscar `_ds_sync.json` remoto de novo antes de rodar `resync.mjs`** (`DesignSync(get_file, path: "_ds_sync.json")` → sobrescrever `.design-sync/.cache/remote-sync.json`). Em 2026-09-27 usei o cache local de uma sessão anterior sem atualizar, e o diff comparou contra um anchor de antes da reorganização em categorias (`primitives`/`general`), gerando um `deletePaths` gigante e errado. Nunca reusar `remote-sync.json` de sessão para sessão sem refazer o fetch.
 - Remoto tinha `ds/`, `package/` e `assets/` na raiz — upload manual de antes do formato atual do sync, fora dos globs (`ds/docs` nem existe mais localmente, virou docs-site). Removidos em 2026-09-27 com aprovação do usuário. Se voltar a aparecer algo assim fora do conjunto do sync, avisar antes de mexer.
 
+## Portagem de propostas (2026-09-27)
+
+13 propostas do Claude Design portadas de uma vez para `src/`: `Divider`, `List` (+ `ListItem`, `ListSubheader`,
+`ListDivider`), `Breadcrumbs`, `Textarea`, `NumberField`, `FileUpload`, `Autocomplete`, `Menu` (+ `ContextMenu`,
+`MenuPanel`), `Menubar` (+ `KeyList`), `Popover`, `Stepper`, `Timeline`, `TreeView`. Cada um já tem preview em
+`.design-sync/previews/<Nome>.tsx` (2-4 exemplos, seguindo a receita do skill), pronto pro próximo sync — nenhum
+sync foi rodado ainda para eles, então `_ds_sync.json` remoto não tem esses nomes e o próximo `resync.mjs` vai
+tratá-los como `added`, não `changed`.
+
+Pontos que o próximo sync deve conferir (não verificados aqui por não termos rodado o build-css/capture reais):
+- `Autocomplete`/`Popover`/`Menu`/`Menubar`: provável `[GRID_OVERFLOW]` nos exemplos com o painel aberto
+  (`open`/`defaultOpen: true`) — aplicar `cardMode: "single"` como já existe para Drawer/Modal/ToastStack.
+- `TreeView`: preview `Editavel` usa `draggable`; a alça e o "fantasma" que segue o cursor só aparecem em
+  interação real (pointer down), então a captura estática vai mostrar só a árvore parada — normal, não é bug.
+- `List`/`Menu` reexportam peças que não viram card próprio no site (`ListItem` etc.) nem devem virar
+  `proposals/` novas — já são parte oficial do `List`/`Menu`.
+
 ## Fluxo com o Claude Design (código é a fonte)
 - O sync é só código → Claude Design. Trabalho feito lá volta ao código por portagem manual.
 - O agente do Claude Design é orientado (pelo README gerado do `conventions.md`) a não editar as pastas geradas e a criar propostas em `proposals/<Nome>/`. A pasta `proposals/` não está nos globs de escrita/exclusão do sync, então não é apagada.

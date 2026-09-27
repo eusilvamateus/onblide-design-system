@@ -60,6 +60,19 @@ const descricoes = {
   BrandTile: 'Moldura com o logo de uma marca de terceiros.',
   Icons: 'Registro central de ícones da interface.',
   Ph: 'Componente base que renderiza qualquer glifo do Phosphor.',
+  Divider: 'Linha de separação entre blocos de conteúdo, com rótulo opcional.',
+  List: 'Linha de lista oficial, base do Select, Menu, Autocomplete e TreeView.',
+  Timeline: 'Eventos em ordem cronológica, para leitura.',
+  TreeView: 'Hierarquia que abre e fecha, com seleção, busca e edição.',
+  Textarea: 'Campo de texto de várias linhas, com contador de caracteres.',
+  NumberField: 'Campo numérico com incremento/decremento, limites e formato pt-BR.',
+  FileUpload: 'Envio de arquivos por arrastar/soltar ou seletor, com fila de progresso.',
+  Autocomplete: 'Campo de texto com lista de sugestões, seleção única ou múltipla.',
+  Breadcrumbs: 'Trilha de navegação com a hierarquia da página atual.',
+  Stepper: 'Indicador de etapas de um fluxo.',
+  Menubar: 'Barra fixa com vários menus lado a lado, padrão de app de edição.',
+  Popover: 'Conteúdo rico ancorado a um gatilho, não modal.',
+  Menu: 'Menu de comandos aberto a partir de um gatilho, com teclado completo.',
 };
 
 const titulos = {

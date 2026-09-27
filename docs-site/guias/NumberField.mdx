@@ -1,0 +1,51 @@
+---
+resumo: "Campo para valores numéricos, com incremento/decremento, limites, passo e formato pt-BR (vírgula decimal, ponto de milhar)."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do NumberField: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use para qualquer valor numérico com limites, passo ou formato — quantidade, preço, percentual. O `Input`
+comum aceita qualquer texto e não conhece mínimo, máximo nem o formato brasileiro; o `NumberField` conhece.
+
+<FacaEvite>
+<Faca>
+
+Usar `controls="split"` (− e + nas pontas) para quantidade em lista ou carrinho; `"stacked"` (▲▼) em
+formulários mais formais; `"none"` quando o valor raramente muda por clique.
+
+</Faca>
+<Evite>
+
+Deixar `clamp={false}` sem mostrar o erro de faixa — a pessoa digita um valor fora do limite e não entende
+por que não foi aceito.
+
+</Evite>
+</FacaEvite>
+
+## Composição
+
+Combina com **Slider** quando os dois representam o mesmo valor (um mostra a faixa, o outro o número exato).
+
+## Formatação
+
+```jsx
+<NumberField label="Quantidade" value={4} min={1} max={20} />
+<NumberField label="Valor" prefix="R$" decimals={2} />
+```
+
+## Guia de conteúdo
+
+- `prefix`/`suffix` seguem o padrão brasileiro: "R$" antes, "kg"/"%" depois.
+- Mensagem de erro por faixa é gerada automaticamente ("Use um valor entre X e Y"); só sobrescreva com `error`
+  para uma regra que o componente não sabe (ex.: múltiplo de 5).
+
+## Guia de design
+
+**Formato.** Sempre pt-BR: `1.234,5`. Ao focar, o ponto de milhar some, pra não atrapalhar a digitação; ao
+sair, volta.
+
+**Teclado.** ↑/↓ passo · Shift+↑/↓ passo ×10 · PageUp/PageDown `largeStep` · Home/End vai ao mínimo/máximo ·
+Enter formata sem sair do campo.

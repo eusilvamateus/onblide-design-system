@@ -1,0 +1,56 @@
+---
+resumo: "Campo de texto com lista de sugestões (padrão combobox do WAI-ARIA), com seleção única ou múltipla, texto livre, criação, agrupamento e opções locais ou remotas."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Autocomplete: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use quando a lista de opções é longa e a pessoa precisa digitar pra encontrar. Para uma lista curta e fechada
+(poucas opções, sem busca), `Select` continua sendo mais simples.
+
+Três modos: **`restrict`** (padrão, só valores da lista), **`free`** (qualquer texto) e **`creatable`** (lista
++ "Criar…" quando não há opção igual ao texto digitado). Múltipla + `free` vira campo de tags: Enter ou vírgula
+criam um Chip.
+
+<FacaEvite>
+<Faca>
+
+Usar `loadOptions` com `minChars` para listas grandes buscadas do servidor — evita disparar busca a cada letra.
+
+</Faca>
+<Evite>
+
+Modo `restrict` sem nenhuma opção padrão visível — a pessoa não sabe o que pode digitar até abrir a lista.
+
+</Evite>
+</FacaEvite>
+
+## Composição
+
+**FieldShell**, **FloatingPanel**, **List/ListItem** (opções), **Chip** (valores no campo, modo múltiplo),
+**Checkbox** (marca na lista, modo múltiplo), **Avatar**/**Ph** (ícone ou avatar por opção), **Spinner**
+(busca remota).
+
+## Formatação
+
+```jsx
+<Autocomplete options={pessoas} label="Responsável" placeholder="Digite para buscar…" />
+```
+
+## Guia de conteúdo
+
+- `emptyText` diz o que fazer, não só que não achou nada: "Nenhuma opção encontrada" é o padrão; adapte pro
+  contexto quando fizer sentido ("Nenhum cliente com esse nome").
+
+## Guia de design
+
+**Teclado.** ↑/↓ navegam pulando opções desabilitadas, Enter escolhe, Esc fecha (e, com a lista já fechada,
+limpa o campo); Backspace no campo vazio remove o último Chip (modo múltiplo).
+
+**Conclusão `inline`.** Completa com a primeira opção que bate, com o trecho sugerido selecionado; Enter ou
+Tab aceitam.
+
+**Um só ponto de foco.** O input recebe o foco sempre; as opções são anunciadas via `aria-activedescendant`, e
+o Checkbox embutido na lista fica `inert` — quem clica é o item, não o checkbox.

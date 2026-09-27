@@ -22,11 +22,11 @@ Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<catego
 | Categoria | Componentes |
 |---|---|
 | `actions` | Button, Link |
-| `forms` | Input, SearchInput, Select, Datepicker, CodeInput, Checkbox, Radio, RadioGroup, Switch, Slider, FieldShell |
+| `forms` | Input, SearchInput, Select, Datepicker, CodeInput, Checkbox, Radio, RadioGroup, Switch, Slider, FieldShell, Textarea, NumberField, FileUpload, Autocomplete |
 | `feedback` | Alert, Toast, ToastStack, ProgressBar, ProgressCircle, Spinner, Skeleton, StatusDot |
-| `overlays` | Modal, Drawer, Dropdown, Tooltip, FloatingPanel |
-| `navigation` | Tabs, SideNav, Pagination |
-| `data-display` | Table, Card, Avatar, Badge, Chip, DeadlineCalendar |
+| `overlays` | Modal, Drawer, Dropdown, Tooltip, FloatingPanel, Menu (+ ContextMenu, MenuPanel), Popover |
+| `navigation` | Tabs, SideNav, Pagination, Breadcrumbs, Stepper, Menubar (+ KeyList) |
+| `data-display` | Table, Card, Avatar, Badge, Chip, DeadlineCalendar, Divider, List (+ ListItem, ListSubheader, ListDivider), Timeline, TreeView |
 | `brand` | Logo, Brands, BrandTile |
 | `iconography` | Icons, Ph |
 
