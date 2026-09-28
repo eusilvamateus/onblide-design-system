@@ -81,3 +81,29 @@ arquivos restam em `proposals/`.
 for portada oficialmente para `src/`, a pasta correspondente em `proposals/<Nome>/` do remoto fica órfã até
 alguém apagar manualmente (como aqui) — vale perguntar ao usuário perto do fim de cada portagem se quer
 apagar a proposta de origem, em vez de deixar acumular.
+
+## `proposals/index.html` tem uma lista hardcoded — nunca se autocorrige
+
+`proposals/index.html` (a página-índice da seção) tem um array `items` **escrito à mão dentro do próprio
+HTML**, listando nome/grupo/descrição de cada proposta com link pra `<Nome>/index.html`. Apagar a pasta de
+uma proposta (`proposals/<Nome>/`) NÃO atualiza esse array — descoberto em 2026-09-28, quando as 13
+propostas portadas foram removidas mas `index.html` continuou linkando pra todas, com 13 links quebrados.
+**Toda vez que uma pasta é adicionada ou removida de `proposals/`, `proposals/index.html` precisa ser
+reescrito à mão junto** (é infraestrutura, não é gerado por nada — ver `proposals/_shell.jsx` e
+`proposals/README.md`, os outros dois arquivos de infraestrutura da seção).
+
+## Portagem de ButtonGroup e ToggleButton (2026-09-28)
+
+Duas propostas novas do Claude Design (`proposals/ButtonGroup/`, `proposals/ToggleButton/`), portadas para
+`src/actions/`. `ButtonGroup` compõe com `Button`/`ToggleButton`/`Tooltip`/`Menu` via introspecção de
+`children` (função `leaf()`/`patch()` que desce por `trigger` do Menu e por `children` do Tooltip pra achar
+o botão real) — mantida a mesma lógica do protótipo, só tipada. `@onblide/ui` 1.0.1 → 1.1.0 (minor).
+
+Sync: os dois pegaram `[GRID_OVERFLOW]` na primeira validação (`SelecaoUnica` do ButtonGroup e `Tamanhos` do
+ToggleButton mais largos que a célula do grid) — resolvido com `cardMode: "column"` nos dois em
+`config.json`, igual a outros componentes largos. Depois do rebuild direcionado, as duas sheets (5 células
+cada) grades `good` em tudo — sem re-render check pendente.
+
+Como parte da mesma sessão, apaguei as duas pastas de propostas (`proposals/ButtonGroup/`,
+`proposals/ToggleButton/`) e reescrevi `proposals/index.html` com a lista vazia (ver seção acima) — os dois
+já são componentes oficiais, não precisam mais existir como proposta.

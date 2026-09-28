@@ -79,6 +79,12 @@
     "Popover": {
       "cardMode": "single",
       "primaryStory": "Padrao"
+    },
+    "ButtonGroup": {
+      "cardMode": "column"
+    },
+    "ToggleButton": {
+      "cardMode": "column"
     }
   }
 }
