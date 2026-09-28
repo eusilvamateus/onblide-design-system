@@ -59,3 +59,20 @@ Sync feito em 2026-09-27 (58 componentes no ar). O que apareceu de verdade, pra 
 - Antes de cada sync: `DesignSync(list_files)` e conferir arquivos remotos fora do conjunto enviado (ignorar `_adherence.oxlintrc.json`, `_ds_manifest.json`, `support.js`, gerados pelo app); avisar o usuário do que for novo. Edições dentro das pastas geradas só se detectam baixando os arquivos um a um.
 - Para trazer uma proposta: ler `proposals/<Nome>/` (poucos arquivos), portar para `project/package/src/<categoria>/<Nome>/`, exemplo em `.design-sync/previews/`, changeset, `npm run verify`, release e sync.
 - Ícones: os seis pesos do Phosphor entram pelo `src/styles.css` (build-css.mjs empacota todos; `fonts/` leva Phosphor, Phosphor-Bold, -Fill, -Light, -Thin e -Duotone). Papel de cada peso: ver CLAUDE.md e docs-site › Fundações › Iconografia.
+
+## Re-sync de 2026-09-28 (remoção do DeadlineCalendar)
+
+DeadlineCalendar foi removido do pacote (breaking, `@onblide/ui` 1.0.0) numa sessão anterior, mas o sync só
+rodou depois — o anchor remoto (`_ds_sync.json`) ainda listava o componente. Resync driver confirmou: 57
+componentes `unchanged` (verified-by-upload, sem recaptura), 0 changed, 0 added, 1 `removed`
+(`DeadlineCalendar`). `upload.deletePaths` trouxe os 6 arquivos certos; `_preview/DeadlineCalendar.css` não
+existia remoto (previews só emitem `.js`) e a deleção seguiu sem esse path, como esperado. Nenhum warning novo
+além dos já catalogados em "Known render warns". `list_files` pós-upload confirma zero resquício.
+
+**Observação à parte, não tratada nesta sessão:** o remoto ainda tem `proposals/Autocomplete`,
+`proposals/Breadcrumbs`, `proposals/Divider`, `proposals/FileUpload`, `proposals/List`, `proposals/Menu`,
+`proposals/Menubar`, `proposals/NumberField`, `proposals/Popover`, `proposals/Stepper`, `proposals/Textarea`,
+`proposals/Timeline`, `proposals/TreeView` — as 13 propostas portadas em 2026-09-27, que já viraram
+componentes oficiais e não deveriam mais precisar existir como proposta. `proposals/` está fora dos globs do
+sync (nunca é limpo automaticamente); avisar o usuário antes de apagar, já que pode haver conteúdo lá que ele
+ainda não conferiu.
