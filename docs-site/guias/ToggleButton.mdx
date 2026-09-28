@@ -1,0 +1,66 @@
+---
+resumo: "Botão com dois estados (pressionado / não pressionado) que aplica o efeito na hora, com `aria-pressed`. Visualmente é um Button; semanticamente é um toggle. Dentro de um **ButtonGroup**, vira seleção única ou múltipla."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do ToggleButton: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use para ligar ou desligar uma opção que aplica na hora: fixar, seguir, mostrar arquivados, formatação de
+texto. Sozinho, alterna uma única opção. Dentro de `ButtonGroup`, forma seleção única ou múltipla.
+
+### Quando usar
+
+- **ToggleButton**: modo da tela atual, aplicado na hora do clique (fixar, favoritar, formatação).
+- **Switch**: preferência ou configuração que continua valendo depois, em formulários e painéis de ajustes.
+- **Checkbox**: valor de formulário que só vale ao enviar.
+- **Tabs pill**: troca o painel de conteúdo mostrado; se o clique muda o que está abaixo, é Tabs, não ToggleButton.
+
+<FacaEvite>
+<Faca>
+
+Manter o rótulo igual nos dois estados ("Negrito"), nunca descrever a ação ("Ativar negrito"/"Desativar negrito").
+
+</Faca>
+<Evite>
+
+Usar para uma preferência de configuração que só faz efeito depois de salvar: para isso, `Checkbox` ou `Switch`.
+
+</Evite>
+</FacaEvite>
+
+### Composição com outros componentes
+
+- **ButtonGroup**: vários `ToggleButton` formam seleção única (`selection="single"`) ou múltipla (`selection="multiple"`).
+- **Tooltip**: obrigatório quando o botão é só ícone, repetindo o rótulo que falta visualmente.
+
+## Formatação
+
+```jsx
+<ToggleButton icon="push-pin" defaultPressed>Fixar</ToggleButton>
+<ToggleButton appearance="ghost" icon="star" fillWhenPressed pressed={fav} onChange={setFav} ariaLabel="Favoritar" />
+```
+
+## Guia de conteúdo
+
+- Rótulo: verbo ou substantivo curto, nunca muda com o estado. "Fixar", "Seguir", "Negrito".
+- Só ícone: sempre com `ariaLabel` e um `Tooltip` repetindo o mesmo texto.
+- Evite "Ativar"/"Desativar" no rótulo, o estado pressionado já comunica.
+
+## Guia de design
+
+**Tokens.** `outline` pressionado: `--ob-blue-050` (fundo) / `--ob-blue` (borda e texto), hover `--ob-blue-100`.
+`ghost` pressionado: `--ob-blue-100` (fundo) / `--ob-blue-700` (texto), sem borda. Hover não pressionado, nas
+duas variações: `--ob-line-soft`.
+
+**Tamanhos.** Mesmos três tamanhos do `Button` (sm/md/lg), para alinhar lado a lado em `ButtonGroup`.
+
+**Motion.** Transição de fundo, cor e borda em 160ms (`--ob-ease`). Sem escala ou bounce ao pressionar.
+
+<Nota>
+
+**Acessibilidade:** `aria-pressed` no estado padrão; dentro de `ButtonGroup selection="single"`, o `ButtonGroup`
+troca para `role="radio"` com `aria-checked` e roving tabindex. Foco com `:focus-visible` e anel `--ob-focus-ring`.
+
+</Nota>

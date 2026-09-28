@@ -1,0 +1,61 @@
+---
+resumo: "Agrupa `Button`/`ToggleButton` relacionados, com bordas, cantos e espaçamento consistentes. Anexado, os botões formam um bloco único; espaçado, mantém a distância padrão entre ações. Com `ToggleButton`, o grupo controla seleção única ou múltipla."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do ButtonGroup: uso e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use para reunir ações relacionadas (navegação, formatação, seleção de modo) num bloco visual único, em vez de
+espalhar `Button`s soltos. Três papéis: ações independentes, split button (ação principal + `Menu`) e seleção
+com `ToggleButton` (única ou múltipla).
+
+<FacaEvite>
+<Faca>
+
+Usar `selection="single"` (vira `radiogroup`) para trocar um valor ou modo: visualização, alinhamento, período.
+
+</Faca>
+<Evite>
+
+Confundir com `Tabs` pill: `Tabs` troca o painel de conteúdo abaixo; `ButtonGroup` com seleção só muda um valor.
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **Button**: filhos padrão para ações independentes ou split button.
+- **ToggleButton**: filhos quando `selection` está definido.
+- **Menu**: gatilho como último filho, para split button (ação principal + mais opções).
+- **Tooltip**: em cada filho só ícone.
+
+## Formatação
+
+```jsx
+<ButtonGroup kind="secondary" ariaLabel="Navegar">
+  <Button icon={<Ph n="caret-left" size={16} />} aria-label="Anterior" />
+  <Button>Hoje</Button>
+  <Button icon={<Ph n="caret-right" size={16} />} aria-label="Próximo" />
+</ButtonGroup>
+
+<ButtonGroup selection="single" value={view} onChange={setView} ariaLabel="Visualização">
+  <ToggleButton value="lista" icon="list-bullets">Lista</ToggleButton>
+  <ToggleButton value="quadro" icon="kanban">Quadro</ToggleButton>
+</ButtonGroup>
+```
+
+## Guia de design
+
+**Attached.** Pontas com `--ob-r-control`; botões com borda sobrepõem 1.5px; kinds sólidos usam uma divisória
+clara de 1px em vez de dobrar a borda.
+
+**Espaçado.** Gap de `--ob-s-2` entre os filhos; aceita `justify` (`start`/`end`/`between`), útil no rodapé de
+`Modal` e `Drawer`.
+
+**Seleção.** `selection="single"` vira `radiogroup`: foco em roving tabindex, setas movem e selecionam,
+pulando itens desabilitados. `selection="multiple"` mantém cada `ToggleButton` independente, sem `radiogroup`.
+
+**Estados.** `disabled` no grupo desabilita todos os filhos; um filho pode desabilitar sozinho. Hover, foco e
+pressionado continuam sendo do próprio `Button`/`ToggleButton`.

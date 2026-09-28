@@ -1,11 +1,15 @@
 [
   {
-    "id": "ob-skeleton-kf",
-    "css": "@keyframes ob-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }"
-  },
-  {
     "id": "ob-tip-kf",
     "css": "@keyframes ob-tip { from { opacity: 0; } }"
+  },
+  {
+    "id": "ob-buttongroup-split-css",
+    "css": "[data-bg-split]>*{display:flex!important;align-items:stretch}[data-bg-split]>*>span{display:flex!important;align-items:stretch}[data-bg-split]>*>span>button{height:auto!important;align-self:stretch}"
+  },
+  {
+    "id": "ob-skeleton-kf",
+    "css": "@keyframes ob-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }"
   },
   {
     "id": "ob-spin-kf",

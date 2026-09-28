@@ -72,6 +72,8 @@ const descricoes = {
   Menubar: 'Barra fixa com vários menus lado a lado, padrão de app de edição.',
   Popover: 'Conteúdo rico ancorado a um gatilho, não modal.',
   Menu: 'Menu de comandos aberto a partir de um gatilho, com teclado completo.',
+  ToggleButton: 'Botão com dois estados, pressionado e não pressionado, com aria-pressed.',
+  ButtonGroup: 'Agrupa Buttons ou ToggleButtons relacionados, anexados ou espaçados.',
 };
 
 const titulos = {
@@ -89,6 +91,8 @@ const titulos = {
   ResetAoEnviar: 'Reset ao enviar', Rolavel: 'Rolável', Selecionavel: 'Selecionável', SemBotaoEnviar: 'Sem botão de enviar',
   SemDescricao: 'Sem descrição', Simples: 'Simples', Sombra: 'Com sombra', Sucesso: 'Sucesso', Tamanhos: 'Tamanhos',
   TamanhosECores: 'Tamanhos e cores', Texto: 'Texto', Tons: 'Tons', Variantes: 'Variantes', Vazio: 'Vazio',
+  Aparencia: 'Aparência', SoIcone: 'Só ícone', Anexado: 'Anexado', Espacado: 'Espaçado',
+  SelecaoUnica: 'Seleção única', SelecaoMultipla: 'Seleção múltipla', SplitButton: 'Split button',
 };
 
 // Remove só as anotações de tipo (o editor ao vivo entende JSX, não TypeScript), preservando o texto original.

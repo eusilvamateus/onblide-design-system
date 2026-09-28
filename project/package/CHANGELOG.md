@@ -1,5 +1,13 @@
 # @onblide/ui
 
+## 1.1.0
+
+### Minor Changes
+
+- Adiciona `ToggleButton` (botão com dois estados, pressionado e não pressionado, com `aria-pressed`) e
+  `ButtonGroup` (agrupa `Button`/`ToggleButton` relacionados, anexados ou espaçados, com split button via
+  `Menu` e seleção única ou múltipla via `ToggleButton`).
+
 ## 1.0.1
 
 ### Patch Changes
