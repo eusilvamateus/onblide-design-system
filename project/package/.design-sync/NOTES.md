@@ -69,10 +69,15 @@ componentes `unchanged` (verified-by-upload, sem recaptura), 0 changed, 0 added,
 existia remoto (previews só emitem `.js`) e a deleção seguiu sem esse path, como esperado. Nenhum warning novo
 além dos já catalogados em "Known render warns". `list_files` pós-upload confirma zero resquício.
 
-**Observação à parte, não tratada nesta sessão:** o remoto ainda tem `proposals/Autocomplete`,
-`proposals/Breadcrumbs`, `proposals/Divider`, `proposals/FileUpload`, `proposals/List`, `proposals/Menu`,
-`proposals/Menubar`, `proposals/NumberField`, `proposals/Popover`, `proposals/Stepper`, `proposals/Textarea`,
-`proposals/Timeline`, `proposals/TreeView` — as 13 propostas portadas em 2026-09-27, que já viraram
-componentes oficiais e não deveriam mais precisar existir como proposta. `proposals/` está fora dos globs do
-sync (nunca é limpo automaticamente); avisar o usuário antes de apagar, já que pode haver conteúdo lá que ele
-ainda não conferiu.
+**Resolvido em 2026-09-28:** as 13 pastas de propostas já portadas (`Autocomplete`, `Breadcrumbs`,
+`Divider`, `FileUpload`, `List`, `Menu`, `Menubar`, `NumberField`, `Popover`, `Stepper`, `Textarea`,
+`Timeline`, `TreeView` — 37 arquivos) foram removidas do remoto a pedido do usuário, via `finalize_plan`/
+`delete_files` direto (fora do fluxo normal do sync, já que `proposals/` está fora dos globs de
+escrita/exclusão). Mantida a infraestrutura da seção — `proposals/README.md`, `proposals/_shell.jsx`,
+`proposals/index.html` — pronta pra próxima proposta. Confirmado com `list_files` pós-deleção: só esses 3
+arquivos restam em `proposals/`.
+
+**Lembrete permanente:** `proposals/` nunca é limpa pelo sync normal (`resync.mjs`). Quando uma proposta
+for portada oficialmente para `src/`, a pasta correspondente em `proposals/<Nome>/` do remoto fica órfã até
+alguém apagar manualmente (como aqui) — vale perguntar ao usuário perto do fim de cada portagem se quer
+apagar a proposta de origem, em vez de deixar acumular.
