@@ -47,3 +47,10 @@ npm run build
 Depois, seguir o fluxo de release em [`fluxo-git-releases`](../decisions/0006-adotar-tag-e-github-release-por-versao.md):
 mesclar `dev` em `main` por fast-forward, criar a tag `vX.Y.Z` (e, por compatibilidade com o histórico
 anterior, também `onblide-ui@X.Y.Z`) e publicar um GitHub Release.
+
+**Antes de comitar a release, rode `npm run build` em `docs-site/`.** `docs-site/package.json` referencia o
+pacote via `"@onblide/ui": "file:../project/package"`, que o npm resolve como *symlink*
+(`docs-site/node_modules/@onblide/ui` aponta direto pra `project/package`). O `docs-site/package-lock.json`
+grava a versão resolvida desse link; se o build do docs-site rodar só depois do commit da release, o npm
+corrige esse campo sozinho no build seguinte e deixa um diff de uma linha sem dono. Rodar o build do
+docs-site como parte da mesma sequência que gera a release evita esse resto solto.
