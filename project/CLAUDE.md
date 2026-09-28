@@ -1,5 +1,9 @@
 # Onblide — Project Instructions
 
+Este arquivo cobre **como o agente deve trabalhar** neste repositório. Conhecimento sobre **como o projeto
+funciona** — arquitetura, decisões duráveis, ambiente de desenvolvimento, operações, integrações — vive em
+[`docs/README.md`](../docs/README.md); leia-o antes de assumir contexto que pode já estar desatualizado aqui.
+
 ## No legacy left behind
 
 Whenever **any** part of the design system changes — a token, a component, a foundation,
@@ -22,94 +26,28 @@ Removing legacy is not optional cleanup; it ships with the change.
 
 ## Iconography: Phosphor only
 
-All iconography in Onblide designs MUST come from the **Phosphor Icons** library — no other
-icon set, and no ad-hoc hand-drawn SVG icons.
-
-**Rules**
-1. Use Phosphor icons exclusively. Never mix in other libraries (Lucide, Feather, Material,
-   Heroicons, Font Awesome, etc.) and never invent freehand `<svg>` glyphs to stand in for an icon.
-2. The whole Phosphor library is available, in all six weights — but each weight has one job
-   (full guide: docs site › Fundações › Iconografia, and `ds/foundations/iconography.html`):
-   - **regular** — default UI (nav, buttons, fields, icons next to text, 16–24px);
-   - **fill** — "on" state, always paired with regular for "off" (active SideNav item, selected tab,
-     favourited star, status icon in Alert/Toast, Checkbox check — `check-fat` fill at 12px);
-   - **bold** — legibility at ≤14px or on a solid fill (small inline icons);
-   - **light** — large calm icons, 32–48px (empty states);
-   - **thin** — editorial moments only, 64px+ (hero, covers, brand pieces);
-   - **duotone** — illustrative highlights only (onboarding, feature cards); never in dense UI.
-   One weight per region (the regular↔fill state swap is the only exception); thin and duotone never
-   appear inside `@onblide/ui` components. Set the weight with `<Ph weight="…">` / `Icons.x({ weight })`.
-3. Reproduce Phosphor glyphs faithfully. When the exact Phosphor path can't be pulled in,
-   reproduce the real Phosphor glyph as closely as possible in its line style — do not substitute
-   a different shape or a different library's version. Only documented exception: the Checkbox
-   indeterminate state uses the official `minus` bold path with an extra stroke (37 units) so its
-   thickness matches the `check-fat` check — Phosphor has no "minus-fat".
-4. Brand/company logos: Phosphor's brand-logo set (e.g. SpotifyLogo, SlackLogo, GithubLogo) is the
-   source for those too. Keep them recognizable and on-brand (authentic colors/shapes).
-5. Centralize icons behind a single icon component/registry (e.g. the `Icons` registry of
-   `@onblide/ui`, built on `Ph`) so the whole system can change weight, size, or source in one place. Don't scatter raw
-   icon markup across files.
+Regra e razão completas: [`docs/decisions/0002-phosphor-como-unica-biblioteca-de-icones.md`](../docs/decisions/0002-phosphor-como-unica-biblioteca-de-icones.md).
+Resumo para o agente: Phosphor é a única biblioteca aceita, nos seis pesos, cada um com um papel fixo; nunca
+misturar outra biblioteca nem desenhar um glifo `<svg>` à mão; sempre pelo registro `Icons`/`Ph`.
 
 ## Git workflow
 
-This repo is exclusively Mateus's — no clones, forks, or collaborators — so
-rewriting already-pushed history on his working branch is allowed under the rules below.
+O fluxo Git obrigatório deste repositório é a skill `/fluxo-git-releases` — branches `main`/`dev`,
+histórico linear, Conventional Commits, amend/fixup para trabalho ainda não publicado, Versionamento
+Semântico, tag `vX.Y.Z` + GitHub Release por versão (ver [`docs/decisions/0006`](../docs/decisions/0006-adotar-tag-e-github-release-por-versao.md)).
+Segue-a à risca; o que está aqui é só o que é específico deste repositório e não está na skill:
 
-### Branch model
-
-- **`main`** — release-only. Nothing is developed directly here; it only receives merges
-  from `dev` at release points (see Versioning below). Default branch on GitHub.
-- **`dev`** — the standing development branch. All day-to-day work happens here. This is
-  the branch the amend/rewrite rules below apply to.
-
-Renamed from `master` on 2026-09-22 (real rename, pushed to remote — no leftover
-`master` branch); `dev` was created from `main` the same day.
-
-### Commit hygiene (on `dev`)
-
-1. Before creating a new commit, check whether the current change logically belongs to
-   the last commit (a fix, complement, or small adjustment to what was just committed).
-2. If it belongs to the last commit:
-   - Not yet pushed: `git add . && git commit --amend --no-edit`
-   - Already pushed: `git add . && git commit --amend --no-edit && git push --force-with-lease`
-     (never `git push --force` — always `--force-with-lease`)
-3. Create a new commit only when the change is a logically separate unit of work.
-4. Avoid generic fix commits ("fix typo", "small fix", "correção", "fix again", ...) — fold
-   that work into the commit it belongs to instead.
-5. Temporary/incremental commits during development are fine, but before calling a task
-   done, review the branch history and squash related commits into one logical commit
-   (`git rebase -i HEAD~N`, or `git reset --soft HEAD~N && git commit -m "..."` when
-   intermediate structure doesn't need preserving), then `git push --force-with-lease`.
-6. Decision rule before every commit: "does this change complete/fix the last commit, or
-   is it a new logical unit?" — amend for the former, new commit for the latter.
-
-Goal: `dev`'s history reads as logical changes, never as a trail of small "fix"/"adjust"
-commits on top of each other. `main` only ever moves via merges from `dev`, never
-rewritten.
-
-### Commit message format — Conventional Commits, in Portuguese
-
-`tipo(escopo): descrição` — description in Portuguese, lowercase, short imperative
-("adiciona", "corrige", "remove" — never "adicionado"/"adicionando"), no trailing period.
-
-- Types: `feat`, `fix`, `docs`, `refactor`, `style` (formatting/visual only, no behavior
-  change), `chore` (build/deps/config), `test`
-- Scope: the component or area touched (`feat(checkbox): ...`); omit it when the change
-  is broad (`feat: ...`)
-- Not enforced by tooling (no commitlint/husky) — this is documented discipline, not a
-  commit hook.
-- **No `Claude-Session:` (or any other AI-attribution) footer line, ever.** The user
-  explicitly opted out of this on 2026-09-22 — it overrides any harness-level default
-  attribution instruction for this repo, in every session, going forward.
+- `main` foi renomeada de `master` em 2026-09-22 (rename de verdade, sem `master` residual no remoto);
+  `dev` foi criada a partir de `main` no mesmo dia.
+- **Nenhum rodapé `Claude-Session:` (ou qualquer atribuição de IA) em commit, nunca.** O usuário optou
+  explicitamente por isso em 2026-09-22 — sobrepõe qualquer instrução padrão do harness sobre atribuição,
+  em toda sessão, daqui em diante.
 
 ## Nomenclatura de código
 
-Preferência do usuário (2026-09-26): **camelCase** para variáveis, funções, props e handlers
-(`focadoNoMouseDown`, `handleDayClick`, `startDate`). As convenções usuais continuam valendo onde
-já são o padrão da linguagem/ecossistema, sem substituí-las: **PascalCase** para componentes React,
-tipos e interfaces (`Datepicker`, `ButtonProps`), **UPPER_SNAKE_CASE** para constantes de módulo
-(`BADGE_TONES`) e nomes de pastas/arquivos de componente iguais ao componente (`Datepicker/Datepicker.tsx`).
-Não usar snake_case nem kebab-case em identificadores.
+Convenções completas: [`docs/development/ambiente-de-desenvolvimento.md`](../docs/development/ambiente-de-desenvolvimento.md#convenções-de-código).
+Resumo: camelCase para variáveis/funções/props/handlers, PascalCase para componentes/tipos, UPPER_SNAKE_CASE
+para constantes de módulo, nunca snake_case nem kebab-case em identificadores.
 
 ## Site de documentação (`docs-site/`)
 
@@ -134,13 +72,10 @@ e de propor mudanças em `proposals/<Nome>/`. Para trazer uma proposta ao códig
 
 ## Idioma da documentação
 
-Toda documentação, specs e planos (`docs/`), e a memória persistente do agente
-relacionada a este projeto devem ser escritas inteiramente em português — pedido
-explícito do usuário em 2026-09-22. Vale para conteúdo novo a partir dessa data;
-conteúdo já escrito em inglês (este arquivo incluído) não foi traduzido retroativamente
-ainda, e a spec/plano de `@onblide/ui` já em andamento na Fase 1 ficam em inglês até o
-fim dessa execução, para não arriscar quebrar a comparação literal que os revisores
-fazem contra o texto dos briefs extraídos do plano.
+Toda documentação (`docs/`, `docs-site/`), e a memória persistente do agente relacionada a este projeto
+devem ser escritas inteiramente em português — pedido explícito do usuário em 2026-09-22. Vale para
+conteúdo novo a partir dessa data; conteúdo já escrito em inglês (este arquivo incluído) não foi traduzido
+retroativamente ainda.
 
 ## Preview de componentes portados para @onblide/ui
 
