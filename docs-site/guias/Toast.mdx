@@ -1,5 +1,5 @@
 ---
-resumo: "Notificação flutuante e efêmera que confirma ações ou informa eventos em segundo plano. É simétrica — sem borda direcional — e pode ser ancorada em qualquer um dos 6 cantos/centros. Some sozinha após ~4,5 s. Compõe com **Alert** — use Alert quando a mensagem deve persistir."
+resumo: "Notificação flutuante e efêmera que confirma ações ou informa eventos em segundo plano. É simétrica (sem borda direcional) e pode ser ancorada em qualquer um dos 6 cantos/centros. Some sozinha após ~4,5 s. Compõe com **Alert**: use Alert quando a mensagem deve persistir."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
@@ -11,20 +11,20 @@ Use o Toast para confirmar ações concluídas com sucesso ou notificar eventos 
 
 ### Quando usar
 
-- **Sucesso** — "Tarefa concluída", "Arquivo salvo", "Publicado".
-- **Info** — evento em background: "Sincronizando com Spotify…".
-- **Aviso** — condição que o usuário deve notar mas que não bloqueia.
-- **Perigo** — falha que aconteceu, com opção de retry.
+- **Sucesso**: "Tarefa concluída", "Arquivo salvo", "Publicado".
+- **Info**: evento em background: "Sincronizando com Spotify…".
+- **Aviso**: condição que o usuário deve notar mas que não bloqueia.
+- **Perigo**: falha que aconteceu, com opção de retry.
 
 <FacaEvite>
 <Faca>
 
-Empilhe toasts cronologicamente. Limit de 3 simultâneos — remova o mais antigo ao exceder.
+Empilhe toasts cronologicamente. Limite de 3 simultâneos: remova o mais antigo ao exceder.
 
 </Faca>
 <Evite>
 
-Toast para erros que bloqueiam o fluxo — o usuário pode não ver antes de ele sumir. Use Alert.
+Toast para erros que bloqueiam o fluxo. O usuário pode não ver antes de ele sumir. Use Alert.
 
 </Evite>
 </FacaEvite>
@@ -36,7 +36,7 @@ Toast para erros que bloqueiam o fluxo — o usuário pode não ver antes de ele
 
 ## Formatação
 
-Largura responsiva (máx. 400px; em mobile ocupa a viewport menos 24px). Sinal de cor pelo **chip de ícone** tonal — sem borda lateral direcional. Stacking vertical com gap de 10px (máximo 3 simultâneos). Posição configurável via `ToastStack position`; padrão `bottom-right` no desktop, sempre `bottom-center` em mobile (\<600px).
+Largura responsiva (máx. 400px; em mobile ocupa a viewport menos 24px). Sinal de cor pelo **chip de ícone** tonal, sem borda lateral direcional. Stacking vertical com gap de 10px (máximo 3 simultâneos). Posição configurável via `ToastStack position`; padrão `bottom-right` no desktop, sempre `bottom-center` em mobile (\<600px).
 
 ```jsx
 <ToastStack position="bottom-right" />   // monte uma vez na raiz do app
@@ -53,23 +53,23 @@ window.obToast({
 
 - Título: confirmação no passado. "Tarefa concluída", "Publicado", "Removido".
 - Corpo: opcional, detalhe do que aconteceu. Máximo 2 linhas.
-- CTA de desfazer: "Desfazer" — só disponível por 4 s (antes do auto-dismiss).
+- CTA de desfazer: "Desfazer", disponível só por 4 s (antes do auto-dismiss).
 - Sem ponto final no título de uma linha.
 - Voz Onblide: confirmação direta e positiva. Evite passiva: "O arquivo foi salvo" → "Arquivo salvo".
 
 ## Guia de design
 
-**Tokens.** Fundo `--ob-surface`, borda `--ob-border` (uniforme, 1px em todos os lados — sem acento lateral). Chip de ícone `30×30px` com fundo `OB_TONES[tone].bg` e ícone na cor `.fg`. Raio `--ob-r-surface`. Sombra `--ob-shadow-lg`.
+**Tokens.** Fundo `--ob-surface`, borda `--ob-border` (uniforme, 1px em todos os lados, sem acento lateral). Chip de ícone `30×30px` com fundo `OB_TONES[tone].bg` e ícone na cor `.fg`. Raio `--ob-r-surface`. Sombra `--ob-shadow-lg`.
 
-**Ícone.** O chip tonal carrega todo o sinal de cor — contido e simétrico, sem reforçar direção de origem. Ícone Phosphor 17px centralizado no chip, e o chip é centralizado verticalmente no toast (mesmo com corpo de 2 linhas). O botão fechar fica alinhado ao topo.
+**Ícone.** O chip tonal carrega todo o sinal de cor: contido e simétrico, sem reforçar direção de origem. Ícone Phosphor 17px centralizado no chip, e o chip é centralizado verticalmente no toast (mesmo com corpo de 2 linhas). O botão fechar fica alinhado ao topo.
 
-**Motion.** Animação **vertical** — nunca horizontal. Âncoras de topo: `translateY(-16px) → 0`; âncoras de base: `translateY(16px) → 0`. 200ms `cubic-bezier(0.16,1,0.3,1)` (ease-out limpo, sem bounce); saída inverte o mesmo eixo. Como o eixo é sempre vertical, qualquer âncora horizontal (left/center/right) fica coerente. Hover pausa o timer de auto-dismiss.
+**Motion.** Animação sempre **vertical**, nunca horizontal. Âncoras de topo: `translateY(-16px) → 0`; âncoras de base: `translateY(16px) → 0`. 200ms `cubic-bezier(0.16,1,0.3,1)` (ease-out limpo, sem bounce); saída inverte o mesmo eixo. Como o eixo é sempre vertical, qualquer âncora horizontal (left/center/right) fica coerente. Hover pausa o timer de auto-dismiss.
 
-**Empilhamento.** O toast novo sempre nasce na **origem** (a borda ancorada) e empurra os anteriores para longe dela: em âncoras de topo o mais recente fica no topo; em âncoras de base, embaixo. Máximo 3 simultâneos — o mais antigo sai ao exceder.
+**Empilhamento.** O toast novo sempre nasce na **origem** (a borda ancorada) e empurra os anteriores para longe dela: em âncoras de topo o mais recente fica no topo; em âncoras de base, embaixo. Máximo 3 simultâneos; o mais antigo sai ao exceder.
 
-**Posicionamento.** 6 âncoras via `ToastStack position`. Centralização horizontal fica no container do stack (`translateX(-50%)`), separada da animação vertical de cada toast — sem conflito de transform.
+**Posicionamento.** 6 âncoras via `ToastStack position`. Centralização horizontal fica no container do stack (`translateX(-50%)`), separada da animação vertical de cada toast, sem conflito de transform.
 
-**Mobile (\<600px).** O toast vira full-width (viewport menos 24px), mas a **âncora vertical é preservada** — top continua top, bottom continua bottom. Diretriz (Mobbin): prefira **bottom** quando o toast tem ação, pelo alcance do polegar; use **top** para notificações passivas que não devem competir com a navegação inferior. O empilhamento parte sempre da borda ancorada.
+**Mobile (\<600px).** O toast vira full-width (viewport menos 24px), mas a **âncora vertical é preservada**: top continua top, bottom continua bottom. Diretriz (Mobbin): prefira **bottom** quando o toast tem ação, pelo alcance do polegar; use **top** para notificações passivas que não devem competir com a navegação inferior. O empilhamento parte sempre da borda ancorada.
 
 ## Toast vs Modal de diálogo
 

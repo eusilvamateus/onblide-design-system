@@ -11,14 +11,14 @@ Use Table para dados estruturados com 3+ colunas onde o usuário precisa escanea
 
 ### Quando usar cada feature
 
-- **Seleção** (`selectable`) — quando há ações em lote: excluir, exportar, mover selecionados.
-- **Ordenação** (`sortable` por coluna) — quando a ordem importa para o usuário (data, valor, status). Sem `onSort`,
+- **Seleção** (`selectable`): quando há ações em lote, como excluir, exportar ou mover selecionados.
+- **Ordenação** (`sortable` por coluna): quando a ordem importa para o usuário (data, valor, status). Sem `onSort`,
   a Table ordena as linhas sozinha ao clicar no cabeçalho (crescente → decrescente → sem ordenação), reconhecendo
-  data em `dd/mm/aaaa`, número e texto. Use `onSort` só quando quem busca os dados precisa decidir a ordenação —
-  paginação no servidor, por exemplo — caso em que a Table para de ordenar sozinha e só avisa qual coluna foi
+  data em `dd/mm/aaaa`, número e texto. Use `onSort` só quando quem busca os dados precisa decidir a ordenação,
+  como numa paginação no servidor; nesse caso a Table para de ordenar sozinha e só avisa qual coluna foi
   clicada.
-- **Loading skeleton** (`loading`) — sempre que os dados vêm de requisição assíncrona.
-- **Estado vazio** (`emptyState`) — nunca deixe a tabela simplesmente sem linhas; oriente o próximo passo.
+- **Loading skeleton** (`loading`): sempre que os dados vêm de requisição assíncrona.
+- **Estado vazio** (`emptyState`): nunca deixe a tabela simplesmente sem linhas, oriente o próximo passo.
 
 <FacaEvite>
 <Faca>
@@ -28,7 +28,7 @@ Coluna de nome/título sempre em negrito (`bold: true`). Use `render` para Badge
 </Faca>
 <Evite>
 
-Mais de 7 colunas sem scroll horizontal. Tabela em mobile sem adaptação — prefira cards verticais abaixo de 640 px.
+Mais de 7 colunas sem scroll horizontal. Tabela em mobile sem adaptação: prefira cards verticais abaixo de 640 px.
 
 </Evite>
 </FacaEvite>
@@ -57,7 +57,7 @@ Mais de 7 colunas sem scroll horizontal. Tabela em mobile sem adaptação — pr
 />
 ```
 
-Sem `onSort`, é só isso — clicar em "Prazo" já ordena. Com dados paginados no servidor, controle a ordenação você
+Sem `onSort`, é só isso, clicar em "Prazo" já ordena. Com dados paginados no servidor, controle a ordenação você
 mesmo:
 
 ```jsx
@@ -73,12 +73,12 @@ Tipo `Column`: `{ key, label, bold?, sortable?, width?, render?: (value, row) =>
 
 ## Guia de conteúdo
 
-- Cabeçalhos: substantivos curtos. "Tarefa", "Status", "Prazo" — nunca verbos.
+- Cabeçalhos: substantivos curtos. "Tarefa", "Status", "Prazo", nunca verbos.
 - Coluna de nome: sempre a primeira, em negrito, com o identificador principal do item.
 - Status: use Badge com tom semântico (green=concluído, blue=andamento, orange=pendente, red=atrasado).
-- Datas: formato "dd mmm" (ex: "04 jun") — compacto e legível.
+- Datas: formato "dd mmm" (ex: "04 jun"), compacto e legível.
 - Estado vazio: inclua um CTA. "Nenhuma tarefa encontrada. Criar tarefa."
-- Estado de loading: skeleton automático — não adicione texto.
+- Estado de loading: skeleton automático, não adicione texto.
 
 ## Guia de design
 

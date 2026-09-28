@@ -1,5 +1,5 @@
 ---
-resumo: "Linha de separação entre blocos de conteúdo, com rótulo opcional. Substitui as bordas soltas que cada componente desenhava por conta própria — inclusive o `ListDivider`, que é um Divider por baixo."
+resumo: "Linha de separação entre blocos de conteúdo, com rótulo opcional. Substitui as bordas soltas que cada componente desenhava por conta própria, inclusive o `ListDivider`, que é um Divider por baixo."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
@@ -7,7 +7,7 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os de
 
 ## Uso
 
-Use para separar seções dentro de um cartão, formulário ou lista — nunca para dar espaçamento sozinho (use
+Use para separar seções dentro de um cartão, formulário ou lista, nunca para dar espaçamento sozinho (use
 `gap`/margem pra isso). Com `label`, marca uma transição nomeada ("ou", "Hoje").
 
 <FacaEvite>
@@ -18,7 +18,7 @@ Usar `emphasis="subtle"` entre itens de uma lista, e `"default"` para separar se
 </Faca>
 <Evite>
 
-Empilhar Dividers em vez de usar espaçamento — se não há nada pra nomear ou separar visualmente, um `gap` resolve.
+Empilhar Dividers em vez de usar espaçamento. Se não há nada pra nomear ou separar visualmente, um `gap` resolve.
 
 </Evite>
 </FacaEvite>
@@ -41,7 +41,7 @@ Empilhar Dividers em vez de usar espaçamento — se não há nada pra nomear ou
 
 **Tokens.** `emphasis`: `subtle` → `--ob-line-soft`; `default` → `--ob-border`; `strong` → `--ob-ink-mute`.
 
-**Vertical.** Estica até a altura do container (`align-self: stretch`) — o pai precisa ser um flex container.
+**Vertical.** Estica até a altura do container (`align-self: stretch`). O pai precisa ser um flex container.
 
-**`bleed`.** Estende a linha além do padding do container, em px — útil dentro de um Card ou painel com padding,
+**`bleed`.** Estende a linha além do padding do container, em px, útil dentro de um Card ou painel com padding,
 quando a linha deve encostar nas bordas.

@@ -9,18 +9,18 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 Use para texto livre de mais de uma linha: observações, descrições, comentários. Para uma linha só, use `Input`.
 
-`autosize` cresce com o conteúdo, entre `minRows` e `maxRows` — prefira em formulários curtos, onde o campo
+`autosize` cresce com o conteúdo, entre `minRows` e `maxRows`. Prefira em formulários curtos, onde o campo
 fixo deixaria espaço em branco. `rows` fixo funciona melhor quando o espaço da tela é limitado (Drawer, Modal).
 
 <FacaEvite>
 <Faca>
 
-Mostrar o contador (`maxLength`) sempre que houver limite — a pessoa precisa saber antes de escrever demais.
+Mostrar o contador (`maxLength`) sempre que houver limite: a pessoa precisa saber antes de escrever demais.
 
 </Faca>
 <Evite>
 
-Limite sem contador visível — a mensagem de erro some no meio do texto.
+Limite sem contador visível: a mensagem de erro some no meio do texto.
 
 </Evite>
 </FacaEvite>
@@ -42,4 +42,4 @@ Limite sem contador visível — a mensagem de erro some no meio do texto.
 **Tokens.** Mesmo `FieldShell` do `Input`; contador em `--ob-fg-mute`, laranja (`--ob-warning`) a partir de
 90% do limite, vermelho (`--ob-danger`) no limite.
 
-**Rótulo/mensagem.** 12px e 11px — mesmo tamanho do `Input` e do `NumberField`.
+**Rótulo/mensagem.** 12px e 11px, mesmo tamanho do `Input` e do `NumberField`.

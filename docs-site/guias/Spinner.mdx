@@ -7,14 +7,14 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Use quando a duração de um processo é desconhecida ou muito variável — envio de formulário, requisição de API, upload. Para durações conhecidas, prefira **ProgressBar** ou **ProgressCircle**.
+Use quando a duração de um processo é desconhecida ou muito variável: envio de formulário, requisição de API, upload. Para durações conhecidas, prefira **ProgressBar** ou **ProgressCircle**.
 
 ### Contextos típicos
 
-- **Botão loading** — substitui o ícone/texto do botão durante a ação (size sm, tone muted em botão primário, tone default em secundário).
-- **Card ou seção** — centralizado no container com label opcional.
-- **Inline** — ao lado de texto para indicar atualização parcial.
-- **Overlay de página** — size lg/xl com backdrop.
+- **Botão loading**: substitui o ícone/texto do botão durante a ação (size sm, tone muted em botão primário, tone default em secundário).
+- **Card ou seção**: centralizado no container com label opcional.
+- **Inline**: ao lado de texto para indicar atualização parcial.
+- **Overlay de página**: size lg/xl com backdrop.
 
 <FacaEvite>
 <Faca>
@@ -24,7 +24,7 @@ Use tone `muted` dentro de botões primários (fundo colorido) para manter o con
 </Faca>
 <Evite>
 
-Spinner por mais de 8–10 s sem feedback adicional — forneça um texto de contexto ("Processando pedido…") para não deixar o usuário desorientado.
+Spinner por mais de 8–10 s sem feedback adicional. Forneça um texto de contexto ("Processando pedido…") para não deixar o usuário desorientado.
 
 </Evite>
 </FacaEvite>
@@ -42,23 +42,23 @@ Spinner por mais de 8–10 s sem feedback adicional — forneça um texto de con
 
 ## Guia de conteúdo
 
-- O Spinner é mudo visualmente — forneça texto de contexto ao lado quando a ação não for óbvia.
+- O Spinner é mudo visualmente: forneça texto de contexto ao lado quando a ação não for óbvia.
 - Texto de loading: gerúndio descritivo. "Salvando…", "Enviando relatório…", "Sincronizando com Spotify…".
-- Nunca use "Aguarde…" ou "Processando…" sem contexto — diga o quê está processando.
-- O prop `label` é o `aria-label` do elemento — use sempre para acessibilidade, mesmo que não seja visível.
+- Nunca use "Aguarde…" ou "Processando…" sem contexto: diga o quê está processando.
+- O prop `label` é o `aria-label` do elemento. Use sempre para acessibilidade, mesmo que não seja visível.
 
 ## Guia de design
 
-**Tokens.** Arco na cor do tone (via tokens `--ob-blue`, `--ob-green` etc). Trilha circular em `stroke-opacity: 0.15` da mesma cor — mantém harmonia independente do fundo.
+**Tokens.** Arco na cor do tone (via tokens `--ob-blue`, `--ob-green` etc). Trilha circular em `stroke-opacity: 0.15` da mesma cor, mantém harmonia independente do fundo.
 
 **Tamanhos.** xs/sm para uso inline e em botões; md para estados de seção; lg/xl para overlays de página inteira. Stroke-width escala com o tamanho (2px no sm → 3.5px no xl).
 
-**Motion.** Rotação contínua de 0.75s linear (`ob-spin`) — velocidade que comunica atividade sem ansiedade. Não use `ease` ou `ease-in-out` — o loop precisa ser uniforme.
+**Motion.** Rotação contínua de 0.75s linear (`ob-spin`), velocidade que comunica atividade sem ansiedade. Não use `ease` ou `ease-in-out`: o loop precisa ser uniforme.
 
 **Tone muted.** Exclusivo para uso dentro de elementos com fundo colorido (botões primários, badges, banners). Usa `--ob-fg-mute` em vez de uma cor de marca.
 
 <Nota>
 
-**Acessibilidade:** o elemento tem `role="status"` e `aria-live="polite"`. O `aria-label` descreve o que está carregando — nunca omita.
+**Acessibilidade:** o elemento tem `role="status"` e `aria-live="polite"`. O `aria-label` descreve o que está carregando; nunca omita.
 
 </Nota>

@@ -1,5 +1,5 @@
 ---
-resumo: "Campo de busca com ícone integrado, limpar inline e dropdown de sugestões. Estende o **Input** com comportamento de pesquisa — filtro local ou requisição assíncrona. Compõe com **Dropdown** para os resultados e **Skeleton** no loading."
+resumo: "Campo de busca com ícone integrado, limpar inline e dropdown de sugestões. Estende o **Input** com comportamento de pesquisa: filtro local ou requisição assíncrona. Compõe com **Dropdown** para os resultados e **Skeleton** no loading."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
@@ -7,7 +7,7 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Use quando o usuário precisa localizar conteúdo — tarefas, integrações, documentos. Pode operar em modo local (filtra lista em memória) ou assíncrono (dispara requisição com debounce).
+Use quando o usuário precisa localizar conteúdo: tarefas, integrações, documentos. Pode operar em modo local (filtra lista em memória) ou assíncrono (dispara requisição com debounce).
 
 ### Quando usar
 
@@ -23,7 +23,7 @@ Mostre sugestões recentes quando o campo estiver vazio e em foco, para acelerar
 </Faca>
 <Evite>
 
-Usar SearchInput como Input comum — ele sinaliza "busca"; não o reutilize para campos de formulário genéricos.
+Usar SearchInput como Input comum: ele sinaliza "busca", não o reutilize para campos de formulário genéricos.
 
 </Evite>
 </FacaEvite>
@@ -52,16 +52,16 @@ Altura padrão 44px. Ícone de lupa fixo à esquerda. Spinner substitui o ícone
 
 ## Guia de conteúdo
 
-- Placeholder: "Buscar [contexto]…" — ex: "Buscar tarefas…", "Buscar integrações…".
+- Placeholder: "Buscar [contexto]…", ex: "Buscar tarefas…", "Buscar integrações…".
 - Estado vazio de resultados: "Nenhum resultado para '[query]'".
 - Recentes: "Buscas recentes" como kicker da lista de sugestões iniciais.
-- Evite "Digite para buscar" no placeholder — é óbvio demais.
+- Evite "Digite para buscar" no placeholder: é óbvio demais.
 
 ## Guia de design
 
 **Tokens.** Borda idle `--ob-border`, focus `--ob-blue` + ring `--ob-blue-100`. Fundo `--ob-surface`. Dropdown sombra `--ob-shadow-lg`.
 
-**Motion.** Borda e ring: transição 150ms `--ob-ease`. Spinner: rotação contínua 0.8s linear. Dropdown: sem animação — aparece instantaneamente para parecer responsivo.
+**Motion.** Borda e ring: transição 150ms `--ob-ease`. Spinner: rotação contínua 0.8s linear. Dropdown: sem animação, aparece instantaneamente para parecer responsivo.
 
 **Debounce.** Para buscas assíncronas, aplique debounce de 300ms no `onChange` antes de disparar a requisição.
 

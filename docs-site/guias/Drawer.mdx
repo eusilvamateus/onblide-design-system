@@ -1,5 +1,5 @@
 ---
-resumo: "Painel lateral que desliza sobre o conteúdo ao ser acionado. Mantém o usuário no contexto atual enquanto completa uma ação secundária — formulário, detalhes ou filtros."
+resumo: "Painel lateral que desliza sobre o conteúdo ao ser acionado. Mantém o usuário no contexto atual enquanto completa uma ação secundária: formulário, detalhes ou filtros."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
 ---
 
@@ -11,10 +11,10 @@ Use o Drawer quando a ação exige espaço razoável mas **não deve remover o u
 
 ### Quando usar
 
-- **Formulários** — adicionar colaborador, criar item, editar perfil.
-- **Detalhes** — tarefas de um projeto, histórico, propriedades de um item.
-- **Filtros** — painel de refinamento de listagens e tabelas.
-- **Navegação temporária** — sidebar colapsada que abre como Drawer em mobile.
+- **Formulários**: adicionar colaborador, criar item, editar perfil.
+- **Detalhes**: tarefas de um projeto, histórico, propriedades de um item.
+- **Filtros**: painel de refinamento de listagens e tabelas.
+- **Navegação temporária**: sidebar colapsada que abre como Drawer em mobile.
 
 <FacaEvite>
 <Faca>
@@ -24,7 +24,7 @@ Sempre inclua o Header (título + botão fechar) e feche o Drawer ao concluir a 
 </Faca>
 <Evite>
 
-Abrir um Modal dentro de um Drawer — empilhar overlays confunde o usuário. Prefira um único overlay por vez.
+Abrir um Modal dentro de um Drawer, empilhar overlays confunde o usuário. Prefira um único overlay por vez.
 
 </Evite>
 </FacaEvite>
@@ -54,21 +54,21 @@ Abrir um Modal dentro de um Drawer — empilhar overlays confunde o usuário. Pr
 
 <Nota>
 
-**Estrutura interna:** o Drawer compõe Header (título + fechar) + Body (scroll) + Footer (fixo). Nunca coloque elementos críticos de ação no body — use sempre o footer.
+**Estrutura interna:** o Drawer compõe Header (título + fechar) + Body (scroll) + Footer (fixo). Nunca coloque elementos críticos de ação no body, use sempre o footer.
 
 </Nota>
 
 ## Guia de conteúdo
 
 - Título no header: substantivo descritivo da ação. "Novo colaborador", "Filtrar resultados", "Tarefas do projeto".
-- Botão primário no footer: verbo da ação. "Convidar", "Aplicar", "Salvar" — nunca "OK".
+- Botão primário no footer: verbo da ação. "Convidar", "Aplicar", "Salvar", nunca "OK".
 - Cancelar sempre à esquerda do botão primário.
 - Para drawers de detalhe sem ação: um único botão "Fechar" é suficiente.
-- Evite títulos com mais de 4 palavras — o header tem espaço limitado.
+- Evite títulos com mais de 4 palavras: o header tem espaço limitado.
 
 ## Guia de design
 
-**Largura.** Padrão 400 px. Para formulários com muitos campos, até 480 px. Nunca ultrapasse 560 px — prefira um Modal `lg` para conteúdo mais rico.
+**Largura.** Padrão 400 px. Para formulários com muitos campos, até 480 px. Nunca ultrapasse 560 px, prefira um Modal `lg` para conteúdo mais rico.
 
 **Tokens.** Fundo `--ob-surface`. Borda `--ob-border`. Footer fundo `--ob-bg-alt`. Backdrop `rgba(20,20,20,.40)` + blur(2px).
 

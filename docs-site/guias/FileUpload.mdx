@@ -7,17 +7,17 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-- **`dropzone`** (padrão) — quando enviar o arquivo é a tarefa principal da tela.
-- **`button`** — anexos opcionais dentro de um formulário maior.
-- **`image`** — uma única imagem com prévia (avatar, capa).
+- **`dropzone`** (padrão): quando enviar o arquivo é a tarefa principal da tela.
+- **`button`**: anexos opcionais dentro de um formulário maior.
+- **`image`**: uma única imagem com prévia (avatar, capa).
 
-Sempre passe `upload(file, onProgress)` com o envio real — sem isso, o componente simula um progresso
+Sempre passe `upload(file, onProgress)` com o envio real. Sem isso, o componente simula um progresso
 (útil só para protótipo; nomes de arquivo com "falha" no meio erram de propósito, pra testar o estado de erro).
 
 <FacaEvite>
 <Faca>
 
-Definir `accept` e `acceptLabel` juntos — o erro de tipo não aceito mostra o `acceptLabel` na mensagem.
+Definir `accept` e `acceptLabel` juntos: o erro de tipo não aceito mostra o `acceptLabel` na mensagem.
 
 </Faca>
 <Evite>
@@ -36,7 +36,7 @@ Deixar `multiple` ligado sem `maxFiles` num contexto que só faz sentido com pou
 ## Guia de conteúdo
 
 - `hint` diz o que é aceito antes do erro acontecer: "PDF ou imagem, até 5 MB".
-- Erro de tipo, tamanho ou envio aparece na própria linha do arquivo — nunca um alerta separado.
+- Erro de tipo, tamanho ou envio aparece na própria linha do arquivo, nunca um alerta separado.
 
 ## Guia de design
 

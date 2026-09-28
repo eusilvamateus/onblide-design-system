@@ -1,5 +1,5 @@
 ---
-resumo: "Hierarquia que abre e fecha. Cada nó é um ListItem, com a mesma densidade, estados e cores do List — seleção simples/múltipla, busca, carregamento sob demanda, edição e arrastar-para-mover."
+resumo: "Hierarquia que abre e fecha. Cada nó é um ListItem, com a mesma densidade, estados e cores do List: seleção simples/múltipla, busca, carregamento sob demanda, edição e arrastar-para-mover."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
 ---
 
@@ -11,13 +11,13 @@ Use para estruturas de pastas/arquivos, categorias aninhadas ou qualquer hierarq
 abrir e fechar. Três modos de `selection`: `"none"` (só navegar), `"single"` (seletor em formulário) e
 `"multiple"` (escolher vários, com estado parcial no pai quando nem todos os filhos estão marcados).
 
-`loadChildren` carrega filhos sob demanda (nó com `hasChildren: true` e sem `children`) — use em árvores
+`loadChildren` carrega filhos sob demanda (nó com `hasChildren: true` e sem `children`). Use em árvores
 grandes, pra não montar tudo de uma vez.
 
 <FacaEvite>
 <Faca>
 
-Usar `query` com uma busca (`SearchInput`) fora da árvore — o `TreeView` filtra mantendo os pais visíveis e
+Usar `query` com uma busca (`SearchInput`) fora da árvore. O `TreeView` filtra mantendo os pais visíveis e
 abre os ramos com resultado, mas a busca em si é responsabilidade de quem usa.
 
 </Faca>
@@ -46,7 +46,7 @@ novo" no erro de carregamento).
 
 ## Guia de conteúdo
 
-- `label` é o nome real do arquivo/pasta — nunca um placeholder.
+- `label` é o nome real do arquivo/pasta, nunca um placeholder.
 - Ação de excluir hoje não pede confirmação (o próprio `onMove` recebe `previous` pra permitir desfazer um
   movimento); para excluir, avalie envolver `onDelete` numa confirmação própria se o risco for alto.
 
@@ -62,4 +62,4 @@ proibido) · Esc cancela · o item pisca ao chegar · há alternativa por teclad
 irmãos, letras pulam para o próximo nó que começa com elas. Uma parada de Tab (roving tabindex).
 
 **Edição.** `editable` liga Renomear (F2 ou duplo clique), Nova pasta e Excluir, com um menu "…" próprio por
-padrão — ou passe `actions` pra decidir os itens.
+padrão, ou passe `actions` pra decidir os itens.

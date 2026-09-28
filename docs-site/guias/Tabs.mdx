@@ -7,12 +7,12 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Use Tabs quando o conteúdo pode ser dividido em categorias paralelas e o usuário precisa alternar entre elas com frequência. Não use para passos sequenciais — use Stepper.
+Use Tabs quando o conteúdo pode ser dividido em categorias paralelas e o usuário precisa alternar entre elas com frequência. Não use para passos sequenciais, use Stepper.
 
 ### Variantes
 
-- **Line** — padrão. Para seções dentro de uma página (ex: abas de projeto, abas de configuração). Ocupa largura da área disponível.
-- **Pill** — para filtros e alternâncias curtas (ex: Mensal / Semanal / Diário). Mais compacto e autocontido.
+- **Line**: padrão. Para seções dentro de uma página (ex: abas de projeto, abas de configuração). Ocupa largura da área disponível.
+- **Pill**: para filtros e alternâncias curtas (ex: Mensal / Semanal / Diário). Mais compacto e autocontido.
 
 <FacaEvite>
 <Faca>
@@ -22,17 +22,17 @@ Máximo de 6 abas. Use badges numéricos para indicar contagem de itens. Ícone 
 </Faca>
 <Evite>
 
-Tabs para fluxos sequenciais — use Stepper. Não misture Line e Pill na mesma tela.
+Tabs para fluxos sequenciais, use Stepper. Não misture Line e Pill na mesma tela.
 
 </Evite>
 </FacaEvite>
 
 ### Composição
 
-- **Table** — conteúdo mais comum dentro de uma aba.
-- **Badge** — contagem de itens no rótulo da aba.
-- **SearchInput** — filtro acima da área de conteúdo das Tabs.
-- **Skeleton** — enquanto o conteúdo da aba carrega assincronamente.
+- **Table**: conteúdo mais comum dentro de uma aba.
+- **Badge**: contagem de itens no rótulo da aba.
+- **SearchInput**: filtro acima da área de conteúdo das Tabs.
+- **Skeleton**: enquanto o conteúdo da aba carrega assincronamente.
 
 ## Formatação
 
@@ -54,11 +54,11 @@ Tipo `Tab`: `{ id: string, label: string, icon?: string, badge?: number, disable
 
 ## Guia de conteúdo
 
-- Rótulos: substantivos curtos e paralelos. "Visão geral", "Tarefas", "Membros" — nunca verbos.
+- Rótulos: substantivos curtos e paralelos. "Visão geral", "Tarefas", "Membros", nunca verbos.
 - Máximo de 2 palavras por rótulo. Prefira uma.
 - Badge: contagem de itens (ex: pendentes, não lidos). Não use para status.
-- Ícone: auxiliar ao rótulo — nunca substituto. Use ícones do álbum Phosphor.
-- Aba desabilitada: use quando a seção existe mas não está disponível no contexto atual — com Tooltip explicando o motivo.
+- Ícone: auxiliar ao rótulo, nunca substituto. Use ícones do álbum Phosphor.
+- Aba desabilitada: use quando a seção existe mas não está disponível no contexto atual, com Tooltip explicando o motivo.
 
 ## Guia de design
 
@@ -66,7 +66,7 @@ Tipo `Tab`: `{ id: string, label: string, icon?: string, badge?: number, disable
 
 **Pill.** Aba ativa com fundo `--ob-surface` + sombra sutil sobre fundo `--ob-bg-alt`. Raio `--ob-r-sm`.
 
-**Motion.** Transição de cor e indicador: 150ms `--ob-ease`. Sem animação de slide de conteúdo — troca instantânea.
+**Motion.** Transição de cor e indicador: 150ms `--ob-ease`. Sem animação de slide de conteúdo, a troca é instantânea.
 
 **Responsivo.** Em viewports estreitas, Tabs Line com scroll horizontal (sem quebra de linha). Tabs Pill: mantém em linha e reduz padding com `size="sm"`.
 

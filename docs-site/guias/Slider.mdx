@@ -7,22 +7,22 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Use o Slider quando o valor exato for menos importante do que a sensação de posição relativa — volume, brilho, filtro de distância, prioridade. Para valores onde a precisão importa, ofereça um **Input** numérico ao lado.
+Use o Slider quando o valor exato for menos importante do que a sensação de posição relativa: volume, brilho, filtro de distância, prioridade. Para valores onde a precisão importa, ofereça um **Input** numérico ao lado.
 
 ### Modos
 
-- **Single** — um thumb, um valor. O mais comum.
-- **Range** — dois thumbs, define um intervalo (ex: faixa de preço, datas relativas).
+- **Single**: um thumb, um valor. O mais comum.
+- **Range**: dois thumbs, define um intervalo (ex: faixa de preço, datas relativas).
 
 <FacaEvite>
 <Faca>
 
-Use tones semânticos: verde quando o valor indica saúde, laranja para alerta, vermelho para limite crítico — comunicam estado sem rótulo adicional.
+Use tones semânticos: verde quando o valor indica saúde, laranja para alerta, vermelho para limite crítico. Comunicam estado sem rótulo adicional.
 
 </Faca>
 <Evite>
 
-Usar Slider para selecionar entre poucos itens discretos (≤5). Prefira RadioGroup ou Segmented control — a posição relativa não agrega valor.
+Usar Slider para selecionar entre poucos itens discretos (≤5). Prefira RadioGroup ou Segmented control: a posição relativa não agrega valor.
 
 </Evite>
 </FacaEvite>
@@ -56,15 +56,15 @@ Usar Slider para selecionar entre poucos itens discretos (≤5). Prefira RadioGr
 
 - Label: substantivo curto. "Volume", "Prioridade", "Distância máxima".
 - Hint: instrução de interação. "Arraste ou use as teclas de seta."
-- Valor exibido (`showValue`): numérico com unidade se necessário — "40%", "R$ 200 – R$ 500", "2,5 km".
-- Error: objetivo. "Valor fora do intervalo permitido." — nunca código técnico.
+- Valor exibido (`showValue`): numérico com unidade se necessário, como "40%", "R$ 200 – R$ 500", "2,5 km".
+- Error: objetivo. "Valor fora do intervalo permitido.", nunca código técnico.
 - Marks: exiba rótulos de extremos (min/max) quando a escala não é óbvia.
 
 ## Guia de design
 
 **Tokens.** Trilha vazia `--ob-bg-alt` (5px, radius 999). Preenchimento na cor do tone (`--ob-blue` padrão). Thumb: `--ob-surface` com borda 2px na cor do tone, sombra `--ob-shadow-sm`, 20×20px. Focus ring: `0 0 0 4px var(--ob-focus-ring)`. Valor: `--ob-font-mono` peso 700 na cor do tone.
 
-**Tones.** Use `tone` para comunicar estado semântico. Ex: slider de prioridade — verde (baixa), laranja (média), vermelho (crítica). O tone muda a cor do preenchimento, do thumb e do valor exibido — consistente com Alert, Toast e ProgressBar via `OB_TONES`.
+**Tones.** Use `tone` para comunicar estado semântico. Ex: slider de prioridade, verde (baixa), laranja (média), vermelho (crítica). O tone muda a cor do preenchimento, do thumb e do valor exibido, consistente com Alert, Toast e ProgressBar via `OB_TONES`.
 
 **Motion.** Preenchimento da trilha: transição de 80ms (none durante drag para responsividade). Focus ring no thumb: 150ms `--ob-ease`.
 
@@ -74,6 +74,6 @@ Usar Slider para selecionar entre poucos itens discretos (≤5). Prefira RadioGr
 
 <Nota>
 
-**Slider vs Input numérico:** quando a precisão do valor final importa mais do que a sensação de posição relativa, combine um Slider com um Input ao lado — o Slider para navegação rápida, o Input para entrada exata.
+**Slider vs Input numérico:** quando a precisão do valor final importa mais do que a sensação de posição relativa, combine um Slider com um Input ao lado. O Slider serve para navegação rápida, o Input para entrada exata.
 
 </Nota>

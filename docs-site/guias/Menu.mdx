@@ -7,7 +7,7 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Use para uma lista de ações ou opções que abre de um gatilho — botão "…", avatar, ícone de coluna. É o
+Use para uma lista de ações ou opções que abre de um gatilho: botão "…", avatar, ícone de coluna. É o
 mesmo componente por trás do `Dropdown`: `Dropdown` continua existindo para o caso mais simples (lista plana
 de ações), e `Menu` cobre tudo o mais (radio, checkbox, busca, contas, submenus).
 
@@ -17,12 +17,12 @@ abre no clique direito (ou Shift+F10).
 <FacaEvite>
 <Faca>
 
-Marcar `tone="danger"` só em ações realmente destrutivas (excluir, remover) — não em qualquer ação importante.
+Marcar `tone="danger"` só em ações realmente destrutivas (excluir, remover), não em qualquer ação importante.
 
 </Faca>
 <Evite>
 
-Misturar `type="option"` (seleção única, fecha o menu) com `type="checkbox"` (não fecha) no mesmo grupo — a
+Misturar `type="option"` (seleção única, fecha o menu) com `type="checkbox"` (não fecha) no mesmo grupo. A
 pessoa não consegue prever o comportamento.
 
 </Evite>
@@ -50,7 +50,7 @@ pessoa não consegue prever o comportamento.
 ## Guia de conteúdo
 
 - Rótulo do item é um verbo de ação curto: "Duplicar", não "Duplicar item".
-- Atalho (`shortcut`) só quando existe de verdade no teclado — não é decoração.
+- Atalho (`shortcut`) só quando existe de verdade no teclado, não é decoração.
 
 ## Guia de design
 
@@ -58,10 +58,10 @@ pessoa não consegue prever o comportamento.
 (`option`/conta atual) mostra um check à direita.
 
 **Comportamento ao escolher.** Ação simples, seleção única e conta fecham o menu; radio, checkbox e toggle
-mantêm o menu aberto — a pessoa pode marcar vários antes de fechar.
+mantêm o menu aberto, a pessoa pode marcar vários antes de fechar.
 
 **Um item, uma parada de foco.** Componentes embutidos (Checkbox, Radio, Switch) ficam `inert`: o item
 recebe clique e teclado, o componente só mostra o estado.
 
-**`defaultOpen`.** Monta o painel já aberto, sem esperar o clique — só para demonstrações e capturas de tela;
+**`defaultOpen`.** Monta o painel já aberto, sem esperar o clique, só para demonstrações e capturas de tela;
 em produto o menu sempre começa fechado.

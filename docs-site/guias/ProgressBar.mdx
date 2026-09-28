@@ -1,5 +1,5 @@
 ---
-resumo: "Barra que comunica progresso — determinado (valor 0–100), indeterminado (carregando) ou segmentado (etapas de um fluxo). Compartilha o `OB_TONES` com **Alert** e **Toast** para consistência de cor."
+resumo: "Barra que comunica progresso: determinado (valor 0–100), indeterminado (carregando) ou segmentado (etapas de um fluxo). Compartilha o `OB_TONES` com **Alert** e **Toast** para consistência de cor."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
@@ -7,18 +7,18 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Use para deixar o usuário ciente de quanto falta — upload, onboarding por etapas, cota de plano, progresso de tarefa longa.
+Use para deixar o usuário ciente de quanto falta: upload, onboarding por etapas, cota de plano, progresso de tarefa longa.
 
 ### Modos
 
-- **Determinado** — `value` 0–100 com atualização em tempo real.
-- **Indeterminado** — duração desconhecida; loop animado.
-- **Segmentado** — N passos discretos; os concluídos ficam coloridos.
+- **Determinado**: `value` 0–100 com atualização em tempo real.
+- **Indeterminado**: duração desconhecida; loop animado.
+- **Segmentado**: N passos discretos; os concluídos ficam coloridos.
 
 <FacaEvite>
 <Faca>
 
-Mostre rótulo de porcentagem (`showLabel`) quando o valor é relevante para o usuário — upload, cota de armazenamento.
+Mostre rótulo de porcentagem (`showLabel`) quando o valor é relevante para o usuário: upload, cota de armazenamento.
 
 </Faca>
 <Evite>
@@ -46,9 +46,9 @@ Usar a barra indeterminada por mais de 8–10 s sem feedback; prefira um skeleto
 
 ## Guia de conteúdo
 
-- Rótulo de porcentagem: numérico e sufixado — "67%".
-- Label acima (em contexto de cota): "Armazenamento — 8,2 GB de 10 GB".
-- Segmentos: use Caption abaixo — "Etapa 2 de 4" ou nomes das etapas.
+- Rótulo de porcentagem: numérico e sufixado, "67%".
+- Label acima (em contexto de cota): "Armazenamento: 8,2 GB de 10 GB".
+- Segmentos: use Caption abaixo, "Etapa 2 de 4" ou nomes das etapas.
 - Evite repetir a porcentagem em texto se `showLabel` já a exibe.
 
 ## Guia de design

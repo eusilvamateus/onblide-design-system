@@ -7,29 +7,29 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Use para conteúdo maior que um `Tooltip` mas que não precisa bloquear a tela como um `Modal` — um filtro
+Use para conteúdo maior que um `Tooltip` mas que não precisa bloquear a tela como um `Modal`: um filtro
 curto, uma prévia com ações, um formulário pequeno. Dois modos de interação:
 
-- **`click`** (padrão) — abre/fecha no gatilho, foco vai para o primeiro campo ou botão (papel `dialog`).
-- **`hover`** — abre 300ms depois do mouse entrar (ou ao focar), fecha 150ms depois de sair (papel `tooltip`);
+- **`click`** (padrão): abre/fecha no gatilho, foco vai para o primeiro campo ou botão (papel `dialog`).
+- **`hover`**: abre 300ms depois do mouse entrar (ou ao focar), fecha 150ms depois de sair (papel `tooltip`);
   use só para conteúdo que não precisa de interação (uma prévia, um resumo).
 
 <FacaEvite>
 <Faca>
 
-Passar `title` quando o conteúdo precisa de contexto — ele já vem com o botão de fechar.
+Passar `title` quando o conteúdo precisa de contexto: ele já vem com o botão de fechar.
 
 </Faca>
 <Evite>
 
-Colocar uma ação destrutiva (excluir, remover) direto no Popover sem confirmação — para isso, `Modal`.
+Colocar uma ação destrutiva (excluir, remover) direto no Popover sem confirmação. Para isso, `Modal`.
 
 </Evite>
 </FacaEvite>
 
 ## Composição
 
-**FloatingPanel** (superfície), **Ph** (botão de fechar). No conteúdo: qualquer combinação — `Checkbox`,
+**FloatingPanel** (superfície), **Ph** (botão de fechar). No conteúdo: qualquer combinação de `Checkbox`,
 `Input`, `Switch`, `List`, `Avatar`, `Badge`.
 
 ## Formatação
@@ -44,7 +44,7 @@ Colocar uma ação destrutiva (excluir, remover) direto no Popover sem confirma�
 ## Guia de conteúdo
 
 - `title` é o nome da tarefa ("Filtrar por status"), não um rótulo genérico ("Opções").
-- `footer` é para ações que fecham ou aplicam algo ("Aplicar", "Limpar") — não repita o botão de fechar do título.
+- `footer` é para ações que fecham ou aplicam algo ("Aplicar", "Limpar"); não repita o botão de fechar do título.
 
 ## Guia de design
 

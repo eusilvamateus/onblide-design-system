@@ -1,5 +1,5 @@
 ---
-resumo: "Linha de lista oficial: define anatomia, densidade, estados e tons compartilhados. Select, Dropdown, Menu e Autocomplete desenhavam cada um a própria linha antes deste componente existir — agora todos usam o `ListItem`."
+resumo: "Linha de lista oficial: define anatomia, densidade, estados e tons compartilhados. Select, Dropdown, Menu e Autocomplete desenhavam cada um a própria linha antes deste componente existir; agora todos usam o `ListItem`."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
@@ -7,7 +7,7 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os de
 
 ## Uso
 
-Use para qualquer lista vertical de linhas com o mesmo formato — contatos, arquivos, resultados de busca.
+Use para qualquer lista vertical de linhas com o mesmo formato: contatos, arquivos, resultados de busca.
 Para uma lista de comandos que abre de um gatilho, prefira `Menu`; para navegação de app, `SideNav`.
 
 A anatomia do `ListItem` é fixa: `leading` (ícone, Checkbox, Avatar) · `title` · `description` · `meta`
@@ -16,13 +16,13 @@ A anatomia do `ListItem` é fixa: `leading` (ícone, Checkbox, Avatar) · `title
 <FacaEvite>
 <Faca>
 
-Usar `selectedStyle="none"` quando o estado de seleção já aparece num Checkbox/Radio dentro do item — evita
+Usar `selectedStyle="none"` quando o estado de seleção já aparece num Checkbox/Radio dentro do item. Evita
 pintar o fundo duas vezes.
 
 </Faca>
 <Evite>
 
-Colocar mais de uma ação clicável dentro do `trailing` sem um menu — cada uma disputa o toque/clique com a
+Colocar mais de uma ação clicável dentro do `trailing` sem um menu. Cada uma disputa o toque/clique com a
 linha inteira.
 
 </Evite>
@@ -44,7 +44,7 @@ grupos; `ListSubheader` titula um grupo.
 
 ## Guia de design
 
-**Densidade.** `size="md"` (36px de altura mínima) é o padrão; `"sm"` (28px) para painéis densos — o `List`
+**Densidade.** `size="md"` (36px de altura mínima) é o padrão; `"sm"` (28px) para painéis densos. O `List`
 propaga o tamanho para os itens que não definem o próprio.
 
 **Estados.** Destacado (`highlighted`, ou automático em itens com `href`/`onClick`) usa `--ob-bg-warm`;

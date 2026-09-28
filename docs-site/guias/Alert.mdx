@@ -7,19 +7,19 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Use o Alert para mensagens que **ficam na tela** enquanto o estado persiste — uma integração desconectada, um formulário com erro, um plano próximo do limite. Diferente do Toast, ele não some automaticamente.
+Use o Alert para mensagens que **ficam na tela** enquanto o estado persiste: uma integração desconectada, um formulário com erro, um plano próximo do limite. Diferente do Toast, ele não some automaticamente.
 
 ### Quando usar
 
-- **Info** — nova funcionalidade disponível, aviso de manutenção.
-- **Sucesso** — confirmação de ação concluída que deve permanecer visível.
-- **Aviso** — limite de cota se aproximando, e-mail não confirmado.
-- **Perigo** — falha que impede a continuação da tarefa.
+- **Info**: nova funcionalidade disponível, aviso de manutenção.
+- **Sucesso**: confirmação de ação concluída que deve permanecer visível.
+- **Aviso**: limite de cota se aproximando, e-mail não confirmado.
+- **Perigo**: falha que impede a continuação da tarefa.
 
 <FacaEvite>
 <Faca>
 
-Use Alert para feedback contextual fixo — erro de formulário, status de integração, status de conta.
+Use Alert para feedback contextual fixo: erro de formulário, status de integração, status de conta.
 
 </Faca>
 <Evite>
@@ -55,19 +55,19 @@ Largura de bloco (100% do container). Ícone Phosphor à esquerda, alinhado ao t
 ## Guia de conteúdo
 
 - Título: curto e descritivo. "Conexão perdida", não "Erro 503".
-- Corpo: opcional — use só quando o título não é autoexplicativo.
+- Corpo: opcional, use só quando o título não é autoexplicativo.
 - CTA: verbo de ação. "Reconectar", "Ver detalhes", "Confirmar e-mail".
 - Tom perigo: factual, sem alarmismo. "Não foi possível salvar" \> "ERRO CRÍTICO".
-- Evite código de erro no título — coloque-o no corpo se necessário.
+- Evite código de erro no título, coloque-o no corpo se necessário.
 
 ## Guia de design
 
 **Tokens.** Fundo e borda derivados do tom: `--ob-*-100` e `color-mix(--ob-* 28%)`. Ícone na cor forte do tom. CTA em `--ob-*-700`.
 
-**Posicionamento.** Sempre dentro do fluxo da página — nunca flutuante. Se estiver numa seção específica (ex: formulário), posicione logo acima do botão de submit.
+**Posicionamento.** Sempre dentro do fluxo da página, nunca flutuante. Se estiver numa seção específica (ex: formulário), posicione logo acima do botão de submit.
 
 <Nota>
 
-**Alert vs Toast:** Alert fica — Toast vai embora. Se o usuário precisa ver e agir, use Alert. Se é só confirmação de que algo aconteceu, use Toast.
+**Alert vs Toast:** Alert fica; Toast vai embora. Se o usuário precisa ver e agir, use Alert. Se é só confirmação de que algo aconteceu, use Toast.
 
 </Nota>
