@@ -1,5 +1,13 @@
 # @onblide/ui
 
+## 1.1.1
+
+### Patch Changes
+
+- Corrige um vão de 1-2px que podia aparecer nas linhas conectoras do `Stepper` (variante `horizontal`), em
+  telas com `devicePixelRatio` 1. Cada conector é desenhado em duas metades, uma de cada célula vizinha, que
+  arredondavam a largura fracionária pra baixo de forma independente.
+
 ## 1.1.0
 
 ### Minor Changes
