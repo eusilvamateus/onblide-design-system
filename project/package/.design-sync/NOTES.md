@@ -107,3 +107,41 @@ cada) grades `good` em tudo — sem re-render check pendente.
 Como parte da mesma sessão, apaguei as duas pastas de propostas (`proposals/ButtonGroup/`,
 `proposals/ToggleButton/`) e reescrevi `proposals/index.html` com a lista vazia (ver seção acima) — os dois
 já são componentes oficiais, não precisam mais existir como proposta.
+
+## Portagem de Navbar e LogoMark (2026-09-29)
+
+Proposta nova do Claude Design (`proposals/Navbar/`), portada para `src/navigation/`. A pedido do usuário,
+que corrigiu uma escolha minha sem consulta: `Navbar` usa por padrão o símbolo isolado da marca (`LogoMark`,
+novo componente em `src/brand/Logo/Logo.tsx`, extraído de `docs-site/static/img/marca/onblide-symbol-primary.svg`)
+em vez do lockup completo (`Logo`), e a `SideNav` passou a usar o mesmo símbolo no lugar de um placeholder
+("O" desenhado à mão) que existia desde a portagem original. No modo recolhido da `SideNav`, o botão de
+expandir agora só aparece no hover/foco do próprio slot da marca — por padrão mostra o símbolo. `@onblide/ui`
+1.1.1 → 1.2.0 (minor, novos exports).
+
+Sync: os 4 exports do `Navbar` (`ComLinks`, `BuscaCentral`, `ComAbas`, `Contexto`) pegaram `cardMode: "column"`
+preventivamente (barra larga, mesmo padrão de `Breadcrumbs`/`Stepper`/`ButtonGroup`). Grade "good" em todos
+depois de conferir os screenshots — o símbolo ficou forte e legível nos quatro layouts.
+
+**Lição nova: `node_modules/@onblide/ui` precisa existir como link para o próprio pacote.**
+`.ds-sync/lib/dts.mjs` lê `node_modules/@onblide/ui/package.json` direto do disco (não via resolução do
+Node) para montar a lista de exports do `.d.ts`. Sem esse self-link, `resync.mjs` falha com
+`ENOENT ... node_modules\@onblide\ui\package.json` na etapa de build. Corrigido criando uma **junction**
+(Windows; `ln -s` do Git Bash criou um diretório real corrompido em vez de um link) apontando pro próprio
+`project/package`:
+```powershell
+New-Item -ItemType Junction -Path "project\package\node_modules\@onblide\ui" -Target "project\package"
+```
+Não é limpo por `npm install` nem versionado (fica dentro de `node_modules/`, git-ignored) — se sumir
+(reinstalação limpa do zero), recriar antes do próximo `resync.mjs`.
+
+**Lição nova: componente "unchanged" nem sempre foi recapturado.** O driver classifica por `sourceKey`
+(hash do recipe, não pixel a pixel); uma mudança de implementação que não muda a API pública pode não
+disparar recaptura automática mesmo alterando o visual (foi o caso da `SideNav`, cujo `SideNavProps` não
+mudou ao trocar o placeholder pelo `LogoMark`). O upload ainda leva o bundle/`.jsx` atualizados (envio sempre
+completo), então a correção chega ao Claude Design de qualquer forma — só a checagem visual automática não
+roda. Vale conferir manualmente o screenshot (`ds-bundle/_screenshots/<grupo>__<Nome>.png`) depois de mudanças
+internas em componentes já publicados, em vez de confiar só na lista `unchanged`/`changed` do resync.
+
+`LogoMark`, `NavbarAccount`, `NavbarIconButton` e `NavbarLink` caíram no grupo "general" no catálogo remoto
+pelo mesmo motivo já catalogado (exports secundários de um arquivo com nome diferente) — cosmético, mesma
+decisão de não forçar via `componentSrcMap`.
