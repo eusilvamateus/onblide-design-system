@@ -85,6 +85,9 @@
     },
     "ToggleButton": {
       "cardMode": "column"
+    },
+    "Navbar": {
+      "cardMode": "column"
     }
   }
 }

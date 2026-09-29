@@ -1,6 +1,7 @@
 // project/package/src/navigation/SideNav/SideNav.tsx
 import React, { useState } from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
+import { LogoMark } from '../../brand/Logo/Logo';
 
 export interface SideNavItem {
   /** Identificador do item de navegação, usado em `active` e `onNav`. */
@@ -55,6 +56,31 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
   );
 };
 
+// Cabeçalho recolhido: mostra o símbolo da marca por padrão; só troca pro botão de expandir
+// no hover/foco, pra não competir com ele o tempo todo num espaço tão apertado.
+const CollapsedBrand: React.FC<{ onToggle?: () => void }> = ({ onToggle }) => {
+  const [active, setActive] = useState(false);
+  if (!onToggle) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
+        <span style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <LogoMark size={22} />
+        </span>
+      </div>
+    );
+  }
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
+      <button type="button" onClick={onToggle} title="Expandir" aria-label="Expandir"
+        onMouseEnter={() => setActive(true)} onMouseLeave={() => setActive(false)}
+        onFocus={() => setActive(true)} onBlur={() => setActive(false)}
+        style={{ width: 36, height: 36, borderRadius: 'var(--ob-r-md)', border: active ? '1.5px solid var(--ob-border)' : '1.5px solid transparent', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}>
+        {active ? <Ph n="caret-line-right" size={18} /> : <LogoMark size={22} />}
+      </button>
+    </div>
+  );
+};
+
 export interface SideNavProps {
   /** Itens e seções exibidos na lista de navegação. */
   items?: SideNavItem[];
@@ -84,16 +110,10 @@ export interface SideNavProps {
 export const SideNav: React.FC<SideNavProps> = ({ items = [], active, onNav, collapsed = false, onToggle, flush = false, workspaceName = 'Workspace', userInitials = 'OB', hideBrand = false, hideAccount = false, menuLabel = 'Menu' }) => (
   <div style={{ width: flush ? '100%' : (collapsed ? 72 : 240), minWidth: 0, boxSizing: 'border-box', overflowX: 'hidden', overflowY: flush ? 'auto' : 'hidden', height: flush ? '100%' : undefined, background: 'var(--ob-surface)', border: flush ? 'none' : '1px solid var(--ob-border)', borderRight: flush ? '1px solid var(--ob-border)' : undefined, borderRadius: flush ? 0 : 'var(--ob-r-lg)', padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
     {hideBrand ? null : collapsed
-      ? <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
-          <button onClick={onToggle} title="Expandir" style={{ width: 36, height: 36, borderRadius: 'var(--ob-r-md)', border: '1.5px solid var(--ob-border)', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}
-            onMouseEnter={e=>{e.currentTarget.style.background='var(--ob-bg-warm)';e.currentTarget.style.color='var(--ob-blue)';}}
-            onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--ob-fg-soft)';}}>
-            <Ph n="caret-line-right" size={18}/>
-          </button>
-        </div>
+      ? <CollapsedBrand onToggle={onToggle} />
       : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 4px 14px 8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <span style={{ width: 28, height: 28, borderRadius: 'var(--ob-r-sm)', background: 'var(--ob-blue)', color: '#fff', fontWeight: 800, fontSize: 15, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>O</span>
+            <LogoMark size={26} />
             <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--ob-fg-strong)', letterSpacing: '-0.02em' }}>Onblide</span>
           </div>
           {onToggle && <button onClick={onToggle} title="Recolher" style={{ width: 30, height: 30, borderRadius: 'var(--ob-r-md)', border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}

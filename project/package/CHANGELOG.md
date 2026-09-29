@@ -1,5 +1,20 @@
 # @onblide/ui
 
+## 1.2.0
+
+### Minor Changes
+
+- Adiciona `LogoMark`, o símbolo isolado da marca Onblide (sem o wordmark), e passa a usá-lo como marca
+  padrão do `Navbar` e no cabeçalho da `SideNav`. No modo recolhido da `SideNav`, o botão de expandir some por
+  trás do símbolo e só aparece no hover/foco, em vez de disputar espaço com ele o tempo todo.
+- Adiciona o componente `Navbar`: barra de navegação superior com três layouts (`links`, `search`, `context`), segundo nível opcional (`secondary`), modo compacto e responsivo, e os subcomponentes `NavbarLink`, `NavbarIconButton` e `NavbarAccount`.
+
+## 1.1.2
+
+### Patch Changes
+
+- `Avatar` passa a aceitar imagem por `src`, com `alt` opcional e fallback para as iniciais quando não houver imagem.
+
 ## 1.1.1
 
 ### Patch Changes

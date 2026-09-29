@@ -1,0 +1,67 @@
+---
+resumo: "Barra de navegação superior da aplicação, par da `SideNav`. Três layouts: `links` (marca + navegação principal), `search` (busca central) e `context` (trilha de navegação, ao lado de uma `SideNav`). Aceita um segundo nível de abas e ações à direita."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Navbar: uso e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use no topo de qualquer tela como ponto fixo de orientação: marca, navegação principal ou busca, e as ações
+do usuário (notificações, conta). Escolha o `layout` pelo que a aplicação precisa mostrar ali, nunca os três
+ao mesmo tempo.
+
+<FacaEvite>
+<Faca>
+
+Usar `layout="context"` junto de uma `SideNav`: a Navbar cede o espaço central pra trilha (`Breadcrumbs`) e o
+botão de menu abre a navegação lateral num `Drawer` no mobile.
+
+</Faca>
+<Evite>
+
+Colocar a navegação principal inteira dentro de `actions`: ela tem lugar próprio (`items`) com estado ativo e
+sublinhado; `actions` é só para ações à direita (ícones, conta).
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **NavbarIconButton**: ações só com ícone em `actions` (notificações, ajuda), com contador opcional.
+- **NavbarAccount**: botão de conta pronto, com avatar e `Menu` de perfil/configurações/sair.
+- **SearchInput**: conteúdo de `search`, no layout `search`.
+- **Breadcrumbs**: conteúdo de `crumbs`, no layout `context`.
+- **Tabs** (`variant="line"`, `size="sm"`): conteúdo de `secondary`, para um segundo nível abaixo da barra.
+
+## Formatação
+
+```jsx
+<Navbar
+  items={[{ id: 'inicio', label: 'Início' }, { id: 'projetos', label: 'Projetos', badge: 3 }]}
+  active="projetos"
+  actions={<><NavbarIconButton icon="bell" label="Notificações" count={3} /><NavbarAccount /></>}
+/>
+
+<Navbar
+  layout="search"
+  search={<SearchInput value={busca} onChange={setBusca} placeholder="Buscar..." />}
+  actions={<NavbarAccount />}
+/>
+```
+
+## Guia de design
+
+**Layouts.** `links` mostra a navegação principal ao lado da marca, com o link ativo sublinhado. `search`
+centraliza um campo de busca, cedendo o espaço entre marca e ações. `context` cede esse mesmo espaço pra uma
+trilha de navegação, pensado pra telas com `SideNav` — aí a Navbar não repete a marca.
+
+**Segundo nível.** Com `secondary`, o link ativo do layout `links` troca o sublinhado por um fundo (pra não
+competir visualmente com as abas do segundo nível).
+
+**Estados.** `sticky` fixa a barra no topo; `elevated` aplica sombra e é controlado por quem usa (tipicamente
+ligado ao rolar a página). `compact` esconde a navegação principal no modo responsivo, deixando só marca e
+ações; some com o botão de menu (`onMenuToggle`) pra abrir a navegação em um `Drawer`.
+
+**Tamanho.** `size="md"` (64px) é o padrão; `size="sm"` (48px) serve para contextos mais densos, como dentro
+de um painel ou modal.

@@ -74,6 +74,7 @@ const descricoes = {
   Menu: 'Menu de comandos aberto a partir de um gatilho, com teclado completo.',
   ToggleButton: 'Botão com dois estados, pressionado e não pressionado, com aria-pressed.',
   ButtonGroup: 'Agrupa Buttons ou ToggleButtons relacionados, anexados ou espaçados.',
+  Navbar: 'Barra de navegação superior, com marca, links, busca ou contexto, e ações.',
 };
 
 const titulos = {
@@ -93,6 +94,7 @@ const titulos = {
   TamanhosECores: 'Tamanhos e cores', Texto: 'Texto', Tons: 'Tons', Variantes: 'Variantes', Vazio: 'Vazio',
   Aparencia: 'Aparência', SoIcone: 'Só ícone', Anexado: 'Anexado', Espacado: 'Espaçado',
   SelecaoUnica: 'Seleção única', SelecaoMultipla: 'Seleção múltipla', SplitButton: 'Split button',
+  ComLinks: 'Com links', BuscaCentral: 'Busca central', ComAbas: 'Com abas', Contexto: 'Contexto',
 };
 
 // Remove só as anotações de tipo (o editor ao vivo entende JSX, não TypeScript), preservando o texto original.

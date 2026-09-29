@@ -55,3 +55,4 @@ export * from './overlays/Menu/Menu';
 export * from './navigation/Menubar/Menubar';
 export * from './forms/Autocomplete/Autocomplete';
 export * from './data-display/TreeView/TreeView';
+export * from './navigation/Navbar/Navbar';
