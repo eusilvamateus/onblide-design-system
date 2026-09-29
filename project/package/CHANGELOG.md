@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 1.3.0
+
+### Minor Changes
+
+- Adiciona suporte a imagem no `Avatar` (`src`/`alt`), com fallback automático pras iniciais quando a imagem não é informada ou falha ao carregar.
+
 ## 1.2.0
 
 ### Minor Changes
