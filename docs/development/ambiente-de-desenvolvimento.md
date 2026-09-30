@@ -48,11 +48,9 @@ Depois, seguir o fluxo de release em [`fluxo-git-releases`](../decisions/0006-ad
 mesclar `dev` em `main` por fast-forward, criar a tag `vX.Y.Z` (e, por compatibilidade com o histórico
 anterior, também `onblide-ui@X.Y.Z`) e publicar um GitHub Release.
 
-`docs-site/package.json` referencia o pacote via `"@onblide/ui": "file:../project/package"`, que o npm
-resolve como *symlink* (`docs-site/node_modules/@onblide/ui` aponta direto pra `project/package`).
-`docs-site/package-lock.json` não é versionado (está no `.gitignore`): esse lockfile só existiria pra fixar
-as dependências reais do site, mas o campo que muda a cada release do pacote é justamente a versão resolvida
-desse link local, o que gerava um diff de uma linha sem dono a cada `npm install`/build do docs-site rodado
-depois do commit da release. Sem lockfile commitado, o deploy na Vercel instala com `npm install` em vez de
-`npm ci` — troca reprodutibilidade estrita das dependências do site por zero atrito nesse ponto; o pacote
-`@onblide/ui` em si continua com seu próprio lockfile, versionado normalmente em `project/package/`.
+**Antes de comitar a release, rode `npm run build` em `docs-site/`.** `docs-site/package.json` referencia o
+pacote via `"@onblide/ui": "file:../project/package"`, que o npm resolve como *symlink*
+(`docs-site/node_modules/@onblide/ui` aponta direto pra `project/package`). O `docs-site/package-lock.json`
+grava a versão resolvida desse link; se o build do docs-site rodar só depois do commit da release, o npm
+corrige esse campo sozinho no build seguinte e deixa um diff de uma linha sem dono. Rodar o build do
+docs-site como parte da mesma sequência que gera a release evita esse resto solto.
