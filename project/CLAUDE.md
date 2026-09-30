@@ -51,7 +51,7 @@ para constantes de módulo, nunca snake_case nem kebab-case em identificadores.
 
 ## Site de documentação (`docs-site/`)
 
-Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, https://onblide-design-system.vercel.app),
+Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, <https://onblide-design-system.vercel.app>),
 independente do pacote e do `/design-sync`. Páginas de componentes, tabelas de props e de tokens são **geradas**
 (`npm run gerar`) do pacote e dos exemplos em `project/package/.design-sync/previews/`; primeiros passos e
 fundações são escritos à mão em `docs-site/docs/`, os guias em `docs-site/guias/` e o ponto de partida de cada
