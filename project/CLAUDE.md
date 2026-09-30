@@ -79,7 +79,7 @@ retroativamente ainda.
 
 ## Preview de componentes portados para @onblide/ui
 
-27 páginas em `ds/components/` carregam `project/package/dist/onblide-ui.browser.js` — um
+26 páginas em `ds/components/` carregam `project/package/dist/onblide-ui.browser.js` — um
 arquivo gerado (`dist/` é git-ignored, não versionado). São as 3 da Fase 1
 (`components-checkbox.html`, `components-datepicker.html`, `components-dropdown.html`) mais
 as 9 do Lote A (`components-radio.html`, `components-toggle.html`, `components-skeleton.html`,
