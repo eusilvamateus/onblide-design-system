@@ -139,7 +139,7 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-playground {
   border: 1px solid var(--ob-border);
   border-radius: var(--ob-r-surface);
-  overflow: hidden;
+  overflow: visible;
   margin: 0 0 20px;
   background: var(--ob-surface);
 }
@@ -148,7 +148,7 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
   padding: 4px 12px 0; background: var(--ob-surface);
 }
 .ob-playground__tabs > div:first-child { flex: 1; }
-.ob-playground__preview { padding: var(--ob-pad-card); background: var(--ob-surface); overflow: auto; }
+.ob-playground__preview { padding: var(--ob-pad-card); background: var(--ob-surface); overflow: visible; }
 .ob-playground__error { color: var(--ob-danger); font-family: var(--ob-font-mono); font-size: 12px; white-space: pre-wrap; }
 .ob-playground__editor, .ob-playground__editor pre {
   font-family: var(--ob-font-mono) !important; font-size: 13px !important; line-height: 1.6;
