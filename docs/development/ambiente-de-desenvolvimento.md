@@ -30,8 +30,9 @@ Detalhes de onde vem cada parte do conteúdo gerado: [`docs-site/README.md`](../
 - Nunca snake_case nem kebab-case em identificadores.
 - Ícones: só [Phosphor](https://phosphoricons.com/), nunca outra biblioteca nem SVG desenhado à mão — ver
   [`0002-phosphor-como-unica-biblioteca-de-icones.md`](../decisions/0002-phosphor-como-unica-biblioteca-de-icones.md).
-- **Comentários no mínimo.** Só quando o porquê não for óbvio lendo o código; nunca parágrafo explicando o
-  raciocínio todo. Pedido explícito do usuário em 2026-09-30.
+- **Nenhum comentário explicativo** (`//`, `/* */`), em nenhuma circunstância — regra obrigatória, pedido
+  explícito do usuário em 2026-10-01. Exceção: os JSDoc `/** ... */` de documentação de prop pública, que
+  continuam (alimentam a geração do `.prompt.md` do design-sync e as tabelas de props do `docs-site`).
 
 ## Versionamento e release do pacote
 

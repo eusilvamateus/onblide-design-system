@@ -49,6 +49,14 @@ Convenções completas: [`docs/development/ambiente-de-desenvolvimento.md`](../d
 Resumo: camelCase para variáveis/funções/props/handlers, PascalCase para componentes/tipos, UPPER_SNAKE_CASE
 para constantes de módulo, nunca snake_case nem kebab-case em identificadores.
 
+## Comentários no código: proibidos
+
+**Regra obrigatória, pedido explícito do usuário em 2026-10-01: nenhum comentário explicativo (`//`, `/* */`)
+em código novo ou editado, em nenhuma circunstância.** Não vale "só quando o porquê não é óbvio" — é zero,
+sempre. Única exceção: os JSDoc `/** ... */` que documentam cada prop pública de componente (ex.: `/** Rótulo
+exibido acima do campo. */`), que continuam — são parte da API pública e alimentam a geração do `.prompt.md`
+do design-sync e as tabelas de props do `docs-site`.
+
 ## Site de documentação (`docs-site/`)
 
 Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, <https://onblide-design-system.vercel.app>),
