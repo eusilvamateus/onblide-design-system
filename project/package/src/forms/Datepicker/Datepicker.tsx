@@ -38,8 +38,9 @@ export interface DatepickerProps {
   values?: DatepickerValues;
   /** Data mínima permitida; datas anteriores são tratadas como inválidas. */
   minBookingDate?: Date | null;
-  /** Accepted for API compatibility with the pre-port component; not
-   * enforced anywhere — same as before the port. See Task 9 notes. */
+  /** Quantidade máxima de dias do intervalo (contando início e fim); ignorado em `singleDate`. Depois de
+   * escolhida a data inicial, dias além do limite ficam desabilitados no calendário e a digitação manual
+   * de uma data final além do limite mostra erro. */
   maxBookingDays?: number;
   /** Rótulo exibido acima do campo. */
   label?: React.ReactNode;
@@ -76,6 +77,17 @@ const dpMask = (val: string): string => {
 const dpToIso = (d: Date | null): string | null =>
   d ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` : null;
 
+const dpParseIso = (iso: string): Date => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(y, m - 1, d);
+};
+
+const dpAddDays = (d: Date, n: number): Date => {
+  const r = new Date(d);
+  r.setDate(r.getDate() + n);
+  return r;
+};
+
 /** Campo de seleção de data única ou intervalo, com digitação mascarada e calendário popup. */
 export const Datepicker: React.FC<DatepickerProps> = ({
   singleDate = false,
@@ -91,6 +103,7 @@ export const Datepicker: React.FC<DatepickerProps> = ({
   submitLabel = 'Confirmar',
   values = { startDate: null, endDate: null },
   minBookingDate = null,
+  maxBookingDays,
   label,
   hint,
   error,
@@ -105,6 +118,10 @@ export const Datepicker: React.FC<DatepickerProps> = ({
   const [startFocus, setStartFocus] = useState(false);
   const [endFocus, setEndFocus] = useState(false);
   const [hoverIso, setHoverIso] = useState<string | null>(null);
+
+  const limiteIso = maxBookingDays && localValues.startDate
+    ? dpToIso(dpAddDays(dpParseIso(localValues.startDate), maxBookingDays - 1))
+    : null;
 
   useEffect(() => {
     if (!open) return;
@@ -144,6 +161,7 @@ export const Datepicker: React.FC<DatepickerProps> = ({
     const d = dpParse(masked);
     if (!d) { setEndErr('Data inválida'); return; }
     if (localValues.startDate && dpToIso(d)! < localValues.startDate) { setEndErr('Deve ser após data inicial'); return; }
+    if (limiteIso && dpToIso(d)! > limiteIso) { setEndErr(`Máx: ${maxBookingDays} dias`); return; }
     setEndErr('');
     const iso = dpToIso(d);
     const newVals = { ...localValues, endDate: iso };
@@ -184,6 +202,8 @@ export const Datepicker: React.FC<DatepickerProps> = ({
         const newVals = { startDate: iso, endDate: localValues.startDate };
         setLocalValues(newVals); setStartText(dpFmt(d)); setEndText(dpFmt(localValues.startDate)); setStartErr(''); setEndErr('');
         onChange?.(newVals); setOpen(false);
+      } else if (limiteIso && iso! > limiteIso) {
+        return;
       } else {
         const newVals = { ...localValues, endDate: iso };
         setLocalValues(newVals); setEndText(dpFmt(d)); setEndErr('');
@@ -284,13 +304,17 @@ export const Datepicker: React.FC<DatepickerProps> = ({
               const isEnd = iso === localValues.endDate;
               const inRange = isInRange(day) || emPrevia(iso);
               const alvoDaPrevia = aguardandoFim && hoverIso === iso && !isStart;
+              const foraDoLimite = aguardandoFim && !!limiteIso && iso > limiteIso;
               return (
-                <button key={day} onClick={() => handleDayClick(day)} onMouseEnter={() => setHoverIso(iso)} onFocus={() => setHoverIso(iso)} style={{
+                <button key={day} disabled={foraDoLimite} onClick={() => handleDayClick(day)}
+                  onMouseEnter={() => !foraDoLimite && setHoverIso(iso)} onFocus={() => !foraDoLimite && setHoverIso(iso)} style={{
                   padding: '6px 0', borderRadius: 'var(--ob-r-xs)', border: 'none', textAlign: 'center',
                   background: isStart || isEnd ? 'var(--ob-blue)' : inRange ? 'var(--ob-blue-100)' : (hoverIso === iso ? 'var(--ob-bg-warm)' : 'var(--ob-surface)'),
                   color: isStart || isEnd ? '#fff' : 'var(--ob-fg-strong)',
                   boxShadow: alvoDaPrevia ? 'inset 0 0 0 1.5px var(--ob-blue)' : 'none',
-                  fontFamily: 'inherit', fontSize: 12, fontWeight: 500, cursor: 'pointer', transition: 'background 100ms',
+                  opacity: foraDoLimite ? 0.35 : 1,
+                  fontFamily: 'inherit', fontSize: 12, fontWeight: 500,
+                  cursor: foraDoLimite ? 'not-allowed' : 'pointer', transition: 'background 100ms',
                 }}>{day}</button>
               );
             })}

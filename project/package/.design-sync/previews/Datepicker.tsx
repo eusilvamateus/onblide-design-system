@@ -43,6 +43,12 @@ export const DataMinima = () => (
   </div>
 );
 
+export const LimiteDeDias = () => (
+  <div style={box}>
+    <Datepicker label="Reserva" hint="No máximo 5 dias" maxBookingDays={5} defaultValues={{ startDate: '2026-10-15', endDate: null }} startDateLabel="de" endDateLabel="até" />
+  </div>
+);
+
 export const ComErro = () => (
   <div style={box}>
     <Datepicker singleDate label="Data de entrega" error="Selecione uma data válida" startDateLabel="Entrega" />

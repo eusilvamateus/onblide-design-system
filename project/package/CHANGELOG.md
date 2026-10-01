@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 1.4.0
+
+### Minor Changes
+
+- Implementa de verdade a prop `maxBookingDays` do `Datepicker`, antes aceita mas sem nenhum efeito. Com ela definida, dias além do limite (contado a partir da data inicial) ficam desabilitados no calendário e a digitação manual de uma data final além do limite mostra erro.
+
 ## 1.3.0
 
 ### Minor Changes
