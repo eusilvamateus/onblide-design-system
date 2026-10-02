@@ -199,6 +199,9 @@ export interface MenuProps {
   trigger: React.ReactElement;
   items: MenuItem[];
   align?: 'left' | 'right';
+  /** Lado em que o painel abre. `auto` mede o espaço disponível na janela e escolhe `bottom` ou `top`
+   * (útil para gatilhos perto do fim da tela, como o rodapé de conta de uma SideNav). */
+  placement?: 'bottom' | 'top' | 'auto';
   size?: MenuSize;
   search?: MenuSearchProps;
   ariaLabel?: string;
@@ -208,18 +211,27 @@ export interface MenuProps {
 
 /** Menu de comandos aberto a partir de um gatilho: itens simples, com ícone/atalho/descrição, seleção
  * única, radio, checkbox, toggle, busca, contas e submenus — com teclado completo. */
-export const Menu: React.FC<MenuProps> = ({ trigger, items, align = 'left', ariaLabel, defaultOpen = false, ...panel }) => {
-  const [open, setOpen] = React.useState<{ kb: boolean } | null>(defaultOpen ? { kb: false } : null);
+export const Menu: React.FC<MenuProps> = ({ trigger, items, align = 'left', placement = 'auto', ariaLabel, defaultOpen = false, ...panel }) => {
+  const [open, setOpen] = React.useState<{ kb: boolean; lado: 'bottom' | 'top' } | null>(defaultOpen ? { kb: false, lado: placement === 'top' ? 'top' : 'bottom' } : null);
   const wrap = React.useRef<HTMLDivElement>(null);
   useOutside(wrap, !!open, () => setOpen(null));
   const close = () => { setOpen(null); const el = wrap.current?.querySelector<HTMLElement>('button, a, [tabindex="0"]'); el?.focus(); };
+  const abrir = (kb: boolean) => {
+    const lado = placement === 'auto'
+      ? (wrap.current && window.innerHeight - wrap.current.getBoundingClientRect().bottom < 280 ? 'top' : 'bottom')
+      : placement;
+    setOpen({ kb, lado });
+  };
   return (
     <div ref={wrap} style={{ position: 'relative', display: 'inline-block' }}>
-      <span style={{ display: 'inline-flex' }} onClick={(e) => setOpen(open ? null : { kb: e.detail === 0 })}
-        onKeyDown={(e) => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); setOpen({ kb: true }); } }}>{trigger}</span>
+      <span style={{ display: 'inline-flex' }} onClick={(e) => (open ? setOpen(null) : abrir(e.detail === 0))}
+        onKeyDown={(e) => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); abrir(true); } }}>{trigger}</span>
       {open && (
         <MenuPanel {...panel} items={items} keyboard={open.kb} onCloseTree={close} ariaLabel={ariaLabel}
-          style={{ position: 'absolute', top: 'calc(100% + 6px)', [align === 'right' ? 'right' : 'left']: 0 }} />
+          style={{
+            position: 'absolute', [align === 'right' ? 'right' : 'left']: 0,
+            ...(open.lado === 'top' ? { bottom: 'calc(100% + 6px)' } : { top: 'calc(100% + 6px)' }),
+          }} />
       )}
     </div>
   );

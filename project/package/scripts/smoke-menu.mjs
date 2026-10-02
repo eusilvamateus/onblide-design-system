@@ -13,6 +13,9 @@ if (closed.includes('role="menu"')) fail('menu fechado não deveria renderizar o
 const defaultOpen = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], defaultOpen: true }));
 if (!defaultOpen.includes('role="menu"') || !defaultOpen.includes('Editar')) fail('defaultOpen deveria montar o painel aberto', defaultOpen);
 
+const placementTop = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], defaultOpen: true, placement: 'top' }));
+if (!placementTop.includes('bottom:calc(100% + 6px)')) fail('placement="top" deveria abrir o painel acima do gatilho', placementTop);
+
 // Itens: simples, checkbox, radio, toggle, submenu, separador, label.
 const items = [
   { label: 'Editar', icon: 'pencil-simple', shortcut: 'Ctrl+E' },

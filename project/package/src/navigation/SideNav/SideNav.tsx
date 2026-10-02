@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { LogoMark } from '../../brand/Logo/Logo';
+import { Menu, MenuItem } from '../../overlays/Menu/Menu';
 
 export interface SideNavItem {
   /** Identificador do item de navegação, usado em `active` e `onNav`. */
@@ -94,10 +95,24 @@ export interface SideNavProps {
   onToggle?: () => void;
   /** Ocupa 100% do espaço disponível, sem borda arredondada nem largura fixa. */
   flush?: boolean;
+  /** Nome exibido ao lado do símbolo no cabeçalho. Padrão: "Onblide". */
+  brandName?: string;
+  /** Substitui o bloco de marca (símbolo + nome) do cabeçalho inteiro. */
+  brand?: React.ReactNode;
   /** Nome do workspace exibido no rodapé de conta. */
   workspaceName?: string;
   /** Iniciais exibidas no avatar do rodapé de conta. */
   userInitials?: string;
+  /** Nome exibido no rodapé de conta e no menu que ele abre. Padrão: "Onblide". */
+  accountName?: string;
+  /** Itens do menu aberto pelo rodapé de conta. Padrão: Perfil, Configurações e Sair. */
+  accountMenu?: MenuItem[];
+  /** Chamado ao escolher "Perfil" no menu padrão do rodapé de conta. */
+  onProfile?: () => void;
+  /** Chamado ao escolher "Configurações" no menu padrão do rodapé de conta. */
+  onSettings?: () => void;
+  /** Chamado ao escolher "Sair" no menu padrão do rodapé de conta. */
+  onSignOut?: () => void;
   /** Oculta o cabeçalho com a marca e o botão de recolher (útil quando a navegação é só uma lista). */
   hideBrand?: boolean;
   /** Oculta o rodapé com a conta do usuário. */
@@ -106,31 +121,68 @@ export interface SideNavProps {
   menuLabel?: string | null;
 }
 
-/** Navegação lateral com seções, itens ativos, badges e modo recolhido. */
-export const SideNav: React.FC<SideNavProps> = ({ items = [], active, onNav, collapsed = false, onToggle, flush = false, workspaceName = 'Workspace', userInitials = 'OB', hideBrand = false, hideAccount = false, menuLabel = 'Menu' }) => (
-  <div style={{ width: flush ? '100%' : (collapsed ? 72 : 240), minWidth: 0, boxSizing: 'border-box', overflowX: 'hidden', overflowY: flush ? 'auto' : 'hidden', height: flush ? '100%' : undefined, background: 'var(--ob-surface)', border: flush ? 'none' : '1px solid var(--ob-border)', borderRight: flush ? '1px solid var(--ob-border)' : undefined, borderRadius: flush ? 0 : 'var(--ob-r-lg)', padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
-    {hideBrand ? null : collapsed
-      ? <CollapsedBrand onToggle={onToggle} />
-      : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 4px 14px 8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <LogoMark size={26} />
-            <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--ob-fg-strong)', letterSpacing: '-0.02em' }}>Onblide</span>
-          </div>
-          {onToggle && <button onClick={onToggle} title="Recolher" style={{ width: 30, height: 30, borderRadius: 'var(--ob-r-md)', border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}
-            onMouseEnter={e=>{e.currentTarget.style.background='var(--ob-bg-warm)';e.currentTarget.style.color='var(--ob-fg-strong)';}}
-            onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--ob-fg-soft)';}}>
-            <Ph n="caret-line-left" size={18}/>
-          </button>}
-        </div>
-    }
-    {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 10px 6px' }}>{menuLabel}</p>}
-    {items.map((it, i) => {
-      if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '12px 10px 4px' }}>{it.section}</p> : null;
-      return <Item key={it.id || i} it={it} active={active} onNav={onNav} collapsed={collapsed} nivel={0} />;
-    })}
-    {!hideAccount && <div style={{ marginTop: 'auto', borderTop: '1px solid var(--ob-line-soft)', display: 'flex', alignItems: 'center', gap: 10, padding: collapsed ? '10px 0 2px' : '10px 8px 2px', justifyContent: collapsed ? 'center' : 'flex-start' }}>
+/** Navegação lateral com seções, itens ativos, badges, modo recolhido e rodapé de conta com menu. */
+export const SideNav: React.FC<SideNavProps> = ({
+  items = [], active, onNav, collapsed = false, onToggle, flush = false,
+  brandName = 'Onblide', brand, workspaceName = 'Workspace', userInitials = 'OB',
+  accountName = 'Onblide', accountMenu, onProfile, onSettings, onSignOut,
+  hideBrand = false, hideAccount = false, menuLabel = 'Menu',
+}) => {
+  const itensDaConta: MenuItem[] = accountMenu ?? [
+    { label: 'Perfil', icon: 'user', onSelect: onProfile },
+    { label: 'Configurações', icon: 'gear', onSelect: onSettings },
+    { type: 'separator' },
+    { label: 'Sair', icon: 'sign-out', tone: 'danger', onSelect: onSignOut },
+  ];
+  const conteudoConta = (
+    <>
       <span style={{ width: 30, height: 30, borderRadius: 999, background: 'var(--ob-blue)', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>{userInitials}</span>
-      {!collapsed && <div style={{ minWidth: 0 }}><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Onblide</div><div style={{ fontSize: 11, color: 'var(--ob-fg-mute)' }}>{workspaceName}</div></div>}
-    </div>}
-  </div>
-);
+      {!collapsed && <div style={{ minWidth: 0 }}><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountName}</div><div style={{ fontSize: 11, color: 'var(--ob-fg-mute)' }}>{workspaceName}</div></div>}
+    </>
+  );
+  return (
+    <div style={{ width: flush ? '100%' : (collapsed ? 72 : 240), minWidth: 0, boxSizing: 'border-box', overflowX: 'hidden', overflowY: flush ? 'auto' : 'hidden', height: flush ? '100%' : undefined, background: 'var(--ob-surface)', border: flush ? 'none' : '1px solid var(--ob-border)', borderRight: flush ? '1px solid var(--ob-border)' : undefined, borderRadius: flush ? 0 : 'var(--ob-r-lg)', padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
+      {hideBrand ? null : collapsed
+        ? <CollapsedBrand onToggle={onToggle} />
+        : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 4px 14px 8px' }}>
+            {brand ?? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+                <LogoMark size={26} />
+                <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--ob-fg-strong)', letterSpacing: '-0.02em' }}>{brandName}</span>
+              </div>
+            )}
+            {onToggle && <button onClick={onToggle} title="Recolher" style={{ width: 30, height: 30, borderRadius: 'var(--ob-r-md)', border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}
+              onMouseEnter={e=>{e.currentTarget.style.background='var(--ob-bg-warm)';e.currentTarget.style.color='var(--ob-fg-strong)';}}
+              onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--ob-fg-soft)';}}>
+              <Ph n="caret-line-left" size={18}/>
+            </button>}
+          </div>
+      }
+      {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 10px 6px' }}>{menuLabel}</p>}
+      {items.map((it, i) => {
+        if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '12px 10px 4px' }}>{it.section}</p> : null;
+        return <Item key={it.id || i} it={it} active={active} onNav={onNav} collapsed={collapsed} nivel={0} />;
+      })}
+      {!hideAccount && (
+        <div style={{ marginTop: 'auto' }}>
+          <Menu
+            placement="auto"
+            align="left"
+            ariaLabel={`Conta de ${accountName}`}
+            items={itensDaConta}
+            trigger={
+              <button type="button" aria-label={`Conta de ${accountName}`} style={{
+                width: '100%', border: 'none', borderTop: '1px solid var(--ob-line-soft)',
+                background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10,
+                padding: collapsed ? '10px 0 2px' : '10px 8px 2px', justifyContent: collapsed ? 'center' : 'flex-start',
+                borderRadius: 'var(--ob-r-md)',
+              }}>
+                {conteudoConta}
+              </button>
+            }
+          />
+        </div>
+      )}
+    </div>
+  );
+};

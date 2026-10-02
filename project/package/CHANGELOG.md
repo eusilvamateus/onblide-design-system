@@ -1,5 +1,13 @@
 # @onblide/ui
 
+## 1.5.0
+
+### Minor Changes
+
+- `SideNav`: o nome da marca no cabeçalho (`brandName`, ou `brand` pra substituir o bloco inteiro) e o nome da conta no rodapé (`accountName`) agora são configuráveis, em vez de "Onblide" fixo no código. O rodapé de conta virou um gatilho de `Menu` (Perfil/Configurações/Sair por padrão, customizável via `accountMenu`/`onProfile`/`onSettings`/`onSignOut`), em vez de um bloco estático.
+
+  `Menu`: nova prop `placement` (`'bottom' | 'top' | 'auto'`, padrão `'auto'`). Com `auto`, mede o espaço abaixo do gatilho e abre o painel para cima quando necessário — usado pelo rodapé de conta da `SideNav`, mas disponível em qualquer `Menu`.
+
 ## 1.4.0
 
 ### Minor Changes

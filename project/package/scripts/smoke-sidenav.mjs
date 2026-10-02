@@ -25,4 +25,13 @@ if (b.includes('width:3px')) fail('item ativo não deveria ter barra lateral', b
 const c = renderToStaticMarkup(h(SideNav, { items: [{ id: 'x', label: 'Simples' }], flush: true }));
 if (!c.includes('overflow-y:auto')) fail('no modo flush a lista deveria rolar', c);
 
-console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto, itens sem encolher, sem barra no ativo)');
+const padrao = renderToStaticMarkup(h(SideNav, { items: [] }));
+if (!padrao.includes('>Onblide<')) fail('brandName deveria usar "Onblide" por padrão', padrao);
+if (!padrao.includes('aria-label="Conta de Onblide"')) fail('o rodapé de conta deveria ser um gatilho de menu com aria-label', padrao);
+
+const marcaCustom = renderToStaticMarkup(h(SideNav, { items: [], brandName: 'Acme', accountName: 'Equipe Acme' }));
+if (marcaCustom.includes('>Onblide<')) fail('brandName customizado não deveria deixar "Onblide" no cabeçalho', marcaCustom);
+if (!marcaCustom.includes('>Acme<')) fail('brandName deveria aparecer no cabeçalho', marcaCustom);
+if (!marcaCustom.includes('aria-label="Conta de Equipe Acme"')) fail('accountName deveria aparecer no aria-label do gatilho de conta', marcaCustom);
+
+console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto, itens sem encolher, sem barra no ativo, marca e conta configuráveis)');
