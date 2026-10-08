@@ -8,6 +8,14 @@
 - `Button` não tem prop `disabled`. `Tooltip` só abre com hover: o preview simula `mouseover` ao montar; `Dropdown` clica o gatilho ao montar. `Modal`/`Drawer` ficam contidos com `transform: translateZ(0)`.
 - Chromium do playwright instalado em `.ds-sync` (bundled, perfil próprio). NUNCA usar/fechar Edge/Chrome do usuário nem matar processos.
 
+## Pausado em 2026-10-08 — não sincronizar nem consultar o Claude Design
+
+**Pedido explícito do usuário: nenhuma chamada à ferramenta `DesignSync` (sync, `get_file`, `list_files` etc.)
+até segunda ordem.** Motivo: autorização de escrita (`/design-login`) pendente. Ficaram acumuladas sem subir:
+`maxBookingDays` do Datepicker (v1.4.0), marca/conta configuráveis da SideNav + `placement` do Menu (v1.5.0),
+e o tamanho de fonte do conteúdo da Table (v1.5.1). Releases, docs-site e GitHub seguem normalmente; só o
+Claude Design fica de fora até o usuário liberar.
+
 ## Known render warns
 - `[FONT_MISSING]` "Iowan Old Style"/"Apple Garamond": nomes de fallback da pilha serifada, aceitos.
 - `[RENDER_THIN]` Logo, Spinner, Drawer: SVG/animação sem texto e overlay fixo; conferidos nas capturas.
