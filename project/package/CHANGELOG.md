@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 1.5.1
+
+### Patch Changes
+
+- `Table`: o tamanho da fonte do conteúdo passa de 14px fixo para `var(--ob-fs-xs)` (12px), acompanhando o token tipográfico em vez de um número solto.
+
 ## 1.5.0
 
 ### Minor Changes

@@ -124,7 +124,7 @@ export function Table<T extends object = Record<string, unknown>>({
     background: 'var(--ob-surface)', whiteSpace: 'nowrap', userSelect: 'none',
   };
   const tdStyle: React.CSSProperties = {
-    padding: '12px 14px', fontSize: 14, color: 'var(--ob-fg)',
+    padding: '12px 14px', fontSize: 'var(--ob-fs-xs)', color: 'var(--ob-fg)',
     borderBottom: '1px solid var(--ob-line-soft)', verticalAlign: 'middle',
   };
   // A borda do invólucro já fecha a tabela: a última linha fica sem borda de baixo, senão as duas se somam
