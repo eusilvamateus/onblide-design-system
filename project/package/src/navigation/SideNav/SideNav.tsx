@@ -68,7 +68,7 @@ const CollapsedBrand: React.FC<{ onToggle?: () => void }> = ({ onToggle }) => {
             onMouseEnter={() => setAtivo(true)} onMouseLeave={() => setAtivo(false)}
             onFocus={() => setAtivo(true)} onBlur={() => setAtivo(false)}
             style={{ width: 36, height: 36, borderRadius: 'var(--ob-r-md)', border: ativo ? '1.5px solid var(--ob-border)' : '1.5px solid transparent', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}>
-            {ativo ? <Ph n="caret-line-right" size={18} /> : <LogoMark size={22} />}
+            {ativo ? <Ph n="caret-right" size={16} /> : <LogoMark size={22} />}
           </button>
         </Tooltip>
       ) : (
@@ -87,7 +87,7 @@ const BotaoDeBorda: React.FC<{ onToggle: () => void }> = ({ onToggle }) => (
         style={{ width: 26, height: 26, borderRadius: 999, border: '1px solid var(--ob-border)', background: 'var(--ob-surface)', color: 'var(--ob-fg-soft)', boxShadow: 'var(--ob-shadow-sm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
         onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ob-bg-warm)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }}
         onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--ob-surface)'; e.currentTarget.style.color = 'var(--ob-fg-soft)'; }}>
-        <Ph n="caret-left" size={14} />
+        <Ph n="caret-left" size={16} />
       </button>
     </Tooltip>
   </span>

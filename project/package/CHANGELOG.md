@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 1.6.1
+
+### Patch Changes
+
+- SideNav: os botões de recolher e abrir usam o mesmo glifo (`caret-left`/`caret-right`), só espelhado.
+
 ## 1.6.0
 
 ### Minor Changes

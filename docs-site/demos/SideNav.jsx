@@ -16,7 +16,7 @@ function Aplicacao({ children }) {
   const [aviso, setAviso] = useState('nenhuma ainda');
   const estado = { pagina, irPara: setPagina, colapsada, alternar: () => setColapsada((c) => !c), avisar: setAviso };
   return (
-    <div style={{ display: 'flex', gap: 12, height: 440, padding: 12, background: 'var(--ob-bg-alt)', borderRadius: 14 }}>
+    <div style={{ display: 'flex', gap: 12, height: 520, padding: 12, background: 'var(--ob-bg-alt)', borderRadius: 14 }}>
       <div style={{ display: 'flex', flex: 'none', width: colapsada ? 72 : 240 }}>{children(estado)}</div>
       <main style={{ flex: 1, minWidth: 0, padding: '16px 24px' }}>
         <h3 style={{ margin: '0 0 8px', fontSize: 'var(--ob-fs-lg)', color: 'var(--ob-fg-strong)' }}>{paginas[pagina]}</h3>
