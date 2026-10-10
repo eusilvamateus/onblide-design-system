@@ -61,38 +61,58 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
   );
 };
 
-const CollapsedBrand: React.FC<{ onToggle?: () => void }> = ({ onToggle }) => {
+interface BotaoLateralProps {
+  onClick: () => void;
+  rotulo: string;
+  direcao: 'esquerda' | 'direita';
+  repouso?: React.ReactNode;
+}
+
+const BotaoLateral: React.FC<BotaoLateralProps> = ({ onClick, rotulo, direcao, repouso }) => {
   const [ativo, setAtivo] = useState(false);
+  const deslocamento = ativo ? (direcao === 'esquerda' ? -2 : 2) : 0;
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
-      {onToggle ? (
-        <Tooltip label="Abrir barra lateral" placement="right">
-          <button type="button" onClick={onToggle} aria-label="Abrir barra lateral"
-            onMouseEnter={() => setAtivo(true)} onMouseLeave={() => setAtivo(false)}
-            onFocus={() => setAtivo(true)} onBlur={() => setAtivo(false)}
-            style={{ width: 36, height: 36, borderRadius: 'var(--ob-r-md)', border: ativo ? '1.5px solid var(--ob-border)' : '1.5px solid transparent', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}>
-            {ativo ? <Ph n="caret-right" size={16} /> : <LogoMark size={22} />}
-          </button>
-        </Tooltip>
-      ) : (
-        <span style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <LogoMark size={22} />
+    <Tooltip label={rotulo} placement="right">
+      <button type="button" onClick={onClick} aria-label={rotulo}
+        onMouseEnter={() => setAtivo(true)} onMouseLeave={() => setAtivo(false)}
+        onFocus={() => setAtivo(true)} onBlur={() => setAtivo(false)}
+        style={{
+          position: 'relative', width: 32, height: 32, padding: 0, borderRadius: 'var(--ob-r-md)', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          border: `1px solid ${ativo ? 'var(--ob-blue)' : repouso ? 'transparent' : 'var(--ob-border)'}`,
+          background: ativo ? 'var(--ob-bg-warm)' : repouso ? 'transparent' : 'var(--ob-surface)',
+          color: ativo ? 'var(--ob-blue)' : 'var(--ob-fg-soft)',
+          boxShadow: repouso && !ativo ? 'none' : 'var(--ob-shadow-sm)',
+          transition: 'background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s',
+        }}>
+        {repouso && (
+          <span style={{ position: 'absolute', display: 'flex', opacity: ativo ? 0 : 1, transform: ativo ? 'scale(0.8)' : 'none', transition: 'opacity 0.15s, transform 0.15s' }}>
+            {repouso}
+          </span>
+        )}
+        <span style={{ display: 'flex', opacity: repouso && !ativo ? 0 : 1, transform: `translateX(${deslocamento}px)`, transition: 'opacity 0.15s, transform 0.15s' }}>
+          <Ph n={direcao === 'esquerda' ? 'caret-line-left' : 'caret-line-right'} size={16} />
         </span>
-      )}
-    </div>
+      </button>
+    </Tooltip>
   );
 };
 
+const CollapsedBrand: React.FC<{ onToggle?: () => void }> = ({ onToggle }) => (
+  <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
+    {onToggle ? (
+      <BotaoLateral onClick={onToggle} rotulo="Abrir barra lateral" direcao="direita" repouso={<LogoMark size={22} />} />
+    ) : (
+      <span style={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <LogoMark size={22} />
+      </span>
+    )}
+  </div>
+);
+
 const BotaoDeBorda: React.FC<{ onToggle: () => void }> = ({ onToggle }) => (
-  <span style={{ position: 'absolute', top: 19, right: -14, zIndex: 2 }}>
-    <Tooltip label="Fechar barra lateral" placement="right">
-      <button type="button" onClick={onToggle} aria-label="Fechar barra lateral"
-        style={{ width: 26, height: 26, borderRadius: 999, border: '1px solid var(--ob-border)', background: 'var(--ob-surface)', color: 'var(--ob-fg-soft)', boxShadow: 'var(--ob-shadow-sm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ob-bg-warm)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--ob-surface)'; e.currentTarget.style.color = 'var(--ob-fg-soft)'; }}>
-        <Ph n="caret-left" size={16} />
-      </button>
-    </Tooltip>
+  <span style={{ position: 'absolute', top: 16, right: -17, zIndex: 2 }}>
+    <BotaoLateral onClick={onToggle} rotulo="Fechar barra lateral" direcao="esquerda" />
   </span>
 );
 

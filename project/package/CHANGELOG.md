@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 1.6.3
+
+### Patch Changes
+
+- SideNav: os botões de recolher e abrir têm o mesmo formato (quadrado arredondado) e o mesmo par de ícones (`caret-line-left`/`caret-line-right`), com efeito de hover que desloca o ícone e destaca a borda; sobre a logo, ela se dissolve no ícone.
+
 ## 1.6.2
 
 ### Patch Changes
