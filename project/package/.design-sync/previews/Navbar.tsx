@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navbar, NavbarIconButton, NavbarAccount, SearchInput, Tabs, Breadcrumbs } from '@onblide/ui';
+import { Navbar, NavbarAccount, Button, Icons, SearchInput, Tabs, Breadcrumbs } from '@onblide/ui';
 
 const itensPrincipais = [
   { id: 'inicio', label: 'Início' },
@@ -14,7 +14,7 @@ export const ComLinks = () => (
     active="projetos"
     actions={
       <>
-        <NavbarIconButton icon="bell" label="Notificações" count={3} />
+        <Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} count={3} />
         <NavbarAccount />
       </>
     }
@@ -29,7 +29,7 @@ export const BuscaCentral = () => {
       search={<SearchInput value={busca} onChange={setBusca} placeholder="Buscar em todo o workspace..." />}
       actions={
         <>
-          <NavbarIconButton icon="bell" label="Notificações" />
+          <Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} />
           <NavbarAccount />
         </>
       }
@@ -76,7 +76,7 @@ export const Contexto = () => (
     }
     actions={
       <>
-        <NavbarIconButton icon="bell" label="Notificações" />
+        <Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} />
         <NavbarAccount />
       </>
     }

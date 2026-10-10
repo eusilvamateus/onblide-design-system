@@ -12,7 +12,7 @@ const itens = [
   active="projetos"
   actions={
     <>
-      <NavbarIconButton icon="bell" label="Notificações" count={3} />
+      <Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} count={3} />
       <NavbarAccount />
     </>
   }

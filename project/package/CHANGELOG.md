@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 3.0.0
+
+### Major Changes
+
+- Navbar: removido `NavbarIconButton`, que duplicava o Button. Use `<Button kind="neutral" iconOnly aria-label="..." icon={<Icons.bell size={20} />} count={3} />` nas `actions`; o botão de menu da Navbar (`onMenuToggle`) também passa a ser um Button.
+
 ## 2.4.0
 
 ### Minor Changes

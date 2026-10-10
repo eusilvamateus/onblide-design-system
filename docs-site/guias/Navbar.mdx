@@ -28,7 +28,7 @@ sublinhado; `actions` é só para ações à direita (ícones, conta).
 
 ### Composição
 
-- **NavbarIconButton**: ações só com ícone em `actions` (notificações, ajuda), com contador opcional.
+- **Button** (`kind="neutral"`, `iconOnly`): ações só com ícone em `actions` (notificações, ajuda), com contador opcional em `count`.
 - **NavbarAccount**: botão de conta pronto, com avatar e `Menu` de perfil/configurações/sair.
 - **SearchInput**: conteúdo de `search`, no layout `search`.
 - **Breadcrumbs**: conteúdo de `crumbs`, no layout `context`.
@@ -40,7 +40,7 @@ sublinhado; `actions` é só para ações à direita (ícones, conta).
 <Navbar
   items={[{ id: 'inicio', label: 'Início' }, { id: 'projetos', label: 'Projetos', badge: 3 }]}
   active="projetos"
-  actions={<><NavbarIconButton icon="bell" label="Notificações" count={3} /><NavbarAccount /></>}
+  actions={<><Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} count={3} /><NavbarAccount /></>}
 />
 
 <Navbar

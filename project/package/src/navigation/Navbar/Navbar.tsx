@@ -4,6 +4,7 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { Badge } from '../../data-display/Badge/Badge';
 import { Menu, MenuItem } from '../../overlays/Menu/Menu';
 import { Avatar } from '../../data-display/Avatar/Avatar';
+import { Button } from '../../actions/Button/Button';
 import { LogoMark } from '../../brand/Logo/Logo';
 
 export type NavbarSize = 'md' | 'sm';
@@ -27,36 +28,6 @@ export interface NavbarItem {
   /** Conteúdo do badge exibido depois do rótulo. */
   badge?: React.ReactNode;
 }
-
-export interface NavbarIconButtonProps {
-  /** Nome do ícone Phosphor (sem o prefixo "ph-"). */
-  icon: string;
-  /** Rótulo acessível; obrigatório porque o botão só tem ícone. */
-  label: string;
-  /** Contador exibido como badge numérico sobre o ícone. */
-  count?: number;
-  /** Tamanho do botão, acompanhando o tamanho da Navbar. */
-  size?: NavbarSize;
-  onClick?: () => void;
-  /** Estado pressionado (ex.: painel aberto). */
-  pressed?: boolean;
-}
-
-/** Botão de ação só com ícone para a Navbar, com contador opcional em badge. */
-export const NavbarIconButton: React.FC<NavbarIconButtonProps> = ({ icon, label, count, size = 'md', onClick, pressed }) => {
-  const z = NB_SIZE[size];
-  const [hover, setHover] = useState(false);
-  const [focus, setFocus] = useState(false);
-  return (
-    <button type="button" aria-label={label} aria-pressed={pressed} onClick={onClick}
-      onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-      onFocus={(e) => setFocus(e.target.matches(':focus-visible'))} onBlur={() => setFocus(false)}
-      style={{ position: 'relative', width: z.link, height: z.link, display: 'grid', placeItems: 'center', border: 0, borderRadius: 'var(--ob-r-control)', cursor: 'pointer', color: hover ? 'var(--ob-fg-strong)' : 'var(--ob-fg)', background: hover || pressed ? 'var(--ob-surface-2)' : 'transparent', boxShadow: focus ? '0 0 0 3px var(--ob-focus-ring)' : 'none', outline: 'none', transition: 'background var(--ob-dur-fast) var(--ob-ease)' }}>
-      <Ph n={icon} size={z.icon} c="currentColor" />
-      {count ? <span style={{ position: 'absolute', top: 2, right: 0 }}><Badge tone="red" variant="numeric" size="sm">{count}</Badge></span> : null}
-    </button>
-  );
-};
 
 interface NavbarLinkProps {
   item: NavbarItem;
@@ -128,7 +99,7 @@ export interface NavbarProps {
   active?: string;
   /** Chamado com o id do link clicado. */
   onNav?: (id: string) => void;
-  /** Ações à direita da barra: `NavbarIconButton`, `Button`, `NavbarAccount`. */
+  /** Ações à direita da barra: `Button` (por exemplo `kind="neutral"` com `iconOnly`), `NavbarAccount`. */
   actions?: React.ReactNode;
   /** Campo de busca central, usado no layout `search` (geralmente um `SearchInput`). */
   search?: React.ReactNode;
@@ -158,7 +129,7 @@ export const Navbar: React.FC<NavbarProps> = ({ layout = 'links', items = [], ac
   return (
     <header style={{ position: sticky ? 'sticky' : 'relative', top: 0, zIndex: 'var(--ob-z-raised)' as React.CSSProperties['zIndex'], background: 'var(--ob-surface)', borderBottom: '1px solid var(--ob-border)', boxShadow: elevated ? 'var(--ob-shadow-sm)' : 'none', transition: 'box-shadow var(--ob-dur-base) var(--ob-ease)', fontFamily: 'var(--ob-font)', ...style }}>
       <div style={{ height: z.h, display: 'flex', alignItems: 'center', gap: 'var(--ob-s-4)', padding: '0 ' + z.pad, minWidth: 0 }}>
-        {onMenuToggle && <NavbarIconButton icon="list" label="Abrir navegação" size={size} onClick={onMenuToggle} />}
+        {onMenuToggle && <Button kind="neutral" iconOnly size={size === 'sm' ? 'sm' : 'md'} aria-label="Abrir navegação" icon={<Ph n="list" size={z.icon} c="currentColor" />} onClick={onMenuToggle} />}
         {layout !== 'context' && (brand || <a href="#" aria-label="Início" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }} onClick={(e) => e.preventDefault()}><LogoMark size={z.mark} /></a>)}
         {layout === 'links' && !compact && (
           <nav aria-label="Principal" style={{ alignSelf: 'stretch', display: 'flex', alignItems: 'center', gap: underline ? 0 : 2, marginLeft: 'var(--ob-s-3)', minWidth: 0 }}>

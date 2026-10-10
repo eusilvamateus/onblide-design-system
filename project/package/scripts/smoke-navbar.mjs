@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Navbar, NavbarIconButton, NavbarAccount } from '../dist/index.js';
+import { Navbar, NavbarAccount } from '../dist/index.js';
 
 const h = React.createElement;
 const fail = (msg, html) => { console.error('FAIL: ' + msg, html); process.exit(1); };
@@ -33,11 +33,7 @@ if (!menuToggle.includes('aria-label="Abrir navega')) fail('onMenuToggle deveria
 const elevated = renderToStaticMarkup(h(Navbar, { items, elevated: true }));
 if (!elevated.includes('var(--ob-shadow-sm)')) fail('elevated deveria aplicar sombra', elevated);
 
-const iconBtn = renderToStaticMarkup(h(NavbarIconButton, { icon: 'bell', label: 'Notificações', count: 3 }));
-if (!iconBtn.includes('aria-label="Notificações"')) fail('NavbarIconButton deveria exigir aria-label', iconBtn);
-if (!iconBtn.includes('ph-bell')) fail('NavbarIconButton deveria renderizar o ícone Phosphor', iconBtn);
-
 const account = renderToStaticMarkup(h(NavbarAccount, { name: 'Marina Souza', email: 'marina@aurora.studio' }));
 if (!account.includes('aria-label="Conta de Marina Souza"')) fail('NavbarAccount deveria expor aria-label com o nome', account);
 
-console.log('OK: Navbar (layouts, item ativo/compacto, secondary, menuToggle, elevated, NavbarIconButton, NavbarAccount)');
+console.log('OK: Navbar (layouts, item ativo/compacto, secondary, menuToggle, elevated, NavbarAccount)');

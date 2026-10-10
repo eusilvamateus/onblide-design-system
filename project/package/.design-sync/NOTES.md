@@ -150,6 +150,6 @@ completo), então a correção chega ao Claude Design de qualquer forma — só 
 roda. Vale conferir manualmente o screenshot (`ds-bundle/_screenshots/<grupo>__<Nome>.png`) depois de mudanças
 internas em componentes já publicados, em vez de confiar só na lista `unchanged`/`changed` do resync.
 
-`LogoMark`, `NavbarAccount`, `NavbarIconButton` e `NavbarLink` caíram no grupo "general" no catálogo remoto
+`LogoMark`, `NavbarAccount` e `NavbarLink` caíram no grupo "general" no catálogo remoto
 pelo mesmo motivo já catalogado (exports secundários de um arquivo com nome diferente) — cosmético, mesma
 decisão de não forçar via `componentSrcMap`.
