@@ -27,4 +27,9 @@ if (!c.includes('type="submit"')) fail('type não repassado', c);
 if (!c.includes('aria-label="AL-X"')) fail('aria-label não repassado', c);
 if (!c.includes('name="nm"')) fail('name não repassado', c);
 
-console.log('OK: Button (type padrão, disabled, props nativas)');
+const soIcone = renderToStaticMarkup(h(Button, { iconOnly: true, kind: 'secondary', size: 'sm', 'aria-label': 'Recolher', icon: h('i', null, 'x') }, 'Texto ignorado'));
+if (!soIcone.includes('width:32px') || !soIcone.includes('height:32px') || !soIcone.includes('padding:0')) fail('iconOnly sm deveria ser um quadrado de 32px sem padding', soIcone);
+if (soIcone.includes('Texto ignorado')) fail('iconOnly não deveria renderizar o texto', soIcone);
+if (!soIcone.includes('aria-label="Recolher"')) fail('iconOnly deveria repassar o aria-label', soIcone);
+
+console.log('OK: Button (type padrão, disabled, props nativas, iconOnly)');

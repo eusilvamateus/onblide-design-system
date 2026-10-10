@@ -98,6 +98,7 @@ const titulos = {
   LimiteDeDias: 'Limite de dias',
   IniciaisProprias: 'Iniciais próprias',
   ComFoto: 'Com foto',
+  SoIcone: 'Só ícone',
 };
 
 // Remove só as anotações de tipo (o editor ao vivo entende JSX, não TypeScript), preservando o texto original.

@@ -38,3 +38,11 @@ export const LarguraTotal = () => (
     <Button kind="secondary" size="lg" style={{ width: '100%' }}>Voltar</Button>
   </div>
 );
+
+export const SoIcone = () => (
+  <div style={{ display: 'flex', gap: 12, padding: 16, alignItems: 'center' }}>
+    <Button iconOnly size="sm" kind="secondary" aria-label="Adicionar" icon={<Icons.plus size={16} />} />
+    <Button iconOnly size="md" kind="primary" aria-label="Adicionar" icon={<Icons.plus size={18} />} />
+    <Button iconOnly size="lg" kind="cream" aria-label="Adicionar" icon={<Icons.plus size={20} />} />
+  </div>
+);

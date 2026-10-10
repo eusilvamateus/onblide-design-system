@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 2.2.0
+
+### Minor Changes
+
+- Button: nova prop `iconOnly` para botão só com ícone, quadrado (32, 40 ou 48px conforme `size`), sem texto; exige `aria-label`.
+
 ## 2.1.0
 
 ### Minor Changes

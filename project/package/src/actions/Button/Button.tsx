@@ -12,6 +12,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   size?: ButtonSize;
   /** Ícone exibido antes do conteúdo do botão. */
   icon?: React.ReactNode;
+  /** Botão só com ícone: quadrado (32, 40 ou 48px conforme `size`), sem texto; exige `aria-label`. */
+  iconOnly?: boolean;
 }
 
 /** Botão de ação com variações de estilo, tamanho e suporte a ícone. */
@@ -19,6 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
   kind = 'primary',
   size = 'md',
   icon,
+  iconOnly = false,
   children,
   style = {},
   type = 'button',
@@ -34,6 +37,8 @@ export const Button: React.FC<ButtonProps> = ({
     fontSize: size === 'sm' ? 13 : size === 'lg' ? 15 : 14,
     padding: size === 'sm' ? '7px 12px' : size === 'lg' ? '14px 22px' : '10px 18px',
   };
+  const quadrado = size === 'sm' ? 32 : size === 'lg' ? 48 : 40;
+  const soIcone: React.CSSProperties = iconOnly ? { width: quadrado, height: quadrado, padding: 0, gap: 0 } : {};
   const kinds: Record<ButtonKind, React.CSSProperties> = {
     primary:   { background: 'var(--ob-blue)', color: '#fff' },
     secondary: { background: 'var(--ob-surface)', color: 'var(--ob-fg-strong)', border: '1.5px solid var(--ob-border)' },
@@ -46,14 +51,14 @@ export const Button: React.FC<ButtonProps> = ({
       {...rest}
       type={type}
       disabled={disabled}
-      style={{ ...base, ...kinds[kind], ...style }}
+      style={{ ...base, ...kinds[kind], ...soIcone, ...style }}
       onMouseEnter={(e) => {
         if (kind === 'primary' && !disabled) e.currentTarget.style.boxShadow = '0 8px 24px rgba(10,78,228,0.28)';
         onMouseEnter?.(e);
       }}
       onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; onMouseLeave?.(e); }}
     >
-      {icon}{children}
+      {icon}{iconOnly ? null : children}
     </button>
   );
 };
