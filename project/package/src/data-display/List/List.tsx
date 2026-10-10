@@ -18,7 +18,7 @@ const ListContext = React.createContext<ListContextValue | null>(null);
 export interface ListProps extends React.HTMLAttributes<HTMLElement> {
   /** Densidade herdada pelos ListItem/ListSubheader filhos que não definem a própria. */
   size?: ListSize;
-  /** Traça uma borda entre os itens em vez do respiro padrão de 1px. */
+  /** Traça uma borda entre os itens em vez do respiro padrão de 1px e recorta seus estados no contorno da lista. */
   dividers?: boolean;
   /** Acrescenta 4px de respiro interno ao container. */
   inset?: boolean;
@@ -39,7 +39,7 @@ export const List: React.FC<ListProps> = ({ size = 'md', dividers = false, inset
     : kids;
   return (
     <ListContext.Provider value={{ size, itemAs }}>
-      <Tag aria-label={ariaLabel} {...rest} style={{ listStyle: 'none', margin: 0, padding: inset ? 4 : 0, display: 'flex', flexDirection: 'column', gap: dividers ? 0 : 1, ...style }}>
+      <Tag aria-label={ariaLabel} {...rest} style={{ listStyle: 'none', margin: 0, padding: inset ? 4 : 0, display: 'flex', flexDirection: 'column', gap: dividers ? 0 : 1, borderRadius: dividers ? 'var(--ob-r-surface)' : undefined, overflow: dividers ? 'hidden' : undefined, ...style }}>
         {items}
       </Tag>
     </ListContext.Provider>

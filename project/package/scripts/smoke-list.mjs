@@ -13,6 +13,7 @@ if (!asDiv.includes('<div') || asDiv.includes('<li')) fail('List as="div" deveri
 
 const dividers = renderToStaticMarkup(h(List, { dividers: true }, h(ListItem, { key: 'a', title: 'A' }), h(ListItem, { key: 'b', title: 'B' })));
 if ((dividers.match(/border-bottom:1px solid var\(--ob-border\)/g) || []).length !== 1) fail('dividers deveria separar só entre os itens (1 borda para 2 itens)', dividers);
+if (!dividers.includes('border-radius:var(--ob-r-surface)') || !dividers.includes('overflow:hidden')) fail('dividers deveria recortar o destaque no raio da lista', dividers);
 
 const sel = renderToStaticMarkup(h(ListItem, { title: 'X', selected: true }));
 if (!sel.includes('var(--ob-blue-100)')) fail('selected (fill) deveria pintar o fundo', sel);
