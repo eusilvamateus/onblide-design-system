@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 1.6.4
+
+### Patch Changes
+
+- SideNav: os botões de recolher e abrir ficam com aparência fixa e só trocam de ícone ao passar o mouse (`caret-left` → `caret-line-left` na borda; logo → `caret-line-right` quando recolhida).
+
 ## 1.6.3
 
 ### Patch Changes

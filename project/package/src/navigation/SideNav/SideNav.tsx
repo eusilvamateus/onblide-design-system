@@ -64,35 +64,26 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
 interface BotaoLateralProps {
   onClick: () => void;
   rotulo: string;
-  direcao: 'esquerda' | 'direita';
-  repouso?: React.ReactNode;
+  repouso: React.ReactNode;
+  iconeAtivo: string;
+  contorno?: boolean;
 }
 
-const BotaoLateral: React.FC<BotaoLateralProps> = ({ onClick, rotulo, direcao, repouso }) => {
+const BotaoLateral: React.FC<BotaoLateralProps> = ({ onClick, rotulo, repouso, iconeAtivo, contorno = false }) => {
   const [ativo, setAtivo] = useState(false);
-  const deslocamento = ativo ? (direcao === 'esquerda' ? -2 : 2) : 0;
   return (
     <Tooltip label={rotulo} placement="right">
       <button type="button" onClick={onClick} aria-label={rotulo}
         onMouseEnter={() => setAtivo(true)} onMouseLeave={() => setAtivo(false)}
         onFocus={() => setAtivo(true)} onBlur={() => setAtivo(false)}
         style={{
-          position: 'relative', width: 32, height: 32, padding: 0, borderRadius: 'var(--ob-r-md)', cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          border: `1px solid ${ativo ? 'var(--ob-blue)' : repouso ? 'transparent' : 'var(--ob-border)'}`,
-          background: ativo ? 'var(--ob-bg-warm)' : repouso ? 'transparent' : 'var(--ob-surface)',
-          color: ativo ? 'var(--ob-blue)' : 'var(--ob-fg-soft)',
-          boxShadow: repouso && !ativo ? 'none' : 'var(--ob-shadow-sm)',
-          transition: 'background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s',
+          width: 32, height: 32, padding: 0, borderRadius: 'var(--ob-r-md)', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)',
+          border: contorno ? '1px solid var(--ob-border)' : '1px solid transparent',
+          background: contorno ? 'var(--ob-surface)' : 'transparent',
+          boxShadow: contorno ? 'var(--ob-shadow-sm)' : 'none',
         }}>
-        {repouso && (
-          <span style={{ position: 'absolute', display: 'flex', opacity: ativo ? 0 : 1, transform: ativo ? 'scale(0.8)' : 'none', transition: 'opacity 0.15s, transform 0.15s' }}>
-            {repouso}
-          </span>
-        )}
-        <span style={{ display: 'flex', opacity: repouso && !ativo ? 0 : 1, transform: `translateX(${deslocamento}px)`, transition: 'opacity 0.15s, transform 0.15s' }}>
-          <Ph n={direcao === 'esquerda' ? 'caret-line-left' : 'caret-line-right'} size={16} />
-        </span>
+        {ativo ? <Ph n={iconeAtivo} size={16} /> : repouso}
       </button>
     </Tooltip>
   );
@@ -101,7 +92,7 @@ const BotaoLateral: React.FC<BotaoLateralProps> = ({ onClick, rotulo, direcao, r
 const CollapsedBrand: React.FC<{ onToggle?: () => void }> = ({ onToggle }) => (
   <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
     {onToggle ? (
-      <BotaoLateral onClick={onToggle} rotulo="Abrir barra lateral" direcao="direita" repouso={<LogoMark size={22} />} />
+      <BotaoLateral onClick={onToggle} rotulo="Abrir barra lateral" repouso={<LogoMark size={22} />} iconeAtivo="caret-line-right" />
     ) : (
       <span style={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <LogoMark size={22} />
@@ -112,7 +103,7 @@ const CollapsedBrand: React.FC<{ onToggle?: () => void }> = ({ onToggle }) => (
 
 const BotaoDeBorda: React.FC<{ onToggle: () => void }> = ({ onToggle }) => (
   <span style={{ position: 'absolute', top: 16, right: -17, zIndex: 2 }}>
-    <BotaoLateral onClick={onToggle} rotulo="Fechar barra lateral" direcao="esquerda" />
+    <BotaoLateral onClick={onToggle} rotulo="Fechar barra lateral" repouso={<Ph n="caret-left" size={16} />} iconeAtivo="caret-line-left" contorno />
   </span>
 );
 
