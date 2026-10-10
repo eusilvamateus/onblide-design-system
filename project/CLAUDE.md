@@ -57,6 +57,19 @@ sempre. Única exceção: os JSDoc `/** ... */` que documentam cada prop públic
 exibido acima do campo. */`), que continuam — são parte da API pública e alimentam a geração do `.prompt.md`
 do design-sync e as tabelas de props do `docs-site`.
 
+## Componentes: nunca duplicar
+
+**Regra obrigatória, pedido explícito do usuário em 2026-10-10: jamais criar versão, variante ou cópia de um
+componente que já existe no design system.** Se o catálogo (`src/index.ts`) já tem o componente, o código o usa;
+desenhar à mão o mesmo conceito dentro de outro componente (um círculo com iniciais, um botão próprio) é violação,
+mesmo sem nome novo — vale para o pacote, o `docs-site`, as demos e os previews. Procurar no catálogo **antes** de
+criar qualquer elemento visual. Se falta uma variação explicitamente necessária, ela entra no componente original
+primeiro, em ordem: estender o original, cobrir com smoke/preview/demo/docs, versionar e publicar (changeset
+próprio) e só então o consumidor passa a usá-lo. A extensão descreve a capacidade do componente (`src`,
+`initials`), nunca o consumidor (`sidenavAvatar`). "Explicitamente necessário" é exigência real, não
+conveniência: se dá para usar o componente como ele é, usa-se como ele é. Helpers que não são componentes visuais
+(`injectStyleOnce`) ficam fora da regra.
+
 ## Site de documentação (`docs-site/`)
 
 Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, <https://onblide-design-system.vercel.app>),

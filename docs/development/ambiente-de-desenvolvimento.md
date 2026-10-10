@@ -33,6 +33,15 @@ Detalhes de onde vem cada parte do conteúdo gerado: [`docs-site/README.md`](../
 - **Nenhum comentário explicativo** (`//`, `/* */`), em nenhuma circunstância — regra obrigatória, pedido
   explícito do usuário em 2026-10-01. Exceção: os JSDoc `/** ... */` de documentação de prop pública, que
   continuam (alimentam a geração do `.prompt.md` do design-sync e as tabelas de props do `docs-site`).
+- **Nunca criar versão, variante ou cópia de um componente que já existe** — regra obrigatória, pedido
+  explícito do usuário em 2026-10-10. Se o catálogo (`src/index.ts`) já tem o componente (avatar, botão,
+  tooltip, menu, badge…), o código o usa; desenhar à mão o mesmo conceito dentro de outro componente é
+  violação, mesmo sem nome novo, no pacote, no `docs-site`, nas demos e nos previews. Procurar no catálogo
+  antes de criar qualquer elemento visual. Se falta uma variação explicitamente necessária, ela entra no
+  componente original antes: estender, cobrir com smoke/preview/demo/docs, versionar e publicar (changeset
+  próprio) e só então o consumidor passa a usar. A extensão descreve a capacidade do componente (`src`,
+  `initials`), nunca o consumidor. "Explicitamente necessário" é exigência real, não conveniência. Helpers que
+  não são componentes visuais (`injectStyleOnce`) ficam fora da regra.
 
 ## Versionamento e release do pacote
 
