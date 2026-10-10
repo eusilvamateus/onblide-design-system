@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { LogoMark } from '../../brand/Logo/Logo';
 import { Menu, MenuItem } from '../../overlays/Menu/Menu';
+import { Tooltip } from '../../overlays/Tooltip/Tooltip';
 
 export interface SideNavItem {
   /** Identificador do item de navegação, usado em `active` e `onNav`. */
@@ -57,30 +58,40 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
   );
 };
 
-// Cabeçalho recolhido: mostra o símbolo da marca por padrão; só troca pro botão de expandir
-// no hover/foco, pra não competir com ele o tempo todo num espaço tão apertado.
 const CollapsedBrand: React.FC<{ onToggle?: () => void }> = ({ onToggle }) => {
-  const [active, setActive] = useState(false);
-  if (!onToggle) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
+  const [ativo, setAtivo] = useState(false);
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
+      {onToggle ? (
+        <Tooltip label="Abrir barra lateral" placement="right">
+          <button type="button" onClick={onToggle} aria-label="Abrir barra lateral"
+            onMouseEnter={() => setAtivo(true)} onMouseLeave={() => setAtivo(false)}
+            onFocus={() => setAtivo(true)} onBlur={() => setAtivo(false)}
+            style={{ width: 36, height: 36, borderRadius: 'var(--ob-r-md)', border: ativo ? '1.5px solid var(--ob-border)' : '1.5px solid transparent', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}>
+            {ativo ? <Ph n="caret-line-right" size={18} /> : <LogoMark size={22} />}
+          </button>
+        </Tooltip>
+      ) : (
         <span style={{ width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <LogoMark size={22} />
         </span>
-      </div>
-    );
-  }
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
-      <button type="button" onClick={onToggle} title="Expandir" aria-label="Expandir"
-        onMouseEnter={() => setActive(true)} onMouseLeave={() => setActive(false)}
-        onFocus={() => setActive(true)} onBlur={() => setActive(false)}
-        style={{ width: 36, height: 36, borderRadius: 'var(--ob-r-md)', border: active ? '1.5px solid var(--ob-border)' : '1.5px solid transparent', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}>
-        {active ? <Ph n="caret-line-right" size={18} /> : <LogoMark size={22} />}
-      </button>
+      )}
     </div>
   );
 };
+
+const BotaoDeBorda: React.FC<{ onToggle: () => void }> = ({ onToggle }) => (
+  <span style={{ position: 'absolute', top: 19, right: -14, zIndex: 2 }}>
+    <Tooltip label="Fechar barra lateral" placement="right">
+      <button type="button" onClick={onToggle} aria-label="Fechar barra lateral"
+        style={{ width: 26, height: 26, borderRadius: 999, border: '1px solid var(--ob-border)', background: 'var(--ob-surface)', color: 'var(--ob-fg-soft)', boxShadow: 'var(--ob-shadow-sm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ob-bg-warm)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--ob-surface)'; e.currentTarget.style.color = 'var(--ob-fg-soft)'; }}>
+        <Ph n="caret-left" size={14} />
+      </button>
+    </Tooltip>
+  </span>
+);
 
 export interface SideNavProps {
   /** Itens e seções exibidos na lista de navegação. */
@@ -91,9 +102,9 @@ export interface SideNavProps {
   onNav?: (id?: string) => void;
   /** Exibe a navegação no modo recolhido, só com ícones. */
   collapsed?: boolean;
-  /** Chamado ao clicar no botão de recolher/expandir; omitido, o botão some. */
+  /** Chamado ao clicar no botão de recolher/expandir, que fica na borda da barra (e sobre a marca, quando recolhida); omitido, o botão some. */
   onToggle?: () => void;
-  /** Ocupa 100% do espaço disponível, sem borda arredondada nem largura fixa. */
+  /** Ocupa 100% do espaço disponível, sem borda arredondada; recolhida, mantém a largura fixa de 72px. */
   flush?: boolean;
   /** Nome exibido ao lado do símbolo no cabeçalho. Padrão: "Onblide". */
   brandName?: string;
@@ -141,38 +152,37 @@ export const SideNav: React.FC<SideNavProps> = ({
     </>
   );
   return (
-    <div style={{ width: flush ? '100%' : (collapsed ? 72 : 240), minWidth: 0, boxSizing: 'border-box', overflowX: 'hidden', overflowY: flush ? 'auto' : 'hidden', height: flush ? '100%' : undefined, background: 'var(--ob-surface)', border: flush ? 'none' : '1px solid var(--ob-border)', borderRight: flush ? '1px solid var(--ob-border)' : undefined, borderRadius: flush ? 0 : 'var(--ob-r-lg)', padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
+    <div style={{ position: 'relative', flexShrink: flush && !collapsed ? 1 : 0, width: collapsed ? 72 : (flush ? '100%' : 240), minWidth: 0, boxSizing: 'border-box', height: flush ? '100%' : undefined, background: 'var(--ob-surface)', border: flush ? 'none' : '1px solid var(--ob-border)', borderRight: flush ? '1px solid var(--ob-border)' : undefined, borderRadius: flush ? 0 : 'var(--ob-r-lg)', padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
       {hideBrand ? null : collapsed
         ? <CollapsedBrand onToggle={onToggle} />
-        : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 4px 14px 8px' }}>
+        : <div style={{ display: 'flex', alignItems: 'center', padding: '4px 4px 14px 8px' }}>
             {brand ?? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
                 <LogoMark size={26} />
                 <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--ob-fg-strong)', letterSpacing: '-0.02em' }}>{brandName}</span>
               </div>
             )}
-            {onToggle && <button onClick={onToggle} title="Recolher" style={{ width: 30, height: 30, borderRadius: 'var(--ob-r-md)', border: 'none', background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)' }}
-              onMouseEnter={e=>{e.currentTarget.style.background='var(--ob-bg-warm)';e.currentTarget.style.color='var(--ob-fg-strong)';}}
-              onMouseLeave={e=>{e.currentTarget.style.background='transparent';e.currentTarget.style.color='var(--ob-fg-soft)';}}>
-              <Ph n="caret-line-left" size={18}/>
-            </button>}
           </div>
       }
-      {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 10px 6px' }}>{menuLabel}</p>}
-      {items.map((it, i) => {
-        if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '12px 10px 4px' }}>{it.section}</p> : null;
-        return <Item key={it.id || i} it={it} active={active} onNav={onNav} collapsed={collapsed} nivel={0} />;
-      })}
+      {!collapsed && onToggle && <BotaoDeBorda onToggle={onToggle} />}
+      <div style={{ flex: '1 1 auto', minHeight: 0, margin: -2, padding: 2, display: 'flex', flexDirection: 'column', gap: 4, overflowX: 'hidden', overflowY: 'auto', scrollbarWidth: 'thin' }}>
+        {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 10px 6px' }}>{menuLabel}</p>}
+        {items.map((it, i) => {
+          if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '12px 10px 4px' }}>{it.section}</p> : null;
+          return <Item key={it.id || i} it={it} active={active} onNav={onNav} collapsed={collapsed} nivel={0} />;
+        })}
+      </div>
       {!hideAccount && (
-        <div style={{ marginTop: 'auto' }}>
+        <div style={{ flex: 'none', margin: '0 -14px -14px' }}>
           <Menu
-            placement="auto"
+            block
+            placement={collapsed ? 'right-end' : 'top'}
             align="left"
             ariaLabel={`Conta de ${accountName}`}
             items={itensDaConta}
             trigger={
               <button type="button" aria-label={`Conta de ${accountName}`} style={{
-                width: '100%', border: 'none', borderTop: '1px solid var(--ob-line-soft)',
+                flex: 1, minWidth: 0, margin: '0 14px 14px', border: 'none', borderTop: '1px solid var(--ob-line-soft)',
                 background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10,
                 padding: collapsed ? '10px 0 2px' : '10px 8px 2px', justifyContent: collapsed ? 'center' : 'flex-start',
                 borderRadius: 'var(--ob-r-md)',

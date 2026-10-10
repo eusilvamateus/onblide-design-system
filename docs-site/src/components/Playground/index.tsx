@@ -49,7 +49,7 @@ function atributo(c: Controle, v: Valor): string | null {
 }
 
 // Componentes que ocupam a largura da página (tabela, abas) ou passam de 480px: o palco deles não é limitado.
-const LARGOS = ['Table', 'Tabs', 'Spinner'];
+const LARGOS = ['Table', 'Tabs', 'Spinner', 'SideNav'];
 
 const recuar = (t: string, n = 2) => t.split('\n').join('\n' + ' '.repeat(n));
 

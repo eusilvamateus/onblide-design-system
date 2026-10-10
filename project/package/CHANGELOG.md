@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 1.6.0
+
+### Minor Changes
+
+- SideNav: botão circular de recolher na borda da barra (com `onToggle`), logo que vira o botão de abrir ao passar o mouse quando recolhida, largura fixa de 72px recolhida mesmo com `flush`, lista rolável separada do rodapé e menu de conta que não é mais cortado. Menu ganha `placement` `right`/`right-end` e `block`. Tooltip passa a ter texto legível no tema escuro.
+
 ## 1.5.1
 
 ### Patch Changes

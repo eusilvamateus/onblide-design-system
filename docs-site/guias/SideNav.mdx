@@ -11,9 +11,9 @@ Use em dashboards e aplicações com 4–8 seções de nível superior. Para pro
 
 ### Estados
 
-- **Expandido** (240px): logo + rótulos + badges + workspace no rodapé.
-- **Colapsado** (72px): logo some, ícones, dot badge, botão expandir no topo. Tooltip revela o rótulo no hover.
-- **flush**: sem borda/borderRadius próprios; integra ao shell do app.
+- **Expandido** (240px): logo + rótulos + badges + conta no rodapé. Com `onToggle`, um botão circular fica na borda direita da barra para recolhê-la.
+- **Colapsado** (72px): só ícones e dot badge. A logo vira o botão de abrir quando o mouse passa por cima dela. O título do item revela o rótulo no hover.
+- **flush**: sem borda/borderRadius próprios; integra ao shell do app. Recolhida, mantém os 72px.
 
 <FacaEvite>
 <Faca>
@@ -33,7 +33,7 @@ Mais de 8 itens no nível superior. Itens que não mapeiam uma rota: ações per
 - **Tooltip** em cada item no modo colapsado (rótulo no hover).
 - **Badge** para contagem de notificações: dot no colapsado, número no expandido.
 - **Avatar** no rodapé para o perfil do workspace.
-- **Dropdown** ao clicar no rodapé: "Configurações", "Sair".
+- **Menu** no rodapé de conta: Perfil, Configurações e Sair (`onProfile`, `onSettings`, `onSignOut`, ou `accountMenu` para itens próprios). Abre para cima na barra expandida e para o lado na recolhida.
 
 ## Formatação
 

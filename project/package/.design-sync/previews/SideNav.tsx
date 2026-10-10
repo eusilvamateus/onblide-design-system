@@ -12,13 +12,13 @@ const itens = [
 
 export const Expandido = () => (
   <div style={{ height: 480, display: 'flex' }}>
-    <SideNav items={itens} active="projetos" workspaceName="Estúdio Aurora" userInitials="MS" />
+    <SideNav items={itens} active="projetos" onToggle={() => {}} workspaceName="Estúdio Aurora" userInitials="MS" />
   </div>
 );
 
 export const Recolhido = () => (
   <div style={{ height: 480, display: 'flex' }}>
-    <SideNav items={itens} active="inicio" collapsed workspaceName="Estúdio Aurora" userInitials="MS" />
+    <SideNav items={itens} active="inicio" collapsed onToggle={() => {}} workspaceName="Estúdio Aurora" userInitials="MS" />
   </div>
 );
 

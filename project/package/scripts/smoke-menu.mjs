@@ -16,6 +16,11 @@ if (!defaultOpen.includes('role="menu"') || !defaultOpen.includes('Editar')) fai
 const placementTop = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], defaultOpen: true, placement: 'top' }));
 if (!placementTop.includes('bottom:calc(100% + 6px)')) fail('placement="top" deveria abrir o painel acima do gatilho', placementTop);
 
+const placementRight = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], defaultOpen: true, placement: 'right-end' }));
+if (!placementRight.includes('left:calc(100% + 8px)') || !placementRight.includes('bottom:0')) fail('placement="right-end" deveria abrir ao lado, alinhado à base', placementRight);
+const bloco = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], block: true }));
+if (!bloco.includes('display:block')) fail('block deveria fazer o gatilho ocupar a largura toda', bloco);
+
 // Itens: simples, checkbox, radio, toggle, submenu, separador, label.
 const items = [
   { label: 'Editar', icon: 'pencil-simple', shortcut: 'Ctrl+E' },

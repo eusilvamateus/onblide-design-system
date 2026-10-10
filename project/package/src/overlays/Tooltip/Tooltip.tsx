@@ -44,8 +44,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
   const inverted = variant === 'inverted';
   const bg = inverted ? 'var(--ob-surface)' : 'var(--ob-ink-strong)';
-  const fg = inverted ? 'var(--ob-fg-strong)' : '#fff';
-  const subFg = inverted ? 'var(--ob-fg-soft)' : 'rgba(255,255,255,0.7)';
+  const fg = inverted ? 'var(--ob-fg-strong)' : 'var(--ob-surface)';
+  const subFg = inverted ? 'var(--ob-fg-soft)' : 'color-mix(in srgb, var(--ob-surface) 70%, transparent)';
   const bordered = inverted ? '1px solid var(--ob-border)' : 'none';
 
   const pos: Record<TooltipPlacement, React.CSSProperties> = {

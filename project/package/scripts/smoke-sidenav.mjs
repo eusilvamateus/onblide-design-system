@@ -34,4 +34,13 @@ if (marcaCustom.includes('>Onblide<')) fail('brandName customizado não deveria 
 if (!marcaCustom.includes('>Acme<')) fail('brandName deveria aparecer no cabeçalho', marcaCustom);
 if (!marcaCustom.includes('aria-label="Conta de Equipe Acme"')) fail('accountName deveria aparecer no aria-label do gatilho de conta', marcaCustom);
 
-console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto, itens sem encolher, sem barra no ativo, marca e conta configuráveis)');
+const fechada = renderToStaticMarkup(h(SideNav, { items: [], onToggle: () => {} }));
+if (!fechada.includes('aria-label="Fechar barra lateral"')) fail('com onToggle, a barra expandida deveria ter o botão de borda', fechada);
+const semToggle = renderToStaticMarkup(h(SideNav, { items: [] }));
+if (semToggle.includes('barra lateral')) fail('sem onToggle, não deveria haver botão de recolher', semToggle);
+const recolhida = renderToStaticMarkup(h(SideNav, { items: [], collapsed: true, flush: true, onToggle: () => {} }));
+if (!recolhida.includes('aria-label="Abrir barra lateral"')) fail('recolhida, a marca deveria virar o botão de abrir', recolhida);
+if (!recolhida.includes('width:72px')) fail('recolhida mantém 72px mesmo com flush', recolhida);
+if (recolhida.includes('Fechar barra lateral')) fail('recolhida não deveria ter o botão de borda', recolhida);
+
+console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto, itens sem encolher, sem barra no ativo, marca e conta configuráveis, botão de borda e de abrir)');

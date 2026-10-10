@@ -199,9 +199,12 @@ export interface MenuProps {
   trigger: React.ReactElement;
   items: MenuItem[];
   align?: 'left' | 'right';
-  /** Lado em que o painel abre. `auto` mede o espaço disponível na janela e escolhe `bottom` ou `top`
-   * (útil para gatilhos perto do fim da tela, como o rodapé de conta de uma SideNav). */
-  placement?: 'bottom' | 'top' | 'auto';
+  /** Lado em que o painel abre. `auto` mede o espaço disponível na janela e escolhe `bottom` ou `top`.
+   * `right` abre ao lado do gatilho, alinhado ao topo; `right-end`, alinhado à base (útil para o rodapé de uma
+   * barra lateral recolhida). */
+  placement?: 'bottom' | 'top' | 'auto' | 'right' | 'right-end';
+  /** Faz o gatilho ocupar toda a largura disponível em vez de só a do conteúdo. */
+  block?: boolean;
   size?: MenuSize;
   search?: MenuSearchProps;
   ariaLabel?: string;
@@ -209,29 +212,34 @@ export interface MenuProps {
   defaultOpen?: boolean;
 }
 
+type MenuLado = 'bottom' | 'top' | 'right' | 'right-end';
+
+const posicaoDoPainel = (lado: MenuLado, align: 'left' | 'right'): React.CSSProperties => {
+  if (lado === 'right') return { left: 'calc(100% + 8px)', top: 0 };
+  if (lado === 'right-end') return { left: 'calc(100% + 8px)', bottom: 0 };
+  return { [align === 'right' ? 'right' : 'left']: 0, ...(lado === 'top' ? { bottom: 'calc(100% + 6px)' } : { top: 'calc(100% + 6px)' }) };
+};
+
 /** Menu de comandos aberto a partir de um gatilho: itens simples, com ícone/atalho/descrição, seleção
  * única, radio, checkbox, toggle, busca, contas e submenus — com teclado completo. */
-export const Menu: React.FC<MenuProps> = ({ trigger, items, align = 'left', placement = 'auto', ariaLabel, defaultOpen = false, ...panel }) => {
-  const [open, setOpen] = React.useState<{ kb: boolean; lado: 'bottom' | 'top' } | null>(defaultOpen ? { kb: false, lado: placement === 'top' ? 'top' : 'bottom' } : null);
+export const Menu: React.FC<MenuProps> = ({ trigger, items, align = 'left', placement = 'auto', block = false, ariaLabel, defaultOpen = false, ...panel }) => {
+  const [open, setOpen] = React.useState<{ kb: boolean; lado: MenuLado } | null>(defaultOpen ? { kb: false, lado: placement === 'auto' ? 'bottom' : placement } : null);
   const wrap = React.useRef<HTMLDivElement>(null);
   useOutside(wrap, !!open, () => setOpen(null));
   const close = () => { setOpen(null); const el = wrap.current?.querySelector<HTMLElement>('button, a, [tabindex="0"]'); el?.focus(); };
   const abrir = (kb: boolean) => {
-    const lado = placement === 'auto'
+    const lado: MenuLado = placement === 'auto'
       ? (wrap.current && window.innerHeight - wrap.current.getBoundingClientRect().bottom < 280 ? 'top' : 'bottom')
       : placement;
     setOpen({ kb, lado });
   };
   return (
-    <div ref={wrap} style={{ position: 'relative', display: 'inline-block' }}>
-      <span style={{ display: 'inline-flex' }} onClick={(e) => (open ? setOpen(null) : abrir(e.detail === 0))}
+    <div ref={wrap} style={{ position: 'relative', display: block ? 'block' : 'inline-block' }}>
+      <span style={{ display: block ? 'flex' : 'inline-flex' }} onClick={(e) => (open ? setOpen(null) : abrir(e.detail === 0))}
         onKeyDown={(e) => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); abrir(true); } }}>{trigger}</span>
       {open && (
         <MenuPanel {...panel} items={items} keyboard={open.kb} onCloseTree={close} ariaLabel={ariaLabel}
-          style={{
-            position: 'absolute', [align === 'right' ? 'right' : 'left']: 0,
-            ...(open.lado === 'top' ? { bottom: 'calc(100% + 6px)' } : { top: 'calc(100% + 6px)' }),
-          }} />
+          style={{ position: 'absolute', ...posicaoDoPainel(open.lado, align) }} />
       )}
     </div>
   );
