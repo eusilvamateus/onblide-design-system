@@ -96,6 +96,8 @@ const titulos = {
   SelecaoUnica: 'Seleção única', SelecaoMultipla: 'Seleção múltipla', SplitButton: 'Split button',
   ComLinks: 'Com links', BuscaCentral: 'Busca central', ComAbas: 'Com abas', Contexto: 'Contexto',
   LimiteDeDias: 'Limite de dias',
+  IniciaisProprias: 'Iniciais próprias',
+  ComFoto: 'Com foto',
 };
 
 // Remove só as anotações de tipo (o editor ao vivo entende JSX, não TypeScript), preservando o texto original.

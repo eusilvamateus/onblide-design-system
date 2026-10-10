@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 2.1.0
+
+### Minor Changes
+
+- Avatar: as iniciais passam a ser a primeira letra da primeira e da última palavra do nome ("Mateus Silva" vira "MS", antes saía "MA"; com uma palavra só continuam as duas primeiras letras) e a nova prop `initials` substitui as iniciais geradas.
+
 ## 2.0.0
 
 ### Major Changes
