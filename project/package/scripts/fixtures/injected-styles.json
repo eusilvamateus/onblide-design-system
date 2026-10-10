@@ -32,6 +32,10 @@
     "css": "@keyframes ob-shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}"
   },
   {
+    "id": "ob-sidenav-scroll",
+    "css": ".ob-sidenav-lista::-webkit-scrollbar{width:6px}.ob-sidenav-lista::-webkit-scrollbar-button{display:none}.ob-sidenav-lista::-webkit-scrollbar-track{background:transparent}.ob-sidenav-lista::-webkit-scrollbar-thumb{background:transparent;border-radius:999px}.ob-sidenav-lista:hover::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent)}@supports not selector(::-webkit-scrollbar){.ob-sidenav-lista{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent) transparent}}"
+  },
+  {
     "id": "ob-pulse-kf",
     "css": "@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}"
   },

@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 1.6.2
+
+### Patch Changes
+
+- SideNav: a barra de rolagem da lista fica fina e só aparece quando o mouse está sobre a lista, sem setas.
+
 ## 1.6.1
 
 ### Patch Changes

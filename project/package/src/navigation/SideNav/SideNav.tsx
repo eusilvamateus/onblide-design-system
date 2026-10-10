@@ -4,6 +4,9 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { LogoMark } from '../../brand/Logo/Logo';
 import { Menu, MenuItem } from '../../overlays/Menu/Menu';
 import { Tooltip } from '../../overlays/Tooltip/Tooltip';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
+
+injectStyleOnce('ob-sidenav-scroll', '.ob-sidenav-lista::-webkit-scrollbar{width:6px}.ob-sidenav-lista::-webkit-scrollbar-button{display:none}.ob-sidenav-lista::-webkit-scrollbar-track{background:transparent}.ob-sidenav-lista::-webkit-scrollbar-thumb{background:transparent;border-radius:999px}.ob-sidenav-lista:hover::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent)}@supports not selector(::-webkit-scrollbar){.ob-sidenav-lista{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent) transparent}}');
 
 export interface SideNavItem {
   /** Identificador do item de navegação, usado em `active` e `onNav`. */
@@ -165,7 +168,7 @@ export const SideNav: React.FC<SideNavProps> = ({
           </div>
       }
       {!collapsed && onToggle && <BotaoDeBorda onToggle={onToggle} />}
-      <div style={{ flex: '1 1 auto', minHeight: 0, margin: -2, padding: 2, display: 'flex', flexDirection: 'column', gap: 4, overflowX: 'hidden', overflowY: 'auto', scrollbarWidth: 'thin' }}>
+      <div className="ob-sidenav-lista" style={{ flex: '1 1 auto', minHeight: 0, margin: -2, padding: 2, display: 'flex', flexDirection: 'column', gap: 4, overflowX: 'hidden', overflowY: 'auto' }}>
         {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 10px 6px' }}>{menuLabel}</p>}
         {items.map((it, i) => {
           if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '12px 10px 4px' }}>{it.section}</p> : null;
