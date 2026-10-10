@@ -1,7 +1,7 @@
 // project/package/src/navigation/SideNav/SideNav.tsx
 import React, { useState } from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
-import { LogoMark } from '../../brand/Logo/Logo';
+import { Logo, LogoMark } from '../../brand/Logo/Logo';
 import { Menu, MenuItem } from '../../overlays/Menu/Menu';
 import { Tooltip } from '../../overlays/Tooltip/Tooltip';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
@@ -61,6 +61,15 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
   );
 };
 
+const AJUSTE_ICONE: Record<string, string> = {
+  'caret-left': 'translate(0.6px, -0.4px)',
+  'caret-right': 'translate(-0.4px, -0.4px)',
+  'caret-line-left': 'translate(-0.1px, -0.4px)',
+  'caret-line-right': 'translate(0.4px, -0.4px)',
+};
+
+const IconeLateral: React.FC<{ n: string }> = ({ n }) => <Ph n={n} size={16} style={{ transform: AJUSTE_ICONE[n] }} />;
+
 interface BotaoLateralProps {
   onClick: () => void;
   rotulo: string;
@@ -79,31 +88,32 @@ const BotaoLateral: React.FC<BotaoLateralProps> = ({ onClick, rotulo, repouso, i
         style={{
           width: 32, height: 32, padding: 0, borderRadius: 'var(--ob-r-md)', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)',
-          border: contorno ? '1px solid var(--ob-border)' : '1px solid transparent',
-          background: contorno ? 'var(--ob-surface)' : 'transparent',
-          boxShadow: contorno ? 'var(--ob-shadow-sm)' : 'none',
+          border: contorno || ativo ? '1px solid var(--ob-border)' : '1px solid transparent',
+          background: contorno || ativo ? 'var(--ob-surface)' : 'transparent',
+          boxShadow: contorno || ativo ? 'var(--ob-shadow-sm)' : 'none',
         }}>
-        {ativo ? <Ph n={iconeAtivo} size={16} /> : repouso}
+        {ativo ? <IconeLateral n={iconeAtivo} /> : repouso}
       </button>
     </Tooltip>
   );
 };
 
-const CollapsedBrand: React.FC<{ onToggle?: () => void }> = ({ onToggle }) => (
-  <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
-    {onToggle ? (
-      <BotaoLateral onClick={onToggle} rotulo="Abrir barra lateral" repouso={<LogoMark size={22} />} iconeAtivo="caret-line-right" />
-    ) : (
-      <span style={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <LogoMark size={22} />
-      </span>
-    )}
-  </div>
-);
+const CabecalhoRecolhido: React.FC<{ onToggle?: () => void; marca: React.ReactNode | null }> = ({ onToggle, marca }) => {
+  if (!onToggle && marca === null) return null;
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
+      {onToggle ? (
+        <BotaoLateral onClick={onToggle} rotulo="Abrir barra lateral" repouso={marca ?? <IconeLateral n="caret-right" />} iconeAtivo="caret-line-right" contorno={marca === null} />
+      ) : (
+        <span style={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{marca}</span>
+      )}
+    </div>
+  );
+};
 
 const BotaoDeBorda: React.FC<{ onToggle: () => void }> = ({ onToggle }) => (
   <span style={{ position: 'absolute', top: 16, right: -17, zIndex: 2 }}>
-    <BotaoLateral onClick={onToggle} rotulo="Fechar barra lateral" repouso={<Ph n="caret-left" size={16} />} iconeAtivo="caret-line-left" contorno />
+    <BotaoLateral onClick={onToggle} rotulo="Fechar barra lateral" repouso={<IconeLateral n="caret-left" />} iconeAtivo="caret-line-left" contorno />
   </span>
 );
 
@@ -120,16 +130,16 @@ export interface SideNavProps {
   onToggle?: () => void;
   /** Ocupa 100% do espaço disponível, sem borda arredondada; recolhida, mantém a largura fixa de 72px. */
   flush?: boolean;
-  /** Nome exibido ao lado do símbolo no cabeçalho. Padrão: "Onblide". */
-  brandName?: string;
-  /** Substitui o bloco de marca (símbolo + nome) do cabeçalho inteiro. */
+  /** Logo horizontal da marca, exibida no topo da barra expandida. Padrão: a logo da Onblide. */
   brand?: React.ReactNode;
-  /** Nome do workspace exibido no rodapé de conta. */
-  workspaceName?: string;
-  /** Iniciais exibidas no avatar do rodapé de conta. */
-  userInitials?: string;
-  /** Nome exibido no rodapé de conta e no menu que ele abre. Padrão: "Onblide". */
+  /** Símbolo da marca, exibido no topo da barra recolhida. Padrão: o símbolo da Onblide. */
+  brandMark?: React.ReactNode;
+  /** Nome da pessoa ou conta exibido no rodapé e no menu que ele abre. Padrão: "Conta". */
   accountName?: string;
+  /** Linha secundária abaixo do nome no rodapé, como e-mail ou cargo; omitida, não aparece. */
+  accountDetail?: string;
+  /** Iniciais exibidas no avatar do rodapé; omitidas, saem do `accountName`. */
+  userInitials?: string;
   /** Itens do menu aberto pelo rodapé de conta. Padrão: Perfil, Configurações e Sair. */
   accountMenu?: MenuItem[];
   /** Chamado ao escolher "Perfil" no menu padrão do rodapé de conta. */
@@ -146,11 +156,16 @@ export interface SideNavProps {
   menuLabel?: string | null;
 }
 
+const iniciaisDe = (nome: string) => {
+  const partes = nome.trim().split(/\s+/);
+  const segunda = partes.length > 1 ? partes[partes.length - 1][0] : (partes[0]?.[1] ?? '');
+  return ((partes[0]?.[0] ?? '') + segunda).toUpperCase();
+};
+
 /** Navegação lateral com seções, itens ativos, badges, modo recolhido e rodapé de conta com menu. */
 export const SideNav: React.FC<SideNavProps> = ({
   items = [], active, onNav, collapsed = false, onToggle, flush = false,
-  brandName = 'Onblide', brand, workspaceName = 'Workspace', userInitials = 'OB',
-  accountName = 'Onblide', accountMenu, onProfile, onSettings, onSignOut,
+  brand, brandMark, accountName = 'Conta', accountDetail, userInitials, accountMenu, onProfile, onSettings, onSignOut,
   hideBrand = false, hideAccount = false, menuLabel = 'Menu',
 }) => {
   const itensDaConta: MenuItem[] = accountMenu ?? [
@@ -161,22 +176,15 @@ export const SideNav: React.FC<SideNavProps> = ({
   ];
   const conteudoConta = (
     <>
-      <span style={{ width: 30, height: 30, borderRadius: 999, background: 'var(--ob-blue)', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>{userInitials}</span>
-      {!collapsed && <div style={{ minWidth: 0 }}><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountName}</div><div style={{ fontSize: 11, color: 'var(--ob-fg-mute)' }}>{workspaceName}</div></div>}
+      <span style={{ width: 30, height: 30, borderRadius: 999, background: 'var(--ob-blue)', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>{userInitials ?? iniciaisDe(accountName)}</span>
+      {!collapsed && <div style={{ minWidth: 0 }}><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountName}</div>{accountDetail && <div style={{ fontSize: 11, color: 'var(--ob-fg-mute)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountDetail}</div>}</div>}
     </>
   );
   return (
     <div style={{ position: 'relative', flexShrink: flush && !collapsed ? 1 : 0, width: collapsed ? 72 : (flush ? '100%' : 240), minWidth: 0, boxSizing: 'border-box', height: flush ? '100%' : undefined, background: 'var(--ob-surface)', border: flush ? 'none' : '1px solid var(--ob-border)', borderRight: flush ? '1px solid var(--ob-border)' : undefined, borderRadius: flush ? 0 : 'var(--ob-r-lg)', padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {hideBrand ? null : collapsed
-        ? <CollapsedBrand onToggle={onToggle} />
-        : <div style={{ display: 'flex', alignItems: 'center', padding: '4px 4px 14px 8px' }}>
-            {brand ?? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                <LogoMark size={26} />
-                <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--ob-fg-strong)', letterSpacing: '-0.02em' }}>{brandName}</span>
-              </div>
-            )}
-          </div>
+      {collapsed
+        ? <CabecalhoRecolhido onToggle={onToggle} marca={hideBrand ? null : (brandMark ?? <LogoMark size={22} />)} />
+        : hideBrand ? null : <div style={{ display: 'flex', alignItems: 'center', padding: '4px 4px 14px 8px' }}>{brand ?? <Logo size={24} />}</div>
       }
       {!collapsed && onToggle && <BotaoDeBorda onToggle={onToggle} />}
       <div className="ob-sidenav-lista" style={{ flex: '1 1 auto', minHeight: 0, margin: -2, padding: 2, display: 'flex', flexDirection: 'column', gap: 4, overflowX: 'hidden', overflowY: 'auto' }}>
@@ -192,10 +200,10 @@ export const SideNav: React.FC<SideNavProps> = ({
             block
             placement={collapsed ? 'right-end' : 'top'}
             align="left"
-            ariaLabel={`Conta de ${accountName}`}
+            ariaLabel={`Menu de ${accountName}`}
             items={itensDaConta}
             trigger={
-              <button type="button" aria-label={`Conta de ${accountName}`} style={{
+              <button type="button" aria-label={`Abrir menu de ${accountName}`} style={{
                 flex: 1, minWidth: 0, margin: '0 14px 14px', border: 'none', borderTop: '1px solid var(--ob-line-soft)',
                 background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10,
                 padding: collapsed ? '10px 0 2px' : '10px 8px 2px', justifyContent: collapsed ? 'center' : 'flex-start',

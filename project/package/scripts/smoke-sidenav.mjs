@@ -26,13 +26,18 @@ const c = renderToStaticMarkup(h(SideNav, { items: [{ id: 'x', label: 'Simples' 
 if (!c.includes('overflow-y:auto')) fail('no modo flush a lista deveria rolar', c);
 
 const padrao = renderToStaticMarkup(h(SideNav, { items: [] }));
-if (!padrao.includes('>Onblide<')) fail('brandName deveria usar "Onblide" por padrão', padrao);
-if (!padrao.includes('aria-label="Conta de Onblide"')) fail('o rodapé de conta deveria ser um gatilho de menu com aria-label', padrao);
+if (!padrao.includes('aria-label="Onblide"')) fail('sem brand, o topo deveria usar a logo da Onblide', padrao);
+if (!padrao.includes('aria-label="Abrir menu de Conta"')) fail('o rodapé de conta deveria ser um gatilho de menu com aria-label', padrao);
+if (padrao.includes('>Onblide<')) fail('o nome da marca não deveria aparecer como texto', padrao);
 
-const marcaCustom = renderToStaticMarkup(h(SideNav, { items: [], brandName: 'Acme', accountName: 'Equipe Acme' }));
-if (marcaCustom.includes('>Onblide<')) fail('brandName customizado não deveria deixar "Onblide" no cabeçalho', marcaCustom);
-if (!marcaCustom.includes('>Acme<')) fail('brandName deveria aparecer no cabeçalho', marcaCustom);
-if (!marcaCustom.includes('aria-label="Conta de Equipe Acme"')) fail('accountName deveria aparecer no aria-label do gatilho de conta', marcaCustom);
+const marcaCustom = renderToStaticMarkup(h(SideNav, { items: [], brand: h('span', null, 'LogoAcme'), accountName: 'Equipe Acme', accountDetail: 'time@acme.com' }));
+if (marcaCustom.includes('aria-label="Onblide"')) fail('brand customizado deveria substituir a logo da Onblide', marcaCustom);
+if (!marcaCustom.includes('LogoAcme')) fail('brand deveria aparecer no topo', marcaCustom);
+if (!marcaCustom.includes('aria-label="Abrir menu de Equipe Acme"')) fail('accountName deveria aparecer no aria-label do gatilho de conta', marcaCustom);
+if (!marcaCustom.includes('time@acme.com') || !marcaCustom.includes('>EA<')) fail('accountDetail e as iniciais derivadas deveriam aparecer no rodapé', marcaCustom);
+
+const semMarcaRecolhida = renderToStaticMarkup(h(SideNav, { items: [], collapsed: true, hideBrand: true, onToggle: () => {} }));
+if (!semMarcaRecolhida.includes('aria-label="Abrir barra lateral"') || !semMarcaRecolhida.includes('ph-caret-right')) fail('recolhida sem marca, o botão de abrir deveria continuar existindo, com caret-right', semMarcaRecolhida);
 
 const fechada = renderToStaticMarkup(h(SideNav, { items: [], onToggle: () => {} }));
 if (!fechada.includes('aria-label="Fechar barra lateral"')) fail('com onToggle, a barra expandida deveria ter o botão de borda', fechada);
@@ -43,4 +48,4 @@ if (!recolhida.includes('aria-label="Abrir barra lateral"')) fail('recolhida, a 
 if (!recolhida.includes('width:72px')) fail('recolhida mantém 72px mesmo com flush', recolhida);
 if (recolhida.includes('Fechar barra lateral')) fail('recolhida não deveria ter o botão de borda', recolhida);
 
-console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto, itens sem encolher, sem barra no ativo, marca e conta configuráveis, botão de borda e de abrir)');
+console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto, itens sem encolher, sem barra no ativo, logo e conta configuráveis, botão de borda e de abrir, reabrir sem marca)');

@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 2.0.0
+
+### Major Changes
+
+- SideNav: a marca deixa de ser texto. Removido `brandName`; `brand` agora é a logo horizontal (padrão: logo da Onblide) e o novo `brandMark` é o símbolo exibido recolhida. Removido `workspaceName`; o rodapé usa `accountName` (padrão "Conta"), o novo `accountDetail` (linha secundária) e iniciais derivadas do nome quando `userInitials` é omitido. O botão de abrir a barra recolhida existe mesmo com `hideBrand` (ícone `caret-right`), e o botão sobre a logo ganha contorno ao passar o mouse. O rótulo de acessibilidade do rodapé passa a ser `Abrir menu de` + o nome da conta.
+
 ## 1.6.4
 
 ### Patch Changes

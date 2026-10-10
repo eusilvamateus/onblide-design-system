@@ -30,6 +30,8 @@ function Aplicacao({ children }) {
   {(e) => (
     <SideNav
       items={itens}
+      brand={<Logo size={24} />}
+      brandMark={<LogoMark size={22} />}
       active={e.pagina}
       onNav={e.irPara}
       collapsed={e.colapsada}
@@ -37,8 +39,8 @@ function Aplicacao({ children }) {
       onProfile={() => e.avisar('Perfil')}
       onSettings={() => e.avisar('Configurações')}
       onSignOut={() => e.avisar('Sair')}
-      workspaceName="Estúdio Aurora"
-      userInitials="MS"
+      accountName="Mateus Silva"
+      accountDetail="mateus@onblide.com"
     />
   )}
 </Aplicacao>

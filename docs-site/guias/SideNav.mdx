@@ -32,7 +32,7 @@ Mais de 8 itens no nível superior. Itens que não mapeiam uma rota: ações per
 
 - **Tooltip** em cada item no modo colapsado (rótulo no hover).
 - **Badge** para contagem de notificações: dot no colapsado, número no expandido.
-- **Avatar** no rodapé para o perfil do workspace.
+- **Avatar** no rodapé, com o nome da pessoa e uma linha secundária (e-mail ou cargo).
 - **Menu** no rodapé de conta: Perfil, Configurações e Sair (`onProfile`, `onSettings`, `onSignOut`, ou `accountMenu` para itens próprios). Abre para cima na barra expandida e para o lado na recolhida.
 
 ## Formatação
@@ -60,7 +60,8 @@ Item de seção: `{ section: 'Rótulo' }`, renderiza um kicker mono entre grupos
 - Rótulos: substantivos curtos. "Início", "Tarefas", "Métricas", nunca verbos ("Ver tarefas").
 - Kickers de seção: mono maiúsculo, máximo 2 palavras. "Workspace", "Config".
 - Badges: máximo 2 dígitos. Acima de 99, mostre "99+".
-- Workspace no rodapé: nome da empresa ou produto, não do usuário.
+- Rodapé: nome da pessoa em `accountName` e, em `accountDetail`, e-mail ou cargo.
+- Marca: a logo horizontal vai em `brand` e o símbolo, em `brandMark` (recolhida); nunca o nome da marca em texto. Sem logo, use `hideBrand`: o botão de abrir continua no topo da barra recolhida.
 
 ## Guia de design
 
