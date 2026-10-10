@@ -46,3 +46,11 @@ export const SoIcone = () => (
     <Button iconOnly size="lg" kind="cream" aria-label="Adicionar" icon={<Icons.plus size={20} />} />
   </div>
 );
+
+export const NeutroComContador = () => (
+  <div style={{ display: 'flex', gap: 12, padding: 16, alignItems: 'center' }}>
+    <Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} count={3} />
+    <Button kind="neutral" iconOnly pressed aria-label="Notificações" icon={<Icons.bell size={20} />} />
+    <Button kind="neutral" icon={<Icons.plus size={16} />}>Adicionar</Button>
+  </div>
+);

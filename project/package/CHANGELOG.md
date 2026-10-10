@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 2.4.0
+
+### Minor Changes
+
+- Button: novo estilo `neutral` (transparente, com fundo sutil no hover), props `pressed` (marca `aria-pressed` e destaca o fundo no `neutral`) e `count` (contador em badge no canto) e anel de foco visível ao navegar pelo teclado.
+
 ## 2.3.0
 
 ### Minor Changes

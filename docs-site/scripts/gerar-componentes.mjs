@@ -99,6 +99,7 @@ const titulos = {
   IniciaisProprias: 'Iniciais próprias',
   ComFoto: 'Com foto',
   SoIcone: 'Só ícone',
+  NeutroComContador: 'Neutro com contador',
 };
 
 // Remove só as anotações de tipo (o editor ao vivo entende JSX, não TypeScript), preservando o texto original.

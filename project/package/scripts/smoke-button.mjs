@@ -32,4 +32,11 @@ if (!soIcone.includes('width:32px') || !soIcone.includes('height:32px') || !soIc
 if (soIcone.includes('Texto ignorado')) fail('iconOnly não deveria renderizar o texto', soIcone);
 if (!soIcone.includes('aria-label="Recolher"')) fail('iconOnly deveria repassar o aria-label', soIcone);
 
-console.log('OK: Button (type padrão, disabled, props nativas, iconOnly)');
+const neutro = renderToStaticMarkup(h(Button, { kind: 'neutral', iconOnly: true, pressed: true, count: 3, 'aria-label': 'Avisos', icon: h('i', null, 'x') }));
+if (!neutro.includes('aria-pressed="true"')) fail('pressed deveria marcar aria-pressed', neutro);
+if (!neutro.includes('background:var(--ob-surface-2)')) fail('neutral pressionado deveria destacar o fundo', neutro);
+if (!neutro.includes('>3<')) fail('count deveria renderizar o contador em badge', neutro);
+const neutroSolto = renderToStaticMarkup(h(Button, { kind: 'neutral' }, 'Ação'));
+if (!neutroSolto.includes('background:transparent') || !neutroSolto.includes('color:var(--ob-fg)')) fail('neutral em repouso deveria ser transparente com a cor de texto padrão', neutroSolto);
+
+console.log('OK: Button (type padrão, disabled, props nativas, iconOnly, neutral, pressed, count)');

@@ -1,7 +1,10 @@
 import React from 'react';
+import { Badge } from '../../data-display/Badge/Badge';
 
-/** Estilo visual do botão: define a hierarquia da ação (primária, secundária, terciária, suave ou destrutiva). */
-export type ButtonKind = 'primary' | 'secondary' | 'ghost' | 'cream' | 'danger';
+const ANEL_DE_FOCO = '0 0 0 3px var(--ob-focus-ring)';
+
+/** Estilo visual do botão: define a hierarquia da ação (primária, secundária, terciária, suave, destrutiva ou neutra, sem cor de destaque). */
+export type ButtonKind = 'primary' | 'secondary' | 'ghost' | 'cream' | 'danger' | 'neutral';
 /** Tamanho do botão, que ajusta fonte e espaçamento interno. */
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
@@ -14,6 +17,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   icon?: React.ReactNode;
   /** Botão só com ícone: quadrado (32, 40 ou 48px conforme `size`), sem texto; exige `aria-label`. */
   iconOnly?: boolean;
+  /** Estado pressionado (ex.: painel aberto): marca `aria-pressed` e, no estilo `neutral`, destaca o fundo. */
+  pressed?: boolean;
+  /** Contador exibido como badge numérico no canto do botão, útil em botões só com ícone. */
+  count?: number;
 }
 
 /** Botão de ação com variações de estilo, tamanho e suporte a ícone. */
@@ -22,16 +29,20 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   icon,
   iconOnly = false,
+  pressed,
+  count,
   children,
   style = {},
   type = 'button',
   disabled,
   onMouseEnter,
   onMouseLeave,
+  onFocus,
+  onBlur,
   ...rest
 }) => {
   const base: React.CSSProperties = {
-    display: 'inline-flex', alignItems: 'center', gap: 8, justifyContent: 'center',
+    position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 8, justifyContent: 'center',
     fontFamily: 'inherit', fontWeight: 600, border: 'none', borderRadius: 'var(--ob-r-control)',
     cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.5 : 1, transition: 'all 160ms cubic-bezier(0.2,0.7,0.2,1)',
     fontSize: size === 'sm' ? 13 : size === 'lg' ? 15 : 14,
@@ -45,20 +56,30 @@ export const Button: React.FC<ButtonProps> = ({
     ghost:     { background: 'transparent', color: 'var(--ob-blue)' },
     cream:     { background: 'var(--ob-bg-warm)', color: 'var(--ob-fg-strong)' },
     danger:    { background: 'var(--ob-danger)', color: '#fff' },
+    neutral:   { background: pressed ? 'var(--ob-surface-2)' : 'transparent', color: 'var(--ob-fg)' },
   };
   return (
     <button
       {...rest}
       type={type}
       disabled={disabled}
+      aria-pressed={pressed}
       style={{ ...base, ...kinds[kind], ...soIcone, ...style }}
       onMouseEnter={(e) => {
         if (kind === 'primary' && !disabled) e.currentTarget.style.boxShadow = '0 8px 24px rgba(10,78,228,0.28)';
+        if (kind === 'neutral' && !disabled) { e.currentTarget.style.background = 'var(--ob-surface-2)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }
         onMouseEnter?.(e);
       }}
-      onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; onMouseLeave?.(e); }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = e.currentTarget.matches(':focus-visible') ? ANEL_DE_FOCO : 'none';
+        if (kind === 'neutral') { e.currentTarget.style.background = pressed ? 'var(--ob-surface-2)' : 'transparent'; e.currentTarget.style.color = 'var(--ob-fg)'; }
+        onMouseLeave?.(e);
+      }}
+      onFocus={(e) => { if (e.currentTarget.matches(':focus-visible')) e.currentTarget.style.boxShadow = ANEL_DE_FOCO; onFocus?.(e); }}
+      onBlur={(e) => { e.currentTarget.style.boxShadow = 'none'; onBlur?.(e); }}
     >
       {icon}{iconOnly ? null : children}
+      {count ? <span style={{ position: 'absolute', top: 2, right: 0 }}><Badge tone="red" variant="numeric" size="sm">{count}</Badge></span> : null}
     </button>
   );
 };
