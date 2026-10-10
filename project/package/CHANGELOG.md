@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 2.3.0
+
+### Minor Changes
+
+- SideNav: o rodapé de conta usa o componente Avatar e aceita foto (`accountImage` e `accountImageAlt`, com volta às iniciais se a imagem falhar), os botões de recolher e abrir usam o Button com `iconOnly`, e o nome e o detalhe da conta ficam alinhados à esquerda.
+
 ## 2.2.0
 
 ### Minor Changes

@@ -39,6 +39,11 @@ if (!marcaCustom.includes('time@acme.com') || !marcaCustom.includes('>EA<')) fai
 const semMarcaRecolhida = renderToStaticMarkup(h(SideNav, { items: [], collapsed: true, hideBrand: true, onToggle: () => {} }));
 if (!semMarcaRecolhida.includes('aria-label="Abrir barra lateral"') || !semMarcaRecolhida.includes('ph-caret-right')) fail('recolhida sem marca, o botão de abrir deveria continuar existindo, com caret-right', semMarcaRecolhida);
 
+const comFoto = renderToStaticMarkup(h(SideNav, { items: [], accountName: 'Mateus Silva', accountImage: 'https://exemplo.com/foto.jpg', accountImageAlt: 'Foto de Mateus' }));
+if (!comFoto.includes('<img src="https://exemplo.com/foto.jpg"') || !comFoto.includes('alt="Foto de Mateus"')) fail('accountImage deveria aparecer no avatar do rodapé', comFoto);
+if (comFoto.includes('>MS<')) fail('com foto, o avatar não deveria mostrar as iniciais', comFoto);
+if (!comFoto.includes('text-align:left')) fail('os dados da conta deveriam ficar alinhados à esquerda', comFoto);
+
 const fechada = renderToStaticMarkup(h(SideNav, { items: [], onToggle: () => {} }));
 if (!fechada.includes('aria-label="Fechar barra lateral"')) fail('com onToggle, a barra expandida deveria ter o botão de borda', fechada);
 const semToggle = renderToStaticMarkup(h(SideNav, { items: [] }));
@@ -48,4 +53,4 @@ if (!recolhida.includes('aria-label="Abrir barra lateral"')) fail('recolhida, a 
 if (!recolhida.includes('width:72px')) fail('recolhida mantém 72px mesmo com flush', recolhida);
 if (recolhida.includes('Fechar barra lateral')) fail('recolhida não deveria ter o botão de borda', recolhida);
 
-console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto, itens sem encolher, sem barra no ativo, logo e conta configuráveis, botão de borda e de abrir, reabrir sem marca)');
+console.log('OK: SideNav (grupos recolhíveis, grupo ativo aberto, itens sem encolher, sem barra no ativo, logo e conta configuráveis, botão de borda e de abrir, reabrir sem marca, foto no rodapé)');

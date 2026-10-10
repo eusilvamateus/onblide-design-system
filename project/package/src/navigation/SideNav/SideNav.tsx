@@ -4,6 +4,8 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { Logo, LogoMark } from '../../brand/Logo/Logo';
 import { Menu, MenuItem } from '../../overlays/Menu/Menu';
 import { Tooltip } from '../../overlays/Tooltip/Tooltip';
+import { Button } from '../../actions/Button/Button';
+import { Avatar } from '../../data-display/Avatar/Avatar';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 injectStyleOnce('ob-sidenav-scroll', '.ob-sidenav-lista::-webkit-scrollbar{width:6px}.ob-sidenav-lista::-webkit-scrollbar-button{display:none}.ob-sidenav-lista::-webkit-scrollbar-track{background:transparent}.ob-sidenav-lista::-webkit-scrollbar-thumb{background:transparent;border-radius:999px}.ob-sidenav-lista:hover::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent)}@supports not selector(::-webkit-scrollbar){.ob-sidenav-lista{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent) transparent}}');
@@ -82,18 +84,11 @@ const BotaoLateral: React.FC<BotaoLateralProps> = ({ onClick, rotulo, repouso, i
   const [ativo, setAtivo] = useState(false);
   return (
     <Tooltip label={rotulo} placement="right">
-      <button type="button" onClick={onClick} aria-label={rotulo}
+      <Button iconOnly size="sm" kind={contorno || ativo ? 'secondary' : 'ghost'} onClick={onClick} aria-label={rotulo}
         onMouseEnter={() => setAtivo(true)} onMouseLeave={() => setAtivo(false)}
         onFocus={() => setAtivo(true)} onBlur={() => setAtivo(false)}
-        style={{
-          width: 32, height: 32, padding: 0, borderRadius: 'var(--ob-r-md)', cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ob-fg-soft)',
-          border: contorno || ativo ? '1px solid var(--ob-border)' : '1px solid transparent',
-          background: contorno || ativo ? 'var(--ob-surface)' : 'transparent',
-          boxShadow: contorno || ativo ? 'var(--ob-shadow-sm)' : 'none',
-        }}>
-        {ativo ? <IconeLateral n={iconeAtivo} /> : repouso}
-      </button>
+        style={{ color: 'var(--ob-fg-soft)', borderRadius: 'var(--ob-r-md)' }}
+        icon={ativo ? <IconeLateral n={iconeAtivo} /> : repouso} />
     </Tooltip>
   );
 };
@@ -140,6 +135,10 @@ export interface SideNavProps {
   accountDetail?: string;
   /** Iniciais exibidas no avatar do rodapé; omitidas, saem do `accountName`. */
   userInitials?: string;
+  /** URL da foto exibida no avatar do rodapé; sem ela, ou se falhar ao carregar, aparecem as iniciais. */
+  accountImage?: string;
+  /** Texto alternativo da foto do avatar; omitido, a foto é tratada como decorativa. */
+  accountImageAlt?: string;
   /** Itens do menu aberto pelo rodapé de conta. Padrão: Perfil, Configurações e Sair. */
   accountMenu?: MenuItem[];
   /** Chamado ao escolher "Perfil" no menu padrão do rodapé de conta. */
@@ -156,16 +155,10 @@ export interface SideNavProps {
   menuLabel?: string | null;
 }
 
-const iniciaisDe = (nome: string) => {
-  const partes = nome.trim().split(/\s+/);
-  const segunda = partes.length > 1 ? partes[partes.length - 1][0] : (partes[0]?.[1] ?? '');
-  return ((partes[0]?.[0] ?? '') + segunda).toUpperCase();
-};
-
 /** Navegação lateral com seções, itens ativos, badges, modo recolhido e rodapé de conta com menu. */
 export const SideNav: React.FC<SideNavProps> = ({
   items = [], active, onNav, collapsed = false, onToggle, flush = false,
-  brand, brandMark, accountName = 'Conta', accountDetail, userInitials, accountMenu, onProfile, onSettings, onSignOut,
+  brand, brandMark, accountName = 'Conta', accountDetail, userInitials, accountImage, accountImageAlt, accountMenu, onProfile, onSettings, onSignOut,
   hideBrand = false, hideAccount = false, menuLabel = 'Menu',
 }) => {
   const itensDaConta: MenuItem[] = accountMenu ?? [
@@ -176,8 +169,8 @@ export const SideNav: React.FC<SideNavProps> = ({
   ];
   const conteudoConta = (
     <>
-      <span style={{ width: 30, height: 30, borderRadius: 999, background: 'var(--ob-blue)', color: '#fff', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none' }}>{userInitials ?? iniciaisDe(accountName)}</span>
-      {!collapsed && <div style={{ minWidth: 0 }}><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountName}</div>{accountDetail && <div style={{ fontSize: 11, color: 'var(--ob-fg-mute)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountDetail}</div>}</div>}
+      <Avatar name={accountName} initials={userInitials} src={accountImage} alt={accountImageAlt} size={30} />
+      {!collapsed && <div style={{ minWidth: 0, textAlign: 'left' }}><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountName}</div>{accountDetail && <div style={{ fontSize: 11, color: 'var(--ob-fg-mute)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountDetail}</div>}</div>}
     </>
   );
   return (
