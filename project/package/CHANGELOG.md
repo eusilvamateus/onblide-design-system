@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 4.1.0
+
+### Minor Changes
+
+- Navegação ampla no Calendar e no Datepicker: clicar no mês do cabeçalho abre a grade dos 12 meses, e clicar no ano abre um bloco de 12 anos, com setas que passam de ano em ano e de 12 em 12 anos. A escolha desce de nível (ano, mês, dia) e Esc volta um nível. Meses e anos inteiros fora de `min` e `max` ficam desabilitados, e a nova prop `openTo` define a vista inicial (`days`, `months` ou `years`).
+
 ## 4.0.1
 
 ### Patch Changes
