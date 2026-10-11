@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 4.2.0
+
+### Minor Changes
+
+- FileUpload com foto de perfil de verdade: na variante `image`, a área toda (foto, botão e texto) aceita arrastar e soltar, com destaque e "Solte aqui", e a foto vazia convida a adicionar. As novas props `shape="circle"` e `size` deixam a prévia redonda e do tamanho que você precisar. Com foto, as ações viram botões só com ícone e tooltip (trocar e remover), passar o mouse na foto mostra "Trocar", e o envio mostra um progresso circular sobre a imagem. O botão de escolher imagem ganha ícone, a variante `button` avisa que dá para arrastar, e a lista de arquivos mostra miniatura das imagens.
+
 ## 4.1.0
 
 ### Minor Changes
