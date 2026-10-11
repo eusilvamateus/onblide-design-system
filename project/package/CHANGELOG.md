@@ -1,5 +1,20 @@
 # @onblide/ui
 
+## 5.0.0
+
+### Major Changes
+
+- Toast que dá para disparar, escolher a posição e testar de verdade.
+
+  Quebra de compatibilidade: o global `window.obToast` e o evento `ob-toast` foram removidos. Use a função exportada `toast`: `toast({ tone, title, body, action, onAction, icon, duration })` e os atalhos `toast.success`, `toast.info`, `toast.warning` e `toast.danger`; `toast.dismiss(id)` fecha um toast (ou todos, sem id). O módulo não escreve mais em `window` ao ser importado.
+
+  Correções e novidades no `ToastStack`:
+
+  - Cada toast agora vai para uma fila só. Antes, todo `ToastStack` na página recebia o mesmo toast e ele aparecia duplicado em várias posições; a nova prop `name` (com `stack` no toast) permite ter várias filas.
+  - Novas props `duration` (0 mantém até fechar) e `limit`. A duração padrão passou de 4,8 s para 5 s.
+  - Passar o mouse sobre a fila pausa a contagem, como o guia já prometia.
+  - A fila ganha `role="region"` e nome acessível, e o `id` fixo virou classe, para poder haver mais de uma na página.
+
 ## 4.2.0
 
 ### Minor Changes
