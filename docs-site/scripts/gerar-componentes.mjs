@@ -7,16 +7,7 @@ const src = path.join(pacote, 'src');
 const previews = path.join(pacote, '.design-sync/previews');
 const saida = path.resolve('docs/componentes');
 
-const categorias = {
-  actions: 'Ações',
-  forms: 'Formulários',
-  feedback: 'Feedback',
-  overlays: 'Sobreposições',
-  navigation: 'Navegação',
-  'data-display': 'Exibição de dados',
-  brand: 'Marca',
-  iconography: 'Ícones',
-};
+const categorias = ['actions', 'forms', 'feedback', 'overlays', 'navigation', 'data-display', 'brand', 'iconography'];
 
 const descricoes = {
   Button: 'Botão de ação, em cinco variantes e três tamanhos.',
@@ -230,40 +221,36 @@ fs.writeFileSync(
   path.resolve('docs/changelog.md'),
   `---\ntitle: Changelog\nsidebar_position: 5\ndescription: Histórico de versões do @onblide/ui.\n---\n\n${changelog}`,
 );
-let posCat = 1;
 let total = 0;
-for (const [dir, rotulo] of Object.entries(categorias)) {
-  const pasta = path.join(src, dir);
-  if (!fs.existsSync(pasta)) continue;
-  const alvo = path.join(saida, dir);
-  fs.mkdirSync(alvo, { recursive: true });
-  fs.writeFileSync(path.join(alvo, '_category_.json'), JSON.stringify({ label: rotulo, position: posCat++ }, null, 2));
-  const nomes = fs.readdirSync(pasta, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name).sort();
-  nomes.forEach((nome, i) => {
-    const ex = exemplosDe(nome);
-    const demo = nome === 'Icons' ? null : demoDe(nome);
-    const guia = guiaDe(nome);
-    const resumo = guia?.resumo || descricoes[nome] || '';
-    const j = (v) => `{${JSON.stringify(v)}}`;
-    const partes = [
-      '---', `title: ${nome}`, `sidebar_position: ${i + 1}`, `description: ${JSON.stringify(descricoes[nome] ?? nome)}`, '---', '',
-      resumo, '', '```ts', `import { ${nome} } from '@onblide/ui';`, '```', '',
-    ];
-    if (demo) {
-      partes.push('## Demo interativa', '', 'Ajuste as propriedades e veja o componente e o código mudarem juntos.', '',
-        `<Playground nome="${nome}" literais=${j(demo.literais)} brutos=${j(demo.brutos)} filhos=${j(demo.filhos)} auxiliares=${j(demo.auxiliares)} moldura=${j(demo.moldura)} />`, '');
-    }
-    if (nome !== 'Icons') partes.push('## Propriedades', '', `<PropsTable nome="${nome}" />`, '');
-    if (ex.length) {
-      partes.push('## Exemplos', '');
-      for (const e of ex) partes.push(`### ${titulos[e.id] ?? e.id}`, '', `\`\`\`jsx ${e.modo}`, e.codigo, '```', '');
-    }
-    if (guia) {
-      partes.push(guia.corpo, '');
-      if (guia.criterios.length) partes.push('## Critérios de qualidade', '', `<Criterios itens=${j(guia.criterios)} />`, '');
-    }
-    fs.writeFileSync(path.join(alvo, `${nome}.mdx`), partes.join('\n'));
-    total++;
-  });
-}
+const nomes = categorias
+  .map((dir) => path.join(src, dir))
+  .filter((pasta) => fs.existsSync(pasta))
+  .flatMap((pasta) => fs.readdirSync(pasta, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name))
+  .sort((a, b) => a.localeCompare(b));
+nomes.forEach((nome, i) => {
+  const ex = exemplosDe(nome);
+  const demo = nome === 'Icons' ? null : demoDe(nome);
+  const guia = guiaDe(nome);
+  const resumo = guia?.resumo || descricoes[nome] || '';
+  const j = (v) => `{${JSON.stringify(v)}}`;
+  const partes = [
+    '---', `title: ${nome}`, `sidebar_position: ${i + 1}`, `description: ${JSON.stringify(descricoes[nome] ?? nome)}`, '---', '',
+    resumo, '', '```ts', `import { ${nome} } from '@onblide/ui';`, '```', '',
+  ];
+  if (demo) {
+    partes.push('## Demo interativa', '', 'Ajuste as propriedades e veja o componente e o código mudarem juntos.', '',
+      `<Playground nome="${nome}" literais=${j(demo.literais)} brutos=${j(demo.brutos)} filhos=${j(demo.filhos)} auxiliares=${j(demo.auxiliares)} moldura=${j(demo.moldura)} />`, '');
+  }
+  if (nome !== 'Icons') partes.push('## Propriedades', '', `<PropsTable nome="${nome}" />`, '');
+  if (ex.length) {
+    partes.push('## Exemplos', '');
+    for (const e of ex) partes.push(`### ${titulos[e.id] ?? e.id}`, '', `\`\`\`jsx ${e.modo}`, e.codigo, '```', '');
+  }
+  if (guia) {
+    partes.push(guia.corpo, '');
+    if (guia.criterios.length) partes.push('## Critérios de qualidade', '', `<Criterios itens=${j(guia.criterios)} />`, '');
+  }
+  fs.writeFileSync(path.join(saida, `${nome}.mdx`), partes.join('\n'));
+  total++;
+});
 console.log(`componentes: ${total} páginas em docs/componentes`);
