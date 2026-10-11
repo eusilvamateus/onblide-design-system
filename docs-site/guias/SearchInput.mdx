@@ -1,5 +1,5 @@
 ---
-resumo: "Campo de busca com ícone integrado, limpar inline e dropdown de sugestões. Estende o **Input** com comportamento de pesquisa: filtro local ou requisição assíncrona. Compõe com **Dropdown** para os resultados e **Skeleton** no loading."
+resumo: "Campo de texto de busca, com ícone de lupa, botão de limpar e estado de carregamento. Para mostrar sugestões enquanto o usuário digita, use o **Autocomplete**."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
@@ -7,36 +7,36 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Use quando o usuário precisa localizar conteúdo: tarefas, integrações, documentos. Pode operar em modo local (filtra lista em memória) ou assíncrono (dispara requisição com debounce).
+Use quando o usuário precisa filtrar ou localizar conteúdo: tarefas, integrações, documentos. O campo só captura o texto; quem filtra a lista ou dispara a requisição é a aplicação, no `onChange`.
 
 ### Quando usar
 
 - Barra global de busca na topbar.
 - Filtro inline de listas e tabelas.
-- Seleção de item em um campo de autocomplete.
+- Busca dentro de um Menu (prop `search`).
 
 <FacaEvite>
 <Faca>
 
-Mostre sugestões recentes quando o campo estiver vazio e em foco, para acelerar a busca.
+Use `loading` enquanto uma busca assíncrona está em andamento, e dê o nome acessível por `ariaLabel` quando não houver rótulo visível.
 
 </Faca>
 <Evite>
 
-Usar SearchInput como Input comum: ele sinaliza "busca", não o reutilize para campos de formulário genéricos.
+Usar o SearchInput para mostrar sugestões ou escolher um item de uma lista: para isso existe o **Autocomplete**. Também não o reutilize como campo de formulário genérico: ele sinaliza "busca", e para outros textos há o **Input**.
 
 </Evite>
 </FacaEvite>
 
 ### Composição com outros componentes
 
-- **Skeleton** nas linhas do dropdown durante loading assíncrono.
-- **Badge** para indicar filtros ativos.
-- **Tooltip** no botão de limpar: "Limpar busca".
+- **Navbar**: campo central no layout de busca.
+- **Menu**: busca dentro de listas longas de comandos.
+- **Table** e **TreeView**: o filtro fica fora, no SearchInput acima do componente.
 
 ## Formatação
 
-Altura padrão 44px. Ícone de lupa fixo à esquerda. Spinner substitui o ícone durante loading. Botão ×-círculo aparece quando há texto. Dropdown flutua abaixo com `z-index: var(--ob-z-dropdown)` (camada *dropdown* da escala de layers).
+Altura padrão 44px. Ícone de lupa fixo à esquerda. O indicador de carregamento aparece no lugar do botão de limpar. O botão de limpar (**Button** neutro só com ícone) aparece quando há texto.
 
 ```jsx
 <SearchInput
@@ -44,8 +44,6 @@ Altura padrão 44px. Ícone de lupa fixo à esquerda. Spinner substitui o ícone
   onChange={setQ}
   placeholder="Buscar tarefas…"
   loading={fetching}
-  results={results}   // string[] ou {label, ...}[]
-  onSelect={handleSelect}
   width={320}
 />
 ```
@@ -53,20 +51,18 @@ Altura padrão 44px. Ícone de lupa fixo à esquerda. Spinner substitui o ícone
 ## Guia de conteúdo
 
 - Placeholder: "Buscar [contexto]…", ex: "Buscar tarefas…", "Buscar integrações…".
-- Estado vazio de resultados: "Nenhum resultado para '[query]'".
-- Recentes: "Buscas recentes" como kicker da lista de sugestões iniciais.
 - Evite "Digite para buscar" no placeholder: é óbvio demais.
 
 ## Guia de design
 
-**Tokens.** Borda idle `--ob-border`, focus `--ob-blue` + ring `--ob-blue-100`. Fundo `--ob-surface`. Dropdown sombra `--ob-shadow-lg`.
+**Tokens.** Campo no `FieldShell`, como o **Input**: borda idle `--ob-border`, foco `--ob-blue` com o anel de foco. Fundo `--ob-surface`.
 
-**Motion.** Borda e ring: transição 150ms `--ob-ease`. Spinner: rotação contínua 0.8s linear. Dropdown: sem animação, aparece instantaneamente para parecer responsivo.
+**Motion.** Borda e anel: transição de 150ms `--ob-ease`. Indicador de carregamento: rotação contínua de 0.8s linear.
 
 **Debounce.** Para buscas assíncronas, aplique debounce de 300ms no `onChange` antes de disparar a requisição.
 
 <Nota>
 
-**Acessibilidade:** aplique `role="combobox"`, `aria-expanded` e `aria-autocomplete="list"`. Resultados devem ter `role="option"` e ser navegáveis por ↑/↓.
+**Acessibilidade:** o campo tem `role="searchbox"` e nome acessível (`ariaLabel`, padrão "Buscar"); o botão de limpar tem `aria-label="Limpar"`.
 
 </Nota>

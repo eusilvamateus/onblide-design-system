@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import { SearchInput } from '@onblide/ui';
 
 export const Padrao = () => (
@@ -19,17 +18,8 @@ export const Carregando = () => (
   </div>
 );
 
-export const ComResultados = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => { ref.current?.querySelector('input')?.focus(); }, []);
-  return (
-    <div ref={ref} style={{ padding: 16, minHeight: 240 }}>
-      <SearchInput
-        value="tare"
-        onChange={() => {}}
-        placeholder="Buscar tarefas e projetos…"
-        results={['Tarefas atrasadas', 'Relatório de maio', 'Configurações de conta']}
-      />
-    </div>
-  );
-};
+export const Desabilitado = () => (
+  <div style={{ padding: 16 }}>
+    <SearchInput value="relatório trimestral" disabled />
+  </div>
+);
