@@ -39,8 +39,9 @@ if (pequena.includes('Adicionar foto')) fail('em área pequena só o ícone, sem
 const comFoto = render({ variant: 'image', shape: 'circle', defaultFiles: [{ name: 'perfil.png', size: 1000, url: foto }] });
 if (!comFoto.includes('<img')) fail('mostra a prévia da foto existente', comFoto);
 if (comFoto.includes('Escolher imagem<') || comFoto.includes('Ou arraste')) fail('com foto, some o botão de texto e o convite', comFoto);
-if (!comFoto.includes('aria-label="Trocar imagem"') || !comFoto.includes('aria-label="Remover imagem"')) fail('com foto, as ações são botões só com ícone e nome acessível', comFoto);
-if (!comFoto.includes('ph-camera') || !comFoto.includes('ph-trash')) fail('ícones de trocar e remover', comFoto);
+if (!comFoto.includes('aria-label="Trocar imagem"')) fail('a área da foto também troca a imagem, com nome acessível', comFoto);
+if (!new RegExp('<button[^>]*><i[^>]*ph-camera[^>]*></i>Trocar imagem</button>').test(comFoto)) fail('com foto, o botão Trocar imagem tem ícone e texto', comFoto);
+if (!new RegExp('<button[^>]*><i[^>]*ph-trash[^>]*></i>Remover imagem</button>').test(comFoto)) fail('com foto, o botão Remover imagem tem ícone e texto', comFoto);
 if (!comFoto.includes('ob-fileupload-camada')) fail('camada de trocar sobre a foto', comFoto);
 
 const enviando = render({ variant: 'image', defaultFiles: [{ name: 'a.png', size: 1, url: foto, status: 'uploading', progress: 60 }] });
