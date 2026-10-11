@@ -30,7 +30,7 @@ export const SoTitulo = () => (
 );
 
 export const Disparando = () => (
-  <div style={{ position: 'relative', height: 300, transform: 'translateZ(0)', overflow: 'hidden', border: '1.5px dashed var(--ob-border)', borderRadius: 'var(--ob-r-surface)', background: 'var(--ob-bg-warm)', padding: 16 }}>
+  <div style={{ padding: 16 }}>
     <Button kind="secondary" onClick={() => toast.success('Projeto salvo', { stack: 'exemplo-toast', body: 'As alterações foram publicadas.' })}>Disparar um toast</Button>
     <ToastStack name="exemplo-toast" position="bottom-right" />
   </div>
