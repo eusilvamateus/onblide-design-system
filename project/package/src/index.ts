@@ -56,3 +56,7 @@ export * from './navigation/Menubar/Menubar';
 export * from './forms/Autocomplete/Autocomplete';
 export * from './data-display/TreeView/TreeView';
 export * from './navigation/Navbar/Navbar';
+export { themeManager } from './theme/themeManager';
+export type { ResolvedTheme, ThemePreference, ThemeState } from './theme/themeManager';
+export { useTheme } from './theme/useTheme';
+export { themeInitScript } from './theme/themeInitScript';

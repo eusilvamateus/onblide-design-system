@@ -36,6 +36,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0004-nao-versionar-pasta-docs.md`](decisions/0004-nao-versionar-pasta-docs.md) — substituída por 0005
 - [`decisions/0005-adotar-docs-canonica-e-versionada.md`](decisions/0005-adotar-docs-canonica-e-versionada.md)
 - [`decisions/0006-adotar-tag-e-github-release-por-versao.md`](decisions/0006-adotar-tag-e-github-release-por-versao.md)
+- [`decisions/0007-theme-manager-sem-provider.md`](decisions/0007-theme-manager-sem-provider.md)
 
 ## Como manter esta documentação
 

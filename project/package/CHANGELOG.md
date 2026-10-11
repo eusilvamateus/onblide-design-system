@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 3.1.0
+
+### Minor Changes
+
+- Gerenciador de aparência: `themeManager` (init, get, set, subscribe), hook `useTheme()` e `themeInitScript` (também em `@onblide/ui/theme-init`) para evitar o flash no carregamento. Escolha entre claro, escuro e sistema, persistida em `localStorage` e sincronizada entre abas. O tema claro agora também existe em `[data-theme="light"]`, então uma região clara dentro de uma página escura volta aos tokens claros.
+
 ## 3.0.0
 
 ### Major Changes

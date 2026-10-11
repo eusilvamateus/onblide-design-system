@@ -1,0 +1,135 @@
+---
+title: Tema
+sidebar_position: 3
+description: Gerenciar a aparência da aplicação (claro, escuro, sistema) e usar outro tema em uma região.
+---
+
+O `@onblide/ui` tem duas camadas de tema, independentes entre si:
+
+| Camada | Quem controla | Onde atua |
+| --- | --- | --- |
+| Global | `themeManager` (JavaScript) | atributo `data-theme` do `<html>`, sempre `light` ou `dark` |
+| Contêiner | CSS puro | `data-theme` em qualquer elemento, sem JavaScript |
+
+O `themeManager` nunca toca em contêineres, e um `data-theme` em um elemento vale só para ele. Por isso um preview
+pode exibir outro tema sem brigar com a preferência do usuário.
+
+O pacote não traz um componente de controle de aparência. Cada aplicação monta o seu com os componentes que já existem.
+
+## Ative o gerenciador
+
+Chame `themeManager.init()` uma vez, na entrada da aplicação. Ele lê a preferência salva, resolve o tema, aplica
+`data-theme` no `<html>` e passa a acompanhar o sistema operacional e as outras abas.
+
+```ts
+import { themeManager } from '@onblide/ui';
+
+themeManager.init();
+themeManager.set('dark');
+
+const { preference, resolved } = themeManager.get();
+
+const cancelar = themeManager.subscribe((estado) => {
+  console.log(estado.preference, estado.resolved);
+});
+```
+
+| Valor de `preference` | Efeito |
+| --- | --- |
+| `light` | sempre claro |
+| `dark` | sempre escuro |
+| `system` | segue `prefers-color-scheme` e reage quando o sistema muda (padrão) |
+
+- `resolved` é o tema realmente aplicado: sempre `light` ou `dark`.
+- A escolha fica em `localStorage`, na chave `ob-theme`. Se o armazenamento estiver indisponível (janela privada,
+  por exemplo), o gerenciador continua funcionando em memória.
+- `init()` pode ser chamado mais de uma vez sem efeito colateral, e o módulo é seguro para renderização no servidor:
+  nada acessa `window` ou `document` na importação.
+
+## Evite o flash no carregamento
+
+Sem ajuda, a página carrega no tema claro e só vira escura quando o JavaScript executa. O script de inicialização
+aplica o tema antes da primeira pintura e precisa ficar no `<head>`, de forma síncrona.
+
+**Com o texto exportado** (recomendado em aplicações com servidor, aceita `nonce` quando há CSP):
+
+```tsx
+import { themeInitScript } from '@onblide/ui';
+
+export function Documento({ children }) {
+  return (
+    <html>
+      <head>
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+**Com o arquivo**, para HTML estático ou quando a política de segurança permite `script-src` do próprio domínio:
+
+```html
+<head>
+  <script src="/node_modules/@onblide/ui/dist/theme-init.js"></script>
+</head>
+```
+
+O arquivo é exatamente o texto de `themeInitScript` e também pode ser copiado para a pasta pública do seu projeto.
+O script e o gerenciador usam a mesma chave e as mesmas regras, então `init()` chega ao mesmo tema que o script já aplicou.
+
+Em renderização no servidor, acrescente `suppressHydrationWarning` ao `<html>`: o script altera `data-theme` antes
+de o React hidratar.
+
+## No React
+
+`useTheme()` liga um componente ao gerenciador, sem Provider:
+
+```tsx
+import { ButtonGroup, ToggleButton, useTheme } from '@onblide/ui';
+
+export function Aparencia() {
+  const { preference, setTheme } = useTheme();
+  return (
+    <ButtonGroup selection="single" value={preference} onChange={(v) => setTheme(v)} ariaLabel="Aparência">
+      <ToggleButton value="light" icon="sun">Claro</ToggleButton>
+      <ToggleButton value="dark" icon="moon">Escuro</ToggleButton>
+      <ToggleButton value="system" icon="desktop">Sistema</ToggleButton>
+    </ButtonGroup>
+  );
+}
+```
+
+- Devolve `preference`, `resolved` e `setTheme`.
+- No servidor e durante a hidratação o estado é `system`/`light`; no cliente ele passa ao valor real logo depois.
+  Se a troca visível do controle incomodar, renderize-o apenas após a montagem.
+- O hook chama `themeManager.init()` ao montar, mas chamar `init()` na entrada da aplicação evita o quadro inicial
+  com o estado padrão.
+
+O mesmo vale para um `Select`, um `Switch` (claro/escuro) ou um item de `Menu`: use `useTheme()` ou `themeManager`
+para ler e gravar a preferência.
+
+## Outro tema em uma região
+
+Qualquer elemento aceita `data-theme="light"` ou `data-theme="dark"`. Os tokens `--ob-*` mudam dentro dele e em
+todos os descendentes, independentemente do tema global:
+
+```jsx live
+<div style={{ display: 'flex', gap: 12 }}>
+  {['light', 'dark'].map((tema) => (
+    <div
+      key={tema}
+      data-theme={tema}
+      style={{ flex: 1, padding: 16, borderRadius: 'var(--ob-r-md)', background: 'var(--ob-bg)', color: 'var(--ob-fg)', border: '1px solid var(--ob-border)' }}
+    >
+      <p style={{ margin: '0 0 12px' }}>Região {tema === 'light' ? 'clara' : 'escura'}</p>
+      <Button kind="primary">Salvar</Button>
+    </div>
+  ))}
+</div>
+```
+
+Os tokens definem só variáveis. Para a região parecer temática, defina `background` e `color` com
+`var(--ob-bg)` e `var(--ob-fg)`, como acima. O tema do elemento mais próximo vence o dos ancestrais, então regiões
+claras e escuras podem ser aninhadas em qualquer ordem.

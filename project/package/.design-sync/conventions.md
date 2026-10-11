@@ -5,7 +5,7 @@ Leia isto antes de montar qualquer tela. Tudo vem de `window.OnblideUI` (o bundl
 ## Uso
 - Importe do pacote: `const { Button, Input, Card, Icons } = OnblideUI` (ou `import { Button } from '@onblide/ui'`). React 18.
 - Os tokens (`--ob-*`) e as fontes vêm de `styles.css`. Cores, raios, sombras e espaçamentos sempre por token, nunca por valor solto.
-- Tema escuro: `document.documentElement.setAttribute('data-theme', 'dark')`. O padrão é o claro.
+- Tema: `data-theme="light"` ou `"dark"` em qualquer elemento troca os tokens `--ob-*` só naquela região; o padrão é o claro. A aparência global da aplicação (claro, escuro, sistema, persistência) é do `themeManager`/`useTheme()` do pacote.
 
 ## Marca e visual
 - Azul `#0a4ee4` é a voz da marca (CTA primário, links, foco). Verde só para sucesso, laranja para aviso/acento, tinta `#545454` no texto, creme `#f2f0e8` só como sobreposição (a página é branca).
