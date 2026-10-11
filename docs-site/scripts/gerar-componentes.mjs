@@ -1,5 +1,3 @@
-// Gera docs/componentes/<categoria>/<Componente>.mdx a partir do código do pacote e dos exemplos
-// (.design-sync/previews/*.tsx), que são a mesma fonte usada pelos cards do Claude Design.
 import fs from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
@@ -26,7 +24,7 @@ const descricoes = {
   Input: 'Campo de texto com rótulo, dica, ícone e estado de erro.',
   SearchInput: 'Campo de busca com sugestões e estado de carregamento.',
   Select: 'Lista suspensa de seleção única ou múltipla, com busca.',
-  Datepicker: 'Seletor de data única ou de intervalo, com calendário.',
+  Datepicker: 'Campo de data única ou intervalo, com digitação mascarada e calendário em popover.',
   CodeInput: 'Campo para códigos curtos (verificação, PIN), um dígito por caixa.',
   Checkbox: 'Caixa de seleção, com estado indeterminado.',
   Radio: 'Botão de opção única.',
@@ -52,6 +50,7 @@ const descricoes = {
   Pagination: 'Paginação com janela de páginas e setas.',
   Table: 'Tabela com seleção, ordenação e estados vazio e de carregamento.',
   Card: 'Cartão de conteúdo, com borda ou sombra.',
+  Calendar: 'Calendário mensal de uma data ou de um intervalo, com navegação por teclado.',
   Avatar: 'Avatar com imagem ou iniciais, em tamanhos e cores.',
   Badge: 'Selo de status ou contagem, em cinco tons.',
   Chip: 'Chip de filtro, selecionável e removível.',
@@ -89,20 +88,21 @@ const titulos = {
   Inicio: 'Início', Integracoes: 'Integrações', Intervalo: 'Intervalo', Invertido: 'Invertido', Linha: 'Linha',
   Medio: 'Médio', Meio: 'Meio', Multipla: 'Múltipla', Navegacao: 'Navegação', Padrao: 'Padrão', Pequeno: 'Pequeno',
   Pilula: 'Pílula', PreEnchido: 'Pré-preenchido', Recolhido: 'Recolhido', Removiveis: 'Removíveis',
-  ResetAoEnviar: 'Reset ao enviar', Rolavel: 'Rolável', Selecionavel: 'Selecionável', SemBotaoEnviar: 'Sem botão de enviar',
+  Rolavel: 'Rolável', Selecionavel: 'Selecionável',
   SemDescricao: 'Sem descrição', Simples: 'Simples', Sombra: 'Com sombra', Sucesso: 'Sucesso', Tamanhos: 'Tamanhos',
   TamanhosECores: 'Tamanhos e cores', Texto: 'Texto', Tons: 'Tons', Variantes: 'Variantes', Vazio: 'Vazio',
   Aparencia: 'Aparência', SoIcone: 'Só ícone', Anexado: 'Anexado', Espacado: 'Espaçado',
   SelecaoUnica: 'Seleção única', SelecaoMultipla: 'Seleção múltipla', SplitButton: 'Split button',
   ComLinks: 'Com links', BuscaCentral: 'Busca central', ComAbas: 'Com abas', Contexto: 'Contexto',
-  LimiteDeDias: 'Limite de dias',
+  DatasIndisponiveis: 'Datas indisponíveis',
+  SemanaNaSegunda: 'Semana na segunda',
+  Unico: 'Único',
   IniciaisProprias: 'Iniciais próprias',
   ComFoto: 'Com foto',
   SoIcone: 'Só ícone',
   NeutroComContador: 'Neutro com contador',
 };
 
-// Remove só as anotações de tipo (o editor ao vivo entende JSX, não TypeScript), preservando o texto original.
 const semTipos = (sf, no) => {
   const cortes = [];
   const visitar = (n) => {
@@ -118,15 +118,12 @@ const semTipos = (sf, no) => {
   return texto;
 };
 
-// Tira a indentação comum das linhas, para o JSX extraído começar na coluna zero.
 const dedentar = (texto) => {
   const linhas = texto.split('\n');
   const recuo = Math.min(...linhas.slice(1).filter((l) => l.trim()).map((l) => l.match(/^ */)[0].length));
   return [linhas[0], ...linhas.slice(1).map((l) => l.slice(Number.isFinite(recuo) ? recuo : 0))].join('\n');
 };
 
-// Cada export do preview vira um exemplo. Se ele for só um JSX sem auxiliares, o exemplo mostra apenas esse JSX
-// (modo em linha); se depender de auxiliares ou hooks, mostra o código completo com render(), como foi escrito.
 const exemplosDe = (nome) => {
   const arq = path.join(previews, `${nome}.tsx`);
   if (!fs.existsSync(arq)) return [];
@@ -160,9 +157,6 @@ const exemplosDe = (nome) => {
   return exemplos;
 };
 
-// Demo interativa: docs-site/demos/<Nome>.jsx, escrito à mão. O arquivo tem declarações auxiliares (opcionais) e,
-// por último, um JSX; dentro dele, o elemento <Nome> é o que os controles editam. O que estiver em volta dele (um botão
-// que abre a sobreposição, por exemplo) vira a moldura, mostrada no resultado e no código como está.
 const demoDe = (nome) => {
   const arq = path.resolve('demos', `${nome}.jsx`);
   if (!fs.existsSync(arq)) return null;
@@ -208,7 +202,6 @@ const demoDe = (nome) => {
   return { literais, brutos, filhos, auxiliares, moldura };
 };
 
-// Guia de uso/conteúdo/design do componente (docs-site/guias/<Nome>.mdx), se existir.
 const guiaDe = (nome) => {
   const arq = path.resolve('guias', `${nome}.mdx`);
   if (!fs.existsSync(arq)) return null;
@@ -226,7 +219,6 @@ fs.writeFileSync(
   JSON.stringify({ label: 'Componentes', position: 4 }, null, 2),
 );
 
-// Histórico de versões: cópia do CHANGELOG do pacote, gerado pelo changesets.
 const changelog = fs.readFileSync(path.join(pacote, 'CHANGELOG.md'), 'utf8').replace(/^# .*\n/, '');
 fs.writeFileSync(
   path.resolve('docs/changelog.md'),

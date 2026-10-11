@@ -23,13 +23,13 @@
   <div class="var-bar">
     <label>VARIAÇÃO</label>
     <select class="var-select" id="var-select">
-      <option value="range">Range (padrão)</option>
-      <option value="single">Single date</option>
-      <option value="nosubmit">Sem botão enviar</option>
-      <option value="resetonsubmit">Reset ao enviar</option>
+      <option value="single">Data única (padrão)</option>
+      <option value="range">Intervalo</option>
       <option value="prefilled">Pré-preenchido</option>
       <option value="mindate">Data mínima</option>
+      <option value="weekdays">Datas indisponíveis</option>
       <option value="error">Estado de erro</option>
+      <option value="disabled">Desabilitado</option>
     </select>
   </div>
 
@@ -43,13 +43,13 @@
     const { useState } = React;
 
     const VARIATIONS = {
-      range:         { props: { startDateLabel: 'de', endDateLabel: 'até' }, desc: 'Seleção de intervalo. Clique no campo, escolha início e fim no calendário ou digite manualmente (dd/mm/aaaa).' },
-      single:        { props: { singleDate: true }, desc: 'Seleção de data única. Ao escolher, o calendário fecha automaticamente.' },
-      nosubmit:      { props: { showSubmitButton: false }, desc: 'showSubmitButton=false — apenas o botão Limpar; o intervalo se aplica ao selecionar a data final.' },
-      resetonsubmit: { props: { resetOnSubmit: true }, desc: 'resetOnSubmit=true — ao confirmar, os campos são limpos automaticamente.' },
-      prefilled:     { props: { defaultValues: { startDate: '2026-05-24', endDate: '2026-05-31' } }, desc: 'defaultValues — abre já preenchido com um intervalo inicial.' },
-      mindate:       { props: { singleDate: true, minBookingDate: new Date(2026, 4, 20) }, desc: 'minBookingDate — datas anteriores a 20/05/2026 ficam desabilitadas.' },
-      error:         { props: { error: 'Data inválida', defaultValues: { startDate: '2026-05-31', endDate: null }, singleDate: true }, desc: 'error — mensagem de validação exibida abaixo do campo.' },
+      single:    { props: { label: 'Data de entrega' }, desc: 'Data única. Digite dd/mm/aaaa ou abra o calendário pelo botão; ao escolher o dia, o calendário fecha.' },
+      range:     { props: { mode: 'range', label: 'Período da campanha' }, desc: 'Intervalo: dois campos e um calendário. O primeiro clique define o início e o segundo, o fim.' },
+      prefilled: { props: { mode: 'range', label: 'Período da campanha', defaultValue: { start: new Date(2026, 4, 24), end: new Date(2026, 4, 31) } }, desc: 'defaultValue — abre já preenchido com um intervalo inicial.' },
+      mindate:   { props: { label: 'Data de entrega', min: new Date(2026, 4, 20) }, desc: 'min — datas anteriores a 20/05/2026 ficam desabilitadas no calendário e são recusadas na digitação.' },
+      weekdays:  { props: { label: 'Data da reunião', isDateDisabled: (d) => d.getDay() === 0 || d.getDay() === 6 }, desc: 'isDateDisabled — fins de semana indisponíveis.' },
+      error:     { props: { label: 'Data de entrega', error: 'Selecione uma data válida' }, desc: 'error — mensagem de validação exibida abaixo do campo.' },
+      disabled:  { props: { label: 'Data de entrega', defaultValue: new Date(2026, 4, 24), disabled: true }, desc: 'disabled — campo e calendário desativados.' },
     };
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -62,7 +62,7 @@
         <div className="grid">
           <div className="lbl">{variation.toUpperCase()}</div>
           <div>
-            <div className="stage" style={{ maxWidth: 300 }}>
+            <div className="stage" style={{ maxWidth: 340 }}>
               <Datepicker key={variation} {...cfg.props} />
             </div>
             <div className="desc">{cfg.desc}</div>
@@ -71,6 +71,6 @@
       );
     }
     document.getElementById('var-select').addEventListener('change', (e) => mount(e.target.value));
-    mount('range');
+    mount('single');
   </script>
 </body></html>

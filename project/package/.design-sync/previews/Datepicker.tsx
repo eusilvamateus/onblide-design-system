@@ -1,56 +1,45 @@
 import { Datepicker } from '@onblide/ui';
 
-const box = { padding: 16, minHeight: 130 };
-
-export const Intervalo = () => (
-  <div style={box}>
-    <Datepicker label="Período da campanha" startDateLabel="de" endDateLabel="até" submitLabel="Aplicar" clearLabel="Limpar" />
-  </div>
-);
+const caixa = { padding: 16, minHeight: 110, maxWidth: 360 };
 
 export const DataUnica = () => (
-  <div style={box}>
-    <Datepicker singleDate label="Data de entrega" hint="Escolha um dia útil" startDateLabel="Entrega" />
+  <div style={caixa}>
+    <Datepicker label="Data de entrega" hint="Escolha um dia útil" />
   </div>
 );
 
-export const SemBotaoEnviar = () => (
-  <div style={box}>
-    <Datepicker label="Período do relatório" showSubmitButton={false} startDateLabel="de" endDateLabel="até" />
-  </div>
-);
-
-export const ResetAoEnviar = () => (
-  <div style={box}>
-    <Datepicker label="Nova busca" resetOnSubmit submitLabel="Buscar" startDateLabel="de" endDateLabel="até" />
+export const Intervalo = () => (
+  <div style={caixa}>
+    <Datepicker mode="range" label="Período da campanha" />
   </div>
 );
 
 export const PreEnchido = () => (
-  <div style={box}>
-    <Datepicker
-      label="Período da campanha"
-      defaultValues={{ startDate: '2026-10-05', endDate: '2026-10-12' }}
-      startDateLabel="de"
-      endDateLabel="até"
-    />
+  <div style={caixa}>
+    <Datepicker mode="range" label="Período da campanha" defaultValue={{ start: new Date(2026, 9, 5), end: new Date(2026, 9, 12) }} />
   </div>
 );
 
 export const DataMinima = () => (
-  <div style={box}>
-    <Datepicker singleDate label="Data de entrega" hint="Datas antes de 20/05/2026 ficam desabilitadas" minBookingDate={new Date(2026, 4, 20)} startDateLabel="Entrega" />
+  <div style={caixa}>
+    <Datepicker label="Data de entrega" hint="Datas antes de 20/05/2026 ficam indisponíveis" min={new Date(2026, 4, 20)} />
   </div>
 );
 
-export const LimiteDeDias = () => (
-  <div style={box}>
-    <Datepicker label="Reserva" hint="No máximo 5 dias" maxBookingDays={5} defaultValues={{ startDate: '2026-10-15', endDate: null }} startDateLabel="de" endDateLabel="até" />
+export const DatasIndisponiveis = () => (
+  <div style={caixa}>
+    <Datepicker label="Data da reunião" hint="Fins de semana ficam indisponíveis" isDateDisabled={(data) => data.getDay() === 0 || data.getDay() === 6} />
   </div>
 );
 
 export const ComErro = () => (
-  <div style={box}>
-    <Datepicker singleDate label="Data de entrega" error="Selecione uma data válida" startDateLabel="Entrega" />
+  <div style={caixa}>
+    <Datepicker label="Data de entrega" error="Selecione uma data válida" />
+  </div>
+);
+
+export const Desabilitado = () => (
+  <div style={caixa}>
+    <Datepicker label="Data de entrega" defaultValue={new Date(2026, 9, 14)} disabled />
   </div>
 );

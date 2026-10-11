@@ -16,6 +16,7 @@ export * from './data-display/Chip/Chip';
 export * from './feedback/StatusDot/StatusDot';
 export * from './data-display/Badge/Badge';
 export * from './data-display/Card/Card';
+export * from './data-display/Calendar/Calendar';
 export * from './data-display/Avatar/Avatar';
 export * from './feedback/Spinner/Spinner';
 export * from './feedback/ProgressCircle/ProgressCircle';

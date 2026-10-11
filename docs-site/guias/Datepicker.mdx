@@ -1,23 +1,28 @@
 ---
-resumo: "Seleção de data única ou intervalo, com entrada manual mascarada e calendário popup."
-criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+resumo: "Campo de data única ou intervalo, com digitação mascarada e o **Calendar** em um popover."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
 ---
 
 {/* Guia do Datepicker: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
 
 ## Uso
 
-Filtros por período, agendamentos, prazos. Modo `singleDate` para uma data; padrão é intervalo (de/até).
+Filtros por período, prazos, agendamentos. O campo é a entrada principal: o usuário pode **digitar** a data ou abrir o calendário pelo botão à direita.
+
+### Modos
+
+- **single** (padrão): uma data. `value`, `defaultValue` e `onChange` trabalham com `Date`; `onChange` recebe `null` quando o campo é esvaziado.
+- **range**: dois campos (início e fim) e um único calendário. `value`, `defaultValue` e `onChange` trabalham com `{ start, end }`. O calendário fecha ao escolher o fim.
 
 <FacaEvite>
 <Faca>
 
-Permitir digitação além do calendário.
+Permitir digitação além do calendário, e restringir as datas com `min`, `max` e `isDateDisabled`: o campo mostra "Data indisponível" se o valor digitado não for permitido.
 
 </Faca>
 <Evite>
 
-Calendário-only para datas distantes (ex: nascimento).
+Campo de data para datas muito distantes, como nascimento: o usuário precisaria voltar muitos meses no calendário. Aceite só a digitação, com um **Input**.
 
 </Evite>
 </FacaEvite>
@@ -25,25 +30,34 @@ Calendário-only para datas distantes (ex: nascimento).
 ## Formatação
 
 ```jsx
-<Datepicker singleDate startDateLabel="de"
-  endDateLabel="até" maxBookingDays={90}
-  values={v} onChange={setV} onSubmit={fn} />
+const [entrega, setEntrega] = useState(null);
+<Datepicker label="Entrega" value={entrega} onChange={setEntrega} min={new Date()} />
+
+const [periodo, setPeriodo] = useState({ start: null, end: null });
+<Datepicker mode="range" label="Período" value={periodo} onChange={setPeriodo} />
 ```
-
-## Guia de conteúdo
-
-- Formato `dd/mm/yyyy` (pt-BR).
-- Labels curtos: "de", "até".
-- Erros claros: "Data inválida", "Deve ser após data inicial".
-
-## Guia de design
-
-**Tokens.** Inputs como `Input`; dia selecionado `--ob-blue`, intervalo `--ob-blue-100`. Popup `--ob-shadow-md`.
-
-**Motion.** Popup com fade; transições de hover nos dias.
 
 <Nota>
 
-**Versão mobile:** o calendário de duas colunas e o popup ancorado não cabem bem em telas pequenas. Em mobile, use um seletor full-screen nativo ou stepper. Por isso **não marca** "versão mobile".
+O Datepicker usa o **Calendar** e o **Popover**. Regras de calendário (`min`, `max`, `isDateDisabled`, `weekStartsOn`) são repassadas e valem também para a digitação.
+
+</Nota>
+
+## Guia de conteúdo
+
+- Formato `dd/mm/aaaa` (pt-BR), com máscara automática.
+- Rótulo curto e específico: "Data de entrega", "Período da campanha".
+- Mensagens de erro do campo: "Data inválida" (31/02), "Data indisponível" (fora de `min`/`max` ou desabilitada), "Deve ser após a data inicial" (fim antes do início).
+- Use `hint` para explicar a regra antes do erro: "Fins de semana ficam indisponíveis".
+
+## Guia de design
+
+**Tokens.** Campo no `FieldShell`, como o **Input**; botão de calendário é o **Button** neutro só com ícone; o popover é o **Popover**, com o **Calendar** dentro (dia selecionado `--ob-blue`, intervalo `--ob-blue-100`).
+
+**Foco.** O campo inteiro mostra o anel de foco enquanto qualquer parte dele (digitação ou calendário) tem foco.
+
+<Nota>
+
+**Versão mobile:** o popover ancorado não substitui um seletor nativo em telas pequenas. Por isso o componente **não marca** "versão mobile".
 
 </Nota>

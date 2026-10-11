@@ -1,0 +1,79 @@
+---
+resumo: "Calendário mensal para escolher uma data ou um intervalo. É a base do **Datepicker**: use o Calendar sozinho quando a grade deve ficar sempre visível."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",false],["Possui versão mobile",false]]
+---
+
+{/* Guia do Calendar: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use o Calendar quando o usuário precisa **ver** o mês: agenda de disponibilidade, escolha de período em um painel lateral, filtros que ficam abertos. Para um campo de formulário que abre o calendário só quando necessário, use o **Datepicker**, que é o Calendar dentro de um Popover.
+
+### Modos
+
+- **single** (padrão): uma data. `value` e `onChange` trabalham com `Date`.
+- **range**: um intervalo. O primeiro clique define o início e o segundo, o fim; clicar antes do início inverte o intervalo, e clicar com o intervalo completo recomeça. `value` e `onChange` trabalham com `{ start, end }`.
+
+<FacaEvite>
+<Faca>
+
+Restrinja datas por `min`, `max` e `isDateDisabled`: o calendário desabilita os dias e o teclado respeita as mesmas regras.
+
+</Faca>
+<Evite>
+
+Mostrar um calendário sozinho dentro de um formulário comum. Para campos de data, use o **Datepicker**, que também aceita digitação.
+
+</Evite>
+</FacaEvite>
+
+### Controlado e não controlado
+
+Sem `value`, o Calendar guarda a seleção sozinho (`defaultValue` define o ponto de partida). Com `value`, quem manda é o seu estado. O mês exibido segue a mesma regra: `month` e `onMonthChange` controlam, `defaultMonth` inicia.
+
+## Formatação
+
+```jsx
+const [data, setData] = useState(null);
+<Calendar value={data} onChange={setData} min={new Date()} />
+
+const [periodo, setPeriodo] = useState({ start: null, end: null });
+<Calendar mode="range" value={periodo} onChange={setPeriodo} />
+
+<Calendar isDateDisabled={(dia) => dia.getDay() === 0 || dia.getDay() === 6} />
+```
+
+<Nota>
+
+As datas são objetos `Date` no fuso do usuário e só o dia importa: horas são ignoradas.
+
+</Nota>
+
+## Teclado
+
+| Tecla | Ação |
+| --- | --- |
+| Setas | Move o foco um dia (esquerda, direita) ou uma semana (acima, abaixo) |
+| Home / End | Início e fim da semana |
+| PageUp / PageDown | Mês anterior e seguinte (com Shift, ano) |
+| Enter / Espaço | Seleciona o dia focado |
+
+Apenas o dia focado entra na ordem de tab, então o calendário ocupa uma única parada.
+
+## Guia de conteúdo
+
+- Nomes de mês e de dia em português, com o dia da semana abreviado por uma letra e o nome completo para leitores de tela.
+- Cada dia tem nome acessível por extenso: "14 de outubro de 2026".
+- A semana começa no domingo; use `weekStartsOn={1}` para começar na segunda.
+
+## Guia de design
+
+**Tokens.** Dia selecionado `--ob-blue` com texto `--ob-fg-on-color`; dias no meio do intervalo `--ob-blue-100`; hoje com contorno `--ob-blue`. A navegação de mês usa o **Button** neutro só com ícone.
+
+**Estados.** Dia desabilitado com opacidade reduzida e `aria-disabled`; foco visível por contorno; no modo intervalo, ao passar o mouse o intervalo em andamento aparece em prévia.
+
+<Nota>
+
+**Calendar vs Datepicker:** o Calendar mostra a grade; o Datepicker é o campo que a abre. O Datepicker usa o Calendar por dentro, então regras de `min`, `max` e `isDateDisabled` são as mesmas.
+
+</Nota>

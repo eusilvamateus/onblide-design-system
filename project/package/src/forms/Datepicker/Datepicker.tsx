@@ -1,330 +1,171 @@
 import React, { useEffect, useState } from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { Button } from '../../actions/Button/Button';
+import { Calendar } from '../../data-display/Calendar/Calendar';
+import type { CalendarRange } from '../../data-display/Calendar/Calendar';
+import { Popover } from '../../overlays/Popover/Popover';
 import { Ph } from '../../iconography/Ph/Ph';
+import { diaDesabilitado } from '../../internal/calendarLogic';
+import type { SemanaComecaEm } from '../../internal/calendarLogic';
+import { compararDias, formatarData, interpretarData, mascararData, paraIso } from '../../internal/dates';
 
-/** Par de datas (início e fim) em formato ISO usado pelo Datepicker. */
-export interface DatepickerValues {
-  /** Data inicial em formato ISO (yyyy-mm-dd), ou `null` quando não selecionada. */
-  startDate: string | null;
-  /** Data final em formato ISO (yyyy-mm-dd), ou `null` quando não selecionada. */
-  endDate: string | null;
-}
-
-export interface DatepickerProps {
-  /** Restringe a seleção a uma única data em vez de um intervalo (de/até). */
-  singleDate?: boolean;
-  /** Texto do botão que limpa as datas selecionadas. */
-  clearLabel?: string;
-  /** Valores iniciais não controlados, usados quando `values` não é informado. */
-  defaultValues?: DatepickerValues;
-  /** Rótulo exibido acima do campo de data final. */
-  endDateLabel?: string;
-  /** Chamado sempre que os valores selecionados mudam. */
-  onChange?: (values: DatepickerValues) => void;
-  /** Chamado quando o usuário limpa as datas selecionadas. */
-  onClear?: () => void;
-  /** Limpa os campos automaticamente logo após confirmar a seleção. */
-  resetOnSubmit?: boolean;
-  /** Exibe o botão de confirmação no rodapé do calendário. */
-  showSubmitButton?: boolean;
-  /** Rótulo exibido acima do campo de data inicial. */
-  startDateLabel?: string;
-  /** Chamado ao confirmar a seleção, recebendo a data inicial e a final. */
-  onSubmit?: (startDate: string | null, endDate: string | null) => void;
-  /** Texto do botão de confirmação. */
-  submitLabel?: string;
-  /** Valores selecionados em modo controlado. */
-  values?: DatepickerValues;
-  /** Data mínima permitida; datas anteriores são tratadas como inválidas. */
-  minBookingDate?: Date | null;
-  /** Quantidade máxima de dias do intervalo (contando início e fim); ignorado em `singleDate`. Depois de
-   * escolhida a data inicial, dias além do limite ficam desabilitados no calendário e a digitação manual
-   * de uma data final além do limite mostra erro. */
-  maxBookingDays?: number;
+interface DatepickerBaseProps {
   /** Rótulo exibido acima do campo. */
   label?: React.ReactNode;
-  /** Texto de apoio exibido abaixo do campo quando não há erro. */
+  /** Texto de apoio abaixo do campo; some quando há erro. */
   hint?: React.ReactNode;
-  /** Mensagem de erro exibida abaixo do campo, substituindo o hint. */
+  /** Mensagem de erro externa, exibida no lugar do texto de apoio e com a borda vermelha. */
   error?: React.ReactNode;
+  /** Primeira data selecionável; vale para o calendário e para a digitação. */
+  min?: Date;
+  /** Última data selecionável; vale para o calendário e para a digitação. */
+  max?: Date;
+  /** Desabilita dias específicos (feriados, datas indisponíveis). */
+  isDateDisabled?: (date: Date) => boolean;
+  /** Dia em que a semana começa no calendário: `0` domingo (padrão) ou `1` segunda-feira. */
+  weekStartsOn?: SemanaComecaEm;
+  /** Texto exibido enquanto o campo está vazio. */
+  placeholder?: string;
+  /** Desabilita o campo e o calendário. */
+  disabled?: boolean;
 }
 
-const dpFmt = (d: string | Date | null | undefined): string => {
-  if (!d) return '';
-  if (typeof d === 'string') {
-    const [y, m, day] = d.split('-');
-    return `${day}/${m}/${y}`;
-  }
-  return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+export interface SingleDatepickerProps extends DatepickerBaseProps {
+  /** Seleciona uma única data. */
+  mode?: 'single';
+  /** Data selecionada, em modo controlado. */
+  value?: Date | null;
+  /** Data inicial, em modo não controlado. */
+  defaultValue?: Date | null;
+  /** Chamado ao escolher ou digitar uma data válida, ou `null` ao esvaziar o campo. */
+  onChange?: (value: Date | null) => void;
+}
+
+export interface RangeDatepickerProps extends DatepickerBaseProps {
+  /** Seleciona um intervalo de datas, com dois campos e um calendário. */
+  mode: 'range';
+  /** Intervalo selecionado, em modo controlado. */
+  value?: CalendarRange;
+  /** Intervalo inicial, em modo não controlado. */
+  defaultValue?: CalendarRange;
+  /** Chamado ao escolher ou digitar uma data válida do intervalo. */
+  onChange?: (value: CalendarRange) => void;
+}
+
+export type DatepickerProps = SingleDatepickerProps | RangeDatepickerProps;
+
+const VAZIO: CalendarRange = { start: null, end: null };
+
+const estiloDoCampo: React.CSSProperties = {
+  flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
+  fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: '10px 0',
 };
 
-const dpParse = (str: string): Date | null => {
-  if (!str || !/^\d{2}\/\d{2}\/\d{4}$/.test(str)) return null;
-  const [dd, mm, yyyy] = str.split('/').map(Number);
-  if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return null;
-  const d = new Date(yyyy, mm - 1, dd);
-  return (d.getDate() === dd && d.getMonth() === mm - 1 && d.getFullYear() === yyyy) ? d : null;
-};
+/** Campo de data única ou intervalo, com digitação mascarada (dd/mm/aaaa) e calendário em popover. */
+export const Datepicker: React.FC<DatepickerProps> = (props) => {
+  const {
+    label, hint, error, min, max, isDateDisabled, weekStartsOn, placeholder = 'dd/mm/aaaa', disabled = false,
+  } = props;
+  const intervalo = props.mode === 'range';
+  const limites = { min, max, isDateDisabled };
 
-const dpMask = (val: string): string => {
-  const digits = val.replace(/\D/g, '').slice(0, 8);
-  if (digits.length <= 2) return digits;
-  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
-  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
-};
+  const [valorInterno, setValorInterno] = useState<Date | null | CalendarRange>(props.defaultValue ?? (intervalo ? VAZIO : null));
+  const valor = props.value !== undefined ? props.value : valorInterno;
+  const unico = intervalo ? null : (valor as Date | null);
+  const faixa: CalendarRange = intervalo ? ((valor as CalendarRange | null) ?? VAZIO) : VAZIO;
+  const inicio = intervalo ? faixa.start : unico;
 
-const dpToIso = (d: Date | null): string | null =>
-  d ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}` : null;
+  const [textoInicio, setTextoInicio] = useState(formatarData(inicio));
+  const [textoFim, setTextoFim] = useState(formatarData(faixa.end));
+  const [erroInicio, setErroInicio] = useState('');
+  const [erroFim, setErroFim] = useState('');
+  const [focado, setFocado] = useState(false);
 
-const dpParseIso = (iso: string): Date => {
-  const [y, m, d] = iso.split('-').map(Number);
-  return new Date(y, m - 1, d);
-};
+  const isoInicio = paraIso(inicio);
+  const isoFim = paraIso(faixa.end);
+  useEffect(() => { setTextoInicio(formatarData(inicio)); setErroInicio(''); }, [isoInicio]);
+  useEffect(() => { setTextoFim(formatarData(faixa.end)); setErroFim(''); }, [isoFim]);
 
-const dpAddDays = (d: Date, n: number): Date => {
-  const r = new Date(d);
-  r.setDate(r.getDate() + n);
-  return r;
-};
-
-/** Campo de seleção de data única ou intervalo, com digitação mascarada e calendário popup. */
-export const Datepicker: React.FC<DatepickerProps> = ({
-  singleDate = false,
-  clearLabel = 'Limpar',
-  defaultValues = { startDate: null, endDate: null },
-  endDateLabel = 'até',
-  onChange,
-  onClear,
-  resetOnSubmit = false,
-  showSubmitButton = true,
-  startDateLabel = 'de',
-  onSubmit,
-  submitLabel = 'Confirmar',
-  values = { startDate: null, endDate: null },
-  minBookingDate = null,
-  maxBookingDays,
-  label,
-  hint,
-  error,
-}) => {
-  const [open, setOpen] = useState(false);
-  const [month, setMonth] = useState(new Date());
-  const [localValues, setLocalValues] = useState<DatepickerValues>(values || defaultValues);
-  const [startText, setStartText] = useState(dpFmt(values?.startDate || defaultValues?.startDate));
-  const [endText, setEndText] = useState(dpFmt(values?.endDate || defaultValues?.endDate));
-  const [startErr, setStartErr] = useState('');
-  const [endErr, setEndErr] = useState('');
-  const [startFocus, setStartFocus] = useState(false);
-  const [endFocus, setEndFocus] = useState(false);
-  const [hoverIso, setHoverIso] = useState<string | null>(null);
-
-  const limiteIso = maxBookingDays && localValues.startDate
-    ? dpToIso(dpAddDays(dpParseIso(localValues.startDate), maxBookingDays - 1))
-    : null;
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = () => setOpen(false);
-    document.addEventListener('click', handler);
-    return () => document.removeEventListener('click', handler);
-  }, [open]);
-
-  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-
-  const daysInMonth = (d: Date) => new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
-  const firstDay = new Date(month.getFullYear(), month.getMonth(), 1).getDay();
-  const days = Array.from({ length: daysInMonth(month) }, (_, i) => i + 1);
-  const blanks = Array.from({ length: firstDay }, (_, i) => i);
-
-  const handleStartInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const masked = dpMask(e.target.value);
-    setStartText(masked);
-    if (masked.length < 10) { setStartErr(''); return; }
-    const d = dpParse(masked);
-    if (!d) { setStartErr('Data inválida'); return; }
-    if (minBookingDate && d < minBookingDate) { setStartErr(`Mín: ${dpFmt(minBookingDate)}`); return; }
-    setStartErr('');
-    const iso = dpToIso(d);
-    const newVals = { ...localValues, startDate: iso, endDate: null };
-    setLocalValues(newVals);
-    setEndText('');
-    setMonth(new Date(d.getFullYear(), d.getMonth(), 1));
-    onChange?.(newVals);
+  const confirmar = (novo: Date | null | CalendarRange) => {
+    if (props.value === undefined) setValorInterno(novo);
+    if (props.mode === 'range') props.onChange?.(novo as CalendarRange);
+    else props.onChange?.(novo as Date | null);
   };
 
-  const handleEndInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const masked = dpMask(e.target.value);
-    setEndText(masked);
-    if (masked.length < 10) { setEndErr(''); return; }
-    const d = dpParse(masked);
-    if (!d) { setEndErr('Data inválida'); return; }
-    if (localValues.startDate && dpToIso(d)! < localValues.startDate) { setEndErr('Deve ser após data inicial'); return; }
-    if (limiteIso && dpToIso(d)! > limiteIso) { setEndErr(`Máx: ${maxBookingDays} dias`); return; }
-    setEndErr('');
-    const iso = dpToIso(d);
-    const newVals = { ...localValues, endDate: iso };
-    setLocalValues(newVals);
-    setMonth(new Date(d.getFullYear(), d.getMonth(), 1));
-    onChange?.(newVals);
+  const validar = (data: Date): string => {
+    if (diaDesabilitado(data, limites)) return 'Data indisponível';
+    return '';
   };
 
-  const isInRange = (day: number) => {
-    const dIso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    if (!localValues.startDate || !localValues.endDate) return false;
-    return dIso > localValues.startDate && dIso < localValues.endDate;
-  };
-
-  const aguardandoFim = !singleDate && !!localValues.startDate && !localValues.endDate;
-  const emPrevia = (iso: string) => {
-    if (!aguardandoFim || !hoverIso || !localValues.startDate) return false;
-    const [de, ate] = hoverIso < localValues.startDate ? [hoverIso, localValues.startDate] : [localValues.startDate, hoverIso];
-    return iso > de && iso < ate;
-  };
-
-  const handleDayClick = (day: number) => {
-    const d = new Date(month.getFullYear(), month.getMonth(), day);
-    const iso = dpToIso(d);
-    if (singleDate) {
-      const newVals = { startDate: iso, endDate: iso };
-      setLocalValues(newVals); setStartText(dpFmt(d)); setStartErr('');
-      onChange?.(newVals); setOpen(false);
-    } else {
-      if (!localValues.startDate || (localValues.startDate && localValues.endDate)) {
-        const newVals = { startDate: iso, endDate: null };
-        setLocalValues(newVals); setStartText(dpFmt(d)); setEndText(''); setStartErr(''); setEndErr('');
-        onChange?.(newVals);
-      } else if (iso! < localValues.startDate) {
-        const newVals = { startDate: iso, endDate: localValues.startDate };
-        setLocalValues(newVals); setStartText(dpFmt(d)); setEndText(dpFmt(localValues.startDate)); setStartErr(''); setEndErr('');
-        onChange?.(newVals); setOpen(false);
-      } else if (limiteIso && iso! > limiteIso) {
-        return;
-      } else {
-        const newVals = { ...localValues, endDate: iso };
-        setLocalValues(newVals); setEndText(dpFmt(d)); setEndErr('');
-        onChange?.(newVals); setOpen(false);
-      }
+  const digitarInicio = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const texto = mascararData(e.target.value);
+    setTextoInicio(texto);
+    if (texto === '') {
+      setErroInicio('');
+      confirmar(intervalo ? { start: null, end: faixa.end } : null);
+      return;
     }
+    if (texto.length < 10) { setErroInicio(''); return; }
+    const data = interpretarData(texto);
+    if (!data) { setErroInicio('Data inválida'); return; }
+    const problema = validar(data);
+    if (problema) { setErroInicio(problema); return; }
+    setErroInicio('');
+    if (!intervalo) { confirmar(data); return; }
+    const fimValido = faixa.end && compararDias(faixa.end, data) >= 0 ? faixa.end : null;
+    confirmar({ start: data, end: fimValido });
   };
 
-  const handleClear = () => {
-    const newVals = { startDate: null, endDate: null };
-    setLocalValues(newVals); setStartText(''); setEndText(''); setStartErr(''); setEndErr('');
-    onClear?.(); onChange?.(newVals);
+  const digitarFim = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const texto = mascararData(e.target.value);
+    setTextoFim(texto);
+    if (texto === '') { setErroFim(''); confirmar({ start: faixa.start, end: null }); return; }
+    if (texto.length < 10) { setErroFim(''); return; }
+    const data = interpretarData(texto);
+    if (!data) { setErroFim('Data inválida'); return; }
+    const problema = validar(data);
+    if (problema) { setErroFim(problema); return; }
+    if (faixa.start && compararDias(data, faixa.start) < 0) { setErroFim('Deve ser após a data inicial'); return; }
+    setErroFim('');
+    confirmar({ start: faixa.start, end: data });
   };
 
-  const handleSubmit = () => {
-    onSubmit?.(localValues.startDate, localValues.endDate);
-    if (resetOnSubmit) handleClear();
-    setOpen(false);
-  };
+  const mensagem = error ?? (erroInicio || erroFim || undefined);
+  const temErro = !!mensagem;
 
-  const prevMonth = () => setMonth(new Date(month.getFullYear(), month.getMonth() - 1));
-  const nextMonth = () => setMonth(new Date(month.getFullYear(), month.getMonth() + 1));
-
-  const handleInputClick = (e: React.SyntheticEvent) => { e.stopPropagation(); setOpen(true); };
-
-  const dpInputStyle: React.CSSProperties = {
-    flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
-    fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: '10px 0',
-  };
+  const calendario = (fechar: () => void) => (
+    intervalo ? (
+      <Calendar mode="range" value={faixa} min={min} max={max} isDateDisabled={isDateDisabled} weekStartsOn={weekStartsOn}
+        onChange={(novo) => { confirmar(novo); if (novo.end) fechar(); }} />
+    ) : (
+      <Calendar value={unico} min={min} max={max} isDateDisabled={isDateDisabled} weekStartsOn={weekStartsOn}
+        onChange={(novo) => { confirmar(novo); fechar(); }} />
+    )
+  );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, position: 'relative' }}
-         onClick={(e) => e.stopPropagation()}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
-      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-        {!singleDate ? (
-          <>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ob-fg-soft)', marginBottom: 4 }}>{startDateLabel}</div>
-              <FieldShell focused={startFocus} error={!!startErr} onClick={handleInputClick}>
-                <input
-                  type="text" value={startText} maxLength={10} placeholder="dd/mm/yyyy"
-                  onChange={handleStartInput} onClick={handleInputClick}
-                  onFocus={() => setStartFocus(true)} onBlur={() => setStartFocus(false)}
-                  style={dpInputStyle}
-                />
-              </FieldShell>
-              {startErr && <div style={{ fontSize: 11, color: 'var(--ob-danger)', marginTop: 4 }}>{startErr}</div>}
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ob-fg-soft)', marginBottom: 4 }}>{endDateLabel}</div>
-              <FieldShell focused={endFocus} error={!!endErr} onClick={handleInputClick}>
-                <input
-                  type="text" value={endText} maxLength={10} placeholder="dd/mm/yyyy"
-                  onChange={handleEndInput} onClick={handleInputClick}
-                  onFocus={() => setEndFocus(true)} onBlur={() => setEndFocus(false)}
-                  style={dpInputStyle}
-                />
-              </FieldShell>
-              {endErr && <div style={{ fontSize: 11, color: 'var(--ob-danger)', marginTop: 4 }}>{endErr}</div>}
-            </div>
-          </>
-        ) : (
-          <div style={{ flex: 1 }}>
-            <FieldShell focused={startFocus} error={!!startErr} onClick={handleInputClick}>
-              <input
-                type="text" value={startText} maxLength={10} placeholder="dd/mm/yyyy"
-                onChange={handleStartInput} onClick={handleInputClick}
-                onFocus={() => setStartFocus(true)} onBlur={() => setStartFocus(false)}
-                style={dpInputStyle}
-              />
-            </FieldShell>
-            {startErr && <div style={{ fontSize: 11, color: 'var(--ob-danger)', marginTop: 4 }}>{startErr}</div>}
-          </div>
-        )}
+      <div onFocus={() => setFocado(true)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocado(false); }}>
+        <FieldShell focused={focado} error={temErro} disabled={disabled} padding="0 6px 0 14px">
+          <input type="text" inputMode="numeric" maxLength={10} value={textoInicio} placeholder={placeholder} disabled={disabled}
+            aria-label={intervalo ? 'Data inicial' : undefined} aria-invalid={!!(error || erroInicio) || undefined}
+            onChange={digitarInicio} style={estiloDoCampo} />
+          {intervalo && (
+            <>
+              <span aria-hidden="true" style={{ color: 'var(--ob-fg-mute)', flex: 'none' }}>–</span>
+              <input type="text" inputMode="numeric" maxLength={10} value={textoFim} placeholder={placeholder} disabled={disabled}
+                aria-label="Data final" aria-invalid={!!(error || erroFim) || undefined}
+                onChange={digitarFim} style={estiloDoCampo} />
+            </>
+          )}
+          <Popover align="end" width={276} padding={12} closeButton={false} ariaLabel="Calendário"
+            trigger={<Button kind="neutral" iconOnly size="sm" disabled={disabled} aria-label="Abrir calendário" icon={<Ph n="calendar-blank" size={18} />} />}>
+            {calendario}
+          </Popover>
+        </FieldShell>
       </div>
-
-      {open && (
-        <div onClick={(e) => e.stopPropagation()} style={{
-          position: 'absolute', top: '100%', left: 0, marginTop: 8, background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
-          borderRadius: 'var(--ob-r-surface)', padding: 16, boxShadow: 'var(--ob-shadow-lg)',
-          zIndex: 'var(--ob-z-dropdown)' as React.CSSProperties['zIndex'],
-          minWidth: 300,
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <button type="button" aria-label="Mês anterior" onClick={prevMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'inline-flex', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}><Ph n="caret-left" size={16} /></button>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{monthNames[month.getMonth()]} {month.getFullYear()}</span>
-            <button type="button" aria-label="Próximo mês" onClick={nextMonth} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'inline-flex', padding: '4px 8px', color: 'var(--ob-blue)', borderRadius: 'var(--ob-r-xs)' }}><Ph n="caret-right" size={16} /></button>
-          </div>
-          <div onMouseLeave={() => setHoverIso(null)} style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 2, marginBottom: 10 }}>
-            {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d, i) => (
-              <div key={i} style={{ textAlign: 'center', fontSize: 10, fontWeight: 600, color: 'var(--ob-fg-mute)', padding: '4px 0' }}>{d}</div>
-            ))}
-            {blanks.map((_, i) => <div key={`b-${i}`} />)}
-            {days.map(day => {
-              const iso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-              const isStart = iso === localValues.startDate;
-              const isEnd = iso === localValues.endDate;
-              const inRange = isInRange(day) || emPrevia(iso);
-              const alvoDaPrevia = aguardandoFim && hoverIso === iso && !isStart;
-              const foraDoLimite = aguardandoFim && !!limiteIso && iso > limiteIso;
-              return (
-                <button key={day} disabled={foraDoLimite} onClick={() => handleDayClick(day)}
-                  onMouseEnter={() => !foraDoLimite && setHoverIso(iso)} onFocus={() => !foraDoLimite && setHoverIso(iso)} style={{
-                  padding: '6px 0', borderRadius: 'var(--ob-r-xs)', border: 'none', textAlign: 'center',
-                  background: isStart || isEnd ? 'var(--ob-blue)' : inRange ? 'var(--ob-blue-100)' : (hoverIso === iso ? 'var(--ob-bg-warm)' : 'var(--ob-surface)'),
-                  color: isStart || isEnd ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-strong)',
-                  boxShadow: alvoDaPrevia ? 'inset 0 0 0 1.5px var(--ob-blue)' : 'none',
-                  opacity: foraDoLimite ? 0.35 : 1,
-                  fontFamily: 'inherit', fontSize: 12, fontWeight: 500,
-                  cursor: foraDoLimite ? 'not-allowed' : 'pointer', transition: 'background 100ms',
-                }}>{day}</button>
-              );
-            })}
-          </div>
-          <div style={{ display: 'flex', gap: 8, borderTop: '1px solid var(--ob-border)', paddingTop: 10 }}>
-            <Button kind="ghost" onClick={handleClear} style={{ flex: 1, fontSize: 12 }}>{clearLabel}</Button>
-            {showSubmitButton && (
-              <Button kind="primary" onClick={handleSubmit} style={{ flex: 1, fontSize: 12 }}>{submitLabel}</Button>
-            )}
-          </div>
-        </div>
-      )}
-      {(hint || error) && <span style={{ fontSize: 11, color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)', marginTop: 4 }}>{error || hint}</span>}
+      {(hint || mensagem) && <span style={{ fontSize: 11, color: mensagem ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{mensagem || hint}</span>}
     </div>
   );
 };

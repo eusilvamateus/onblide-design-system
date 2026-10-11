@@ -1,9 +1,5 @@
-// Ponto de partida da demo interativa do Datepicker: o elemento <Datepicker> abaixo define os valores iniciais dos controles.
-
 <Datepicker
-  label="Período da campanha"
-  startDateLabel="de"
-  endDateLabel="até"
-  submitLabel="Aplicar"
-  clearLabel="Limpar"
+  label="Data de entrega"
+  hint="Digite ou escolha no calendário"
+  placeholder="dd/mm/aaaa"
 />
