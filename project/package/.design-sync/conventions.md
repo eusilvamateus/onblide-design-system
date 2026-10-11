@@ -23,7 +23,7 @@ Leia isto antes de montar qualquer tela. Tudo vem de `window.OnblideUI` (o bundl
 ## Composição
 - Botões: `kind` = primary | secondary | ghost | cream | danger; `size` = sm | md | lg. Um primário por região.
 - Campos (`Input`, `Select`, `SearchInput`, `Datepicker`, `CodeInput`) compartilham a superfície `FieldShell`; erro entra pela prop `error`.
-- `Modal`, `Drawer`, `Dropdown` e `Tooltip` são overlays: renderize-os dentro de um contêiner com altura definida.
+- `Modal`, `Drawer` e `Tooltip` são overlays: renderize-os dentro de um contêiner com altura definida.
 - `ToastStack` fica uma vez na raiz do app; toasts disparam pelo evento `ob-toast`.
 - `Table`, `Tabs`, `Pagination`, `SideNav` recebem dados por props; use conteúdo realista, nunca "foo/test".
 

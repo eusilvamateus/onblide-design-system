@@ -6,11 +6,11 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Select, Slider, Icons, BrandTile, Link, Modal, Pagination, Logo } from '@onblide/ui';
+import { Table, Select, Slider, Icons, Link, Modal, Pagination, Logo } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
-  Brand, BrandKey, BrandTileProps, LogoProps,
+  LogoProps,
   LinkProps, LinkVariant, ModalProps, ModalSize, PaginationProps,
   SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps, TableColumn, TableSort,
@@ -22,7 +22,7 @@ import type {
 export type TiposExportados = [
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
-  Brand, BrandKey, BrandTileProps, LogoProps,
+  LogoProps,
   LinkProps, LinkVariant, ModalProps, ModalSize, PaginationProps,
   SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps<object>, TableColumn<object>, TableSort,
@@ -79,11 +79,10 @@ export function Verificacoes({ linhas, aliases }: { linhas: Linha[]; aliases: Li
       {/* @ts-expect-error range vindo de variável boolean não discrimina a união */}
       <Slider range={dinamico} value={num} onChange={setNum} />
 
-      {/* Icons / BrandTile / Logo / Link / Pagination / Modal */}
+      {/* Icons / Logo / Link / Pagination / Modal */}
       <Icons.check size={12} style={{ color: '#fff' }} />
       {Icons.house({ size: 18 })}
       {(['search', 'x'] as IconName[]).map((n) => <React.Fragment key={n}>{Icons[n]()}</React.Fragment>)}
-      <BrandTile brand="github" size={32} />
       <Logo />
       <Logo size={24} />
       <Link href="#" variant="quiet" external onClick={(e) => e.preventDefault()}>x</Link>
@@ -95,8 +94,6 @@ export function Verificacoes({ linhas, aliases }: { linhas: Linha[]; aliases: Li
       <Modal open size="xl" />
       {/* @ts-expect-error size do Logo é número */}
       <Logo size="24" />
-      {/* @ts-expect-error marca inexistente */}
-      <BrandTile brand="myspace" />
       {/* @ts-expect-error ícone inexistente */}
       <Icons.nope />
     </>

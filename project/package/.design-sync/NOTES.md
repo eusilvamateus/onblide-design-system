@@ -1,11 +1,11 @@
 # Notas do design-sync (@onblide/ui)
 
 - Config em `project/package/.design-sync/` (rodar tudo de dentro de `project/package`). Pacote construído com `npm run build`; entrada `./dist/index.js`, `--node-modules ./node_modules`.
-- `Brands` é objeto, não componente: excluído via `componentSrcMap`. `Icons` é namespace (`Icons.plus`), aceito como composto.
+- `Icons` é namespace (`Icons.plus`), aceito como composto.
 - CSS: `cssEntry` = `.design-sync/.cache/css/styles.css`, gerado por `.design-sync/build-css.mjs` (parte do `buildCmd`): esbuild resolve os `@import` de `src/styles.css` (tokens + Phosphor) num arquivo só, com as fontes em `fonts/`, e remove a fonte SVG do Phosphor. Não usar `tokensPkg`/`tokensGlob`/`extraFonts` para o Phosphor: isso duplicava o `@font-face` e deixava `url()` quebradas (apontado pelo agente do Claude Design em 2026-09-26).
 - Envio: sempre completo (todos os `components/**`, `_preview/**`, fontes e bundle). Envio parcial deixa `.d.ts` de versões antigas ao lado de um bundle novo e o app acusa componentes desatualizados.
 - Sem `docsDir`: os guias por componente vivem em `docs-site/guias/*.mdx` (MDX com componentes do site); os `.prompt.md` saem do `.d.ts` (com JSDoc) + previews.
-- `Button` não tem prop `disabled`. `Tooltip` só abre com hover: o preview simula `mouseover` ao montar; `Dropdown` clica o gatilho ao montar. `Modal`/`Drawer` ficam contidos com `transform: translateZ(0)`.
+- `Button` não tem prop `disabled`. `Tooltip` só abre com hover: o preview simula `mouseover` ao montar. `Modal`/`Drawer` ficam contidos com `transform: translateZ(0)`.
 - Chromium do playwright instalado em `.ds-sync` (bundled, perfil próprio). NUNCA usar/fechar Edge/Chrome do usuário nem matar processos.
 
 ## Pausado em 2026-10-08 — não sincronizar nem consultar o Claude Design
@@ -21,7 +21,7 @@ Claude Design fica de fora até o usuário liberar.
 - `[RENDER_THIN]` Logo, Spinner, Drawer: SVG/animação sem texto e overlay fixo; conferidos nas capturas.
 
 ## Re-sync risks
-- Previews de Tooltip/Dropdown dependem de eventos simulados; se o componente mudar a forma de abrir, revisar.
+- Previews de Tooltip dependem de eventos simulados; se o componente mudar a forma de abrir, revisar.
 - `overrides` de cardMode (column/single) ligados aos nomes das células dos previews.
 - Fontes/glifos Phosphor dependem de `@phosphor-icons/web@2.1.2` em node_modules.
 - **SEMPRE buscar `_ds_sync.json` remoto de novo antes de rodar `resync.mjs`** (`DesignSync(get_file, path: "_ds_sync.json")` → sobrescrever `.design-sync/.cache/remote-sync.json`). Em 2026-09-27 usei o cache local de uma sessão anterior sem atualizar, e o diff comparou contra um anchor de antes da reorganização em categorias (`primitives`/`general`), gerando um `deletePaths` gigante e errado. Nunca reusar `remote-sync.json` de sessão para sessão sem refazer o fetch.
@@ -31,7 +31,7 @@ Claude Design fica de fora até o usuário liberar.
 
 13 propostas do Claude Design portadas de uma vez para `src/`: `Divider`, `List` (+ `ListItem`, `ListSubheader`,
 `ListDivider`), `Breadcrumbs`, `Textarea`, `NumberField`, `FileUpload`, `Autocomplete`, `Menu` (+ `ContextMenu`,
-`MenuPanel`), `Menubar` (+ `KeyList`), `Popover`, `Stepper`, `Timeline`, `TreeView`. Cada um já tem preview em
+`MenuPanel`), `Menubar`, `Popover`, `Stepper`, `Timeline`, `TreeView`. Cada um já tem preview em
 `.design-sync/previews/<Nome>.tsx` (2-4 exemplos, seguindo a receita do skill), pronto pro próximo sync — nenhum
 sync foi rodado ainda para eles, então `_ds_sync.json` remoto não tem esses nomes e o próximo `resync.mjs` vai
 tratá-los como `added`, não `changed`.
@@ -51,7 +51,7 @@ Sync feito em 2026-09-27 (58 componentes no ar). O que apareceu de verdade, pra 
   fechado (reprovava "Completo" na rubrica). Adicionada `defaultOpen` (mesmo padrão do `Popover`).
 - `Timeline`, `FileUpload`, `Breadcrumbs`, `Stepper` precisaram de `cardMode: "column"`; `Popover`, de
   `cardMode: "single"` (painel sai por portal, nenhum grid comporta) — todos já em `config.json`.
-- `ContextMenu`, `KeyList`, `ListDivider`, `ListItem`, `ListSubheader`, `MenuPanel` caem no grupo "general" no
+- `ContextMenu`, `ListDivider`, `ListItem`, `ListSubheader`, `MenuPanel` caem no grupo "general" no
   catálogo remoto — são exports secundários de `Menu.tsx`/`List.tsx`/`Menubar.tsx`, e a heurística de grupo do
   conversor só acerta quando o arquivo se chama igual ao componente. Cosmético (não afeta bundle/props/docs);
   não vale a complexidade de forçar via `componentSrcMap` (o `dirname` apontaria pro arquivo errado). Se incomodar,

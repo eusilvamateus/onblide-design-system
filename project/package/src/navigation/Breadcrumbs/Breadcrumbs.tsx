@@ -1,6 +1,7 @@
 import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
-import { Dropdown } from '../../overlays/Dropdown/Dropdown';
+import { Menu } from '../../overlays/Menu/Menu';
+import { Button } from '../../actions/Button/Button';
 
 export type BreadcrumbSeparator = 'caret' | 'slash';
 export type BreadcrumbSize = 'sm' | 'md';
@@ -83,17 +84,10 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, separator = 'ca
           <li key={k} style={{ display: 'flex', alignItems: 'center', gap: 2, minWidth: 0 }}>
             {k > 0 && <BreadcrumbSeparatorIcon kind={separator} size={size} />}
             {'more' in v && v.more ? (
-              <Dropdown
-                trigger={
-                  <button aria-label={`Mostrar mais ${hidden.length} níveis`}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ob-surface-2)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--ob-fg-soft)'; }}
-                    style={{
-                      display: 'flex', alignItems: 'center', border: 'none', background: 'transparent', color: 'var(--ob-fg-soft)',
-                      padding: size === 'sm' ? '2px 4px' : '4px 6px', borderRadius: 'var(--ob-r-sm)', cursor: 'pointer', fontFamily: 'inherit',
-                    }}><Ph n="dots-three" size={16} c="currentColor" /></button>
-                }
-                items={hidden.map((h) => ({ label: h.label, icon: <Ph n="folder-simple" size={16} c="currentColor" />, onClick: () => onNavigate?.(h) }))}
+              <Menu
+                ariaLabel="Níveis ocultos"
+                trigger={<Button kind="neutral" iconOnly size="sm" aria-label={`Mostrar mais ${hidden.length} níveis`} icon={<Ph n="dots-three" size={16} c="currentColor" />} />}
+                items={hidden.map((h) => ({ label: typeof h.label === 'string' ? h.label : h.ariaLabel ?? '', icon: 'folder-simple', onSelect: () => onNavigate?.(h) }))}
               />
             ) : (
               <Crumb item={(v as { it: BreadcrumbItem }).it} current={(v as { i: number }).i === items.length - 1} size={size} onNavigate={onNavigate} />

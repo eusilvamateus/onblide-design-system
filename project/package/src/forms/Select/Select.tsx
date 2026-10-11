@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Chip } from '../../data-display/Chip/Chip';
-import { FloatingPanel } from '../../overlays/FloatingPanel/FloatingPanel';
+import { FloatingPanel } from '../../internal/FloatingPanel';
 import { useLadoVertical } from '../../internal/useLadoVertical';
 import { Ph } from '../../iconography/Ph/Ph';
 import { FieldShell } from '../FieldShell/FieldShell';

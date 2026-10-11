@@ -21,7 +21,7 @@ export interface FloatingPanelProps {
   children?: React.ReactNode;
 }
 
-/** Painel flutuante base usado por Dropdown e outros overlays ancorados a um elemento. */
+/** Painel flutuante base dos overlays ancorados a um elemento (Select, Autocomplete e Popover). */
 export const FloatingPanel = React.forwardRef<HTMLDivElement, FloatingPanelProps>(({
   side = 'bottom', align = 'stretch', maxHeight, padding = 4, minWidth, style = {}, children,
 }, ref) => {

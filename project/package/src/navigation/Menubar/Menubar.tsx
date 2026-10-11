@@ -62,18 +62,3 @@ export const Menubar: React.FC<MenubarProps> = ({ menus, ariaLabel = 'Menu princ
     </div>
   );
 };
-
-export interface KeyListRow { keys: React.ReactNode; description: React.ReactNode }
-export interface KeyListProps { rows: [React.ReactNode, React.ReactNode][] }
-
-/** Lista de definição para documentar atalhos de teclado — tecla à esquerda, explicação à direita. */
-export const KeyList: React.FC<KeyListProps> = ({ rows }) => (
-  <dl style={{ margin: 0, display: 'grid', gridTemplateColumns: 'max-content minmax(0,1fr)', columnGap: 'var(--ob-s-5)', rowGap: 'var(--ob-s-2)', fontSize: 'var(--ob-fs-sm)', lineHeight: 'var(--ob-lh-normal)' }}>
-    {rows.map(([k, d], i) => (
-      <React.Fragment key={i}>
-        <dt style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 'var(--ob-fs-xs)', color: 'var(--ob-fg-strong)', paddingTop: 2 }}>{k}</dt>
-        <dd style={{ margin: 0 }}>{d}</dd>
-      </React.Fragment>
-    ))}
-  </dl>
-);

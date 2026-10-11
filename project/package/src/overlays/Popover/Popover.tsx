@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { FloatingPanel } from '../FloatingPanel/FloatingPanel';
+import { FloatingPanel } from '../../internal/FloatingPanel';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Button } from '../../actions/Button/Button';
 import { posicionarPainel } from '../../internal/floating';

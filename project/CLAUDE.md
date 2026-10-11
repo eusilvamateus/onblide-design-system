@@ -148,5 +148,6 @@ npm run verify   # typecheck (src) → build → typecheck:dist (tipos como o co
 This covers all interface icons (`ph-house`, `ph-gear`, `ph-check`, etc.).
 
 **Brand logos** (`ph-spotify-logo`, `ph-slack-logo`, etc.) are included in the `@phosphor-icons/web`
-webfont. `Brands`/`BrandTile` render them via `Ph` in each brand's color. A brand with no Phosphor
-glyph is simply not implemented — never draw a lookalike SVG.
+webfont and render through `Ph`. The package has no component for third-party brand logos (removed in
+4.0.0): an app that needs one uses the glyph via `Ph`. A brand with no Phosphor glyph is simply not
+implemented — never draw a lookalike SVG.

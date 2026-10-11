@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusDot } from '../../feedback/StatusDot/StatusDot';
+import { StatusDot } from '../../internal/StatusDot';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Avatar } from '../Avatar/Avatar';
 import type { BadgeTone } from '../../internal/badgeTones';

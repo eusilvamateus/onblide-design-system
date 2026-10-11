@@ -1,5 +1,5 @@
 import React from 'react';
-import { BADGE_TONES, BadgeTone } from '../../internal/badgeTones';
+import { BADGE_TONES, BadgeTone } from './badgeTones';
 
 export interface StatusDotProps {
   /** Tom que define a cor do ponto, compartilhado com o Badge. */

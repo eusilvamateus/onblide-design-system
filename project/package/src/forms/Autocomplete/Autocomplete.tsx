@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
-import { FloatingPanel } from '../../overlays/FloatingPanel/FloatingPanel';
+import { FloatingPanel } from '../../internal/FloatingPanel';
 import { useLadoVertical } from '../../internal/useLadoVertical';
 import { Chip } from '../../data-display/Chip/Chip';
 import { Ph } from '../../iconography/Ph/Ph';

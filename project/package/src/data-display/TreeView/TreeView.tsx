@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 import { Spinner } from '../../feedback/Spinner/Spinner';
-import { StatusDot } from '../../feedback/StatusDot/StatusDot';
+import { StatusDot } from '../../internal/StatusDot';
 import { Badge } from '../../data-display/Badge/Badge';
 import { Button } from '../../actions/Button/Button';
 import { List, ListItem } from '../List/List';

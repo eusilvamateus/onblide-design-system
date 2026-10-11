@@ -5,9 +5,6 @@
   "shape": "package",
   "buildCmd": "npm run build && node .design-sync/build-css.mjs",
   "cssEntry": ".design-sync/.cache/css/styles.css",
-  "componentSrcMap": {
-    "Brands": null
-  },
   "readmeHeader": ".design-sync/conventions.md",
   "overrides": {
     "CodeInput": {
