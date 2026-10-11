@@ -25,4 +25,15 @@ if ((clickable.match(/<button/g) || []).length !== 2) fail('linear: só etapas c
 const nonLinear = renderToStaticMarkup(h(Stepper, { steps, current: 0, linear: false, onStepClick: () => {} }));
 if ((nonLinear.match(/<button/g) || []).length !== 2) fail('não linear: qualquer etapa não desabilitada deveria ser clicável', nonLinear);
 
+{
+  const etapas = [{ label: 'A' }, { label: 'B' }, { label: 'C' }, { label: 'D' }];
+  const contar = (html, trecho) => (html.match(new RegExp(trecho, 'g')) ?? []).length;
+  for (const variante of ['horizontal', 'segmented', 'bar', 'vertical']) {
+    for (const marcador of ['number', 'icon', 'dot']) {
+      const html = renderToStaticMarkup(h(Stepper, { steps: etapas, current: 1, variant: variante, marker: marcador }));
+      if (variante !== 'segmented' && contar(html, 'box-sizing:border-box') < etapas.length) fail('todo marcador usa box-sizing border-box para ter o mesmo tamanho em qualquer estado (' + variante + '/' + marcador + ')', html);
+      if (variante !== 'bar' && contar(html, '<li[^>]*margin:0') !== etapas.length) fail('todo item da lista zera a margem, para o CSS de lista do host não deslocá-lo (' + variante + '/' + marcador + ')', html);
+    }
+  }
+}
 console.log('OK: Stepper (aria-current, 5 variantes, status sobrepõe, linear/não-linear)');

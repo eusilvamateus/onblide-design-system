@@ -454,7 +454,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     );
   };
   const renderAux = (r: Row & { type: 'loading' | 'error' | 'empty' }, k: string) => (
-    <li key={k} role="none" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8, minHeight: size === 'sm' ? 28 : 32, padding: `${padY}px 8px ${padY}px ${leftPad(r.level) + 26}px`, fontFamily: 'var(--ob-font)', fontSize: size === 'sm' ? 12 : 13, color: r.type === 'error' ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>
+    <li key={k} role="none" style={{ margin: 0, position: 'relative', display: 'flex', alignItems: 'center', gap: 8, minHeight: size === 'sm' ? 28 : 32, padding: `${padY}px 8px ${padY}px ${leftPad(r.level) + 26}px`, fontFamily: 'var(--ob-font)', fontSize: size === 'sm' ? 12 : 13, color: r.type === 'error' ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>
       {guideSpans(r.level)}
       {r.type === 'loading' && <><Spinner size="xs" />Carregando…</>}
       {r.type === 'empty' && 'Pasta vazia'}
@@ -466,7 +466,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     <div ref={rootRef} style={{ fontFamily: 'var(--ob-font)' }}>
       <List as="ul" role="tree" ariaLabel={ariaLabel} aria-multiselectable={selection === 'multiple' || undefined} size={size} onKeyDown={onKeyDown} style={{ gap: 0 }}>
         {rows.map((r, k) => (r.type === 'node' ? renderNode(r) : renderAux(r, `aux${k}`)))}
-        {rows.length === 0 && <li role="none" style={{ padding: '12px 8px', fontSize: 13, color: 'var(--ob-fg-mute)' }}>{nq ? `Nenhum resultado para "${query.trim()}"` : emptyText}</li>}
+        {rows.length === 0 && <li role="none" style={{ margin: 0, padding: '12px 8px', fontSize: 13, color: 'var(--ob-fg-mute)' }}>{nq ? `Nenhum resultado para "${query.trim()}"` : emptyText}</li>}
       </List>
       <span aria-live="polite" style={srOnly}>{live}</span>
       {drag && ghost && ReactDOM.createPortal(

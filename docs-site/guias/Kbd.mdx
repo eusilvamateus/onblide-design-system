@@ -32,12 +32,11 @@ Usar o Kbd para destacar texto qualquer ou como botão. Ele não é interativo.
 ```jsx
 <Kbd>Ctrl</Kbd> + <Kbd>K</Kbd>
 <Kbd variant="plain" size="sm">⌘N</Kbd>
-<Kbd inverse>Esc</Kbd>
 ```
 
 <Nota>
 
-`inverse` ajusta as cores para fundos escuros, como a dica padrão do Tooltip.
+O Kbd usa a cor do texto ao redor para desenhar a tecla (contorno e fundo suave), então se adapta sozinho a qualquer fundo, claro ou escuro, como o da dica do Tooltip.
 
 </Nota>
 
@@ -49,6 +48,6 @@ Usar o Kbd para destacar texto qualquer ou como botão. Ele não é interativo.
 
 ## Guia de design
 
-**Tokens.** Fonte `--ob-font-mono`; fundo `--ob-bg-alt`; contorno `--ob-border` com a base mais grossa, que dá o relevo; texto `--ob-fg-soft`.
+**Cores.** Fonte `--ob-font-mono`. Texto, contorno e fundo vêm da cor do texto ao redor (`currentColor`): o contorno em 30% e o fundo em 10% dela, com a base mais grossa, que dá o relevo.
 
 **Tamanhos.** `md` 12 px; `sm` 11 px, usado dentro de menus e dicas.

@@ -207,6 +207,8 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
   display: grid; grid-template-columns: 1fr; gap: var(--ob-gap-md); align-items: end; margin: 0 0 var(--ob-gap-lg);
 }
 @media (min-width: 768px) { .ob-demo__controles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ob-wrap .markdown .ob-demo__resultado ol, .ob-wrap .markdown .ob-demo__resultado ul { margin: 0; padding: 0; }
+.ob-wrap .markdown .ob-demo__resultado li, .ob-wrap .markdown .ob-demo__resultado li + li { margin: 0; font-size: inherit; line-height: inherit; color: inherit; }
 .ob-demo__resultado { min-height: 160px; display: flex; flex-direction: column; justify-content: center; }
 /* Palco da demo: largura de um formulário real, para quem ocupa a largura (barra, slider, campo) não encolher. */
 .ob-demo__palco { width: 100%; max-width: 480px; margin: 0 auto; }

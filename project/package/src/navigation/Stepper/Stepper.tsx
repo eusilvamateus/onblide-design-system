@@ -41,10 +41,10 @@ function StepMark({ state, n, icon, marker = 'number', size = 'md' }: { state: S
     const d = sm ? 8 : 10;
     const bg = { done: 'var(--ob-blue)', current: 'var(--ob-blue)', error: 'var(--ob-danger)', upcoming: 'var(--ob-surface)', disabled: 'var(--ob-surface-2)' }[state];
     const ring = state === 'current' ? '0 0 0 4px var(--ob-blue-100)' : state === 'error' ? '0 0 0 4px var(--ob-red-100)' : 'none';
-    return <span style={{ width: d, height: d, margin: `${sm ? 7 : 9}px`, borderRadius: 'var(--ob-r-pill)', flex: 'none', background: bg, border: state === 'upcoming' || state === 'disabled' ? '1.5px solid var(--ob-border)' : 'none', boxShadow: ring, transition: 'all var(--ob-dur-base) var(--ob-ease)' }} />;
+    return <span style={{ width: d, height: d, boxSizing: 'border-box', margin: `${sm ? 7 : 9}px`, borderRadius: 'var(--ob-r-pill)', flex: 'none', background: bg, border: state === 'upcoming' || state === 'disabled' ? '1.5px solid var(--ob-border)' : 'none', boxShadow: ring, transition: 'all var(--ob-dur-base) var(--ob-ease)' }} />;
   }
   const d = sm ? 22 : 28, ic = sm ? 12 : 14;
-  const base: React.CSSProperties = { width: d, height: d, borderRadius: 'var(--ob-r-pill)', display: 'grid', placeItems: 'center', flex: 'none', fontSize: sm ? 11 : 'var(--ob-fs-xs)', fontWeight: 'var(--ob-w-semibold)', transition: 'all var(--ob-dur-base) var(--ob-ease)' };
+  const base: React.CSSProperties = { width: d, height: d, boxSizing: 'border-box', borderRadius: 'var(--ob-r-pill)', display: 'grid', placeItems: 'center', flex: 'none', fontSize: sm ? 11 : 'var(--ob-fs-xs)', fontWeight: 'var(--ob-w-semibold)', transition: 'all var(--ob-dur-base) var(--ob-ease)' };
   const content = marker === 'icon' && icon ? <Ph n={icon} size={ic} c="currentColor" /> : n;
   if (state === 'done') return <span style={{ ...base, background: 'var(--ob-blue)', color: 'var(--ob-fg-on-color)' }}><Ph n="check" size={ic} c="currentColor" /></span>;
   if (state === 'error') return <span style={{ ...base, background: 'var(--ob-red-100)', color: 'var(--ob-danger)' }}><Ph n="warning" size={ic} c="currentColor" /></span>;
@@ -103,7 +103,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps, current = 0, variant = 
         {steps.map((step, i) => {
           const s = st(i), val = s === 'done' || s === 'error' ? 100 : s === 'current' ? 50 : 0;
           return (
-            <li key={i} aria-current={ariaCur(i)} style={{ minWidth: 0 }}>
+            <li key={i} aria-current={ariaCur(i)} style={{ margin: 0, minWidth: 0 }}>
               <Hit can={can(i)} onClick={click(i)} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-s-2)', width: '100%', opacity: s === 'disabled' ? 0.6 : 1 }}>
                 <ProgressBar value={val} tone={s === 'error' ? 'danger' : 'info'} size="sm" />
                 <div style={{ display: 'flex', gap: 6, alignItems: 'baseline', minWidth: 0 }}>
@@ -132,7 +132,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps, current = 0, variant = 
         </div>
         <ol style={{ listStyle: 'none', margin: `var(--ob-s-3) -${md / 2}px 0`, padding: 0, display: 'flex', justifyContent: 'space-between', gap: 'var(--ob-s-3)' }}>
           {steps.map((step, i) => (
-            <li key={i} aria-current={ariaCur(i)} style={{ flex: 1, minWidth: 0, display: 'flex', justifyContent: i === 0 ? 'flex-start' : i === n - 1 ? 'flex-end' : 'center' }}>
+            <li key={i} aria-current={ariaCur(i)} style={{ margin: 0, flex: 1, minWidth: 0, display: 'flex', justifyContent: i === 0 ? 'flex-start' : i === n - 1 ? 'flex-end' : 'center' }}>
               <StepText step={step} state={st(i)} size={size} align={i === 0 ? 'left' : i === n - 1 ? 'right' : 'center'} />
             </li>
           ))}
@@ -147,7 +147,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps, current = 0, variant = 
         {steps.map((step, i) => {
           const s = st(i), last = i === n - 1;
           return (
-            <li key={i} aria-current={ariaCur(i)} style={{ display: 'grid', gridTemplateColumns: `${md}px 1fr`, columnGap: 'var(--ob-s-3)' }}>
+            <li key={i} aria-current={ariaCur(i)} style={{ margin: 0, display: 'grid', gridTemplateColumns: `${md}px 1fr`, columnGap: 'var(--ob-s-3)' }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <StepMark state={s} n={i + 1} icon={step.icon} marker={marker} size={size} />
                 {!last && <span style={{ flex: 1, width: 2, minHeight: sm ? 16 : 24, margin: '4px 0', background: lineOn(i) ? 'var(--ob-blue)' : 'var(--ob-border)', transition: 'background var(--ob-dur-base) var(--ob-ease)' }} />}
@@ -165,7 +165,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps, current = 0, variant = 
       {steps.map((step, i) => {
         const s = st(i);
         return (
-          <li key={i} aria-current={ariaCur(i)} style={{ flex: 1, minWidth: 0, marginLeft: i > 0 ? -1 : 0 }}>
+          <li key={i} aria-current={ariaCur(i)} style={{ margin: 0, flex: 1, minWidth: 0, marginLeft: i > 0 ? -1 : 0 }}>
             <Hit can={can(i)} onClick={click(i)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--ob-s-2)', width: '100%' }}>
               <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                 <span style={{ flex: 1, height: 2, background: i === 0 ? 'transparent' : lineOn(i - 1) ? 'var(--ob-blue)' : 'var(--ob-border)', transition: 'background var(--ob-dur-base) var(--ob-ease)' }} />

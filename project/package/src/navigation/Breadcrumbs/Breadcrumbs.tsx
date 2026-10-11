@@ -81,7 +81,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, separator = 'ca
         lineHeight: 'var(--ob-lh-normal)', fontWeight: 'var(--ob-w-medium)',
       }}>
         {visible.map((v, k) => (
-          <li key={k} style={{ display: 'flex', alignItems: 'center', gap: 2, minWidth: 0 }}>
+          <li key={k} style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 2, minWidth: 0 }}>
             {k > 0 && <BreadcrumbSeparatorIcon kind={separator} size={size} />}
             {'more' in v && v.more ? (
               <Menu

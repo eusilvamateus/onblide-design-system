@@ -88,7 +88,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           ) : (
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <span>{label}</span>
-              {shortcut && <Kbd size="sm" inverse={!inverted}>{shortcut}</Kbd>}
+              {shortcut && <Kbd size="sm">{shortcut}</Kbd>}
             </span>
           )}
           {variant !== 'image' && <span style={{ ...arrowBase, ...arrowPos[placement] }} />}

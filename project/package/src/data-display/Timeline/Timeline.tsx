@@ -96,7 +96,7 @@ export const Timeline: React.FC<TimelineProps> = ({ items, orientation = 'vertic
         {items.map((it, i) => {
           const next = items[i + 1], top = alt && i % 2 === 1;
           return (
-            <li key={i} style={{ flex: '1 0 168px', display: 'grid', gridTemplateRows: alt ? 'minmax(64px, auto) auto minmax(64px, auto)' : 'auto auto', rowGap: 'var(--ob-s-3)', position: 'relative' }}>
+            <li key={i} style={{ margin: 0, flex: '1 0 168px', display: 'grid', gridTemplateRows: alt ? 'minmax(64px, auto) auto minmax(64px, auto)' : 'auto auto', rowGap: 'var(--ob-s-3)', position: 'relative' }}>
               {alt && <div style={{ alignSelf: 'end', paddingRight: 'var(--ob-s-4)' }}>{top && <Content item={it} />}</div>}
               <div style={{ display: 'flex', alignItems: 'center', height: mw }}>
                 <Marker item={it} marker={marker} />
@@ -124,7 +124,7 @@ export const Timeline: React.FC<TimelineProps> = ({ items, orientation = 'vertic
         );
         const pad: React.CSSProperties = { paddingBottom: next ? 'var(--ob-s-5)' : 0, paddingTop: marker === 'dot' ? 0 : 4 };
         return (
-          <li key={i} style={{ display: 'grid', gridTemplateColumns: cols, columnGap: 'var(--ob-s-3)', position: 'relative' }}>
+          <li key={i} style={{ margin: 0, display: 'grid', gridTemplateColumns: cols, columnGap: 'var(--ob-s-3)', position: 'relative' }}>
             {opp && <div style={{ ...pad, textAlign: 'right', fontSize: 'var(--ob-fs-xs)', lineHeight: '20px', color: 'var(--ob-fg-soft)' }}>{it.time}</div>}
             {alt && <div style={pad}>{left && <Content item={it} align="right" />}</div>}
             {rail}

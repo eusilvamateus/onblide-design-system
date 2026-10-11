@@ -27,9 +27,20 @@ export const SemCaixa = () => (
   </div>
 );
 
-export const Invertido = () => (
-  <div style={{ ...linha, background: 'var(--ob-fg-strong)', borderRadius: 12 }}>
-    <Kbd inverse>Ctrl</Kbd>
-    <Kbd inverse>K</Kbd>
+export const EmFundoEscuro = () => (
+  <div style={{ ...linha, background: 'var(--ob-fg-strong)', color: 'var(--ob-surface)', borderRadius: 12 }}>
+    <Kbd>Ctrl</Kbd>
+    <span>+</span>
+    <Kbd>K</Kbd>
+    <Kbd variant="plain">⌘N</Kbd>
+  </div>
+);
+
+export const EmFundoClaro = () => (
+  <div style={{ ...linha, background: 'var(--ob-bg-warm)', color: 'var(--ob-fg-strong)', borderRadius: 12 }}>
+    <Kbd>Ctrl</Kbd>
+    <span>+</span>
+    <Kbd>K</Kbd>
+    <Kbd variant="plain">⌘N</Kbd>
   </div>
 );
