@@ -202,14 +202,16 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                   onClick={() => remove(img)}
                   disabled={disabled}
                   icon={<Ph n="trash" size={16} />}
-                  style={{ width: '100%', color: 'var(--ob-fg-mute)' }}
+                  style={{ width: '100%', color: 'var(--ob-fg-mute)', border: '1.5px solid transparent' }}
                   onMouseEnter={(event) => {
                     event.currentTarget.style.color = 'var(--ob-danger)';
                     event.currentTarget.style.background = 'var(--ob-danger-050)';
+                    event.currentTarget.style.borderColor = 'var(--ob-danger)';
                   }}
                   onMouseLeave={(event) => {
                     event.currentTarget.style.color = 'var(--ob-fg-mute)';
                     event.currentTarget.style.background = 'transparent';
+                    event.currentTarget.style.borderColor = 'transparent';
                   }}
                 >Remover imagem</Button>
               </>
