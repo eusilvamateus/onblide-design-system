@@ -22,6 +22,7 @@ export interface ProgressBarProps {
 /** Barra que comunica progresso determinado, indeterminado ou por etapas. */
 export const ProgressBar: React.FC<ProgressBarProps> = ({ value = 0, tone = 'info', size = 'md', indeterminate = false, showLabel = false, segments, currentSegment = 0 }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
+  const limitado = Math.min(100, Math.max(0, value));
   const h = size === 'sm' ? 6 : size === 'lg' ? 14 : 10;
   if (segments) return (
     <div style={{ display: 'flex', gap: 6, width: '100%' }}>
@@ -33,9 +34,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ value = 0, tone = 'inf
       <div style={{ flex: 1, height: h, background: 'var(--ob-bg-warm)', borderRadius: 999, overflow: 'hidden', position: 'relative' }}>
         {indeterminate
           ? <div style={{ position: 'absolute', height: '100%', background: t.fg, borderRadius: 999, animation: 'ob-indet 1.4s ease-in-out infinite' }} />
-          : <div style={{ width: `${Math.min(100, Math.max(0, value))}%`, height: '100%', background: t.fg, borderRadius: 999, transition: 'width 0.4s cubic-bezier(.4,0,.2,1)' }} />}
+          : <div style={{ width: `${limitado}%`, height: '100%', background: t.fg, borderRadius: 999, transition: 'width 0.4s cubic-bezier(.4,0,.2,1)' }} />}
       </div>
-      {showLabel && !indeterminate && <span style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)', width: 36, textAlign: 'right', flex: 'none' }}>{Math.round(value)}%</span>}
+      {showLabel && !indeterminate && <span style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)', width: 36, textAlign: 'right', flex: 'none' }}>{Math.round(limitado)}%</span>}
     </div>
   );
 };
