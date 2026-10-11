@@ -3,7 +3,6 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { ProgressBar } from '../../feedback/ProgressBar/ProgressBar';
 import { Button } from '../../actions/Button/Button';
 import { ProgressCircle } from '../../feedback/ProgressCircle/ProgressCircle';
-import { Tooltip } from '../../overlays/Tooltip/Tooltip';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import { List, ListItem } from '../../data-display/List/List';
 
@@ -193,32 +192,26 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           )}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: 8 }}>
             {temImagem ? (
               <>
-                <Tooltip label="Trocar imagem" placement="top">
-                  <Button kind="secondary" size="sm" onClick={pick} disabled={disabled} icon={<Ph n="camera" size={16} />}>Trocar imagem</Button>
-                </Tooltip>
-                <Tooltip label="Remover imagem" placement="top">
-                  <Button
-                    kind="neutral"
-                    iconOnly
-                    size="sm"
-                    aria-label="Remover imagem"
-                    onClick={() => remove(img)}
-                    disabled={disabled}
-                    icon={<Ph n="trash" size={16} />}
-                    style={{ color: 'var(--ob-fg-mute)' }}
-                    onMouseEnter={(event) => {
-                      event.currentTarget.style.color = 'var(--ob-danger)';
-                      event.currentTarget.style.background = 'var(--ob-danger-050)';
-                    }}
-                    onMouseLeave={(event) => {
-                      event.currentTarget.style.color = 'var(--ob-fg-mute)';
-                      event.currentTarget.style.background = 'transparent';
-                    }}
-                  />
-                </Tooltip>
+                <Button kind="secondary" size="sm" onClick={pick} disabled={disabled} icon={<Ph n="camera" size={16} />} style={{ width: '100%' }}>Trocar imagem</Button>
+                <Button
+                  kind="neutral"
+                  size="sm"
+                  onClick={() => remove(img)}
+                  disabled={disabled}
+                  icon={<Ph n="trash" size={16} />}
+                  style={{ width: '100%', color: 'var(--ob-fg-mute)' }}
+                  onMouseEnter={(event) => {
+                    event.currentTarget.style.color = 'var(--ob-danger)';
+                    event.currentTarget.style.background = 'var(--ob-danger-050)';
+                  }}
+                  onMouseLeave={(event) => {
+                    event.currentTarget.style.color = 'var(--ob-fg-mute)';
+                    event.currentTarget.style.background = 'transparent';
+                  }}
+                >Remover imagem</Button>
               </>
             ) : (
               <Button kind="secondary" size="sm" onClick={pick} disabled={disabled} icon={<Ph n="upload-simple" size={16} />}>{rotuloDoBotao}</Button>
@@ -257,7 +250,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     );
   }
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontFamily: 'var(--ob-font)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: variant === 'image' ? 6 : 10, fontFamily: 'var(--ob-font)' }}>
       {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
       {body}{input}{fileList}
       <span aria-live="polite" style={srOnly}>{live}</span>
