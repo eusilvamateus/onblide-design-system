@@ -37,6 +37,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0005-adotar-docs-canonica-e-versionada.md`](decisions/0005-adotar-docs-canonica-e-versionada.md)
 - [`decisions/0006-adotar-tag-e-github-release-por-versao.md`](decisions/0006-adotar-tag-e-github-release-por-versao.md)
 - [`decisions/0007-theme-manager-sem-provider.md`](decisions/0007-theme-manager-sem-provider.md)
+- [`decisions/0008-enxugar-o-catalogo-e-basear-o-datepicker-no-calendar.md`](decisions/0008-enxugar-o-catalogo-e-basear-o-datepicker-no-calendar.md)
 
 ## Como manter esta documentação
 

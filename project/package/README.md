@@ -21,16 +21,16 @@ Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<catego
 
 | Categoria | Componentes |
 |---|---|
-| `actions` | Button, Link |
+| `actions` | Button, ButtonGroup, ToggleButton, Link |
 | `forms` | Input, SearchInput, Select, Datepicker, CodeInput, Checkbox, Radio, RadioGroup, Switch, Slider, FieldShell, Textarea, NumberField, FileUpload, Autocomplete |
-| `feedback` | Alert, Toast, ToastStack, ProgressBar, ProgressCircle, Spinner, Skeleton, StatusDot |
-| `overlays` | Modal, Drawer, Dropdown, Tooltip, FloatingPanel, Menu (+ ContextMenu, MenuPanel), Popover |
-| `navigation` | Tabs, SideNav, Pagination, Breadcrumbs, Stepper, Menubar (+ KeyList) |
-| `data-display` | Table, Card, Avatar, Badge, Chip, Divider, List (+ ListItem, ListSubheader, ListDivider), Timeline, TreeView |
-| `brand` | Logo, Brands, BrandTile |
+| `feedback` | Alert, Toast, ToastStack, ProgressBar, ProgressCircle, Spinner, Skeleton |
+| `overlays` | Modal, AlertDialog, Drawer, Tooltip, Menu (+ ContextMenu, MenuPanel), Popover |
+| `navigation` | Tabs, SideNav, Navbar, Pagination, Breadcrumbs, Stepper, Menubar |
+| `data-display` | Table, Card, Calendar, Avatar, AvatarGroup, Badge, Chip, Divider, Kbd, EmptyState, Accordion, List (+ ListItem, ListSubheader, ListDivider), Timeline, TreeView |
+| `brand` | Logo |
 | `iconography` | Icons, Ph |
 
-`src/internal/` guarda o que é compartilhado e não faz parte da API pública (tons de cor, posições do toast, injeção de CSS). Ao criar um componente, escolha a categoria pelo que ele faz para o usuário e exporte-o em `src/index.ts`.
+`src/internal/` guarda o que é compartilhado e não faz parte da API pública (tons de cor, posições do toast, injeção de CSS, datas e lógica do calendário, posicionamento de painéis, `FloatingPanel` e `StatusDot`). Ao criar um componente, escolha a categoria pelo que ele faz para o usuário e exporte-o em `src/index.ts`.
 
 ## Uso
 

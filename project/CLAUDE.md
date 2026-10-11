@@ -84,6 +84,15 @@ links e os botões são componentes do `@onblide/ui`; a coluna de leitura de 760
 repetem a linguagem de `ds/foundations/doc.css`; os breakpoints são `sm` 768px e `md` 1024px. Não adicionar elementos que o design system
 não tem (rodapé, breadcrumbs, sumário lateral, paginação, colorização de sintaxe) nem cores fora dos tokens.
 
+## Catálogo: só o que é comum no mercado
+
+**Regra obrigatória, pedido explícito do usuário em 2026-10-11: o pacote só tem componentes que existem de forma
+recorrente nos design systems conhecidos (Material UI, Ant, Chakra/Mantine, Radix/shadcn, Carbon, Polaris,
+Atlassian).** Não se inventa componente para um caso de uma tela só nem se cria uma peça sem a base que a
+sustente (o `Datepicker` usa o `Calendar`, o `Popover` e o `FieldShell`; nada nasce "em cima de uma base que não
+existe"). Antes de criar, procurar no catálogo (`src/index.ts`) e nos design systems públicos; se a peça não é comum,
+a aplicação monta com o que já existe. Peças de apoio não são API pública e ficam em `src/internal/`.
+
 ## Fluxo com o Claude Design
 
 O código (`@onblide/ui`) é a única fonte; o sync (`/design-sync`) vai só do código para o Claude Design. O agente de
@@ -100,12 +109,12 @@ retroativamente ainda.
 
 ## Preview de componentes portados para @onblide/ui
 
-26 páginas em `ds/components/` carregam `project/package/dist/onblide-ui.browser.js` — um
-arquivo gerado (`dist/` é git-ignored, não versionado). São as 3 da Fase 1
-(`components-checkbox.html`, `components-datepicker.html`, `components-dropdown.html`) mais
-as 9 do Lote A (`components-radio.html`, `components-toggle.html`, `components-skeleton.html`,
+24 páginas em `ds/components/` carregam `project/package/dist/onblide-ui.browser.js` — um
+arquivo gerado (`dist/` é git-ignored, não versionado). São as 2 da Fase 1
+(`components-checkbox.html`, `components-datepicker.html`) mais
+as 8 do Lote A (`components-radio.html`, `components-toggle.html`, `components-skeleton.html`,
 `components-tooltip.html`, `components-chip.html`, `components-badge.html`,
-`components-status-dot.html`, `components-spinner.html`, `components-progress-circle.html`) mais
+`components-spinner.html`, `components-progress-circle.html`) mais
 as 11 do Lote B (`components-alert.html`, `components-progressbar.html`, `components-toast.html`,
 `components-drawer.html`, `components-code-input.html`, `components-search-input.html`,
 `components-side-nav.html`, `components-tabs.html`, `components-table.html`,
