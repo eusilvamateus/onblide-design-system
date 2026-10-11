@@ -1,5 +1,25 @@
 # @onblide/ui
 
+## 4.0.0
+
+### Major Changes
+
+- Catálogo revisado para ficar só com componentes comuns nos design systems conhecidos, e cada peça sobre a base certa.
+
+  Quebras de compatibilidade:
+
+  - O `Datepicker` foi reescrito sobre o novo `Calendar`. `value`, `defaultValue` e `onChange` usam `Date` (ou um intervalo com `start` e `end` no modo `range`), `mode="range"` substitui `singleDate`, e `min`, `max`, `isDateDisabled` e `weekStartsOn` substituem `minBookingDate` e `maxBookingDays`. Saem `DatepickerValues`, `showSubmitButton`, `resetOnSubmit`, `submitLabel`, `clearLabel`, `startDateLabel` e `endDateLabel`.
+  - O `SearchInput` é só o campo de busca: saem `results`, `onSelect` e o tipo `SearchInputResult` (use o `Autocomplete` para sugestões); entram `ariaLabel` e `disabled`.
+  - Saem do pacote `Dropdown` (use o `Menu`), `KeyList`, `Brands` e `BrandTile`. `FloatingPanel` e `StatusDot` passam a ser internos.
+
+  Novidades:
+
+  - Novos componentes: `Calendar`, `Kbd`, `AvatarGroup`, `EmptyState`, `Accordion` e `AlertDialog`.
+  - `Modal` ganha `role` e `closeButton`. `Avatar` aceita até três caracteres em `initials`.
+  - `Select`, `Autocomplete` e `Menu` abrem para cima quando falta espaço embaixo, com o posicionamento compartilhado com o `Popover`.
+  - `Tooltip` e `Menu` desenham atalhos com o `Kbd`.
+  - O `Breadcrumbs` recolhe os níveis num `Menu`.
+
 ## 3.1.1
 
 ### Patch Changes
