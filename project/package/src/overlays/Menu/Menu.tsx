@@ -6,6 +6,7 @@ import { Switch } from '../../forms/Switch/Switch';
 import { Avatar } from '../../data-display/Avatar/Avatar';
 import { Badge } from '../../data-display/Badge/Badge';
 import { SearchInput } from '../../forms/SearchInput/SearchInput';
+import { escolherLado } from '../../internal/floating';
 import { List, ListItem, ListSubheader, ListDivider } from '../../data-display/List/List';
 
 export type MenuSize = 'md' | 'sm';
@@ -221,12 +222,16 @@ export const Menu: React.FC<MenuProps> = ({ trigger, items, align = 'left', plac
   const wrap = React.useRef<HTMLDivElement>(null);
   useOutside(wrap, !!open, () => setOpen(null));
   const close = () => { setOpen(null); const el = wrap.current?.querySelector<HTMLElement>('button, a, [tabindex="0"]'); el?.focus(); };
-  const abrir = (kb: boolean) => {
-    const lado: MenuLado = placement === 'auto'
-      ? (wrap.current && window.innerHeight - wrap.current.getBoundingClientRect().bottom < 280 ? 'top' : 'bottom')
-      : placement;
-    setOpen({ kb, lado });
-  };
+  const abrir = (kb: boolean) => setOpen({ kb, lado: placement === 'auto' ? 'bottom' : placement });
+  React.useLayoutEffect(() => {
+    const painel = wrap.current?.querySelector<HTMLElement>(':scope > [role="menu"]');
+    if (placement !== 'auto' || !open || !wrap.current || !painel) return;
+    const lado = escolherLado(
+      'bottom', wrap.current.getBoundingClientRect(), { largura: painel.offsetWidth, altura: painel.offsetHeight },
+      { largura: window.innerWidth, altura: window.innerHeight }, 6, 8,
+    ) as MenuLado;
+    if (lado !== open.lado) setOpen({ ...open, lado });
+  });
   return (
     <div ref={wrap} style={{ position: 'relative', display: block ? 'block' : 'inline-block' }}>
       <span style={{ display: block ? 'flex' : 'inline-flex' }} onClick={(e) => (open ? setOpen(null) : abrir(e.detail === 0))}

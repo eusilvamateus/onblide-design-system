@@ -2,7 +2,11 @@ import React from 'react';
 
 export type FloatingPanelAlign = 'left' | 'right' | 'stretch';
 
+export type FloatingPanelSide = 'bottom' | 'top';
+
 export interface FloatingPanelProps {
+  /** Lado do elemento de referência em que o painel abre. */
+  side?: FloatingPanelSide;
   /** Lado ao qual o painel se alinha em relação ao elemento de referência. */
   align?: FloatingPanelAlign;
   /** Altura máxima; acima dela o conteúdo rola. */
@@ -18,14 +22,14 @@ export interface FloatingPanelProps {
 }
 
 /** Painel flutuante base usado por Dropdown e outros overlays ancorados a um elemento. */
-export const FloatingPanel: React.FC<FloatingPanelProps> = ({
-  align = 'stretch', maxHeight, padding = 4, minWidth, style = {}, children,
-}) => {
+export const FloatingPanel = React.forwardRef<HTMLDivElement, FloatingPanelProps>(({
+  side = 'bottom', align = 'stretch', maxHeight, padding = 4, minWidth, style = {}, children,
+}, ref) => {
   const pos: React.CSSProperties =
     align === 'right' ? { right: 0 } : align === 'left' ? { left: 0 } : { left: 0, right: 0 };
   return (
-    <div style={{
-      position: 'absolute', top: 'calc(100% + 6px)',
+    <div ref={ref} style={{
+      position: 'absolute', ...(side === 'top' ? { bottom: 'calc(100% + 6px)' } : { top: 'calc(100% + 6px)' }),
       zIndex: 'var(--ob-z-dropdown)' as React.CSSProperties['zIndex'],
       background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
       borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)',
@@ -38,4 +42,6 @@ export const FloatingPanel: React.FC<FloatingPanelProps> = ({
       {children}
     </div>
   );
-};
+});
+
+FloatingPanel.displayName = 'FloatingPanel';

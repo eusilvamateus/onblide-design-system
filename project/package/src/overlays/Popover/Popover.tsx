@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import { FloatingPanel } from '../FloatingPanel/FloatingPanel';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Button } from '../../actions/Button/Button';
+import { posicionarPainel } from '../../internal/floating';
+import type { PosicaoFixa } from '../../internal/floating';
 
 const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
 export type PopoverPlacement = 'top' | 'right' | 'bottom' | 'left';
 export type PopoverAlign = 'start' | 'center' | 'end';
@@ -36,15 +37,13 @@ export interface PopoverProps {
   closeButton?: boolean;
 }
 
-interface Pos { top: number; left: number; side: PopoverPlacement; ax?: number; ay?: number }
-
 /** Conteúdo rico ancorado a um gatilho, não modal — cuida de posição, foco e fechamento. */
 export const Popover: React.FC<PopoverProps> = ({
   trigger, children, title, footer, placement = 'bottom', align = 'start', arrow = false, interaction = 'click',
   width = 280, padding = 16, defaultOpen = false, onOpenChange, ariaLabel, closeButton = true,
 }) => {
   const [open, setOpenState] = React.useState(defaultOpen);
-  const [pos, setPos] = React.useState<Pos | null>(null);
+  const [pos, setPos] = React.useState<PosicaoFixa | null>(null);
   const trigRef = React.useRef<HTMLSpanElement>(null);
   const panelRef = React.useRef<HTMLDivElement>(null);
   const bodyRef = React.useRef<HTMLDivElement>(null);
@@ -58,24 +57,10 @@ export const Popover: React.FC<PopoverProps> = ({
   const place = () => {
     const t = trigRef.current, p = panelRef.current;
     if (!t || !p) return;
-    const r = t.getBoundingClientRect(), w = p.offsetWidth, h = p.offsetHeight, g = arrow ? 10 : 6;
-    const vw = window.innerWidth, vh = window.innerHeight, m = 8;
-    let side = placement;
-    if (side === 'bottom' && r.bottom + g + h > vh - m && r.top - g - h > m) side = 'top';
-    else if (side === 'top' && r.top - g - h < m && r.bottom + g + h < vh - m) side = 'bottom';
-    else if (side === 'right' && r.right + g + w > vw - m && r.left - g - w > m) side = 'left';
-    else if (side === 'left' && r.left - g - w < m && r.right + g + w < vw - m) side = 'right';
-    let top: number, left: number, ax: number | undefined, ay: number | undefined;
-    if (side === 'top' || side === 'bottom') {
-      top = side === 'bottom' ? r.bottom + g : r.top - g - h;
-      left = clamp(align === 'center' ? r.left + r.width / 2 - w / 2 : align === 'end' ? r.right - w : r.left, m, vw - w - m);
-      ax = clamp(r.left + r.width / 2 - left, 14, w - 14);
-    } else {
-      left = side === 'right' ? r.right + g : r.left - g - w;
-      top = clamp(align === 'center' ? r.top + r.height / 2 - h / 2 : align === 'end' ? r.bottom - h : r.top, m, vh - h - m);
-      ay = clamp(r.top + r.height / 2 - top, 14, h - 14);
-    }
-    setPos({ top, left, side, ax, ay });
+    setPos(posicionarPainel(
+      placement, align, t.getBoundingClientRect(), { largura: p.offsetWidth, altura: p.offsetHeight },
+      { largura: window.innerWidth, altura: window.innerHeight }, arrow ? 10 : 6,
+    ));
   };
   React.useLayoutEffect(() => {
     if (!open) { setPos(null); return; }

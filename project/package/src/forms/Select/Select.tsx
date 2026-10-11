@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Chip } from '../../data-display/Chip/Chip';
 import { FloatingPanel } from '../../overlays/FloatingPanel/FloatingPanel';
+import { useLadoVertical } from '../../internal/useLadoVertical';
 import { Ph } from '../../iconography/Ph/Ph';
 import { FieldShell } from '../FieldShell/FieldShell';
 
@@ -71,6 +72,8 @@ export const Select: React.FC<SelectProps> = (props) => {
   const [query, setQuery] = useState('');
   const [highlighted, setHighlighted] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
+  const painelRef = useRef<HTMLDivElement>(null);
+  const lado = useLadoVertical(rootRef, painelRef, open);
   const inputRef = useRef<HTMLInputElement>(null);
   const focadoNoMouseDown = useRef(false);
 
@@ -166,7 +169,7 @@ export const Select: React.FC<SelectProps> = (props) => {
       </FieldShell>
 
       {open && (
-        <FloatingPanel maxHeight={240} padding={4}>
+        <FloatingPanel ref={painelRef} side={lado} maxHeight={240} padding={4}>
           {filtered.length === 0 && (
             <div style={{ padding: '12px 14px', fontSize: 13, color: 'var(--ob-fg-mute)', textAlign: 'center' }}>
               Nenhuma opção encontrada

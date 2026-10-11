@@ -1,6 +1,7 @@
 import React from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { FloatingPanel } from '../../overlays/FloatingPanel/FloatingPanel';
+import { useLadoVertical } from '../../internal/useLadoVertical';
 import { Chip } from '../../data-display/Chip/Chip';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Avatar } from '../../data-display/Avatar/Avatar';
@@ -95,6 +96,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
   const [busyState, setBusy] = React.useState(false);
   const busy = loadingProp ?? busyState;
   const rootRef = React.useRef<HTMLDivElement>(null);
+  const painelRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const listRef = React.useRef<HTMLDivElement>(null);
   const selRange = React.useRef<[number, number] | null>(null);
@@ -119,6 +121,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
   groups.forEach((g) => g.items.forEach((o) => nav.push({ o })));
   if (showCreate) nav.push({ create: q.trim() });
   const showPanel = open && !disabled && (busy || tooShort || nav.length > 0 || mode !== 'free');
+  const lado = useLadoVertical(rootRef, painelRef, showPanel);
   const firstEnabled = () => nav.findIndex((n) => !('o' in n && n.o.disabled));
 
   React.useEffect(() => {
@@ -271,7 +274,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
         </FieldShell>
       </div>
       {showPanel && (
-        <FloatingPanel padding={0}>
+        <FloatingPanel ref={painelRef} side={lado} padding={0}>
           <div ref={listRef} id={listId} role="listbox" aria-multiselectable={multiple || undefined} aria-label={typeof label === 'string' ? label : ariaLabel} style={{ maxHeight: 280, overflowY: 'auto', padding: 4, position: 'relative' }}>
             {busy ? <div role="status" style={msgRow}><Spinner size="xs" />Buscando…</div>
               : tooShort ? <div style={msgRow}>Digite ao menos {minChars} letras</div>
