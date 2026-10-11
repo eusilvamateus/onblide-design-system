@@ -33,7 +33,7 @@
   },
   {
     "id": "ob-toast-pos",
-    "css": "@media(max-width:600px){#ob-toast-stack{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100vw - 24px)!important;align-items:stretch!important}#ob-toast-stack[data-pos^=\"top\"]{top:16px!important;bottom:auto!important;flex-direction:column-reverse!important}#ob-toast-stack[data-pos^=\"bottom\"]{bottom:16px!important;top:auto!important;flex-direction:column!important}}"
+    "css": "@media(max-width:600px){.ob-toast-stack{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100vw - 24px)!important;align-items:stretch!important}.ob-toast-stack[data-pos^=\"top\"]{top:16px!important;bottom:auto!important;flex-direction:column-reverse!important}.ob-toast-stack[data-pos^=\"bottom\"]{bottom:16px!important;top:auto!important;flex-direction:column!important}}"
   },
   {
     "id": "ob-shake-kf",

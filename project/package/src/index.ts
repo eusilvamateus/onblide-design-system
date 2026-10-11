@@ -29,6 +29,8 @@ export * from './feedback/Alert/Alert';
 export * from './feedback/ProgressBar/ProgressBar';
 export * from './feedback/Toast/Toast';
 export * from './feedback/ToastStack/ToastStack';
+export { toast } from './feedback/ToastStack/toast';
+export type { ToastOptions, ToastShortcutOptions } from './feedback/ToastStack/toast';
 export * from './overlays/Drawer/Drawer';
 export * from './forms/CodeInput/CodeInput';
 export * from './forms/SearchInput/SearchInput';

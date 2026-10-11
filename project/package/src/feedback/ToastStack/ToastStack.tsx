@@ -1,52 +1,102 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Toast, ToastProps } from '../Toast/Toast';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Toast } from '../Toast/Toast';
+import type { ToastOptions } from './toast';
 import { OB_TOAST_POS, OBToastPosition } from '../../internal/obToastPos';
+import { registrarPilha } from '../../internal/toastEvents';
+import type { ToastEntregue } from '../../internal/toastEvents';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export interface ToastStackProps {
+  /** Nome da fila, para ter mais de um `ToastStack` na tela: `toast(..., { stack: nome })` entrega só a ela. Sem nome, a fila recebe os toasts sem `stack`. */
+  name?: string;
   /** Canto ou centro da tela onde os toasts são ancorados. */
   position?: OBToastPosition;
+  /** Tempo em ms até cada toast sumir sozinho; `0` os mantém até serem fechados. Um toast pode definir a própria `duration`. */
+  duration?: number;
+  /** Quantos toasts aparecem ao mesmo tempo; ao exceder, o mais antigo sai. */
+  limit?: number;
 }
 
-interface QueuedToast extends ToastProps {
-  id: number;
-  leaving: boolean;
+interface ItemDaFila {
+  id: string;
+  opcoes: ToastOptions;
+  saindo: boolean;
 }
 
-/** Monta o container fixo que empilha e anima os toasts disparados via `window.obToast`. */
-export const ToastStack: React.FC<ToastStackProps> = ({ position = 'bottom-right' }) => {
-  const [toasts, setToasts] = useState<QueuedToast[]>([]);
-  const dismiss = useCallback((id: number) => {
-    setToasts(ts => ts.map(t => t.id === id ? { ...t, leaving: true } : t));
-    setTimeout(() => setToasts(ts => ts.filter(t => t.id !== id)), 200);
+const DURACAO_DA_SAIDA = 200;
+
+/**
+ * Monta o container fixo que empilha e anima os toasts disparados por `toast()`. Pausa a contagem enquanto o mouse
+ * está sobre a fila e recomeça ao sair.
+ */
+export const ToastStack: React.FC<ToastStackProps> = ({ name, position = 'bottom-right', duration = 5000, limit = 3 }) => {
+  const [itens, setItens] = useState<ItemDaFila[]>([]);
+  const prazos = useRef(new Map<string, ReturnType<typeof setTimeout>>());
+  const duracaoPadrao = useRef(duration);
+  duracaoPadrao.current = duration;
+  const limite = useRef(limit);
+  limite.current = limit;
+  const fila = useRef<ItemDaFila[]>([]);
+  fila.current = itens;
+
+  const cancelar = useCallback((id: string) => {
+    const prazo = prazos.current.get(id);
+    if (prazo) clearTimeout(prazo);
+    prazos.current.delete(id);
   }, []);
+
+  const dispensar = useCallback((id: string) => {
+    cancelar(id);
+    setItens((fila) => fila.map((item) => (item.id === id ? { ...item, saindo: true } : item)));
+    setTimeout(() => setItens((fila) => fila.filter((item) => item.id !== id)), DURACAO_DA_SAIDA);
+  }, [cancelar]);
+
+  const armar = useCallback((id: string, opcoes: ToastOptions) => {
+    const ms = opcoes.duration ?? duracaoPadrao.current;
+    cancelar(id);
+    if (ms > 0) prazos.current.set(id, setTimeout(() => dispensar(id), ms));
+  }, [cancelar, dispensar]);
+
   useEffect(() => {
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent<ToastProps>).detail;
-      const id = Date.now() + Math.random();
-      setToasts(ts => [...ts.slice(-2), { ...detail, id, leaving: false }]);
-      setTimeout(() => dismiss(id), 4800);
+    const cancelarRegistro = registrarPilha({
+      nome: name,
+      receber: ({ id, ...opcoes }: ToastEntregue) => {
+        setItens((atual) => [...atual, { id, opcoes, saindo: false }].slice(-Math.max(1, limite.current)));
+        armar(id, opcoes);
+      },
+      dispensar: (id) => {
+        if (id) dispensar(id);
+        else fila.current.forEach((item) => dispensar(item.id));
+      },
+    });
+    const pendentes = prazos.current;
+    return () => {
+      cancelarRegistro();
+      pendentes.forEach((prazo) => clearTimeout(prazo));
+      pendentes.clear();
     };
-    window.addEventListener('ob-toast', handler);
-    return () => window.removeEventListener('ob-toast', handler);
-  }, [dismiss]);
-  if (!toasts.length) return null;
+  }, [name, armar, dispensar]);
+
+  if (!itens.length) return null;
   const pos = OB_TOAST_POS[position] || OB_TOAST_POS['bottom-right'];
-  const isTop = position.startsWith('top');
-  const animIn  = isTop ? 'ob-toast-in-top'  : 'ob-toast-in-bottom';
-  const animOut = isTop ? 'ob-toast-out-top' : 'ob-toast-out-bottom';
-  const { align, cx, ...anchor } = pos;
+  const noTopo = position.startsWith('top');
+  const entrada = noTopo ? 'ob-toast-in-top' : 'ob-toast-in-bottom';
+  const saida = noTopo ? 'ob-toast-out-top' : 'ob-toast-out-bottom';
+  const { align, cx, ...ancora } = pos;
   return (
-    <div id="ob-toast-stack" data-pos={position} style={{
-      position: 'fixed', zIndex: 'var(--ob-z-toast)', ...anchor,
-      transform: cx ? 'translateX(-50%)' : undefined,
-      display: 'flex', flexDirection: isTop ? 'column-reverse' : 'column',
-      gap: 10, alignItems: align, pointerEvents: 'none',
-      width: 'min(400px, calc(100vw - 32px))',
-    } as React.CSSProperties}>
-      {toasts.map(t => (
-        <div key={t.id} style={{ width: '100%', pointerEvents: 'all', animation: `${t.leaving ? animOut : animIn} 0.2s cubic-bezier(0.16,1,0.3,1) both` }}>
-          <Toast {...t} onClose={() => dismiss(t.id)} />
+    <div className="ob-toast-stack" data-pos={position} role="region" aria-label="Notificações"
+      onMouseEnter={() => itens.forEach((item) => cancelar(item.id))}
+      onMouseLeave={() => itens.forEach((item) => { if (!item.saindo) armar(item.id, item.opcoes); })}
+      style={{
+        position: 'fixed', zIndex: 'var(--ob-z-toast)', ...ancora,
+        transform: cx ? 'translateX(-50%)' : undefined,
+        display: 'flex', flexDirection: noTopo ? 'column-reverse' : 'column',
+        gap: 10, alignItems: align, pointerEvents: 'none',
+        width: 'min(400px, calc(100vw - 32px))',
+      } as React.CSSProperties}>
+      {itens.map(({ id, opcoes, saindo }) => (
+        <div key={id} style={{ width: '100%', pointerEvents: 'all', animation: `${saindo ? saida : entrada} ${DURACAO_DA_SAIDA}ms cubic-bezier(0.16,1,0.3,1) both` }}>
+          <Toast tone={opcoes.tone} title={opcoes.title} body={opcoes.body} action={opcoes.action} onAction={opcoes.onAction} icon={opcoes.icon} onClose={() => dispensar(id)} />
         </div>
       ))}
     </div>
@@ -61,16 +111,8 @@ injectStyleOnce('ob-toast-kf', [
 ].join(''));
 injectStyleOnce('ob-toast-pos', [
   '@media(max-width:600px){',
-  '#ob-toast-stack{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100vw - 24px)!important;align-items:stretch!important}',
-  '#ob-toast-stack[data-pos^="top"]{top:16px!important;bottom:auto!important;flex-direction:column-reverse!important}',
-  '#ob-toast-stack[data-pos^="bottom"]{bottom:16px!important;top:auto!important;flex-direction:column!important}',
+  '.ob-toast-stack{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100vw - 24px)!important;align-items:stretch!important}',
+  '.ob-toast-stack[data-pos^="top"]{top:16px!important;bottom:auto!important;flex-direction:column-reverse!important}',
+  '.ob-toast-stack[data-pos^="bottom"]{bottom:16px!important;top:auto!important;flex-direction:column!important}',
   '}',
 ].join(''));
-declare global {
-  interface Window {
-    obToast?: (detail: ToastProps) => void;
-  }
-}
-if (typeof window !== 'undefined') {
-  window.obToast = (detail) => window.dispatchEvent(new CustomEvent('ob-toast', { detail }));
-}

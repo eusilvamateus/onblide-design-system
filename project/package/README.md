@@ -112,8 +112,8 @@ símbolo, em arquivo) ficam em `project/marca/`.
 
 ## Efeitos colaterais no import
 
-Alguns módulos injetam `<style>` (keyframes e uma regra de mídia) no `<head>` quando o pacote é importado, e
-`ToastStack` define `window.obToast`. Por isso o `package.json` **não** declara
+Alguns módulos injetam `<style>` (keyframes e regras de mídia) no `<head>` quando o pacote é importado. Por isso o
+`package.json` **não** declara
 `"sideEffects": false`: com ele, um bundler poderia descartar essas injeções.
 
 ## Versionamento

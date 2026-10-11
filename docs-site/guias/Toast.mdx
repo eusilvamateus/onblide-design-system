@@ -1,5 +1,5 @@
 ---
-resumo: "Notificação flutuante e efêmera que confirma ações ou informa eventos em segundo plano. É simétrica (sem borda direcional) e pode ser ancorada em qualquer um dos 6 cantos/centros. Some sozinha após ~4,5 s. Compõe com **Alert**: use Alert quando a mensagem deve persistir."
+resumo: "Notificação flutuante e efêmera que confirma ações ou informa eventos em segundo plano. É simétrica (sem borda direcional) e pode ser ancorada em qualquer um dos 6 cantos/centros. Some sozinha após 5 s (configurável). Compõe com **Alert**: use Alert quando a mensagem deve persistir."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
@@ -19,7 +19,7 @@ Use o Toast para confirmar ações concluídas com sucesso ou notificar eventos 
 <FacaEvite>
 <Faca>
 
-Empilhe toasts cronologicamente. Limite de 3 simultâneos: remova o mais antigo ao exceder.
+Empilhe toasts cronologicamente. Limite de 3 simultâneos (`limit`): o mais antigo sai ao exceder.
 
 </Faca>
 <Evite>
@@ -28,6 +28,10 @@ Toast para erros que bloqueiam o fluxo. O usuário pode não ver antes de ele su
 
 </Evite>
 </FacaEvite>
+
+### Como disparar
+
+O **Toast** é só a aparência da mensagem. Quem a mostra na tela é o **ToastStack**, que você monta uma vez na raiz do app; a partir daí, qualquer parte do código dispara um toast com a função `toast()`. Os exemplos desta página e da do **ToastStack** têm botões para disparar toasts de verdade e escolher a posição.
 
 ### Composição com outros componentes
 
@@ -39,15 +43,17 @@ Toast para erros que bloqueiam o fluxo. O usuário pode não ver antes de ele su
 Largura responsiva (máx. 400px; em mobile ocupa a viewport menos 24px). Sinal de cor pelo **chip de ícone** tonal, sem borda lateral direcional. Stacking vertical com gap de 10px (máximo 3 simultâneos). Posição configurável via `ToastStack position`; padrão `bottom-right` no desktop, sempre `bottom-center` em mobile (\<600px).
 
 ```jsx
-<ToastStack position="bottom-right" />   // monte uma vez na raiz do app
+<ToastStack position="bottom-right" duration={5000} limit={3} />   // monte uma vez na raiz do app
 
-window.obToast({
-  tone: "success",
-  title: "Deploy concluído",
-  body: "Build #482 está no ar.",
-  action: "Ver log",
-});
+toast.success("Deploy concluído", { body: "Build #482 está no ar.", action: "Ver log" });
+toast.danger("Sem conexão", { duration: 0 });   // fica até o usuário fechar
+toast({ tone: "info", title: "Sincronizando…" });
+
+const id = toast.warning("Prazo se aproximando");
+toast.dismiss(id);   // sem id, fecha todos
 ```
+
+Com mais de um **ToastStack** na tela (um palco de exemplo, uma área isolada), dê um `name` a cada um e passe `stack` no toast: `toast.info("Oi", { stack: "painel" })` aparece só no `<ToastStack name="painel" />`. Sem `name` e sem `stack`, o toast vai para o ToastStack sem nome.
 
 ## Guia de conteúdo
 
@@ -63,7 +69,7 @@ window.obToast({
 
 **Ícone.** O chip tonal carrega todo o sinal de cor: contido e simétrico, sem reforçar direção de origem. Ícone Phosphor 17px centralizado no chip, e o chip é centralizado verticalmente no toast (mesmo com corpo de 2 linhas). O botão fechar fica alinhado ao topo.
 
-**Motion.** Animação sempre **vertical**, nunca horizontal. Âncoras de topo: `translateY(-16px) → 0`; âncoras de base: `translateY(16px) → 0`. 200ms `cubic-bezier(0.16,1,0.3,1)` (ease-out limpo, sem bounce); saída inverte o mesmo eixo. Como o eixo é sempre vertical, qualquer âncora horizontal (left/center/right) fica coerente. Hover pausa o timer de auto-dismiss.
+**Motion.** Animação sempre **vertical**, nunca horizontal. Âncoras de topo: `translateY(-16px) → 0`; âncoras de base: `translateY(16px) → 0`. 200ms `cubic-bezier(0.16,1,0.3,1)` (ease-out limpo, sem bounce); saída inverte o mesmo eixo. Como o eixo é sempre vertical, qualquer âncora horizontal (left/center/right) fica coerente. Passar o mouse sobre a fila pausa a contagem; ao sair, ela recomeça.
 
 **Empilhamento.** O toast novo sempre nasce na **origem** (a borda ancorada) e empurra os anteriores para longe dela: em âncoras de topo o mais recente fica no topo; em âncoras de base, embaixo. Máximo 3 simultâneos; o mais antigo sai ao exceder.
 

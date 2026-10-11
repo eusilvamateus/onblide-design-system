@@ -13,7 +13,6 @@ type Controle = { prop: Prop; tipo: 'booleano' | 'opcoes' | 'texto' | 'numero'; 
 
 const dados = props as Record<string, { descricao: string; props: Prop[] }>;
 
-// Props que a própria demo controla (estado aberto/fechado e valor), ligadas aos controles.
 const LIGADAS = ['open', 'onClose', 'onChange', 'checked', 'value', 'values'];
 
 function controlesDe(nome: string, brutos: Record<string, string>): Controle[] {
@@ -38,7 +37,6 @@ const padraoDe = (c: Controle): Valor => {
   return v;
 };
 
-// Prop obrigatória nunca some do código: vazia, vira string vazia (e o controle mostra o erro).
 function atributo(c: Controle, v: Valor): string | null {
   const nome = c.prop.nome;
   if (v === undefined || v === '') return c.prop.obrigatoria && c.tipo !== 'booleano' ? `${nome}=""` : null;
@@ -48,7 +46,6 @@ function atributo(c: Controle, v: Valor): string | null {
   return v.includes('"') ? `${nome}={${JSON.stringify(v)}}` : `${nome}="${v}"`;
 }
 
-// Componentes que ocupam a largura da página (tabela, abas) ou passam de 480px: o palco deles não é limitado.
 const LARGOS = ['Table', 'Tabs', 'Spinner', 'SideNav'];
 
 const recuar = (t: string, n = 2) => t.split('\n').join('\n' + ' '.repeat(n));
@@ -74,7 +71,6 @@ export default function Playground({
   const inicial = () => {
     const ini: Record<string, Valor> = {};
     for (const c of controles) ini[c.prop.nome] = c.prop.nome in literais ? literais[c.prop.nome] : padraoDe(c);
-    // Conteúdo interno em texto puro vira o valor inicial do controle `children`.
     if (filhos && !/[<{]/.test(filhos) && controles.some((c) => c.prop.nome === 'children')) ini.children = filhos;
     if (temProp('open') && !('open' in ini)) ini.open = false;
     return ini;
@@ -88,18 +84,9 @@ export default function Playground({
     setVersao((n) => n + 1);
   };
 
-  // `value`/`checked` + `onChange`: o valor ao vivo (o que o usuário digita/marca dentro do preview) precisa
-  // viver DENTRO do código avaliado pelo react-live (um `useState` local), nunca no estado do próprio
-  // Playground. O `LiveProvider` do react-live re-executa `generateElement` a cada mudança de `scope`
-  // (efeito com `scope` na lista de dependências) e essa função sempre cria uma classe de error boundary
-  // nova — ou seja, qualquer mudança no objeto `scope` do Playground remonta a árvore inteira e derruba o
-  // foco. Se o valor ficasse em `scope.valor`/estado do Playground, cada tecla digitada trocaria a
-  // identidade de `scope` e remontaria o campo a cada caractere (bug observado no CodeInput: o input
-  // nunca avançava para a próxima célula porque a célula era recriada antes do focus() ter efeito).
   const controlado = temProp('onChange') && (temProp('checked') || temProp('value'));
   const alvoLigado = temProp('checked') ? 'checked' : 'value';
 
-  // Liga o estado da demo: fechar (onClose) atualiza o controle correspondente.
   const ligacoes: string[] = [];
   if (temProp('onClose') && temProp('open')) ligacoes.push('onClose={fechar}');
   if (controlado) {
@@ -111,21 +98,15 @@ export default function Playground({
     ...controles
       .filter((c) => c.prop.nome !== 'children' && !(controlado && c.prop.nome === alvoLigado))
       .map((c) => atributo(c, valores[c.prop.nome])),
-    ...Object.entries(brutos).filter(([k]) => !LIGADAS.includes(k)).map(([k, v]) => `${k}={${v}}`),
+    ...Object.entries(brutos).filter(([k, v]) => !LIGADAS.includes(k) && v !== 'undefined').map(([k, v]) => `${k}={${v}}`),
     ...ligacoes,
   ].filter(Boolean) as string[];
   const abre = attrs.length > 2 ? `<${nome}\n  ${attrs.join('\n  ')}\n` : `<${nome}${attrs.length ? ' ' + attrs.join(' ') : ''}`;
-  // `children` editável substitui o conteúdo em texto; conteúdo com JSX continua o da demo.
   const controleFilhos = controles.some((c) => c.prop.nome === 'children');
   const textoFilhos = typeof valores.children === 'string' && valores.children !== '' ? valores.children : null;
   const conteudo = !controleFilhos ? filhos : textoFilhos ?? (/[<{]/.test(filhos ?? '') ? filhos : null);
   const elemento = conteudo ? `${abre}>\n  ${recuar(conteudo)}\n</${nome}>` : `${abre}${attrs.length > 2 ? '' : ' '}/>`;
   const jsx = moldura ? moldura.replace('__DEMO__', recuar(elemento, (moldura.split('__DEMO__')[0].match(/[ \t]*$/)?.[0].length ?? 0))) : elemento;
-  // `valor`/`alterar` do estado ao vivo viram um `useState` local — mas hooks só podem ser chamados dentro
-  // do corpo de um componente de verdade, nunca soltos no topo do código avaliado (o react-live roda o
-  // `useState` de fora de qualquer render caso não esteja dentro de uma função componente). Por isso, quando
-  // `controlado`, a demo inteira é envolvida num `function Demo() { ... }` que o `render(<Demo />)` final
-  // efetivamente monta através do ciclo normal do React.
   const usaNoInline = controlado || !!auxiliares;
   let codigo: string;
   if (controlado) {
@@ -185,7 +166,6 @@ export default function Playground({
         <BrowserOnly fallback={<div className="ob-playground__preview" />}>
           {() => (
             <LiveProvider key={versao} code={codigo} scope={scope} noInline={usaNoInline} theme={temaCodigo}>
-              {/* O atributo hidden fica num invólucro sem classe: nenhuma regra de CSS consegue anulá-lo. */}
               <div hidden={aba !== 'resultado'}>
                 <div className="ob-playground__preview ob-demo__resultado">
                   <div className={`ob-demo__palco${LARGOS.includes(nome) ? ' ob-demo__palco--largo' : ''}`}>

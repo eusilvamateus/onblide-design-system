@@ -6,7 +6,7 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker } from '@onblide/ui';
+import { Table, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, toast } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -17,6 +17,7 @@ import type {
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
+  ToastOptions, ToastShortcutOptions,
 } from '@onblide/ui';
 
 // Todo tipo usado em prop pública precisa estar exportado por src/index.ts
@@ -31,6 +32,7 @@ export type TiposExportados = [
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
+  ToastOptions, ToastShortcutOptions,
 ];
 
 interface Linha { id: number; nome: string } // interface: sem index signature
@@ -141,3 +143,20 @@ export function UsosDeData() {
     </>
   );
 }
+
+export const usosDeToast: string[] = [
+  toast({ title: 'x' }),
+  toast({ tone: 'danger', title: 'x', body: 'y', action: 'Tentar', onAction: () => undefined, icon: false, duration: 0, stack: 'painel' }),
+  toast.success('x', { body: 'y', duration: 3000 }),
+  toast.info('x'),
+  toast.warning('x'),
+  toast.danger('x', { stack: 'painel' }),
+];
+toast.dismiss();
+toast.dismiss(usosDeToast[0]);
+// @ts-expect-error o título é obrigatório
+toast({ tone: 'info' });
+// @ts-expect-error tom inexistente
+toast({ title: 'x', tone: 'loud' });
+// @ts-expect-error o atalho já define o tom
+toast.success('x', { tone: 'danger' });
