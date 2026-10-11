@@ -1,6 +1,12 @@
 # @onblide/ui
 
-## 6.1.0
+## 0.17.0
+
+### Numeração corrigida
+
+A versão deste código, antes numerada 6.1.0, passa a ser 0.17.0. Nenhuma linha de código mudou: apenas o rótulo de versão. As versões 1.0.0 a 6.1.0 abaixo foram arquivadas (tags `arquivo/vX.Y.Z` e `arquivo/onblide-ui@X.Y.Z`; GitHub Releases marcados como `[arquivada]`) e seu conteúdo continua aqui como histórico. Motivo e detalhes: `docs/decisions/0009-corrigir-a-numeracao-para-a-serie-0x.md`.
+
+## 6.1.0 (arquivada)
 
 ### Minor Changes
 
@@ -10,7 +16,7 @@
   - No modo `range`, as vistas de meses e de anos mostram o intervalo selecionado (início e fim marcados, meses ou anos entre eles com a cor de faixa), mesmo quando o intervalo atravessa anos.
   - Com só o início escolhido, passar o mouse sobre um mês ou ano mostra a faixa até ele, como já acontecia nos dias.
 
-## 6.0.0
+## 6.0.0 (arquivada)
 
 ### Major Changes
 
@@ -24,7 +30,7 @@
   - `Stepper`, `Timeline`, `Breadcrumbs` e `TreeView`: os itens de lista zeram a margem, para que um CSS de lista do aplicativo (como `li + li` com margem superior) não os desloque.
   - Documentação: o resultado das demos fica isolado do estilo de listas do tema do site, que também deslocava as etapas.
 
-## 5.0.0
+## 5.0.0 (arquivada)
 
 ### Major Changes
 
@@ -39,25 +45,25 @@
   - Passar o mouse sobre a fila pausa a contagem, como o guia já prometia.
   - A fila ganha `role="region"` e nome acessível, e o `id` fixo virou classe, para poder haver mais de uma na página.
 
-## 4.2.0
+## 4.2.0 (arquivada)
 
 ### Minor Changes
 
 - FileUpload com foto de perfil de verdade: na variante `image`, a área toda (foto, botão e texto) aceita arrastar e soltar, com destaque e "Solte aqui", e a foto vazia convida a adicionar. As novas props `shape="circle"` e `size` deixam a prévia redonda e do tamanho que você precisar. Com foto, as ações viram botões só com ícone e tooltip (trocar e remover), passar o mouse na foto mostra "Trocar", e o envio mostra um progresso circular sobre a imagem. O botão de escolher imagem ganha ícone, a variante `button` avisa que dá para arrastar, e a lista de arquivos mostra miniatura das imagens.
 
-## 4.1.0
+## 4.1.0 (arquivada)
 
 ### Minor Changes
 
 - Navegação ampla no Calendar e no Datepicker: clicar no mês do cabeçalho abre a grade dos 12 meses, e clicar no ano abre um bloco de 12 anos, com setas que passam de ano em ano e de 12 em 12 anos. A escolha desce de nível (ano, mês, dia) e Esc volta um nível. Meses e anos inteiros fora de `min` e `max` ficam desabilitados, e a nova prop `openTo` define a vista inicial (`days`, `months` ou `years`).
 
-## 4.0.1
+## 4.0.1 (arquivada)
 
 ### Patch Changes
 
 - No Calendar e no Datepicker em modo intervalo, cada dia do intervalo volta a ser um quadrado arredondado próprio, com espaço entre eles, em vez de uma faixa contínua.
 
-## 4.0.0
+## 4.0.0 (arquivada)
 
 ### Major Changes
 
@@ -77,91 +83,91 @@
   - `Tooltip` e `Menu` desenham atalhos com o `Kbd`.
   - O `Breadcrumbs` recolhe os níveis num `Menu`.
 
-## 3.1.1
+## 3.1.1 (arquivada)
 
 ### Patch Changes
 
 - Componentes alinhados às regras do design system. Alert, Toast, Modal, Drawer e Popover usam o `Button` (neutral, iconOnly) no botão de fechar, e o Drawer passa a usar o ícone do Phosphor no lugar do caractere de texto. As ações de Alert e Toast também usam `Button`. O contador de SideNav e Tabs usa o `Badge`, e o botão de remover do Chip usa o ícone do Phosphor. Cores e sombras fixas viraram tokens: `--ob-fg-on-color`, `--ob-scrim` (o fundo de Modal e Drawer agora acompanha o tema escuro), `--ob-shadow-xs`, `--ob-shadow-md`, `--ob-shadow-pop` e `color-mix` sobre os tokens de tom no Slider. Corrige o rótulo do ProgressBar, que mostrava valores acima de 100% ou abaixo de 0%. Remove os comentários do código dos componentes.
 
-## 3.1.0
+## 3.1.0 (arquivada)
 
 ### Minor Changes
 
 - Gerenciador de aparência: `themeManager` (init, get, set, subscribe), hook `useTheme()` e `themeInitScript` (também em `@onblide/ui/theme-init`) para evitar o flash no carregamento. Escolha entre claro, escuro e sistema, persistida em `localStorage` e sincronizada entre abas. O tema claro agora também existe em `[data-theme="light"]`, então uma região clara dentro de uma página escura volta aos tokens claros.
 
-## 3.0.0
+## 3.0.0 (arquivada)
 
 ### Major Changes
 
 - Navbar: removido `NavbarIconButton`, que duplicava o Button. Use `<Button kind="neutral" iconOnly aria-label="..." icon={<Icons.bell size={20} />} count={3} />` nas `actions`; o botão de menu da Navbar (`onMenuToggle`) também passa a ser um Button.
 
-## 2.4.0
+## 2.4.0 (arquivada)
 
 ### Minor Changes
 
 - Button: novo estilo `neutral` (transparente, com fundo sutil no hover), props `pressed` (marca `aria-pressed` e destaca o fundo no `neutral`) e `count` (contador em badge no canto) e anel de foco visível ao navegar pelo teclado.
 
-## 2.3.0
+## 2.3.0 (arquivada)
 
 ### Minor Changes
 
 - SideNav: o rodapé de conta usa o componente Avatar e aceita foto (`accountImage` e `accountImageAlt`, com volta às iniciais se a imagem falhar), os botões de recolher e abrir usam o Button com `iconOnly`, e o nome e o detalhe da conta ficam alinhados à esquerda.
 
-## 2.2.0
+## 2.2.0 (arquivada)
 
 ### Minor Changes
 
 - Button: nova prop `iconOnly` para botão só com ícone, quadrado (32, 40 ou 48px conforme `size`), sem texto; exige `aria-label`.
 
-## 2.1.0
+## 2.1.0 (arquivada)
 
 ### Minor Changes
 
 - Avatar: as iniciais passam a ser a primeira letra da primeira e da última palavra do nome ("Mateus Silva" vira "MS", antes saía "MA"; com uma palavra só continuam as duas primeiras letras) e a nova prop `initials` substitui as iniciais geradas.
 
-## 2.0.0
+## 2.0.0 (arquivada)
 
 ### Major Changes
 
 - SideNav: a marca deixa de ser texto. Removido `brandName`; `brand` agora é a logo horizontal (padrão: logo da Onblide) e o novo `brandMark` é o símbolo exibido recolhida. Removido `workspaceName`; o rodapé usa `accountName` (padrão "Conta"), o novo `accountDetail` (linha secundária) e iniciais derivadas do nome quando `userInitials` é omitido. O botão de abrir a barra recolhida existe mesmo com `hideBrand` (ícone `caret-right`), e o botão sobre a logo ganha contorno ao passar o mouse. O rótulo de acessibilidade do rodapé passa a ser `Abrir menu de` + o nome da conta.
 
-## 1.6.4
+## 1.6.4 (arquivada)
 
 ### Patch Changes
 
 - SideNav: os botões de recolher e abrir ficam com aparência fixa e só trocam de ícone ao passar o mouse (`caret-left` → `caret-line-left` na borda; logo → `caret-line-right` quando recolhida).
 
-## 1.6.3
+## 1.6.3 (arquivada)
 
 ### Patch Changes
 
 - SideNav: os botões de recolher e abrir têm o mesmo formato (quadrado arredondado) e o mesmo par de ícones (`caret-line-left`/`caret-line-right`), com efeito de hover que desloca o ícone e destaca a borda; sobre a logo, ela se dissolve no ícone.
 
-## 1.6.2
+## 1.6.2 (arquivada)
 
 ### Patch Changes
 
 - SideNav: a barra de rolagem da lista fica fina e só aparece quando o mouse está sobre a lista, sem setas.
 
-## 1.6.1
+## 1.6.1 (arquivada)
 
 ### Patch Changes
 
 - SideNav: os botões de recolher e abrir usam o mesmo glifo (`caret-left`/`caret-right`), só espelhado.
 
-## 1.6.0
+## 1.6.0 (arquivada)
 
 ### Minor Changes
 
 - SideNav: botão circular de recolher na borda da barra (com `onToggle`), logo que vira o botão de abrir ao passar o mouse quando recolhida, largura fixa de 72px recolhida mesmo com `flush`, lista rolável separada do rodapé e menu de conta que não é mais cortado. Menu ganha `placement` `right`/`right-end` e `block`. Tooltip passa a ter texto legível no tema escuro.
 
-## 1.5.1
+## 1.5.1 (arquivada)
 
 ### Patch Changes
 
 - `Table`: o tamanho da fonte do conteúdo passa de 14px fixo para `var(--ob-fs-xs)` (12px), acompanhando o token tipográfico em vez de um número solto.
 
-## 1.5.0
+## 1.5.0 (arquivada)
 
 ### Minor Changes
 
@@ -169,19 +175,19 @@
 
   `Menu`: nova prop `placement` (`'bottom' | 'top' | 'auto'`, padrão `'auto'`). Com `auto`, mede o espaço abaixo do gatilho e abre o painel para cima quando necessário — usado pelo rodapé de conta da `SideNav`, mas disponível em qualquer `Menu`.
 
-## 1.4.0
+## 1.4.0 (arquivada)
 
 ### Minor Changes
 
 - Implementa de verdade a prop `maxBookingDays` do `Datepicker`, antes aceita mas sem nenhum efeito. Com ela definida, dias além do limite (contado a partir da data inicial) ficam desabilitados no calendário e a digitação manual de uma data final além do limite mostra erro.
 
-## 1.3.0
+## 1.3.0 (arquivada)
 
 ### Minor Changes
 
 - Adiciona suporte a imagem no `Avatar` (`src`/`alt`), com fallback automático pras iniciais quando a imagem não é informada ou falha ao carregar.
 
-## 1.2.0
+## 1.2.0 (arquivada)
 
 ### Minor Changes
 
@@ -190,13 +196,13 @@
   trás do símbolo e só aparece no hover/foco, em vez de disputar espaço com ele o tempo todo.
 - Adiciona o componente `Navbar`: barra de navegação superior com três layouts (`links`, `search`, `context`), segundo nível opcional (`secondary`), modo compacto e responsivo, e os subcomponentes `NavbarLink`, `NavbarIconButton` e `NavbarAccount`.
 
-## 1.1.2
+## 1.1.2 (arquivada)
 
 ### Patch Changes
 
 - `Avatar` passa a aceitar imagem por `src`, com `alt` opcional e fallback para as iniciais quando não houver imagem.
 
-## 1.1.1
+## 1.1.1 (arquivada)
 
 ### Patch Changes
 
@@ -204,7 +210,7 @@
   telas com `devicePixelRatio` 1. Cada conector é desenhado em duas metades, uma de cada célula vizinha, que
   arredondavam a largura fracionária pra baixo de forma independente.
 
-## 1.1.0
+## 1.1.0 (arquivada)
 
 ### Minor Changes
 
@@ -212,7 +218,7 @@
   `ButtonGroup` (agrupa `Button`/`ToggleButton` relacionados, anexados ou espaçados, com split button via
   `Menu` e seleção única ou múltipla via `ToggleButton`).
 
-## 1.0.1
+## 1.0.1 (arquivada)
 
 ### Patch Changes
 
@@ -220,7 +226,7 @@
   convenção do design system para números e código — antes usava `--ob-font` (Poppins)
   por descuido.
 
-## 1.0.0
+## 1.0.0 (arquivada)
 
 ### Major Changes
 

@@ -23,3 +23,5 @@ A partir de `1.0.0`/`1.0.1` (aplicado retroativamente nesta decisão), toda rele
   ambas as tags e do GitHub Release como etapa obrigatória, não opcional.
 - Tags anteriores a `1.0.0` (`onblide-ui@0.2.0` até `onblide-ui@0.16.0`) não ganham `vX.Y.Z`
   retroativamente nem GitHub Release retroativo — a decisão vale a partir do momento em que foi tomada.
+
+Nota: as versões `1.0.0` a `6.1.0` citadas aqui foram renumeradas e arquivadas; ver [0009](0009-corrigir-a-numeracao-para-a-serie-0x.md).

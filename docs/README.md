@@ -38,6 +38,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0006-adotar-tag-e-github-release-por-versao.md`](decisions/0006-adotar-tag-e-github-release-por-versao.md)
 - [`decisions/0007-theme-manager-sem-provider.md`](decisions/0007-theme-manager-sem-provider.md)
 - [`decisions/0008-enxugar-o-catalogo-e-basear-o-datepicker-no-calendar.md`](decisions/0008-enxugar-o-catalogo-e-basear-o-datepicker-no-calendar.md)
+- [`decisions/0009-corrigir-a-numeracao-para-a-serie-0x.md`](decisions/0009-corrigir-a-numeracao-para-a-serie-0x.md)
 
 ## Como manter esta documentação
 
