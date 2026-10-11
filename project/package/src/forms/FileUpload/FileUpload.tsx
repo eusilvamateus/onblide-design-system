@@ -197,10 +197,27 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             {temImagem ? (
               <>
                 <Tooltip label="Trocar imagem" placement="top">
-                  <Button kind="secondary" iconOnly size="sm" aria-label="Trocar imagem" onClick={pick} disabled={disabled} icon={<Ph n="camera" size={16} />} />
+                  <Button kind="secondary" size="sm" onClick={pick} disabled={disabled} icon={<Ph n="camera" size={16} />}>Trocar imagem</Button>
                 </Tooltip>
                 <Tooltip label="Remover imagem" placement="top">
-                  <Button kind="neutral" iconOnly size="sm" aria-label="Remover imagem" onClick={() => remove(img)} disabled={disabled} icon={<Ph n="trash" size={16} />} />
+                  <Button
+                    kind="neutral"
+                    iconOnly
+                    size="sm"
+                    aria-label="Remover imagem"
+                    onClick={() => remove(img)}
+                    disabled={disabled}
+                    icon={<Ph n="trash" size={16} />}
+                    style={{ color: 'var(--ob-fg-mute)' }}
+                    onMouseEnter={(event) => {
+                      event.currentTarget.style.color = 'var(--ob-danger)';
+                      event.currentTarget.style.background = 'var(--ob-danger-050)';
+                    }}
+                    onMouseLeave={(event) => {
+                      event.currentTarget.style.color = 'var(--ob-fg-mute)';
+                      event.currentTarget.style.background = 'transparent';
+                    }}
+                  />
                 </Tooltip>
               </>
             ) : (
