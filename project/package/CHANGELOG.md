@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 4.0.1
+
+### Patch Changes
+
+- No Calendar e no Datepicker em modo intervalo, cada dia do intervalo volta a ser um quadrado arredondado próprio, com espaço entre eles, em vez de uma faixa contínua.
+
 ## 4.0.0
 
 ### Major Changes
