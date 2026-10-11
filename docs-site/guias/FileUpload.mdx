@@ -9,7 +9,7 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 - **`dropzone`** (padrão): quando enviar o arquivo é a tarefa principal da tela.
 - **`button`**: anexos opcionais dentro de um formulário maior.
-- **`image`**: uma única imagem com prévia (avatar, capa).
+- **`image`**: uma única imagem com prévia: foto de perfil, logo, capa. Com `shape="circle"` a área é redonda, como um avatar.
 
 Sempre passe `upload(file, onProgress)` com o envio real. Sem isso, o componente simula um progresso
 (útil só para protótipo; nomes de arquivo com "falha" no meio erram de propósito, pra testar o estado de erro).
@@ -27,11 +27,35 @@ Deixar `multiple` ligado sem `maxFiles` num contexto que só faz sentido com pou
 </Evite>
 </FacaEvite>
 
+### Foto de perfil e outras imagens
+
+A variante `image` foi pensada para a foto ser o próprio controle:
+
+- **A área toda aceita arrastar.** A foto, o botão e o texto ao lado recebem o arquivo solto; ao arrastar, a área se destaca e mostra "Solte aqui".
+- **Vazia**, a área mostra a câmera e "Adicionar foto", e o botão traz o ícone de enviar ("Escolher imagem"). Um texto avisa: "Ou arraste uma imagem para cá".
+- **Com foto**, passar o mouse (ou focar) na foto mostra a câmera e "Trocar"; ao lado ficam duas ações só com ícone, "Trocar imagem" e "Remover imagem", cada uma com tooltip.
+- **Durante o envio**, um indicador circular de progresso aparece sobre a foto; um erro de tipo ou de tamanho aparece ao lado, em vermelho.
+- **Foto que já existe** entra em `defaultFiles={[{ name, size, url }]}` e aparece como prévia, pronta para trocar.
+- `size` define o lado da área (padrão 120 px); abaixo de 104 px ela mostra só o ícone, sem texto.
+
 ## Formatação
 
 ```jsx
 <FileUpload label="Anexos" hint="PDF ou imagem, até 5 MB" accept=".pdf,image/*" acceptLabel="PDF ou imagem" />
+
+<FileUpload
+  variant="image"
+  shape="circle"
+  label="Foto de perfil"
+  hint="PNG, JPEG ou WebP. Até 2 MB."
+  accept="image/*"
+  maxSize={2 * 1024 * 1024}
+  onChange={(arquivos) => setFoto(arquivos[0])}
+  upload={enviarFoto}
+/>
 ```
+
+`onChange` devolve a lista de arquivos: o primeiro traz `file` (o `File` original), `url` (endereço local da prévia) e `status`. Nas variantes `dropzone` e `button`, arquivos de imagem aparecem na lista com miniatura.
 
 ## Guia de conteúdo
 
@@ -39,6 +63,8 @@ Deixar `multiple` ligado sem `maxFiles` num contexto que só faz sentido com pou
 - Erro de tipo, tamanho ou envio aparece na própria linha do arquivo, nunca um alerta separado.
 
 ## Guia de design
+
+**Arrastar e soltar.** Funciona nas três variantes e a área que recebe é sempre mais do que o botão. Na `button`, um texto avisa "Ou arraste os arquivos para cá".
 
 **Estados do arquivo.** Enviando (barra de progresso + %), concluído, erro de validação (só remover), erro de
 envio (com "Tentar de novo").

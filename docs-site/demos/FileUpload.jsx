@@ -1,8 +1,8 @@
-// Ponto de partida da demo interativa do FileUpload: o elemento <FileUpload> abaixo define os valores iniciais dos controles.
-
 <FileUpload
-  label="Anexos"
-  hint="PDF ou imagem, até 5 MB"
-  accept=".pdf,image/*"
-  acceptLabel="PDF ou imagem"
+  variant="image"
+  shape="circle"
+  label="Foto de perfil"
+  hint="PNG, JPEG ou WebP. Até 2 MB."
+  accept="image/*"
+  acceptLabel="PNG, JPEG ou WebP"
 />

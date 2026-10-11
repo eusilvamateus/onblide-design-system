@@ -96,6 +96,7 @@ const titulos = {
   SelecaoUnica: 'Seleção única', SelecaoMultipla: 'Seleção múltipla', SplitButton: 'Split button',
   ComLinks: 'Com links', BuscaCentral: 'Busca central', ComAbas: 'Com abas', Contexto: 'Contexto',
   DatasIndisponiveis: 'Datas indisponíveis',
+  Dropzone: 'Dropzone', Botao: 'Botão', FotoDePerfil: 'Foto de perfil', FotoAtual: 'Foto atual', Enviando: 'Enviando', Arrastando: 'Arrastando', ComArquivos: 'Com arquivos',
   Meses: 'Meses', Anos: 'Anos', AnosComLimites: 'Anos com limites', Teclas: 'Teclas', SemCaixa: 'Sem caixa', Invertido: 'Invertido', ComLimite: 'Com limite', Busca: 'Busca',
   Multiplo: 'Múltiplo', SemIcone: 'Sem ícone', SemIcones: 'Sem ícones', Destrutivo: 'Destrutivo',
   SemanaNaSegunda: 'Semana na segunda',

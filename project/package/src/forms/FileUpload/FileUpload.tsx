@@ -2,6 +2,9 @@ import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { ProgressBar } from '../../feedback/ProgressBar/ProgressBar';
 import { Button } from '../../actions/Button/Button';
+import { ProgressCircle } from '../../feedback/ProgressCircle/ProgressCircle';
+import { Tooltip } from '../../overlays/Tooltip/Tooltip';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import { List, ListItem } from '../../data-display/List/List';
 
 const numberFormat = (n: number, decimals: number) => new Intl.NumberFormat('pt-BR', { maximumFractionDigits: decimals }).format(n);
@@ -25,9 +28,15 @@ const simulateUpload = (file: { name: string }, onProgress: (p: number) => void)
     if (p >= 100) { clearInterval(t); onProgress(100); resolve(); } else onProgress(Math.round(p));
   }, 180);
 });
+injectStyleOnce(
+  'ob-fileupload',
+  '.ob-fileupload-imagem .ob-fileupload-camada{opacity:0;transition:opacity 150ms}.ob-fileupload-imagem:hover .ob-fileupload-camada,.ob-fileupload-imagem:focus-visible .ob-fileupload-camada{opacity:1}.ob-fileupload-imagem:focus-visible{outline:2px solid var(--ob-blue);outline-offset:2px}',
+);
+
 const srOnly: React.CSSProperties = { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' };
 
 export type FileUploadVariant = 'dropzone' | 'button' | 'image';
+export type FileUploadShape = 'square' | 'circle';
 export type UploadFileStatus = 'uploading' | 'done' | 'error';
 export interface UploadFile {
   id: string; name: string; size: number; type?: string; url?: string | null;
@@ -54,15 +63,20 @@ export interface FileUploadProps {
   onChange?: (files: UploadFile[]) => void;
   /** Força o estado de arraste (demos); por padrão é interno. */
   dragging?: boolean;
-  /** Rótulo do botão na variante `button`. */
+  /** Rótulo do botão de escolher arquivo. Padrão: "Anexar arquivos" na variante `button` e "Escolher imagem" na `image`. */
   buttonLabel?: string;
+  /** Só na variante `image`: forma da área de prévia; `circle` é a foto de perfil. */
+  shape?: FileUploadShape;
+  /** Só na variante `image`: lado da área de prévia, em px. */
+  size?: number;
 }
 
 /** Envio de arquivos por arrastar/soltar ou seletor do sistema, com fila de progresso e erro por arquivo. */
 export const FileUpload: React.FC<FileUploadProps> = ({
   variant = 'dropzone', multiple = true, accept, acceptLabel, maxSize, maxFiles, label, hint, error,
-  disabled = false, defaultFiles = [], upload = simulateUpload, onChange, dragging, buttonLabel = 'Anexar arquivos',
+  disabled = false, defaultFiles = [], upload = simulateUpload, onChange, dragging, buttonLabel, shape = 'square', size = 120,
 }) => {
+  const rotuloDoBotao = buttonLabel ?? (variant === 'image' ? 'Escolher imagem' : 'Anexar arquivos');
   const [files, setFiles] = React.useState<UploadFile[]>(() => defaultFiles.map((f, i) => ({ id: `d${i}`, status: 'done', progress: 100, name: '', size: 0, ...f } as UploadFile)));
   const [drag, setDrag] = React.useState(false);
   const [live, setLive] = React.useState('');
@@ -119,7 +133,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       <List dividers ariaLabel="Arquivos enviados">
         {files.map((f) => (
           <ListItem key={f.id} style={{ padding: '10px 8px 10px 12px' }}
-            leading={<Ph n={f.status === 'error' ? 'warning-circle' : fileIcon(f.name, f.type)} size={20} c={f.status === 'error' ? 'var(--ob-danger)' : 'currentColor'} />}
+            leading={f.url && f.status !== 'error'
+              ? <img src={f.url} alt="" style={{ width: 36, height: 36, borderRadius: 'var(--ob-r-sm)', objectFit: 'cover', display: 'block' }} />
+              : <Ph n={f.status === 'error' ? 'warning-circle' : fileIcon(f.name, f.type)} size={20} c={f.status === 'error' ? 'var(--ob-danger)' : 'currentColor'} />}
             title={f.name} description={desc(f)} trailing={actions(f)} />
         ))}
       </List>
@@ -133,33 +149,75 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   let body: React.ReactNode;
   if (variant === 'image') {
     const img = files[0];
+    const circular = shape === 'circle';
+    const temImagem = !!img?.url;
+    const enviando = img?.status === 'uploading';
+    const comErro = img?.status === 'error';
+    const raio = circular ? '50%' : 'var(--ob-r-surface)';
+    const comTexto = size >= 104;
+    const camada: React.CSSProperties = {
+      position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4,
+      background: 'var(--ob-scrim)', color: 'var(--ob-fg-on-color)', fontSize: 12, fontWeight: 600, ...(isDrag ? { opacity: 1 } : {}),
+    };
     body = (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-        <div role="button" tabIndex={disabled ? -1 : 0} aria-label={img ? 'Trocar imagem' : 'Escolher imagem'} aria-disabled={disabled || undefined}
-          aria-describedby={hintEl ? `${uid}-h` : undefined} onClick={pick} onKeyDown={keyPick} {...dropProps}
+      <div {...dropProps} style={{
+        display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', padding: 8, margin: -8, borderRadius: 'var(--ob-r-surface)',
+        background: isDrag ? 'var(--ob-blue-050)' : 'transparent', transition: 'background .15s',
+      }}>
+        <div role="button" className="ob-fileupload-imagem" tabIndex={disabled ? -1 : 0} aria-label={temImagem ? 'Trocar imagem' : 'Escolher imagem'} aria-disabled={disabled || undefined}
+          aria-describedby={hintEl ? `${uid}-h` : undefined} onClick={pick} onKeyDown={keyPick}
           style={{
-            position: 'relative', width: 96, height: 96, flex: 'none', borderRadius: 'var(--ob-r-surface)',
-            border: img?.url ? '1px solid var(--ob-border)' : `1.5px dashed ${isDrag ? 'var(--ob-blue)' : error ? 'var(--ob-danger)' : 'var(--ob-border)'}`,
-            background: isDrag ? 'var(--ob-blue-050)' : 'var(--ob-bg-alt)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
-            cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.6 : 1, outline: 'none',
+            position: 'relative', width: size, height: size, flex: 'none', borderRadius: raio, boxSizing: 'border-box', overflow: 'hidden',
+            border: temImagem && !isDrag && !comErro ? '1px solid var(--ob-border)' : `1.5px dashed ${isDrag ? 'var(--ob-blue)' : comErro || error ? 'var(--ob-danger)' : 'var(--ob-border)'}`,
+            background: isDrag ? 'var(--ob-blue-050)' : 'var(--ob-bg-alt)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6,
+            cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.6 : 1, outline: 'none', transition: 'background .15s, border-color .15s',
           }}>
-          {img?.url ? <img src={img.url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Ph n={isDrag ? 'download-simple' : 'image'} size={28} c={isDrag ? 'var(--ob-blue)' : 'var(--ob-fg-mute)'} />}
-          {img?.status === 'uploading' && <span style={{ position: 'absolute', left: 8, right: 8, bottom: 8 }}><ProgressBar value={img.progress ?? 0} size="sm" /></span>}
+          {temImagem
+            ? <img src={img.url ?? undefined} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            : (
+              <>
+                <Ph n={isDrag ? 'download-simple' : 'camera-plus'} size={Math.round(size * 0.26)} c={isDrag ? 'var(--ob-blue)' : 'var(--ob-fg-mute)'} />
+                {comTexto && <span style={{ fontSize: 12, fontWeight: 600, color: isDrag ? 'var(--ob-blue)' : 'var(--ob-fg-soft)' }}>{isDrag ? 'Solte aqui' : 'Adicionar foto'}</span>}
+              </>
+            )}
+          {temImagem && !enviando && !disabled && (
+            <span className="ob-fileupload-camada" aria-hidden="true" style={camada}>
+              <Ph n={isDrag ? 'download-simple' : 'camera'} size={Math.round(size * 0.22)} c="currentColor" />
+              {comTexto && <span>{isDrag ? 'Solte para trocar' : 'Trocar'}</span>}
+            </span>
+          )}
+          {enviando && (
+            <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'color-mix(in srgb, var(--ob-surface) 75%, transparent)' }}>
+              <ProgressCircle value={img.progress ?? 0} size={comTexto ? 'md' : 'sm'} />
+            </span>
+          )}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
           <div style={{ display: 'flex', gap: 8 }}>
-            <Button kind="secondary" size="sm" onClick={pick} disabled={disabled}>{img ? 'Trocar' : 'Escolher imagem'}</Button>
-            {img && <Button kind="ghost" size="sm" onClick={() => remove(img)} disabled={disabled}>Remover</Button>}
+            {temImagem ? (
+              <>
+                <Tooltip label="Trocar imagem" placement="top">
+                  <Button kind="secondary" iconOnly size="sm" aria-label="Trocar imagem" onClick={pick} disabled={disabled} icon={<Ph n="camera" size={16} />} />
+                </Tooltip>
+                <Tooltip label="Remover imagem" placement="top">
+                  <Button kind="neutral" iconOnly size="sm" aria-label="Remover imagem" onClick={() => remove(img)} disabled={disabled} icon={<Ph n="trash" size={16} />} />
+                </Tooltip>
+              </>
+            ) : (
+              <Button kind="secondary" size="sm" onClick={pick} disabled={disabled} icon={<Ph n="upload-simple" size={16} />}>{rotuloDoBotao}</Button>
+            )}
           </div>
-          {img?.status === 'error' ? <span style={{ fontSize: 12, color: 'var(--ob-danger)' }}>{img.error}</span> : hintEl}
+          {comErro && <span style={{ fontSize: 12, color: 'var(--ob-danger)' }}>{img.error}</span>}
+          {!temImagem && !comErro && !disabled && <span style={{ fontSize: 12, color: 'var(--ob-fg-mute)' }}>Ou arraste uma imagem para cá</span>}
+          {!comErro && hintEl}
         </div>
       </div>
     );
   } else if (variant === 'button') {
     body = (
       <div {...dropProps} style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap', padding: 6, margin: -6, borderRadius: 'var(--ob-r-control)', border: `1.5px dashed ${isDrag ? 'var(--ob-blue)' : 'transparent'}`, background: isDrag ? 'var(--ob-blue-050)' : 'transparent' }}>
-        <Button kind="secondary" onClick={pick} disabled={disabled} aria-describedby={hintEl ? `${uid}-h` : undefined} icon={<Ph n="paperclip" size={16} />}>{buttonLabel}</Button>
-        {hintEl}
+        <Button kind="secondary" onClick={pick} disabled={disabled} aria-describedby={hintEl ? `${uid}-h` : undefined} icon={<Ph n="paperclip" size={16} />}>{rotuloDoBotao}</Button>
+        {hintEl || (!disabled && <span style={{ fontSize: 12, color: 'var(--ob-fg-mute)' }}>Ou arraste os arquivos para cá</span>)}
       </div>
     );
   } else {
