@@ -81,7 +81,9 @@ export type CalendarProps = SingleCalendarProps | RangeCalendarProps;
 
 injectStyleOnce('ob-calendar-dia', '.ob-calendar-dia:focus-visible{outline:2px solid var(--ob-blue);outline-offset:-2px}');
 
-const CELULA = 36;
+const CELULA = 34;
+const ESPACO = 2;
+const LARGURA = CELULA * 7 + ESPACO * 6;
 const INTERVALO_VAZIO: CalendarRange = { start: null, end: null };
 
 /** Calendário mensal de uma data ou de um intervalo, com navegação por teclado; base do Datepicker. */
@@ -149,14 +151,14 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   const cabecalho = Array.from({ length: 7 }, (_, i) => (i + weekStartsOn) % 7);
   const semanas: (Date | null)[][] = [];
   for (let i = 0; i < celulas.length; i += 7) semanas.push(celulas.slice(i, i + 7));
-  const linha: React.CSSProperties = { display: 'grid', gridTemplateColumns: `repeat(7, ${CELULA}px)` };
+  const linha: React.CSSProperties = { display: 'grid', gridTemplateColumns: `repeat(7, ${CELULA}px)`, columnGap: ESPACO };
 
   return (
     <div role="group" aria-label={ariaLabel} style={{
       display: 'inline-flex', flexDirection: 'column', gap: 8, fontFamily: 'var(--ob-font)',
       opacity: disabled ? 0.5 : 1, ...style,
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: CELULA * 7 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: LARGURA }}>
         <Button kind="neutral" iconOnly size="sm" aria-label="Mês anterior" disabled={disabled}
           onClick={() => irParaMes(somarMeses(mesVisivel, -1))} icon={<Ph n="caret-left" size={16} />} />
         <div aria-live="polite" style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>
@@ -166,7 +168,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
           onClick={() => irParaMes(somarMeses(mesVisivel, 1))} icon={<Ph n="caret-right" size={16} />} />
       </div>
       <div ref={grade} role="grid" aria-label={`${MESES[mesVisivel.getMonth()]} ${mesVisivel.getFullYear()}`}
-        onKeyDown={aoTeclar} onMouseLeave={() => setPrevia(null)}>
+        onKeyDown={aoTeclar} onMouseLeave={() => setPrevia(null)} style={{ display: 'flex', flexDirection: 'column', gap: ESPACO }}>
         <div role="row" style={linha}>
           {cabecalho.map((dia) => (
             <div key={dia} role="columnheader" aria-label={DIAS_DA_SEMANA[dia]} style={{
@@ -195,7 +197,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                     onFocus={() => setFoco(dia)}
                     style={{
                       width: CELULA, height: CELULA, border: 'none', padding: 0,
-                      borderRadius: marcado || !emIntervalo ? 'var(--ob-r-sm)' : 0,
+                      borderRadius: 'var(--ob-r-sm)',
                       background: marcado ? 'var(--ob-blue)' : emIntervalo ? 'var(--ob-blue-100)' : 'transparent',
                       color: marcado ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-strong)',
                       boxShadow: alvoDaPrevia
