@@ -1,5 +1,19 @@
 # @onblide/ui
 
+## 6.0.0
+
+### Major Changes
+
+- Kbd e Stepper corrigidos.
+
+  Quebra de compatibilidade: a prop `inverse` do `Kbd` foi removida. Ela pintava a tecla com as cores da superfície da página, então ficava invisível em qualquer fundo que não fosse o do Tooltip. Agora o `Kbd` desenha texto, contorno e fundo a partir da cor do texto ao redor (`currentColor`) e fica legível em qualquer fundo, claro, escuro ou colorido.
+
+  Correções:
+
+  - `Stepper`: os marcadores passam a ter sempre o mesmo tamanho (`box-sizing: border-box`). Antes, o marcador atual (borda de 2px) e o futuro (borda de 1px) ficavam maiores que o concluído, e nos layouts horizontal, barra e vertical as linhas de ligação e os rótulos ficavam deslocados em degraus.
+  - `Stepper`, `Timeline`, `Breadcrumbs` e `TreeView`: os itens de lista zeram a margem, para que um CSS de lista do aplicativo (como `li + li` com margem superior) não os desloque.
+  - Documentação: o resultado das demos fica isolado do estilo de listas do tema do site, que também deslocava as etapas.
+
 ## 5.0.0
 
 ### Major Changes
