@@ -120,20 +120,9 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-wrap .markdown pre { padding: 14px 16px; overflow-x: auto; }
 .ob-wrap .markdown [class*='codeBlockContainer'] .clean-btn { display: none; }
 
-/* Tabelas (props, tokens e as do markdown) */
-.ob-wrap .markdown table {
-  display: table; width: 100%; border-collapse: collapse; font-size: 13px; margin: 0 0 16px; border: none;
-}
-.ob-wrap .markdown table th {
-  text-align: left; padding: 8px 10px; border: none; border-bottom: 1.5px solid var(--ob-border); background: none;
-  color: var(--ob-fg-soft); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
-}
-.ob-wrap .markdown table td {
-  padding: 9px 10px; border: none; border-bottom: 1px solid var(--ob-line-soft); background: none;
-  color: var(--ob-fg); vertical-align: top;
-}
+.ob-wrap .markdown table { display: table; width: 100%; margin: 0; border: none; }
+.ob-wrap .markdown table :is(th, td) { border-top: none; border-left: none; border-right: none; background: none; }
 .ob-wrap .markdown table tr { background: none; }
-.ob-wrap .markdown table td code { font-size: 12px; }
 
 /* ---------- Exemplos ao vivo ---------- */
 .ob-playground {
