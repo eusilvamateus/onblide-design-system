@@ -213,7 +213,9 @@ executarScript();
 
 igual(readFileSync(join(raiz, 'dist', 'theme-init.js'), 'utf8'), `${themeInitScript}\n`, 'dist/theme-init.js é o themeInitScript');
 
-const css = readFileSync(join(raiz, 'src', 'tokens.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+const css = readFileSync(join(raiz, 'src', 'tokens.css'), 'utf8')
+  .replace(/\r\n/g, '\n')
+  .replace(/\/\*[\s\S]*?\*\//g, '');
 function blocoEm(inicio, nome) {
   if (inicio < 0) fail(`seletor ausente em tokens.css: ${nome}`);
   const abre = css.indexOf('{', inicio);
