@@ -27,6 +27,15 @@ Mostrar um calendário sozinho dentro de um formulário comum. Para campos de da
 </Evite>
 </FacaEvite>
 
+### Navegar por mês e por ano
+
+As setas do cabeçalho andam um mês por vez. Para ir mais longe, clique no **mês** ou no **ano** do cabeçalho:
+
+- **Clicar no mês** abre a grade dos 12 meses do ano exibido; escolher um mês volta aos dias dele. As setas passam de ano em ano.
+- **Clicar no ano** abre um bloco de 12 anos (por exemplo, 2016 – 2027); escolher um ano abre os meses dele. As setas passam de 12 em 12 anos.
+
+A escolha desce de nível: ano, depois mês, depois dia. Para abrir já em uma dessas vistas, use `openTo="months"` ou `openTo="years"`. Com `min` e `max`, meses e anos inteiros fora do limite ficam desabilitados.
+
 ### Controlado e não controlado
 
 Sem `value`, o Calendar guarda a seleção sozinho (`defaultValue` define o ponto de partida). Com `value`, quem manda é o seu estado. O mês exibido segue a mesma regra: `month` e `onMonthChange` controlam, `defaultMonth` inicia.
@@ -58,6 +67,16 @@ As datas são objetos `Date` no fuso do usuário e só o dia importa: horas são
 | PageUp / PageDown | Mês anterior e seguinte (com Shift, ano) |
 | Enter / Espaço | Seleciona o dia focado |
 
+Nas grades de meses e de anos:
+
+| Tecla | Ação |
+| --- | --- |
+| Setas | Move o foco entre os itens (3 por linha) |
+| Home / End | Início e fim da linha |
+| PageUp / PageDown | Ano anterior e seguinte (ou os 12 anos anteriores e seguintes) |
+| Enter / Espaço | Escolhe o item focado |
+| Esc | Volta um nível: anos para meses, meses para dias |
+
 Apenas o dia focado entra na ordem de tab, então o calendário ocupa uma única parada.
 
 ## Guia de conteúdo
@@ -68,7 +87,7 @@ Apenas o dia focado entra na ordem de tab, então o calendário ocupa uma única
 
 ## Guia de design
 
-**Tokens.** Dia selecionado `--ob-blue` com texto `--ob-fg-on-color`; dias no meio do intervalo `--ob-blue-100`; hoje com contorno `--ob-blue`. A navegação de mês usa o **Button** neutro só com ícone.
+**Tokens.** Dia selecionado `--ob-blue` com texto `--ob-fg-on-color`; dias no meio do intervalo `--ob-blue-100`; hoje com contorno `--ob-blue`. O cabeçalho usa o **Button** neutro: só com ícone nas setas, e com texto no mês e no ano. Nas grades de meses e de anos, o item exibido fica em `--ob-blue` e o de hoje com contorno.
 
 **Estados.** Dia desabilitado com opacidade reduzida e `aria-disabled`; foco visível por contorno; no modo intervalo, ao passar o mouse o intervalo em andamento aparece em prévia.
 

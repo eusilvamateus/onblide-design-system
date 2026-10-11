@@ -37,3 +37,21 @@ export const Desabilitado = () => (
     <Calendar defaultMonth={new Date(2026, 9, 1)} defaultValue={new Date(2026, 9, 14)} disabled />
   </div>
 );
+
+export const Meses = () => (
+  <div style={caixa}>
+    <Calendar openTo="months" defaultMonth={new Date(2026, 9, 1)} />
+  </div>
+);
+
+export const Anos = () => (
+  <div style={caixa}>
+    <Calendar openTo="years" defaultMonth={new Date(2026, 9, 1)} />
+  </div>
+);
+
+export const AnosComLimites = () => (
+  <div style={caixa}>
+    <Calendar openTo="years" defaultMonth={new Date(2026, 9, 1)} min={new Date(2020, 0, 1)} max={new Date(2030, 11, 31)} />
+  </div>
+);

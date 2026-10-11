@@ -69,4 +69,30 @@ export const diaDoFoco = (mes: Date, foco: Date | null, selecionado: Date | null
   return new Date(mes.getFullYear(), mes.getMonth(), 1);
 };
 
+export const mesForaDosLimites = (ano: number, mes: number, { min, max }: LimitesDoCalendario): boolean => {
+  const primeiro = new Date(ano, mes, 1);
+  const ultimo = new Date(ano, mes, diasNoMes(ano, mes));
+  return (!!min && compararDias(ultimo, min) < 0) || (!!max && compararDias(primeiro, max) > 0);
+};
+
+export const anoForaDosLimites = (ano: number, { min, max }: LimitesDoCalendario): boolean =>
+  (!!min && ano < min.getFullYear()) || (!!max && ano > max.getFullYear());
+
+export const TAMANHO_DO_BLOCO_DE_ANOS = 12;
+
+export const inicioDoBlocoDeAnos = (ano: number): number => ano - (((ano % TAMANHO_DO_BLOCO_DE_ANOS) + TAMANHO_DO_BLOCO_DE_ANOS) % TAMANHO_DO_BLOCO_DE_ANOS);
+
+export const moverNaGrade = (indice: number, tecla: string, colunas: number, total: number): number | null => {
+  const inicioDaLinha = indice - (indice % colunas);
+  switch (tecla) {
+    case 'ArrowLeft': return Math.max(0, indice - 1);
+    case 'ArrowRight': return Math.min(total - 1, indice + 1);
+    case 'ArrowUp': return indice - colunas >= 0 ? indice - colunas : indice;
+    case 'ArrowDown': return indice + colunas < total ? indice + colunas : indice;
+    case 'Home': return inicioDaLinha;
+    case 'End': return Math.min(total - 1, inicioDaLinha + colunas - 1);
+    default: return null;
+  }
+};
+
 export const ehHoje = (data: Date, hoje: Date): boolean => mesmoDia(data, hoje);
