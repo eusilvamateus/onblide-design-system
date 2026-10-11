@@ -29,8 +29,6 @@ export const Radio: React.FC<RadioProps> = ({
       <input type="radio" name={name} value={value} checked={checked} disabled={disabled}
         onChange={() => onChange?.(value)}
         style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }} />
-      {/* Contorno como sombra interna e ponto centrado por flex: sobram 5px exatos de cada lado do ponto (sem meio
-          pixel). translateZ(0) alinha a caixa ao pixel mesmo em posição fracionada da página. */}
       <span style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%',
         boxShadow: `inset 0 0 0 1.5px ${checked ? 'var(--ob-blue)' : 'var(--ob-border)'}`,

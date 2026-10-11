@@ -34,8 +34,6 @@ export interface ButtonGroupProps {
 
 type AnyElement = React.ReactElement<Record<string, unknown>>;
 
-// Desce até o elemento real por trás de um Menu (prop `trigger`) ou de um Tooltip (children), para
-// inspecionar/alterar o botão de verdade — split button (Menu) e "só ícone" (Tooltip) são compostos assim.
 function leaf(el: AnyElement): AnyElement {
   if (el.props.trigger) return leaf(el.props.trigger as AnyElement);
   if (el.type === Tooltip) return leaf(React.Children.only(el.props.children) as AnyElement);
@@ -158,8 +156,6 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
   );
 };
 
-// O bloco de botão split (Button + Menu) precisa dos filhos internos esticados por toda a altura,
-// senão o gatilho do Menu fica mais baixo que o Button ao lado.
 injectStyleOnce(
   'ob-buttongroup-split-css',
   '[data-bg-split]>*{display:flex!important;align-items:stretch}[data-bg-split]>*>span{display:flex!important;align-items:stretch}[data-bg-split]>*>span>button{height:auto!important;align-self:stretch}',

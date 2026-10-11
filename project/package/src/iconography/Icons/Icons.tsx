@@ -1,4 +1,3 @@
-// project/package/src/iconography/Icons/Icons.tsx
 import React from 'react';
 import { Ph, type IconWeight } from '../Ph/Ph';
 

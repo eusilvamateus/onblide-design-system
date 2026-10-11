@@ -1,4 +1,3 @@
-// project/package/src/feedback/ToastStack/ToastStack.tsx
 import React, { useCallback, useEffect, useState } from 'react';
 import { Toast, ToastProps } from '../Toast/Toast';
 import { OB_TOAST_POS, OBToastPosition } from '../../internal/obToastPos';
@@ -54,8 +53,6 @@ export const ToastStack: React.FC<ToastStackProps> = ({ position = 'bottom-right
   );
 };
 
-// injeta as keyframes de entrada/saída do toast e o ajuste de layout mobile,
-// uma única vez (mesmo padrão de Skeleton/Tooltip/Spinner no Lote A)
 injectStyleOnce('ob-toast-kf', [
   '@keyframes ob-toast-in-top{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}',
   '@keyframes ob-toast-out-top{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-16px)}}',
@@ -74,8 +71,6 @@ declare global {
     obToast?: (detail: ToastProps) => void;
   }
 }
-// O guard de `typeof window` permite importar o pacote em Node (SSR e os
-// smokes), onde `window` não existe; no navegador ele sempre passa.
 if (typeof window !== 'undefined') {
   window.obToast = (detail) => window.dispatchEvent(new CustomEvent('ob-toast', { detail }));
 }

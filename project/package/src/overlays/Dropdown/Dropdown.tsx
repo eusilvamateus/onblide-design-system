@@ -1,4 +1,3 @@
-// project/package/src/overlays/Dropdown/Dropdown.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import { FloatingPanel, FloatingPanelAlign } from '../FloatingPanel/FloatingPanel';
 

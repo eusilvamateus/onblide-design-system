@@ -40,7 +40,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ value = 0, tone = 'inf
   );
 };
 
-// injeta a keyframe do modo indeterminado uma única vez
 injectStyleOnce(
   'ob-indet-kf',
   '@keyframes ob-indet{0%{left:-40%;width:40%}50%{width:55%}100%{left:100%;width:40%}}',

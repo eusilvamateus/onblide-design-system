@@ -24,7 +24,6 @@ const iniciaisDoNome = (nome: string): string => {
 
 /** Avatar circular com as iniciais de um nome; aceita imagem, com fallback automático pras iniciais se a imagem não carregar. */
 export const Avatar: React.FC<AvatarProps> = ({ name = 'OB', initials, src, alt, size = 32, color = 'var(--ob-blue)' }) => {
-  // Guarda qual `src` falhou: se a prop mudar pra uma URL nova, tenta carregar de novo em vez de continuar preso no fallback.
   const [srcComErro, setSrcComErro] = useState<string | undefined>(undefined);
   const mostrarImagem = !!src && src !== srcComErro;
   return (

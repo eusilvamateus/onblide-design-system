@@ -1,9 +1,6 @@
 import React from 'react';
 import { Divider } from '../Divider/Divider';
 
-// Linha de lista oficial: Select, Dropdown, Menu e Autocomplete desenhavam cada um a sua própria. List e
-// ListItem definem anatomia, densidade, estados e tons; o comportamento (role, teclado, foco) fica com quem usa.
-
 export type ListSize = 'md' | 'sm';
 
 interface SizeSpec { pad: string; minH: number; fs: number; lh: string; gap: number; icon: number; sub: string }

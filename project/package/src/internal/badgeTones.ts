@@ -1,4 +1,3 @@
-// Tabela de tons compartilhada por StatusDot e Badge.
 export type BadgeTone = 'blue' | 'green' | 'orange' | 'red' | 'grey';
 
 export interface BadgeToneColors {

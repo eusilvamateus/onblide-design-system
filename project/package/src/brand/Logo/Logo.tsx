@@ -5,9 +5,6 @@ export interface LogoProps {
   size?: number;
 }
 
-// Marca Onblide — lockup horizontal (símbolo + wordmark), com a arte inline
-// para não depender de arquivo externo. Os preenchimentos seguem o tema ativo
-// pelos tokens --ob-*; as variantes em arquivo ficam em project/marca/.
 /** Logotipo da Onblide (símbolo + wordmark) como SVG inline, adaptado ao tema ativo. */
 export const Logo: React.FC<LogoProps> = ({ size = 28 }) => (
   <svg height={size} viewBox="0 0 2048 313.44" role="img" aria-label="Onblide"
@@ -28,9 +25,6 @@ export interface LogoMarkProps {
   size?: number;
 }
 
-// Símbolo isolado da marca Onblide — o mesmo traço azul do lockup em `Logo`, sem o wordmark. Forte o
-// bastante pra se comunicar sozinho: é o que aparece em espaços apertados (SideNav recolhida, favicon,
-// avatar de workspace), onde o lockup horizontal não cabe ou fica ilegível.
 /** Símbolo isolado da marca Onblide (sem wordmark) como SVG inline, adaptado ao tema ativo. */
 export const LogoMark: React.FC<LogoMarkProps> = ({ size = 28 }) => (
   <svg height={size} viewBox="0 0 448 308.22" role="img" aria-label="Onblide"

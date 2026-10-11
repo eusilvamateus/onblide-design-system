@@ -16,8 +16,6 @@ export interface Brand {
   mark: (s: number) => React.ReactElement;
 }
 
-// Logos de marca: glifos oficiais do Phosphor (ph-<marca>-logo, já incluídos no webfont),
-// na cor autêntica de cada marca. Marca sem glifo no Phosphor não é implementada.
 /** Catálogo de marcas integráveis, com nome, cor, categoria, descrição e logotipo. */
 export const Brands: Record<BrandKey, Brand> = {
   spotify: {

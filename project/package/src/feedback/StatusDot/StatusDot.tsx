@@ -6,7 +6,6 @@ export interface StatusDotProps {
   tone?: BadgeTone;
 }
 
-// Decorativo; sempre usar junto de um rótulo visível.
 /** Indicador decorativo compacto que reforça, ao lado de um rótulo, um estado já escrito. */
 export const StatusDot: React.FC<StatusDotProps> = ({ tone = 'blue' }) => {
   const color = (BADGE_TONES[tone] || BADGE_TONES.blue).dot;

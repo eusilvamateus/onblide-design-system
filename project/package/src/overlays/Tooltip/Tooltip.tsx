@@ -34,8 +34,6 @@ export const Tooltip: React.FC<TooltipProps> = ({
   const [open, setOpen] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Limpa o timer anterior: hover + foco chamam `show` duas vezes, e o primeiro timer,
-  // órfão, reabriria o tooltip depois do `hide` (ele ficava preso aberto).
   const show = () => {
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setOpen(true), delay);

@@ -1,4 +1,3 @@
-// project/package/src/forms/Select/Select.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Chip } from '../../data-display/Chip/Chip';
@@ -49,8 +48,6 @@ export interface MultiSelectProps extends SelectBaseProps {
 /** Props do Select, discriminadas pelo modo `multi` (seleção única ou múltipla). */
 export type SelectProps = SingleSelectProps | MultiSelectProps;
 
-// Forma frouxa (idêntica à SelectProps original), usada só dentro do corpo:
-// a discriminação por `multi` existe na API pública, não na implementação.
 interface SelectLooseProps extends SelectBaseProps {
   multi?: boolean;
   value?: string | string[] | null;
@@ -75,11 +72,8 @@ export const Select: React.FC<SelectProps> = (props) => {
   const [highlighted, setHighlighted] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  // O foco já abre a lista (onFocus). Sem saber se o campo JÁ estava focado quando o mouse
-  // desceu, o click do campo alternava logo em seguida e o primeiro clique terminava fechado.
   const focadoNoMouseDown = useRef(false);
 
-  // normaliza o valor
   const selected: string | string[] | null = multi
     ? (Array.isArray(value) ? value : [])
     : value;
@@ -149,7 +143,6 @@ export const Select: React.FC<SelectProps> = (props) => {
           if (abrir) setTimeout(() => inputRef.current?.focus(), 0);
         }}
         style={{ flexWrap: 'wrap', gap: 6, cursor: disabled ? 'not-allowed' : 'pointer' }}>
-        {/* Chips do modo multi — Chip real */}
         {multi && (selected as string[]).map(s => (
           <Chip key={s} label={s} size="sm" selected removable
             onToggle={() => {}} onRemove={() => removeChip(s)} />
@@ -172,7 +165,6 @@ export const Select: React.FC<SelectProps> = (props) => {
           style={{ flex: 'none', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
       </FieldShell>
 
-      {/* Dropdown */}
       {open && (
         <FloatingPanel maxHeight={240} padding={4}>
           {filtered.length === 0 && (
@@ -197,7 +189,6 @@ export const Select: React.FC<SelectProps> = (props) => {
                   transition: 'background 0.1s',
                 }}>
                 {multi ? (
-                  /* Item de lista multi — Checkbox real */
                   <Checkbox checked={isSelected} onChange={() => {}} label={lbl} />
                 ) : (
                   <>

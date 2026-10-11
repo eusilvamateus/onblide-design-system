@@ -165,10 +165,6 @@ export const Stepper: React.FC<StepperProps> = ({ steps, current = 0, variant = 
       {steps.map((step, i) => {
         const s = st(i);
         return (
-          // marginLeft: -1 sobrepõe 1px no `<li>` anterior — cada conector é metade de um `<li>` e metade do
-          // próximo, e em devicePixelRatio 1 os dois arredondam a largura fracionária pra baixo de forma
-          // independente, deixando um vão de 1-2px entre as metades (a cor sempre bate nas duas pontas, então
-          // a sobreposição nunca é visível).
           <li key={i} aria-current={ariaCur(i)} style={{ flex: 1, minWidth: 0, marginLeft: i > 0 ? -1 : 0 }}>
             <Hit can={can(i)} onClick={click(i)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--ob-s-2)', width: '100%' }}>
               <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>

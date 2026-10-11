@@ -1,4 +1,3 @@
-// project/package/src/forms/SearchInput/SearchInput.tsx
 import React, { useState } from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { FloatingPanel } from '../../overlays/FloatingPanel/FloatingPanel';

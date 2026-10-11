@@ -8,8 +8,6 @@ export interface BrandTileProps {
   size?: number;
 }
 
-// Moldura que emoldura a marca — mantém um fundo claro constante nos dois
-// temas para que marcas escuras (GitHub, Notion) continuem legíveis.
 /** Moldura quadrada com fundo claro fixo que exibe o logotipo de uma marca. */
 export const BrandTile: React.FC<BrandTileProps> = ({ brand, size = 44 }) => {
   const b = Brands[brand];

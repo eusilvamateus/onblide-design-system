@@ -176,8 +176,6 @@ export const Datepicker: React.FC<DatepickerProps> = ({
     return dIso > localValues.startDate && dIso < localValues.endDate;
   };
 
-  // Só o início foi escolhido: passar o mouse sobre outro dia prevê o intervalo inteiro,
-  // para a frente ou para trás do início, sem exigir o segundo clique.
   const aguardandoFim = !singleDate && !!localValues.startDate && !localValues.endDate;
   const emPrevia = (iso: string) => {
     if (!aguardandoFim || !hoverIso || !localValues.startDate) return false;
@@ -198,7 +196,6 @@ export const Datepicker: React.FC<DatepickerProps> = ({
         setLocalValues(newVals); setStartText(dpFmt(d)); setEndText(''); setStartErr(''); setEndErr('');
         onChange?.(newVals);
       } else if (iso! < localValues.startDate) {
-        // dia anterior ao início: o intervalo vai dele até o início já escolhido
         const newVals = { startDate: iso, endDate: localValues.startDate };
         setLocalValues(newVals); setStartText(dpFmt(d)); setEndText(dpFmt(localValues.startDate)); setStartErr(''); setEndErr('');
         onChange?.(newVals); setOpen(false);

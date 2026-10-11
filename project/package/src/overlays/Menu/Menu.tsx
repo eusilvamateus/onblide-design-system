@@ -8,11 +8,6 @@ import { Badge } from '../../data-display/Badge/Badge';
 import { SearchInput } from '../../forms/SearchInput/SearchInput';
 import { List, ListItem, ListSubheader, ListDivider } from '../../data-display/List/List';
 
-// Lista de comandos sobreposta à interface — três eixos independentes: variante de conteúdo (o que o item
-// mostra), abertura (`Menu` ancorado ou `ContextMenu` por clique direito/Shift+F10) e densidade (`size`).
-// Os componentes embutidos (Checkbox, Radio, Switch) ficam `inert` dentro do item: o item recebe clique e
-// teclado, o componente só mostra o estado — um item, uma parada de foco.
-
 export type MenuSize = 'md' | 'sm';
 
 interface MenuSizeSpec { pad: string; fs: number; lh: string; gap: number; panelPad: number; min: number; sepM: string; labelPad: string; icon: number; avatar: number }
@@ -76,7 +71,6 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
     if (!autoFocus || !ref.current) return;
     const input = search && ref.current.querySelector<HTMLElement>('input');
     (input || ref.current).focus({ preventScroll: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   React.useEffect(() => { if (search) setActive(-1); }, [search?.value]);
   const hasLead = items.some((it) => (it.type !== 'separator' && it.type !== 'label' && 'icon' in it && it.icon) || it.type === 'checkbox' || it.type === 'radio' || it.type === 'account');

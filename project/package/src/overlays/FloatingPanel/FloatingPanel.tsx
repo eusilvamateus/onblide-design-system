@@ -1,4 +1,3 @@
-// project/package/src/overlays/FloatingPanel/FloatingPanel.tsx
 import React from 'react';
 
 export type FloatingPanelAlign = 'left' | 'right' | 'stretch';

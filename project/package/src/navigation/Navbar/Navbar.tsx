@@ -1,4 +1,3 @@
-// project/package/src/navigation/Navbar/Navbar.tsx
 import React, { useState } from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Badge } from '../../data-display/Badge/Badge';

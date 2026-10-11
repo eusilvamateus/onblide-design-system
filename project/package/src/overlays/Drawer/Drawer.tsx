@@ -33,14 +33,12 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
 
   return ReactDOM.createPortal(
     <>
-      {/* Backdrop */}
       <div onClick={onClose} style={{
         position: 'fixed', inset: 0, background: 'rgba(20,20,20,var(--ob-opacity-scrim))',
         backdropFilter: 'blur(2px)', zIndex: 'var(--ob-z-overlay)',
         opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none',
         transition: 'opacity 0.22s ease',
       }}/>
-      {/* Panel */}
       <div style={{
         position: 'fixed', top: 0, bottom: 0,
         [side]: 0,
@@ -51,7 +49,6 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
         zIndex: 'var(--ob-z-modal)', display: 'flex', flexDirection: 'column',
         transform, transition: 'transform 0.25s var(--ob-ease)',
       } as React.CSSProperties}>
-        {/* Header */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '18px 24px', borderBottom: '1px solid var(--ob-border)', flexShrink: 0,
@@ -63,11 +60,9 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>✕</button>
         </div>
-        {/* Body */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
           {children}
         </div>
-        {/* Footer */}
         {footer && (
           <div style={{
             padding: '16px 24px', borderTop: '1px solid var(--ob-border)',

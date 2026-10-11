@@ -65,7 +65,6 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
   );
 };
 
-// keyframes do modal (fade do backdrop + pop do painel), injetadas uma única vez
 injectStyleOnce(
   'ob-modal-kf',
   '@keyframes ob-fade { from { opacity: 0; } to { opacity: 1; } } @keyframes ob-pop { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }',

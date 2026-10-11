@@ -1,4 +1,3 @@
-// project/package/src/navigation/SideNav/SideNav.tsx
 import React, { useState } from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Logo, LogoMark } from '../../brand/Logo/Logo';
@@ -36,7 +35,6 @@ interface ItemProps {
   nivel: number;
 }
 
-// Um item da lista; com `children`, vira um grupo recolhível com seta.
 const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
   const grupo = !!it.children?.length;
   const [aberto, setAberto] = useState(() => grupo && contemAtivo(it, active));

@@ -28,7 +28,6 @@ export const Skeleton: React.FC<SkeletonProps> = ({ width = '100%', height = 16,
   }} />
 );
 
-// injeta a keyframe do shimmer uma única vez
 injectStyleOnce(
   'ob-skeleton-kf',
   '@keyframes ob-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }',

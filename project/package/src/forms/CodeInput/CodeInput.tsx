@@ -1,4 +1,3 @@
-// project/package/src/forms/CodeInput/CodeInput.tsx
 import React, { useRef } from 'react';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
@@ -54,7 +53,6 @@ export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', on
   );
 };
 
-// injeta a keyframe do "shake" (estado de erro) uma única vez
 injectStyleOnce(
   'ob-shake-kf',
   '@keyframes ob-shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}',

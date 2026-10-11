@@ -125,7 +125,6 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     if (!mounted.current) { mounted.current = true; return; }
     if (completion === 'inline' && nq) { setActive(nav.findIndex((n) => 'o' in n && !n.o.disabled && normalize(n.o.label).startsWith(nq))); return; }
     setActive(mode !== 'free' && nq ? firstEnabled() : -1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, open, remote]);
   React.useLayoutEffect(() => {
     if (selRange.current && inputRef.current) { inputRef.current.setSelectionRange(...selRange.current); selRange.current = null; }
@@ -137,7 +136,6 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     setBusy(true);
     const t = setTimeout(() => { Promise.resolve(loadOptions(q)).then((r) => { if (alive) { setRemote(r.map(asOption)); setBusy(false); } }); }, 250);
     return () => { alive = false; clearTimeout(t); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, open]);
   React.useEffect(() => {
     if (!open) return;

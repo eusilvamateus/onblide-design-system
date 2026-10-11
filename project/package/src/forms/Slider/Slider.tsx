@@ -46,8 +46,6 @@ export interface RangeSliderProps extends SliderBaseProps {
 
 export type SliderProps = SingleSliderProps | RangeSliderProps;
 
-// Forma frouxa (idêntica à SliderProps original), usada só dentro do corpo:
-// a discriminação por `range` existe na API pública, não na implementação.
 interface SliderLooseProps extends SliderBaseProps {
   range?: boolean;
   value?: SliderValue;
@@ -70,9 +68,6 @@ export const Slider: React.FC<SliderProps> = (props) => {
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
 
-  // Listeners de arrasto ativos (no document). Se o componente desmontar no meio de
-  // um arrasto, o `pointerup` nunca chega ao onUp e os listeners ficariam pendurados,
-  // chamando valFromX com trackRef.current === null.
   const dragCleanups = useRef(new Set<() => void>());
   useEffect(() => () => { dragCleanups.current.forEach((limpar) => limpar()); }, []);
 

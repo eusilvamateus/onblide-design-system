@@ -82,13 +82,11 @@ export const Popover: React.FC<PopoverProps> = ({
     const h = () => place();
     window.addEventListener('scroll', h, true); window.addEventListener('resize', h);
     return () => { window.removeEventListener('scroll', h, true); window.removeEventListener('resize', h); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, placement, align]);
   React.useEffect(() => {
     if (!open || !pos || hover || !panelRef.current || panelRef.current.contains(document.activeElement)) return;
     const el = (bodyRef.current?.querySelector<HTMLElement>(FOCUSABLE)) || panelRef.current;
     el.focus({ preventScroll: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, !!pos]);
   React.useEffect(() => {
     if (!open) return;
