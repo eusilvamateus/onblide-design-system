@@ -8,8 +8,16 @@
     "css": "[data-bg-split]>*{display:flex!important;align-items:stretch}[data-bg-split]>*>span{display:flex!important;align-items:stretch}[data-bg-split]>*>span>button{height:auto!important;align-self:stretch}"
   },
   {
+    "id": "ob-calendar-dia",
+    "css": ".ob-calendar-dia:focus-visible{outline:2px solid var(--ob-blue);outline-offset:-2px}"
+  },
+  {
     "id": "ob-skeleton-kf",
     "css": "@keyframes ob-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }"
+  },
+  {
+    "id": "ob-accordion",
+    "css": ".ob-accordion-cabecalho{transition:background 120ms}.ob-accordion-cabecalho:hover:not(:disabled){background:var(--ob-bg-alt)}.ob-accordion-cabecalho:focus-visible{outline:2px solid var(--ob-blue);outline-offset:-2px}"
   },
   {
     "id": "ob-spin-kf",
