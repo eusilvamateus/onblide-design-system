@@ -71,7 +71,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   const seq = React.useRef(0);
   const first = React.useRef(true);
   const uid = React.useId();
-  React.useEffect(() => { if (first.current) { first.current = false; return; } onChange?.(files); }, [files]); // eslint-disable-line react-hooks/exhaustive-deps
+  React.useEffect(() => { if (first.current) { first.current = false; return; } onChange?.(files); }, [files]);
 
   const update = (id: string, patch: Partial<UploadFile>) => setFiles((fs) => fs.map((f) => (f.id === id ? { ...f, ...patch } : f)));
   const run = (item: UploadFile) => upload(item.file || { name: item.name, size: item.size, type: item.type }, (p) => update(item.id, { progress: p })).then(
