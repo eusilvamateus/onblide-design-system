@@ -1,5 +1,11 @@
 # @onblide/ui
 
+## 3.1.1
+
+### Patch Changes
+
+- Componentes alinhados às regras do design system. Alert, Toast, Modal, Drawer e Popover usam o `Button` (neutral, iconOnly) no botão de fechar, e o Drawer passa a usar o ícone do Phosphor no lugar do caractere de texto. As ações de Alert e Toast também usam `Button`. O contador de SideNav e Tabs usa o `Badge`, e o botão de remover do Chip usa o ícone do Phosphor. Cores e sombras fixas viraram tokens: `--ob-fg-on-color`, `--ob-scrim` (o fundo de Modal e Drawer agora acompanha o tema escuro), `--ob-shadow-xs`, `--ob-shadow-md`, `--ob-shadow-pop` e `color-mix` sobre os tokens de tom no Slider. Corrige o rótulo do ProgressBar, que mostrava valores acima de 100% ou abaixo de 0%. Remove os comentários do código dos componentes.
+
 ## 3.1.0
 
 ### Minor Changes
