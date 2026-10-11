@@ -307,7 +307,7 @@ export const Datepicker: React.FC<DatepickerProps> = ({
                   onMouseEnter={() => !foraDoLimite && setHoverIso(iso)} onFocus={() => !foraDoLimite && setHoverIso(iso)} style={{
                   padding: '6px 0', borderRadius: 'var(--ob-r-xs)', border: 'none', textAlign: 'center',
                   background: isStart || isEnd ? 'var(--ob-blue)' : inRange ? 'var(--ob-blue-100)' : (hoverIso === iso ? 'var(--ob-bg-warm)' : 'var(--ob-surface)'),
-                  color: isStart || isEnd ? '#fff' : 'var(--ob-fg-strong)',
+                  color: isStart || isEnd ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-strong)',
                   boxShadow: alvoDaPrevia ? 'inset 0 0 0 1.5px var(--ob-blue)' : 'none',
                   opacity: foraDoLimite ? 0.35 : 1,
                   fontFamily: 'inherit', fontSize: 12, fontWeight: 500,

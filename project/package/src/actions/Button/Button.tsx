@@ -51,11 +51,11 @@ export const Button: React.FC<ButtonProps> = ({
   const quadrado = size === 'sm' ? 32 : size === 'lg' ? 48 : 40;
   const soIcone: React.CSSProperties = iconOnly ? { width: quadrado, height: quadrado, padding: 0, gap: 0 } : {};
   const kinds: Record<ButtonKind, React.CSSProperties> = {
-    primary:   { background: 'var(--ob-blue)', color: '#fff' },
+    primary:   { background: 'var(--ob-blue)', color: 'var(--ob-fg-on-color)' },
     secondary: { background: 'var(--ob-surface)', color: 'var(--ob-fg-strong)', border: '1.5px solid var(--ob-border)' },
     ghost:     { background: 'transparent', color: 'var(--ob-blue)' },
     cream:     { background: 'var(--ob-bg-warm)', color: 'var(--ob-fg-strong)' },
-    danger:    { background: 'var(--ob-danger)', color: '#fff' },
+    danger:    { background: 'var(--ob-danger)', color: 'var(--ob-fg-on-color)' },
     neutral:   { background: pressed ? 'var(--ob-surface-2)' : 'transparent', color: 'var(--ob-fg)' },
   };
   return (
@@ -66,7 +66,7 @@ export const Button: React.FC<ButtonProps> = ({
       aria-pressed={pressed}
       style={{ ...base, ...kinds[kind], ...soIcone, ...style }}
       onMouseEnter={(e) => {
-        if (kind === 'primary' && !disabled) e.currentTarget.style.boxShadow = '0 8px 24px rgba(10,78,228,0.28)';
+        if (kind === 'primary' && !disabled) e.currentTarget.style.boxShadow = 'var(--ob-shadow-pop)';
         if (kind === 'neutral' && !disabled) { e.currentTarget.style.background = 'var(--ob-surface-2)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }
         onMouseEnter?.(e);
       }}

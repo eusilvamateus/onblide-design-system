@@ -27,7 +27,7 @@ for (const [chave, d] of Object.entries(esperado)) {
 }
 
 const tile = renderToStaticMarkup(React.createElement(BrandTile, { brand: 'github' }));
-if (!tile.includes('width:44px;height:44px') || !tile.includes('background:#ffffff') || !tile.includes(`font-size:${Math.round(44 * 0.56)}px`)) {
+if (!tile.includes('width:44px;height:44px') || !tile.includes('background:var(--ob-fg-on-color)') || !tile.includes(`font-size:${Math.round(44 * 0.56)}px`)) {
   fail('BrandTile github deveria ter moldura 44px e marca 25px (glifo Phosphor)', tile);
 }
 const tileGrande = renderToStaticMarkup(React.createElement(BrandTile, { brand: 'figma', size: 100 }));

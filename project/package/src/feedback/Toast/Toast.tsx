@@ -1,5 +1,6 @@
 import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
+import { Button } from '../../actions/Button/Button';
 import { OB_TONES, OBTone } from '../../internal/obTones';
 
 export interface ToastProps {
@@ -42,9 +43,9 @@ export const Toast: React.FC<ToastProps> = ({ tone = 'info', title, body, action
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.4 }}>{title}</div>
         {body && <div style={{ fontSize: 13, color: 'var(--ob-fg-soft)', marginTop: 3, lineHeight: 1.5 }}>{body}</div>}
-        {action && <button onClick={onAction} style={{ marginTop: 8, border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: t.strong, fontWeight: 700, fontSize: 13, fontFamily: 'var(--ob-font)' }}>{action}</button>}
+        {action && <Button kind="ghost" size="sm" onClick={onAction} style={{ marginTop: 4, marginLeft: -12, color: t.strong }}>{action}</Button>}
       </div>
-      {onClose && <button onClick={onClose} aria-label="Fechar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-mute)', display: 'flex', padding: 2, flexShrink: 0 }}><Ph n="x" size={16} /></button>}
+      {onClose && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={16} />} style={{ flexShrink: 0, margin: '-8px -6px -8px 0' }} />}
     </div>
   );
 };

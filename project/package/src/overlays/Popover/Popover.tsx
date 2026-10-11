@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { FloatingPanel } from '../FloatingPanel/FloatingPanel';
 import { Ph } from '../../iconography/Ph/Ph';
+import { Button } from '../../actions/Button/Button';
 
 const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
@@ -137,10 +138,7 @@ export const Popover: React.FC<PopoverProps> = ({
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, margin: '-2px -4px -2px 0' }}>
                   <span id={`${uid}-t`} style={{ fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{title}</span>
                   {!hover && closeButton && (
-                    <button type="button" aria-label="Fechar" onClick={() => close(true)} style={{
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24, border: 'none',
-                      background: 'transparent', borderRadius: 'var(--ob-r-sm)', color: 'var(--ob-fg-mute)', cursor: 'pointer', padding: 0,
-                    }}><Ph n="x" size={14} c="currentColor" /></button>
+                    <Button kind="neutral" iconOnly size="sm" aria-label="Fechar" onClick={() => close(true)} icon={<Ph n="x" size={14} c="currentColor" />} style={{ margin: '-4px' }} />
                   )}
                 </div>
               )}

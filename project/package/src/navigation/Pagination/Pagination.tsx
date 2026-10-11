@@ -45,7 +45,7 @@ export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, on
           minWidth: 34, height: 34, padding: '0 8px', borderRadius: 'var(--ob-r-sm)',
           border: `1px solid ${p === page ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
           background: p === page ? 'var(--ob-blue)' : 'var(--ob-surface)',
-          color: p === page ? '#fff' : 'var(--ob-fg)', fontFamily: 'inherit', fontSize: 14,
+          color: p === page ? 'var(--ob-fg-on-color)' : 'var(--ob-fg)', fontFamily: 'inherit', fontSize: 14,
           fontWeight: p === page ? 600 : 500, cursor: 'pointer', transition: 'all 120ms',
         }}>{p}</button>
       ))}

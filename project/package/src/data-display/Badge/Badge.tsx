@@ -24,9 +24,9 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'blue', variant = 'subtle',
 
   const styles: Record<BadgeVariant, React.CSSProperties> = {
     subtle:  { background: t.bg, color: t.fg, border: 'none' },
-    solid:   { background: t.solid, color: '#fff', border: 'none' },
+    solid:   { background: t.solid, color: 'var(--ob-fg-on-color)', border: 'none' },
     outline: { background: 'transparent', color: t.fg, border: `1.5px solid ${t.border}` },
-    numeric: { background: t.solid, color: '#fff', border: 'none', minWidth: 18, height: 18, padding: '0 5px', justifyContent: 'center' },
+    numeric: { background: t.solid, color: 'var(--ob-fg-on-color)', border: 'none', minWidth: 18, height: 18, padding: '0 5px', justifyContent: 'center' },
   };
   const s = styles[variant] || styles.subtle;
 
@@ -37,7 +37,7 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'blue', variant = 'subtle',
       borderRadius: 999, fontSize: fs, fontWeight: 700,
       lineHeight: 1, ...s,
     }}>
-      {variant !== 'numeric' && dot && <span style={{ width: 6, height: 6, borderRadius: '50%', background: variant === 'solid' ? 'rgba(255,255,255,0.7)' : t.dot, flexShrink: 0 }}/>}
+      {variant !== 'numeric' && dot && <span style={{ width: 6, height: 6, borderRadius: '50%', background: variant === 'solid' ? 'color-mix(in srgb, var(--ob-fg-on-color) 70%, transparent)' : t.dot, flexShrink: 0 }}/>}
       {children}
     </span>
   );

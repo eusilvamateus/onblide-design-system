@@ -70,7 +70,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           position: 'absolute', zIndex: 'var(--ob-z-tooltip)' as React.CSSProperties['zIndex'], ...pos[placement],
           background: bg, color: fg, border: bordered,
           borderRadius: variant === 'image' ? 12 : 8,
-          boxShadow: inverted ? 'var(--ob-shadow-md)' : '0 4px 12px rgba(0,0,0,0.18)',
+          boxShadow: 'var(--ob-shadow-md)',
           padding: variant === 'image' ? 6 : '8px 11px',
           fontSize: 13, lineHeight: 1.4, fontWeight: 500, whiteSpace: variant === 'image' ? 'normal' : 'nowrap',
           maxWidth: variant === 'image' ? 200 : maxWidth, pointerEvents: 'none',
@@ -91,8 +91,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
                 <kbd style={{
                   fontFamily: 'var(--ob-font-mono)', fontSize: 11, fontWeight: 600,
                   padding: '2px 6px', borderRadius: 5,
-                  background: inverted ? 'var(--ob-bg-alt)' : 'rgba(255,255,255,0.16)',
-                  color: inverted ? 'var(--ob-fg-soft)' : 'rgba(255,255,255,0.9)',
+                  background: inverted ? 'var(--ob-bg-alt)' : 'color-mix(in srgb, var(--ob-surface) 16%, transparent)',
+                  color: inverted ? 'var(--ob-fg-soft)' : 'color-mix(in srgb, var(--ob-surface) 90%, transparent)',
                 }}>{shortcut}</kbd>
               )}
             </span>

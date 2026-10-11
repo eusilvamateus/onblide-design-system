@@ -14,8 +14,8 @@ export const BrandTile: React.FC<BrandTileProps> = ({ brand, size = 44 }) => {
   if (!b) return null;
   return (
     <div style={{
-      width: size, height: size, borderRadius: 11, background: '#ffffff',
-      border: '1px solid rgba(0,0,0,0.08)', boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+      width: size, height: size, borderRadius: 11, background: 'var(--ob-fg-on-color)',
+      border: '1px solid var(--ob-border)', boxShadow: 'var(--ob-shadow-xs)',
       display: 'flex', alignItems: 'center', justifyContent: 'center', flex: 'none',
     }}>
       {b.mark(Math.round(size * 0.56))}

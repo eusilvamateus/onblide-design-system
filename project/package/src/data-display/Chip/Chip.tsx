@@ -40,7 +40,7 @@ export const Chip: React.FC<ChipProps> = ({
     fontFamily: 'var(--ob-font)',
   };
   const stateStyle: React.CSSProperties = selected
-    ? { background: 'var(--ob-blue)', color: '#fff', borderColor: 'var(--ob-blue)' }
+    ? { background: 'var(--ob-blue)', color: 'var(--ob-fg-on-color)', borderColor: 'var(--ob-blue)' }
     : { background: 'var(--ob-surface)', color: 'var(--ob-fg-strong)', borderColor: 'var(--ob-border)' };
 
   return (
@@ -63,11 +63,11 @@ export const Chip: React.FC<ChipProps> = ({
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             width: size === 'sm' ? 16 : 18, height: size === 'sm' ? 16 : 18,
             borderRadius: '50%', border: 'none', cursor: 'pointer',
-            background: selected ? 'rgba(255,255,255,0.25)' : 'var(--ob-bg-warm)',
-            color: selected ? '#fff' : 'var(--ob-fg-soft)',
+            background: selected ? 'color-mix(in srgb, var(--ob-fg-on-color) 25%, transparent)' : 'var(--ob-bg-warm)',
+            color: selected ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-soft)',
             fontSize: size === 'sm' ? 10 : 11, fontWeight: 700, lineHeight: 1, flexShrink: 0,
           }}
-        >✕</button>
+        ><Ph n="x" size={size === 'sm' ? 10 : 11} weight="bold" /></button>
       )}
     </span>
   );

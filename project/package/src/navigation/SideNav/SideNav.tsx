@@ -5,6 +5,7 @@ import { Menu, MenuItem } from '../../overlays/Menu/Menu';
 import { Tooltip } from '../../overlays/Tooltip/Tooltip';
 import { Button } from '../../actions/Button/Button';
 import { Avatar } from '../../data-display/Avatar/Avatar';
+import { Badge } from '../../data-display/Badge/Badge';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 injectStyleOnce('ob-sidenav-scroll', '.ob-sidenav-lista::-webkit-scrollbar{width:6px}.ob-sidenav-lista::-webkit-scrollbar-button{display:none}.ob-sidenav-lista::-webkit-scrollbar-track{background:transparent}.ob-sidenav-lista::-webkit-scrollbar-thumb{background:transparent;border-radius:999px}.ob-sidenav-lista:hover::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent)}@supports not selector(::-webkit-scrollbar){.ob-sidenav-lista{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent) transparent}}');
@@ -47,7 +48,7 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
       onMouseLeave={e => { if (!on) e.currentTarget.style.background = 'transparent'; }}>
       {it.icon && <Ph n={it.icon} size={20} weight={on ? 'fill' : 'regular'} />}
       {!collapsed && <span style={{ flex: 1, textAlign: 'left' }}>{it.label}</span>}
-      {!collapsed && it.badge != null && <span style={{ minWidth: 20, height: 20, padding: '0 6px', borderRadius: 999, background: 'var(--ob-orange)', color: '#fff', fontSize: 11, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{it.badge}</span>}
+      {!collapsed && it.badge != null && <Badge tone="orange" variant="numeric">{it.badge}</Badge>}
       {!collapsed && grupo && <Ph n="caret-down" size={14} style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />}
       {collapsed && it.badge != null && <span style={{ position: 'absolute', top: 7, right: 9, width: 8, height: 8, borderRadius: 999, background: 'var(--ob-orange)', border: '2px solid var(--ob-surface)' }} />}
     </button>

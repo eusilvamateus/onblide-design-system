@@ -100,7 +100,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
         : `${first ? R : 0} ${last ? R : 0} ${last ? R : 0} ${first ? R : 0}`;
       if (!first) {
         if (bordered) s[vertical ? 'marginTop' : 'marginLeft'] = -1.5;
-        else if (!isToggle) s[vertical ? 'borderTop' : 'borderLeft'] = '1px solid rgba(255,255,255,0.32)';
+        else if (!isToggle) s[vertical ? 'borderTop' : 'borderLeft'] = '1px solid color-mix(in srgb, var(--ob-fg-on-color) 32%, transparent)';
       }
     }
     const wrapped = !!child.props.trigger;

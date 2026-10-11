@@ -1,5 +1,6 @@
 import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
+import { Button } from '../../actions/Button/Button';
 import { OB_TONES, OBTone } from '../../internal/obTones';
 
 export interface AlertProps {
@@ -28,9 +29,9 @@ export const Alert: React.FC<AlertProps> = ({ tone = 'info', title, children, di
       <div style={{ flex: 1, minWidth: 0 }}>
         {title && <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: children ? 3 : 0 }}>{title}</div>}
         {children && <div style={{ fontSize: 13.5, color: 'var(--ob-fg)', lineHeight: 1.5 }}>{children}</div>}
-        {action && <button onClick={onAction} style={{ marginTop: 10, border: 'none', background: 'none', padding: 0, cursor: 'pointer', color: t.strong, fontWeight: 700, fontSize: 13, fontFamily: 'var(--ob-font)' }}>{action} →</button>}
+        {action && <Button kind="ghost" size="sm" onClick={onAction} style={{ marginTop: 6, marginLeft: -12, color: t.strong }}>{action} →</Button>}
       </div>
-      {dismissible && onClose && <button onClick={onClose} aria-label="Fechar" style={{ border: 'none', background: 'none', cursor: 'pointer', color: 'var(--ob-fg-soft)', display: 'flex', padding: 2, flex: 'none' }}><Ph n="x" size={15} /></button>}
+      {dismissible && onClose && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={16} />} style={{ flex: 'none', margin: '-8px -10px -8px 0' }} />}
     </div>
   );
 };

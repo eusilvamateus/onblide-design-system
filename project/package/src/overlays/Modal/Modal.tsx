@@ -1,5 +1,6 @@
 import React, { useEffect, useId } from 'react';
 import { Icons } from '../../iconography/Icons/Icons';
+import { Button } from '../../actions/Button/Button';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'full';
@@ -38,7 +39,7 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
   return (
     <div onClick={onClose} style={{
       position: 'fixed', inset: 0, zIndex: 'var(--ob-z-overlay)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'rgba(20,20,20,var(--ob-opacity-scrim))', backdropFilter: 'blur(2px)', padding: 24,
+      background: 'var(--ob-scrim)', backdropFilter: 'blur(2px)', padding: 24,
       animation: 'ob-fade 160ms ease-out',
     }}>
       <div onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby={title ? titleId : undefined} style={{
@@ -47,14 +48,7 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, padding: '20px 24px 0' }}>
           <h3 id={titleId} style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</h3>
-          <button onClick={onClose} aria-label="Fechar" style={{
-            flex: 'none', width: 30, height: 30, borderRadius: 'var(--ob-r-sm)', border: 'none', background: 'transparent',
-            color: 'var(--ob-fg-soft)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ob-bg-alt)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}>
-            <Icons.x size={18}/>
-          </button>
+          <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Icons.x size={18} />} style={{ flex: 'none', margin: '-4px -8px 0 0' }} />
         </div>
         <div style={{ padding: '12px 24px 20px', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>{children}</div>
         {footer && (

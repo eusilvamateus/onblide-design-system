@@ -80,9 +80,9 @@ export const Slider: React.FC<SliderProps> = (props) => {
                   : tone === 'warning' ? 'var(--ob-orange)'
                   : tone === 'danger'  ? 'var(--ob-danger)'
                   : 'var(--ob-blue)';
-  const toneRing  = tone === 'success' ? 'rgba(119,158,61,.28)'
-                  : tone === 'warning' ? 'rgba(235,124,45,.28)'
-                  : tone === 'danger'  ? 'rgba(214,54,54,.28)'
+  const toneRing  = tone === 'success' ? 'color-mix(in srgb, var(--ob-green) 28%, transparent)'
+                  : tone === 'warning' ? 'color-mix(in srgb, var(--ob-orange) 28%, transparent)'
+                  : tone === 'danger'  ? 'color-mix(in srgb, var(--ob-danger) 28%, transparent)'
                   : 'var(--ob-focus-ring)';
 
   const clamp = (v: number) => Math.min(max, Math.max(min, v));
@@ -150,7 +150,7 @@ export const Slider: React.FC<SliderProps> = (props) => {
     background: 'var(--ob-surface)',
     border: `2px solid ${error ? 'var(--ob-danger)' : toneColor}`,
     boxShadow: focused
-      ? `0 0 0 4px ${error ? 'rgba(214,54,54,.22)' : toneRing}, var(--ob-shadow-sm)`
+      ? `0 0 0 4px ${error ? 'color-mix(in srgb, var(--ob-danger) 22%, transparent)' : toneRing}, var(--ob-shadow-sm)`
       : 'var(--ob-shadow-sm)',
     cursor: disabled ? 'not-allowed' : 'grab',
     transition: 'box-shadow .15s',

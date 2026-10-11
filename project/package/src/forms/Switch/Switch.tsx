@@ -33,8 +33,8 @@ export const Switch: React.FC<SwitchProps> = ({ checked, onChange, label, disabl
         }}>
         <span style={{
           position: 'absolute', top: 2, left: checked ? w - knob - 2 : 2, width: knob, height: knob,
-          borderRadius: '50%', background: '#fff', transition: 'left 200ms var(--ob-ease)',
-          boxShadow: '0 1px 2px rgba(0,0,0,0.2)',
+          borderRadius: '50%', background: 'var(--ob-fg-on-color)', transition: 'left 200ms var(--ob-ease)',
+          boxShadow: 'var(--ob-shadow-xs)',
         }} />
       </span>
       {label && <span style={{ fontSize: 14, color: 'var(--ob-fg-strong)', fontWeight: 500 }}>{label}</span>}

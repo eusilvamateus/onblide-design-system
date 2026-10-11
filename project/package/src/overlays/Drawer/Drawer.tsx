@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { Button } from '../../actions/Button/Button';
+import { Ph } from '../../iconography/Ph/Ph';
 
 export interface DrawerProps {
   /** Controla se o painel está visível. */
@@ -34,7 +36,7 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
   return ReactDOM.createPortal(
     <>
       <div onClick={onClose} style={{
-        position: 'fixed', inset: 0, background: 'rgba(20,20,20,var(--ob-opacity-scrim))',
+        position: 'fixed', inset: 0, background: 'var(--ob-scrim)',
         backdropFilter: 'blur(2px)', zIndex: 'var(--ob-z-overlay)',
         opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none',
         transition: 'opacity 0.22s ease',
@@ -54,11 +56,7 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
           padding: '18px 24px', borderBottom: '1px solid var(--ob-border)', flexShrink: 0,
         }}>
           <span style={{ fontSize: 17, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</span>
-          <button onClick={onClose} style={{
-            width: 32, height: 32, borderRadius: 'var(--ob-r-sm)', border: 'none', background: 'none',
-            color: 'var(--ob-fg-mute)', cursor: 'pointer', fontSize: 18,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>✕</button>
+          <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={18} />} />
         </div>
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
           {children}

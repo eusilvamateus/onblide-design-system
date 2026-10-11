@@ -57,8 +57,8 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         transition: 'background 160ms var(--ob-ease), box-shadow 160ms var(--ob-ease)',
       }}>
         {ativo && (
-          <svg width={ICONE} height={ICONE} viewBox={glifo.viewBox} fill="#fff" aria-hidden="true" style={{ display: 'block' }}>
-            <path d={glifo.d} stroke={glifo.contorno ? '#fff' : undefined} strokeWidth={glifo.contorno || undefined} strokeLinejoin="round" />
+          <svg width={ICONE} height={ICONE} viewBox={glifo.viewBox} aria-hidden="true" style={{ display: 'block', fill: 'var(--ob-fg-on-color)' }}>
+            <path d={glifo.d} style={glifo.contorno ? { stroke: 'var(--ob-fg-on-color)' } : undefined} strokeWidth={glifo.contorno || undefined} strokeLinejoin="round" />
           </svg>
         )}
       </span>

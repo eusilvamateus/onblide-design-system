@@ -1,5 +1,6 @@
 import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
+import { Badge } from '../../data-display/Badge/Badge';
 
 export interface TabItem {
   /** Identificador único da aba, usado em `active` e `onChange`. */
@@ -61,19 +62,13 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
                 background: isLine ? 'none' : (isActive ? 'var(--ob-surface)' : 'none'),
                 color: isActive ? 'var(--ob-fg-strong)' : 'var(--ob-fg-mute)',
                 opacity: tab.disabled ? 0.45 : 1,
-                boxShadow: (!isLine && isActive) ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                boxShadow: (!isLine && isActive) ? 'var(--ob-shadow-xs)' : 'none',
               }}
             >
               {tab.icon && <Ph n={tab.icon} size={15} weight={isActive ? 'fill' : 'regular'}/>}
               {tab.label}
               {tab.badge != null && (
-                <span style={{
-                  fontSize: 11, fontWeight: 700, padding: '1px 6px', borderRadius: 999,
-                  background: isActive ? 'var(--ob-blue)' : 'var(--ob-bg-warm)',
-                  color: isActive ? '#fff' : 'var(--ob-fg-soft)',
-                }}>
-                  {tab.badge}
-                </span>
+                <Badge tone={isActive ? 'blue' : 'grey'} variant={isActive ? 'solid' : 'subtle'} size="sm" dot={false}>{tab.badge}</Badge>
               )}
               {isLine && isActive && (
                 <span style={{
