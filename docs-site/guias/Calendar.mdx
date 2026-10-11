@@ -36,6 +36,8 @@ As setas do cabeçalho andam um mês por vez. Para ir mais longe, clique no **m�
 
 A escolha desce de nível: ano, depois mês, depois dia. Para abrir já em uma dessas vistas, use `openTo="months"` ou `openTo="years"`. Com `min` e `max`, meses e anos inteiros fora do limite ficam desabilitados.
 
+Em todas as vistas, a célula sob o mouse ganha destaque antes mesmo do clique. No modo **range**, a faixa aparece também nos meses e nos anos: com um intervalo definido, os meses (ou anos) entre o início e o fim ficam marcados mesmo que o intervalo comece em outro ano; com só o início escolhido, passar o mouse mostra a faixa até a célula sob o ponteiro, para a frente ou para trás.
+
 ### Controlado e não controlado
 
 Sem `value`, o Calendar guarda a seleção sozinho (`defaultValue` define o ponto de partida). Com `value`, quem manda é o seu estado. O mês exibido segue a mesma regra: `month` e `onMonthChange` controlam, `defaultMonth` inicia.

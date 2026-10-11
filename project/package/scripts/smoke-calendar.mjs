@@ -52,6 +52,12 @@ igual(logica.dentroDoIntervalo(d(2026, 10, 12), primeiro, d(2026, 10, 15)), true
 igual(logica.dentroDoIntervalo(d(2026, 10, 12), primeiro, null), false, 'sem prévia e sem fim, nada dentro');
 igual(logica.dentroDoIntervalo(d(2026, 10, 5), primeiro, d(2026, 10, 3)), true, 'prévia para trás também');
 
+igual([0, 1, 2, 3, 4, 5].map((i) => logica.posicaoNaFaixa(i, 1, 4, null)), [null, 'inicio', 'dentro', 'dentro', 'fim', null], 'faixa de meses ou anos confirmada');
+igual([0, 1, 2, 3].map((i) => logica.posicaoNaFaixa(i, 1, null, 3)), [null, 'inicio', 'dentro', 'alvo'], 'prévia da faixa ao passar o mouse');
+igual([0, 1, 2, 3].map((i) => logica.posicaoNaFaixa(i, 2, null, 0)), ['alvo', 'dentro', 'inicio', null], 'prévia da faixa para trás');
+igual([0, 1].map((i) => logica.posicaoNaFaixa(i, 1, null, null)), [null, 'inicio'], 'só o início, sem prévia');
+igual(logica.posicaoNaFaixa(3, null, null, 3), null, 'sem início não há faixa');
+
 const sexta = d(2026, 10, 9);
 igual(logica.moverFoco(sexta, 'ArrowRight', false, 0)?.getDate(), 10, 'seta direita');
 igual(logica.moverFoco(sexta, 'ArrowLeft', false, 0)?.getDate(), 8, 'seta esquerda');

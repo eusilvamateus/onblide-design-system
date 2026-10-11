@@ -15,6 +15,7 @@ import {
   mesForaDosLimites,
   moverFoco,
   moverNaGrade,
+  posicaoNaFaixa,
 } from '../../internal/calendarLogic';
 import type { SemanaComecaEm } from '../../internal/calendarLogic';
 import {
@@ -126,6 +127,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   const [foco, setFoco] = useState<Date | null>(null);
   const [focoDaGrade, setFocoDaGrade] = useState<number | null>(null);
   const [previa, setPrevia] = useState<Date | null>(null);
+  const [previaDaGrade, setPreviaDaGrade] = useState<number | null>(null);
   const grade = useRef<HTMLDivElement>(null);
   const pedirFoco = useRef(false);
 
@@ -149,6 +151,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   const trocarVista = (nova: CalendarView) => {
     if (nova === 'years') setBloco(inicioDoBlocoDeAnos(ano));
     setFocoDaGrade(null);
+    setPreviaDaGrade(null);
     pedirFoco.current = true;
     setVista(nova);
   };
@@ -230,22 +233,47 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
     </Button>
   );
 
-  const celulaDaGrade = (indice: number, texto: string, rotulo: string, ativo: boolean, atual: boolean, inativo: boolean, aoClicar: () => void) => (
-    <div key={indice} role="gridcell" aria-selected={ativo || undefined} style={{ height: '100%' }}>
-      <button type="button" className="ob-calendar-dia" tabIndex={indice === indiceDoFoco ? 0 : -1} aria-label={rotulo}
-        aria-disabled={inativo || undefined} aria-current={atual ? 'date' : undefined}
-        onClick={() => { if (!inativo) aoClicar(); }}
-        onFocus={() => setFocoDaGrade(indice)}
-        style={{
-          width: '100%', height: '100%', border: 'none', padding: 0, borderRadius: 'var(--ob-r-sm)',
-          background: ativo ? 'var(--ob-blue)' : 'transparent',
-          color: ativo ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-strong)',
-          boxShadow: atual && !ativo ? 'inset 0 0 0 1px var(--ob-blue)' : 'none',
-          opacity: inativo ? 0.35 : 1, cursor: inativo ? 'not-allowed' : 'pointer',
-          fontFamily: 'inherit', fontSize: 13, fontWeight: ativo ? 700 : 500, transition: 'background 100ms',
-        }}>{texto}</button>
-    </div>
-  );
+  const ordemDoInicio = (de: (d: Date) => number) => (intervalo && faixa.start ? de(faixa.start) : null);
+  const ordemDoFim = (de: (d: Date) => number) => (intervalo && faixa.start && faixa.end ? de(faixa.end) : null);
+  const emMeses = (d: Date) => d.getFullYear() * 12 + d.getMonth();
+  const emAnos = (d: Date) => d.getFullYear();
+
+  interface CelulaDaGrade {
+    indice: number;
+    texto: string;
+    rotulo: string;
+    ativo: boolean;
+    atual: boolean;
+    inativo: boolean;
+    ordem: number;
+    ordemDaPrevia: number | null;
+    de: (d: Date) => number;
+    aoClicar: () => void;
+  }
+
+  const celulaDaGrade = ({ indice, texto, rotulo, ativo, atual, inativo, ordem, ordemDaPrevia, de, aoClicar }: CelulaDaGrade) => {
+    const posicao = posicaoNaFaixa(ordem, ordemDoInicio(de), ordemDoFim(de), ordemDaPrevia);
+    const marcado = intervalo ? posicao === 'inicio' || posicao === 'fim' : ativo;
+    const emFaixa = posicao === 'dentro';
+    const sobMouse = previaDaGrade === indice && !inativo;
+    return (
+      <div key={indice} role="gridcell" aria-selected={marcado || emFaixa || undefined} style={{ height: '100%' }}>
+        <button type="button" className="ob-calendar-dia" tabIndex={indice === indiceDoFoco ? 0 : -1} aria-label={rotulo}
+          aria-disabled={inativo || undefined} aria-current={atual ? 'date' : undefined}
+          onClick={() => { if (!inativo) aoClicar(); }}
+          onMouseEnter={() => !inativo && setPreviaDaGrade(indice)}
+          onFocus={() => setFocoDaGrade(indice)}
+          style={{
+            width: '100%', height: '100%', border: 'none', padding: 0, borderRadius: 'var(--ob-r-sm)',
+            background: marcado ? 'var(--ob-blue)' : emFaixa ? 'var(--ob-blue-100)' : sobMouse ? 'var(--ob-blue-050)' : 'transparent',
+            color: marcado ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-strong)',
+            boxShadow: posicao === 'alvo' ? 'inset 0 0 0 1.5px var(--ob-blue)' : atual && !marcado ? 'inset 0 0 0 1px var(--ob-blue)' : 'none',
+            opacity: inativo ? 0.35 : 1, cursor: inativo ? 'not-allowed' : 'pointer',
+            fontFamily: 'inherit', fontSize: 13, fontWeight: marcado ? 700 : 500, transition: 'background 100ms',
+          }}>{texto}</button>
+      </div>
+    );
+  };
 
   const linhasDaGrade = (itens: React.ReactNode[]) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: ESPACO, height: ALTURA_DA_GRADE }}>
@@ -300,6 +328,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                 const marcado = inicio || fim;
                 const emIntervalo = intervalo && dentroDoIntervalo(dia, faixa, previa);
                 const alvoDaPrevia = intervalo && !!faixa.start && !faixa.end && !!previa && mesmoDia(dia, previa) && !inicio;
+                const sobMouse = !inativo && !!previa && mesmoDia(dia, previa);
                 const hojeAqui = ehHoje(dia, hoje);
                 return (
                   <div key={i} role="gridcell" aria-selected={marcado || emIntervalo || undefined}>
@@ -311,7 +340,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                       style={{
                         width: CELULA, height: CELULA, border: 'none', padding: 0,
                         borderRadius: 'var(--ob-r-sm)',
-                        background: marcado ? 'var(--ob-blue)' : emIntervalo ? 'var(--ob-blue-100)' : 'transparent',
+                        background: marcado ? 'var(--ob-blue)' : emIntervalo ? 'var(--ob-blue-100)' : sobMouse ? 'var(--ob-blue-050)' : 'transparent',
                         color: marcado ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-strong)',
                         boxShadow: alvoDaPrevia
                           ? 'inset 0 0 0 1.5px var(--ob-blue)'
@@ -330,23 +359,25 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
       )}
 
       {vista === 'months' && (
-        <div ref={grade} role="grid" aria-label={`Meses de ${ano}`} onKeyDown={aoTeclarGrade} style={{ width: LARGURA }}>
-          {linhasDaGrade(MESES_ABREVIADOS.map((abreviado, m) => celulaDaGrade(
-            m, abreviado, `${MESES[m]} de ${ano}`, m === mes,
-            hoje.getFullYear() === ano && hoje.getMonth() === m,
-            disabled || mesForaDosLimites(ano, m, limites),
-            () => escolherMes(m),
-          )))}
+        <div ref={grade} role="grid" aria-label={`Meses de ${ano}`} onKeyDown={aoTeclarGrade} onMouseLeave={() => setPreviaDaGrade(null)} style={{ width: LARGURA }}>
+          {linhasDaGrade(MESES_ABREVIADOS.map((abreviado, m) => celulaDaGrade({
+            indice: m, texto: abreviado, rotulo: `${MESES[m]} de ${ano}`, ativo: m === mes,
+            atual: hoje.getFullYear() === ano && hoje.getMonth() === m,
+            inativo: disabled || mesForaDosLimites(ano, m, limites),
+            ordem: ano * 12 + m, ordemDaPrevia: previaDaGrade === null ? null : ano * 12 + previaDaGrade, de: emMeses,
+            aoClicar: () => escolherMes(m),
+          })))}
         </div>
       )}
 
       {vista === 'years' && (
-        <div ref={grade} role="grid" aria-label={`Anos de ${bloco} a ${bloco + TAMANHO_DO_BLOCO_DE_ANOS - 1}`} onKeyDown={aoTeclarGrade} style={{ width: LARGURA }}>
-          {linhasDaGrade(Array.from({ length: TAMANHO_DO_BLOCO_DE_ANOS }, (_, i) => bloco + i).map((a, i) => celulaDaGrade(
-            i, String(a), String(a), a === ano, hoje.getFullYear() === a,
-            disabled || anoForaDosLimites(a, limites),
-            () => escolherAno(a),
-          )))}
+        <div ref={grade} role="grid" aria-label={`Anos de ${bloco} a ${bloco + TAMANHO_DO_BLOCO_DE_ANOS - 1}`} onKeyDown={aoTeclarGrade} onMouseLeave={() => setPreviaDaGrade(null)} style={{ width: LARGURA }}>
+          {linhasDaGrade(Array.from({ length: TAMANHO_DO_BLOCO_DE_ANOS }, (_, i) => bloco + i).map((a, i) => celulaDaGrade({
+            indice: i, texto: String(a), rotulo: String(a), ativo: a === ano, atual: hoje.getFullYear() === a,
+            inativo: disabled || anoForaDosLimites(a, limites),
+            ordem: a, ordemDaPrevia: previaDaGrade === null ? null : bloco + previaDaGrade, de: emAnos,
+            aoClicar: () => escolherAno(a),
+          })))}
         </div>
       )}
     </div>

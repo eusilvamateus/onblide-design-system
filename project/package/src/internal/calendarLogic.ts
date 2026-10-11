@@ -47,7 +47,19 @@ export const dentroDoIntervalo = (dia: Date, intervalo: IntervaloDeDatas, previa
   return compararDias(dia, de) > 0 && compararDias(dia, ate) < 0;
 };
 
-export const moverFoco = (foco: Date, tecla: string, shift: boolean, semanaComecaEm: SemanaComecaEm): Date | null => {
+export type PosicaoNaFaixa = 'inicio' | 'fim' | 'dentro' | 'alvo';
+
+export const posicaoNaFaixa = (indice: number, inicio: number | null, fim: number | null, previa: number | null): PosicaoNaFaixa | null => {
+  if (inicio === null) return null;
+  if (indice === inicio) return 'inicio';
+  const ponta = fim ?? previa;
+  if (ponta === null) return null;
+  if (indice === ponta) return fim !== null ? 'fim' : 'alvo';
+  const [de, ate] = ponta < inicio ? [ponta, inicio] : [inicio, ponta];
+  return indice > de && indice < ate ? 'dentro' : null;
+};
+
+export const moverFoco =(foco: Date, tecla: string, shift: boolean, semanaComecaEm: SemanaComecaEm): Date | null => {
   switch (tecla) {
     case 'ArrowLeft': return somarDias(foco, -1);
     case 'ArrowRight': return somarDias(foco, 1);
