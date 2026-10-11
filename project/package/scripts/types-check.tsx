@@ -6,7 +6,7 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Select, Slider, Icons, Link, Modal, Pagination, Logo } from '@onblide/ui';
+import { Table, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -15,6 +15,8 @@ import type {
   SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps, TableColumn, TableSort,
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
+  CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
+  DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
 } from '@onblide/ui';
 
 // Todo tipo usado em prop pública precisa estar exportado por src/index.ts
@@ -27,6 +29,8 @@ export type TiposExportados = [
   SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps<object>, TableColumn<object>, TableSort,
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
+  CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
+  DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
 ];
 
 interface Linha { id: number; nome: string } // interface: sem index signature
@@ -120,3 +124,20 @@ export function WrapperQuebrado(p: Omit<SelectProps, 'label'>) {
 }
 // @ts-expect-error `v` fica implicitamente any ao indexar a união
 export const handlerImplicito: SelectProps['onChange'] = (v) => v;
+
+export function UsosDeData() {
+  const [dia, setDia] = useState<Date | null>(null);
+  const [periodo, setPeriodo] = useState<CalendarRange>({ start: null, end: null });
+  return (
+    <>
+      <Calendar value={dia} onChange={setDia} />
+      <Calendar mode="range" value={periodo} onChange={setPeriodo} />
+      <Datepicker value={dia} onChange={setDia} min={new Date()} />
+      <Datepicker mode="range" value={periodo} onChange={(r) => setPeriodo(r)} />
+      {/* @ts-expect-error intervalo exige CalendarRange */}
+      <Calendar mode="range" value={dia} />
+      {/* @ts-expect-error data única não aceita CalendarRange */}
+      <Datepicker value={periodo} />
+    </>
+  );
+}

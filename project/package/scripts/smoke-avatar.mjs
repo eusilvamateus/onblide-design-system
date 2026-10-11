@@ -11,8 +11,8 @@ const umaPalavra = renderToStaticMarkup(h(Avatar, { name: 'Mateus' }));
 if (!umaPalavra.includes('>MA<')) fail('com uma palavra, deveria usar as duas primeiras letras', umaPalavra);
 const tresPalavras = renderToStaticMarkup(h(Avatar, { name: 'Ana Maria Souza' }));
 if (!tresPalavras.includes('>AS<')) fail('com três palavras, deveria usar a primeira e a última', tresPalavras);
-const forcadas = renderToStaticMarkup(h(Avatar, { name: 'Mateus Silva', initials: 'xyz' }));
-if (!forcadas.includes('>XY<')) fail('initials deveria substituir as geradas, limitado a dois caracteres', forcadas);
+const forcadas = renderToStaticMarkup(h(Avatar, { name: 'Mateus Silva', initials: 'xyzw' }));
+if (!forcadas.includes('>XYZ<')) fail('initials deveria substituir as geradas, limitado a três caracteres', forcadas);
 
 const comImagem = renderToStaticMarkup(h(Avatar, { name: 'Mateus Silva', src: 'https://exemplo.com/foto.jpg', alt: 'Foto de Mateus' }));
 if (!comImagem.includes('<img src="https://exemplo.com/foto.jpg"')) fail('com src, deveria renderizar <img>', comImagem);

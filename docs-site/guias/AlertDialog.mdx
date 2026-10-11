@@ -1,0 +1,67 @@
+---
+resumo: "Diálogo de confirmação que exige uma decisão: confirmar ou cancelar uma ação, em geral irreversível. Feito sobre o **Modal**."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do AlertDialog: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Antes de uma ação que não dá para desfazer ou que afeta outras pessoas: excluir, publicar, sair sem salvar. O usuário só segue depois de decidir; não há botão de fechar no cabeçalho, mas Esc e o backdrop cancelam.
+
+### Quando usar
+
+- **default**: confirmações neutras ("Publicar as alterações?").
+- **danger**: ações destrutivas ("Excluir projeto?"). O botão de confirmar fica vermelho.
+
+<FacaEvite>
+<Faca>
+
+Título como pergunta direta e botões com verbos específicos: "Excluir projeto", "Manter".
+
+</Faca>
+<Evite>
+
+Usar o AlertDialog para formulários, detalhes ou conteúdo longo: para isso existe o **Modal**. Também não use "Sim" e "Não" como rótulos.
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+O AlertDialog é um **Modal** (`size="sm"`, `role="alertdialog"`, sem botão de fechar) com dois **Button** no rodapé. O foco inicial vai para o botão de cancelar.
+
+## Formatação
+
+```jsx
+const [aberto, setAberto] = useState(false);
+
+<AlertDialog
+  open={aberto}
+  onClose={() => setAberto(false)}
+  onConfirm={() => { excluir(); setAberto(false); }}
+  tone="danger"
+  title="Excluir projeto?"
+  confirmLabel="Excluir projeto"
+>
+  Esta ação não pode ser desfeita. Todas as tarefas serão removidas.
+</AlertDialog>
+```
+
+<Nota>
+
+`onConfirm` não fecha o diálogo: quem usa decide quando fechar, por exemplo depois de a requisição terminar.
+
+</Nota>
+
+## Guia de conteúdo
+
+- Título: a pergunta, em uma frase ("Excluir projeto?").
+- Corpo: a consequência, em linguagem direta ("Esta ação não pode ser desfeita.").
+- Botões: o verbo da ação no confirmar e "Cancelar" (ou "Manter") no outro.
+
+## Guia de design
+
+**Tokens.** Herda o **Modal**: superfície `--ob-surface`, fundo `--ob-scrim`, sombra `--ob-shadow-lg`. O botão destrutivo usa `--ob-danger`.
+
+**Acessibilidade.** O corpo é a descrição acessível do diálogo (`aria-describedby`), e leitores de tela o anunciam junto com o título.

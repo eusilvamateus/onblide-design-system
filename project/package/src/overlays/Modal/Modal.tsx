@@ -22,12 +22,17 @@ export interface ModalProps {
   width?: number | string;
   /** Tamanho predefinido do modal. */
   size?: ModalSize;
+  /** `alertdialog` marca o modal como uma decisão que exige resposta e liga o texto do corpo à descrição acessível. */
+  role?: 'dialog' | 'alertdialog';
+  /** Exibe o botão de fechar no cabeçalho. */
+  closeButton?: boolean;
 }
 
 /** Diálogo que interrompe o fluxo, com backdrop escurecido, para uma decisão ou foco. */
-export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, footer, width, size = 'md' }) => {
+export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, footer, width, size = 'md', role = 'dialog', closeButton = true }) => {
   const resolvedWidth = width ?? MODAL_WIDTHS[size] ?? MODAL_WIDTHS.md;
   const titleId = useId();
+  const bodyId = useId();
   useEffect(() => {
     if (!open) return;
     const h = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose?.(); };
@@ -42,15 +47,15 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
       background: 'var(--ob-scrim)', backdropFilter: 'blur(2px)', padding: 24,
       animation: 'ob-fade 160ms ease-out',
     }}>
-      <div onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby={title ? titleId : undefined} style={{
+      <div onClick={(e) => e.stopPropagation()} role={role} aria-modal="true" aria-labelledby={title ? titleId : undefined} aria-describedby={role === 'alertdialog' ? bodyId : undefined} style={{
         width: resolvedWidth, maxWidth: '100%', background: 'var(--ob-surface)', borderRadius: 'var(--ob-r-overlay)',
         boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden', animation: 'ob-pop 200ms var(--ob-ease-spring)',
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, padding: '20px 24px 0' }}>
           <h3 id={titleId} style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</h3>
-          <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Icons.x size={18} />} style={{ flex: 'none', margin: '-4px -8px 0 0' }} />
+          {closeButton && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Icons.x size={18} />} style={{ flex: 'none', margin: '-4px -8px 0 0' }} />}
         </div>
-        <div style={{ padding: '12px 24px 20px', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>{children}</div>
+        <div id={bodyId} style={{ padding: '12px 24px 20px', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>{children}</div>
         {footer && (
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, padding: '16px 24px', borderTop: '1px solid var(--ob-border)', background: 'var(--ob-bg-alt)' }}>{footer}</div>
         )}

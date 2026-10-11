@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 export interface AvatarProps {
   /** Nome usado para gerar as iniciais exibidas: primeira letra da primeira e da última palavra ("Mateus Silva" vira "MS"); com uma palavra só, as duas primeiras letras. */
   name?: string;
-  /** Iniciais exibidas no lugar das geradas a partir do nome, para quando o nome não serve (até dois caracteres). */
+  /** Iniciais exibidas no lugar das geradas a partir do nome, para quando o nome não serve (até três caracteres, para contadores como "+12"). */
   initials?: string;
   /** URL opcional da imagem. Quando indisponível ou ao falhar o carregamento, o componente preserva as iniciais como fallback. */
   src?: string;
@@ -34,7 +34,7 @@ export const Avatar: React.FC<AvatarProps> = ({ name = 'OB', initials, src, alt,
     }}>
       {mostrarImagem
         ? <img src={src} alt={alt ?? ''} onError={() => setSrcComErro(src)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        : (initials ? Array.from(initials).slice(0, 2).join('') : iniciaisDoNome(name)).toUpperCase()}
+        : (initials ? Array.from(initials).slice(0, 3).join('') : iniciaisDoNome(name)).toUpperCase()}
     </div>
   );
 };

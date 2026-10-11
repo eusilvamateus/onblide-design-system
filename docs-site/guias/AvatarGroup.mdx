@@ -1,0 +1,51 @@
+---
+resumo: "Pilha de **Avatar** sobrepostos, com contador de excedentes. Mostra quem participa de algo em pouco espaço."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do AvatarGroup: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Participantes de um projeto, responsáveis por uma tarefa, membros de uma equipe. O grupo recebe os **Avatar** como filhos e cuida da sobreposição, do anel de separação e do contador.
+
+<FacaEvite>
+<Faca>
+
+Limite a pilha com `max` (3 a 5) e deixe o contador "+N" resumir o resto.
+
+</Faca>
+<Evite>
+
+Mostrar dezenas de avatares ou esconder quem é importante atrás do contador. Se a lista completa importa, leve o usuário a ela (um **Popover** ou uma página).
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<AvatarGroup max={3} size={32}>
+  <Avatar name="Ana Lima" />
+  <Avatar name="Bruno Dias" color="var(--ob-green)" />
+  <Avatar name="Carla Souza" src="/fotos/carla.jpg" />
+  <Avatar name="Diego Reis" />
+</AvatarGroup>
+```
+
+<Nota>
+
+`size` do grupo vale para todos os avatares e sobrepõe o `size` de cada um.
+
+</Nota>
+
+## Guia de conteúdo
+
+- O grupo se anuncia como "N pessoas" para leitores de tela; o contador tem a dica "mais N".
+- Cada **Avatar** mantém seu `name` e `alt`, então a identidade continua acessível.
+
+## Guia de design
+
+**Tokens.** O anel que separa os avatares usa `--ob-surface`, então funciona em qualquer fundo de página; a sobreposição é proporcional ao tamanho (28%).
+
+**Contador.** É um **Avatar** com as iniciais `+N` (até três caracteres).

@@ -1,0 +1,60 @@
+---
+resumo: "Mensagem no lugar de um conteúdo que ainda não existe: lista, tabela ou busca sem resultados. Explica o porquê e oferece o próximo passo."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do EmptyState: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Mostre o EmptyState quando uma área está vazia por não ter dados ainda, por filtros que não encontraram nada ou por falta de permissão. Ele ocupa o lugar do conteúdo, dentro da própria área.
+
+### Quando usar
+
+- **Primeiro uso:** a lista ainda não tem nada. Ofereça a ação que cria o primeiro item.
+- **Sem resultados:** a busca ou o filtro não encontrou nada. Sugira ajustar os termos.
+- **Tudo em dia:** não há pendências. Um texto curto basta.
+
+<FacaEvite>
+<Faca>
+
+Diga por que está vazio e o que fazer: "Nenhum projeto ainda. Crie o primeiro para começar."
+
+</Faca>
+<Evite>
+
+Um "Nenhum dado" seco, sem explicação nem saída. Também evite ilustrações grandes em áreas pequenas: use `size="sm"`.
+
+</Evite>
+</FacaEvite>
+
+### Composição
+
+- **Button** em `action` para a ação principal.
+- **Table**: passe o EmptyState em `emptyState` para o corpo da tabela vazia.
+- **Card** ou **Modal**: como conteúdo de áreas vazias.
+
+## Formatação
+
+```jsx
+<EmptyState
+  icon="folder-open"
+  title="Nenhum projeto ainda"
+  description="Crie o primeiro projeto para organizar tarefas e prazos."
+  action={<Button>Novo projeto</Button>}
+/>
+
+<Table columns={colunas} rows={[]} emptyState={<EmptyState size="sm" icon="magnifying-glass" title="Nada encontrado" />} />
+```
+
+## Guia de conteúdo
+
+- Título: o que está vazio, em poucas palavras.
+- Descrição: uma frase com o motivo e o próximo passo.
+- Ação: um verbo claro ("Novo projeto", "Limpar filtros").
+
+## Guia de design
+
+**Tokens.** Ícone em círculo `--ob-bg-warm`, cor `--ob-fg-soft`; título `--ob-fg-strong`; descrição `--ob-fg-soft`, com largura máxima de 360 px.
+
+**Tamanhos.** `md` para páginas e painéis; `sm` para o corpo de tabelas e listas curtas.

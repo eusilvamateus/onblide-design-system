@@ -1,0 +1,70 @@
+---
+resumo: "Lista de seções que abrem e fecham. Revela conteúdo secundário sem sair da página; navegável por teclado."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do Accordion: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Perguntas frequentes, configurações agrupadas, detalhes de um item. Use quando o usuário só precisa de parte do conteúdo de cada vez e os títulos bastam para ele escolher.
+
+### Modos
+
+- **single** (padrão): um item aberto por vez; abrir outro fecha o atual, e clicar no aberto o fecha.
+- **multiple**: vários itens abertos ao mesmo tempo, cada um independente.
+
+<FacaEvite>
+<Faca>
+
+Títulos curtos e que antecipam o conteúdo. Use `multiple` quando o usuário compara seções.
+
+</Faca>
+<Evite>
+
+Esconder conteúdo essencial ou ações obrigatórias dentro de um acordeão fechado. Para alternar entre visões do mesmo contexto, use **Tabs**.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<Accordion
+  type="single"
+  items={[
+    { id: 'conta', title: 'Conta', icon: 'user', content: 'Nome, e-mail e foto.' },
+    { id: 'cobranca', title: 'Cobrança', content: 'Plano e faturas.' },
+  ]}
+/>
+
+const [abertos, setAbertos] = useState(['conta']);
+<Accordion type="multiple" items={itens} value={abertos} onChange={setAbertos} />
+```
+
+`value` é a lista de ids abertos, nos dois modos. Sem `value`, o componente guarda o estado (`defaultValue` define o início).
+
+## Teclado
+
+| Tecla | Ação |
+| --- | --- |
+| Enter / Espaço | Abre ou fecha o item focado |
+| Seta abaixo / acima | Move o foco para o cabeçalho seguinte ou anterior |
+| Home / End | Primeiro e último cabeçalho |
+
+## Guia de conteúdo
+
+- Títulos em até cinco palavras, sem ponto final.
+- Itens desabilitados (`disabled`) explicam o motivo no próprio título ou em uma dica.
+
+## Guia de design
+
+**Tokens.** Contorno `--ob-border` e raio `--ob-r-surface`; cabeçalho com texto `--ob-fg-strong`; hover `--ob-bg-alt`; foco com contorno `--ob-blue`.
+
+**Motion.** A seta gira 180° em 150 ms. O conteúdo aparece e some sem animação de altura, para ficar previsível.
+
+<Nota>
+
+**Acessibilidade:** cada cabeçalho é um botão dentro de um título (`h3`) com `aria-expanded` e `aria-controls`; o painel é uma região (`role="region"`) nomeada pelo cabeçalho.
+
+</Nota>

@@ -5,6 +5,7 @@ import { Radio } from '../../forms/Radio/Radio';
 import { Switch } from '../../forms/Switch/Switch';
 import { Avatar } from '../../data-display/Avatar/Avatar';
 import { Badge } from '../../data-display/Badge/Badge';
+import { Kbd } from '../../data-display/Kbd/Kbd';
 import { SearchInput } from '../../forms/SearchInput/SearchInput';
 import { escolherLado } from '../../internal/floating';
 import { List, ListItem, ListSubheader, ListDivider } from '../../data-display/List/List';
@@ -160,7 +161,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
             align={centered ? 'center' : 'start'} indent={hasLead}
             leading={lead} title={label} strong={t === 'account' ? (it as Extract<MenuItem, { type: 'account' }>).large : undefined}
             description={desc} wrap={t !== 'account'}
-            meta={shortcut && <kbd style={{ fontFamily: 'var(--ob-font-mono)', marginLeft: 16 }}>{shortcut}</kbd>} trailing={trail}
+            meta={shortcut && <span style={{ marginLeft: 16 }}><Kbd variant="plain" size="sm">{shortcut}</Kbd></span>} trailing={trail}
             onMouseEnter={() => {
               if ('disabled' in it && it.disabled) { setActive(-1); setSub({ i: -1, kb: false }); return; }
               setActive(i);

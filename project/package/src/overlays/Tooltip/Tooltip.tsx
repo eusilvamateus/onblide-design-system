@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
+import { Kbd } from '../../data-display/Kbd/Kbd';
 
 export type TooltipVariant = 'text' | 'inverted' | 'image';
 export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
@@ -87,14 +88,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           ) : (
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               <span>{label}</span>
-              {shortcut && (
-                <kbd style={{
-                  fontFamily: 'var(--ob-font-mono)', fontSize: 11, fontWeight: 600,
-                  padding: '2px 6px', borderRadius: 5,
-                  background: inverted ? 'var(--ob-bg-alt)' : 'color-mix(in srgb, var(--ob-surface) 16%, transparent)',
-                  color: inverted ? 'var(--ob-fg-soft)' : 'color-mix(in srgb, var(--ob-surface) 90%, transparent)',
-                }}>{shortcut}</kbd>
-              )}
+              {shortcut && <Kbd size="sm" inverse={!inverted}>{shortcut}</Kbd>}
             </span>
           )}
           {variant !== 'image' && <span style={{ ...arrowBase, ...arrowPos[placement] }} />}

@@ -1,0 +1,54 @@
+---
+resumo: "Tecla ou atalho de teclado em fonte monoespaçada, para documentar e sugerir atalhos. É usado por dentro do **Tooltip** e do **Menu**."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do Kbd: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use o Kbd para mostrar uma tecla ou combinação em textos de ajuda, dicas e telas de atalhos. Ele é só apresentação: não captura teclas.
+
+### Variantes
+
+- **key** (padrão): a tecla desenhada com contorno e relevo, como em um teclado. Para textos de ajuda e tabelas de atalhos.
+- **plain**: só o texto do atalho, sem caixa. Para listas densas, como o atalho à direita de um item de menu.
+
+<FacaEvite>
+<Faca>
+
+Uma tecla por Kbd, com os separadores em texto comum: `Ctrl` + `K`. Em menus e dicas, passe o atalho pela prop `shortcut` do **Menu** e do **Tooltip**, que já usam o Kbd.
+
+</Faca>
+<Evite>
+
+Usar o Kbd para destacar texto qualquer ou como botão. Ele não é interativo.
+
+</Evite>
+</FacaEvite>
+
+## Formatação
+
+```jsx
+<Kbd>Ctrl</Kbd> + <Kbd>K</Kbd>
+<Kbd variant="plain" size="sm">⌘N</Kbd>
+<Kbd inverse>Esc</Kbd>
+```
+
+<Nota>
+
+`inverse` ajusta as cores para fundos escuros, como a dica padrão do Tooltip.
+
+</Nota>
+
+## Guia de conteúdo
+
+- Nomes de teclas como aparecem no teclado: `Ctrl`, `Shift`, `Esc`, `Enter`.
+- Em macOS, use os símbolos (`⌘`, `⌥`); em Windows e Linux, o nome da tecla.
+- Combinações em ordem: modificadores primeiro, tecla por último.
+
+## Guia de design
+
+**Tokens.** Fonte `--ob-font-mono`; fundo `--ob-bg-alt`; contorno `--ob-border` com a base mais grossa, que dá o relevo; texto `--ob-fg-soft`.
+
+**Tamanhos.** `md` 12 px; `sm` 11 px, usado dentro de menus e dicas.

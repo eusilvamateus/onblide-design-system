@@ -7,7 +7,7 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Reserve para ações que exigem foco total: confirmações destrutivas, formulários curtos, detalhes e prévias de dados. Não empilhe modais.
+Reserve para ações que exigem foco total: formulários curtos, detalhes e prévias de dados. Não empilhe modais. Para confirmar uma ação (principalmente destrutiva), use o **AlertDialog**, que já traz o papel, o foco e os botões certos.
 
 ### Tamanhos e quando usar
 
@@ -19,7 +19,7 @@ Escolha o menor tamanho que acomoda o conteúdo. Ação primária + cancelar no 
 </Faca>
 <Evite>
 
-Modal `lg` para confirmações simples: use `sm`. Nunca empilhe modais.
+Montar uma confirmação do zero com o Modal: use o **AlertDialog**. Nunca empilhe modais.
 
 </Evite>
 </FacaEvite>
@@ -30,12 +30,13 @@ Modal `lg` para confirmações simples: use `sm`. Nunca empilhe modais.
 - **Alert** no corpo para erros de validação.
 - **ProgressBar** segmentada no topo para fluxos multi-passo (`lg` ou `full`).
 - **Skeleton** no corpo enquanto dados carregam assincronamente (`lg`).
+- **AlertDialog** para confirmar ações; é um Modal com `role="alertdialog"` e sem botão de fechar (`closeButton={false}`).
 - **Toast** após fechar o modal para confirmar ação concluída.
 
 ## Formatação
 
 ```jsx
-<Modal open={o} onClose={fn} title="Excluir?" size="sm"
+<Modal open={o} onClose={fn} title="Convidar membro" size="md"
   footer={<>…</>}>Conteúdo</Modal>
 
 <Modal open={o} onClose={fn} title="Prévia" size="lg"
