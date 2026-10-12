@@ -57,9 +57,11 @@ O campo renderiza `length` células de 48×56px cada, com gap de 10px. Navegaç�
 
 ## Guia de design
 
-**Tokens.** Borda idle `--ob-border`, preenchida `--ob-blue`, erro `--ob-danger`, sucesso `--ob-green`. Focus ring `--ob-blue-100` (4px). Texto `--ob-fg-strong` peso 700.
+**Tokens.** Borda idle `--ob-border`, preenchida `--ob-blue`, erro `--ob-danger` sobre `--ob-danger-bg`, sucesso `--ob-green` sobre `--ob-success-bg`. A célula ativa ganha borda `--ob-blue`, fundo `--ob-blue-050`, anel de foco (4px) e sobe 2px. Texto `--ob-fg-strong` peso 700.
 
-**Motion.** Foco/blur: `border-color` + `box-shadow` com transição de 150ms (`--ob-ease`). Erro: animação `ob-shake` de 400ms no container inteiro.
+**Status.** `error` e `success` só aparecem depois que todas as células estão preenchidas. Enquanto o código está incompleto, o campo mostra o estado padrão, mesmo que o `status` recebido seja outro.
+
+**Motion.** Foco/blur: `border-color`, `background`, `box-shadow` e elevação com transição de 150ms (`--ob-ease`). Erro: animação `ob-shake` de 400ms no container inteiro.
 
 **Responsivo/mobile.** No mobile, `inputMode="numeric"` exibe o teclado numérico nativo. Células de 44px mínimo (hit target). Gap reduz para 8px em viewports estreitas.
 
