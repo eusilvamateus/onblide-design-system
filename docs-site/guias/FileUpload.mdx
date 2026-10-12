@@ -13,6 +13,8 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 Sempre passe `upload(file, onProgress)` com o envio real. Sem isso, o componente simula um progresso
 (útil só para protótipo; nomes de arquivo com "falha" no meio erram de propósito, pra testar o estado de erro).
+Quando o transporte não fornece progresso real, use `indeterminate`: o componente mostra um carregamento sem
+porcentagem até a confirmação do envio. Não invente percentuais para etapas que não podem ser medidas.
 
 <FacaEvite>
 <Faca>
@@ -34,7 +36,7 @@ A variante `image` foi pensada para a foto ser o próprio controle:
 - **A área toda aceita arrastar.** A foto, o botão e o texto ao lado recebem o arquivo solto; ao arrastar, a área se destaca e mostra "Solte aqui".
 - **Vazia**, a área mostra a câmera e "Adicionar foto", e o botão traz o ícone de enviar ("Escolher imagem"). Um texto avisa: "Ou arraste uma imagem para cá".
 - **Com foto**, passar o mouse (ou focar) na foto mostra a câmera e "Trocar"; ao lado há os botões "Trocar imagem" e "Remover imagem", com a mesma área. A remoção revela fundo e borda vermelhos em hover.
-- **Durante o envio**, um indicador circular de progresso aparece sobre a foto; um erro de tipo ou de tamanho aparece ao lado, em vermelho.
+- **Durante o envio**, um indicador circular de progresso aparece sobre a foto. Com `indeterminate`, aparece um spinner sem porcentagem. Um erro de tipo ou de tamanho aparece ao lado, em vermelho.
 - **Foto que já existe** entra em `defaultFiles={[{ name, size, url }]}` e aparece como prévia, pronta para trocar.
 - `size` define o lado da área (padrão 120 px); abaixo de 104 px ela mostra só o ícone, sem texto.
 
@@ -53,6 +55,8 @@ A variante `image` foi pensada para a foto ser o próprio controle:
   onChange={(arquivos) => setFoto(arquivos[0])}
   upload={enviarFoto}
 />
+
+<FileUpload variant="image" indeterminate upload={enviarFotoSemProgresso} />
 ```
 
 `onChange` devolve a lista de arquivos: o primeiro traz `file` (o `File` original), `url` (endereço local da prévia) e `status`. Nas variantes `dropzone` e `button`, arquivos de imagem aparecem na lista com miniatura.
@@ -68,6 +72,7 @@ A variante `image` foi pensada para a foto ser o próprio controle:
 
 **Estados do arquivo.** Enviando (barra de progresso + %), concluído, erro de validação (só remover), erro de
 envio (com "Tentar de novo").
+Se o envio não informar progresso, `indeterminate` troca a barra e a porcentagem por um spinner com rótulo acessível.
 
 **Acessibilidade.** A área de soltar é `role="button"` (Enter/Espaço abrem o seletor); conclusões e falhas são
 anunciadas em `aria-live`.

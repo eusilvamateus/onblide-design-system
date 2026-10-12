@@ -3,6 +3,7 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { ProgressBar } from '../../feedback/ProgressBar/ProgressBar';
 import { Button } from '../../actions/Button/Button';
 import { ProgressCircle } from '../../feedback/ProgressCircle/ProgressCircle';
+import { Spinner } from '../../feedback/Spinner/Spinner';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import { List, ListItem } from '../../data-display/List/List';
 
@@ -59,6 +60,8 @@ export interface FileUploadProps {
   defaultFiles?: Partial<UploadFile>[];
   /** Envio de verdade; por padrão simula progresso para uso em demos. */
   upload?: (file: { name: string; size: number; type?: string }, onProgress: (p: number) => void) => Promise<void>;
+  /** Mostra carregamento sem porcentagem quando o envio não informa progresso real. */
+  indeterminate?: boolean;
   onChange?: (files: UploadFile[]) => void;
   /** Força o estado de arraste (demos); por padrão é interno. */
   dragging?: boolean;
@@ -73,7 +76,7 @@ export interface FileUploadProps {
 /** Envio de arquivos por arrastar/soltar ou seletor do sistema, com fila de progresso e erro por arquivo. */
 export const FileUpload: React.FC<FileUploadProps> = ({
   variant = 'dropzone', multiple = true, accept, acceptLabel, maxSize, maxFiles, label, hint, error,
-  disabled = false, defaultFiles = [], upload = simulateUpload, onChange, dragging, buttonLabel, shape = 'square', size = 120,
+  disabled = false, defaultFiles = [], upload = simulateUpload, indeterminate = false, onChange, dragging, buttonLabel, shape = 'square', size = 120,
 }) => {
   const rotuloDoBotao = buttonLabel ?? (variant === 'image' ? 'Escolher imagem' : 'Anexar arquivos');
   const [files, setFiles] = React.useState<UploadFile[]>(() => defaultFiles.map((f, i) => ({ id: `d${i}`, status: 'done', progress: 100, name: '', size: 0, ...f } as UploadFile)));
@@ -119,7 +122,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   const hintEl = (hint || error) && <span id={`${uid}-h`} style={{ fontSize: 12, color: error ? 'var(--ob-danger)' : 'var(--ob-fg-soft)' }}>{error || hint}</span>;
 
   const desc = (f: UploadFile) => f.status === 'uploading'
-    ? <span style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}><span style={{ flex: 1, minWidth: 0 }}><ProgressBar value={f.progress ?? 0} size="sm" /></span><span style={{ fontVariantNumeric: 'tabular-nums' }}>{f.progress}%</span></span>
+    ? indeterminate
+      ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginTop: 4 }}><Spinner size="xs" label={`Enviando ${f.name}`} />Enviando...</span>
+      : <span style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}><span style={{ flex: 1, minWidth: 0 }}><ProgressBar value={f.progress ?? 0} size="sm" /></span><span style={{ fontVariantNumeric: 'tabular-nums' }}>{f.progress}%</span></span>
     : f.status === 'error' ? <span style={{ color: 'var(--ob-danger)' }}>{f.error}</span> : fileSize(f.size);
   const actions = (f: UploadFile) => f.status === 'uploading'
     ? <Button kind="ghost" size="sm" aria-label={`Cancelar envio de ${f.name}`} onClick={() => remove(f)} icon={<Ph n="x" size={16} />} />
@@ -187,7 +192,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           )}
           {enviando && (
             <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'color-mix(in srgb, var(--ob-surface) 75%, transparent)' }}>
-              <ProgressCircle value={img.progress ?? 0} size={comTexto ? 'md' : 'sm'} />
+              {indeterminate ? <Spinner size={comTexto ? 'lg' : 'md'} label="Enviando imagem" /> : <ProgressCircle value={img.progress ?? 0} size={comTexto ? 'md' : 'sm'} />}
             </span>
           )}
         </div>

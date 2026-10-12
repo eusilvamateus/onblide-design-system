@@ -40,6 +40,12 @@ export const Enviando = () => (
   </div>
 );
 
+export const EnviandoSemProgresso = () => (
+  <div style={caixa}>
+    <FileUpload variant="image" shape="circle" label="Foto de perfil" indeterminate defaultFiles={[{ name: 'perfil.png', size: 1000, url: foto, status: 'uploading' }]} />
+  </div>
+);
+
 export const Arrastando = () => (
   <div style={caixa}>
     <FileUpload variant="image" shape="circle" label="Foto de perfil" dragging />

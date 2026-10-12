@@ -47,6 +47,11 @@ if (!comFoto.includes('ob-fileupload-camada')) fail('camada de trocar sobre a fo
 const enviando = render({ variant: 'image', defaultFiles: [{ name: 'a.png', size: 1, url: foto, status: 'uploading', progress: 60 }] });
 if (!enviando.includes('>60%<')) fail('envio em andamento mostra o progresso circular sobre a foto', enviando);
 if (enviando.includes('ob-fileupload-camada')) fail('durante o envio não há camada de trocar', enviando);
+const envioIndeterminado = render({ variant: 'image', indeterminate: true, defaultFiles: [{ name: 'a.png', size: 1, url: foto, status: 'uploading' }] });
+if (!envioIndeterminado.includes('aria-label="Enviando imagem"')) fail('envio sem progresso real mostra spinner acessível', envioIndeterminado);
+if (envioIndeterminado.includes('>0%<')) fail('envio sem progresso real não mostra porcentagem fictícia', envioIndeterminado);
+const listaIndeterminada = render({ indeterminate: true, defaultFiles: [{ name: 'a.pdf', size: 1, status: 'uploading' }] });
+if (!listaIndeterminada.includes('aria-label="Enviando a.pdf"') || !listaIndeterminada.includes('Enviando...')) fail('lista sem progresso real mostra estado de envio', listaIndeterminada);
 
 const comErro = render({ variant: 'image', defaultFiles: [{ name: 'a.png', size: 1, url: foto, status: 'error', error: 'Maior que 2 MB' }] });
 if (!comErro.includes('Maior que 2 MB') || !comErro.includes('var(--ob-danger)')) fail('erro aparece ao lado da foto em vermelho', comErro);
