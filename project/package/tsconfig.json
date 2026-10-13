@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "types": [],
     "noEmit": true
   },
   "include": ["src"]
