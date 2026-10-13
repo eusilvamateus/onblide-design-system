@@ -35,3 +35,11 @@ export const Desabilitado = () => (
     <ToggleButton icon="push-pin" disabled defaultPressed>Fixar</ToggleButton>
   </div>
 );
+
+export const Tons = () => (
+  <div style={{ display: 'flex', gap: 12, padding: 16 }}>
+    <ToggleButton icon="check" tone="success" defaultPressed>Aprovado</ToggleButton>
+    <ToggleButton icon="flag" tone="warning" defaultPressed>Sinalizado</ToggleButton>
+    <ToggleButton icon="trash" tone="danger" defaultPressed>Marcado para excluir</ToggleButton>
+  </div>
+);

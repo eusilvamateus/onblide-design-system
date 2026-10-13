@@ -1,10 +1,13 @@
 import React from 'react';
 import { Badge } from '../../data-display/Badge/Badge';
+import { ACTION_TONES, type ActionTone } from '../../internal/actionTones';
 
 const ANEL_DE_FOCO = '0 0 0 3px var(--ob-focus-ring)';
 
-/** Estilo visual do botão: define a hierarquia da ação (primária, secundária, terciária, suave, destrutiva ou neutra, sem cor de destaque). */
-export type ButtonKind = 'primary' | 'secondary' | 'ghost' | 'cream' | 'danger' | 'neutral';
+/** Estilo visual do botão: define a hierarquia da ação (primária, secundária, terciária, suave, destrutiva, neutra ou silenciosa). */
+export type ButtonKind = 'primary' | 'secondary' | 'ghost' | 'cream' | 'danger' | 'neutral' | 'quiet';
+/** Cor que a ação ganha ao receber o mouse ou o foco no estilo `quiet`. */
+export type ButtonTone = ActionTone;
 /** Tamanho do botão, que ajusta fonte e espaçamento interno. */
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
@@ -13,6 +16,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   kind?: ButtonKind;
   /** Tamanho do botão. */
   size?: ButtonSize;
+  /** Cor da ação no estilo `quiet`: em repouso o botão é neutro, sem borda nem fundo, e no hover, no foco e quando `pressed` o ícone e o texto assumem esta cor, com um fundo leve do mesmo tom. Ignorado nos outros estilos. */
+  tone?: ButtonTone;
   /** Ícone exibido antes do conteúdo do botão. */
   icon?: React.ReactNode;
   /** Botão só com ícone: quadrado (32, 40 ou 48px conforme `size`), sem texto; exige `aria-label`. */
@@ -27,6 +32,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 export const Button: React.FC<ButtonProps> = ({
   kind = 'primary',
   size = 'md',
+  tone = 'neutral',
   icon,
   iconOnly = false,
   pressed,
@@ -48,6 +54,7 @@ export const Button: React.FC<ButtonProps> = ({
     fontSize: size === 'sm' ? 13 : size === 'lg' ? 15 : 14,
     padding: size === 'sm' ? '7px 12px' : size === 'lg' ? '14px 22px' : '10px 18px',
   };
+  const tom = ACTION_TONES[tone];
   const quadrado = size === 'sm' ? 32 : size === 'lg' ? 48 : 40;
   const soIcone: React.CSSProperties = iconOnly ? { width: quadrado, height: quadrado, padding: 0, gap: 0 } : {};
   const kinds: Record<ButtonKind, React.CSSProperties> = {
@@ -57,6 +64,13 @@ export const Button: React.FC<ButtonProps> = ({
     cream:     { background: 'var(--ob-bg-warm)', color: 'var(--ob-fg-strong)' },
     danger:    { background: 'var(--ob-danger)', color: 'var(--ob-fg-on-color)' },
     neutral:   { background: pressed ? 'var(--ob-surface-2)' : 'transparent', color: 'var(--ob-fg)' },
+    quiet:     { background: pressed ? tom.bg : 'transparent', color: pressed ? tom.fg : 'var(--ob-fg-soft)' },
+  };
+  const destacar = (el: HTMLButtonElement, ativo: boolean) => {
+    if (kind !== 'quiet') return;
+    const on = ativo || !!pressed;
+    el.style.color = on ? tom.fg : 'var(--ob-fg-soft)';
+    el.style.background = on ? tom.bg : 'transparent';
   };
   return (
     <button
@@ -68,15 +82,17 @@ export const Button: React.FC<ButtonProps> = ({
       onMouseEnter={(e) => {
         if (kind === 'primary' && !disabled) e.currentTarget.style.boxShadow = 'var(--ob-shadow-pop)';
         if (kind === 'neutral' && !disabled) { e.currentTarget.style.background = 'var(--ob-surface-2)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }
+        if (!disabled) destacar(e.currentTarget, true);
         onMouseEnter?.(e);
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.boxShadow = e.currentTarget.matches(':focus-visible') ? ANEL_DE_FOCO : 'none';
         if (kind === 'neutral') { e.currentTarget.style.background = pressed ? 'var(--ob-surface-2)' : 'transparent'; e.currentTarget.style.color = 'var(--ob-fg)'; }
+        destacar(e.currentTarget, e.currentTarget.matches(':focus-visible'));
         onMouseLeave?.(e);
       }}
-      onFocus={(e) => { if (e.currentTarget.matches(':focus-visible')) e.currentTarget.style.boxShadow = ANEL_DE_FOCO; onFocus?.(e); }}
-      onBlur={(e) => { e.currentTarget.style.boxShadow = 'none'; onBlur?.(e); }}
+      onFocus={(e) => { if (e.currentTarget.matches(':focus-visible')) { e.currentTarget.style.boxShadow = ANEL_DE_FOCO; destacar(e.currentTarget, true); } onFocus?.(e); }}
+      onBlur={(e) => { e.currentTarget.style.boxShadow = 'none'; destacar(e.currentTarget, false); onBlur?.(e); }}
     >
       {icon}{iconOnly ? null : children}
       {count ? <span style={{ position: 'absolute', top: 2, right: 0 }}><Badge tone="red" variant="numeric" size="sm">{count}</Badge></span> : null}

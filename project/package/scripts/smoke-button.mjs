@@ -39,4 +39,15 @@ if (!neutro.includes('>3<')) fail('count deveria renderizar o contador em badge'
 const neutroSolto = renderToStaticMarkup(h(Button, { kind: 'neutral' }, 'Ação'));
 if (!neutroSolto.includes('background:transparent') || !neutroSolto.includes('color:var(--ob-fg)')) fail('neutral em repouso deveria ser transparente com a cor de texto padrão', neutroSolto);
 
-console.log('OK: Button (type padrão, disabled, props nativas, iconOnly, neutral, pressed, count)');
+const silencioso = renderToStaticMarkup(h(Button, { kind: 'quiet', tone: 'danger', iconOnly: true, 'aria-label': 'Excluir', icon: h('i', null, 'x') }));
+if (!silencioso.includes('background:transparent') || !silencioso.includes('color:var(--ob-fg-soft)')) fail('quiet em repouso deveria ser neutro, sem fundo', silencioso);
+if (/border:[^;"]*solid/.test(silencioso)) fail('quiet não deveria ter borda', silencioso);
+const silenciosoLigado = renderToStaticMarkup(h(Button, { kind: 'quiet', tone: 'danger', pressed: true }, 'Excluir'));
+if (!silenciosoLigado.includes('color:var(--ob-danger)') || !silenciosoLigado.includes('background:var(--ob-danger-bg)')) fail('quiet pressionado assume a cor e o fundo do tom', silenciosoLigado);
+for (const [tom, fg, bg] of [['success', 'var(--ob-green-700)', 'var(--ob-green-100)'], ['warning', 'var(--ob-orange-700)', 'var(--ob-orange-100)'], ['primary', 'var(--ob-blue)', 'var(--ob-blue-050)']]) {
+  const html = renderToStaticMarkup(h(Button, { kind: 'quiet', tone: tom, pressed: true }, 'Ação'));
+  if (!html.includes('color:' + fg) || !html.includes('background:' + bg)) fail('tom ' + tom + ' usa os tokens esperados', html);
+}
+const tomIgnorado = renderToStaticMarkup(h(Button, { kind: 'primary', tone: 'danger' }, 'Salvar'));
+if (!tomIgnorado.includes('background:var(--ob-blue)')) fail('tone só vale no estilo quiet', tomIgnorado);
+console.log('OK: Button (type padrão, disabled, props nativas, iconOnly, neutral, quiet com tom, pressed, count)');

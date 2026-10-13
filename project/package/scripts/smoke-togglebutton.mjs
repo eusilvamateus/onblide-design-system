@@ -32,4 +32,13 @@ if (!pressedIcon.includes('ph-speaker-high') || pressedIcon.includes('ph-speaker
 const fillWhenPressed = render({ pressed: true, icon: 'star', fillWhenPressed: true }, 'Favorito');
 if (!fillWhenPressed.includes('ph-fill ph-star')) fail('fillWhenPressed deveria usar o peso fill quando pressionado', fillWhenPressed);
 
+{
+  const render = (props) => renderToStaticMarkup(h(ToggleButton, { icon: 'trash', ariaLabel: 'Excluir', defaultPressed: true, ...props }));
+  const padrao = render({});
+  if (!padrao.includes('var(--ob-blue)')) fail('tom padrão é o azul', padrao);
+  const perigo = render({ tone: 'danger' });
+  if (!perigo.includes('var(--ob-danger)') || !perigo.includes('var(--ob-danger-bg)') || perigo.includes('var(--ob-blue)')) fail('tone danger troca o azul pelo vermelho quando pressionado', perigo);
+  if (!render({ tone: 'success', appearance: 'ghost' }).includes('var(--ob-green-700)')) fail('tone success na aparência ghost');
+  if (render({ tone: 'danger', defaultPressed: false }).includes('var(--ob-danger)')) fail('o tom só aparece quando pressionado');
+}
 console.log('OK: ToggleButton (aria-pressed, controlado/não controlado, appearance, disabled, ícones)');

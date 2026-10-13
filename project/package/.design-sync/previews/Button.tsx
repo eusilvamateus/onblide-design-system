@@ -1,4 +1,4 @@
-import { Button, Icons } from '@onblide/ui';
+import { Button, Icons, Ph, Tooltip } from '@onblide/ui';
 
 export const Variantes = () => (
   <div style={{ display: 'flex', gap: 12, padding: 16, flexWrap: 'wrap' }}>
@@ -52,5 +52,21 @@ export const NeutroComContador = () => (
     <Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} count={3} />
     <Button kind="neutral" iconOnly pressed aria-label="Notificações" icon={<Icons.bell size={20} />} />
     <Button kind="neutral" icon={<Icons.plus size={16} />}>Adicionar</Button>
+  </div>
+);
+
+export const AcoesEmIcone = () => (
+  <div style={{ display: 'flex', gap: 8, padding: 16, alignItems: 'center' }}>
+    <Tooltip label="Aprovar"><Button kind="quiet" tone="success" iconOnly aria-label="Aprovar" icon={<Ph n="check" size={18} />} /></Tooltip>
+    <Tooltip label="Editar"><Button kind="quiet" tone="primary" iconOnly aria-label="Editar" icon={<Ph n="pencil-simple" size={18} />} /></Tooltip>
+    <Tooltip label="Sinalizar"><Button kind="quiet" tone="warning" iconOnly aria-label="Sinalizar" icon={<Ph n="flag" size={18} />} /></Tooltip>
+    <Tooltip label="Excluir"><Button kind="quiet" tone="danger" iconOnly aria-label="Excluir" icon={<Ph n="trash" size={18} />} /></Tooltip>
+  </div>
+);
+
+export const AcaoSilenciosaComTexto = () => (
+  <div style={{ display: 'flex', gap: 8, padding: 16, alignItems: 'center' }}>
+    <Button kind="quiet" tone="primary" size="sm" icon={<Ph n="pencil-simple" size={14} />}>Editar</Button>
+    <Button kind="quiet" tone="danger" size="sm" icon={<Ph n="trash" size={14} />}>Excluir</Button>
   </div>
 );

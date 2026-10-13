@@ -14,6 +14,8 @@ Use para ações diretas: enviar, confirmar, criar. Um único botão **primary**
 - **ghost**: ação terciária / links de ação.
 - **cream**: ação suave sobre branco.
 - **danger**: ações destrutivas.
+- **neutral**: ação discreta, sem cor de destaque.
+- **quiet**: ação silenciosa, para ícones em linhas, cartões e barras. Em repouso não tem borda nem fundo e o ícone é neutro; no hover e no foco ele assume a cor do `tone`.
 
 <FacaEvite>
 <Faca>
@@ -27,6 +29,25 @@ Vários botões azuis competindo pela atenção.
 
 </Evite>
 </FacaEvite>
+
+### Ações em ícone
+
+Use `kind="quiet"` com `iconOnly` e escolha o `tone` pelo significado da ação:
+
+| Tom | Para quê | Exemplo |
+| --- | --- | --- |
+| `success` | Validar, aprovar, confirmar | Aprovar, marcar como concluído |
+| `primary` | Editar, abrir, ver detalhes | Editar, renomear |
+| `warning` | Chamar atenção sem destruir | Sinalizar, arquivar |
+| `danger` | Ação destrutiva | Excluir, remover |
+| `neutral` | Ação sem conotação (padrão) | Copiar, mais opções |
+
+O `aria-label` é obrigatório, porque a cor não pode ser a única pista da ação. Em ações destrutivas, acrescente um `Tooltip` com o verbo ("Excluir"). O foco por teclado mostra o mesmo destaque do mouse.
+
+```jsx
+<Button kind="quiet" tone="success" iconOnly aria-label="Aprovar" icon={<Ph n="check" size={18} />} />
+<Button kind="quiet" tone="danger" iconOnly aria-label="Excluir" icon={<Ph n="trash" size={18} />} />
+```
 
 ## Formatação
 
@@ -45,6 +66,8 @@ Vários botões azuis competindo pela atenção.
 ## Guia de design
 
 **Tokens.** Fundo `--ob-blue`, hover `--ob-blue-700` + sombra `--ob-shadow-pop` (glow azul, assinatura da marca). Raio `10px`.
+
+**Ação silenciosa.** Em repouso o ícone usa `--ob-fg-soft`. No hover, no foco visível e quando `pressed`, a cor do ícone e do texto vira o tom (`--ob-green-700`, `--ob-blue`, `--ob-orange-700`, `--ob-danger`) sobre o fundo leve do mesmo tom (`--ob-success-bg`, `--ob-blue-050`, `--ob-warning-bg`, `--ob-danger-bg`). Todos têm versão no tema escuro.
 
 **Motion.** Transição de 160ms `--ob-ease`. Sem encolher no press, só escurece um tom.
 

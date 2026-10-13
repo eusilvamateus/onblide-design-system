@@ -1,8 +1,10 @@
 import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
+import { ACTION_TONES, type ActionTone } from '../../internal/actionTones';
 
 export type ToggleButtonAppearance = 'outline' | 'ghost';
 export type ToggleButtonSize = 'sm' | 'md' | 'lg';
+export type ToggleButtonTone = Exclude<ActionTone, 'neutral'>;
 
 const PAD: Record<ToggleButtonSize, [number, number]> = { sm: [7, 12], md: [10, 18], lg: [14, 22] };
 const FS: Record<ToggleButtonSize, number> = { sm: 13, md: 14, lg: 15 };
@@ -17,6 +19,8 @@ export interface ToggleButtonProps {
   /** `outline` (borda e fundo de superfície) ou `ghost` (sem borda, para barras densas). */
   appearance?: ToggleButtonAppearance;
   size?: ToggleButtonSize;
+  /** Cor do estado pressionado: azul (`primary`, padrão), verde, laranja ou vermelho. */
+  tone?: ToggleButtonTone;
   /** Nome de um ícone Phosphor. */
   icon?: string;
   /** Ícone alternativo mostrado só quando `pressed`. */
@@ -41,7 +45,7 @@ export interface ToggleButtonProps {
 
 /** Botão com dois estados (pressionado / não pressionado) que aplica o efeito na hora, com `aria-pressed`. */
 export const ToggleButton: React.FC<ToggleButtonProps> = ({
-  pressed, defaultPressed = false, onChange, appearance = 'outline', size = 'md',
+  pressed, defaultPressed = false, onChange, appearance = 'outline', size = 'md', tone = 'primary',
   icon, pressedIcon, fillWhenPressed, children, ariaLabel, disabled, value,
   _role, _tabIndex, _btnRef, style, onKeyDown,
 }) => {
@@ -59,14 +63,16 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
     onChange?.(next, value);
   };
 
+  const cor = ACTION_TONES[tone];
+  const azul = tone === 'primary';
   let bg: string, fg: string, bc: string;
   if (appearance === 'outline') {
-    bg = on ? (h ? 'var(--ob-blue-100)' : 'var(--ob-blue-050)') : (h ? 'var(--ob-line-soft)' : 'var(--ob-surface)');
-    fg = on ? 'var(--ob-blue)' : 'var(--ob-fg-strong)';
-    bc = on ? 'var(--ob-blue)' : 'var(--ob-border)';
+    bg = on ? (azul && h ? 'var(--ob-blue-100)' : cor.bg) : (h ? 'var(--ob-line-soft)' : 'var(--ob-surface)');
+    fg = on ? cor.fg : 'var(--ob-fg-strong)';
+    bc = on ? cor.fg : 'var(--ob-border)';
   } else {
-    bg = on ? 'var(--ob-blue-100)' : (h ? 'var(--ob-line-soft)' : 'transparent');
-    fg = on ? 'var(--ob-blue-700)' : 'var(--ob-fg-soft)';
+    bg = on ? (azul ? 'var(--ob-blue-100)' : cor.bg) : (h ? 'var(--ob-line-soft)' : 'transparent');
+    fg = on ? (azul ? 'var(--ob-blue-700)' : cor.fg) : 'var(--ob-fg-soft)';
     bc = 'transparent';
   }
 
