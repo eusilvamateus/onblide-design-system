@@ -47,7 +47,14 @@ Chips com mais de 3 palavras. Misturar chips single e multi no mesmo grupo sem s
 // Removível
 <Chip label="Design System" removable onRemove={() => remove('Design System')}/>
 <Chip label="Q3 2026" selected removable onRemove={() => remove('Q3 2026')}/>
+
+// Tamanhos
+<Chip label="Mensal" size="sm"/>
+<Chip label="Mensal"/>
+<Chip label="Mensal" size="lg"/>
 ```
+
+`size` aceita `sm`, `md` (padrão) e `lg`. Texto, espaçamento, ícone e botão ✕ crescem juntos em cada tamanho.
 
 ## Guia de conteúdo
 
@@ -67,7 +74,7 @@ Chips com mais de 3 palavras. Misturar chips single e multi no mesmo grupo sem s
 
 **Motion.** Transição de background e cor: 150ms `--ob-ease`. Sem escala ou bounce.
 
-**Touch.** Altura mínima de 44px no mobile para hit target adequado. Use `size="md"` sempre em contextos mobile.
+**Touch.** Altura mínima de 44px no mobile para hit target adequado. Use `size="md"` ou maior em contextos mobile; `size="lg"` é o tamanho pensado para o alvo de toque.
 
 <Nota>
 

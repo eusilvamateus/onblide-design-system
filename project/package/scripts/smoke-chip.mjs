@@ -29,4 +29,14 @@ if (!composto.includes('class="periodo"')) fail('chip deveria encaminhar classNa
 if (!composto.includes('aria-expanded="false"')) fail('chip deveria encaminhar atributos aria', composto);
 if (!composto.includes('max-width:240px')) fail('chip deveria mesclar estilos recebidos', composto);
 
+const lg = render({ label: 'Tag', size: 'lg', removable: true, icon: 'check' });
+if (!lg.includes('font-size:15px') || !lg.includes('padding:10px 10px 10px 18px')) fail('lg usa fonte 15 e o padding próprio', lg);
+if (!lg.includes('width:22px;height:22px')) fail('lg aumenta o botão de remover', lg);
+if (!lg.includes('font-size:18px;width:18px;height:18px')) fail('lg aumenta o ícone', lg);
+if (!lg.includes('gap:8px')) fail('lg usa gap 8', lg);
+if (!render({ label: 'Tag', size: 'lg' }).includes('padding:10px 18px')) fail('lg sem remover usa padding simétrico');
+if (!render({ label: 'Tag', size: 'md' }).includes('padding:7px 14px')) fail('md mantém o padding');
+if (!render({ label: 'Tag', size: 'sm' }).includes('padding:5px 10px')) fail('sm mantém o padding');
+if (!render({ label: 'Tag' }).includes('font-size:13px')) fail('o padrão continua md');
+
 console.log('OK: Chip (remoção, estado, atributos nativos e composição)');

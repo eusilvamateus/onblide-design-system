@@ -27,6 +27,14 @@ export const Pequeno = () => (
   </div>
 );
 
+export const Grande = () => (
+  <div style={row}>
+    <Chip label="Mensal" size="lg" selected />
+    <Chip label="Semanal" size="lg" icon="calendar-blank" />
+    <Chip label="Design" size="lg" removable onRemove={() => {}} />
+  </div>
+);
+
 export const Desabilitado = () => (
   <div style={row}>
     <Chip label="Arquivados" disabled />
