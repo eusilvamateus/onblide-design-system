@@ -43,6 +43,29 @@ O Datepicker usa o **Calendar** e o **Popover**. Regras de calendário (`min`, `
 
 </Nota>
 
+## Resumo do período
+
+Para mostrar o intervalo escolhido em um chip ou botão de filtro, use `formatarPeriodo(inicio, fim, { hoje })`. O texto mostra só o necessário: o dia aparece quando o período não fecha o mês, e o ano aparece nas duas pontas sempre que alguma delas está fora do ano atual.
+
+```jsx
+formatarPeriodo(new Date(2026, 7, 1), new Date(2026, 9, 31))
+formatarPeriodo(new Date(2026, 7, 5), new Date(2026, 9, 14))
+formatarPeriodo(new Date(2026, 8, 1), new Date(2027, 0, 31))
+formatarPeriodo(new Date(2026, 8, 2), new Date(2027, 0, 31))
+```
+
+| Período | Texto |
+| --- | --- |
+| Meses fechados, ano atual | `Agosto - Outubro` |
+| Período quebrado, ano atual | `05 Agosto - 14 Outubro` |
+| Meses fechados, anos diferentes | `Setembro, 2026 - Janeiro, 2027` |
+| Período quebrado, anos diferentes | `02 Setembro, 2026 - 31 Janeiro, 2027` |
+| Meses fechados, outro ano | `Agosto, 2025 - Outubro, 2025` |
+| Um único mês fechado | `Agosto` |
+| Um único dia | `05 Agosto` |
+
+`hoje` define qual é o "ano atual" e assume a data do sistema quando omitido. Sem início ou sem fim, o texto sai vazio. Quando o período é longo, mostre o texto completo em um **Tooltip** com o rótulo "Período".
+
 ## Guia de conteúdo
 
 - Formato `dd/mm/aaaa` (pt-BR), com máscara automática.

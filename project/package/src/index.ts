@@ -22,6 +22,8 @@ export * from './data-display/Avatar/Avatar';
 export * from './feedback/Spinner/Spinner';
 export * from './feedback/ProgressCircle/ProgressCircle';
 export * from './forms/Slider/Slider';
+export { formatarPeriodo } from './internal/periodo';
+export type { OpcoesDoPeriodo } from './internal/periodo';
 export type { BadgeTone } from './internal/badgeTones';
 export type { OBTone } from './internal/obTones';
 export type { OBToastPosition } from './internal/obToastPos';

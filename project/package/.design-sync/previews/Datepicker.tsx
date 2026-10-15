@@ -1,4 +1,4 @@
-import { Datepicker } from '@onblide/ui';
+import { Button, Datepicker, Ph, Tooltip, formatarPeriodo } from '@onblide/ui';
 
 const caixa = { padding: 16, minHeight: 110, maxWidth: 360 };
 
@@ -41,5 +41,24 @@ export const ComErro = () => (
 export const Desabilitado = () => (
   <div style={caixa}>
     <Datepicker label="Data de entrega" defaultValue={new Date(2026, 9, 14)} disabled />
+  </div>
+);
+
+const hoje = new Date(2026, 9, 14);
+
+const ChipDePeriodo = ({ inicio, fim }: { inicio: Date; fim: Date }) => (
+  <Tooltip label="Período">
+    <Button kind="secondary" size="sm" icon={<Ph n="calendar-dots" size={16} />}>
+      {formatarPeriodo(inicio, fim, { hoje })}
+    </Button>
+  </Tooltip>
+);
+
+export const ResumoDoPeriodo = () => (
+  <div style={{ padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 12 }}>
+    <ChipDePeriodo inicio={new Date(2026, 7, 1)} fim={new Date(2026, 9, 31)} />
+    <ChipDePeriodo inicio={new Date(2026, 7, 5)} fim={new Date(2026, 9, 14)} />
+    <ChipDePeriodo inicio={new Date(2026, 8, 1)} fim={new Date(2027, 0, 31)} />
+    <ChipDePeriodo inicio={new Date(2026, 8, 2)} fim={new Date(2027, 0, 31)} />
   </div>
 );
