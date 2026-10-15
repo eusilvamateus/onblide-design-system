@@ -75,7 +75,7 @@ export const Chip: React.FC<ChipProps> = ({
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             width: size === 'sm' ? 16 : 18, height: size === 'sm' ? 16 : 18,
-            borderRadius: '50%', border: 'none', cursor: 'pointer',
+            boxSizing: 'border-box', margin: 0, padding: 0, borderRadius: '50%', border: 'none', cursor: 'pointer',
             background: selected ? 'color-mix(in srgb, var(--ob-fg-on-color) 25%, transparent)' : 'var(--ob-bg-warm)',
             color: selected ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-soft)',
             fontSize: size === 'sm' ? 10 : 11, fontWeight: 700, lineHeight: 1, flexShrink: 0,
