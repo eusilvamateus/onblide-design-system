@@ -85,7 +85,10 @@ export const Popover: React.FC<PopoverProps> = ({
     if (!open) return;
     const h = (e: MouseEvent) => {
       const target = e.target as Node;
-      if (trigRef.current && !trigRef.current.contains(target) && panelRef.current && !panelRef.current.contains(target) && !isInsideNestedPopover(target)) setOpen(false);
+      const path = e.composedPath();
+      const insideTrigger = !!trigRef.current && (trigRef.current.contains(target) || path.includes(trigRef.current));
+      const insidePanel = !!panelRef.current && (panelRef.current.contains(target) || path.includes(panelRef.current));
+      if (!insideTrigger && !insidePanel && !isInsideNestedPopover(target)) setOpen(false);
     };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
