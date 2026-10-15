@@ -39,4 +39,13 @@ if (noErr.includes('Campo obrigatório')) fail('erro não deveria aparecer', noE
 const obj = renderToStaticMarkup(h(Select, { options: [{ label: 'Alfa' }], value: 'Alfa', width: 280 }));
 if (!obj.includes('value="Alfa"') || !obj.includes('width:280px')) fail('opção objeto/width', obj);
 
+const padrao = renderToStaticMarkup(h(Select, { options: opts, defaultValue: 'Peru' }));
+if (!padrao.includes('value="Peru"')) fail('defaultValue single deveria preencher o campo', padrao);
+const padraoMulti = renderToStaticMarkup(h(Select, { options: opts, multi: true, defaultValue: ['Brasil', 'Chile'] }));
+if (!padraoMulti.includes('Brasil') || !padraoMulti.includes('Chile') || padraoMulti.includes('Peru')) fail('defaultValue multi deveria renderizar os chips', padraoMulti);
+const controlado = renderToStaticMarkup(h(Select, { options: opts, value: 'Chile', defaultValue: 'Peru' }));
+if (!controlado.includes('value="Chile"') || controlado.includes('value="Peru"')) fail('value vence defaultValue', controlado);
+const arrayNoSingle = renderToStaticMarkup(h(Select, { options: opts, value: ['Brasil'] }));
+if (arrayNoSingle.includes('value="Brasil"')) fail('single ignora um valor que não é texto', arrayNoSingle);
+
 console.log('OK: single, multi (chips), placeholder, disabled, error, width');

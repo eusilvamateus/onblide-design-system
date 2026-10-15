@@ -31,8 +31,10 @@ export interface SelectBaseProps {
 export interface SingleSelectProps extends SelectBaseProps {
   /** Modo de seleção única (uma opção por vez). */
   multi?: false;
-  /** Rótulo da opção selecionada. */
+  /** Rótulo da opção selecionada, em modo controlado. */
   value?: string | null;
+  /** Rótulo da opção selecionada inicialmente, em modo não controlado. */
+  defaultValue?: string | null;
   /** Chamado com o rótulo da opção escolhida. */
   onChange?: (value: string) => void;
 }
@@ -40,8 +42,10 @@ export interface SingleSelectProps extends SelectBaseProps {
 export interface MultiSelectProps extends SelectBaseProps {
   /** Ativa o modo de seleção múltipla, com opções escolhidas exibidas como chips. */
   multi: true;
-  /** Rótulos das opções selecionadas. */
+  /** Rótulos das opções selecionadas, em modo controlado. */
   value?: string[] | null;
+  /** Rótulos das opções selecionadas inicialmente, em modo não controlado. */
+  defaultValue?: string[] | null;
   /** Chamado com a lista atualizada de rótulos selecionados. */
   onChange?: (value: string[]) => void;
 }
@@ -52,6 +56,7 @@ export type SelectProps = SingleSelectProps | MultiSelectProps;
 interface SelectLooseProps extends SelectBaseProps {
   multi?: boolean;
   value?: string | string[] | null;
+  defaultValue?: string | string[] | null;
   onChange?: (value: string | string[]) => void;
 }
 
@@ -59,7 +64,6 @@ interface SelectLooseProps extends SelectBaseProps {
 export const Select: React.FC<SelectProps> = (props) => {
   const {
     options = [],
-    value = null,
     onChange,
     multi = false,
     label,
@@ -68,7 +72,12 @@ export const Select: React.FC<SelectProps> = (props) => {
     error,
     width,
   } = props as SelectLooseProps;
+  const [valorInterno, setValorInterno] = useState<string | string[] | null>(
+    (props as SelectLooseProps).defaultValue ?? null,
+  );
+  const value = (props as SelectLooseProps).value !== undefined ? (props as SelectLooseProps).value : valorInterno;
   const [open, setOpen] = useState(false);
+  const [focado, setFocado] = useState(false);
   const [query, setQuery] = useState('');
   const [highlighted, setHighlighted] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -79,7 +88,12 @@ export const Select: React.FC<SelectProps> = (props) => {
 
   const selected: string | string[] | null = multi
     ? (Array.isArray(value) ? value : [])
-    : value;
+    : (typeof value === 'string' ? value : null);
+
+  const confirmar = (novo: string | string[]) => {
+    if ((props as SelectLooseProps).value === undefined) setValorInterno(novo);
+    onChange?.(novo);
+  };
 
   const getLabel = (o: string | SelectOption) => typeof o === 'string' ? o : o.label;
 
@@ -106,15 +120,15 @@ export const Select: React.FC<SelectProps> = (props) => {
       const next = list.includes(lbl)
         ? list.filter(s => s !== lbl)
         : [...list, lbl];
-      onChange?.(next);
+      confirmar(next);
     } else {
-      onChange?.(lbl);
+      confirmar(lbl);
       setOpen(false);
       setQuery('');
     }
   };
 
-  const removeChip = (lbl: string) => onChange?.((selected as string[]).filter(s => s !== lbl));
+  const removeChip = (lbl: string) => confirmar((selected as string[]).filter(s => s !== lbl));
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!open && (e.key === 'ArrowDown' || e.key === 'Enter')) { setOpen(true); return; }
@@ -123,7 +137,7 @@ export const Select: React.FC<SelectProps> = (props) => {
     if (e.key === 'ArrowUp')   { e.preventDefault(); setHighlighted(h => Math.max(h - 1, 0)); }
     if (e.key === 'Enter' && filtered[highlighted]) { e.preventDefault(); toggle(filtered[highlighted]); }
     if (e.key === 'Backspace' && multi && !query && (selected as string[]).length) {
-      onChange?.((selected as string[]).slice(0, -1));
+      confirmar((selected as string[]).slice(0, -1));
     }
   };
 
@@ -137,7 +151,7 @@ export const Select: React.FC<SelectProps> = (props) => {
         <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>{label}</div>
       )}
       <FieldShell
-        focused={open} error={!!error} disabled={disabled}
+        focused={open || focado} error={!!error} disabled={disabled}
         padding={multi && (selected as string[]).length ? '6px 10px' : '0 12px'}
         onClick={() => {
           if (disabled) return;
@@ -157,7 +171,8 @@ export const Select: React.FC<SelectProps> = (props) => {
           disabled={disabled}
           onChange={e => { setQuery(e.target.value); if (!open) setOpen(true); }}
           onKeyDown={onKeyDown}
-          onFocus={() => { if (!disabled) setOpen(true); }}
+          onFocus={() => { setFocado(true); if (!disabled) setOpen(true); }}
+          onBlur={() => setFocado(false)}
           style={{
             flex: 1, minWidth: 60, border: 'none', outline: 'none', background: 'transparent',
             fontSize: 14, color: 'var(--ob-fg-strong)', cursor: disabled ? 'not-allowed' : 'text',

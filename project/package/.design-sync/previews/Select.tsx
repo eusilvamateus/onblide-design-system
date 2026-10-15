@@ -10,13 +10,13 @@ export const Padrao = () => (
 
 export const ComValor = () => (
   <div style={{ padding: 16 }}>
-    <Select label="Equipe" value="Engenharia" options={equipes} width={300} />
+    <Select label="Equipe" defaultValue="Engenharia" options={equipes} width={300} />
   </div>
 );
 
 export const Multipla = () => (
   <div style={{ padding: 16 }}>
-    <Select multi label="Responsáveis" value={['Design', 'Marketing']} options={equipes} width={340} />
+    <Select multi label="Responsáveis" defaultValue={['Design', 'Marketing']} options={equipes} width={340} />
   </div>
 );
 
@@ -34,7 +34,7 @@ export const Desabilitado = () => (
 
 export const MultiplaVazia = () => (
   <div style={{ padding: 16 }}>
-    <Select multi label="Times" placeholder="Selecione os times…" options={['Design', 'Engenharia', 'Marketing', 'Produto', 'Dados']} value={[]} width={340} />
+    <Select multi label="Times" placeholder="Selecione os times…" options={['Design', 'Engenharia', 'Marketing', 'Produto', 'Dados']} width={340} />
   </div>
 );
 
@@ -43,7 +43,7 @@ export const OpcoesComObjeto = () => (
     <Select
       label="País"
       placeholder="Selecione um país…"
-      value="Brasil"
+      defaultValue="Brasil"
       options={[
         { label: 'Brasil', sigla: 'BR' },
         { label: 'Portugal', sigla: 'PT' },

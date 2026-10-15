@@ -54,7 +54,12 @@ Usar Select para 2–3 opções, Radio é mais rápido. Evite listas sem ordem l
   multi
   placeholder="Selecione os times…"
 />
+
+<!-- Não controlado -->
+<Select label="Equipe" options={teams} defaultValue="Design" />
 ```
+
+Sem `value`, o Select guarda a escolha por conta própria, partindo de `defaultValue`. Com `value`, quem controla é você: sem `onChange`, a escolha não muda.
 
 ### Teclado
 
@@ -76,6 +81,8 @@ Usar Select para 2–3 opções, Radio é mais rápido. Evite listas sem ordem l
 **Tokens.** Borda idle `--ob-border`, focus `--ob-blue` + ring `--ob-focus-ring`. Menu sombra `0 8px 24px rgba(0,0,0,.12)`. Chips fundo `--ob-blue-100`, texto `--ob-blue-700`.
 
 **Motion.** Caret gira 180° com transição de 150ms. Borda e ring: 150ms `--ob-ease`. Dropdown aparece instantaneamente, sem animação de entrada, para parecer responsivo.
+
+**Foco.** O anel de foco aparece enquanto o campo tem foco ou o menu está aberto. Depois de escolher uma opção na seleção única, o menu fecha e o foco permanece no campo, para o teclado continuar funcionando (`Enter` ou `↓` reabrem).
 
 **Estados.** Idle → Focus (border + ring) → Filled → Disabled (opacity 60%, cursor not-allowed) → Error (border danger + mensagem abaixo).
 
