@@ -5,8 +5,8 @@ import { Calendar } from '../../data-display/Calendar/Calendar';
 import type { CalendarRange } from '../../data-display/Calendar/Calendar';
 import { Popover } from '../../overlays/Popover/Popover';
 import { Ph } from '../../iconography/Ph/Ph';
-import { diaDesabilitado } from '../../internal/calendarLogic';
-import type { SemanaComecaEm } from '../../internal/calendarLogic';
+import { diaDesabilitado, vizinhaSelecionavel } from '../../internal/calendarLogic';
+import type { SemanaComecaEm, UnidadeDePasso } from '../../internal/calendarLogic';
 import { compararDias, formatarData, interpretarData, mascararData, paraIso } from '../../internal/dates';
 
 interface DatepickerBaseProps {
@@ -41,6 +41,8 @@ export interface SingleDatepickerProps extends DatepickerBaseProps {
   defaultValue?: Date | null;
   /** Chamado ao escolher ou digitar uma data válida, ou `null` ao esvaziar o campo. */
   onChange?: (value: Date | null) => void;
+  /** Mostra botões de seta ao lado do campo que andam a data por dia (`day`) ou por mês (`month`), sem abrir o calendário. */
+  stepper?: 'day' | 'month';
 }
 
 export interface RangeDatepickerProps extends DatepickerBaseProps {
@@ -134,6 +136,24 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
     confirmar({ start: faixa.start, end: data });
   };
 
+  const unidadeDoPasso: UnidadeDePasso = props.mode === 'range' ? 'day' : (props.stepper ?? 'day');
+  const comStepper = props.mode !== 'range' && !!props.stepper;
+  const vizinha = (unidade: UnidadeDePasso, sentido: 1 | -1) => vizinhaSelecionavel(unico, new Date(), unidade, sentido, limites);
+
+  const andarData = (unidade: UnidadeDePasso, sentido: 1 | -1) => {
+    const proxima = vizinha(unidade, sentido);
+    if (proxima) confirmar(proxima);
+  };
+
+  const teclasDoCampo = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (intervalo || disabled || e.altKey || e.ctrlKey || e.metaKey) return;
+    const sentido = e.key === 'ArrowUp' || e.key === 'PageUp' ? 1 : e.key === 'ArrowDown' || e.key === 'PageDown' ? -1 : 0;
+    if (!sentido) return;
+    e.preventDefault();
+    const unidade: UnidadeDePasso = e.key.startsWith('Page') ? 'year' : e.shiftKey ? 'month' : unidadeDoPasso;
+    andarData(unidade, sentido);
+  };
+
   const mensagem = error ?? (erroInicio || erroFim || undefined);
   const temErro = !!mensagem;
 
@@ -151,10 +171,15 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
       <div onFocus={() => setFocado(true)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocado(false); }}>
-        <FieldShell focused={focado} error={temErro} disabled={disabled} padding={calendarioInline ? '0 14px' : '0 6px 0 14px'}>
+        <FieldShell focused={focado} error={temErro} disabled={disabled} padding={comStepper ? '0 6px' : calendarioInline ? '0 14px' : '0 6px 0 14px'}>
+          {comStepper && (
+            <Button kind="neutral" iconOnly size="sm" disabled={disabled || !vizinha(unidadeDoPasso, -1)}
+              aria-label={unidadeDoPasso === 'month' ? 'Mês anterior' : 'Dia anterior'} onClick={() => andarData(unidadeDoPasso, -1)}
+              icon={<Ph n="caret-left" size={16} />} />
+          )}
           <input type="text" inputMode="numeric" maxLength={10} value={textoInicio} placeholder={placeholder} disabled={disabled}
             aria-label={intervalo ? 'Data inicial' : undefined} aria-invalid={!!(error || erroInicio) || undefined}
-            onChange={digitarInicio} style={estiloDoCampo} />
+            onChange={digitarInicio} onKeyDown={teclasDoCampo} style={comStepper ? { ...estiloDoCampo, textAlign: 'center' } : estiloDoCampo} />
           {intervalo && (
             <>
               <span aria-hidden="true" style={{ color: 'var(--ob-fg-mute)', flex: 'none' }}>–</span>
@@ -162,6 +187,11 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
                 aria-label="Data final" aria-invalid={!!(error || erroFim) || undefined}
                 onChange={digitarFim} style={estiloDoCampo} />
             </>
+          )}
+          {comStepper && (
+            <Button kind="neutral" iconOnly size="sm" disabled={disabled || !vizinha(unidadeDoPasso, 1)}
+              aria-label={unidadeDoPasso === 'month' ? 'Próximo mês' : 'Próximo dia'} onClick={() => andarData(unidadeDoPasso, 1)}
+              icon={<Ph n="caret-right" size={16} />} />
           )}
           {!calendarioInline && (
             <Popover align="end" width={276} padding={12} closeButton={false} ariaLabel="Calendário"

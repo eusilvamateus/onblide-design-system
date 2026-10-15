@@ -20,6 +20,18 @@ export const PreEnchido = () => (
   </div>
 );
 
+export const ComSetasPorDia = () => (
+  <div style={caixa}>
+    <Datepicker label="Data de entrega" stepper="day" defaultValue={new Date(2026, 9, 14)} />
+  </div>
+);
+
+export const ComSetasPorMes = () => (
+  <div style={caixa}>
+    <Datepicker label="Mês de referência" stepper="month" defaultValue={new Date(2026, 9, 1)} />
+  </div>
+);
+
 export const DataMinima = () => (
   <div style={caixa}>
     <Datepicker label="Data de entrega" hint="Datas antes de 20/05/2026 ficam indisponíveis" min={new Date(2026, 4, 20)} />

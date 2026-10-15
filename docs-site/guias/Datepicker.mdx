@@ -37,6 +37,25 @@ const [periodo, setPeriodo] = useState({ start: null, end: null });
 <Datepicker mode="range" label="Período" value={periodo} onChange={setPeriodo} />
 ```
 
+## Navegar sem abrir o calendário
+
+Na data única, o campo aceita setas do teclado sem abrir o calendário. A prop `stepper` acrescenta botões `‹ ›` ao lado do campo, que andam a data por dia ou por mês.
+
+```jsx
+<Datepicker label="Data de entrega" stepper="day" value={entrega} onChange={setEntrega} />
+<Datepicker label="Mês de referência" stepper="month" value={mes} onChange={setMes} />
+```
+
+| Tecla no campo | Efeito |
+| --- | --- |
+| `↑` / `↓` | Avança ou volta um dia (um mês, se `stepper="month"`) |
+| `Shift` + `↑` / `↓` | Avança ou volta um mês |
+| `PageUp` / `PageDown` | Avança ou volta um ano |
+
+- Com o campo vazio, a primeira seta escolhe hoje; se hoje estiver indisponível, o dia selecionável mais próximo na direção da seta.
+- `min`, `max` e `isDateDisabled` valem: dias indisponíveis são pulados, e a seta fica desabilitada no limite.
+- No modo `range` o teclado e o `stepper` não se aplicam.
+
 <Nota>
 
 O Datepicker usa o **Calendar** e o **Popover**. Regras de calendário (`min`, `max`, `isDateDisabled`, `weekStartsOn`) são repassadas e valem também para a digitação. No calendário, clicar no mês ou no ano do cabeçalho abre a escolha de mês e de ano, para chegar a datas distantes sem passar mês a mês.

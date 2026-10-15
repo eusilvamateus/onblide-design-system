@@ -16,6 +16,35 @@ export interface LimitesDoCalendario {
 export const diaDesabilitado = (data: Date, { min, max, isDateDisabled }: LimitesDoCalendario): boolean =>
   (!!min && compararDias(data, min) < 0) || (!!max && compararDias(data, max) > 0) || !!isDateDisabled?.(data);
 
+export type UnidadeDePasso = 'day' | 'month' | 'year';
+
+const LIMITE_DE_TENTATIVAS = 400;
+
+const andar = (data: Date, unidade: UnidadeDePasso, sentido: 1 | -1): Date =>
+  unidade === 'day' ? somarDias(data, sentido) : somarMeses(data, unidade === 'month' ? sentido : sentido * 12);
+
+export const vizinhaSelecionavel = (
+  atual: Date | null,
+  hoje: Date,
+  unidade: UnidadeDePasso,
+  sentido: 1 | -1,
+  limites: LimitesDoCalendario,
+): Date | null => {
+  let candidata = atual ? andar(atual, unidade, sentido) : inicioDoDia(hoje);
+  for (let i = 0; i < LIMITE_DE_TENTATIVAS; i++) {
+    const limite = limites.min && compararDias(candidata, limites.min) < 0 ? limites.min
+      : limites.max && compararDias(candidata, limites.max) > 0 ? limites.max
+      : null;
+    if (limite) {
+      if (atual && (sentido === -1 ? compararDias(atual, limite) <= 0 : compararDias(atual, limite) >= 0)) return null;
+      candidata = inicioDoDia(limite);
+    }
+    if (!diaDesabilitado(candidata, limites)) return candidata;
+    candidata = somarDias(candidata, sentido);
+  }
+  return null;
+};
+
 export const posicaoNaSemana = (data: Date, semanaComecaEm: SemanaComecaEm): number => (data.getDay() - semanaComecaEm + 7) % 7;
 
 export const celulasDoMes = (mes: Date, semanaComecaEm: SemanaComecaEm): (Date | null)[] => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Datepicker } from '../dist/index.js';
+import { carregarTs } from './lib/carregar-ts.mjs';
 
 function fail(msg, extra) {
   console.error('FAIL:', msg, extra ?? '');
@@ -49,4 +50,37 @@ for (const removida of ['singleDate', 'maxBookingDays', 'minBookingDate', 'showS
   if (html.includes(removida)) fail(`prop de reserva ${removida} não deveria vazar para o HTML`, html);
 }
 if (!render({ min: new Date(2026, 0, 1), max: new Date(2026, 11, 31), isDateDisabled: () => false, weekStartsOn: 1 }).includes('<input')) fail('limites aceitos');
+const d = (a, m, dia) => new Date(a, m - 1, dia);
+const logica = await carregarTs('src/internal/calendarLogic.ts');
+const hoje = d(2026, 10, 14);
+const viz = (atual, unidade, sentido, limites = {}) => {
+  const r = logica.vizinhaSelecionavel(atual, hoje, unidade, sentido, limites);
+  return r ? `${r.getFullYear()}-${r.getMonth() + 1}-${r.getDate()}` : null;
+};
+const igual = (a, b, msg) => { if (a !== b) fail(msg, `esperado ${b}, veio ${a}`); };
+
+igual(viz(d(2026, 10, 14), 'day', 1), '2026-10-15', 'seta para cima avança um dia');
+igual(viz(d(2026, 10, 14), 'day', -1), '2026-10-13', 'seta para baixo volta um dia');
+igual(viz(d(2026, 10, 31), 'day', 1), '2026-11-1', 'o dia vira o mês');
+igual(viz(d(2026, 10, 14), 'month', 1), '2026-11-14', 'passo de mês avança um mês');
+igual(viz(d(2026, 1, 31), 'month', 1), '2026-2-28', 'passo de mês limita ao último dia');
+igual(viz(d(2026, 10, 14), 'year', -1), '2025-10-14', 'passo de ano volta um ano');
+igual(viz(null, 'day', 1), '2026-10-14', 'campo vazio parte de hoje');
+igual(viz(d(2026, 10, 14), 'day', 1, { isDateDisabled: (x) => x.getDay() === 0 || x.getDay() === 6 }), '2026-10-15', 'quarta para quinta sem pular');
+igual(viz(d(2026, 10, 16), 'day', 1, { isDateDisabled: (x) => x.getDay() === 0 || x.getDay() === 6 }), '2026-10-19', 'pula o fim de semana');
+igual(viz(d(2026, 10, 19), 'day', -1, { isDateDisabled: (x) => x.getDay() === 0 || x.getDay() === 6 }), '2026-10-16', 'pula o fim de semana para trás');
+igual(viz(d(2026, 10, 5), 'day', -1, { min: d(2026, 10, 5) }), null, 'no mínimo não volta');
+igual(viz(d(2026, 10, 20), 'day', 1, { max: d(2026, 10, 20) }), null, 'no máximo não avança');
+igual(viz(d(2026, 10, 10), 'month', -1, { min: d(2026, 10, 5) }), '2026-10-5', 'passo de mês que ultrapassa o mínimo para no mínimo');
+igual(viz(null, 'day', 1, { min: d(2026, 12, 1) }), '2026-12-1', 'campo vazio com mínimo futuro começa no mínimo');
+
+const comStepper = render({ stepper: 'day', value: d(2026, 10, 14) });
+if (!comStepper.includes('aria-label="Dia anterior"') || !comStepper.includes('aria-label="Próximo dia"')) fail('stepper de dia mostra as duas setas', comStepper);
+const porMes = render({ stepper: 'month', value: d(2026, 10, 14) });
+if (!porMes.includes('aria-label="Mês anterior"') || !porMes.includes('aria-label="Próximo mês"')) fail('stepper de mês nomeia as setas', porMes);
+if (render({}).includes('Dia anterior')) fail('sem stepper não há setas');
+if (render({ mode: 'range', stepper: 'day' }).includes('Dia anterior')) fail('range ignora o stepper');
+if (!/<button[^>]*disabled[^>]*aria-label="Próximo dia"|<button[^>]*aria-label="Próximo dia"[^>]*disabled/.test(render({ stepper: 'day', value: d(2026, 10, 20), max: d(2026, 10, 20) }))) fail('seta desabilita no máximo');
+if (!/<button[^>]*disabled[^>]*aria-label="Dia anterior"|<button[^>]*aria-label="Dia anterior"[^>]*disabled/.test(render({ stepper: 'day', disabled: true }))) fail('disabled desativa as setas');
+
 console.log('OK: Datepicker (single, range, inline, value/defaultValue, hint, erro, disabled, popover do Calendar)');
