@@ -98,6 +98,17 @@ if (!render({ stepper: 'day', value: d(2026, 10, 14) }).includes('aria-label="Ab
 if (!render({ stepper: 'day', value: d(2026, 10, 14) }).includes('text-align:center')) fail('o texto do campo é centralizado');
 if (!render({ mode: 'range', value: { start: d(2026, 10, 5), end: d(2026, 10, 12) } }).includes('text-align:center')) fail('o texto dos campos do intervalo é centralizado');
 
+const faixaMes = render({ mode: 'range', precision: 'month', value: { start: d(2026, 8, 1), end: d(2026, 10, 31) } });
+if (!faixaMes.includes('value="08/2026"') || !faixaMes.includes('value="10/2026"')) fail('intervalo de meses mostra mm/aaaa nas duas pontas', faixaMes);
+if (!faixaMes.includes('maxLength="7"')) fail('campos de mês limitam a sete caracteres', faixaMes);
+if (!faixaMes.includes('aria-label="Abrir calendário"')) fail('intervalo de meses mantém o botão da grade', faixaMes);
+const faixaAno = render({ mode: 'range', precision: 'year', value: { start: d(2024, 1, 1), end: d(2026, 12, 31) } });
+if (!faixaAno.includes('value="2024"') || !faixaAno.includes('value="2026"')) fail('intervalo de anos mostra aaaa nas duas pontas', faixaAno);
+if (!render({ mode: 'range', precision: 'month' }).includes('placeholder="mm/aaaa"')) fail('placeholder do intervalo de meses');
+const soMes = render({ precision: 'month', value: d(2026, 10, 14) });
+if (!soMes.includes('value="10/2026"') || soMes.includes('Mês anterior')) fail('precision month sem stepper mostra mm/aaaa e nenhuma seta', soMes);
+if (!render({ precision: 'month', stepper: 'month', value: d(2026, 10, 14) }).includes('Mês anterior')) fail('precision com stepper mostra as setas');
+
 const comStepper = render({ stepper: 'day', value: d(2026, 10, 14) });
 if (!comStepper.includes('aria-label="Dia anterior"') || !comStepper.includes('aria-label="Próximo dia"')) fail('stepper de dia mostra as duas setas', comStepper);
 const porMes = render({ stepper: 'month', value: d(2026, 10, 14) });

@@ -36,7 +36,7 @@ As setas do cabeçalho andam um mês por vez. Para ir mais longe, clique no **m�
 
 A escolha desce de nível: ano, depois mês, depois dia. Para abrir já em uma dessas vistas, use `openTo="months"` ou `openTo="years"`. Com `min` e `max`, meses e anos inteiros fora do limite ficam desabilitados.
 
-Para escolher um **mês inteiro** ou um **ano inteiro** em vez de um dia, use `precision="month"` ou `precision="year"` (só na data única): o calendário abre na grade de meses ou de anos, e escolher um item seleciona o primeiro dia do mês ou 1º de janeiro. `isDateDisabled` não se aplica nesses modos. É o que o **Datepicker** usa em `stepper="month"` e `stepper="year"`.
+Para escolher um **mês inteiro** ou um **ano inteiro** em vez de um dia, use `precision="month"` ou `precision="year"`: o calendário abre na grade de meses ou de anos. Na data única, escolher um item seleciona o primeiro dia do mês ou 1º de janeiro. No intervalo (`mode="range"`), o primeiro clique define o início e o segundo o fim, e o valor entregue cobre os períodos inteiros: o início é o primeiro dia do mês ou do ano, e o fim, o último dia do mês ou 31 de dezembro. `isDateDisabled` não se aplica nesses modos. É o que o **Datepicker** usa com `precision`.
 
 Em todas as vistas, a célula sob o mouse ganha destaque antes mesmo do clique. No modo **range**, a faixa aparece também nos meses e nos anos: com um intervalo definido, os meses (ou anos) entre o início e o fim ficam marcados mesmo que o intervalo comece em outro ano; com só o início escolhido, passar o mouse mostra a faixa até a célula sob o ponteiro, para a frente ou para trás.
 

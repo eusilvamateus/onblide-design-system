@@ -8,7 +8,7 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { diaDesabilitado, vizinhaSelecionavel } from '../../internal/calendarLogic';
 import type { SemanaComecaEm, UnidadeDePasso } from '../../internal/calendarLogic';
 import {
-  PLACEHOLDER_DA_DATA, TAMANHO_DO_TEXTO, compararDias, formatarPorPrecisao, interpretarPorPrecisao, mascararPorPrecisao,
+  PLACEHOLDER_DA_DATA, TAMANHO_DO_TEXTO, compararDias, fimPorPrecisao, formatarPorPrecisao, interpretarPorPrecisao, mascararPorPrecisao,
   normalizarPorPrecisao, paraIso,
 } from '../../internal/dates';
 import type { PrecisaoDaData } from '../../internal/dates';
@@ -34,6 +34,8 @@ interface DatepickerBaseProps {
   disabled?: boolean;
   /** Exibe o calendário em um popover (padrão) ou permanentemente abaixo dos campos. */
   calendarDisplay?: 'popover' | 'inline';
+  /** O que o campo escolhe: dia (padrão), mês ou ano. Em `month` e `year` o campo mostra só `mm/aaaa` ou `aaaa`, `isDateDisabled` não se aplica e o calendário abre na grade de meses ou de anos. Na data única o valor é o primeiro dia do mês ou 1º de janeiro; no intervalo, o início é o primeiro dia e o fim, o último dia do mês ou do ano. */
+  precision?: 'day' | 'month' | 'year';
 }
 
 export interface SingleDatepickerProps extends DatepickerBaseProps {
@@ -45,7 +47,7 @@ export interface SingleDatepickerProps extends DatepickerBaseProps {
   defaultValue?: Date | null;
   /** Chamado ao escolher ou digitar uma data válida, ou `null` ao esvaziar o campo. */
   onChange?: (value: Date | null) => void;
-  /** Mostra botões de seta ao lado do campo que andam a data por dia (`day`), mês (`month`) ou ano (`year`), sem abrir o calendário. Em `month` e `year` o campo mostra só `mm/aaaa` ou `aaaa`, a data guardada é o primeiro dia do mês ou do ano, `isDateDisabled` não se aplica e o calendário abre na grade de meses ou de anos. */
+  /** Mostra botões de seta ao lado do campo que andam a data por dia (`day`), mês (`month`) ou ano (`year`), sem abrir o calendário. Sem `precision`, o valor de `stepper` também define o que o campo escolhe. */
   stepper?: UnidadeDePasso;
 }
 
@@ -76,7 +78,7 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
     calendarDisplay = 'popover',
   } = props;
   const intervalo = props.mode === 'range';
-  const precisao: PrecisaoDaData = props.mode === 'range' ? 'day' : (props.stepper ?? 'day');
+  const precisao: PrecisaoDaData = props.precision ?? (props.mode === 'range' ? undefined : props.stepper) ?? 'day';
   const placeholder = props.placeholder ?? PLACEHOLDER_DA_DATA[precisao];
   const tamanhoDoTexto = TAMANHO_DO_TEXTO[precisao];
   const calendarioInline = calendarDisplay === 'inline';
@@ -136,10 +138,11 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
     setTextoFim(texto);
     if (texto === '') { setErroFim(''); confirmar({ start: faixa.start, end: null }); return; }
     if (texto.length < tamanhoDoTexto) { setErroFim(''); return; }
-    const data = interpretarPorPrecisao(texto, precisao);
-    if (!data) { setErroFim('Data inválida'); return; }
-    const problema = validar(data);
+    const primeiro = interpretarPorPrecisao(texto, precisao);
+    if (!primeiro) { setErroFim('Data inválida'); return; }
+    const problema = validar(primeiro);
     if (problema) { setErroFim(problema); return; }
+    const data = fimPorPrecisao(primeiro, precisao);
     if (faixa.start && compararDias(data, faixa.start) < 0) { setErroFim('Deve ser após a data inicial'); return; }
     setErroFim('');
     confirmar({ start: faixa.start, end: data });
@@ -173,7 +176,7 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
 
   const calendario = (fechar: () => void) => (
     intervalo ? (
-      <Calendar mode="range" value={faixa} min={min} max={max} isDateDisabled={isDateDisabled} weekStartsOn={weekStartsOn}
+      <Calendar mode="range" value={faixa} min={min} max={max} isDateDisabled={isDateDisabled} weekStartsOn={weekStartsOn} precision={precisao}
         onChange={(novo) => { confirmar(novo); if (novo.end) fechar(); }} />
     ) : (
       <Calendar value={unico} min={min} max={max} isDateDisabled={isDateDisabled} weekStartsOn={weekStartsOn} precision={precisao}

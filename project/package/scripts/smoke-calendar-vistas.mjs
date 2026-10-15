@@ -88,4 +88,32 @@ if (!/aria-selected="true"[^>]*><button[^>]*aria-label="2026"/.test(porAno)) fai
 if (!render({ precision: 'month', openTo: 'days' }).includes('role="columnheader"')) fail('openTo explícito vence a vista da precisão');
 if (!render({}).includes('aria-label="Outubro 2026"')) fail('sem precision a vista padrão continua sendo dias');
 
+const fimDe = (data, precisao) => datas.fimPorPrecisao(data, precisao);
+igual(fimDe(d(2026, 2, 10), 'month').getDate(), 28, 'fim do mês de fevereiro');
+igual(fimDe(d(2028, 2, 10), 'month').getDate(), 29, 'fim do mês de fevereiro bissexto');
+igual([fimDe(d(2026, 3, 10), 'year').getMonth(), fimDe(d(2026, 3, 10), 'year').getDate()], [11, 31], 'fim do ano é 31 de dezembro');
+igual(fimDe(d(2026, 3, 10), 'day').getDate(), 10, 'fim do dia é o próprio dia');
+
+const periodo = (atual, dia, precisao) => {
+  const r = logica.cliqueNoPeriodo(atual, dia, precisao);
+  const f = (x) => (x ? `${x.getFullYear()}-${x.getMonth() + 1}-${x.getDate()}` : null);
+  return [f(r.start), f(r.end)];
+};
+const vazio = { start: null, end: null };
+igual(periodo(vazio, d(2026, 8, 1), 'month'), ['2026-8-1', null], 'primeiro clique de mês define o início');
+const primeiroMes = logica.cliqueNoPeriodo(vazio, d(2026, 8, 1), 'month');
+igual(periodo(primeiroMes, d(2026, 10, 1), 'month'), ['2026-8-1', '2026-10-31'], 'segundo clique de mês fecha no último dia do mês');
+igual(periodo(primeiroMes, d(2026, 6, 1), 'month'), ['2026-6-1', '2026-8-31'], 'clique anterior inverte e fecha o mês inicial');
+igual(periodo(primeiroMes, d(2026, 8, 1), 'month'), ['2026-8-1', '2026-8-31'], 'um único mês vira o mês inteiro');
+const primeiroAno = logica.cliqueNoPeriodo(vazio, d(2024, 1, 1), 'year');
+igual(periodo(primeiroAno, d(2026, 1, 1), 'year'), ['2024-1-1', '2026-12-31'], 'intervalo de anos fecha em 31 de dezembro');
+igual(periodo({ start: d(2026, 8, 1), end: d(2026, 10, 31) }, d(2026, 3, 1), 'month'), ['2026-3-1', null], 'com intervalo completo o clique recomeça');
+
+const faixaDeMeses = render({ mode: 'range', precision: 'month', value: { start: d(2026, 8, 1), end: d(2026, 10, 31) } });
+if (!faixaDeMeses.includes('aria-label="Meses de 2026"') || faixaDeMeses.includes('role="columnheader"')) fail('intervalo com precision month abre na grade de meses', faixaDeMeses);
+if (contar(faixaDeMeses, 'aria-selected="true"') < 3) fail('o intervalo de meses marca os três meses', faixaDeMeses);
+const faixaDeAnos = render({ mode: 'range', precision: 'year', value: { start: d(2024, 1, 1), end: d(2026, 12, 31) } });
+if (!faixaDeAnos.includes('aria-label="Anos de 2016 a 2027"')) fail('intervalo com precision year abre na grade de anos', faixaDeAnos);
+if (contar(faixaDeAnos, 'aria-selected="true"') < 3) fail('o intervalo de anos marca os três anos', faixaDeAnos);
+
 console.log('OK: Calendar vistas (cabeçalho clicável, meses, anos em blocos de 12, limites, teclado em grade)');

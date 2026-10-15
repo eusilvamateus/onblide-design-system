@@ -7,6 +7,7 @@ import {
   anoForaDosLimites,
   celulasDoMes,
   cliqueNoIntervalo,
+  cliqueNoPeriodo,
   dentroDoIntervalo,
   diaDesabilitado,
   diaDoFoco,
@@ -63,6 +64,8 @@ interface CalendarBaseProps {
   disabled?: boolean;
   /** Nome acessível do calendário. */
   ariaLabel?: string;
+  /** O que a seleção escolhe: um dia (padrão), um mês inteiro ou um ano inteiro. Em `month` e `year` o calendário abre na grade de meses ou de anos, e `isDateDisabled` não se aplica. Na data única, escolher um item seleciona o primeiro dia do mês ou 1º de janeiro; no intervalo, o início vira o primeiro dia e o fim o último dia do mês ou do ano. */
+  precision?: 'day' | 'month' | 'year';
   /** Estilos inline adicionais, mesclados por último. */
   style?: React.CSSProperties;
 }
@@ -76,8 +79,6 @@ export interface SingleCalendarProps extends CalendarBaseProps {
   defaultValue?: Date | null;
   /** Chamado ao escolher uma data. */
   onChange?: (value: Date | null) => void;
-  /** O que a seleção escolhe: um dia (padrão), um mês inteiro ou um ano inteiro. Em `month` e `year` o calendário abre na grade de meses ou de anos, escolher um item seleciona o primeiro dia do mês ou 1º de janeiro, e `isDateDisabled` não se aplica. */
-  precision?: 'day' | 'month' | 'year';
 }
 
 export interface RangeCalendarProps extends CalendarBaseProps {
@@ -109,7 +110,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
     ariaLabel = 'Calendário', style,
   } = props;
   const intervalo = props.mode === 'range';
-  const precisao = props.mode === 'range' ? 'day' : (props.precision ?? 'day');
+  const precisao = props.precision ?? 'day';
   const vistaMinima: CalendarView = precisao === 'day' ? 'days' : precisao === 'month' ? 'months' : 'years';
   const openTo = abrirEm ?? vistaMinima;
   const hoje = inicioDoDia(new Date());
@@ -175,7 +176,12 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   };
 
   const selecionarPeriodo = (data: Date) => {
-    if (props.mode === 'range') return;
+    if (props.mode === 'range') {
+      const novo = cliqueNoPeriodo(faixa, data, precisao);
+      if (props.value === undefined) setValorInterno(novo);
+      props.onChange?.(novo);
+      return;
+    }
     if (props.value === undefined) setValorInterno(data);
     props.onChange?.(data);
   };

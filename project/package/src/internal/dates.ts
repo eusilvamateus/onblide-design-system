@@ -65,6 +65,11 @@ export const PLACEHOLDER_DA_DATA: Record<PrecisaoDaData, string> = { day: 'dd/mm
 export const normalizarPorPrecisao = (data: Date, precisao: PrecisaoDaData): Date =>
   precisao === 'year' ? new Date(data.getFullYear(), 0, 1) : precisao === 'month' ? inicioDoMes(data) : inicioDoDia(data);
 
+export const fimPorPrecisao = (data: Date, precisao: PrecisaoDaData): Date =>
+  precisao === 'year' ? new Date(data.getFullYear(), 11, 31)
+    : precisao === 'month' ? new Date(data.getFullYear(), data.getMonth(), diasNoMes(data.getFullYear(), data.getMonth()))
+      : inicioDoDia(data);
+
 export const formatarPorPrecisao = (data: Date | null, precisao: PrecisaoDaData): string => {
   if (!data) return '';
   if (precisao === 'day') return formatarData(data);

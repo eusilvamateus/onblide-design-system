@@ -38,6 +38,12 @@ export const ComSetasPorAno = () => (
   </div>
 );
 
+export const IntervaloDeMeses = () => (
+  <div style={caixa}>
+    <Datepicker mode="range" precision="month" label="Período" defaultValue={{ start: new Date(2026, 7, 1), end: new Date(2026, 9, 31) }} />
+  </div>
+);
+
 export const DataMinima = () => (
   <div style={caixa}>
     <Datepicker label="Data de entrega" hint="Datas antes de 20/05/2026 ficam indisponíveis" min={new Date(2026, 4, 20)} />

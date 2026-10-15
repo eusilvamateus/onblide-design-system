@@ -37,6 +37,17 @@ const [periodo, setPeriodo] = useState({ start: null, end: null });
 <Datepicker mode="range" label="Período" value={periodo} onChange={setPeriodo} />
 ```
 
+## Escolher mês ou ano
+
+Com `precision="month"` ou `precision="year"`, o campo escolhe o mês ou o ano inteiro, e o calendário abre na grade de meses ou de anos. Vale para a data única e para o intervalo.
+
+```jsx
+<Datepicker label="Mês de referência" precision="month" value={mes} onChange={setMes} />
+<Datepicker mode="range" label="Período" precision="month" value={periodo} onChange={setPeriodo} />
+```
+
+Na data única o valor é o primeiro dia do mês ou 1º de janeiro. No intervalo, o início é o primeiro dia do mês ou do ano e o fim, o último dia do mês ou 31 de dezembro, o que casa com `formatarPeriodo` (`Agosto - Outubro`). O campo mostra só `mm/aaaa` ou `aaaa`, `isDateDisabled` não se aplica e `min` e `max` comparam mês ou ano inteiro.
+
 ## Navegar sem abrir o calendário
 
 Na data única, o campo aceita setas do teclado sem abrir o calendário. A prop `stepper` acrescenta botões `‹ ›` ao lado do campo, que andam a data por dia, mês ou ano.
@@ -55,7 +66,7 @@ Na data única, o campo aceita setas do teclado sem abrir o calendário. A prop 
 
 - Com o campo vazio, a primeira seta escolhe hoje; se hoje estiver indisponível, o dia selecionável mais próximo na direção da seta.
 - `min`, `max` e `isDateDisabled` valem: dias indisponíveis são pulados, e a seta fica desabilitada no limite.
-- Com `stepper="month"` o campo mostra só `mm/aaaa`, e com `stepper="year"` só `aaaa`. O valor entregue em `onChange` é o primeiro dia do mês, ou 1º de janeiro. Nesses dois modos `isDateDisabled` não se aplica, `min` e `max` comparam mês ou ano inteiro, e o botão de calendário abre direto a grade de meses ou de anos: escolher um item seleciona o mês ou o ano e fecha o popover.
+- `stepper="month"` e `stepper="year"` já incluem a `precision` correspondente: o campo mostra só `mm/aaaa`, ou só `aaaa`. O valor entregue em `onChange` é o primeiro dia do mês, ou 1º de janeiro. Nesses dois modos `isDateDisabled` não se aplica, `min` e `max` comparam mês ou ano inteiro, e o botão de calendário abre direto a grade de meses ou de anos: escolher um item seleciona o mês ou o ano e fecha o popover.
 - No modo `range` o teclado e o `stepper` não se aplicam.
 
 <Nota>

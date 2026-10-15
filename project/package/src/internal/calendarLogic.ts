@@ -1,4 +1,5 @@
-import { compararDias, diasNoMes, inicioDoDia, mesmoDia, somarDias, somarMeses } from './dates';
+import { compararDias, diasNoMes, fimPorPrecisao, inicioDoDia, mesmoDia, normalizarPorPrecisao, somarDias, somarMeses } from './dates';
+import type { PrecisaoDaData } from './dates';
 
 export interface IntervaloDeDatas {
   start: Date | null;
@@ -15,6 +16,14 @@ export interface LimitesDoCalendario {
 
 export const diaDesabilitado = (data: Date, { min, max, isDateDisabled }: LimitesDoCalendario): boolean =>
   (!!min && compararDias(data, min) < 0) || (!!max && compararDias(data, max) > 0) || !!isDateDisabled?.(data);
+
+export const cliqueNoPeriodo = (atual: IntervaloDeDatas, dia: Date, precisao: PrecisaoDaData): IntervaloDeDatas => {
+  const novo = cliqueNoIntervalo(atual, dia);
+  return {
+    start: novo.start && normalizarPorPrecisao(novo.start, precisao),
+    end: novo.end && fimPorPrecisao(novo.end, precisao),
+  };
+};
 
 export type UnidadeDePasso = 'day' | 'month' | 'year';
 
