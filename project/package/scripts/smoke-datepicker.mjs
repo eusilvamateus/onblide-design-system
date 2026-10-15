@@ -29,6 +29,11 @@ if (!intervalo.includes('aria-label="Data inicial"') || !intervalo.includes('ari
 if (contar(intervalo, 'aria-label="Abrir calendário"') !== 1) fail('um único botão de calendário no range', intervalo);
 if (!render({ mode: 'range', defaultValue: { start: new Date(2026, 9, 5), end: null } }).includes('value="05/10/2026"')) fail('range parcial');
 
+const intervaloInline = render({ calendarDisplay: 'inline', mode: 'range', value: { start: new Date(2026, 9, 5), end: new Date(2026, 9, 12) } });
+if (contar(intervaloInline, '<input') !== 2) fail('modo inline preserva os dois campos', intervaloInline);
+if (!intervaloInline.includes('role="grid"')) fail('modo inline mantém o calendário visível', intervaloInline);
+if (intervaloInline.includes('aria-label="Abrir calendário"') || intervaloInline.includes('aria-haspopup="dialog"')) fail('modo inline não cria outro popover', intervaloInline);
+
 const rotulado = render({ label: 'Entrega', hint: 'Dia útil' });
 if (!rotulado.includes('Entrega') || !rotulado.includes('Dia útil')) fail('label e hint', rotulado);
 const comErro = render({ label: 'Entrega', hint: 'Dia útil', error: 'Escolha uma data' });
@@ -44,4 +49,4 @@ for (const removida of ['singleDate', 'maxBookingDays', 'minBookingDate', 'showS
   if (html.includes(removida)) fail(`prop de reserva ${removida} não deveria vazar para o HTML`, html);
 }
 if (!render({ min: new Date(2026, 0, 1), max: new Date(2026, 11, 31), isDateDisabled: () => false, weekStartsOn: 1 }).includes('<input')) fail('limites aceitos');
-console.log('OK: Datepicker (single, range, value/defaultValue, hint, erro, disabled, popover do Calendar)');
+console.log('OK: Datepicker (single, range, inline, value/defaultValue, hint, erro, disabled, popover do Calendar)');

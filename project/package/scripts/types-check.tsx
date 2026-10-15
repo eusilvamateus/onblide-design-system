@@ -136,6 +136,7 @@ export function UsosDeData() {
       <Calendar mode="range" value={periodo} onChange={setPeriodo} />
       <Datepicker value={dia} onChange={setDia} min={new Date()} />
       <Datepicker mode="range" value={periodo} onChange={(r) => setPeriodo(r)} />
+      <Datepicker mode="range" calendarDisplay="inline" value={periodo} onChange={setPeriodo} />
       {/* @ts-expect-error intervalo exige CalendarRange */}
       <Calendar mode="range" value={dia} />
       {/* @ts-expect-error data única não aceita CalendarRange */}

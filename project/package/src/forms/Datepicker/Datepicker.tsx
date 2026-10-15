@@ -28,6 +28,8 @@ interface DatepickerBaseProps {
   placeholder?: string;
   /** Desabilita o campo e o calendário. */
   disabled?: boolean;
+  /** Exibe o calendário em um popover (padrão) ou permanentemente abaixo dos campos. */
+  calendarDisplay?: 'popover' | 'inline';
 }
 
 export interface SingleDatepickerProps extends DatepickerBaseProps {
@@ -65,8 +67,10 @@ const estiloDoCampo: React.CSSProperties = {
 export const Datepicker: React.FC<DatepickerProps> = (props) => {
   const {
     label, hint, error, min, max, isDateDisabled, weekStartsOn, placeholder = 'dd/mm/aaaa', disabled = false,
+    calendarDisplay = 'popover',
   } = props;
   const intervalo = props.mode === 'range';
+  const calendarioInline = calendarDisplay === 'inline';
   const limites = { min, max, isDateDisabled };
 
   const [valorInterno, setValorInterno] = useState<Date | null | CalendarRange>(props.defaultValue ?? (intervalo ? VAZIO : null));
@@ -147,7 +151,7 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
       <div onFocus={() => setFocado(true)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocado(false); }}>
-        <FieldShell focused={focado} error={temErro} disabled={disabled} padding="0 6px 0 14px">
+        <FieldShell focused={focado} error={temErro} disabled={disabled} padding={calendarioInline ? '0 14px' : '0 6px 0 14px'}>
           <input type="text" inputMode="numeric" maxLength={10} value={textoInicio} placeholder={placeholder} disabled={disabled}
             aria-label={intervalo ? 'Data inicial' : undefined} aria-invalid={!!(error || erroInicio) || undefined}
             onChange={digitarInicio} style={estiloDoCampo} />
@@ -159,12 +163,15 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
                 onChange={digitarFim} style={estiloDoCampo} />
             </>
           )}
-          <Popover align="end" width={276} padding={12} closeButton={false} ariaLabel="Calendário"
-            trigger={<Button kind="neutral" iconOnly size="sm" disabled={disabled} aria-label="Abrir calendário" icon={<Ph n="calendar-blank" size={18} />} />}>
-            {calendario}
-          </Popover>
+          {!calendarioInline && (
+            <Popover align="end" width={276} padding={12} closeButton={false} ariaLabel="Calendário"
+              trigger={<Button kind="neutral" iconOnly size="sm" disabled={disabled} aria-label="Abrir calendário" icon={<Ph n="calendar-blank" size={18} />} />}>
+              {calendario}
+            </Popover>
+          )}
         </FieldShell>
       </div>
+      {calendarioInline && calendario(() => undefined)}
       {(hint || mensagem) && <span style={{ fontSize: 11, color: mensagem ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{mensagem || hint}</span>}
     </div>
   );
