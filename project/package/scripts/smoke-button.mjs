@@ -2,6 +2,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Button } from '../dist/index.js';
 
+const igual = (a, b, msg) => { if (a !== b) fail(msg, `esperado ${b}, veio ${a}`); };
 const h = React.createElement;
 const fail = (msg, html) => { console.error('FAIL: ' + msg, html); process.exit(1); };
 
@@ -54,5 +55,17 @@ const comRotulo = renderToStaticMarkup(h(Button, { kind: 'primary', count: 5 }, 
 if (!comRotulo.includes('>5<')) fail('count em botão com rótulo deveria renderizar o contador', comRotulo);
 if (/position:absolute/.test(comRotulo)) fail('count em botão com rótulo deveria ficar em linha, não no canto', comRotulo);
 if (!/position:absolute/.test(neutro)) fail('count em botão só com ícone continua no canto', neutro);
+
+const fundoDoContador = (props) => {
+  const html = renderToStaticMarkup(h(Button, { count: 5, ...props }, 'Salvar'));
+  const m = html.match(/<span[^>]*background:([^;]+);[^>]*>5<\/span>/);
+  return m ? m[1] : null;
+};
+igual(fundoDoContador({ kind: 'primary' }), 'var(--ob-danger)', 'o contador padrão é vermelho');
+igual(fundoDoContador({ kind: 'secondary' }), 'var(--ob-danger)', 'o contador é vermelho em superfícies claras');
+igual(fundoDoContador({ kind: 'danger' }), 'var(--ob-blue)', 'o contador do botão danger é azul');
+igual(fundoDoContador({ kind: 'primary', countTone: 'green' }), 'var(--ob-green)', 'countTone muda o tom');
+igual(fundoDoContador({ kind: 'danger', countTone: 'red' }), 'var(--ob-danger)', 'countTone vence o padrão do kind');
+igual(fundoDoContador({ kind: 'secondary', countTone: 'grey' }), 'var(--ob-fg-mute)', 'countTone aceita grey');
 
 console.log('OK: Button (type padrão, disabled, props nativas, iconOnly, neutral, quiet com tom, pressed, count)');

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge } from '../../data-display/Badge/Badge';
+import type { BadgeTone } from '../../internal/badgeTones';
 import { ACTION_TONES, type ActionTone } from '../../internal/actionTones';
 
 const ANEL_DE_FOCO = '0 0 0 3px var(--ob-focus-ring)';
@@ -8,6 +9,8 @@ const ANEL_DE_FOCO = '0 0 0 3px var(--ob-focus-ring)';
 export type ButtonKind = 'primary' | 'secondary' | 'ghost' | 'cream' | 'danger' | 'neutral' | 'quiet';
 /** Cor que a ação ganha ao receber o mouse ou o foco no estilo `quiet`. */
 export type ButtonTone = ActionTone;
+
+const TOM_DO_CONTADOR: Partial<Record<ButtonKind, BadgeTone>> = { danger: 'blue' };
 /** Tamanho do botão, que ajusta fonte e espaçamento interno. */
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
@@ -26,6 +29,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   pressed?: boolean;
   /** Contador exibido como badge numérico: no canto do botão só com ícone e em linha, depois do rótulo, nos demais. */
   count?: number;
+  /** Tom do contador, entre os tons do `Badge`. Sem ele, o contador é vermelho, e azul no estilo `danger`, onde o vermelho se perderia no fundo. */
+  countTone?: BadgeTone;
 }
 
 /** Botão de ação com variações de estilo, tamanho e suporte a ícone. */
@@ -37,6 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
   iconOnly = false,
   pressed,
   count,
+  countTone,
   children,
   style = {},
   type = 'button',
@@ -55,6 +61,7 @@ export const Button: React.FC<ButtonProps> = ({
     padding: size === 'sm' ? '7px 12px' : size === 'lg' ? '14px 22px' : '10px 18px',
   };
   const tom = ACTION_TONES[tone];
+  const tomDoContador = countTone ?? TOM_DO_CONTADOR[kind] ?? 'red';
   const quadrado = size === 'sm' ? 32 : size === 'lg' ? 48 : 40;
   const soIcone: React.CSSProperties = iconOnly ? { width: quadrado, height: quadrado, padding: 0, gap: 0 } : {};
   const kinds: Record<ButtonKind, React.CSSProperties> = {
@@ -96,8 +103,8 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {icon}{iconOnly ? null : children}
       {count ? (iconOnly
-        ? <span style={{ position: 'absolute', top: 2, right: 0 }}><Badge tone="red" variant="numeric" size="sm">{count}</Badge></span>
-        : <Badge tone="red" variant="numeric" size="sm">{count}</Badge>) : null}
+        ? <span style={{ position: 'absolute', top: 2, right: 0 }}><Badge tone={tomDoContador} variant="numeric" size="sm">{count}</Badge></span>
+        : <Badge tone={tomDoContador} variant="numeric" size="sm">{count}</Badge>) : null}
     </button>
   );
 };

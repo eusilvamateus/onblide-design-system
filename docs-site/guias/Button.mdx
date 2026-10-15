@@ -69,7 +69,7 @@ O `aria-label` é obrigatório, porque a cor não pode ser a única pista da aç
 
 **Ação silenciosa.** Em repouso o ícone usa `--ob-fg-soft`. No hover, no foco visível e quando `pressed`, a cor do ícone e do texto vira o tom (`--ob-green-700`, `--ob-blue`, `--ob-orange-700`, `--ob-danger`) sobre o fundo leve do mesmo tom (`--ob-success-bg`, `--ob-blue-050`, `--ob-warning-bg`, `--ob-danger-bg`). Todos têm versão no tema escuro.
 
-**Contador.** `count` mostra um **Badge** numérico vermelho: em linha, depois do rótulo, nos botões com texto; no canto superior direito nos botões só com ícone.
+**Contador.** `count` mostra um **Badge** numérico: em linha, depois do rótulo, nos botões com texto; no canto superior direito nos botões só com ícone. O tom padrão é vermelho, e azul no `kind="danger"`, onde o vermelho se perderia no fundo. Use `countTone` (`blue`, `green`, `orange`, `red` ou `grey`) para escolher outro, por exemplo `blue` em um botão de filtro que indica critérios aplicados.
 
 **Motion.** Transição de 160ms `--ob-ease`. Sem encolher no press, só escurece um tom.
 

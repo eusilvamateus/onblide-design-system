@@ -70,3 +70,13 @@ export const AcaoSilenciosaComTexto = () => (
     <Button kind="quiet" tone="danger" size="sm" icon={<Ph n="trash" size={14} />}>Excluir</Button>
   </div>
 );
+
+export const ContadorEmLinha = () => (
+  <div style={{ padding: 16, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+    <Button kind="secondary" size="sm" count={3} icon={<Ph n="funnel-simple" size={16} />}>Filtros</Button>
+    <Button kind="secondary" size="sm" count={3} countTone="blue" icon={<Ph n="funnel-simple" size={16} />}>Filtros</Button>
+    <Button kind="primary" count={5}>Salvar alterações</Button>
+    <Button kind="danger" count={2}>Excluir</Button>
+    <Button kind="neutral" iconOnly count={4} aria-label="Avisos" icon={<Ph n="bell" size={18} />} />
+  </div>
+);
