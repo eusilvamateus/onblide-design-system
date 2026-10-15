@@ -32,6 +32,12 @@ export const ComSetasPorMes = () => (
   </div>
 );
 
+export const ComSetasPorAno = () => (
+  <div style={caixa}>
+    <Datepicker label="Ano de referência" stepper="year" defaultValue={new Date(2026, 0, 1)} />
+  </div>
+);
+
 export const DataMinima = () => (
   <div style={caixa}>
     <Datepicker label="Data de entrega" hint="Datas antes de 20/05/2026 ficam indisponíveis" min={new Date(2026, 4, 20)} />

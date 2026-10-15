@@ -76,6 +76,8 @@ export interface SingleCalendarProps extends CalendarBaseProps {
   defaultValue?: Date | null;
   /** Chamado ao escolher uma data. */
   onChange?: (value: Date | null) => void;
+  /** O que a seleção escolhe: um dia (padrão), um mês inteiro ou um ano inteiro. Em `month` e `year` o calendário abre na grade de meses ou de anos, escolher um item seleciona o primeiro dia do mês ou 1º de janeiro, e `isDateDisabled` não se aplica. */
+  precision?: 'day' | 'month' | 'year';
 }
 
 export interface RangeCalendarProps extends CalendarBaseProps {
@@ -103,10 +105,13 @@ const INTERVALO_VAZIO: CalendarRange = { start: null, end: null };
 /** Calendário mensal de uma data ou de um intervalo, com navegação por mês e por ano e teclado completo; base do Datepicker. */
 export const Calendar: React.FC<CalendarProps> = (props) => {
   const {
-    month, defaultMonth, onMonthChange, openTo = 'days', min, max, isDateDisabled, weekStartsOn = 0, disabled = false,
+    month, defaultMonth, onMonthChange, openTo: abrirEm, min, max, isDateDisabled, weekStartsOn = 0, disabled = false,
     ariaLabel = 'Calendário', style,
   } = props;
   const intervalo = props.mode === 'range';
+  const precisao = props.mode === 'range' ? 'day' : (props.precision ?? 'day');
+  const vistaMinima: CalendarView = precisao === 'day' ? 'days' : precisao === 'month' ? 'months' : 'years';
+  const openTo = abrirEm ?? vistaMinima;
   const hoje = inicioDoDia(new Date());
 
   const [valorInterno, setValorInterno] = useState<Date | null | CalendarRange>(
@@ -137,7 +142,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
     onMonthChange?.(novo);
   };
 
-  const limites = { min, max, isDateDisabled };
+  const limites = { min, max, isDateDisabled: precisao === 'day' ? isDateDisabled : undefined };
   const alvoDoFoco = diaDoFoco(mesVisivel, foco, referencia, hoje);
   const indiceDeAno = Math.min(TAMANHO_DO_BLOCO_DE_ANOS - 1, Math.max(0, ano - bloco));
   const indiceDoFoco = focoDaGrade ?? (vista === 'months' ? mes : indiceDeAno);
@@ -169,14 +174,22 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
     }
   };
 
+  const selecionarPeriodo = (data: Date) => {
+    if (props.mode === 'range') return;
+    if (props.value === undefined) setValorInterno(data);
+    props.onChange?.(data);
+  };
+
   const escolherMes = (m: number) => {
     irParaMes(new Date(ano, m, 1));
     setFoco(null);
+    if (precisao === 'month') { selecionarPeriodo(new Date(ano, m, 1)); setFocoDaGrade(m); return; }
     trocarVista('days');
   };
 
   const escolherAno = (a: number) => {
     irParaMes(new Date(a, mes, 1));
+    if (precisao === 'year') { selecionarPeriodo(new Date(a, 0, 1)); return; }
     trocarVista('months');
   };
 
@@ -197,6 +210,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
 
   const aoTeclarGrade = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
+      if (vista === vistaMinima) return;
       e.preventDefault();
       e.stopPropagation();
       trocarVista(vista === 'years' ? 'months' : 'days');
@@ -361,7 +375,8 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
       {vista === 'months' && (
         <div ref={grade} role="grid" aria-label={`Meses de ${ano}`} onKeyDown={aoTeclarGrade} onMouseLeave={() => setPreviaDaGrade(null)} style={{ width: LARGURA }}>
           {linhasDaGrade(MESES_ABREVIADOS.map((abreviado, m) => celulaDaGrade({
-            indice: m, texto: abreviado, rotulo: `${MESES[m]} de ${ano}`, ativo: m === mes,
+            indice: m, texto: abreviado, rotulo: `${MESES[m]} de ${ano}`,
+            ativo: precisao === 'month' ? !!selecionadoUnico && selecionadoUnico.getFullYear() === ano && selecionadoUnico.getMonth() === m : m === mes,
             atual: hoje.getFullYear() === ano && hoje.getMonth() === m,
             inativo: disabled || mesForaDosLimites(ano, m, limites),
             ordem: ano * 12 + m, ordemDaPrevia: previaDaGrade === null ? null : ano * 12 + previaDaGrade, de: emMeses,
@@ -373,7 +388,8 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
       {vista === 'years' && (
         <div ref={grade} role="grid" aria-label={`Anos de ${bloco} a ${bloco + TAMANHO_DO_BLOCO_DE_ANOS - 1}`} onKeyDown={aoTeclarGrade} onMouseLeave={() => setPreviaDaGrade(null)} style={{ width: LARGURA }}>
           {linhasDaGrade(Array.from({ length: TAMANHO_DO_BLOCO_DE_ANOS }, (_, i) => bloco + i).map((a, i) => celulaDaGrade({
-            indice: i, texto: String(a), rotulo: String(a), ativo: a === ano, atual: hoje.getFullYear() === a,
+            indice: i, texto: String(a), rotulo: String(a),
+            ativo: precisao === 'year' ? selecionadoUnico?.getFullYear() === a : a === ano, atual: hoje.getFullYear() === a,
             inativo: disabled || anoForaDosLimites(a, limites),
             ordem: a, ordemDaPrevia: previaDaGrade === null ? null : bloco + previaDaGrade, de: emAnos,
             aoClicar: () => escolherAno(a),

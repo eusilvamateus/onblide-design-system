@@ -77,4 +77,15 @@ const anosLimitados = render({ openTo: 'years', min: new Date(2020, 5, 1), max: 
 igual(contar(anosLimitados, 'aria-disabled="true"'), 4, 'anos antes de 2020 ficam desabilitados');
 igual(contar(render({ openTo: 'months', disabled: true }), 'aria-disabled="true"'), 12, 'disabled desabilita os meses');
 if (/#[0-9a-f]{3,8}\b|rgba?\(/i.test(meses + anos)) fail('nenhuma cor solta nas vistas de meses e anos');
+const porMes = render({ precision: 'month', value: d(2026, 10, 1) });
+if (!porMes.includes('aria-label="Meses de 2026"') || porMes.includes('role="columnheader"')) fail('precision month abre na grade de meses', porMes);
+if (!/aria-label="Outubro de 2026"[^>]*>|aria-selected="true"[^>]*>\s*<button[^>]*aria-label="Outubro de 2026"/.test(porMes)) fail('precision month marca o mês selecionado', porMes);
+const porMesOutroAno = render({ precision: 'month', value: d(2025, 10, 1), defaultMonth: d(2026, 1, 1) });
+if (/aria-selected="true"[^>]*><button[^>]*aria-label="Outubro de 2026"/.test(porMesOutroAno)) fail('o mês selecionado só aparece marcado no ano dele', porMesOutroAno);
+const porAno = render({ precision: 'year', value: d(2026, 1, 1) });
+if (!porAno.includes('aria-label="Anos de 2016 a 2027"')) fail('precision year abre na grade de anos', porAno);
+if (!/aria-selected="true"[^>]*><button[^>]*aria-label="2026"/.test(porAno)) fail('precision year marca o ano selecionado', porAno);
+if (!render({ precision: 'month', openTo: 'days' }).includes('role="columnheader"')) fail('openTo explícito vence a vista da precisão');
+if (!render({}).includes('aria-label="Outubro 2026"')) fail('sem precision a vista padrão continua sendo dias');
+
 console.log('OK: Calendar vistas (cabeçalho clicável, meses, anos em blocos de 12, limites, teclado em grade)');

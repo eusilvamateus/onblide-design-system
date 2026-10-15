@@ -56,4 +56,35 @@ export const mascararData = (texto: string): string => {
   return `${digitos.slice(0, 2)}/${digitos.slice(2, 4)}/${digitos.slice(4)}`;
 };
 
+export type PrecisaoDaData = 'day' | 'month' | 'year';
+
+export const TAMANHO_DO_TEXTO: Record<PrecisaoDaData, number> = { day: 10, month: 7, year: 4 };
+
+export const PLACEHOLDER_DA_DATA: Record<PrecisaoDaData, string> = { day: 'dd/mm/aaaa', month: 'mm/aaaa', year: 'aaaa' };
+
+export const normalizarPorPrecisao = (data: Date, precisao: PrecisaoDaData): Date =>
+  precisao === 'year' ? new Date(data.getFullYear(), 0, 1) : precisao === 'month' ? inicioDoMes(data) : inicioDoDia(data);
+
+export const formatarPorPrecisao = (data: Date | null, precisao: PrecisaoDaData): string => {
+  if (!data) return '';
+  if (precisao === 'day') return formatarData(data);
+  if (precisao === 'year') return String(data.getFullYear());
+  return `${String(data.getMonth() + 1).padStart(2, '0')}/${data.getFullYear()}`;
+};
+
+export const mascararPorPrecisao = (texto: string, precisao: PrecisaoDaData): string => {
+  if (precisao === 'day') return mascararData(texto);
+  const digitos = texto.replace(/\D/g, '').slice(0, precisao === 'year' ? 4 : 6);
+  if (precisao === 'year' || digitos.length <= 2) return digitos;
+  return `${digitos.slice(0, 2)}/${digitos.slice(2)}`;
+};
+
+export const interpretarPorPrecisao = (texto: string, precisao: PrecisaoDaData): Date | null => {
+  if (precisao === 'day') return interpretarData(texto);
+  if (precisao === 'year') return /^\d{4}$/.test(texto) ? new Date(Number(texto), 0, 1) : null;
+  if (!/^\d{2}\/\d{4}$/.test(texto)) return null;
+  const [mes, ano] = texto.split('/').map(Number);
+  return mes >= 1 && mes <= 12 ? new Date(ano, mes - 1, 1) : null;
+};
+
 export const rotuloDoDia = (data: Date): string => `${data.getDate()} de ${MESES[data.getMonth()].toLowerCase()} de ${data.getFullYear()}`;

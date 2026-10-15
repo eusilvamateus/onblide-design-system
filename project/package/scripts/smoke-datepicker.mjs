@@ -74,10 +74,36 @@ igual(viz(d(2026, 10, 20), 'day', 1, { max: d(2026, 10, 20) }), null, 'no máxim
 igual(viz(d(2026, 10, 10), 'month', -1, { min: d(2026, 10, 5) }), '2026-10-5', 'passo de mês que ultrapassa o mínimo para no mínimo');
 igual(viz(null, 'day', 1, { min: d(2026, 12, 1) }), '2026-12-1', 'campo vazio com mínimo futuro começa no mínimo');
 
+const datas = await carregarTs('src/internal/dates.ts');
+igual(datas.formatarPorPrecisao(d(2026, 10, 14), 'month'), '10/2026', 'precisão de mês mostra mm/aaaa');
+igual(datas.formatarPorPrecisao(d(2026, 10, 14), 'year'), '2026', 'precisão de ano mostra aaaa');
+igual(datas.formatarPorPrecisao(d(2026, 10, 14), 'day'), '14/10/2026', 'precisão de dia mostra dd/mm/aaaa');
+igual(datas.mascararPorPrecisao('102026', 'month'), '10/2026', 'máscara de mês');
+igual(datas.mascararPorPrecisao('1', 'month'), '1', 'máscara de mês parcial');
+igual(datas.mascararPorPrecisao('20261', 'year'), '2026', 'máscara de ano limita a quatro dígitos');
+igual(datas.interpretarPorPrecisao('10/2026', 'month')?.getDate(), 1, 'mês digitado vira o dia 1');
+igual(datas.interpretarPorPrecisao('13/2026', 'month'), null, 'mês 13 é inválido');
+igual(datas.interpretarPorPrecisao('2026', 'year')?.getMonth(), 0, 'ano digitado vira 1º de janeiro');
+igual(datas.interpretarPorPrecisao('26', 'year'), null, 'ano exige quatro dígitos');
+igual(datas.normalizarPorPrecisao(d(2026, 10, 14), 'month').getDate(), 1, 'normaliza para o primeiro dia do mês');
+igual(datas.normalizarPorPrecisao(d(2026, 10, 14), 'year').getMonth(), 0, 'normaliza para janeiro');
+
+const mesAMes = render({ stepper: 'month', value: d(2026, 10, 14) });
+if (!mesAMes.includes('value="10/2026"') || !mesAMes.includes('maxLength="7"')) fail('stepper de mês mostra só mês e ano', mesAMes);
+if (!render({ stepper: 'month' }).includes('placeholder="mm/aaaa"')) fail('placeholder de mês');
+if (!mesAMes.includes('aria-label="Abrir calendário"')) fail('mês mantém o botão que abre a grade de meses', mesAMes);
+const anoAAno = render({ stepper: 'year', value: d(2026, 10, 14) });
+if (!anoAAno.includes('value="2026"') || !render({ stepper: 'year' }).includes('placeholder="aaaa"')) fail('stepper de ano mostra só o ano', anoAAno);
+if (!render({ stepper: 'day', value: d(2026, 10, 14) }).includes('aria-label="Abrir calendário"')) fail('dia mantém o calendário');
+if (!render({ stepper: 'day', value: d(2026, 10, 14) }).includes('text-align:center')) fail('o texto do campo é centralizado');
+if (!render({ mode: 'range', value: { start: d(2026, 10, 5), end: d(2026, 10, 12) } }).includes('text-align:center')) fail('o texto dos campos do intervalo é centralizado');
+
 const comStepper = render({ stepper: 'day', value: d(2026, 10, 14) });
 if (!comStepper.includes('aria-label="Dia anterior"') || !comStepper.includes('aria-label="Próximo dia"')) fail('stepper de dia mostra as duas setas', comStepper);
 const porMes = render({ stepper: 'month', value: d(2026, 10, 14) });
 if (!porMes.includes('aria-label="Mês anterior"') || !porMes.includes('aria-label="Próximo mês"')) fail('stepper de mês nomeia as setas', porMes);
+const porAno = render({ stepper: 'year', value: d(2026, 10, 14) });
+if (!porAno.includes('aria-label="Ano anterior"') || !porAno.includes('aria-label="Próximo ano"')) fail('stepper de ano nomeia as setas', porAno);
 if (render({}).includes('Dia anterior')) fail('sem stepper não há setas');
 if (render({ mode: 'range', stepper: 'day' }).includes('Dia anterior')) fail('range ignora o stepper');
 if (!/<button[^>]*disabled[^>]*aria-label="Próximo dia"|<button[^>]*aria-label="Próximo dia"[^>]*disabled/.test(render({ stepper: 'day', value: d(2026, 10, 20), max: d(2026, 10, 20) }))) fail('seta desabilita no máximo');
