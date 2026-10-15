@@ -32,7 +32,7 @@ function externalGlobalPlugin(mapping: Record<string, string>): Plugin {
 export default defineConfig([
   {
     // The real package build: what /design-sync and any future npm consumer use.
-    entry: { index: 'src/index.ts' },
+    entry: { index: 'src/index.ts', periodo: 'src/internal/periodo.ts' },
     format: ['esm', 'cjs'],
     dts: true,
     sourcemap: true,

@@ -12,6 +12,11 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./periodo": {
+      "types": "./dist/periodo.d.ts",
+      "import": "./dist/periodo.js",
+      "require": "./dist/periodo.cjs"
+    },
     "./styles.css": "./src/styles.css",
     "./tokens.css": "./src/tokens.css",
     "./theme-init": "./dist/theme-init.js"
