@@ -24,7 +24,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   iconOnly?: boolean;
   /** Estado pressionado (ex.: painel aberto): marca `aria-pressed` e, no estilo `neutral`, destaca o fundo. */
   pressed?: boolean;
-  /** Contador exibido como badge numérico no canto do botão, útil em botões só com ícone. */
+  /** Contador exibido como badge numérico: no canto do botão só com ícone e em linha, depois do rótulo, nos demais. */
   count?: number;
 }
 
@@ -95,7 +95,9 @@ export const Button: React.FC<ButtonProps> = ({
       onBlur={(e) => { e.currentTarget.style.boxShadow = 'none'; destacar(e.currentTarget, false); onBlur?.(e); }}
     >
       {icon}{iconOnly ? null : children}
-      {count ? <span style={{ position: 'absolute', top: 2, right: 0 }}><Badge tone="red" variant="numeric" size="sm">{count}</Badge></span> : null}
+      {count ? (iconOnly
+        ? <span style={{ position: 'absolute', top: 2, right: 0 }}><Badge tone="red" variant="numeric" size="sm">{count}</Badge></span>
+        : <Badge tone="red" variant="numeric" size="sm">{count}</Badge>) : null}
     </button>
   );
 };

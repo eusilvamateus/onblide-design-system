@@ -13,6 +13,10 @@ type Controle = { prop: Prop; tipo: 'booleano' | 'opcoes' | 'texto' | 'numero'; 
 
 const dados = props as Record<string, { descricao: string; props: Prop[] }>;
 
+const CONDICIONAIS: Record<string, Record<string, { prop: string; valor: string }>> = {
+  Button: { tone: { prop: 'kind', valor: 'quiet' } },
+};
+
 const LIGADAS = ['open', 'onClose', 'onChange', 'checked', 'value', 'values'];
 
 function controlesDe(nome: string, brutos: Record<string, string>): Controle[] {
@@ -76,6 +80,10 @@ export default function Playground({
     return ini;
   };
   const [valores, setValores] = useState<Record<string, Valor>>(inicial);
+  const visiveis = controles.filter((c) => {
+    const condicao = CONDICIONAIS[nome]?.[c.prop.nome];
+    return !condicao || valores[condicao.prop] === condicao.valor;
+  });
   const [versao, setVersao] = useState(0);
   const [aba, setAba] = useState('resultado');
   const definir = (p: string, v: Valor) => setValores((a) => ({ ...a, [p]: v }));
@@ -95,7 +103,7 @@ export default function Playground({
   }
 
   const attrs = [
-    ...controles
+    ...visiveis
       .filter((c) => c.prop.nome !== 'children' && !(controlado && c.prop.nome === alvoLigado))
       .map((c) => atributo(c, valores[c.prop.nome])),
     ...Object.entries(brutos).filter(([k, v]) => !LIGADAS.includes(k) && v !== 'undefined').map(([k, v]) => `${k}={${v}}`),
@@ -130,7 +138,7 @@ export default function Playground({
   return (
     <div className="ob-demo">
       <div className="ob-demo__controles">
-        {controles.filter((c) => c.tipo !== 'booleano').map((c) => {
+        {visiveis.filter((c) => c.tipo !== 'booleano').map((c) => {
           const v = valores[c.prop.nome];
           const rotulo = c.prop.nome;
           if (c.tipo === 'opcoes') {
@@ -151,9 +159,9 @@ export default function Playground({
           );
         })}
       </div>
-      {controles.some((c) => c.tipo === 'booleano') && (
+      {visiveis.some((c) => c.tipo === 'booleano') && (
         <div className="ob-demo__opcoes">
-          {controles.filter((c) => c.tipo === 'booleano').map((c) => (
+          {visiveis.filter((c) => c.tipo === 'booleano').map((c) => (
             <Checkbox key={c.prop.nome} label={c.prop.nome} checked={!!valores[c.prop.nome]} onChange={(x: boolean) => definir(c.prop.nome, x)} />
           ))}
         </div>

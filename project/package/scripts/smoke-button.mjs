@@ -50,4 +50,9 @@ for (const [tom, fg, bg] of [['success', 'var(--ob-green-700)', 'var(--ob-green-
 }
 const tomIgnorado = renderToStaticMarkup(h(Button, { kind: 'primary', tone: 'danger' }, 'Salvar'));
 if (!tomIgnorado.includes('background:var(--ob-blue)')) fail('tone só vale no estilo quiet', tomIgnorado);
+const comRotulo = renderToStaticMarkup(h(Button, { kind: 'primary', count: 5 }, 'Salvar'));
+if (!comRotulo.includes('>5<')) fail('count em botão com rótulo deveria renderizar o contador', comRotulo);
+if (/position:absolute/.test(comRotulo)) fail('count em botão com rótulo deveria ficar em linha, não no canto', comRotulo);
+if (!/position:absolute/.test(neutro)) fail('count em botão só com ícone continua no canto', neutro);
+
 console.log('OK: Button (type padrão, disabled, props nativas, iconOnly, neutral, quiet com tom, pressed, count)');
