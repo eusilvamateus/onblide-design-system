@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Popover, Button } from '../dist/index.js';
+import { Popover, Button, Chip, Tooltip } from '../dist/index.js';
 
 // O painel do Popover sai por um portal (ReactDOM.createPortal em document.body) para não ser cortado por
 // overflow de um ancestral — por isso, igual ao Drawer, o conteúdo aberto não aparece num SSR puro em Node
@@ -19,5 +19,9 @@ if (!open.includes('aria-expanded="true"')) fail('defaultOpen deveria marcar o g
 
 const hover = renderToStaticMarkup(h(Popover, { trigger: trigger(), interaction: 'hover' }));
 if (hover.includes('aria-haspopup') || hover.includes('aria-describedby')) fail('interaction hover fechado não deveria marcar aria-haspopup nem aria-describedby', hover);
+
+const chip = renderToStaticMarkup(h(Tooltip, { label: 'Período' },
+  h(Popover, { trigger: h(Chip, { label: 'Agosto - Outubro' }) }, 'Calendário')));
+if (!chip.includes('aria-haspopup="dialog"') || !chip.includes('aria-expanded="false"')) fail('Chip deveria aceitar os atributos do Popover', chip);
 
 console.log('OK: Popover (gatilho fechado/aberto nos dois modos de interação; painel aberto verificado via Chromium)');

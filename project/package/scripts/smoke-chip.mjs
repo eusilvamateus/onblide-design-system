@@ -24,5 +24,9 @@ if (render({ label: 'Tag' }).includes('<button')) fail('Chip sem removable não 
 if (!removivel.includes('role="button"') || !removivel.includes('aria-pressed="false"')) fail('role/aria-pressed do chip', removivel);
 if (!render({ label: 'x', selected: true }).includes('aria-pressed="true"')) fail('aria-pressed quando selecionado');
 if (!render({ label: 'x', disabled: true }).includes('tabindex="-1"')) fail('chip desabilitado deveria sair da ordem de tab');
+const composto = render({ label: 'Período', className: 'periodo', 'aria-expanded': false, style: { maxWidth: 240 } });
+if (!composto.includes('class="periodo"')) fail('chip deveria encaminhar className', composto);
+if (!composto.includes('aria-expanded="false"')) fail('chip deveria encaminhar atributos aria', composto);
+if (!composto.includes('max-width:240px')) fail('chip deveria mesclar estilos recebidos', composto);
 
-console.log('OK: Chip (botão de remover com type="button", role, aria-pressed, desabilitado)');
+console.log('OK: Chip (remoção, estado, atributos nativos e composição)');

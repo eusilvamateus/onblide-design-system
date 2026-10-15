@@ -1,7 +1,7 @@
 import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 
-export interface ChipProps {
+export interface ChipProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children' | 'onToggle'> {
   /** Texto ou conteúdo exibido no chip. */
   label: React.ReactNode;
   /** Marca o chip como selecionado, aplicando o estilo preenchido. */
@@ -23,6 +23,7 @@ export interface ChipProps {
 /** Elemento compacto e interativo para seleção, filtro ou remoção de itens. */
 export const Chip: React.FC<ChipProps> = ({
   label, selected = false, onToggle, removable = false, onRemove, icon, size = 'md', disabled = false,
+  className, style, onClick, onKeyDown, ...rest
 }) => {
   const fs  = size === 'sm' ? 12 : 13;
   const pad = size === 'sm' ? '5px 10px' : '7px 14px';
@@ -45,12 +46,24 @@ export const Chip: React.FC<ChipProps> = ({
 
   return (
     <span
+      {...rest}
+      className={className}
       role="button"
       tabIndex={disabled ? -1 : 0}
       aria-pressed={selected}
-      onClick={() => !disabled && onToggle?.()}
-      onKeyDown={e => { if (!disabled && (e.key === 'Enter' || e.key === ' ')) onToggle?.(); }}
-      style={{ ...base, ...stateStyle }}
+      onClick={e => {
+        if (disabled) return;
+        onClick?.(e);
+        if (!e.defaultPrevented) onToggle?.();
+      }}
+      onKeyDown={e => {
+        onKeyDown?.(e);
+        if (!disabled && !e.defaultPrevented && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          e.currentTarget.click();
+        }
+      }}
+      style={{ ...base, ...stateStyle, ...style }}
     >
       {icon && <Ph n={icon} size={size === 'sm' ? 13 : 15} weight={size === 'sm' ? 'bold' : 'regular'} />}
       {label}
