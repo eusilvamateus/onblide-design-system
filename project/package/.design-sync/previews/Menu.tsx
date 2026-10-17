@@ -1,4 +1,4 @@
-import { Menu, ContextMenu, Button, Ph } from '@onblide/ui';
+import { Menu, ContextMenu, Button, Ph, Tabs } from '@onblide/ui';
 
 const itens = [
   { label: 'Editar', icon: 'pencil-simple', shortcut: 'Ctrl+E' },
@@ -21,6 +21,21 @@ export const ComSelecao = () => (
         { type: 'radio', group: 'zoom', label: '50%', checked: false, onSelect: () => {} },
         { type: 'radio', group: 'zoom', label: '100%', checked: true, onSelect: () => {} },
         { type: 'radio', group: 'zoom', label: '200%', checked: false, onSelect: () => {} },
+      ]}
+      defaultOpen
+    />
+  </div>
+);
+
+export const ComConteudoLivre = () => (
+  <div style={{ padding: 16, width: 280, height: 220 }}>
+    <Menu
+      trigger={<Button kind="secondary">Perfil</Button>}
+      items={[
+        { label: 'Configurações', icon: 'gear' },
+        { type: 'separator' },
+        { type: 'label', label: 'Aparência' },
+        { type: 'custom', ariaLabel: 'Aparência', content: <Tabs variant="pill" size="sm" active="claro" tabs={[{ id: 'claro', label: 'Claro' }, { id: 'escuro', label: 'Escuro' }, { id: 'sistema', label: 'Sistema' }]} /> },
       ]}
       defaultOpen
     />

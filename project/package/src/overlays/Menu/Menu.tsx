@@ -27,9 +27,10 @@ export type MenuItem =
   | { type: 'account'; name: string; email: string; current?: boolean; badge?: number; large?: boolean; disabled?: boolean; onSelect?: () => void }
   | { type: 'submenu'; label: string; icon?: string; disabled?: boolean; items: MenuItem[] }
   | { type: 'label'; label: string }
+  | { type: 'custom'; content: React.ReactNode; ariaLabel?: string }
   | { type: 'separator' };
 
-const isFocusable = (it: MenuItem | undefined) => !!it && it.type !== 'separator' && it.type !== 'label' && !('disabled' in it && it.disabled);
+const isFocusable = (it: MenuItem | undefined) => !!it && it.type !== 'separator' && it.type !== 'label' && it.type !== 'custom' && !('disabled' in it && it.disabled);
 function step(items: MenuItem[], from: number, dir: 1 | -1): number {
   const n = items.length;
   for (let k = 1; k <= n; k++) { const i = (((from + dir * k) % n) + n) % n; if (isFocusable(items[i])) return i; }
@@ -75,7 +76,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
     (input || ref.current).focus({ preventScroll: true });
   }, []);
   React.useEffect(() => { if (search) setActive(-1); }, [search?.value]);
-  const hasLead = items.some((it) => (it.type !== 'separator' && it.type !== 'label' && 'icon' in it && it.icon) || it.type === 'checkbox' || it.type === 'radio' || it.type === 'account');
+  const hasLead = items.some((it) => (it.type !== 'separator' && it.type !== 'label' && it.type !== 'custom' && 'icon' in it && it.icon) || it.type === 'checkbox' || it.type === 'radio' || it.type === 'account');
   const closeTree = () => onCloseTree?.();
   const closeSub = () => { setSub({ i: -1, kb: false }); ref.current?.focus({ preventScroll: true }); };
   const activate = (i: number, kb: boolean) => {
@@ -89,6 +90,10 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
   };
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    if ((e.target as HTMLElement).closest('[data-ob-menu-custom]')) {
+      if (e.key === 'Escape') { e.preventDefault(); if (level > 0) onClose?.(); else closeTree(); }
+      return;
+    }
     const k = e.key, it = items[active];
     const inInput = (e.target as HTMLElement).tagName === 'INPUT';
     if (inInput && !['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(k)) return;
@@ -114,6 +119,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
   };
   return (
     <div ref={ref} role="menu" aria-label={ariaLabel} tabIndex={-1} aria-activedescendant={active >= 0 ? `${uid}-${active}` : undefined} onKeyDown={onKeyDown} onClick={(e) => e.stopPropagation()}
+      onBlur={items.some((x) => x.type === 'custom') && level === 0 ? (e) => { if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget as Node)) closeTree(); } : undefined}
       style={{
         background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)',
         padding: z.panelPad, minWidth: z.min, zIndex: 'var(--ob-z-dropdown)' as React.CSSProperties['zIndex'], outline: 'none',
@@ -128,6 +134,14 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
       {items.map((it, i) => {
         if (it.type === 'separator') return <ListDivider key={i} style={{ margin: z.sepM }} />;
         if (it.type === 'label') return <ListSubheader key={i} size={size}>{it.label}</ListSubheader>;
+        if (it.type === 'custom') {
+          return (
+            <div key={i} role="group" aria-label={it.ariaLabel} data-ob-menu-custom="" style={{ padding: '4px 2px' }}
+              onMouseEnter={() => { setActive(-1); setSub({ i: -1, kb: false }); }}>
+              {it.content}
+            </div>
+          );
+        }
         const t = it.type ?? 'item';
         const danger = 'tone' in it && it.tone === 'danger';
         const isSub = t === 'submenu', subOpen = isSub && sub.i === i, hl = i === active || subOpen;
@@ -217,7 +231,8 @@ const posicaoDoPainel = (lado: MenuLado, align: 'left' | 'right'): React.CSSProp
 };
 
 /** Menu de comandos aberto a partir de um gatilho: itens simples, com ícone/atalho/descrição, seleção
- * única, radio, checkbox, toggle, busca, contas e submenus — com teclado completo. */
+ * única, radio, checkbox, toggle, busca, contas, submenus e blocos de conteúdo livre (`type: 'custom'`) — com
+ * teclado completo. */
 export const Menu: React.FC<MenuProps> = ({ trigger, items, align = 'left', placement = 'auto', block = false, ariaLabel, defaultOpen = false, ...panel }) => {
   const [open, setOpen] = React.useState<{ kb: boolean; lado: MenuLado } | null>(defaultOpen ? { kb: false, lado: placement === 'auto' ? 'bottom' : placement } : null);
   const wrap = React.useRef<HTMLDivElement>(null);

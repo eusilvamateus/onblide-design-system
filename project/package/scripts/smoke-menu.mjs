@@ -42,6 +42,16 @@ if (!panel.includes('Ctrl+E')) fail('shortcut deveria aparecer', panel);
 if (!panel.includes('var(--ob-danger)')) fail('tone danger deveria destacar o item', panel);
 if (!panel.includes('Visualização')) fail('label deveria virar um ListSubheader', panel);
 
+const comCustom = renderToStaticMarkup(h(MenuPanel, { items: [
+  { type: 'label', label: 'Aparência' },
+  { type: 'custom', ariaLabel: 'Tema', content: h('span', {}, 'conteúdo livre') },
+  { type: 'separator' },
+  { label: 'Sair' },
+] }));
+if (!comCustom.includes('data-ob-menu-custom') || !comCustom.includes('role="group"') || !comCustom.includes('aria-label="Tema"')) fail('item custom deveria virar um grupo com o conteúdo livre', comCustom);
+if (!comCustom.includes('conteúdo livre')) fail('item custom deveria renderizar o conteúdo', comCustom);
+if ((comCustom.match(/role="menuitem"/g) || []).length !== 1) fail('item custom não deveria virar menuitem', comCustom);
+
 const ctx = renderToStaticMarkup(h(ContextMenu, { items }, h('div', {}, 'área')));
 if (!ctx.includes('aria-haspopup="menu"') || !ctx.includes('área')) fail('ContextMenu deveria renderizar a área com aria-haspopup', ctx);
 if (ctx.includes('role="menu"')) fail('ContextMenu fechado não deveria renderizar o painel', ctx);

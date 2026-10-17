@@ -1,5 +1,5 @@
 ---
-resumo: "Menu de comandos aberto a partir de um gatilho, com teclado completo: itens simples, ícone, atalho, descrição, seleção única, radio, checkbox, toggle, busca, contas e submenus."
+resumo: "Menu de comandos aberto a partir de um gatilho, com teclado completo: itens simples, ícone, atalho, descrição, seleção única, radio, checkbox, toggle, busca, contas, submenus e blocos de conteúdo livre."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
@@ -61,6 +61,12 @@ mantêm o menu aberto, a pessoa pode marcar vários antes de fechar.
 
 **Um item, uma parada de foco.** Componentes embutidos (Checkbox, Radio, Switch) ficam `inert`: o item
 recebe clique e teclado, o componente só mostra o estado.
+
+**Conteúdo livre.** `{ type: 'custom', content, ariaLabel }` encaixa um bloco qualquer (por exemplo um `Tabs`
+`pill` para escolher a aparência) entre os itens. O bloco não é item: as setas, Home, End e a digitação o
+pulam, e dentro dele o teclado é o do próprio conteúdo (Tab e Shift+Tab percorrem os controles). Esc fecha o
+menu, e sair do bloco com Tab para fora do painel também fecha. Prefira os tipos prontos (`radio`, `toggle`)
+quando bastam; use o bloco quando o controle não existe como item.
 
 **`defaultOpen`.** Monta o painel já aberto, sem esperar o clique, só para demonstrações e capturas de tela;
 em produto o menu sempre começa fechado.
