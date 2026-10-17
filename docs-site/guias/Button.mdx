@@ -49,6 +49,12 @@ O `aria-label` é obrigatório, porque a cor não pode ser a única pista da aç
 <Button kind="quiet" tone="danger" iconOnly aria-label="Excluir" icon={<Ph n="trash" size={18} />} />
 ```
 
+Para um ícone realmente discreto, sem área em volta (por exemplo uma seta que recolhe um painel), acrescente `fill={false}`: o hover, o foco e o `pressed` mudam só a cor do ícone, sem fundo. O anel de foco do teclado continua aparecendo.
+
+```jsx
+<Button kind="quiet" fill={false} iconOnly aria-label="Recolher painel" icon={<Ph n="caret-down" size={16} />} />
+```
+
 ## Formatação
 
 ```jsx

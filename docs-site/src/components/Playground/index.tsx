@@ -14,7 +14,7 @@ type Controle = { prop: Prop; tipo: 'booleano' | 'opcoes' | 'texto' | 'numero'; 
 const dados = props as Record<string, { descricao: string; props: Prop[] }>;
 
 const CONDICIONAIS: Record<string, Record<string, { prop: string; valor: string }>> = {
-  Button: { tone: { prop: 'kind', valor: 'quiet' } },
+  Button: { tone: { prop: 'kind', valor: 'quiet' }, fill: { prop: 'kind', valor: 'quiet' } },
 };
 
 const LIGADAS = ['open', 'onClose', 'onChange', 'checked', 'value', 'values'];

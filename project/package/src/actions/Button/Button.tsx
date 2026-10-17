@@ -21,6 +21,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   size?: ButtonSize;
   /** Cor da ação no estilo `quiet`: em repouso o botão é neutro, sem borda nem fundo, e no hover, no foco e quando `pressed` o ícone e o texto assumem esta cor, com um fundo leve do mesmo tom. Ignorado nos outros estilos. */
   tone?: ButtonTone;
+  /** Fundo leve do tom no hover, no foco e quando `pressed`, no estilo `quiet`. Com `false` o fundo some e só a cor do ícone e do texto muda; o anel de foco do teclado continua. Ignorado nos outros estilos. */
+  fill?: boolean;
   /** Ícone exibido antes do conteúdo do botão. */
   icon?: React.ReactNode;
   /** Botão só com ícone: quadrado (32, 40 ou 48px conforme `size`), sem texto; exige `aria-label`. */
@@ -38,6 +40,7 @@ export const Button: React.FC<ButtonProps> = ({
   kind = 'primary',
   size = 'md',
   tone = 'neutral',
+  fill = true,
   icon,
   iconOnly = false,
   pressed,
@@ -71,13 +74,13 @@ export const Button: React.FC<ButtonProps> = ({
     cream:     { background: 'var(--ob-bg-warm)', color: 'var(--ob-fg-strong)' },
     danger:    { background: 'var(--ob-danger)', color: 'var(--ob-fg-on-color)' },
     neutral:   { background: pressed ? 'var(--ob-surface-2)' : 'transparent', color: 'var(--ob-fg)' },
-    quiet:     { background: pressed ? tom.bg : 'transparent', color: pressed ? tom.fg : 'var(--ob-fg-soft)' },
+    quiet:     { background: pressed && fill ? tom.bg : 'transparent', color: pressed ? tom.fg : 'var(--ob-fg-soft)' },
   };
   const destacar = (el: HTMLButtonElement, ativo: boolean) => {
     if (kind !== 'quiet') return;
     const on = ativo || !!pressed;
     el.style.color = on ? tom.fg : 'var(--ob-fg-soft)';
-    el.style.background = on ? tom.bg : 'transparent';
+    el.style.background = on && fill ? tom.bg : 'transparent';
   };
   return (
     <button

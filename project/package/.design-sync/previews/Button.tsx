@@ -61,6 +61,7 @@ export const AcoesEmIcone = () => (
     <Tooltip label="Editar"><Button kind="quiet" tone="primary" iconOnly aria-label="Editar" icon={<Ph n="pencil-simple" size={18} />} /></Tooltip>
     <Tooltip label="Sinalizar"><Button kind="quiet" tone="warning" iconOnly aria-label="Sinalizar" icon={<Ph n="flag" size={18} />} /></Tooltip>
     <Tooltip label="Excluir"><Button kind="quiet" tone="danger" iconOnly aria-label="Excluir" icon={<Ph n="trash" size={18} />} /></Tooltip>
+    <Button kind="quiet" tone="primary" fill={false} iconOnly aria-label="Recolher painel" icon={<Ph n="caret-down" size={16} />} />
   </div>
 );
 

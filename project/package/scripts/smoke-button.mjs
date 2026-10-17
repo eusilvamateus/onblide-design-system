@@ -43,6 +43,10 @@ if (!neutroSolto.includes('background:transparent') || !neutroSolto.includes('co
 const silencioso = renderToStaticMarkup(h(Button, { kind: 'quiet', tone: 'danger', iconOnly: true, 'aria-label': 'Excluir', icon: h('i', null, 'x') }));
 if (!silencioso.includes('background:transparent') || !silencioso.includes('color:var(--ob-fg-soft)')) fail('quiet em repouso deveria ser neutro, sem fundo', silencioso);
 if (/border:[^;"]*solid/.test(silencioso)) fail('quiet não deveria ter borda', silencioso);
+const semFundo = renderToStaticMarkup(h(Button, { kind: 'quiet', tone: 'primary', fill: false, pressed: true }, 'Ação'));
+if (!semFundo.includes('color:var(--ob-blue)') || semFundo.includes('background:var(--ob-blue-050)') || !semFundo.includes('background:transparent')) fail('quiet com fill=false pressionado muda só a cor, sem fundo', semFundo);
+const fillIgnorado = renderToStaticMarkup(h(Button, { kind: 'primary', fill: false }, 'Salvar'));
+if (!fillIgnorado.includes('background:var(--ob-blue)')) fail('fill só vale no estilo quiet', fillIgnorado);
 const silenciosoLigado = renderToStaticMarkup(h(Button, { kind: 'quiet', tone: 'danger', pressed: true }, 'Excluir'));
 if (!silenciosoLigado.includes('color:var(--ob-danger)') || !silenciosoLigado.includes('background:var(--ob-danger-bg)')) fail('quiet pressionado assume a cor e o fundo do tom', silenciosoLigado);
 for (const [tom, fg, bg] of [['success', 'var(--ob-green-700)', 'var(--ob-green-100)'], ['warning', 'var(--ob-orange-700)', 'var(--ob-orange-100)'], ['primary', 'var(--ob-blue)', 'var(--ob-blue-050)']]) {
