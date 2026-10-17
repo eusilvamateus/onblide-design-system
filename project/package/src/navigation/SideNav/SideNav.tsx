@@ -187,7 +187,7 @@ export const SideNav: React.FC<SideNavProps> = ({
         })}
       </div>
       {!hideAccount && (
-        <div style={{ flex: 'none', margin: '0 -14px -14px' }}>
+        <div style={{ flex: 'none', margin: '0 -14px' }}>
           <Menu
             block
             placement={collapsed ? 'right-end' : 'top'}
@@ -196,7 +196,7 @@ export const SideNav: React.FC<SideNavProps> = ({
             items={itensDaConta}
             trigger={
               <button type="button" aria-label={`Abrir menu de ${accountName}`} style={{
-                flex: 1, minWidth: 0, margin: '0 14px 14px', border: 'none', borderTop: '1px solid var(--ob-line-soft)',
+                flex: 1, minWidth: 0, margin: '0 14px', border: 'none', borderTop: '1px solid var(--ob-line-soft)',
                 background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10,
                 padding: collapsed ? '10px 0 2px' : '10px 8px 2px', justifyContent: collapsed ? 'center' : 'flex-start',
                 borderRadius: 'var(--ob-r-md)',
