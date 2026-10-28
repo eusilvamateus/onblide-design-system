@@ -1,6 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useId, useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import { Kbd } from '../../data-display/Kbd/Kbd';
+import { posicionarPainel } from '../../internal/floating';
+import type { PosicaoFixa } from '../../internal/floating';
 
 export type TooltipVariant = 'text' | 'inverted' | 'image';
 export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
@@ -33,7 +36,27 @@ export const Tooltip: React.FC<TooltipProps> = ({
   children, variant = 'text', placement = 'top', label, shortcut, image, title, subtitle, delay = 120, maxWidth = 240,
 }) => {
   const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState<PosicaoFixa | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const trigRef = useRef<HTMLSpanElement>(null);
+  const tipRef = useRef<HTMLSpanElement>(null);
+  const tipId = useId();
+
+  useEffect(() => {
+    if (!open) { setPos(null); return; }
+    const place = () => {
+      const t = trigRef.current, p = tipRef.current;
+      if (!t || !p) return;
+      setPos(posicionarPainel(
+        placement, 'center', t.getBoundingClientRect(), { largura: p.offsetWidth, altura: p.offsetHeight },
+        { largura: window.innerWidth, altura: window.innerHeight }, 8,
+      ));
+    };
+    place();
+    window.addEventListener('scroll', place, true);
+    window.addEventListener('resize', place);
+    return () => { window.removeEventListener('scroll', place, true); window.removeEventListener('resize', place); };
+  }, [open, placement]);
 
   const show = () => {
     if (timer.current) clearTimeout(timer.current);
@@ -47,28 +70,22 @@ export const Tooltip: React.FC<TooltipProps> = ({
   const subFg = inverted ? 'var(--ob-fg-soft)' : 'color-mix(in srgb, var(--ob-surface) 70%, transparent)';
   const bordered = inverted ? '1px solid var(--ob-border)' : 'none';
 
-  const pos: Record<TooltipPlacement, React.CSSProperties> = {
-    top:    { bottom: '100%', left: '50%', transform: 'translateX(-50%)', marginBottom: 8 },
-    bottom: { top: '100%', left: '50%', transform: 'translateX(-50%)', marginTop: 8 },
-    left:   { right: '100%', top: '50%', transform: 'translateY(-50%)', marginRight: 8 },
-    right:  { left: '100%', top: '50%', transform: 'translateY(-50%)', marginLeft: 8 },
-  };
-
   const arrowBase: React.CSSProperties = { position: 'absolute', width: 8, height: 8, background: bg, transform: 'rotate(45deg)', border: bordered };
   const arrowPos: Record<TooltipPlacement, React.CSSProperties> = {
-    top:    { bottom: -4, left: '50%', marginLeft: -4, borderTop: 'none', borderLeft: 'none' },
-    bottom: { top: -4, left: '50%', marginLeft: -4, borderBottom: 'none', borderRight: 'none' },
-    left:   { right: -4, top: '50%', marginTop: -4, borderBottom: 'none', borderLeft: 'none' },
-    right:  { left: -4, top: '50%', marginTop: -4, borderTop: 'none', borderRight: 'none' },
+    top:    { bottom: -4, left: (pos?.ax ?? 0) - 4, borderTop: 'none', borderLeft: 'none' },
+    bottom: { top: -4, left: (pos?.ax ?? 0) - 4, borderBottom: 'none', borderRight: 'none' },
+    left:   { right: -4, top: (pos?.ay ?? 0) - 4, borderBottom: 'none', borderLeft: 'none' },
+    right:  { left: -4, top: (pos?.ay ?? 0) - 4, borderTop: 'none', borderRight: 'none' },
   };
 
   return (
-    <span style={{ position: 'relative', display: 'inline-flex' }}
+    <span ref={trigRef} style={{ display: 'inline-flex' }}
       onMouseEnter={show} onMouseLeave={hide} onFocus={show} onBlur={hide}>
-      {children}
-      {open && (
-        <span role="tooltip" style={{
-          position: 'absolute', zIndex: 'var(--ob-z-tooltip)' as React.CSSProperties['zIndex'], ...pos[placement],
+      {React.isValidElement(children) ? React.cloneElement(children as React.ReactElement<Record<string, unknown>>, { 'aria-describedby': open ? tipId : undefined }) : children}
+      {open && typeof document !== 'undefined' && ReactDOM.createPortal(
+        <span ref={tipRef} id={tipId} role="tooltip" style={{
+          position: 'fixed', top: pos ? pos.top : 0, left: pos ? pos.left : 0, visibility: pos ? 'visible' : 'hidden',
+          zIndex: 'var(--ob-z-tooltip)' as React.CSSProperties['zIndex'],
           background: bg, color: fg, border: bordered,
           borderRadius: variant === 'image' ? 12 : 8,
           boxShadow: 'var(--ob-shadow-md)',
@@ -91,9 +108,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
               {shortcut && <Kbd size="sm">{shortcut}</Kbd>}
             </span>
           )}
-          {variant !== 'image' && <span style={{ ...arrowBase, ...arrowPos[placement] }} />}
-        </span>
-      )}
+          {variant !== 'image' && pos && <span aria-hidden="true" style={{ ...arrowBase, ...arrowPos[pos.side] }} />}
+        </span>, document.body)}
     </span>
   );
 };

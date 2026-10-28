@@ -30,7 +30,7 @@ Colocar informação crítica ou ações clicáveis dentro do tooltip.
 
 ## Formatação
 
-Acionamento por `hover` e `focus` (acessível por teclado). Seta de 8px aponta pro gatilho. Posiciona em `top` (padrão), `bottom`, `left` ou `right`.
+Acionamento por `hover` e `focus` (acessível por teclado). Seta de 8px aponta pro gatilho. Posiciona em `top` (padrão), `bottom`, `left` ou `right`; o balão é renderizado no `body`, então não é cortado por ancestrais com `overflow`, e inverte para o lado oposto quando falta espaço. O gatilho recebe `aria-describedby` enquanto o balão está aberto.
 
 ```jsx
 <Tooltip label="Salvar" shortcut="⌘S">
