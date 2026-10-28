@@ -25,6 +25,8 @@ if (!removivel.includes('role="button"') || removivel.includes('aria-pressed')) 
 if (!render({ label: 'x', selected: false }).includes('aria-pressed="false"')) fail('chip com selected=false é alternância, aria-pressed=false');
 if (!render({ label: 'x', onToggle: () => {} }).includes('aria-pressed="false"')) fail('chip com onToggle é alternância, aria-pressed=false');
 if (!render({ label: 'x', selected: true }).includes('aria-pressed="true"')) fail('aria-pressed quando selecionado');
+const comOnFocus = render({ label: 'x', onFocus: () => {}, onBlur: () => {} });
+if (comOnFocus.includes('box-shadow')) fail('chip sem foco não deveria ter anel', comOnFocus);
 const verde = render({ label: 'x', tone: 'success' });
 if (!verde.includes('background:var(--ob-green-100)') || verde.includes('background:var(--ob-surface)')) fail('tone success deveria colorir o chip em repouso', verde);
 const verdeLigado = render({ label: 'x', tone: 'success', selected: true });

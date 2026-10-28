@@ -43,9 +43,10 @@ const ESCALA: Record<NonNullable<ChipProps['size']>, EscalaDoChip> = {
 /** Elemento compacto e interativo para seleção, filtro ou remoção de itens. */
 export const Chip: React.FC<ChipProps> = ({
   label, selected, onToggle, removable = false, onRemove, icon, tone = 'neutral', size = 'md', disabled = false,
-  className, style, onClick, onKeyDown, ...rest
+  className, style, onClick, onKeyDown, onFocus, onBlur, ...rest
 }) => {
   const escala = ESCALA[size];
+  const [comFoco, setComFoco] = React.useState(false);
   const ligado = selected === true;
   const alternancia = selected !== undefined || onToggle !== undefined;
   const tom = ACTION_TONES[tone];
@@ -87,7 +88,9 @@ export const Chip: React.FC<ChipProps> = ({
           e.currentTarget.click();
         }
       }}
-      style={{ ...base, ...stateStyle, ...style }}
+      onFocus={e => { setComFoco(e.currentTarget === e.target && e.currentTarget.matches(':focus-visible')); onFocus?.(e); }}
+      onBlur={e => { setComFoco(false); onBlur?.(e); }}
+      style={{ ...base, ...stateStyle, ...(comFoco ? { boxShadow: '0 0 0 3px var(--ob-focus-ring)' } : null), ...style }}
     >
       {icon && <Ph n={icon} size={escala.icone} weight={escala.pesoDoIcone} />}
       {label}
