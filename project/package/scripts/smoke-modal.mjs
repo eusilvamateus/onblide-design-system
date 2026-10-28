@@ -47,4 +47,18 @@ const dois = renderToStaticMarkup(React.createElement('div', null,
 const ids = [...dois.matchAll(/<h3 id="([^"]+)"/g)].map((m) => m[1]);
 if (ids.length !== 2 || ids[0] === ids[1]) fail('ids de título deveriam ser únicos por instância', ids);
 
+const rolagem = render({ open: true, title: 't', footer: 'f' }, 'c');
+if (!rolagem.includes('max-height:100%') || !rolagem.includes('overflow-y:auto')) fail('painel deveria limitar a altura e rolar só o corpo', rolagem);
+const limitado = render({ open: true, title: 't', maxHeight: 'calc(100vh - 36px)' }, 'c');
+if (!limitado.includes('max-height:calc(100vh - 36px)')) fail('maxHeight explícito deveria vencer o padrão', limitado);
+
+const semMovimento = render({ open: true, title: 't', motion: 'none' }, 'c');
+if (semMovimento.includes('animation:') || semMovimento.includes('data-ob-modal-motion')) fail('motion="none" não deveria ter animação interna', semMovimento);
+if (!aberto.includes('data-ob-modal-motion')) fail('animação padrão deveria ser marcada para prefers-reduced-motion', aberto);
+
+let fundo = null;
+let painel = null;
+renderToStaticMarkup(React.createElement(Modal, { open: true, title: 't', backdropRef: (el) => { fundo = el; }, contentRef: (el) => { painel = el; } }, 'c'));
+if (fundo !== null || painel !== null) fail('refs não são chamados na renderização estática');
+
 console.log('OK: Modal (fechado, aberto, tamanhos, largura explícita, rodapé opcional, acessibilidade)');
