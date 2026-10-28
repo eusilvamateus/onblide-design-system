@@ -1,10 +1,11 @@
 import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
+import { ACTION_TONES, type ActionTone } from '../../internal/actionTones';
 
 export interface ChipProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children' | 'onToggle'> {
   /** Texto ou conteúdo exibido no chip. */
   label: React.ReactNode;
-  /** Marca o chip como selecionado, aplicando o estilo preenchido. */
+  /** Marca o chip como selecionado, aplicando o estilo preenchido. Passar `selected` (ou `onToggle`) faz do chip uma alternância, anunciada como pressionada ou não; sem nenhum dos dois ele é um botão de ação simples. */
   selected?: boolean;
   /** Chamado ao clicar ou ativar o chip por teclado. */
   onToggle?: () => void;
@@ -14,6 +15,8 @@ export interface ChipProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, '
   onRemove?: () => void;
   /** Nome do ícone Phosphor (sem o prefixo "ph-"), ex.: "check". */
   icon?: string;
+  /** Cor do chip: com um tom diferente de `neutral` o chip tem fundo leve e texto no tom, e selecionado fica preenchido com a cor forte do mesmo tom. */
+  tone?: ActionTone;
   /** Tamanho do texto e do espaçamento interno. */
   size?: 'sm' | 'md' | 'lg';
   /** Desabilita interações e reduz a opacidade. */
@@ -39,10 +42,13 @@ const ESCALA: Record<NonNullable<ChipProps['size']>, EscalaDoChip> = {
 
 /** Elemento compacto e interativo para seleção, filtro ou remoção de itens. */
 export const Chip: React.FC<ChipProps> = ({
-  label, selected = false, onToggle, removable = false, onRemove, icon, size = 'md', disabled = false,
+  label, selected, onToggle, removable = false, onRemove, icon, tone = 'neutral', size = 'md', disabled = false,
   className, style, onClick, onKeyDown, ...rest
 }) => {
   const escala = ESCALA[size];
+  const ligado = selected === true;
+  const alternancia = selected !== undefined || onToggle !== undefined;
+  const tom = ACTION_TONES[tone];
 
   const base: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', gap: escala.gap,
@@ -55,9 +61,12 @@ export const Chip: React.FC<ChipProps> = ({
     outline: 'none',
     fontFamily: 'var(--ob-font)',
   };
-  const stateStyle: React.CSSProperties = selected
-    ? { background: 'var(--ob-blue)', color: 'var(--ob-fg-on-color)', borderColor: 'var(--ob-blue)' }
-    : { background: 'var(--ob-surface)', color: 'var(--ob-fg-strong)', borderColor: 'var(--ob-border)' };
+  const corForte = tone === 'neutral' ? 'var(--ob-blue)' : tom.fg;
+  const stateStyle: React.CSSProperties = ligado
+    ? { background: corForte, color: 'var(--ob-fg-on-color)', borderColor: corForte }
+    : tone === 'neutral'
+      ? { background: 'var(--ob-surface)', color: 'var(--ob-fg-strong)', borderColor: 'var(--ob-border)' }
+      : { background: tom.bg, color: tom.fg, borderColor: `color-mix(in srgb, ${tom.fg} 35%, transparent)` };
 
   return (
     <span
@@ -65,7 +74,7 @@ export const Chip: React.FC<ChipProps> = ({
       className={className}
       role="button"
       tabIndex={disabled ? -1 : 0}
-      aria-pressed={selected}
+      aria-pressed={alternancia ? ligado : undefined}
       onClick={e => {
         if (disabled) return;
         onClick?.(e);
@@ -91,8 +100,8 @@ export const Chip: React.FC<ChipProps> = ({
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             width: escala.botao, height: escala.botao,
             boxSizing: 'border-box', margin: 0, padding: 0, borderRadius: '50%', border: 'none', cursor: 'pointer',
-            background: selected ? 'color-mix(in srgb, var(--ob-fg-on-color) 25%, transparent)' : 'var(--ob-bg-warm)',
-            color: selected ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-soft)',
+            background: ligado ? 'color-mix(in srgb, var(--ob-fg-on-color) 25%, transparent)' : tone === 'neutral' ? 'var(--ob-bg-warm)' : `color-mix(in srgb, ${tom.fg} 15%, transparent)`,
+            color: ligado ? 'var(--ob-fg-on-color)' : tone === 'neutral' ? 'var(--ob-fg-soft)' : tom.fg,
             fontSize: escala.iconeDoBotao, fontWeight: 700, lineHeight: 1, flexShrink: 0,
           }}
         ><Ph n="x" size={escala.iconeDoBotao} weight="bold" /></button>

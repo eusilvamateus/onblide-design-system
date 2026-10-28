@@ -11,6 +11,15 @@ export const Filtros = () => (
   </div>
 );
 
+export const Acao = () => (
+  <div style={row}>
+    <Chip label="Ver detalhes" tone="primary" icon="eye" onClick={() => {}} />
+    <Chip label="Aprovado" tone="success" icon="check-circle" onClick={() => {}} />
+    <Chip label="Pendente" tone="warning" icon="clock" onClick={() => {}} />
+    <Chip label="Recusado" tone="danger" icon="x-circle" onClick={() => {}} />
+  </div>
+);
+
 export const Removiveis = () => (
   <div style={row}>
     <Chip label="Design" selected removable />

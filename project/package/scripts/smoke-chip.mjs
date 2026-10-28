@@ -21,8 +21,15 @@ if (botoes.length !== botoesTipados.length) fail('todo <button> do Chip deveria 
 if (render({ label: 'Tag' }).includes('<button')) fail('Chip sem removable não deveria renderizar <button>');
 
 // O resto do contrato segue igual.
-if (!removivel.includes('role="button"') || !removivel.includes('aria-pressed="false"')) fail('role/aria-pressed do chip', removivel);
+if (!removivel.includes('role="button"') || removivel.includes('aria-pressed')) fail('chip sem selected nem onToggle é botão de ação, sem aria-pressed', removivel);
+if (!render({ label: 'x', selected: false }).includes('aria-pressed="false"')) fail('chip com selected=false é alternância, aria-pressed=false');
+if (!render({ label: 'x', onToggle: () => {} }).includes('aria-pressed="false"')) fail('chip com onToggle é alternância, aria-pressed=false');
 if (!render({ label: 'x', selected: true }).includes('aria-pressed="true"')) fail('aria-pressed quando selecionado');
+const verde = render({ label: 'x', tone: 'success' });
+if (!verde.includes('background:var(--ob-green-100)') || verde.includes('background:var(--ob-surface)')) fail('tone success deveria colorir o chip em repouso', verde);
+const verdeLigado = render({ label: 'x', tone: 'success', selected: true });
+if (verdeLigado.includes('background:var(--ob-blue)') || !verdeLigado.includes('color:var(--ob-fg-on-color)')) fail('tone success selecionado deveria preencher com o tom, não com o azul', verdeLigado);
+if (!render({ label: 'x', selected: true }).includes('background:var(--ob-blue)')) fail('neutral selecionado continua azul');
 if (!render({ label: 'x', disabled: true }).includes('tabindex="-1"')) fail('chip desabilitado deveria sair da ordem de tab');
 const composto = render({ label: 'Período', className: 'periodo', 'aria-expanded': false, style: { maxWidth: 240 } });
 if (!composto.includes('class="periodo"')) fail('chip deveria encaminhar className', composto);

@@ -14,6 +14,9 @@ Use Chip sempre que o usuário precisar **selecionar, filtrar ou categorizar** a
 - **Toggle single**: grupo de chips onde só um pode estar ativo (ex: filtro de status).
 - **Toggle multi**: múltiplos chips podem estar ativos simultaneamente (ex: filtro de categoria).
 - **Removível**: chip com botão ✕ para excluir a tag/item do contexto (ex: tags de projeto, filtros aplicados).
+- **Ação**: chip clicável que executa algo e não guarda estado, com `onClick` e sem `selected` nem `onToggle`. Ele é anunciado como botão simples, sem "pressionado". Combine com `tone` para a aparência de um selo clicável.
+
+`tone` (`neutral`, `primary`, `success`, `warning`, `danger`) colore o chip: em repouso, fundo leve e texto no tom; selecionado, preenchido com a cor forte do mesmo tom.
 
 <FacaEvite>
 <Faca>
