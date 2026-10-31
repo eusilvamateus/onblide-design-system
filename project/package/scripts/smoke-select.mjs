@@ -48,4 +48,7 @@ if (!controlado.includes('value="Chile"') || controlado.includes('value="Peru"')
 const arrayNoSingle = renderToStaticMarkup(h(Select, { options: opts, value: ['Brasil'] }));
 if (arrayNoSingle.includes('value="Brasil"')) fail('single ignora um valor que não é texto', arrayNoSingle);
 
+if (!single.includes('flex-wrap:nowrap')) fail('single não deve quebrar linha em larguras estreitas', single);
+if (!multi.includes('flex-wrap:wrap')) fail('multi deve quebrar linha para acomodar os chips', multi);
+
 console.log('OK: single, multi (chips), placeholder, disabled, error, width');

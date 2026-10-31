@@ -148,7 +148,7 @@ export const Select: React.FC<SelectProps> = (props) => {
       onMouseDownCapture={() => { focadoNoMouseDown.current = document.activeElement === inputRef.current; }}
       style={{ position: 'relative', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
       {label && (
-        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>{label}</div>
+        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>{label}</div>
       )}
       <FieldShell
         focused={open || focado} error={!!error} disabled={disabled}
@@ -159,7 +159,7 @@ export const Select: React.FC<SelectProps> = (props) => {
           setOpen(abrir);
           if (abrir) setTimeout(() => inputRef.current?.focus(), 0);
         }}
-        style={{ flexWrap: 'wrap', gap: 6, cursor: disabled ? 'not-allowed' : 'pointer' }}>
+        style={{ flexWrap: multi ? 'wrap' : 'nowrap', gap: 6, cursor: disabled ? 'not-allowed' : 'pointer' }}>
         {multi && (selected as string[]).map(s => (
           <Chip key={s} label={s} size="sm" selected removable
             onToggle={() => {}} onRemove={() => removeChip(s)} />
@@ -174,7 +174,7 @@ export const Select: React.FC<SelectProps> = (props) => {
           onFocus={() => { setFocado(true); if (!disabled) setOpen(true); }}
           onBlur={() => setFocado(false)}
           style={{
-            flex: 1, minWidth: 60, border: 'none', outline: 'none', background: 'transparent',
+            flex: 1, minWidth: multi ? 60 : 0, border: 'none', outline: 'none', background: 'transparent',
             fontSize: 14, color: 'var(--ob-fg-strong)', cursor: disabled ? 'not-allowed' : 'text',
             padding: multi && (selected as string[]).length ? '0' : '0 2px', height: multi && (selected as string[]).length ? 26 : 40,
           }}
