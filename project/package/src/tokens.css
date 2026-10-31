@@ -343,6 +343,8 @@
 
   --ob-border:      var(--ob-line);
   --ob-focus-ring:  rgba(10, 78, 228, 0.32);
+  --ob-selection-bg: var(--ob-blue-100);
+  --ob-selection-fg: var(--ob-ink-strong);
 
   --ob-success:     var(--ob-green);
   --ob-success-bg:  var(--ob-green-100);
@@ -429,6 +431,8 @@
 
   --ob-border:      var(--ob-line);
   --ob-focus-ring:  rgba(77, 127, 239, 0.4);
+  --ob-selection-bg: #3a6ee0;
+  --ob-selection-fg: #ffffff;
 
   --ob-success:     var(--ob-green);
   --ob-success-bg:  var(--ob-green-100);
@@ -725,4 +729,4 @@ code, .ob-code {
   color: var(--ob-ink-strong);
 }
 
-::selection { background: var(--ob-blue-100); color: var(--ob-ink-strong); }
+::selection { background: var(--ob-selection-bg); color: var(--ob-selection-fg); }
