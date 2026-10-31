@@ -51,4 +51,12 @@ if (arrayNoSingle.includes('value="Brasil"')) fail('single ignora um valor que n
 if (!single.includes('flex-wrap:nowrap')) fail('single não deve quebrar linha em larguras estreitas', single);
 if (!multi.includes('flex-wrap:wrap')) fail('multi deve quebrar linha para acomodar os chips', multi);
 
+const embutido = renderToStaticMarkup(h(Select, { options: ['cm', 'mm'], value: 'cm', embedded: true, ariaLabel: 'Unidade', label: 'Oculto', error: 'Oculto' }));
+if (embutido.includes('Oculto')) fail('embedded não renderiza rótulo nem erro', embutido);
+if (embutido.includes('border:1.5px')) fail('embedded não tem borda própria', embutido);
+if (!embutido.includes('aria-label="Unidade"')) fail('embedded usa ariaLabel como nome acessível', embutido);
+if (!embutido.includes('width:3ch')) fail('embedded dimensiona o campo pela maior opção', embutido);
+const embutidoMulti = renderToStaticMarkup(h(Select, { options: opts, multi: true, embedded: true, value: ['Brasil'] }));
+if (!embutidoMulti.includes('border:1.5px')) fail('embedded é ignorado no modo multi', embutidoMulti);
+
 console.log('OK: single, multi (chips), placeholder, disabled, error, width');

@@ -26,6 +26,8 @@ export interface SelectBaseProps {
   error?: React.ReactNode;
   /** Largura do campo. */
   width?: number | string;
+  /** Nome acessível do campo quando não há `label` visível. */
+  ariaLabel?: string;
 }
 
 export interface SingleSelectProps extends SelectBaseProps {
@@ -37,6 +39,8 @@ export interface SingleSelectProps extends SelectBaseProps {
   defaultValue?: string | null;
   /** Chamado com o rótulo da opção escolhida. */
   onChange?: (value: string) => void;
+  /** Remove a borda, o fundo e o rótulo do campo, para ser usado dentro de outro campo (`startAddon` e `endAddon` do `Input` e do `NumberField`). O foco e o erro passam a ser do campo que o contém. */
+  embedded?: boolean;
 }
 
 export interface MultiSelectProps extends SelectBaseProps {
@@ -55,10 +59,21 @@ export type SelectProps = SingleSelectProps | MultiSelectProps;
 
 interface SelectLooseProps extends SelectBaseProps {
   multi?: boolean;
+  embedded?: boolean;
   value?: string | string[] | null;
   defaultValue?: string | string[] | null;
   onChange?: (value: string | string[]) => void;
 }
+
+interface CascaProps extends React.ComponentProps<typeof FieldShell> {
+  embedded: boolean;
+}
+
+const Casca: React.FC<CascaProps> = ({ embedded, focused, error, disabled, padding, onClick, style, children }) => embedded ? (
+  <div onClick={onClick} style={{ display: 'flex', alignItems: 'center', flex: 1, padding, boxSizing: 'border-box', ...style }}>{children}</div>
+) : (
+  <FieldShell focused={focused} error={error} disabled={disabled} padding={padding} onClick={onClick} style={style}>{children}</FieldShell>
+);
 
 /** Campo de seleção com lista de opções, busca por digitação e modos de seleção única ou múltipla. */
 export const Select: React.FC<SelectProps> = (props) => {
@@ -71,7 +86,10 @@ export const Select: React.FC<SelectProps> = (props) => {
     disabled = false,
     error,
     width,
+    ariaLabel,
+    embedded: embeddedProp = false,
   } = props as SelectLooseProps;
+  const embedded = embeddedProp && !multi;
   const [valorInterno, setValorInterno] = useState<string | string[] | null>(
     (props as SelectLooseProps).defaultValue ?? null,
   );
@@ -141,17 +159,18 @@ export const Select: React.FC<SelectProps> = (props) => {
     }
   };
 
+  const larguraEmbutida = Math.max(2, ...options.map(o => getLabel(o).length)) + 1;
   const displayValue = !multi && selected && !open ? (selected as string) : '';
 
   return (
     <div ref={rootRef}
       onMouseDownCapture={() => { focadoNoMouseDown.current = document.activeElement === inputRef.current; }}
-      style={{ position: 'relative', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
-      {label && (
+      style={{ position: 'relative', width: width || (embedded ? 'auto' : '100%'), fontFamily: 'var(--ob-font)', ...(embedded ? { display: 'flex', alignSelf: 'stretch' } : null) }}>
+      {label && !embedded && (
         <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>{label}</div>
       )}
-      <FieldShell
-        focused={open || focado} error={!!error} disabled={disabled}
+      <Casca
+        embedded={embedded} focused={open || focado} error={!!error} disabled={disabled}
         padding={multi && (selected as string[]).length ? '6px 10px' : '0 12px'}
         onClick={() => {
           if (disabled) return;
@@ -168,20 +187,20 @@ export const Select: React.FC<SelectProps> = (props) => {
           ref={inputRef}
           value={open ? query : displayValue}
           placeholder={(!multi || !(selected as string[]).length) ? placeholder : ''}
-          disabled={disabled}
+          disabled={disabled} aria-label={label && !embedded ? undefined : ariaLabel}
           onChange={e => { setQuery(e.target.value); if (!open) setOpen(true); }}
           onKeyDown={onKeyDown}
           onFocus={() => { setFocado(true); if (!disabled) setOpen(true); }}
           onBlur={() => setFocado(false)}
           style={{
-            flex: 1, minWidth: multi ? 60 : 0, border: 'none', outline: 'none', background: 'transparent',
+            flex: embedded ? 'none' : 1, width: embedded ? `${larguraEmbutida}ch` : undefined, minWidth: multi ? 60 : 0, border: 'none', outline: 'none', background: 'transparent',
             fontSize: 14, color: 'var(--ob-fg-strong)', cursor: disabled ? 'not-allowed' : 'text',
             padding: multi && (selected as string[]).length ? '0' : '0 2px', height: multi && (selected as string[]).length ? 26 : 40,
           }}
         />
         <Ph n="caret-down" size={16} c="var(--ob-fg-mute)"
           style={{ flex: 'none', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
-      </FieldShell>
+      </Casca>
 
       {open && (
         <FloatingPanel ref={painelRef} side={lado} maxHeight={240} padding={4}>
@@ -220,7 +239,7 @@ export const Select: React.FC<SelectProps> = (props) => {
         </FloatingPanel>
       )}
 
-      {error && (
+      {error && !embedded && (
         <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 5, display: 'flex', alignItems: 'center', gap: 4 }}>
           <Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />
           {error}
