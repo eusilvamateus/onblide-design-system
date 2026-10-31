@@ -1,13 +1,13 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Input } from '../dist/index.js';
+import { Input, Select } from '../dist/index.js';
 
 const h = React.createElement;
 const fail = (msg, html) => { console.error('FAIL: ' + msg, html); process.exit(1); };
 
 // (a) label, hint e props repassadas ao <input>
 const a = renderToStaticMarkup(h(Input, { label: 'Nome', hint: 'DICA-X', placeholder: 'PH-X', defaultValue: 'abc', type: 'email', name: 'nm' }));
-if (!a.includes('>Nome</span>')) fail('label ausente', a);
+if (!a.includes('>Nome</label>')) fail('label ausente', a);
 if (!a.includes('DICA-X')) fail('hint ausente', a);
 if (!a.includes('var(--ob-fg-mute)')) fail('cor do hint esperada', a);
 if (!a.includes('placeholder="PH-X"')) fail('placeholder não repassado', a);
@@ -27,10 +27,29 @@ if (!b.includes('color:var(--ob-danger)')) fail('cor de erro ausente', b);
 const c = renderToStaticMarkup(h(Input, { icon: h('i', { id: 'ic' }) }));
 if (!c.includes('<i id="ic">')) fail('ícone ausente', c);
 const d = renderToStaticMarkup(h(Input, {}));
-if (d.includes('<i ') || d.includes('<span')) fail('sem label/hint/ícone não deveria haver span', d);
+if (d.includes('<i ') || d.includes('<span') || d.includes('<label')) fail('sem label/hint/ícone não deveria haver span', d);
 
 // (d) disabled repassado
 const e = renderToStaticMarkup(h(Input, { disabled: true }));
 if (!e.includes('disabled=""')) fail('disabled não repassado', e);
+
+const f = renderToStaticMarkup(h(Input, { label: 'Peso', defaultValue: '1', endAddon: 'kg' }));
+if (!f.includes('data-ob-addon') || !f.includes('>kg</span>')) fail('endAddon de texto ausente', f);
+if (!f.includes('border-left:1.5px solid var(--ob-border)')) fail('divisória do endAddon ausente', f);
+if (!f.includes('padding:0 0px 0 14px') && !f.includes('padding:0 0 0 14px')) fail('padding do campo sem o lado do endAddon', f);
+if (!f.includes('background:var(--ob-bg-alt)')) fail('addon de texto deveria ter fundo próprio', f);
+if (f.indexOf('<input') > f.indexOf('data-ob-addon')) fail('endAddon deve vir depois do input', f);
+
+const g = renderToStaticMarkup(h(Input, { startAddon: 'R$', error: 'x' }));
+if (!g.includes('border-right:1.5px solid var(--ob-danger)')) fail('divisória do startAddon deveria acompanhar o erro', g);
+if (g.indexOf('data-ob-addon') > g.indexOf('<input')) fail('startAddon deve vir antes do input', g);
+
+const i = renderToStaticMarkup(h(Input, { label: 'Altura', endAddon: h(Select, { embedded: true, ariaLabel: 'Unidade', options: ['cm', 'mm'], value: 'cm' }) }));
+if (!i.includes('aria-label="Unidade"') || i.includes('background:var(--ob-bg-alt)')) fail('addon com Select embutido não leva fundo de texto', i);
+const rotulo = i.match(/<label for="([^"]+)"/);
+if (!rotulo || !i.includes(`id="${rotulo[1]}"`)) fail('label deve apontar para o input do campo (e não para o Select)', i);
+
+const j = renderToStaticMarkup(h(Input, { endAddon: false }));
+if (j.includes('data-ob-addon')) fail('addon falso não renderiza', j);
 
 console.log('smoke-input ok');

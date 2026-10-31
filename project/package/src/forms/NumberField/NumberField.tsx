@@ -1,6 +1,7 @@
 import React from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { Ph } from '../../iconography/Ph/Ph';
+import { FieldAddon, focoNoAddon } from '../../internal/FieldAddon';
 
 const numberFormat = (n: number | null | undefined, decimals: number, group = true): string =>
   n == null || Number.isNaN(n) ? '' : new Intl.NumberFormat('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals, useGrouping: group }).format(n);
@@ -41,6 +42,10 @@ export interface NumberFieldProps {
   placeholder?: string;
   width?: number | string;
   ariaLabel?: string;
+  /** Conteúdo no início do campo, dentro da mesma borda e separado por uma divisória: texto, `Select` com `embedded` ou botão compacto. */
+  startAddon?: React.ReactNode;
+  /** Conteúdo no fim do campo, dentro da mesma borda e separado por uma divisória: texto, `Select` com `embedded` ou botão compacto. */
+  endAddon?: React.ReactNode;
 }
 
 const btnBase: React.CSSProperties = {
@@ -52,12 +57,14 @@ const btnBase: React.CSSProperties = {
 export const NumberField: React.FC<NumberFieldProps> = ({
   label, hint, error, value: valueProp, defaultValue = null, onChange, min = -Infinity, max = Infinity,
   step = 1, largeStep, decimals = 0, prefix, suffix, controls = 'split', clamp = true, align, disabled = false,
-  readOnly = false, placeholder, width, ariaLabel,
+  readOnly = false, placeholder, width, ariaLabel, startAddon, endAddon,
 }) => {
   const [val, setVal] = React.useState<number | null>(defaultValue);
   const value = valueProp !== undefined ? valueProp : val;
   const [text, setText] = React.useState('');
   const [focused, setFocused] = React.useState(false);
+  const [addonFocused, setAddonFocused] = React.useState(false);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const uid = React.useId();
   const live = React.useRef({ value, text, focused });
   live.current = { value, text, focused };
@@ -129,17 +136,23 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   const adorn = (t?: string) => t != null && <span style={{ fontSize: 14, color: 'var(--ob-fg-mute)', flex: 'none', whiteSpace: 'nowrap' }}>{t}</span>;
   const textAlign = align || (controls === 'split' ? 'center' : 'left');
   const shown = focused ? text : numberFormat(value, decimals);
+  const temInicio = startAddon != null && startAddon !== false;
+  const temFim = endAddon != null && endAddon !== false;
+  const emFoco = focused || addonFocused;
+  const [padEsq, padDir] = controls === 'split' ? [4, 4] : controls === 'stacked' ? [12, 0] : [12, 12];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: width || '100%', fontFamily: 'var(--ob-font)' }}>
       {label && <label htmlFor={uid} style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</label>}
-      <FieldShell focused={focused} error={!!err} disabled={disabled}
-        padding={controls === 'split' ? '0 4px' : controls === 'stacked' ? '0 0 0 12px' : '0 12px'}
-        style={{ gap: 8, overflow: 'hidden', background: readOnly && !disabled ? 'var(--ob-bg-alt)' : undefined, alignItems: controls === 'stacked' ? 'stretch' : 'center' }}>
+      <FieldShell focused={emFoco} error={!!err} disabled={disabled}
+        padding={`0 ${temFim ? 0 : padDir}px 0 ${temInicio ? 0 : padEsq}px`}
+        onClick={(e) => { if (focoNoAddon(e.target)) inputRef.current?.focus(); }}
+        style={{ gap: 8, overflow: temInicio || temFim ? 'visible' : 'hidden', background: readOnly && !disabled ? 'var(--ob-bg-alt)' : undefined, alignItems: controls === 'stacked' ? 'stretch' : 'center' }}>
+        {temInicio && <FieldAddon side="start" focused={emFoco} error={!!err} onFocusChange={setAddonFocused}>{startAddon}</FieldAddon>}
         {controls === 'split' && btn(-step, 'minus', 'Diminuir', { width: 32, height: 32, borderRadius: 'var(--ob-r-sm)', alignSelf: 'center' })}
         <span style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1, minWidth: 0, justifyContent: textAlign === 'center' ? 'center' : textAlign === 'right' ? 'flex-end' : 'flex-start' }}>
           {adorn(prefix)}
-          <input id={uid} role="spinbutton" inputMode={decimals > 0 || min < 0 ? 'decimal' : 'numeric'} autoComplete="off"
+          <input id={uid} ref={inputRef} role="spinbutton" inputMode={decimals > 0 || min < 0 ? 'decimal' : 'numeric'} autoComplete="off"
             aria-valuenow={value ?? undefined} aria-valuemin={Number.isFinite(min) ? min : undefined} aria-valuemax={Number.isFinite(max) ? max : undefined}
             aria-valuetext={value != null ? [prefix, numberFormat(value, decimals), suffix].filter(Boolean).join(' ') : undefined}
             aria-invalid={err ? true : undefined} aria-label={label ? undefined : ariaLabel}
@@ -161,6 +174,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
             {btn(-step, 'caret-down', 'Diminuir', { flex: 1, width: '100%' })}
           </span>
         )}
+        {temFim && <FieldAddon side="end" focused={emFoco} error={!!err} onFocusChange={setAddonFocused}>{endAddon}</FieldAddon>}
       </FieldShell>
       {(hint || err) && <span style={{ fontSize: 11, color: err ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{err || hint}</span>}
     </div>

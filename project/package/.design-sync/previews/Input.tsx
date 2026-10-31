@@ -1,4 +1,4 @@
-import { Input, Icons } from '@onblide/ui';
+import { Input, Select, Icons } from '@onblide/ui';
 
 export const Padrao = () => (
   <div style={{ padding: 16, width: 320 }}>
@@ -27,5 +27,18 @@ export const Desabilitado = () => (
 export const EmFoco = () => (
   <div style={{ padding: 16, width: 320 }}>
     <Input label="Nome" defaultValue="Em foco — borda azul" autoFocus />
+  </div>
+);
+
+export const ComUnidade = () => (
+  <div style={{ padding: 16, width: 320 }}>
+    <Input label="Altura do pacote" defaultValue="45" inputMode="decimal"
+      endAddon={<Select embedded ariaLabel="Unidade" options={['cm', 'mm', 'm']} defaultValue="cm" />} />
+  </div>
+);
+
+export const ComTextoNoInicio = () => (
+  <div style={{ padding: 16, width: 320 }}>
+    <Input label="Valor" defaultValue="1.250,00" startAddon="R$" />
   </div>
 );

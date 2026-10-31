@@ -25,4 +25,13 @@ if (!outOfRange.includes('var(--ob-danger)')) fail('valor fora do limite deveria
 const prefix = renderToStaticMarkup(h(NumberField, { value: 10, prefix: 'R$' }));
 if (!prefix.includes('R$')) fail('deveria mostrar o prefixo', prefix);
 
-console.log('OK: NumberField (formato pt-BR, controls split/stacked/none, limites, prefixo)');
+const fim = renderToStaticMarkup(h(NumberField, { value: 5, controls: 'none', endAddon: 'cm' }));
+if (!fim.includes('data-ob-addon') || !fim.includes('>cm</span>')) fail('endAddon ausente', fim);
+if (!fim.includes('padding:0 0px 0 12px') && !fim.includes('padding:0 0 0 12px')) fail('padding sem o lado do endAddon', fim);
+if (!fim.includes('overflow:visible')) fail('com addon o campo não pode cortar a lista do Select', fim);
+const semAddon = renderToStaticMarkup(h(NumberField, { value: 5 }));
+if (semAddon.includes('data-ob-addon') || !semAddon.includes('overflow:hidden')) fail('sem addon mantém o corte de overflow', semAddon);
+const inicio = renderToStaticMarkup(h(NumberField, { value: 5, startAddon: 'R$' }));
+if (inicio.indexOf('data-ob-addon') > inicio.indexOf('<input')) fail('startAddon deve vir antes do input', inicio);
+
+console.log('OK: NumberField (formato pt-BR, controls split/stacked/none, limites, prefixo, addons)');

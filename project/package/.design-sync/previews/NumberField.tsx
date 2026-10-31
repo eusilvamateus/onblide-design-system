@@ -1,4 +1,4 @@
-import { NumberField } from '@onblide/ui';
+import { NumberField, Select } from '@onblide/ui';
 
 export const Split = () => (
   <div style={{ padding: 16, width: 220 }}>
@@ -21,5 +21,12 @@ export const ComPrefixo = () => (
 export const ForaDoLimite = () => (
   <div style={{ padding: 16, width: 220 }}>
     <NumberField label="Desconto (%)" value={120} max={100} />
+  </div>
+);
+
+export const ComUnidade = () => (
+  <div style={{ padding: 16, width: 280 }}>
+    <NumberField label="Peso do pacote" value={1400} controls="none" align="left"
+      endAddon={<Select embedded ariaLabel="Unidade" options={['g', 'kg']} defaultValue="g" />} />
   </div>
 );

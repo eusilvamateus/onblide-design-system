@@ -34,7 +34,11 @@ Combina com **Slider** quando os dois representam o mesmo valor (um mostra a fai
 ```jsx
 <NumberField label="Quantidade" value={4} min={1} max={20} />
 <NumberField label="Valor" prefix="R$" decimals={2} />
+<NumberField label="Peso" value={peso} controls="none" align="left"
+  endAddon={<Select embedded ariaLabel="Unidade" options={['g', 'kg']} value={un} onChange={setUn} />} />
 ```
+
+`prefix` e `suffix` são texto fixo dentro do campo. Quando a unidade muda, use `startAddon` ou `endAddon` com um **Select** `embedded`: o complemento fica dentro da mesma borda, separado por uma divisória, e o foco e o erro envolvem os dois.
 
 ## Guia de conteúdo
 

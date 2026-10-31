@@ -27,7 +27,16 @@ Usar placeholder como label.
 ```jsx
 <Input label="E-mail" hint="Usado para login"
   error={err} icon={<Icons.search/>} />
+
+<Input label="Altura do pacote" value={altura} onChange={...}
+  endAddon={<Select embedded ariaLabel="Unidade" options={['cm', 'mm', 'm']} value={un} onChange={setUn} />} />
 ```
+
+<Nota>
+
+**Complemento no campo.** `startAddon` e `endAddon` colocam um texto, um **Select** com `embedded` ou um botão compacto dentro da mesma borda do campo, separado por uma divisória. O foco e o erro envolvem o campo e o complemento juntos. Use para unidade de medida, moeda ou prefixo, quando o complemento faz parte do valor; se ele é um campo independente, use dois campos.
+
+</Nota>
 
 ## Guia de conteúdo
 
