@@ -90,8 +90,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
           borderRadius: variant === 'image' ? 12 : 8,
           boxShadow: 'var(--ob-shadow-md)',
           padding: variant === 'image' ? 6 : '8px 11px',
-          fontSize: 13, lineHeight: 1.4, fontWeight: 500, whiteSpace: variant === 'image' ? 'normal' : 'nowrap',
-          maxWidth: variant === 'image' ? 200 : maxWidth, pointerEvents: 'none',
+          fontSize: 13, lineHeight: 1.4, fontWeight: 500, whiteSpace: 'normal', overflowWrap: 'anywhere',
+          width: variant === 'image' ? undefined : 'max-content', maxWidth: variant === 'image' ? 200 : maxWidth, pointerEvents: 'none',
           animation: 'ob-tip 140ms var(--ob-ease-out)',
         }}>
           {variant === 'image' ? (
