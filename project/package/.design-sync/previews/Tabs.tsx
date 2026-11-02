@@ -19,6 +19,27 @@ export const Pilula = () => (
   </div>
 );
 
+const tipos = [
+  { id: 'todas', label: 'Todas' },
+  { id: 'campanhas', label: 'Campanhas', tone: 'primary' as const },
+  { id: 'cupons', label: 'Cupons', tone: 'warning' as const },
+];
+
+export const ComCor = () => (
+  <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start' }}>
+    <Tabs tabs={tipos} active="campanhas" variant="pill" size="sm" appearance="soft" />
+    <Tabs tabs={tipos} active="cupons" variant="pill" size="sm" appearance="text" />
+    <Tabs tabs={tipos} active="campanhas" variant="pill" size="sm" appearance="solid" />
+    <Tabs tabs={tipos} active="todas" variant="pill" size="sm" appearance="dot" />
+  </div>
+);
+
+export const LinhaComCor = () => (
+  <div style={{ padding: 16 }}>
+    <Tabs tabs={tipos} active="cupons" variant="line" size="sm" appearance="soft" />
+  </div>
+);
+
 export const Pequeno = () => (
   <div style={{ padding: 16 }}>
     <Tabs tabs={abas.slice(0, 3)} active="historico" size="sm" />

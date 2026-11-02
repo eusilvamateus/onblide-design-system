@@ -66,6 +66,15 @@ Tipo `Tab`: `{ id: string, label: string, icon?: string, badge?: number, disable
 
 **Pill.** Aba ativa com fundo `--ob-surface` + sombra sutil sobre fundo `--ob-bg-alt`. Raio `--ob-r-sm`.
 
+**Cor (`tone` e `appearance`).** O padrão é o visual sem cor. Para colorir, cada aba recebe um `tone` (`primary`, `success`, `warning` ou `danger`), útil quando a aba representa uma categoria com cor própria, e o `Tabs` recebe `appearance`. Sem `appearance` o `tone` não faz nada. Na pílula, `appearance` define como o tom aparece:
+
+- `soft`: a aba ativa ganha o fundo leve do tom e o texto na cor do tom, sem sombra.
+- `text`: mantém o fundo claro e a sombra, e só o texto da aba ativa muda de cor.
+- `solid`: a aba ativa é preenchida com o tom, com o texto na cor da superfície, e o contador passa a ser discreto.
+- `dot`: um ponto do tom aparece em cada aba colorida, ativa ou não, e a aba ativa continua neutra.
+
+Na linha (`line`), qualquer valor de `appearance` liga a cor: o texto e o traço da aba ativa assumem o tom. O contador da aba ativa acompanha o tom da aba.
+
 **Motion.** Transição de cor e indicador: 150ms `--ob-ease`. Sem animação de slide de conteúdo, a troca é instantânea.
 
 **Responsivo.** Em viewports estreitas, Tabs Line com scroll horizontal (sem quebra de linha). Tabs Pill: mantém em linha e reduz padding com `size="sm"`.
