@@ -6,9 +6,8 @@ import { Tooltip } from '../../overlays/Tooltip/Tooltip';
 import { Button } from '../../actions/Button/Button';
 import { Avatar } from '../../data-display/Avatar/Avatar';
 import { Badge } from '../../data-display/Badge/Badge';
+import { ScrollArea } from '../../data-display/ScrollArea/ScrollArea';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
-
-injectStyleOnce('ob-sidenav-scroll', '.ob-sidenav-lista::-webkit-scrollbar{width:6px}.ob-sidenav-lista::-webkit-scrollbar-button{display:none}.ob-sidenav-lista::-webkit-scrollbar-track{background:transparent}.ob-sidenav-lista::-webkit-scrollbar-thumb{background:transparent;border-radius:999px}.ob-sidenav-lista:hover::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent)}@supports not selector(::-webkit-scrollbar){.ob-sidenav-lista{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ob-fg-mute) 60%,transparent) transparent}}');
 
 export interface SideNavItem {
   /** Identificador do item de navegação, usado em `active` e `onNav`. */
@@ -179,13 +178,15 @@ export const SideNav: React.FC<SideNavProps> = ({
         : hideBrand ? null : <div style={{ display: 'flex', alignItems: 'center', padding: '4px 4px 14px 8px' }}>{brand ?? <Logo size={24} />}</div>
       }
       {!collapsed && onToggle && <BotaoDeBorda onToggle={onToggle} />}
-      <div className="ob-sidenav-lista" style={{ flex: '1 1 auto', minHeight: 0, margin: -2, padding: 2, display: 'flex', flexDirection: 'column', gap: 4, overflowX: 'hidden', overflowY: 'auto' }}>
+      <ScrollArea style={{ flex: '1 1 auto', margin: -2 }}>
+      <div style={{ padding: 2, display: 'flex', flexDirection: 'column', gap: 4 }}>
         {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 10px 6px' }}>{menuLabel}</p>}
         {items.map((it, i) => {
           if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '12px 10px 4px' }}>{it.section}</p> : null;
           return <Item key={it.id || i} it={it} active={active} onNav={onNav} collapsed={collapsed} nivel={0} />;
         })}
       </div>
+      </ScrollArea>
       {!hideAccount && (
         <div style={{ flex: 'none', margin: '0 -14px' }}>
           <Menu

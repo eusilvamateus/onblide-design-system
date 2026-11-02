@@ -51,6 +51,7 @@ const descricoes = {
   Icons: 'Registro central de ícones da interface.',
   Ph: 'Componente base que renderiza qualquer glifo do Phosphor.',
   Divider: 'Linha de separação entre blocos de conteúdo, com rótulo opcional.',
+  ScrollArea: 'Área com rolagem nativa e barra fina e discreta, nos dois eixos.',
   List: 'Linha de lista oficial, base do Select, Menu, Autocomplete e TreeView.',
   Timeline: 'Eventos em ordem cronológica, para leitura.',
   TreeView: 'Hierarquia que abre e fecha, com seleção, busca e edição.',

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { ScrollArea } from '../../data-display/ScrollArea/ScrollArea';
 import ReactDOM from 'react-dom';
 import { Button } from '../../actions/Button/Button';
 import { Ph } from '../../iconography/Ph/Ph';
@@ -58,9 +59,9 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
           <span style={{ fontSize: 17, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</span>
           <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={18} />} />
         </div>
-        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
-          {children}
-        </div>
+        <ScrollArea style={{ flex: 1 }}>
+          <div style={{ padding: '20px 24px' }}>{children}</div>
+        </ScrollArea>
         {footer && (
           <div style={{
             padding: '16px 24px', borderTop: '1px solid var(--ob-border)',

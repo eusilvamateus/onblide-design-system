@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusDot } from '../../internal/StatusDot';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Avatar } from '../Avatar/Avatar';
+import { ScrollArea } from '../ScrollArea/ScrollArea';
 import type { BadgeTone } from '../../internal/badgeTones';
 
 export type TimelineOrientation = 'vertical' | 'horizontal';
@@ -92,7 +93,8 @@ export const Timeline: React.FC<TimelineProps> = ({ items, orientation = 'vertic
   if (orientation === 'horizontal') {
     const alt = align === 'alternate';
     return (
-      <ol aria-label={ariaLabel} style={{ listStyle: 'none', margin: 0, padding: '4px 4px 8px', display: 'flex', overflowX: 'auto' }}>
+      <ScrollArea orientation="horizontal">
+      <ol aria-label={ariaLabel} style={{ listStyle: 'none', margin: 0, padding: '4px 4px 8px', display: 'flex' }}>
         {items.map((it, i) => {
           const next = items[i + 1], top = alt && i % 2 === 1;
           return (
@@ -107,6 +109,7 @@ export const Timeline: React.FC<TimelineProps> = ({ items, orientation = 'vertic
           );
         })}
       </ol>
+      </ScrollArea>
     );
   }
 

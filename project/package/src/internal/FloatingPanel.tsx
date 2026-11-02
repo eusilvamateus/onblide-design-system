@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScrollArea } from '../data-display/ScrollArea/ScrollArea';
 
 export type FloatingPanelAlign = 'left' | 'right' | 'stretch';
 
@@ -33,13 +34,14 @@ export const FloatingPanel = React.forwardRef<HTMLDivElement, FloatingPanelProps
       zIndex: 'var(--ob-z-dropdown)' as React.CSSProperties['zIndex'],
       background: 'var(--ob-surface)', border: '1px solid var(--ob-border)',
       borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)',
-      padding, overflow: maxHeight ? 'hidden auto' : 'hidden',
+      padding: maxHeight ? 0 : padding, overflow: 'hidden',
+      ...(maxHeight ? { display: 'flex', flexDirection: 'column' as const } : {}),
       ...pos,
       ...(maxHeight ? { maxHeight } : {}),
       ...(minWidth ? { minWidth } : {}),
       ...style,
     }}>
-      {children}
+      {maxHeight ? <ScrollArea><div style={{ padding }}>{children}</div></ScrollArea> : children}
     </div>
   );
 });

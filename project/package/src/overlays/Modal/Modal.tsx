@@ -2,6 +2,7 @@ import React, { useEffect, useId } from 'react';
 import { Icons } from '../../iconography/Icons/Icons';
 import { Button } from '../../actions/Button/Button';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
+import { ScrollArea } from '../../data-display/ScrollArea/ScrollArea';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'full';
 
@@ -64,7 +65,9 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
           <h3 id={titleId} style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</h3>
           {closeButton && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Icons.x size={18} />} style={{ flex: 'none', margin: '-4px -8px 0 0' }} />}
         </div>
-        <div id={bodyId} style={{ flex: '1 1 auto', minHeight: 0, overflowY: 'auto', padding: '12px 24px 20px', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>{children}</div>
+        <ScrollArea style={{ flex: '1 1 auto' }}>
+          <div id={bodyId} style={{ padding: '12px 24px 20px', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>{children}</div>
+        </ScrollArea>
         {footer && (
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, flex: 'none', padding: '16px 24px', borderTop: '1px solid var(--ob-border)', background: 'var(--ob-bg-alt)' }}>{footer}</div>
         )}

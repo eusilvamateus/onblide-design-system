@@ -26,7 +26,7 @@ Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<catego
 | `feedback` | Alert, Toast, ToastStack, ProgressBar, ProgressCircle, Spinner, Skeleton |
 | `overlays` | Modal, AlertDialog, Drawer, Tooltip, Menu (+ ContextMenu, MenuPanel), Popover |
 | `navigation` | Tabs, SideNav, Navbar, Pagination, Breadcrumbs, Stepper, Menubar |
-| `data-display` | Table, Card, Calendar, Avatar, AvatarGroup, Badge, Chip, Divider, Kbd, EmptyState, Accordion, List (+ ListItem, ListSubheader, ListDivider), Timeline, TreeView |
+| `data-display` | Table, Card, Calendar, Avatar, AvatarGroup, Badge, Chip, Divider, ScrollArea, Kbd, EmptyState, Accordion, List (+ ListItem, ListSubheader, ListDivider), Timeline, TreeView |
 | `brand` | Logo |
 | `iconography` | Icons, Ph |
 

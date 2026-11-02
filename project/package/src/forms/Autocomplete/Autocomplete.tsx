@@ -1,6 +1,7 @@
 import React from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { FloatingPanel } from '../../internal/FloatingPanel';
+import { ScrollArea } from '../../data-display/ScrollArea/ScrollArea';
 import { useLadoVertical } from '../../internal/useLadoVertical';
 import { Chip } from '../../data-display/Chip/Chip';
 import { Ph } from '../../iconography/Ph/Ph';
@@ -275,7 +276,8 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
       </div>
       {showPanel && (
         <FloatingPanel ref={painelRef} side={lado} padding={0}>
-          <div ref={listRef} id={listId} role="listbox" aria-multiselectable={multiple || undefined} aria-label={typeof label === 'string' ? label : ariaLabel} style={{ maxHeight: 280, overflowY: 'auto', padding: 4, position: 'relative' }}>
+          <ScrollArea maxHeight={280} viewportRef={listRef}>
+          <div id={listId} role="listbox" aria-multiselectable={multiple || undefined} aria-label={typeof label === 'string' ? label : ariaLabel} style={{ padding: 4 }}>
             {busy ? <div role="status" style={msgRow}><Spinner size="xs" />Buscando…</div>
               : tooShort ? <div style={msgRow}>Digite ao menos {minChars} letras</div>
               : (
@@ -299,6 +301,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
                 </>
               )}
           </div>
+          </ScrollArea>
         </FloatingPanel>
       )}
       {error ? <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 5, display: 'flex', alignItems: 'center', gap: 4 }}><Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />{error}</div>

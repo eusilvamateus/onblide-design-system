@@ -48,6 +48,7 @@ export * from './overlays/Modal/Modal';
 export * from './overlays/AlertDialog/AlertDialog';
 export * from './brand/Logo/Logo';
 export * from './data-display/Divider/Divider';
+export * from './data-display/ScrollArea/ScrollArea';
 export * from './data-display/List/List';
 export * from './navigation/Breadcrumbs/Breadcrumbs';
 export * from './forms/Textarea/Textarea';

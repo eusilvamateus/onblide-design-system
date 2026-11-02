@@ -345,6 +345,9 @@
   --ob-focus-ring:  rgba(10, 78, 228, 0.32);
   --ob-selection-bg: var(--ob-blue-100);
   --ob-selection-fg: var(--ob-ink-strong);
+  --ob-scrollbar-thumb: color-mix(in srgb, var(--ob-fg) 28%, transparent);
+  --ob-scrollbar-thumb-hover: color-mix(in srgb, var(--ob-fg) 48%, transparent);
+  --ob-scrollbar-track: color-mix(in srgb, var(--ob-fg) 6%, transparent);
 
   --ob-success:     var(--ob-green);
   --ob-success-bg:  var(--ob-green-100);
@@ -433,6 +436,9 @@
   --ob-focus-ring:  rgba(77, 127, 239, 0.4);
   --ob-selection-bg: #3a6ee0;
   --ob-selection-fg: #ffffff;
+  --ob-scrollbar-thumb: color-mix(in srgb, var(--ob-fg) 30%, transparent);
+  --ob-scrollbar-thumb-hover: color-mix(in srgb, var(--ob-fg) 52%, transparent);
+  --ob-scrollbar-track: color-mix(in srgb, var(--ob-fg) 8%, transparent);
 
   --ob-success:     var(--ob-green);
   --ob-success-bg:  var(--ob-green-100);

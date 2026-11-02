@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
+import { ScrollArea } from '../ScrollArea/ScrollArea';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 
 injectStyleOnce('ob-pulse-kf', '@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}');
@@ -115,7 +116,8 @@ export function Table<T extends object = Record<string, unknown>>({
   const celula = (ultima: boolean): React.CSSProperties => (ultima ? { ...tdStyle, borderBottom: 'none' } : tdStyle);
 
   return (
-    <div style={{ width: '100%', overflowX: 'auto', borderRadius: 'var(--ob-r-md)', border: '1px solid var(--ob-border)' }}>
+    <div style={{ width: '100%', overflow: 'hidden', borderRadius: 'var(--ob-r-md)', border: '1px solid var(--ob-border)' }}>
+      <ScrollArea orientation="horizontal">
       <table style={{ width: '100%', borderCollapse: 'collapse', background: 'var(--ob-surface)' }}>
         <thead>
           <tr>
@@ -177,6 +179,7 @@ export function Table<T extends object = Record<string, unknown>>({
             ); })}
         </tbody>
       </table>
+      </ScrollArea>
     </div>
   );
 }

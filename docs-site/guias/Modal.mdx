@@ -65,7 +65,7 @@ Montar uma confirmação do zero com o Modal: use o **AlertDialog**. Nunca empil
 
 **Responsivo / mobile.** Em viewports estreitas, todos os tamanhos reduzem com margem de 16 px. Em mobile (`< 480 px`), `lg` e `full` viram folha de largura total ancorada na base.
 
-**Scroll.** O painel nunca passa da altura da janela: o corpo rola quando o conteúdo excede o espaço, e o header e o footer ficam fixos. `maxHeight` define um limite menor.
+**Scroll.** O painel nunca passa da altura da janela: o corpo rola (pelo `ScrollArea`, com barra fina) quando o conteúdo excede o espaço, e o header e o footer ficam fixos. `maxHeight` define um limite menor.
 
 **Animação externa.** `motion="none"` remove o fade e o pop internos para o consumidor animar por fora, usando `backdropRef` (camada de fundo) e `contentRef` (painel). A animação de saída não é coberta: com `open={false}` o modal sai da árvore na hora. As animações internas respeitam `prefers-reduced-motion`.
 

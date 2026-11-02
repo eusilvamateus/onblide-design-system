@@ -1,0 +1,59 @@
+---
+resumo: "Área com rolagem nativa e uma barra fina e discreta, desenhada com os tokens do tema. Substitui a barra grossa do navegador no corpo do `Modal`, no `Drawer`, no `SideNav`, na `Table`, na `Timeline` e nas listas do `Select` e do `Autocomplete`."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
+---
+
+{/* Guia do ScrollArea: uso e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Use quando uma região tem altura ou largura limitada e o conteúdo pode passar disso: listas longas, painéis,
+tabelas largas. O conteúdo rola do jeito nativo (roda do mouse, toque, teclado); só a barra é desenhada pelo componente.
+
+<FacaEvite>
+<Faca>
+
+Dar ao `ScrollArea` um limite (`maxHeight`, `height` ou um pai com altura definida). Sem limite não há o que rolar.
+
+</Faca>
+<Evite>
+
+Aninhar áreas roláveis. O usuário perde a referência de qual região a roda do mouse está movendo.
+
+</Evite>
+</FacaEvite>
+
+## Composição
+
+- **Modal**, **Drawer** e **SideNav** rolam o corpo e a lista pelo `ScrollArea`.
+- **Table** e **Timeline** (horizontal) usam o eixo horizontal.
+- **Select** e **Autocomplete** rolam a lista de opções por ele.
+
+## Formatação
+
+```jsx
+<ScrollArea maxHeight={320} ariaLabel="Promoções">
+  <ul>{itens}</ul>
+</ScrollArea>
+
+<ScrollArea orientation="horizontal">
+  <Table ... />
+</ScrollArea>
+
+<ScrollArea height={240} visibility="always">...</ScrollArea>
+```
+
+## Guia de design
+
+**Visibilidade.** `hover` (padrão) mostra a barra ao rolar, ao passar o mouse e quando a região recebe foco. `auto`
+a mantém visível enquanto houver o que rolar. `always` a mantém visível, com o trilho.
+
+**Tokens.** `--ob-scrollbar-thumb`, `--ob-scrollbar-thumb-hover` e `--ob-scrollbar-track`, com valores próprios nos
+temas claro e escuro.
+
+**Teclado e leitor de tela.** Quando há o que rolar, a região entra na ordem de tabulação, para o teclado conseguir
+rolá-la. Informe `ariaLabel` para nomear a região. A barra desenhada fica oculta para leitores de tela.
+
+**Arrastar e clicar.** O polegar se arrasta; clicar no trilho salta para aquele ponto.
+
+**Dois eixos.** Com `orientation="both"` as duas barras aparecem e deixam um canto livre entre si.
