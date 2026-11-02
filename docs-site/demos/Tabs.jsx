@@ -2,8 +2,8 @@
 
 const abas = [
   { id: 'visao', label: 'Visão geral', icon: 'house' },
-  { id: 'equipe', label: 'Equipe', icon: 'users', badge: 8 },
-  { id: 'historico', label: 'Histórico', icon: 'clock' },
+  { id: 'equipe', label: 'Equipe', icon: 'users', badge: 8, tone: 'primary' },
+  { id: 'historico', label: 'Histórico', icon: 'clock', tone: 'warning' },
   { id: 'arquivo', label: 'Arquivadas', icon: 'archive', disabled: true },
 ];
 

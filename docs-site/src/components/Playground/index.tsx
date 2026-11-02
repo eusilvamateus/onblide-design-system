@@ -17,7 +17,7 @@ const CONDICIONAIS: Record<string, Record<string, { prop: string; valor: string 
   Button: { tone: { prop: 'kind', valor: 'quiet' }, fill: { prop: 'kind', valor: 'quiet' } },
 };
 
-const LIGADAS = ['open', 'onClose', 'onChange', 'checked', 'value', 'values'];
+const LIGADAS = ['open', 'onClose', 'onChange', 'checked', 'value', 'values', 'active'];
 
 function controlesDe(nome: string, brutos: Record<string, string>): Controle[] {
   const lista: Controle[] = [];
@@ -92,8 +92,8 @@ export default function Playground({
     setVersao((n) => n + 1);
   };
 
-  const controlado = temProp('onChange') && (temProp('checked') || temProp('value'));
-  const alvoLigado = temProp('checked') ? 'checked' : 'value';
+  const controlado = temProp('onChange') && (temProp('checked') || temProp('value') || temProp('active'));
+  const alvoLigado = temProp('checked') ? 'checked' : temProp('value') ? 'value' : 'active';
 
   const ligacoes: string[] = [];
   if (temProp('onClose') && temProp('open')) ligacoes.push('onClose={fechar}');
