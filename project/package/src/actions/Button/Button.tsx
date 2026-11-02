@@ -61,11 +61,12 @@ export const Button: React.FC<ButtonProps> = ({
     fontFamily: 'inherit', fontWeight: 600, border: 'none', borderRadius: 'var(--ob-r-control)',
     cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.5 : 1, transition: 'all 160ms cubic-bezier(0.2,0.7,0.2,1)',
     fontSize: size === 'sm' ? 13 : size === 'lg' ? 15 : 14,
-    padding: size === 'sm' ? '7px 12px' : size === 'lg' ? '14px 22px' : '10px 18px',
+    padding: size === 'sm' ? '0 12px' : size === 'lg' ? '0 22px' : '0 18px',
   };
   const tom = ACTION_TONES[tone];
   const tomDoContador = countTone ?? TOM_DO_CONTADOR[kind] ?? 'red';
   const quadrado = size === 'sm' ? 32 : size === 'lg' ? 48 : 40;
+  const alturaMinima: React.CSSProperties = { minHeight: quadrado };
   const soIcone: React.CSSProperties = iconOnly ? { width: quadrado, height: quadrado, padding: 0, gap: 0 } : {};
   const kinds: Record<ButtonKind, React.CSSProperties> = {
     primary:   { background: 'var(--ob-blue)', color: 'var(--ob-fg-on-color)' },
@@ -88,7 +89,7 @@ export const Button: React.FC<ButtonProps> = ({
       type={type}
       disabled={disabled}
       aria-pressed={pressed}
-      style={{ ...base, ...kinds[kind], ...soIcone, ...style }}
+      style={{ ...base, ...alturaMinima, ...kinds[kind], ...soIcone, ...style }}
       onMouseEnter={(e) => {
         if (kind === 'primary' && !disabled) e.currentTarget.style.boxShadow = 'var(--ob-shadow-pop)';
         if (kind === 'neutral' && !disabled) { e.currentTarget.style.background = 'var(--ob-surface-2)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }

@@ -29,6 +29,13 @@ if (!c.includes('aria-label="AL-X"')) fail('aria-label não repassado', c);
 if (!c.includes('name="nm"')) fail('name não repassado', c);
 
 const soIcone = renderToStaticMarkup(h(Button, { iconOnly: true, kind: 'secondary', size: 'sm', 'aria-label': 'Recolher', icon: h('i', null, 'x') }, 'Texto ignorado'));
+const altura = (props) => renderToStaticMarkup(h(Button, props, 'Rótulo'));
+for (const [size, px] of [['sm', 32], ['md', 40], ['lg', 48]]) {
+  const comTexto = altura({ size });
+  const quadrado = renderToStaticMarkup(h(Button, { size, iconOnly: true, 'aria-label': 'x', icon: h('i') }));
+  if (!comTexto.includes('min-height:' + px + 'px')) fail('botão com texto ' + size + ' deveria ter altura mínima de ' + px + 'px', comTexto);
+  if (!quadrado.includes('height:' + px + 'px') || !quadrado.includes('width:' + px + 'px')) fail('botão só com ícone ' + size + ' deveria ser um quadrado de ' + px + 'px', quadrado);
+}
 if (!soIcone.includes('width:32px') || !soIcone.includes('height:32px') || !soIcone.includes('padding:0')) fail('iconOnly sm deveria ser um quadrado de 32px sem padding', soIcone);
 if (soIcone.includes('Texto ignorado')) fail('iconOnly não deveria renderizar o texto', soIcone);
 if (!soIcone.includes('aria-label="Recolher"')) fail('iconOnly deveria repassar o aria-label', soIcone);
