@@ -17,6 +17,8 @@ const CONDICIONAIS: Record<string, Record<string, { prop: string; valor: string 
   Button: { tone: { prop: 'kind', valor: 'quiet' }, fill: { prop: 'kind', valor: 'quiet' } },
 };
 
+const REMONTA = ['selection'];
+
 const LIGADAS = ['open', 'onClose', 'onChange', 'checked', 'value', 'values', 'active'];
 
 function controlesDe(nome: string, brutos: Record<string, string>): Controle[] {
@@ -86,7 +88,10 @@ export default function Playground({
   });
   const [versao, setVersao] = useState(0);
   const [aba, setAba] = useState('resultado');
-  const definir = (p: string, v: Valor) => setValores((a) => ({ ...a, [p]: v }));
+  const definir = (p: string, v: Valor) => {
+    setValores((a) => ({ ...a, [p]: v }));
+    if (REMONTA.includes(p)) setVersao((n) => n + 1);
+  };
   const restaurar = () => {
     setValores(inicial());
     setVersao((n) => n + 1);
