@@ -57,9 +57,5 @@ clara de 1px em vez de dobrar a borda.
 **Seleção.** `selection="single"` vira `radiogroup`: foco em roving tabindex, setas movem e selecionam,
 pulando itens desabilitados. `selection="multiple"` mantém cada `ToggleButton` independente, sem `radiogroup`.
 
-**Cor.** `tone` no grupo vale para todo filho que não define o próprio `tone`: nos `ToggleButton` colore o estado pressionado e nos `Button` só tem efeito no estilo `quiet`. O `tone` do filho sempre prevalece; `neutral` no grupo não altera os `ToggleButton`.
-
-**Aparência.** `appearance` no grupo (`outline` ou `ghost`) vale para todo `ToggleButton` que não define o próprio; o `Button` não é afetado, ele usa `kind`. Com `ghost` os botões ficam sem borda, e o visual combina mais com `attached={false}`.
-
 **Estados.** `disabled` no grupo desabilita todos os filhos; um filho pode desabilitar sozinho. Hover, foco e
 pressionado continuam sendo do próprio `Button`/`ToggleButton`.
