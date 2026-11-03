@@ -96,6 +96,12 @@ Os dois existem, e `Icons` é construído sobre `Ph`:
   no registro. `Alert`, `Checkbox`, `SearchInput`, `Select`, `SideNav`, `Tabs` e `Toast` usam
   `Ph`; `Chip` também. Nenhum componente monta `<i class="ph ...">` à mão.
 
+### Vocabulário das props
+
+`tone` é a cor, `appearance` é a pintura (`solid`, `soft`, `outline`, `ghost`) e `variant` é a forma, com o mesmo
+significado em todos os componentes. A tabela de valores por componente está no site de documentação, em
+Fundações › Vocabulário das props.
+
 ### Pesos
 
 Cada peso tem um papel: **regular** é o padrão; **fill** é o estado ligado (item ativo do `SideNav`,

@@ -2,6 +2,6 @@
 
 <ProgressBar
   value={40}
-  tone="info"
+  tone="primary"
   showLabel
 />

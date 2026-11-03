@@ -48,4 +48,13 @@ if (!render({ label: 'Tag', size: 'md' }).includes('padding:7px 14px')) fail('md
 if (!render({ label: 'Tag', size: 'sm' }).includes('padding:5px 10px')) fail('sm mantém o padding');
 if (!render({ label: 'Tag' }).includes('font-size:13px')) fail('o padrão continua md');
 
-console.log('OK: Chip (remoção, estado, atributos nativos e composição)');
+const contorno = render({ label: 'Tag', tone: 'primary' });
+if (!contorno.includes('border-color:color-mix(in srgb, var(--ob-blue) 35%, transparent)')) fail('outline é o padrão e tem borda', contorno);
+const suave = render({ label: 'Tag', tone: 'primary', appearance: 'soft' });
+if (!suave.includes('border-color:transparent') || !suave.includes('background:var(--ob-blue-050)')) fail('soft tem fundo clarinho sem borda', suave);
+const suaveNeutro = render({ label: 'Tag', appearance: 'soft' });
+if (!suaveNeutro.includes('background:var(--ob-surface-2)') || !suaveNeutro.includes('border-color:transparent')) fail('soft neutro usa fundo cinza clarinho sem borda', suaveNeutro);
+const suaveLigado = render({ label: 'Tag', tone: 'primary', appearance: 'soft', selected: true });
+if (!suaveLigado.includes('background:var(--ob-blue)') || !suaveLigado.includes('color:var(--ob-fg-on-color)')) fail('selecionado fica cheio em qualquer appearance', suaveLigado);
+
+console.log('OK: Chip (remoção, estado, atributos nativos, composição e appearance outline/soft)');

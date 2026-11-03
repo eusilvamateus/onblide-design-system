@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import type { Tone } from '../../internal/tone';
 
 export type SliderValue = number | [number, number];
-export type SliderTone = 'default' | 'success' | 'warning' | 'danger';
+export type SliderTone = Extract<Tone, 'primary' | 'success' | 'warning' | 'danger'>;
 
 export interface SliderBaseProps {
   /** Valor mínimo permitido na escala. */
@@ -60,7 +61,7 @@ export const Slider: React.FC<SliderProps> = (props) => {
     value, min = 0, max = 100, step = 1,
     onChange, label, hint, error, disabled = false,
     showValue = true, marks = false,
-    tone = 'default',
+    tone = 'primary',
     range = false,
   } = props as SliderLooseProps;
   const trackRef = useRef<HTMLDivElement>(null);

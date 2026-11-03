@@ -41,8 +41,8 @@ const linhasComStatus = [
   { tarefa: 'Atualizar guia de marca', status: 'pending', prioridade: 'Média' },
   { tarefa: 'Publicar relatório mensal', status: 'done', prioridade: 'Baixa' },
 ];
-const statusMap: Record<string, ['blue' | 'orange' | 'green', string]> = {
-  progress: ['blue', 'Em andamento'], pending: ['orange', 'Pendente'], done: ['green', 'Concluído'],
+const statusMap: Record<string, ['primary' | 'warning' | 'success', string]> = {
+  progress: ['primary', 'Em andamento'], pending: ['warning', 'Pendente'], done: ['success', 'Concluído'],
 };
 
 export const ComBadges = () => (
@@ -52,7 +52,7 @@ export const ComBadges = () => (
       columns={[
         { key: 'tarefa', label: 'Tarefa', bold: true },
         { key: 'status', label: 'Status', render: (v) => { const [tom, rotulo] = statusMap[v as string]; return <Badge tone={tom}>{rotulo}</Badge>; } },
-        { key: 'prioridade', label: 'Prioridade', render: (v) => <Badge tone={v === 'Alta' ? 'red' : v === 'Média' ? 'orange' : 'blue'}>{v as string}</Badge> },
+        { key: 'prioridade', label: 'Prioridade', render: (v) => <Badge tone={v === 'Alta' ? 'danger' : v === 'Média' ? 'warning' : 'primary'}>{v as string}</Badge> },
       ]}
       rows={linhasComStatus}
     />

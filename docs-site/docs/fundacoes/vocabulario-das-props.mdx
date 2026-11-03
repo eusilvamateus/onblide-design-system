@@ -1,0 +1,115 @@
+---
+title: Vocabulário das props
+sidebar_position: 12
+description: O que `tone`, `appearance` e `variant` significam em qualquer componente, e quais valores cada um aceita.
+---
+
+Cada palavra das props visuais tem **um significado só**, igual em todos os componentes. Se você sabe o que
+`appearance="soft"` faz no `Badge`, já sabe o que ela faz no `Chip` e nas `Tabs`. Nenhum componente usa uma palavra
+do vocabulário com outro sentido, e nenhum inventa um sinônimo para algo que o vocabulário já nomeia.
+
+## As três perguntas
+
+Toda prop visual responde a uma destas perguntas, e só a uma:
+
+| Prop | Pergunta | Exemplo |
+|---|---|---|
+| `tone` | **De que cor?** | `tone="success"` deixa o componente verde. |
+| `appearance` | **Como a cor é pintada?** | `appearance="soft"` pinta um fundo clarinho, sem borda. |
+| `variant` | **Qual é a forma?** | `variant="pill"` desenha as abas como pílulas. |
+
+As três combinam livremente: `<Badge tone="warning" appearance="outline" variant="numeric">` é um contador laranja
+com borda.
+
+## `tone`: a cor
+
+| Valor | Cor | Quando usar |
+|---|---|---|
+| `neutral` | Cinza, a cor do texto | Sem significado especial. É o "sem cor". |
+| `muted` | Cinza esmaecido | Coisas secundárias, que devem chamar menos atenção que o texto. |
+| `primary` | Azul da marca | Destaque, ação principal, item em foco. |
+| `info` | Azul | **Só em mensagens** (`Alert`, `Toast`): avisa algo neutro, como uma novidade. |
+| `success` | Verde | Deu certo, concluído, ativo. |
+| `warning` | Laranja | Atenção, pendente. |
+| `danger` | Vermelho | Erro, ação destrutiva, urgente. |
+
+`info` e `primary` usam o mesmo azul, mas não são sinônimos: `primary` é a cor da marca e da ação, e `info` é o tipo
+de uma mensagem. Por isso nenhum componente aceita os dois. Mensagens aceitam `info`, e todo o resto aceita
+`primary`.
+
+Cada componente aceita só os tons que fazem sentido para ele:
+
+| Componente | Tons aceitos | Padrão |
+|---|---|---|
+| `Alert`, `Toast`, `toast()` | `info`, `success`, `warning`, `danger` | `info` |
+| `Badge`, `Chip`, `Tabs` (cada aba), `Button` (`kind="quiet"`), `countTone` do `Button` | `neutral`, `primary`, `success`, `warning`, `danger` | varia |
+| `ToggleButton` | `primary`, `success`, `warning`, `danger` | `primary` |
+| `ProgressBar`, `ProgressCircle`, `Slider` | `primary`, `success`, `warning`, `danger` | `primary` |
+| `Spinner` | `primary`, `success`, `warning`, `danger`, `muted` | `primary` |
+| `Link` | `primary`, `neutral`, `muted` | `primary` |
+| `ListItem` | `primary`, `danger` | sem tom |
+| `AlertDialog` | `primary`, `danger` | `primary` |
+
+O tipo `Tone`, exportado pelo pacote, lista as sete palavras. O tipo de cada componente (`BadgeTone`, `LinkTone`…) é um
+recorte dele, então o TypeScript recusa qualquer cor fora do vocabulário.
+
+## `appearance`: a pintura
+
+| Valor | Borda | Fundo |
+|---|---|---|
+| `solid` | não | cheio na cor forte do tom, com texto claro por cima |
+| `soft` | não | clarinho na cor do tom |
+| `outline` | **sim** | superfície, transparente ou clarinho, nunca cheio |
+| `ghost` | não | **nenhum** em repouso; o fundo só aparece no hover ou quando ligado |
+
+O que define o `outline` é a borda. A diferença que mais confunde é entre `soft` e `ghost`: os dois não têm borda, mas
+o `soft` **tem fundo** e o `ghost` **não tem**.
+
+| Componente | Valores aceitos | Padrão |
+|---|---|---|
+| `Badge` | `soft`, `solid`, `outline` | `soft` (`solid` no `variant="numeric"`) |
+| `Chip` | `outline`, `soft` (selecionado, é sempre `solid`) | `outline` |
+| `ToggleButton` | `outline`, `ghost` | `outline` |
+| `Tabs` (aba ativa na pílula) | `soft`, `solid` | sem pintura extra: fundo claro com sombra |
+| `Kbd` | `outline`, `ghost` | `outline` |
+| `Tooltip` | `solid` (balão escuro), `outline` (balão claro com borda) | `solid` |
+
+O tipo `Appearance` lista as quatro palavras, e o tipo de cada componente (`ChipAppearance`, `BadgeAppearance`…) é um
+recorte dele.
+
+## `variant`: a forma
+
+`variant` muda a **estrutura** do componente: como ele é montado, não a cor. Os valores são próprios de cada
+componente, porque cada um tem formas diferentes:
+
+| Componente | Valores |
+|---|---|
+| `Tabs` | `line` (sublinhado), `pill` (segmentado) |
+| `Badge` | `label` (rótulo), `numeric` (contador) |
+| `Tooltip` | `text`, `image` |
+| `Stepper` | `horizontal`, `vertical`, `bar`, `segmented`, `compact` |
+| `FileUpload` | `dropzone`, `button`, `image` |
+
+Se uma prop muda só cor, borda ou fundo, ela não é `variant`.
+
+## Props que não fazem parte do vocabulário
+
+Algumas props visuais existem em um componente só, porque descrevem algo que só ele tem. Os nomes delas não se repetem
+com outro sentido em lugar nenhum:
+
+- **`kind`** (`Button` e `ButtonGroup`): a **hierarquia** da ação, ou seja, qual botão é o principal da tela.
+  Cada valor já vem com cor e pintura definidas: `primary` (cheio, azul), `secondary` (com borda), `ghost` (sem
+  borda e sem fundo, texto azul), `cream`, `danger` (cheio, vermelho), `neutral` e `quiet`. Você escolhe o papel do
+  botão, não a pintura. É o mesmo modelo do Carbon e do Polaris.
+- **`emphasis`** (`Divider`): a intensidade da linha (`subtle`, `default`, `strong`).
+- **`elevation`** (`Card`): borda ou sombra.
+- **`dashed`** (`Divider`): linha tracejada.
+- **`dot`** (`Badge` e `Tabs`): um ponto na cor do tom antes do conteúdo. Tem o mesmo significado nos dois.
+
+## Como criar uma prop visual nova
+
+1. Responda a pergunta: ela muda a cor, a pintura ou a forma?
+2. Se muda a cor, ela é `tone`, com valores do vocabulário. Se muda a pintura, é `appearance`, com valores do
+   vocabulário. Se muda a forma, é `variant`.
+3. Se nenhuma palavra do vocabulário descreve o que você precisa, **não reaproveite uma palavra com outro sentido**.
+   Primeiro discuta se o vocabulário deve crescer, para que a palavra nova sirva a todos os componentes.

@@ -9,12 +9,22 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 Use Badge para comunicar informação sobre um item sem nenhuma ação. É um indicador visual passivo.
 
-### Variantes
+### Forma (`variant`)
 
-- **Subtle**: padrão. Fundo suave + ponto colorido. Para status em cards, listas e tabelas.
-- **Solid**: fundo preenchido na cor do tom. Para rótulos de plano (Pro, Beta), categorias em destaque.
-- **Outline**: somente borda. Contextos onde o fundo precisa respirar ou há sobreposição visual.
-- **Numeric**: contagem circular. Para notificações, mensagens não lidas, alertas em ícones.
+- **`label`** (padrão): pílula de rótulo, com ponto colorido opcional. Para status em cards, listas e tabelas.
+- **`numeric`**: contador compacto e redondo, sem ponto. Para notificações, mensagens não lidas, alertas em ícones.
+
+### Pintura (`appearance`)
+
+- **`soft`**: padrão no `label`. Fundo clarinho na cor, sem borda.
+- **`solid`**: padrão no `numeric`. Fundo cheio na cor forte. Para rótulos de plano (Pro, Beta) e categorias em destaque.
+- **`outline`**: só a borda na cor, sem fundo. Para contextos onde o fundo precisa respirar.
+
+### Cor (`tone`)
+
+`neutral`, `primary`, `success`, `warning` ou `danger`.
+
+O vocabulário de `tone`, `appearance` e `variant` é o mesmo em todo o design system: veja [Vocabulário das props](/fundacoes/vocabulario-das-props).
 
 <FacaEvite>
 <Faca>
@@ -39,10 +49,10 @@ Badge clicável ou como filtro. Para isso, use **Chip**. Badge nunca deve ter cu
 ## Formatação
 
 ```jsx
-<Badge tone="green">Ativo</Badge>
-<Badge tone="blue" variant="solid" dot={false}>Pro</Badge>
-<Badge tone="red" variant="numeric">3</Badge>
-<Badge tone="orange" variant="outline" dot={false}>Pendente</Badge>
+<Badge tone="success">Ativo</Badge>
+<Badge tone="primary" appearance="solid" dot={false}>Pro</Badge>
+<Badge tone="danger" variant="numeric">3</Badge>
+<Badge tone="warning" appearance="outline" dot={false}>Pendente</Badge>
 ```
 
 <Nota>
@@ -55,13 +65,13 @@ Badge clicável ou como filtro. Para isso, use **Chip**. Badge nunca deve ter cu
 
 - 1–2 palavras. Substantivo de estado: "Ativo", "Rascunho", "Pendente".
 - Sentence case. Nunca all-caps (exceto siglas: "Pro", "Beta").
-- Semântica de cor: verde = positivo, vermelho = erro/urgente, laranja = atenção, azul = neutro/informação, cinza = inativo.
-- Numeric: máximo 2 dígitos. Acima de 99, mostre "99+".
-- Solid sem dot: para rótulos de produto (Pro, Beta, Novo) onde o tom comunica novidade, não status.
+- Semântica de cor: `success` = positivo, `danger` = erro/urgente, `warning` = atenção, `primary` = destaque/informação, `neutral` = inativo.
+- `numeric`: máximo 2 dígitos. Acima de 99, mostre "99+".
+- `solid` sem dot: para rótulos de produto (Pro, Beta, Novo) onde o tom comunica novidade, não status.
 
 ## Guia de design
 
-**Tokens.** Subtle: `--ob-*-100` fundo, `--ob-*-700` texto, `--ob-*` dot. Solid: `--ob-*` fundo, branco texto. Outline: transparente fundo, borda `color-mix(--ob-* 35%)`.
+**Tokens.** `soft`: `--ob-*-100` fundo, `--ob-*-700` texto, `--ob-*` dot. `solid`: `--ob-*` fundo, `--ob-fg-on-color` texto. `outline`: fundo transparente, borda `color-mix(--ob-* 35%)`.
 
 **Tamanhos.** md (padrão) = 12 px, padding 4×10. sm = 11 px, padding 2×8. Raio sempre pílula (999px).
 

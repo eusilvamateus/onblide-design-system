@@ -31,7 +31,7 @@
       <div className="grid">
         <div className="lbl">DETERMINADA</div>
         <div>
-          <ProgressBar value={v} tone="info" showLabel />
+          <ProgressBar value={v} tone="primary" showLabel />
           <div className="row" style={{marginTop:10}}>
             <button className="btn" onClick={()=>setV(x=>Math.max(0,x-10))}>−10</button>
             <button className="btn" onClick={()=>setV(x=>Math.min(100,x+10))}>+10</button>
@@ -45,9 +45,9 @@
         <div className="lbl">PERIGO · GRANDE</div>
         <ProgressBar value={32} tone="danger" size="lg" showLabel />
         <div className="lbl">INDETERMINADA</div>
-        <ProgressBar tone="info" indeterminate />
+        <ProgressBar tone="primary" indeterminate />
         <div className="lbl">SEGMENTADA</div>
-        <ProgressBar segments={5} currentSegment={3} tone="info" />
+        <ProgressBar segments={5} currentSegment={3} tone="primary" />
       </div>
     );
   }

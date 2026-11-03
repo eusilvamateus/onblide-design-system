@@ -91,7 +91,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps, current = 0, variant = 
           </div>
           {next && <span style={{ fontSize: 'var(--ob-fs-xs)', color: 'var(--ob-fg-soft)' }}>Próxima: {next.label}</span>}
         </div>
-        <ProgressBar value={current >= n ? 100 : ((idx + 0.5) / n) * 100} tone={s === 'error' ? 'danger' : 'info'} size={sm ? 'sm' : 'md'} />
+        <ProgressBar value={current >= n ? 100 : ((idx + 0.5) / n) * 100} tone={s === 'error' ? 'danger' : 'primary'} size={sm ? 'sm' : 'md'} />
         {s === 'error' && steps[idx].hint && <span style={{ fontSize: 'var(--ob-fs-xs)', color: 'var(--ob-danger)' }}>{steps[idx].hint}</span>}
       </div>
     );
@@ -105,7 +105,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps, current = 0, variant = 
           return (
             <li key={i} aria-current={ariaCur(i)} style={{ margin: 0, minWidth: 0 }}>
               <Hit can={can(i)} onClick={click(i)} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-s-2)', width: '100%', opacity: s === 'disabled' ? 0.6 : 1 }}>
-                <ProgressBar value={val} tone={s === 'error' ? 'danger' : 'info'} size="sm" />
+                <ProgressBar value={val} tone={s === 'error' ? 'danger' : 'primary'} size="sm" />
                 <div style={{ display: 'flex', gap: 6, alignItems: 'baseline', minWidth: 0 }}>
                   <span style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 'var(--ob-fs-xs)', color: s === 'error' ? 'var(--ob-danger)' : s === 'upcoming' || s === 'disabled' ? 'var(--ob-fg-mute)' : 'var(--ob-blue)' }}>{String(i + 1).padStart(2, '0')}</span>
                   <StepText step={step} state={s} size={size} />

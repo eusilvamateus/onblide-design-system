@@ -1,4 +1,6 @@
-export type OBTone = 'info' | 'success' | 'warning' | 'danger';
+import type { Tone } from './tone';
+
+export type OBTone = Extract<Tone, 'info' | 'success' | 'warning' | 'danger'>;
 
 export interface OBToneColors {
   fg: string;

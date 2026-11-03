@@ -13,7 +13,9 @@ Use o tooltip para informação **secundária e opcional**: algo que ajuda mas n
 
 - **Imagem**: preview de produto ou avatar de usuário ao passar sobre um nome ou miniatura.
 - **Texto**: revelar atalho de teclado, data/hora completa, ou rótulo de um ícone sem label.
-- **Invertida**: quando o gatilho está sobre um fundo colorido da marca (azul, laranja), pra garantir contraste.
+- **`appearance="outline"`**: balão claro com borda, quando o gatilho está sobre um fundo colorido da marca (azul, laranja), pra garantir contraste. O padrão é `solid`, o balão escuro.
+
+`variant` escolhe o conteúdo (`text` ou `image`) e `appearance` escolhe a pintura (`solid` ou `outline`); os dois combinam. O vocabulário de `tone`, `appearance` e `variant` é o mesmo em todo o design system: veja [Vocabulário das props](/fundacoes/vocabulario-das-props).
 
 <FacaEvite>
 <Faca>
@@ -40,7 +42,7 @@ Acionamento por `hover` e `focus` (acessível por teclado). Seta de 8px aponta p
 <Tooltip variant="image" image={src}
   title="Onblide" subtitle="Atualizado há 2h" />
 
-<Tooltip variant="inverted" label="Destaque" />
+<Tooltip appearance="outline" label="Destaque" />
 ```
 
 ## Guia de conteúdo

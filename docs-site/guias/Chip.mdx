@@ -18,7 +18,14 @@ Use Chip sempre que o usuário precisar **selecionar, filtrar ou categorizar** a
 
 O foco por teclado mostra o anel `--ob-focus-ring`, o mesmo do `Button`; o clique do mouse não o mostra.
 
-`tone` (`neutral`, `primary`, `success`, `warning`, `danger`) colore o chip: em repouso, fundo leve e texto no tom; selecionado, preenchido com a cor forte do mesmo tom.
+`tone` (`neutral`, `primary`, `success`, `warning`, `danger`) escolhe a cor do chip. `appearance` escolhe a pintura dele quando não está selecionado:
+
+- **`outline`** (padrão): fundo leve e borda. No `neutral`, fundo de superfície com borda cinza.
+- **`soft`**: fundo clarinho na cor, sem borda. No `neutral`, fundo cinza clarinho. Bom para muitos chips juntos, como uma linha de filtros ou sugestões.
+
+Selecionado, o chip fica sempre cheio (`solid`) na cor forte do tom, em qualquer `appearance`.
+
+O vocabulário de `tone`, `appearance` e `variant` é o mesmo em todo o design system: veja [Vocabulário das props](/fundacoes/vocabulario-das-props).
 
 <FacaEvite>
 <Faca>

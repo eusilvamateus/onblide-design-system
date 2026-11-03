@@ -24,8 +24,8 @@
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script src="../../package/dist/onblide-ui.browser.js"></script>
 <script type="text/babel">
-const TONES = ['blue', 'green', 'orange', 'red', 'grey'];
-const LABELS = { blue: 'Em foco', green: 'Ativo', orange: 'Pendente', red: 'Erro', grey: 'Rascunho' };
+const TONES = ['primary', 'success', 'warning', 'danger', 'neutral'];
+const LABELS = { primary: 'Em foco', success: 'Ativo', warning: 'Pendente', danger: 'Erro', neutral: 'Rascunho' };
 
 function Demo() {
   return (
@@ -47,13 +47,13 @@ function Demo() {
       {/* SOLID */}
       <div className="row-label">Solid</div>
       <div className="row">
-        {TONES.map(tone => <Badge key={tone} tone={tone} variant="solid" dot={false}>{LABELS[tone]}</Badge>)}
+        {TONES.map(tone => <Badge key={tone} tone={tone} appearance="solid" dot={false}>{LABELS[tone]}</Badge>)}
       </div>
 
       {/* OUTLINE */}
       <div className="row-label">Outline</div>
       <div className="row">
-        {TONES.map(tone => <Badge key={tone} tone={tone} variant="outline" dot={false}>{LABELS[tone]}</Badge>)}
+        {TONES.map(tone => <Badge key={tone} tone={tone} appearance="outline" dot={false}>{LABELS[tone]}</Badge>)}
       </div>
 
       <div className="divider"/>
@@ -61,7 +61,7 @@ function Demo() {
       {/* NUMERIC */}
       <div className="row-label">Numeric · contagens e notificações</div>
       <div className="row">
-        {['blue','green','orange','red','grey'].map((tone, i) => (
+        {['primary','success','warning','danger','neutral'].map((tone, i) => (
           <Badge key={tone} tone={tone} variant="numeric">{[3,12,99,1,'+'[0]][i] ?? i+1}</Badge>
         ))}
       </div>
@@ -71,12 +71,12 @@ function Demo() {
       {/* SIZES */}
       <div className="row-label">Tamanhos · sm e md</div>
       <div className="row" style={{ alignItems: 'center' }}>
-        <Badge tone="blue" size="sm">sm · Ativo</Badge>
-        <Badge tone="blue" size="md">md · Ativo</Badge>
-        <Badge tone="green" variant="solid" size="sm">sm · Solid</Badge>
-        <Badge tone="green" variant="solid" size="md">md · Solid</Badge>
-        <Badge tone="blue" variant="numeric" size="sm">4</Badge>
-        <Badge tone="blue" variant="numeric" size="md">4</Badge>
+        <Badge tone="primary" size="sm">sm · Ativo</Badge>
+        <Badge tone="primary" size="md">md · Ativo</Badge>
+        <Badge tone="success" appearance="solid" size="sm">sm · Solid</Badge>
+        <Badge tone="success" appearance="solid" size="md">md · Solid</Badge>
+        <Badge tone="primary" variant="numeric" size="sm">4</Badge>
+        <Badge tone="primary" variant="numeric" size="md">4</Badge>
       </div>
 
       <div className="divider"/>
@@ -86,19 +86,19 @@ function Demo() {
       <div className="ctx">
         <i className="ph ph-circle" style={{ fontSize: 16, color: 'var(--ob-fg-mute)' }}/>
         Integração Spotify
-        <Badge tone="green">Ativo</Badge>
+        <Badge tone="success">Ativo</Badge>
       </div>
       <div style={{ height: 8 }}/>
       <div className="ctx">
         <i className="ph ph-circle" style={{ fontSize: 16, color: 'var(--ob-fg-mute)' }}/>
         Plano Pro
-        <Badge tone="blue" variant="solid" dot={false}>Pro</Badge>
-        <Badge tone="orange" variant="solid" dot={false}>Beta</Badge>
+        <Badge tone="primary" appearance="solid" dot={false}>Pro</Badge>
+        <Badge tone="warning" appearance="solid" dot={false}>Beta</Badge>
       </div>
       <div style={{ height: 8 }}/>
       <div className="ctx">
         Notificações
-        <Badge tone="red" variant="numeric">3</Badge>
+        <Badge tone="danger" variant="numeric">3</Badge>
       </div>
     </div>
   );

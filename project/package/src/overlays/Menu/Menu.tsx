@@ -161,7 +161,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
         const badge = 'badge' in it ? it.badge : undefined;
         const trail = badge != null || t === 'toggle' || checkedMark || isSub ? (
           <>
-            {badge != null && <Embed><Badge tone="red" variant="numeric" size="sm">{badge}</Badge></Embed>}
+            {badge != null && <Embed><Badge tone="danger" variant="numeric" size="sm">{badge}</Badge></Embed>}
             {t === 'toggle' && <Embed><Switch size="sm" checked={!!(it as Extract<MenuItem, { type: 'toggle' }>).checked} /></Embed>}
             {checkedMark}
             {isSub && <span style={{ display: 'flex', marginLeft: 2 }}><Ph n="caret-right" size={14} c="currentColor" /></span>}
@@ -175,7 +175,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
             align={centered ? 'center' : 'start'} indent={hasLead}
             leading={lead} title={label} strong={t === 'account' ? (it as Extract<MenuItem, { type: 'account' }>).large : undefined}
             description={desc} wrap={t !== 'account'}
-            meta={shortcut && <span style={{ marginLeft: 16 }}><Kbd variant="plain" size="sm">{shortcut}</Kbd></span>} trailing={trail}
+            meta={shortcut && <span style={{ marginLeft: 16 }}><Kbd appearance="ghost" size="sm">{shortcut}</Kbd></span>} trailing={trail}
             onMouseEnter={() => {
               if ('disabled' in it && it.disabled) { setActive(-1); setSub({ i: -1, kb: false }); return; }
               setActive(i);

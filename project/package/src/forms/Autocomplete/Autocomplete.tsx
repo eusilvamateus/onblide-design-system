@@ -292,7 +292,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
                   {showCreate && (
                     <>
                       {filtered.length > 0 && <ListDivider bleed={4} />}
-                      <ListItem id={`${uid}-o${ci}`} data-i={ci} role="option" aria-selected="false" tone="accent" highlighted={active === ci}
+                      <ListItem id={`${uid}-o${ci}`} data-i={ci} role="option" aria-selected="false" tone="primary" highlighted={active === ci}
                         onMouseDown={(e) => { e.preventDefault(); choose(nav[ci]); }} onMouseEnter={() => setActive(ci)}
                         leading={<Ph n="plus" size={16} c="currentColor" />}
                         title={<>Criar "<strong style={{ fontWeight: 'var(--ob-w-semibold)' }}>{'create' in nav[ci] ? nav[ci].create : ''}</strong>"</>} />

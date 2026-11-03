@@ -1,7 +1,6 @@
 import React from 'react';
 
 export type DividerOrientation = 'horizontal' | 'vertical';
-export type DividerVariant = 'solid' | 'dashed';
 export type DividerEmphasis = 'subtle' | 'default' | 'strong';
 export type DividerAlign = 'start' | 'center' | 'end';
 
@@ -18,8 +17,8 @@ export interface DividerProps {
   label?: React.ReactNode;
   /** Posição do rótulo em relação à linha. */
   align?: DividerAlign;
-  /** Traço sólido ou tracejado. */
-  variant?: DividerVariant;
+  /** Desenha a linha tracejada em vez de contínua. */
+  dashed?: boolean;
   /** Intensidade da cor da linha. */
   emphasis?: DividerEmphasis;
   /** Margem no eixo da linha, em px. */
@@ -34,10 +33,10 @@ export interface DividerProps {
 
 /** Linha de separação entre blocos de conteúdo, com rótulo opcional. */
 export const Divider: React.FC<DividerProps> = ({
-  orientation = 'horizontal', variant = 'solid', emphasis = 'default', label, align = 'center',
+  orientation = 'horizontal', dashed = false, emphasis = 'default', label, align = 'center',
   spacing = 0, bleed = 0, decorative = false, style,
 }) => {
-  const line = `1px ${variant === 'dashed' ? 'dashed' : 'solid'} ${DIVIDER_COLOR[emphasis] ?? DIVIDER_COLOR.default}`;
+  const line = `1px ${dashed ? 'dashed' : 'solid'} ${DIVIDER_COLOR[emphasis] ?? DIVIDER_COLOR.default}`;
   const a11y = decorative ? { 'aria-hidden': true as const } : { role: 'separator' as const, 'aria-orientation': orientation };
 
   if (orientation === 'vertical') {

@@ -1,7 +1,8 @@
 import React from 'react';
+import type { Tone } from '../../internal/tone';
 
 export type ProgressCircleSize = 'sm' | 'md' | 'lg' | 'xl';
-export type ProgressCircleTone = 'default' | 'success' | 'warning' | 'danger';
+export type ProgressCircleTone = Extract<Tone, 'primary' | 'success' | 'warning' | 'danger'>;
 
 export interface ProgressCircleProps {
   /** Progresso atual, de 0 a 100. */
@@ -19,7 +20,7 @@ export interface ProgressCircleProps {
 const PROGRESS_CIRCLE_SIZES: Record<ProgressCircleSize, number> = { sm: 32, md: 48, lg: 64, xl: 96 };
 
 /** Indicador circular de progresso determinado, com rótulo central configurável. */
-export const ProgressCircle: React.FC<ProgressCircleProps> = ({ value = 0, size = 'md', tone = 'default', showLabel = true, label }) => {
+export const ProgressCircle: React.FC<ProgressCircleProps> = ({ value = 0, size = 'md', tone = 'primary', showLabel = true, label }) => {
   const px = PROGRESS_CIRCLE_SIZES[size] || 48;
   const sw = px <= 32 ? 3.5 : px <= 48 ? 4.5 : px <= 64 ? 5 : 7;
   const r = (px - sw * 2) / 2;

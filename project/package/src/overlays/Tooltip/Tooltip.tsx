@@ -4,18 +4,22 @@ import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import { Kbd } from '../../data-display/Kbd/Kbd';
 import { posicionarPainel } from '../../internal/floating';
 import type { PosicaoFixa } from '../../internal/floating';
+import type { Appearance } from '../../internal/appearance';
 
-export type TooltipVariant = 'text' | 'inverted' | 'image';
+export type TooltipVariant = 'text' | 'image';
+export type TooltipAppearance = Extract<Appearance, 'solid' | 'outline'>;
 export type TooltipPlacement = 'top' | 'bottom' | 'left' | 'right';
 
 export interface TooltipProps {
   /** Elemento que dispara o tooltip no hover ou foco. */
   children: React.ReactNode;
-  /** Estilo visual do balão. */
+  /** Conteúdo do balão: `text` (rótulo e atalho) ou `image` (imagem com título e subtítulo). */
   variant?: TooltipVariant;
+  /** Pintura do balão: `solid` (escuro, sem borda) ou `outline` (claro, com borda). */
+  appearance?: TooltipAppearance;
   /** Lado do gatilho em que o balão aparece. */
   placement?: TooltipPlacement;
-  /** Texto principal, usado nas variantes `text` e `inverted`. */
+  /** Texto principal, usado na variante `text`. */
   label?: React.ReactNode;
   /** Atalho de teclado exibido ao lado do rótulo. */
   shortcut?: React.ReactNode;
@@ -33,7 +37,7 @@ export interface TooltipProps {
 
 /** Dica contextual que aparece sobre um elemento ao passar o mouse ou focar nele. */
 export const Tooltip: React.FC<TooltipProps> = ({
-  children, variant = 'text', placement = 'top', label, shortcut, image, title, subtitle, delay = 120, maxWidth = 240,
+  children, variant = 'text', appearance = 'solid', placement = 'top', label, shortcut, image, title, subtitle, delay = 120, maxWidth = 240,
 }) => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<PosicaoFixa | null>(null);
@@ -64,11 +68,11 @@ export const Tooltip: React.FC<TooltipProps> = ({
   };
   const hide = () => { if (timer.current) clearTimeout(timer.current); setOpen(false); };
 
-  const inverted = variant === 'inverted';
-  const bg = inverted ? 'var(--ob-surface)' : 'var(--ob-ink-strong)';
-  const fg = inverted ? 'var(--ob-fg-strong)' : 'var(--ob-surface)';
-  const subFg = inverted ? 'var(--ob-fg-soft)' : 'color-mix(in srgb, var(--ob-surface) 70%, transparent)';
-  const bordered = inverted ? '1px solid var(--ob-border)' : 'none';
+  const claro = appearance === 'outline';
+  const bg = claro ? 'var(--ob-surface)' : 'var(--ob-ink-strong)';
+  const fg = claro ? 'var(--ob-fg-strong)' : 'var(--ob-surface)';
+  const subFg = claro ? 'var(--ob-fg-soft)' : 'color-mix(in srgb, var(--ob-surface) 70%, transparent)';
+  const bordered = claro ? '1px solid var(--ob-border)' : 'none';
 
   const arrowBase: React.CSSProperties = { position: 'absolute', width: 8, height: 8, background: bg, transform: 'rotate(45deg)', border: bordered };
   const arrowPos: Record<TooltipPlacement, React.CSSProperties> = {

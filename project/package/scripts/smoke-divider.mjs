@@ -14,6 +14,7 @@ const decorative = render({ decorative: true });
 if (!decorative.includes('aria-hidden="true"') || decorative.includes('role="separator"')) fail('decorative deveria trocar role por aria-hidden', decorative);
 const labeled = render({ label: 'ou' });
 if (!labeled.includes('>ou<')) fail('deveria mostrar o rótulo', labeled);
-if (!render({ variant: 'dashed' }).includes('dashed')) fail('variant dashed deveria tracejar a linha');
+if (!render({ dashed: true }).includes('dashed')) fail('dashed deveria tracejar a linha');
+if (render({}).includes('dashed')) fail('a linha padrão é contínua');
 
-console.log('OK: Divider (role separator, vertical, decorative, rótulo, variant)');
+console.log('OK: Divider (role separator, vertical, decorative, rótulo, dashed)');

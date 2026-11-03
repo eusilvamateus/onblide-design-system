@@ -2,7 +2,7 @@
 
 <Link
   href="#"
-  variant="default"
+  tone="primary"
 >
   Ver todos os projetos
 </Link>

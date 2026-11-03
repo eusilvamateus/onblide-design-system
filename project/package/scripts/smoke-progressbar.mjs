@@ -22,5 +22,5 @@ if ((segmentado.match(/<div/g) ?? []).length !== 5) fail('4 segmentos dentro de 
 const cheios = segmentado.match(/background:(?!var\(--ob-border\))[^;"]+/g) ?? [];
 if (cheios.length !== 2) fail('2 segmentos concluídos', cheios.join(' | '));
 if (render({ value: 10, size: 'sm' }) === render({ value: 10, size: 'lg' })) fail('size altera a espessura');
-if (render({ value: 10, tone: 'info' }) === render({ value: 10, tone: 'danger' })) fail('tone altera a cor');
+if (render({ value: 10, tone: 'primary' }) === render({ value: 10, tone: 'danger' })) fail('tone altera a cor');
 console.log('OK: ProgressBar (percentual, limites, indeterminado, segmentos, tamanhos, tons)');

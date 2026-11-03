@@ -12,7 +12,7 @@ export const Tamanhos = () => (
 
 export const Tons = () => (
   <div style={{ display: 'flex', gap: 20, padding: 24, alignItems: 'center' }}>
-    <Spinner size="lg" tone="default" />
+    <Spinner size="lg" tone="primary" />
     <Spinner size="lg" tone="success" />
     <Spinner size="lg" tone="warning" />
     <Spinner size="lg" tone="danger" />

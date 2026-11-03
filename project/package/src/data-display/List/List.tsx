@@ -1,5 +1,6 @@
 import React from 'react';
 import { Divider } from '../Divider/Divider';
+import type { Tone } from '../../internal/tone';
 
 export type ListSize = 'md' | 'sm';
 
@@ -43,7 +44,7 @@ export const List: React.FC<ListProps> = ({ size = 'md', dividers = false, inset
   );
 };
 
-export type ListItemTone = 'danger' | 'accent';
+export type ListItemTone = Extract<Tone, 'primary' | 'danger'>;
 export type ListItemSelectedStyle = 'fill' | 'none';
 export type ListItemAlign = 'center' | 'start';
 
@@ -92,8 +93,8 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
   const hl = !disabled && (highlighted ?? (self && hover));
   const fill = selected && selectedStyle === 'fill';
   const Tag = (as ?? (href ? 'a' : ctx?.itemAs ?? 'div')) as React.ElementType;
-  const color = disabled ? 'var(--ob-fg-mute)' : tone === 'danger' ? 'var(--ob-danger)' : tone === 'accent' ? 'var(--ob-blue)' : fill ? 'var(--ob-blue-700)' : 'var(--ob-fg-strong)';
-  const leadColor = disabled ? 'inherit' : tone === 'danger' ? 'var(--ob-danger)' : tone === 'accent' || fill ? 'var(--ob-blue)' : 'var(--ob-fg-soft)';
+  const color = disabled ? 'var(--ob-fg-mute)' : tone === 'danger' ? 'var(--ob-danger)' : tone === 'primary' ? 'var(--ob-blue)' : fill ? 'var(--ob-blue-700)' : 'var(--ob-fg-strong)';
+  const leadColor = disabled ? 'inherit' : tone === 'danger' ? 'var(--ob-danger)' : tone === 'primary' || fill ? 'var(--ob-blue)' : 'var(--ob-fg-soft)';
   const pointer = !disabled && (self || highlighted !== undefined);
   return (
     <Tag

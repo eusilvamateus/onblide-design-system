@@ -20,8 +20,15 @@ Leia isto antes de montar qualquer tela. Tudo vem de `window.OnblideUI` (o bundl
 - Português do Brasil, tom conversacional, frases curtas, sentence case ("Nova tarefa", não "Nova Tarefa").
 - Números no formato BR: `R$ 38,4k`, `4,8%`, `2.847`.
 
+## Vocabulário das props visuais
+Cada palavra tem um significado só, igual em todos os componentes. Nunca use uma palavra com outro sentido nem invente sinônimo.
+- `tone` = **a cor**: `neutral` (cinza do texto), `muted` (cinza esmaecido), `primary` (azul da marca), `info` (azul, só em `Alert` e `Toast`), `success` (verde), `warning` (laranja), `danger` (vermelho). Não existem `blue`, `green`, `red`, `grey`, `default` nem `accent`.
+- `appearance` = **a pintura**: `solid` (cheio na cor forte), `soft` (fundo clarinho, sem borda), `outline` (com borda), `ghost` (sem borda e sem fundo em repouso). `soft` e `ghost` não têm borda; só o `soft` tem fundo.
+- `variant` = **a forma** (`line`/`pill` nas `Tabs`, `label`/`numeric` no `Badge`, `text`/`image` no `Tooltip`). Nunca é cor nem pintura.
+- Cada componente aceita um recorte: `Badge` `appearance` soft | solid | outline; `Chip` outline | soft (selecionado é sempre cheio); `ToggleButton` e `Kbd` outline | ghost; `Tooltip` solid | outline; `Tabs` soft | solid (aba ativa na pílula) e `dot` para o ponto do tom; `Link` `tone` primary | neutral | muted.
+
 ## Composição
-- Botões: `kind` = primary | secondary | ghost | cream | danger; `size` = sm | md | lg. Um primário por região.
+- Botões: `kind` é a hierarquia da ação, não a pintura: primary | secondary | ghost | cream | danger | neutral | quiet (no `quiet`, `tone` escolhe a cor do hover); `size` = sm | md | lg. Um primário por região.
 - Campos (`Input`, `Select`, `SearchInput`, `Datepicker`, `CodeInput`) compartilham a superfície `FieldShell`; erro entra pela prop `error`.
 - `Modal`, `Drawer` e `Tooltip` são overlays: renderize-os dentro de um contêiner com altura definida.
 - `ToastStack` fica uma vez na raiz do app; toasts disparam pelo evento `ob-toast`.

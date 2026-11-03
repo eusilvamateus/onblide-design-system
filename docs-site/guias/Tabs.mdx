@@ -66,14 +66,18 @@ Tipo `Tab`: `{ id: string, label: string, icon?: string, badge?: number, disable
 
 **Pill.** Aba ativa com fundo `--ob-surface` + sombra sutil sobre fundo `--ob-bg-alt`. Raio `--ob-r-sm`.
 
-**Cor (`tone` e `appearance`).** O padrão é o visual sem cor. Para colorir, cada aba recebe um `tone` (`primary`, `success`, `warning` ou `danger`), útil quando a aba representa uma categoria com cor própria, e o `Tabs` recebe `appearance`. Sem `appearance` o `tone` não faz nada. Na pílula, `appearance` define como o tom aparece:
+**Cor (`tone`).** O padrão é o visual sem cor. Cada aba pode receber um `tone` (`primary`, `success`, `warning` ou `danger`), útil quando a aba representa uma categoria com cor própria. Só com o `tone`, o texto da aba ativa assume a cor (na `line`, o traço também), e o contador da aba ativa acompanha o tom.
 
-- `soft`: a aba ativa ganha o fundo leve do tom e o texto na cor do tom, sem sombra.
-- `text`: mantém o fundo claro e a sombra, e só o texto da aba ativa muda de cor.
-- `solid`: a aba ativa é preenchida com o tom, com o texto na cor da superfície, e o contador passa a ser discreto.
-- `dot`: um ponto do tom aparece em cada aba colorida, ativa ou não, e a aba ativa continua neutra.
+**Pintura da aba ativa (`appearance`), só na pílula.** Sem `appearance`, a aba ativa mantém o fundo claro e a sombra. Com ela:
 
-Na linha (`line`), qualquer valor de `appearance` liga a cor: o texto e o traço da aba ativa assumem o tom. O contador da aba ativa acompanha o tom da aba.
+- `soft`: a aba ativa ganha o fundo clarinho do tom, sem sombra.
+- `solid`: a aba ativa é preenchida com a cor forte do tom, com o texto na cor da superfície, e o contador passa a ser discreto.
+
+Na linha (`line`), `appearance` é ignorada.
+
+**Ponto (`dot`).** Mostra um ponto do tom antes do rótulo de cada aba colorida, ativa ou não. Combina com qualquer `variant` e `appearance`.
+
+O vocabulário de `tone`, `appearance` e `variant` é o mesmo em todo o design system: veja [Vocabulário das props](/fundacoes/vocabulario-das-props).
 
 **Motion.** Transição de cor e indicador: 150ms `--ob-ease`. Sem animação de slide de conteúdo, a troca é instantânea.
 

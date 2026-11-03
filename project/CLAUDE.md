@@ -70,6 +70,15 @@ próprio) e só então o consumidor passa a usá-lo. A extensão descreve a capa
 conveniência: se dá para usar o componente como ele é, usa-se como ele é. Helpers que não são componentes visuais
 (`injectStyleOnce`) ficam fora da regra.
 
+## Vocabulário das props visuais
+
+Regra e tabela completa: [`docs-site/docs/fundacoes/vocabulario-das-props.mdx`](../docs-site/docs/fundacoes/vocabulario-das-props.mdx)
+(decisão em [`docs/decisions/0010`](../docs/decisions/0010-vocabulario-unico-para-tone-appearance-e-variant.md)).
+Resumo para o agente: `tone` é a cor, `appearance` é a pintura (`solid`, `soft`, `outline`, `ghost`), `variant` é a forma.
+Nunca reaproveitar uma palavra do vocabulário com outro sentido nem criar sinônimo; os tipos de cada componente são
+`Extract` de `Tone` e `Appearance` (`src/internal/tone.ts`, `src/internal/appearance.ts`). Se nenhuma palavra serve,
+o vocabulário cresce para todos antes de o componente ganhar a prop.
+
 ## Site de documentação (`docs-site/`)
 
 Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, <https://onblide-design-system.vercel.app>),

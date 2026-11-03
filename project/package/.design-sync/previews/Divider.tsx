@@ -25,7 +25,7 @@ export const Vertical = () => (
 export const Tracejado = () => (
   <div style={{ padding: 16, width: 280, display: 'flex', flexDirection: 'column', gap: 12 }}>
     <span>Item pendente</span>
-    <Divider variant="dashed" emphasis="subtle" />
+    <Divider dashed emphasis="subtle" />
     <span>Próximo item</span>
   </div>
 );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal } from '../Modal/Modal';
 import { Button } from '../../actions/Button/Button';
+import type { Tone } from '../../internal/tone';
 
 export interface AlertDialogProps {
   /** Controla se o diálogo está visível. */
@@ -18,12 +19,12 @@ export interface AlertDialogProps {
   /** Chamado ao confirmar; fechar o diálogo continua sendo responsabilidade de quem usa. */
   onConfirm?: () => void;
   /** `danger` pinta o botão de confirmar de vermelho, para ações destrutivas. */
-  tone?: 'default' | 'danger';
+  tone?: Extract<Tone, 'primary' | 'danger'>;
 }
 
 /** Diálogo de confirmação que exige uma decisão: confirmar ou cancelar uma ação, em geral irreversível. */
 export const AlertDialog: React.FC<AlertDialogProps> = ({
-  open, onClose, title, children, confirmLabel = 'Confirmar', cancelLabel = 'Cancelar', onConfirm, tone = 'default',
+  open, onClose, title, children, confirmLabel = 'Confirmar', cancelLabel = 'Cancelar', onConfirm, tone = 'primary',
 }) => (
   <Modal open={open} onClose={onClose} title={title} size="sm" role="alertdialog" closeButton={false} footer={
     <>

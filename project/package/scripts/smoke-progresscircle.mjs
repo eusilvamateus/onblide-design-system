@@ -22,7 +22,7 @@ if (Math.abs(arcoVazio(render({ value: 0 })) - 1) > 0.001) fail('arco vazio');
 if (!render({ value: 50 }).includes('>50%<')) fail('rótulo aparece por padrão');
 if (render({ value: 50, showLabel: false }).includes('>50%<')) fail('showLabel={false} esconde o número');
 if (!render({ value: 30, showLabel: true, label: 'Meta' }).includes('Meta')) fail('label personalizado');
-if (render({ value: 10, tone: 'default' }) === render({ value: 10, tone: 'danger' })) fail('tom altera a cor');
+if (render({ value: 10, tone: 'primary' }) === render({ value: 10, tone: 'danger' })) fail('tom altera a cor');
 const tamanhos = new Set(['sm', 'md', 'lg', 'xl'].map((size) => render({ value: 10, size }).match(/width="(\d+)"/)?.[1]));
 if (tamanhos.size !== 4) fail('quatro tamanhos distintos', [...tamanhos].join(','));
 console.log('OK: ProgressCircle (arco proporcional, rótulo, label, tons, tamanhos)');

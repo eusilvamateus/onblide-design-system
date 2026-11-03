@@ -16,12 +16,12 @@ if (!tecla.includes('background:color-mix(in srgb, currentColor 10%, transparent
 if (!tecla.includes('border:1px solid color-mix(in srgb, currentColor 30%, transparent)')) fail('contorno derivado da cor do texto ao redor', tecla);
 if (/color:/.test(tecla.replace(/color-mix/g, '').replace(/background-color/g, ''))) fail('nenhuma cor própria: o texto herda do contexto', tecla);
 
-const plano = render({ variant: 'plain' });
-if (plano.includes('border') || plano.includes('background')) fail('plain não tem caixa', plano);
-if (!plano.includes('>Ctrl</kbd>')) fail('plain mostra o texto', plano);
+const plano = render({ appearance: 'ghost' });
+if (plano.includes('border') || plano.includes('background')) fail('ghost não tem caixa', plano);
+if (!plano.includes('>Ctrl</kbd>')) fail('ghost mostra o texto', plano);
 
 if (render({ size: 'sm' }) === render({ size: 'md' })) fail('size altera o espaçamento');
 if (render({ inverse: true }) !== tecla) fail('a prop inverse não existe mais: a cor vem do contexto');
 const escuro = tecla;
 if (/#[0-9a-f]{3,8}\b|rgba?\(/i.test(tecla + plano + escuro)) fail('nenhuma cor solta');
-console.log('OK: Kbd (kbd semântico, key e plain, tamanhos, cor herdada do contexto, sem cores soltas)');
+console.log('OK: Kbd (kbd semântico, outline e ghost, tamanhos, cor herdada do contexto, sem cores soltas)');

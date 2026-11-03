@@ -20,6 +20,16 @@ export const Acao = () => (
   </div>
 );
 
+export const Suaves = () => (
+  <div style={row}>
+    <Chip label="Todos" appearance="soft" selected />
+    <Chip label="Em andamento" appearance="soft" />
+    <Chip label="Frete" appearance="soft" tone="primary" icon="plus" onClick={() => {}} />
+    <Chip label="Comissão" appearance="soft" tone="primary" icon="plus" onClick={() => {}} />
+    <Chip label="Atrasado" appearance="soft" tone="danger" removable />
+  </div>
+);
+
 export const Removiveis = () => (
   <div style={row}>
     <Chip label="Design" selected removable />

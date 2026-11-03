@@ -47,7 +47,7 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
       onMouseLeave={e => { if (!on) e.currentTarget.style.background = 'transparent'; }}>
       {it.icon && <Ph n={it.icon} size={20} weight={on ? 'fill' : 'regular'} />}
       {!collapsed && <span style={{ flex: 1, textAlign: 'left' }}>{it.label}</span>}
-      {!collapsed && it.badge != null && <Badge tone="orange" variant="numeric">{it.badge}</Badge>}
+      {!collapsed && it.badge != null && <Badge tone="warning" variant="numeric">{it.badge}</Badge>}
       {!collapsed && grupo && <Ph n="caret-down" size={14} style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />}
       {collapsed && it.badge != null && <span style={{ position: 'absolute', top: 7, right: 9, width: 8, height: 8, borderRadius: 999, background: 'var(--ob-orange)', border: '2px solid var(--ob-surface)' }} />}
     </button>

@@ -9,10 +9,12 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 Use o Kbd para mostrar uma tecla ou combinação em textos de ajuda, dicas e telas de atalhos. Ele é só apresentação: não captura teclas.
 
-### Variantes
+### Pintura (`appearance`)
 
-- **key** (padrão): a tecla desenhada com contorno e relevo, como em um teclado. Para textos de ajuda e tabelas de atalhos.
-- **plain**: só o texto do atalho, sem caixa. Para listas densas, como o atalho à direita de um item de menu.
+- **`outline`** (padrão): a tecla desenhada com borda e relevo, como em um teclado. Para textos de ajuda e tabelas de atalhos.
+- **`ghost`**: só o texto do atalho, sem borda nem fundo. Para listas densas, como o atalho à direita de um item de menu.
+
+O vocabulário de `tone`, `appearance` e `variant` é o mesmo em todo o design system: veja [Vocabulário das props](/fundacoes/vocabulario-das-props).
 
 <FacaEvite>
 <Faca>
@@ -31,7 +33,7 @@ Usar o Kbd para destacar texto qualquer ou como botão. Ele não é interativo.
 
 ```jsx
 <Kbd>Ctrl</Kbd> + <Kbd>K</Kbd>
-<Kbd variant="plain" size="sm">⌘N</Kbd>
+<Kbd appearance="ghost" size="sm">⌘N</Kbd>
 ```
 
 <Nota>

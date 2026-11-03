@@ -22,8 +22,8 @@ export const Tamanhos = () => (
 
 export const SemCaixa = () => (
   <div style={linha}>
-    <Kbd variant="plain" size="sm">⌘N</Kbd>
-    <Kbd variant="plain">Ctrl+Shift+P</Kbd>
+    <Kbd appearance="ghost" size="sm">⌘N</Kbd>
+    <Kbd appearance="ghost">Ctrl+Shift+P</Kbd>
   </div>
 );
 
@@ -32,7 +32,7 @@ export const EmFundoEscuro = () => (
     <Kbd>Ctrl</Kbd>
     <span>+</span>
     <Kbd>K</Kbd>
-    <Kbd variant="plain">⌘N</Kbd>
+    <Kbd appearance="ghost">⌘N</Kbd>
   </div>
 );
 
@@ -41,6 +41,6 @@ export const EmFundoClaro = () => (
     <Kbd>Ctrl</Kbd>
     <span>+</span>
     <Kbd>K</Kbd>
-    <Kbd variant="plain">⌘N</Kbd>
+    <Kbd appearance="ghost">⌘N</Kbd>
   </div>
 );

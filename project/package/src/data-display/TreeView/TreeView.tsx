@@ -426,7 +426,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     const trail = (n.status || n.badge != null || acts) ? (
       <>
         {n.status && <><StatusDot tone={n.status} />{n.statusLabel && <span style={srOnly}>{n.statusLabel}</span>}</>}
-        {n.badge != null && <Badge tone="grey" size="sm">{n.badge}</Badge>}
+        {n.badge != null && <Badge tone="neutral" size="sm">{n.badge}</Badge>}
         {acts && (
           <span className="ob-tv-act" onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()} style={{ display: 'flex' }}>
             <Menu align="right" size="sm" ariaLabel={`Ações de ${n.label}`} items={acts}
@@ -479,7 +479,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
             <Ph n="dots-six-vertical" size={14} weight="bold" c={blocked ? 'var(--ob-danger)' : 'var(--ob-blue)'} />
             {icons && drag.node.icon && <Ph n={drag.node.icon} size={16} c="var(--ob-fg-soft)" />}
             <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{drag.node.label}</span>
-            {blocked ? <Ph n="prohibit" size={16} c="var(--ob-danger)" /> : drag.count > 0 && <Badge tone="blue" size="sm">+{drag.count}</Badge>}
+            {blocked ? <Ph n="prohibit" size={16} c="var(--ob-danger)" /> : drag.count > 0 && <Badge tone="primary" size="sm">+{drag.count}</Badge>}
           </div>
         </div>, document.body,
       )}

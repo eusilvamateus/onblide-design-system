@@ -10,7 +10,7 @@ export type ButtonKind = 'primary' | 'secondary' | 'ghost' | 'cream' | 'danger' 
 /** Cor que a ação ganha ao receber o mouse ou o foco no estilo `quiet`. */
 export type ButtonTone = ActionTone;
 
-const TOM_DO_CONTADOR: Partial<Record<ButtonKind, BadgeTone>> = { danger: 'blue' };
+const TOM_DO_CONTADOR: Partial<Record<ButtonKind, BadgeTone>> = { danger: 'primary' };
 /** Tamanho do botão, que ajusta fonte e espaçamento interno. */
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
@@ -64,7 +64,7 @@ export const Button: React.FC<ButtonProps> = ({
     padding: size === 'sm' ? '0 12px' : size === 'lg' ? '0 22px' : '0 18px',
   };
   const tom = ACTION_TONES[tone];
-  const tomDoContador = countTone ?? TOM_DO_CONTADOR[kind] ?? 'red';
+  const tomDoContador = countTone ?? TOM_DO_CONTADOR[kind] ?? 'danger';
   const quadrado = size === 'sm' ? 32 : size === 'lg' ? 48 : 40;
   const alturaMinima: React.CSSProperties = { minHeight: quadrado };
   const soIcone: React.CSSProperties = iconOnly ? { width: quadrado, height: quadrado, padding: 0, gap: 0 } : {};

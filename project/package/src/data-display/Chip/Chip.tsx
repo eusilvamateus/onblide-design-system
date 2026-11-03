@@ -1,6 +1,9 @@
 import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { ACTION_TONES, type ActionTone } from '../../internal/actionTones';
+import type { Appearance } from '../../internal/appearance';
+
+export type ChipAppearance = Extract<Appearance, 'outline' | 'soft'>;
 
 export interface ChipProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children' | 'onToggle'> {
   /** Texto ou conteúdo exibido no chip. */
@@ -17,6 +20,8 @@ export interface ChipProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, '
   icon?: string;
   /** Cor do chip: com um tom diferente de `neutral` o chip tem fundo leve e texto no tom, e selecionado fica preenchido com a cor forte do mesmo tom. */
   tone?: ActionTone;
+  /** Pintura do chip quando não está selecionado: `outline` (com borda) ou `soft` (fundo clarinho, sem borda). Selecionado, ele fica sempre cheio (`solid`). */
+  appearance?: ChipAppearance;
   /** Tamanho do texto e do espaçamento interno. */
   size?: 'sm' | 'md' | 'lg';
   /** Desabilita interações e reduz a opacidade. */
@@ -42,7 +47,7 @@ const ESCALA: Record<NonNullable<ChipProps['size']>, EscalaDoChip> = {
 
 /** Elemento compacto e interativo para seleção, filtro ou remoção de itens. */
 export const Chip: React.FC<ChipProps> = ({
-  label, selected, onToggle, removable = false, onRemove, icon, tone = 'neutral', size = 'md', disabled = false,
+  label, selected, onToggle, removable = false, onRemove, icon, tone = 'neutral', appearance = 'outline', size = 'md', disabled = false,
   className, style, onClick, onKeyDown, onFocus, onBlur, ...rest
 }) => {
   const escala = ESCALA[size];
@@ -65,9 +70,11 @@ export const Chip: React.FC<ChipProps> = ({
   const corForte = tone === 'neutral' ? 'var(--ob-blue)' : tom.fg;
   const stateStyle: React.CSSProperties = ligado
     ? { background: corForte, color: 'var(--ob-fg-on-color)', borderColor: corForte }
-    : tone === 'neutral'
-      ? { background: 'var(--ob-surface)', color: 'var(--ob-fg-strong)', borderColor: 'var(--ob-border)' }
-      : { background: tom.bg, color: tom.fg, borderColor: `color-mix(in srgb, ${tom.fg} 35%, transparent)` };
+    : appearance === 'soft'
+      ? { background: tom.bg, color: tom.fg, borderColor: 'transparent' }
+      : tone === 'neutral'
+        ? { background: 'var(--ob-surface)', color: 'var(--ob-fg-strong)', borderColor: 'var(--ob-border)' }
+        : { background: tom.bg, color: tom.fg, borderColor: `color-mix(in srgb, ${tom.fg} 35%, transparent)` };
 
   return (
     <span

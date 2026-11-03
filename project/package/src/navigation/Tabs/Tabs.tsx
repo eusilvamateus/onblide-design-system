@@ -3,11 +3,12 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { Badge } from '../../data-display/Badge/Badge';
 import type { BadgeTone } from '../../internal/badgeTones';
 import { ACTION_TONES, type ActionTone } from '../../internal/actionTones';
+import type { Appearance } from '../../internal/appearance';
 
 export type TabTone = ActionTone;
-export type TabsAppearance = 'soft' | 'text' | 'solid' | 'dot';
+export type TabsAppearance = Extract<Appearance, 'soft' | 'solid'>;
 
-const TOM_DO_CONTADOR: Record<TabTone, BadgeTone> = { neutral: 'blue', primary: 'blue', success: 'green', warning: 'orange', danger: 'red' };
+const TOM_DO_CONTADOR: Record<TabTone, BadgeTone> = { neutral: 'primary', primary: 'primary', success: 'success', warning: 'warning', danger: 'danger' };
 
 export interface TabItem {
   /** Identificador único da aba, usado em `active` e `onChange`. */
@@ -20,7 +21,7 @@ export interface TabItem {
   badge?: React.ReactNode;
   /** Desabilita a aba, impedindo a seleção. */
   disabled?: boolean;
-  /** Cor da aba. Só tem efeito quando o `Tabs` recebe `appearance`; sem `appearance`, ou com `neutral`, a aba usa o visual padrão. */
+  /** Cor da aba quando ativa: pinta o texto (e o traço, na variante `line`). Com `neutral` ou sem tom, a aba usa o visual padrão. */
   tone?: TabTone;
 }
 
@@ -35,12 +36,14 @@ export interface TabsProps {
   variant?: 'line' | 'pill';
   /** Tamanho do texto e do espaçamento interno das abas. */
   size?: 'sm' | 'md';
-  /** Liga a cor de `tone` das abas. Sem ele, as abas usam sempre o visual padrão. Na pílula: `soft` pinta o fundo e o texto da aba ativa com o tom, `text` só o texto, `solid` preenche a aba ativa com o tom e `dot` mostra um ponto do tom em cada aba. Na variante `line`, qualquer valor pinta o texto e o traço da aba ativa com o tom. */
+  /** Pintura da aba ativa na variante `pill`, quando ela tem `tone`: `soft` usa o fundo clarinho do tom e `solid` preenche com a cor forte do tom. Sem ela, a aba ativa fica com fundo de superfície e só o texto no tom. Ignorada na variante `line`. */
   appearance?: TabsAppearance;
+  /** Mostra um ponto na cor do `tone` antes do rótulo de cada aba que tem tom. */
+  dot?: boolean;
 }
 
 /** Alterna entre seções de conteúdo relacionado sem mudar de página. */
-export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant = 'line', size = 'md', appearance }) => {
+export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant = 'line', size = 'md', appearance, dot = false }) => {
   const isLine = variant === 'line';
   const pad = size === 'sm' ? '7px 14px' : '10px 18px';
   const fs  = size === 'sm' ? 13 : 14;
@@ -58,11 +61,11 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
       }}>
         {tabs.map(tab => {
           const isActive = tab.id === active;
-          const colorida = !!appearance && !!tab.tone && tab.tone !== 'neutral';
+          const colorida = !!tab.tone && tab.tone !== 'neutral';
           const tom = ACTION_TONES[tab.tone ?? 'neutral'];
           const preenchida = !isLine && colorida && isActive && appearance === 'solid';
           const pintaFundo = !isLine && colorida && isActive && appearance === 'soft';
-          const pintaTexto = colorida && isActive && (isLine || appearance !== 'dot');
+          const pintaTexto = colorida && isActive;
           let fundo = 'none';
           if (!isLine && isActive) fundo = preenchida ? tom.fg : pintaFundo ? tom.bg : 'var(--ob-surface)';
           let cor = isActive ? 'var(--ob-fg-strong)' : 'var(--ob-fg-mute)';
@@ -87,15 +90,15 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
                 boxShadow: comSombra ? 'var(--ob-shadow-xs)' : 'none',
               }}
             >
-              {!isLine && colorida && appearance === 'dot' && (
+              {dot && colorida && (
                 <span aria-hidden="true" style={{ width: 7, height: 7, borderRadius: '50%', background: tom.fg, flex: 'none' }}/>
               )}
               {tab.icon && <Ph n={tab.icon} size={15} weight={isActive ? 'fill' : 'regular'}/>}
               {tab.label}
               {tab.badge != null && (
                 preenchida
-                  ? <Badge tone="grey" variant="subtle" size="sm" dot={false}>{tab.badge}</Badge>
-                  : <Badge tone={isActive ? (colorida ? TOM_DO_CONTADOR[tab.tone as TabTone] : 'blue') : 'grey'} variant={isActive ? 'solid' : 'subtle'} size="sm" dot={false}>{tab.badge}</Badge>
+                  ? <Badge tone="neutral" size="sm" dot={false}>{tab.badge}</Badge>
+                  : <Badge tone={isActive ? (colorida ? TOM_DO_CONTADOR[tab.tone as TabTone] : 'primary') : 'neutral'} appearance={isActive ? 'solid' : 'soft'} size="sm" dot={false}>{tab.badge}</Badge>
               )}
               {isLine && isActive && (
                 <span style={{

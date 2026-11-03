@@ -75,8 +75,8 @@ const fundoDoContador = (props) => {
 igual(fundoDoContador({ kind: 'primary' }), 'var(--ob-danger)', 'o contador padrão é vermelho');
 igual(fundoDoContador({ kind: 'secondary' }), 'var(--ob-danger)', 'o contador é vermelho em superfícies claras');
 igual(fundoDoContador({ kind: 'danger' }), 'var(--ob-blue)', 'o contador do botão danger é azul');
-igual(fundoDoContador({ kind: 'primary', countTone: 'green' }), 'var(--ob-green)', 'countTone muda o tom');
-igual(fundoDoContador({ kind: 'danger', countTone: 'red' }), 'var(--ob-danger)', 'countTone vence o padrão do kind');
-igual(fundoDoContador({ kind: 'secondary', countTone: 'grey' }), 'var(--ob-fg-mute)', 'countTone aceita grey');
+igual(fundoDoContador({ kind: 'primary', countTone: 'success' }), 'var(--ob-green)', 'countTone muda o tom');
+igual(fundoDoContador({ kind: 'danger', countTone: 'danger' }), 'var(--ob-danger)', 'countTone vence o padrão do kind');
+igual(fundoDoContador({ kind: 'secondary', countTone: 'neutral' }), 'var(--ob-fg-mute)', 'countTone aceita neutral');
 
 console.log('OK: Button (type padrão, disabled, props nativas, iconOnly, neutral, quiet com tom, pressed, count)');

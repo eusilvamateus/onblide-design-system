@@ -14,10 +14,10 @@ if (!padrao.includes('color:var(--ob-blue)') || !padrao.includes('text-decoratio
 if (!padrao.includes('font-size:inherit') || !padrao.includes('font-family:inherit')) fail('link padrão: herda tamanho e fonte do texto ao redor', padrao);
 if (padrao.includes('ph-arrow-square-out')) fail('link interno não deveria ter ícone externo', padrao);
 
-const subtle = render({ variant: 'subtle' });
-if (!subtle.includes('color:var(--ob-fg);') && !subtle.includes('color:var(--ob-fg)"')) fail('subtle: cor --ob-fg', subtle);
-const quiet = render({ variant: 'quiet' });
-if (!quiet.includes('color:var(--ob-fg-soft)')) fail('quiet: cor --ob-fg-soft', quiet);
+const neutro = render({ tone: 'neutral' });
+if (!neutro.includes('color:var(--ob-fg);') && !neutro.includes('color:var(--ob-fg)"')) fail('neutral: cor --ob-fg', neutro);
+const esmaecido = render({ tone: 'muted' });
+if (!esmaecido.includes('color:var(--ob-fg-soft)')) fail('muted: cor --ob-fg-soft', esmaecido);
 
 const externo = render({ href: 'https://onblide.com', external: true });
 if (!externo.startsWith('<a href="https://onblide.com"')) fail('externo: href repassado', externo);
@@ -26,4 +26,4 @@ if (!externo.includes('ph-arrow-square-out') || !externo.includes('font-size:13p
 
 if (!render({}, 'Olá').includes('Olá')) fail('children não renderizados');
 
-console.log('OK: Link (variantes, externo, ícone)');
+console.log('OK: Link (tons, externo, ícone)');

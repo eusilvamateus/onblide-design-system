@@ -11,7 +11,7 @@ Use quando a duração de um processo é desconhecida ou muito variável: envio 
 
 ### Contextos típicos
 
-- **Botão loading**: substitui o ícone/texto do botão durante a ação (size sm, tone muted em botão primário, tone default em secundário).
+- **Botão loading**: substitui o ícone/texto do botão durante a ação (size sm, tone `muted` em botão primário, tone `primary` em secundário).
 - **Card ou seção**: centralizado no container com label opcional.
 - **Inline**: ao lado de texto para indicar atualização parcial.
 - **Overlay de página**: size lg/xl com backdrop.
@@ -19,7 +19,7 @@ Use quando a duração de um processo é desconhecida ou muito variável: envio 
 <FacaEvite>
 <Faca>
 
-Use tone `muted` dentro de botões primários (fundo colorido) para manter o contraste. Use tone `default` em botões secundários.
+Use tone `muted` dentro de botões primários (fundo colorido) para manter o contraste. Use tone `primary` em botões secundários.
 
 </Faca>
 <Evite>
@@ -37,7 +37,7 @@ Spinner por mais de 8–10 s sem feedback adicional. Forneça um texto de contex
 ## Formatação
 
 ```jsx
-<Spinner size="md" tone="default" label="Carregando…" />
+<Spinner size="md" tone="primary" label="Carregando…" />
 ```
 
 ## Guia de conteúdo

@@ -39,6 +39,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0007-theme-manager-sem-provider.md`](decisions/0007-theme-manager-sem-provider.md)
 - [`decisions/0008-enxugar-o-catalogo-e-basear-o-datepicker-no-calendar.md`](decisions/0008-enxugar-o-catalogo-e-basear-o-datepicker-no-calendar.md)
 - [`decisions/0009-corrigir-a-numeracao-para-a-serie-0x.md`](decisions/0009-corrigir-a-numeracao-para-a-serie-0x.md)
+- [`decisions/0010-vocabulario-unico-para-tone-appearance-e-variant.md`](decisions/0010-vocabulario-unico-para-tone-appearance-e-variant.md) — o vocabulário vive em `docs-site/docs/fundacoes/vocabulario-das-props.mdx`
 
 ## Como manter esta documentação
 

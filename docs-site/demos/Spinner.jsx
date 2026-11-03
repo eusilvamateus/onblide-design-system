@@ -2,5 +2,5 @@
 
 <Spinner
   size="lg"
-  tone="default"
+  tone="primary"
 />

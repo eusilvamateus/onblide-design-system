@@ -36,10 +36,10 @@ export interface TimelineProps {
 }
 
 const TONE: Record<TimelineItemStatus, { c: string; bg: string; dot: BadgeTone }> = {
-  done: { c: 'var(--ob-success)', bg: 'var(--ob-success-bg)', dot: 'green' },
-  current: { c: 'var(--ob-blue)', bg: 'var(--ob-blue-050)', dot: 'blue' },
-  pending: { c: 'var(--ob-fg-mute)', bg: 'var(--ob-surface)', dot: 'grey' },
-  error: { c: 'var(--ob-danger)', bg: 'var(--ob-danger-bg)', dot: 'red' },
+  done: { c: 'var(--ob-success)', bg: 'var(--ob-success-bg)', dot: 'success' },
+  current: { c: 'var(--ob-blue)', bg: 'var(--ob-blue-050)', dot: 'primary' },
+  pending: { c: 'var(--ob-fg-mute)', bg: 'var(--ob-surface)', dot: 'neutral' },
+  error: { c: 'var(--ob-danger)', bg: 'var(--ob-danger-bg)', dot: 'danger' },
 };
 const STATUS_LABEL: Record<TimelineItemStatus, string> = { done: 'Concluído', current: 'Em andamento', pending: 'Pendente', error: 'Com erro' };
 

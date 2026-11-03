@@ -1,8 +1,9 @@
 import React from 'react';
 import { injectSpinKeyframes } from '../../internal/keyframes';
+import type { Tone } from '../../internal/tone';
 
 export type SpinnerSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type SpinnerTone = 'default' | 'success' | 'warning' | 'danger' | 'muted';
+export type SpinnerTone = Extract<Tone, 'primary' | 'success' | 'warning' | 'danger' | 'muted'>;
 
 export interface SpinnerProps {
   /** Diâmetro do spinner. */
@@ -16,7 +17,7 @@ export interface SpinnerProps {
 const SPINNER_SIZES: Record<SpinnerSize, number> = { xs: 12, sm: 16, md: 24, lg: 40, xl: 56 };
 
 /** Indicador circular de carregamento indeterminado. */
-export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', tone = 'default', label }) => {
+export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', tone = 'primary', label }) => {
   const px = SPINNER_SIZES[size] || 24;
   const sw = px <= 16 ? 2 : px <= 24 ? 2.5 : 3.5;
   const r = (px - sw * 2) / 2;

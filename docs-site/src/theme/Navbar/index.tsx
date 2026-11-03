@@ -40,7 +40,7 @@ export default function Navbar(): ReactNode {
         </div>
         <div className="ob-topbar__actions">
           <span className="ob-topbar__github">
-            <Link href="https://github.com/eusilvamateus/onblide-design-system" external variant="subtle">GitHub</Link>
+            <Link href="https://github.com/eusilvamateus/onblide-design-system" external tone="neutral">GitHub</Link>
           </span>
           <Switch
             size="sm"

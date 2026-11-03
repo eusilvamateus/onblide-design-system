@@ -4,9 +4,9 @@ const col = { display: 'flex', flexDirection: 'column' as const, gap: 12, paddin
 
 export const Variantes = () => (
   <div style={col}>
-    <Link href="#" variant="default">Ver todos os projetos</Link>
-    <Link href="#" variant="subtle">Política de privacidade</Link>
-    <Link href="#" variant="quiet">Esqueci minha senha</Link>
+    <Link href="#" tone="primary">Ver todos os projetos</Link>
+    <Link href="#" tone="neutral">Política de privacidade</Link>
+    <Link href="#" tone="muted">Esqueci minha senha</Link>
   </div>
 );
 

@@ -2,7 +2,7 @@
 
 <Badge
   dot
-  tone="green"
+  tone="success"
   size="sm"
 >
   Online

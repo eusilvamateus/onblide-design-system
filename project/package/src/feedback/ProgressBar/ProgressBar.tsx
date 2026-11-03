@@ -1,12 +1,15 @@
 import React from 'react';
-import { OB_TONES, OBTone } from '../../internal/obTones';
+import { OB_TONES } from '../../internal/obTones';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
+import type { Tone } from '../../internal/tone';
+
+export type ProgressBarTone = Extract<Tone, 'primary' | 'success' | 'warning' | 'danger'>;
 
 export interface ProgressBarProps {
   /** Progresso atual, de 0 a 100. */
   value?: number;
   /** Tom que define a cor do preenchimento. */
-  tone?: OBTone;
+  tone?: ProgressBarTone;
   /** Espessura da barra. */
   size?: 'sm' | 'md' | 'lg';
   /** Exibe uma animação de carregamento em loop, sem valor definido. */
@@ -20,8 +23,8 @@ export interface ProgressBarProps {
 }
 
 /** Barra que comunica progresso determinado, indeterminado ou por etapas. */
-export const ProgressBar: React.FC<ProgressBarProps> = ({ value = 0, tone = 'info', size = 'md', indeterminate = false, showLabel = false, segments, currentSegment = 0 }) => {
-  const t = OB_TONES[tone] || OB_TONES.info;
+export const ProgressBar: React.FC<ProgressBarProps> = ({ value = 0, tone = 'primary', size = 'md', indeterminate = false, showLabel = false, segments, currentSegment = 0 }) => {
+  const t = OB_TONES[tone === 'primary' ? 'info' : tone] || OB_TONES.info;
   const limitado = Math.min(100, Math.max(0, value));
   const h = size === 'sm' ? 6 : size === 'lg' ? 14 : 10;
   if (segments) return (

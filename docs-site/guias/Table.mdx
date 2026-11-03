@@ -47,7 +47,7 @@ Mais de 7 colunas sem scroll horizontal. Tabela em mobile sem adaptação: prefi
 <Table
   columns={[
     { key: 'name',   label: 'Tarefa',  bold: true },
-    { key: 'status', label: 'Status',  render: (v) => <Badge tone="green">{v}</Badge> },
+    { key: 'status', label: 'Status',  render: (v) => <Badge tone="success">{v}</Badge> },
     { key: 'due',    label: 'Prazo',   sortable: true, width: 90 },
   ]}
   rows={tasks}

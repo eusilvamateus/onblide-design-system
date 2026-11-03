@@ -5,7 +5,7 @@ export const Tons = () => (
     <ProgressCircle value={85} tone="success" showLabel />
     <ProgressCircle value={55} tone="warning" showLabel />
     <ProgressCircle value={20} tone="danger" showLabel />
-    <ProgressCircle value={40} tone="default" showLabel />
+    <ProgressCircle value={40} tone="primary" showLabel />
   </div>
 );
 

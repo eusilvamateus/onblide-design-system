@@ -33,8 +33,8 @@ const TASKS = [
   { name: 'Entrega final',              status: 'pending',    assignee: 'Ana Lima',      due: '15 jun',  priority: 'Alta' },
 ];
 
-const STATUS_MAP = { done: ['green', 'Concluído'], progress: ['blue', 'Em progresso'], pending: ['orange', 'Pendente'] };
-const PRIORITY_COLORS = { Alta: 'red', Média: 'orange', Baixa: 'blue' };
+const STATUS_MAP = { done: ['success', 'Concluído'], progress: ['primary', 'Em progresso'], pending: ['warning', 'Pendente'] };
+const PRIORITY_COLORS = { Alta: 'danger', Média: 'warning', Baixa: 'primary' };
 
 const PAGES = [
   { page: '/', sessions: '4.820', time: '2:14', bounce: '32%', trend: '↑' },

@@ -11,7 +11,7 @@ import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
   LogoProps,
-  LinkProps, LinkVariant, ModalProps, ModalSize, PaginationProps,
+  LinkProps, LinkTone, ModalProps, ModalSize, PaginationProps,
   SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps, TableColumn, TableSort,
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
@@ -26,7 +26,7 @@ export type TiposExportados = [
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
   LogoProps,
-  LinkProps, LinkVariant, ModalProps, ModalSize, PaginationProps,
+  LinkProps, LinkTone, ModalProps, ModalSize, PaginationProps,
   SelectOption, SelectBaseProps, SelectProps, SingleSelectProps, MultiSelectProps,
   TableProps<object>, TableColumn<object>, TableSort,
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
@@ -91,7 +91,7 @@ export function Verificacoes({ linhas, aliases }: { linhas: Linha[]; aliases: Li
       {(['search', 'x'] as IconName[]).map((n) => <React.Fragment key={n}>{Icons[n]()}</React.Fragment>)}
       <Logo />
       <Logo size={24} />
-      <Link href="#" variant="quiet" external onClick={(e) => e.preventDefault()}>x</Link>
+      <Link href="#" tone="muted" external onClick={(e) => e.preventDefault()}>x</Link>
       <Pagination page={2} total={9} onChange={(p) => void p.toFixed()} />
       <Modal open size="lg" title="t" footer={<b>f</b>}>c</Modal>
       {/* @ts-expect-error variante inexistente */}

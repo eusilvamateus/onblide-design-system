@@ -1,6 +1,7 @@
 import { OB_TONES } from './obTones';
+import type { Tone } from './tone';
 
-export type ActionTone = 'neutral' | 'primary' | 'success' | 'warning' | 'danger';
+export type ActionTone = Extract<Tone, 'neutral' | 'primary' | 'success' | 'warning' | 'danger'>;
 
 export interface ActionToneColors {
   fg: string;

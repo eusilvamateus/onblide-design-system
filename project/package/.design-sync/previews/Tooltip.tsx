@@ -19,7 +19,7 @@ export const Texto = () => (
 
 export const Invertido = () => (
   <Aberto>
-    <Tooltip variant="inverted" placement="bottom" label="Copiar link do projeto"><Button kind="ghost">Compartilhar</Button></Tooltip>
+    <Tooltip appearance="outline" placement="bottom" label="Copiar link do projeto"><Button kind="ghost">Compartilhar</Button></Tooltip>
   </Aberto>
 );
 

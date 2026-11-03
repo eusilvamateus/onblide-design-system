@@ -4,7 +4,7 @@ const col = { display: 'flex', flexDirection: 'column' as const, gap: 16, paddin
 
 export const Tons = () => (
   <div style={col}>
-    <ProgressBar value={40} tone="info" showLabel />
+    <ProgressBar value={40} tone="primary" showLabel />
     <ProgressBar value={75} tone="success" showLabel />
     <ProgressBar value={60} tone="warning" showLabel />
     <ProgressBar value={90} tone="danger" showLabel />

@@ -26,6 +26,8 @@ export { formatarPeriodo } from './internal/periodo';
 export type { OpcoesDoPeriodo } from './internal/periodo';
 export type { BadgeTone } from './internal/badgeTones';
 export type { OBTone } from './internal/obTones';
+export type { Tone } from './internal/tone';
+export type { Appearance } from './internal/appearance';
 export type { OBToastPosition } from './internal/obToastPos';
 export * from './feedback/Alert/Alert';
 export * from './feedback/ProgressBar/ProgressBar';
