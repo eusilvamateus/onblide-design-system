@@ -100,8 +100,11 @@ export default function Playground({
   const controlado = temProp('onChange') && (temProp('checked') || temProp('value') || temProp('active'));
   const alvoLigado = temProp('checked') ? 'checked' : temProp('value') ? 'value' : 'active';
 
+  const alternavel = temProp('selected') && temProp('onToggle');
+
   const ligacoes: string[] = [];
   if (temProp('onClose') && temProp('open')) ligacoes.push('onClose={fechar}');
+  if (alternavel) ligacoes.push('onToggle={alternar}');
   if (controlado) {
     ligacoes.push(`${alvoLigado}={valor}`);
     ligacoes.push('onChange={alterar}');
@@ -136,6 +139,7 @@ export default function Playground({
     useState,
     abrir: () => definir('open', true),
     fechar: () => definir('open', false),
+    alternar: () => definir('selected', !valores.selected),
   };
 
   const erroDe = (c: Controle) => (c.prop.obrigatoria && (valores[c.prop.nome] === undefined || valores[c.prop.nome] === '') ? 'Obrigatória' : undefined);
