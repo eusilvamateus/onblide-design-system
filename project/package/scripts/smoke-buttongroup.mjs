@@ -50,4 +50,27 @@ const splitButton = renderToStaticMarkup(
 );
 if (!splitButton.includes('Publicar') || !splitButton.includes('aria-label="Mais opções"')) fail('split button (Menu) deveria renderizar o botão principal e o gatilho', splitButton);
 
+const toggleDoGrupo = renderToStaticMarkup(
+  h(ButtonGroup, { selection: 'single', defaultValue: 'a', tone: 'success', ariaLabel: 'Tom' },
+    h(ToggleButton, { value: 'a' }, 'A'), h(ToggleButton, { value: 'b' }, 'B')),
+);
+const toggleAzul = renderToStaticMarkup(
+  h(ButtonGroup, { selection: 'single', defaultValue: 'a', ariaLabel: 'Tom' },
+    h(ToggleButton, { value: 'a' }, 'A'), h(ToggleButton, { value: 'b' }, 'B')),
+);
+if (toggleDoGrupo === toggleAzul) fail('tone do grupo deveria mudar a cor do ToggleButton pressionado', toggleDoGrupo);
+const toggleProprio = renderToStaticMarkup(
+  h(ButtonGroup, { selection: 'single', defaultValue: 'a', tone: 'success', ariaLabel: 'Tom' },
+    h(ToggleButton, { value: 'a', tone: 'primary' }, 'A'), h(ToggleButton, { value: 'b' }, 'B')),
+);
+if (toggleProprio !== toggleAzul) fail('tone do próprio filho deveria prevalecer sobre o do grupo', toggleProprio);
+const toggleNeutro = renderToStaticMarkup(
+  h(ButtonGroup, { selection: 'single', defaultValue: 'a', tone: 'neutral', ariaLabel: 'Tom' },
+    h(ToggleButton, { value: 'a' }, 'A'), h(ToggleButton, { value: 'b' }, 'B')),
+);
+if (toggleNeutro !== toggleAzul) fail('tone neutral do grupo não deveria alterar o ToggleButton', toggleNeutro);
+const quietSemTom = renderToStaticMarkup(h(ButtonGroup, { kind: 'quiet', ariaLabel: 'Ações' }, h(Button, { pressed: true }, 'A')));
+const quietComTom = renderToStaticMarkup(h(ButtonGroup, { kind: 'quiet', tone: 'danger', ariaLabel: 'Ações' }, h(Button, { pressed: true }, 'A')));
+if (quietSemTom === quietComTom) fail('tone do grupo deveria chegar ao Button quiet pressionado', quietComTom);
+
 console.log('OK: ButtonGroup (group/radiogroup, roving tabindex, multiple independente, disabled, Tooltip e Menu compostos)');

@@ -19,7 +19,7 @@ export interface ToggleButtonProps {
   /** `outline` (borda e fundo de superfície) ou `ghost` (sem borda, para barras densas). */
   appearance?: ToggleButtonAppearance;
   size?: ToggleButtonSize;
-  /** Cor do estado pressionado: azul (`primary`, padrão), verde, laranja ou vermelho. */
+  /** Cor do estado pressionado: azul (`primary`, padrão), verde, laranja ou vermelho. Dentro de um `ButtonGroup` com `tone`, vale o do grupo quando este não é definido. */
   tone?: ToggleButtonTone;
   /** Nome de um ícone Phosphor. */
   icon?: string;
@@ -45,7 +45,7 @@ export interface ToggleButtonProps {
 
 /** Botão com dois estados (pressionado / não pressionado) que aplica o efeito na hora, com `aria-pressed`. */
 export const ToggleButton: React.FC<ToggleButtonProps> = ({
-  pressed, defaultPressed = false, onChange, appearance = 'outline', size = 'md', tone = 'primary',
+  pressed, defaultPressed = false, onChange, appearance = 'outline', size = 'md', tone: toneProp,
   icon, pressedIcon, fillWhenPressed, children, ariaLabel, disabled, value,
   _role, _tabIndex, _btnRef, style, onKeyDown,
 }) => {
@@ -63,6 +63,7 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
     onChange?.(next, value);
   };
 
+  const tone = toneProp ?? 'primary';
   const cor = ACTION_TONES[tone];
   const azul = tone === 'primary';
   let bg: string, fg: string, bc: string;

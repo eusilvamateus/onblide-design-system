@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip } from '../../overlays/Tooltip/Tooltip';
 import { ToggleButton } from '../ToggleButton/ToggleButton';
-import type { ButtonKind, ButtonSize } from '../Button/Button';
+import type { ButtonKind, ButtonSize, ButtonTone } from '../Button/Button';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
 export type ButtonGroupOrientation = 'horizontal' | 'vertical';
@@ -16,6 +16,8 @@ export interface ButtonGroupProps {
   kind?: ButtonKind;
   /** Repassado a todos os filhos. */
   size?: ButtonSize;
+  /** Cor repassada a todo filho que não define o próprio `tone`. No `Button` só tem efeito no estilo `quiet`; no `ToggleButton` colore o estado pressionado. `neutral` não altera os `ToggleButton`. */
+  tone?: ButtonTone;
   fullWidth?: boolean;
   /** Só com `attached={false}`. */
   justify?: ButtonGroupJustify;
@@ -47,7 +49,7 @@ function patch(el: AnyElement, extra: Record<string, unknown> & { style?: React.
 
 /** Agrupa `Button`/`ToggleButton` relacionados com bordas, cantos e espaçamento consistentes. */
 export const ButtonGroup: React.FC<ButtonGroupProps> = ({
-  children, orientation = 'horizontal', attached = true, kind, size, fullWidth, disabled,
+  children, orientation = 'horizontal', attached = true, kind, size, tone, fullWidth, disabled,
   selection, value, defaultValue, onChange, allowEmpty = false, ariaLabel, justify = 'start', style,
 }) => {
   const multi = selection === 'multiple';
@@ -109,6 +111,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
     if (size) extra.size = size;
     if (disabled) extra.disabled = true;
     if (!isToggle && kind && !lf.props.kind) extra.kind = kind;
+    if (tone && !lf.props.tone && !(isToggle && tone === 'neutral')) extra.tone = tone;
     if (isToggle && selection) {
       extra.pressed = multi ? (val as string[]).includes(lf.props.value as string) : val === lf.props.value;
       extra.onChange = (p: boolean) => pick(lf.props.value as string, p);

@@ -51,3 +51,16 @@ export const SplitButton = () => (
     </ButtonGroup>
   </div>
 );
+
+export const ComCor = () => (
+  <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <ButtonGroup selection="single" defaultValue="ativos" tone="success" ariaLabel="Situação">
+      <ToggleButton value="ativos">Ativos</ToggleButton>
+      <ToggleButton value="arquivados">Arquivados</ToggleButton>
+    </ButtonGroup>
+    <ButtonGroup kind="quiet" tone="danger" ariaLabel="Ações">
+      <Button icon={<Ph n="pencil-simple" size={16} />}>Editar</Button>
+      <Button icon={<Ph n="trash" size={16} />}>Excluir</Button>
+    </ButtonGroup>
+  </div>
+);
