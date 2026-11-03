@@ -17,7 +17,7 @@ export interface LinkProps {
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }
 
-/** Link de navegação textual com variantes de ênfase e indicador opcional de destino externo. */
+/** Link de navegação textual com variantes de ênfase e indicador opcional de destino externo. Herda o tamanho e a fonte do texto ao redor. */
 export const Link: React.FC<LinkProps> = ({ href = '#', children, variant = 'default', external = false, onClick }) => {
   const [hover, setHover] = useState(false);
   const variants: Record<LinkVariant, React.CSSProperties> = {
@@ -30,7 +30,7 @@ export const Link: React.FC<LinkProps> = ({ href = '#', children, variant = 'def
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: 'inherit',
-        fontWeight: 500, fontSize: 14, cursor: 'pointer', transition: 'color 120ms',
+        fontWeight: 500, fontSize: 'inherit', cursor: 'pointer', transition: 'color 120ms',
         ...variants[variant],
       }}>
       {children}

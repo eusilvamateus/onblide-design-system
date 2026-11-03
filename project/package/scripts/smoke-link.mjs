@@ -11,6 +11,7 @@ const render = (props, children = 'Texto') => renderToStaticMarkup(React.createE
 const padrao = render({});
 if (!padrao.startsWith('<a href="#"') || padrao.includes('target=') || padrao.includes('rel=')) fail('link padrão: href="#" e sem target/rel', padrao);
 if (!padrao.includes('color:var(--ob-blue)') || !padrao.includes('text-decoration:none')) fail('link padrão: cor azul sem sublinhado', padrao);
+if (!padrao.includes('font-size:inherit') || !padrao.includes('font-family:inherit')) fail('link padrão: herda tamanho e fonte do texto ao redor', padrao);
 if (padrao.includes('ph-arrow-square-out')) fail('link interno não deveria ter ícone externo', padrao);
 
 const subtle = render({ variant: 'subtle' });

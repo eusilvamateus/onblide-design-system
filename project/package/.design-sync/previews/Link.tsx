@@ -1,6 +1,6 @@
 import { Link } from '@onblide/ui';
 
-const col = { display: 'flex', flexDirection: 'column' as const, gap: 12, padding: 16 };
+const col = { display: 'flex', flexDirection: 'column' as const, gap: 12, padding: 16, fontSize: 14 };
 
 export const Variantes = () => (
   <div style={col}>

@@ -51,6 +51,7 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
   justify-content: space-between;
   gap: var(--ob-gap-md);
 }
+.ob-topbar__github { font-size: var(--ob-fs-sm); }
 .ob-topbar__brand, .ob-topbar__actions { display: flex; align-items: center; gap: var(--ob-gap-md); }
 .ob-topbar__label { margin: 0; color: var(--ob-fg-mute); display: none; }
 .ob-topbar__menu { display: inline-flex; }
