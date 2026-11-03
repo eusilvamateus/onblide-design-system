@@ -58,6 +58,10 @@ export const ComCor = () => (
       <ToggleButton value="ativos">Ativos</ToggleButton>
       <ToggleButton value="arquivados">Arquivados</ToggleButton>
     </ButtonGroup>
+    <ButtonGroup selection="single" defaultValue="lista" appearance="ghost" tone="primary" ariaLabel="Visualização sem borda">
+      <ToggleButton value="lista" icon="list-bullets">Lista</ToggleButton>
+      <ToggleButton value="quadro" icon="kanban">Quadro</ToggleButton>
+    </ButtonGroup>
     <ButtonGroup kind="quiet" tone="danger" ariaLabel="Ações">
       <Button icon={<Ph n="pencil-simple" size={16} />}>Editar</Button>
       <Button icon={<Ph n="trash" size={16} />}>Excluir</Button>

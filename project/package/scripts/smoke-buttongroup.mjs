@@ -73,4 +73,20 @@ const quietSemTom = renderToStaticMarkup(h(ButtonGroup, { kind: 'quiet', ariaLab
 const quietComTom = renderToStaticMarkup(h(ButtonGroup, { kind: 'quiet', tone: 'danger', ariaLabel: 'Ações' }, h(Button, { pressed: true }, 'A')));
 if (quietSemTom === quietComTom) fail('tone do grupo deveria chegar ao Button quiet pressionado', quietComTom);
 
+const grupoGhost = renderToStaticMarkup(
+  h(ButtonGroup, { selection: 'single', defaultValue: 'a', appearance: 'ghost', ariaLabel: 'Tom' },
+    h(ToggleButton, { value: 'a' }, 'A'), h(ToggleButton, { value: 'b' }, 'B')),
+);
+const filhosGhost = renderToStaticMarkup(
+  h(ButtonGroup, { selection: 'single', defaultValue: 'a', ariaLabel: 'Tom' },
+    h(ToggleButton, { value: 'a', appearance: 'ghost' }, 'A'), h(ToggleButton, { value: 'b', appearance: 'ghost' }, 'B')),
+);
+if (grupoGhost !== filhosGhost) fail('appearance do grupo deveria equivaler a definir em cada ToggleButton', grupoGhost);
+if (grupoGhost === toggleAzul) fail('appearance ghost deveria mudar o visual do ToggleButton', grupoGhost);
+const ghostProprio = renderToStaticMarkup(
+  h(ButtonGroup, { selection: 'single', defaultValue: 'a', appearance: 'ghost', ariaLabel: 'Tom' },
+    h(ToggleButton, { value: 'a', appearance: 'outline' }, 'A'), h(ToggleButton, { value: 'b', appearance: 'outline' }, 'B')),
+);
+if (ghostProprio !== toggleAzul) fail('appearance do próprio filho deveria prevalecer sobre o do grupo', ghostProprio);
+
 console.log('OK: ButtonGroup (group/radiogroup, roving tabindex, multiple independente, disabled, Tooltip e Menu compostos)');
