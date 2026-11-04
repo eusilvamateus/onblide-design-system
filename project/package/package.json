@@ -32,7 +32,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:dist": "tsc --noEmit -p tsconfig.types.json",
     "smoke": "node scripts/run-smokes.mjs",
-    "verify": "npm run typecheck && npm run build && npm run typecheck:dist && npm run smoke && node scripts/medir-checkbox.mjs && node scripts/verificar-table.mjs"
+    "verify": "npm run typecheck && npm run build && npm run typecheck:dist && npm run smoke && node scripts/medir-checkbox.mjs && node scripts/verificar-table.mjs && node scripts/verificar-tabs.mjs"
   },
   "peerDependencies": {
     "react": "^18.3.1",

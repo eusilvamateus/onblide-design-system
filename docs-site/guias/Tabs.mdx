@@ -79,7 +79,7 @@ Na linha (`line`), `appearance` é ignorada.
 
 O vocabulário de `tone`, `appearance` e `variant` é o mesmo em todo o design system: veja [Vocabulário das props](/fundacoes/vocabulario-das-props).
 
-**Motion.** Transição de cor e indicador: 150ms `--ob-ease`. Sem animação de slide de conteúdo, a troca é instantânea.
+**Motion.** Um único indicador fica atrás da aba ativa: o traço na `line`, a pílula na `pill`. Ao trocar de aba, ele desliza até a nova posição e ajusta a largura (`transform` e `width`), junto com a cor e a sombra do `tone` e da `appearance`, em `--ob-dur-base` com `--ob-ease-out`; o texto das abas muda de cor no mesmo ritmo. O indicador mede a aba ativa e acompanha mudanças de largura (rótulo, contador, fonte carregando). Com `prefers-reduced-motion`, `--ob-dur-base` vale 0ms e a troca é imediata. O conteúdo do painel não desliza.
 
 **Responsivo.** Em viewports estreitas, Tabs Line com scroll horizontal (sem quebra de linha). Tabs Pill: mantém em linha e reduz padding com `size="sm"`.
 

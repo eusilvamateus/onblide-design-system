@@ -13,12 +13,8 @@ const abas = [
 ];
 const render = (props) => renderToStaticMarkup(React.createElement(Tabs, { tabs: abas, ...props }));
 
-function achar(el, teste, achados = []) {
-  if (!React.isValidElement(el)) return achados;
-  if (teste(el)) achados.push(el);
-  React.Children.forEach(el.props.children, (filho) => achar(filho, teste, achados));
-  return achados;
-}
+const contador = (props, filho) => renderToStaticMarkup(React.createElement(Badge, { size: 'sm', dot: false, ...props }, filho));
+const vezes = (html, trecho) => html.split(trecho).length - 1;
 
 const linha = render({ active: 'a' });
 for (const rotulo of ['Geral', 'Equipe', 'Faturas']) if (!linha.includes(rotulo)) fail(`rótulo ${rotulo}`, linha);
@@ -28,17 +24,11 @@ if (!/<button[^>]*disabled/.test(linha)) fail('aba desabilitada', linha);
 if (!linha.includes('bottom:-1px')) fail('variante line sublinha a aba ativa', linha);
 if (render({ active: 'a', variant: 'pill' }).includes('bottom:-1px')) fail('pill não tem sublinhado');
 
-const aba = Tabs({ tabs: abas, active: 'a', onChange() {} });
-const badges = achar(aba, (el) => el.type === Badge);
-if (badges.length !== 1) fail('o contador da aba é o Badge do design system', badges.length);
-if (badges[0].props.appearance !== 'solid' || badges[0].props.tone !== 'primary') fail('contador da aba ativa em destaque', JSON.stringify(badges[0].props));
-const inativa = achar(Tabs({ tabs: abas, active: 'b' }), (el) => el.type === Badge)[0];
-if (inativa.props.appearance !== 'soft' || inativa.props.tone !== 'neutral') fail('contador da aba inativa discreto', JSON.stringify(inativa.props));
-
-const trocas = [];
-const clicaveis = achar(Tabs({ tabs: abas, active: 'a', onChange: (id) => trocas.push(id) }), (el) => el.type === 'button');
-clicaveis[1].props.onClick();
-if (trocas.join() !== 'b') fail('clicar em uma aba chama onChange com o id', trocas.join());
+if (vezes(linha, contador({ tone: 'primary', appearance: 'solid' }, 3)) !== 1) fail('o contador da aba ativa é o Badge do design system, em destaque', linha);
+const inativa = render({ active: 'b' });
+if (vezes(inativa, contador({ tone: 'neutral', appearance: 'soft' }, 3)) !== 1) fail('contador da aba inativa discreto', inativa);
+if (!linha.includes('data-ativa=""') || vezes(linha, 'data-ativa') !== 1) fail('só a aba ativa é marcada para o indicador medir', linha);
+if (linha.includes('data-indicador')) fail('sem medição (servidor) não há indicador: a aba ativa pinta o próprio destaque', linha);
 if (render({ active: 'a', size: 'sm' }) === render({ active: 'a', size: 'md' })) fail('size altera o espaçamento');
 const coloridas = [
   { id: 'a', label: 'Todas' },
@@ -78,9 +68,7 @@ const abaLinha = botaoDe(linhaColorida, 'Cupons');
 if (!abaLinha.includes('color:var(--ob-orange-700)') || !abaLinha.includes('background:var(--ob-orange-700)')) fail('line pinta o texto e o traço com o tom, ignorando appearance', abaLinha);
 if (abaLinha.includes('box-shadow:var(--ob-shadow-xs)')) fail('line não tem sombra');
 
-const contadores = achar(Tabs({ tabs: coloridas, active: 'b', variant: 'pill', appearance: 'soft' }), (el) => el.type === Badge);
-if (contadores[0].props.tone !== 'primary') fail('contador da aba ativa segue o tom da aba', JSON.stringify(contadores[0].props));
-const contadorSolido = achar(Tabs({ tabs: coloridas, active: 'b', variant: 'pill', appearance: 'solid' }), (el) => el.type === Badge)[0];
-if (contadorSolido.props.appearance !== undefined || contadorSolido.props.tone !== 'neutral') fail('na aba preenchida o contador fica discreto', JSON.stringify(contadorSolido.props));
+if (vezes(pilula('b', 'soft'), contador({ tone: 'primary', appearance: 'solid' }, 4)) !== 1) fail('contador da aba ativa segue o tom da aba', pilula('b', 'soft'));
+if (vezes(pilula('b', 'solid'), contador({ tone: 'neutral' }, 4)) !== 1) fail('na aba preenchida o contador fica discreto', pilula('b', 'solid'));
 
-console.log('OK: Tabs (abas, ícone, disabled, line/pill, contador via Badge, onChange, tom sozinho, appearance soft/solid, dot e linha)');
+console.log('OK: Tabs (abas, ícone, disabled, line/pill, contador via Badge, marcação para o indicador, tom sozinho, appearance soft/solid, dot e linha)');

@@ -8,6 +8,10 @@ import type { Appearance } from '../../internal/appearance';
 export type TabTone = ActionTone;
 export type TabsAppearance = Extract<Appearance, 'soft' | 'solid'>;
 
+const useMedicao = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
+
+interface Indicador { x: number; largura: number }
+
 const TOM_DO_CONTADOR: Record<TabTone, BadgeTone> = { neutral: 'primary', primary: 'primary', success: 'success', warning: 'warning', danger: 'danger' };
 
 export interface TabItem {
@@ -47,11 +51,41 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
   const isLine = variant === 'line';
   const pad = size === 'sm' ? 'var(--ob-space-8) var(--ob-space-16)' : 'var(--ob-space-10) var(--ob-space-20)';
   const fs  = size === 'sm' ? 13 : 14;
+  const lista = React.useRef<HTMLDivElement>(null);
+  const [indicador, setIndicador] = React.useState<Indicador | null>(null);
+  const ids = tabs.map(tab => tab.id).join('|');
+
+  const medir = React.useCallback(() => {
+    const ativa = lista.current?.querySelector<HTMLElement>('[data-ativa]');
+    const novo = ativa ? { x: ativa.offsetLeft, largura: ativa.offsetWidth } : null;
+    setIndicador(atual => (atual?.x === novo?.x && atual?.largura === novo?.largura ? atual : novo));
+  }, []);
+
+  useMedicao(() => { medir(); }, [medir, active, ids, variant, size, appearance, dot]);
+
+  React.useEffect(() => {
+    const el = lista.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const observador = new ResizeObserver(medir);
+    observador.observe(el);
+    Array.from(el.children).forEach(filho => observador.observe(filho));
+    return () => observador.disconnect();
+  }, [medir, ids]);
+
+  const ativa = tabs.find(tab => tab.id === active);
+  const tomAtivo = ACTION_TONES[ativa?.tone ?? 'neutral'];
+  const ativaColorida = !!ativa?.tone && ativa.tone !== 'neutral';
+  let fundoDoIndicador = 'var(--ob-surface)';
+  if (isLine) fundoDoIndicador = ativaColorida ? tomAtivo.fg : 'var(--ob-blue)';
+  else if (ativaColorida && appearance === 'solid') fundoDoIndicador = tomAtivo.fg;
+  else if (ativaColorida && appearance === 'soft') fundoDoIndicador = tomAtivo.bg;
+  const sombraDoIndicador = !isLine && !(ativaColorida && appearance) ? 'var(--ob-shadow-xs)' : 'none';
+  const deslizando = 'var(--ob-dur-base) var(--ob-ease-out)';
 
   return (
     <div style={{ position: 'relative' }}>
       {isLine && <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'var(--ob-border)' }}/>}
-      <div style={{
+      <div ref={lista} style={{
         display: 'inline-flex', gap: isLine ? 0 : 'var(--ob-space-4)',
         background: isLine ? 'none' : 'var(--ob-bg-alt)',
         border: isLine ? 'none' : '1px solid var(--ob-border)',
@@ -59,6 +93,18 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
         padding: isLine ? 0 : 'var(--ob-space-4)',
         position: 'relative',
       }}>
+        {indicador && (
+          <span aria-hidden="true" data-indicador="" style={{
+            position: 'absolute', left: 0,
+            top: isLine ? 'auto' : 'var(--ob-space-4)', bottom: isLine ? -1 : 'var(--ob-space-4)',
+            height: isLine ? 2 : 'auto',
+            width: indicador.largura, transform: `translateX(${indicador.x}px)`,
+            background: fundoDoIndicador, boxShadow: sombraDoIndicador,
+            borderRadius: isLine ? 'var(--ob-r-2xs) var(--ob-r-2xs) 0 0' : 'var(--ob-r-sm)',
+            transition: `transform ${deslizando}, width ${deslizando}, background-color ${deslizando}, box-shadow ${deslizando}`,
+            pointerEvents: 'none',
+          }}/>
+        )}
         {tabs.map(tab => {
           const isActive = tab.id === active;
           const colorida = !!tab.tone && tab.tone !== 'neutral';
@@ -71,18 +117,20 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
           let cor = isActive ? 'var(--ob-fg-strong)' : 'var(--ob-fg-mute)';
           if (preenchida) cor = 'var(--ob-surface)';
           else if (pintaTexto) cor = tom.fg;
-          const comSombra = !isLine && isActive && !preenchida && !pintaFundo;
+          const comSombra = !indicador && !isLine && isActive && !preenchida && !pintaFundo;
+          if (indicador) fundo = 'none';
           return (
             <button
               key={tab.id}
               onClick={() => onChange?.(tab.id)}
               disabled={tab.disabled}
+              data-ativa={isActive ? '' : undefined}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)',
                 padding: pad, border: 'none', cursor: tab.disabled ? 'not-allowed' : 'pointer',
                 fontFamily: 'var(--ob-font)', fontSize: fs, fontWeight: 600,
                 borderRadius: isLine ? 0 : 'var(--ob-r-sm)',
-                transition: 'all var(--ob-dur-fast) var(--ob-ease)',
+                transition: `color ${deslizando}`,
                 position: 'relative',
                 background: fundo,
                 color: cor,
@@ -100,7 +148,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
                   ? <Badge tone="neutral" size="sm" dot={false}>{tab.badge}</Badge>
                   : <Badge tone={isActive ? (colorida ? TOM_DO_CONTADOR[tab.tone as TabTone] : 'primary') : 'neutral'} appearance={isActive ? 'solid' : 'soft'} size="sm" dot={false}>{tab.badge}</Badge>
               )}
-              {isLine && isActive && (
+              {!indicador && isLine && isActive && (
                 <span style={{
                   position: 'absolute', bottom: -1, left: 0, right: 0, height: 2,
                   background: colorida ? tom.fg : 'var(--ob-blue)', borderRadius: 'var(--ob-r-2xs) var(--ob-r-2xs) 0 0',
