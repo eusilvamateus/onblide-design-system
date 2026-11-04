@@ -111,7 +111,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
         background: hl ? 'var(--ob-bg-warm)' : fill ? 'var(--ob-blue-100)' : 'transparent', color,
         fontFamily: 'var(--ob-font)', fontSize: z.fs, lineHeight: z.lh, fontWeight: fill || strong ? 600 : 400,
         textDecoration: 'none', cursor: disabled ? 'not-allowed' : pointer ? 'pointer' : 'default',
-        opacity: disabled ? 0.5 : 1, userSelect: 'none', transition: 'background .12s', ...style,
+        opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, userSelect: 'none', transition: 'background var(--ob-dur-fast) var(--ob-ease)', ...style,
       }}>
       {(leading || indent) && (
         <span style={{ flex: 'none', minWidth: z.icon, minHeight: z.lh, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: z.gap, color: leadColor }}>

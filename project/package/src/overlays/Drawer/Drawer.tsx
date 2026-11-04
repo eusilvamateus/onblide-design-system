@@ -40,7 +40,7 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
         position: 'fixed', inset: 0, background: 'var(--ob-scrim)',
         backdropFilter: 'blur(2px)', zIndex: 'var(--ob-z-overlay)',
         opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none',
-        transition: 'opacity 0.22s ease',
+        transition: 'opacity var(--ob-dur-base) var(--ob-ease)',
       }}/>
       <div style={{
         position: 'fixed', top: 0, bottom: 0,
@@ -50,7 +50,7 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
         borderLeft: side === 'right' ? '1px solid var(--ob-border)' : 'none',
         borderRight: side === 'left' ? '1px solid var(--ob-border)' : 'none',
         zIndex: 'var(--ob-z-modal)', display: 'flex', flexDirection: 'column',
-        transform, transition: 'transform 0.25s var(--ob-ease)',
+        transform, transition: 'transform var(--ob-dur-base) var(--ob-ease)',
       } as React.CSSProperties}>
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',

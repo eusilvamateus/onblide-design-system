@@ -3,7 +3,7 @@ import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 
-injectStyleOnce('ob-pulse-kf', '@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:.4}}');
+injectStyleOnce('ob-pulse-kf', '@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:var(--ob-opacity-muted)}}');
 
 export interface TableColumn<T> {
   /** Chave da coluna, usada para ler o valor da linha e identificar ordenação. */
@@ -132,7 +132,7 @@ export function Table<T extends object = Record<string, unknown>>({
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
                   {col.label}
                   {col.sortable && (
-                    <span style={{ opacity: sortAtivo?.key === col.key ? 1 : 0.35, color: 'var(--ob-blue)' }}>
+                    <span style={{ opacity: sortAtivo?.key === col.key ? 1 : 'var(--ob-opacity-muted)', color: 'var(--ob-blue)' }}>
                       {sortAtivo?.key === col.key ? (sortAtivo.dir === 'asc' ? '↑' : '↓') : '↕'}
                     </span>
                   )}
@@ -145,10 +145,10 @@ export function Table<T extends object = Record<string, unknown>>({
           {loading
             ? Array.from({ length: LINHAS_ESQUELETO }).map((_, i) => (
               <tr key={i}>
-                {selectable && <td style={celula(i === LINHAS_ESQUELETO - 1)}><div style={{ width: 15, height: 15, borderRadius: 3, background: 'var(--ob-bg-alt)' }}/></td>}
+                {selectable && <td style={celula(i === LINHAS_ESQUELETO - 1)}><div style={{ width: 15, height: 15, borderRadius: 'var(--ob-r-2xs)', background: 'var(--ob-bg-alt)' }}/></td>}
                 {columns.map(col => (
                   <td key={col.key} style={celula(i === LINHAS_ESQUELETO - 1)}>
-                    <div style={{ height: 14, borderRadius: 4, background: 'var(--ob-bg-alt)', width: `${60 + Math.random() * 30}%`, animation: 'ob-pulse 1.4s ease-in-out infinite' }}/>
+                    <div style={{ height: 14, borderRadius: 'var(--ob-r-xs)', background: 'var(--ob-bg-alt)', width: `${60 + Math.random() * 30}%`, animation: 'ob-pulse var(--ob-dur-loop) var(--ob-ease-in-out) infinite' }}/>
                   </td>
                 ))}
               </tr>
@@ -162,7 +162,7 @@ export function Table<T extends object = Record<string, unknown>>({
               </tr>
             )
             : ordemExibida.map((i) => { const row = rows[i]; return (
-              <tr key={i} style={{ background: selected.includes(i) ? 'var(--ob-blue-100)' : 'none', transition: 'background 0.1s' }}
+              <tr key={i} style={{ background: selected.includes(i) ? 'var(--ob-blue-100)' : 'none', transition: 'background var(--ob-dur-fast) var(--ob-ease)' }}
                 onMouseEnter={e => { if (!selected.includes(i)) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = selected.includes(i) ? 'var(--ob-blue-100)' : 'none'; }}>
                 {selectable && (

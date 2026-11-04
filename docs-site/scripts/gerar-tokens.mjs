@@ -20,7 +20,7 @@ const extrair = (texto) => {
 };
 
 const claro = {};
-for (const m of css.matchAll(/(?:^|\n)\s*:root\b[^{]*\{/g)) Object.assign(claro, extrair(bloco(m.index)));
+for (const m of css.matchAll(/(?:^|\n):root\b[^{]*\{/g)) Object.assign(claro, extrair(bloco(m.index)));
 const escuro = extrair(bloco(css.search(/\n\[data-theme="dark"\]\s*\{/)));
 
 const familias = ['--ob-blue', '--ob-shadow', '--ob-s-', '--ob-r-', '--ob-z-', '--ob-opacity', '--ob-dur', '--ob-fs', '--ob-bp'];

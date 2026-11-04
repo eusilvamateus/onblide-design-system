@@ -33,7 +33,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         <input role="searchbox" value={value} disabled={disabled} aria-label={ariaLabel} placeholder={placeholder}
           onChange={(e) => onChange?.(e.target.value)} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}
           style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'none', fontFamily: 'var(--ob-font)', fontSize: 14.5, color: 'var(--ob-fg-strong)' }} />
-        {loading && <Ph n="circle-notch" size={17} c="var(--ob-blue)" style={{ animation: 'ob-spin 0.8s linear infinite', marginRight: 8 }} />}
+        {loading && <Ph n="circle-notch" size={17} c="var(--ob-blue)" style={{ animation: 'ob-spin var(--ob-dur-spin) linear infinite', marginRight: 8 }} />}
         {!loading && value && !disabled && (
           <Button kind="neutral" iconOnly size="sm" aria-label="Limpar" onClick={() => onChange?.('')} icon={<Ph n="x-circle" size={17} />} />
         )}

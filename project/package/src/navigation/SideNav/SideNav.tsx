@@ -42,14 +42,14 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
   const botao = (
     <button type="button" onClick={() => (grupo ? setAberto((a) => !a) : onNav?.(it.id))} aria-expanded={grupo ? aberto : undefined}
       title={collapsed ? (typeof it.label === 'string' ? it.label : undefined) : undefined}
-      style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 12, justifyContent: collapsed ? 'center' : 'flex-start', width: '100%', height: nivel ? 36 : 42, padding: collapsed ? 0 : `0 12px 0 ${12 + nivel * 14}px`, borderRadius: 'var(--ob-r-md)', border: 'none', cursor: 'pointer', position: 'relative', background: on ? 'var(--ob-blue-100)' : 'transparent', color: on ? 'var(--ob-blue-700)' : grupo ? 'var(--ob-fg-strong)' : 'var(--ob-fg-soft)', fontFamily: 'var(--ob-font)', fontSize: nivel ? 13 : 14, fontWeight: on || grupo ? 600 : 500, transition: 'background 0.12s' }}
+      style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 12, justifyContent: collapsed ? 'center' : 'flex-start', width: '100%', height: nivel ? 36 : 42, padding: collapsed ? 0 : `0 12px 0 ${12 + nivel * 14}px`, borderRadius: 'var(--ob-r-md)', border: 'none', cursor: 'pointer', position: 'relative', background: on ? 'var(--ob-blue-100)' : 'transparent', color: on ? 'var(--ob-blue-700)' : grupo ? 'var(--ob-fg-strong)' : 'var(--ob-fg-soft)', fontFamily: 'var(--ob-font)', fontSize: nivel ? 13 : 14, fontWeight: on || grupo ? 600 : 500, transition: 'background var(--ob-dur-fast) var(--ob-ease)' }}
       onMouseEnter={e => { if (!on) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
       onMouseLeave={e => { if (!on) e.currentTarget.style.background = 'transparent'; }}>
       {it.icon && <Ph n={it.icon} size={20} weight={on ? 'fill' : 'regular'} />}
       {!collapsed && <span style={{ flex: 1, textAlign: 'left' }}>{it.label}</span>}
       {!collapsed && it.badge != null && <Badge tone="warning" variant="numeric">{it.badge}</Badge>}
-      {!collapsed && grupo && <Ph n="caret-down" size={14} style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />}
-      {collapsed && it.badge != null && <span style={{ position: 'absolute', top: 7, right: 9, width: 8, height: 8, borderRadius: 999, background: 'var(--ob-orange)', border: '2px solid var(--ob-surface)' }} />}
+      {!collapsed && grupo && <Ph n="caret-down" size={14} style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: 'transform var(--ob-dur-fast) var(--ob-ease)' }} />}
+      {collapsed && it.badge != null && <span style={{ position: 'absolute', top: 7, right: 9, width: 8, height: 8, borderRadius: 'var(--ob-r-pill)', background: 'var(--ob-orange)', border: '2px solid var(--ob-surface)' }} />}
     </button>
   );
   if (!grupo) return botao;

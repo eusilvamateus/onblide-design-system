@@ -82,16 +82,16 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
                 padding: pad, border: 'none', cursor: tab.disabled ? 'not-allowed' : 'pointer',
                 fontFamily: 'var(--ob-font)', fontSize: fs, fontWeight: 600,
                 borderRadius: isLine ? 0 : 'var(--ob-r-sm)',
-                transition: 'all 0.15s',
+                transition: 'all var(--ob-dur-fast) var(--ob-ease)',
                 position: 'relative',
                 background: fundo,
                 color: cor,
-                opacity: tab.disabled ? 0.45 : 1,
+                opacity: tab.disabled ? 'var(--ob-opacity-disabled)' : 1,
                 boxShadow: comSombra ? 'var(--ob-shadow-xs)' : 'none',
               }}
             >
               {dot && colorida && (
-                <span aria-hidden="true" style={{ width: 7, height: 7, borderRadius: '50%', background: tom.fg, flex: 'none' }}/>
+                <span aria-hidden="true" style={{ width: 7, height: 7, borderRadius: 'var(--ob-r-circle)', background: tom.fg, flex: 'none' }}/>
               )}
               {tab.icon && <Ph n={tab.icon} size={15} weight={isActive ? 'fill' : 'regular'}/>}
               {tab.label}
@@ -103,7 +103,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
               {isLine && isActive && (
                 <span style={{
                   position: 'absolute', bottom: -1, left: 0, right: 0, height: 2,
-                  background: colorida ? tom.fg : 'var(--ob-blue)', borderRadius: '2px 2px 0 0',
+                  background: colorida ? tom.fg : 'var(--ob-blue)', borderRadius: 'var(--ob-r-2xs) var(--ob-r-2xs) 0 0',
                 }}/>
               )}
             </button>

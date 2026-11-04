@@ -31,7 +31,7 @@ export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', tone = 'primary',
     <span role="status" aria-label={label || 'Carregando…'} aria-live="polite"
       style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
       <svg width={px} height={px} viewBox={`0 0 ${px} ${px}`} fill="none"
-        style={{ animation: 'ob-spin 0.75s linear infinite' }}>
+        style={{ animation: 'ob-spin var(--ob-dur-spin) linear infinite' }}>
         <circle cx={px / 2} cy={px / 2} r={r} stroke={color} strokeOpacity={0.15} strokeWidth={sw} />
         <circle cx={px / 2} cy={px / 2} r={r} stroke={color} strokeWidth={sw} strokeLinecap="round"
           strokeDasharray={`${circ * 0.72} ${circ * 0.28}`}

@@ -11,7 +11,7 @@ const render = (props) => renderToStaticMarkup(React.createElement(Skeleton, pro
 const retangulo = render({ width: 120, height: 14 });
 if (!retangulo.includes('width:120px') || !retangulo.includes('height:14px')) fail('dimensões', retangulo);
 const circulo = render({ circle: true, width: 99, height: 40 });
-if (!circulo.includes('border-radius:50%')) fail('circle é redondo', circulo);
+if (!circulo.includes('border-radius:var(--ob-r-circle)')) fail('circle é redondo', circulo);
 if (!circulo.includes('width:40px') || !circulo.includes('height:40px')) fail('circle ignora width e usa a altura nos dois eixos', circulo);
 if (!render({ width: '50%' }).includes('width:50%')) fail('largura em texto');
 if (!render({ radius: 12 }).includes('border-radius:12px')) fail('radius');

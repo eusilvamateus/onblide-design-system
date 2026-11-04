@@ -30,7 +30,7 @@ const simulateUpload = (file: { name: string }, onProgress: (p: number) => void)
 });
 injectStyleOnce(
   'ob-fileupload',
-  '.ob-fileupload-imagem .ob-fileupload-camada{opacity:0;transition:opacity 150ms}.ob-fileupload-imagem:hover .ob-fileupload-camada,.ob-fileupload-imagem:focus-visible .ob-fileupload-camada{opacity:1}.ob-fileupload-imagem:focus-visible{outline:2px solid var(--ob-blue);outline-offset:2px}',
+  '.ob-fileupload-imagem .ob-fileupload-camada{opacity:0;transition:opacity var(--ob-dur-fast) var(--ob-ease)}.ob-fileupload-imagem:hover .ob-fileupload-camada,.ob-fileupload-imagem:focus-visible .ob-fileupload-camada{opacity:1}.ob-fileupload-imagem:focus-visible{outline:var(--ob-focus-ring-width) solid var(--ob-focus-ring);outline-offset:2px}',
 );
 
 const srOnly: React.CSSProperties = { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' };
@@ -157,7 +157,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     const temImagem = !!img?.url;
     const enviando = img?.status === 'uploading';
     const comErro = img?.status === 'error';
-    const raio = circular ? '50%' : 'var(--ob-r-surface)';
+    const raio = circular ? 'var(--ob-r-circle)' : 'var(--ob-r-surface)';
     const comTexto = size >= 104;
     const camada: React.CSSProperties = {
       position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4,
@@ -166,7 +166,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     body = (
       <div {...dropProps} style={{
         display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap', padding: 8, margin: -8, borderRadius: 'var(--ob-r-surface)',
-        background: isDrag ? 'var(--ob-blue-050)' : 'transparent', transition: 'background .15s',
+        background: isDrag ? 'var(--ob-blue-050)' : 'transparent', transition: 'background var(--ob-dur-fast) var(--ob-ease)',
       }}>
         <div role="button" className="ob-fileupload-imagem" tabIndex={disabled ? -1 : 0} aria-label={temImagem ? 'Trocar imagem' : 'Escolher imagem'} aria-disabled={disabled || undefined}
           aria-describedby={hintEl ? `${uid}-h` : undefined} onClick={pick} onKeyDown={keyPick}
@@ -174,7 +174,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             position: 'relative', width: size, height: size, flex: 'none', borderRadius: raio, boxSizing: 'border-box', overflow: 'hidden',
             border: temImagem && !isDrag && !comErro ? '1px solid var(--ob-border)' : `1.5px dashed ${isDrag ? 'var(--ob-blue)' : comErro || error ? 'var(--ob-danger)' : 'var(--ob-border)'}`,
             background: isDrag ? 'var(--ob-blue-050)' : 'var(--ob-bg-alt)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6,
-            cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.6 : 1, outline: 'none', transition: 'background .15s, border-color .15s',
+            cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, outline: 'none', transition: 'background var(--ob-dur-fast) var(--ob-ease), border-color var(--ob-dur-fast) var(--ob-ease)',
           }}>
           {temImagem
             ? <img src={img.url ?? undefined} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
@@ -244,9 +244,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: '28px 20px', textAlign: 'center',
           border: `1.5px dashed ${isDrag ? 'var(--ob-blue)' : error ? 'var(--ob-danger)' : 'var(--ob-border)'}`, borderRadius: 'var(--ob-r-surface)',
           background: isDrag ? 'var(--ob-blue-050)' : disabled ? 'var(--ob-bg-alt)' : 'var(--ob-surface)', cursor: disabled ? 'not-allowed' : 'pointer',
-          opacity: disabled ? 0.6 : 1, transition: 'background .15s, border-color .15s', outline: 'none',
+          opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, transition: 'background var(--ob-dur-fast) var(--ob-ease), border-color var(--ob-dur-fast) var(--ob-ease)', outline: 'none',
         }}>
-        <span style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--ob-blue-050)', color: 'var(--ob-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span style={{ width: 40, height: 40, borderRadius: 'var(--ob-r-circle)', background: 'var(--ob-blue-050)', color: 'var(--ob-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Ph n={isDrag ? 'download-simple' : 'upload-simple'} size={20} c="currentColor" />
         </span>
         <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--ob-fg-strong)' }}>

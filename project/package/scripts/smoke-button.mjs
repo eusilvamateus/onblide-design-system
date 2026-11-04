@@ -19,7 +19,7 @@ if (!a.includes('cursor:pointer')) fail('cursor pointer esperado', a);
 // (b) desabilitado: atributo nativo, opacidade e cursor
 const b = renderToStaticMarkup(h(Button, { disabled: true }, 'Enviar'));
 if (!b.includes('disabled=""')) fail('atributo disabled ausente', b);
-if (!b.includes('opacity:0.5')) fail('opacidade reduzida esperada', b);
+if (!b.includes('opacity:var(--ob-opacity-disabled)')) fail('opacidade reduzida esperada', b);
 if (!b.includes('cursor:not-allowed')) fail('cursor not-allowed esperado', b);
 
 // (c) props nativas repassadas e type sobrescrevível

@@ -34,7 +34,7 @@ if (!multi.includes('aria-pressed="true"') || !multi.includes('aria-pressed="fal
 // Desabilitado: grupo inteiro e item isolado.
 const disabledGroup = renderToStaticMarkup(h(ButtonGroup, {}, h(Button, {}, 'A'), h(Button, {}, 'B')));
 const disabledOne = renderToStaticMarkup(h(ButtonGroup, {}, h(Button, {}, 'A'), h(Button, { disabled: true }, 'B')));
-if (disabledOne.match(/disabled/g)?.length >= (disabledGroup.match(/disabled/g)?.length ?? 0) + 2) fail('só o botão marcado deveria desabilitar', disabledOne);
+if (disabledOne.match(/disabled=""/g)?.length >= (disabledGroup.match(/disabled=""/g)?.length ?? 0) + 2) fail('só o botão marcado deveria desabilitar', disabledOne);
 
 // Composição com Tooltip (só ícone) e Menu (split button) não deve quebrar o render nem perder o rótulo/gatilho.
 const withTooltip = renderToStaticMarkup(

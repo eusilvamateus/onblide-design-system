@@ -46,11 +46,11 @@ export const NavbarLink: React.FC<NavbarLinkProps> = ({ item, active, size, onNa
       onClick={(e) => { if (onNav) { e.preventDefault(); onNav(item.id); } }}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       onFocus={(e) => setFocus(e.target.matches(':focus-visible'))} onBlur={() => setFocus(false)}
-      style={{ position: 'relative', height: underline ? '100%' : z.link, display: 'flex', alignItems: 'center', gap: 6, padding: '0 var(--ob-s-3)', borderRadius: 'var(--ob-r-control)', textDecoration: 'none', fontSize: 'var(--ob-fs-sm)', fontWeight: active ? 'var(--ob-w-semibold)' : 'var(--ob-w-medium)', color: active ? 'var(--ob-fg-strong)' : hover ? 'var(--ob-fg-strong)' : 'var(--ob-fg)', background: !underline && (active || hover) ? 'var(--ob-surface-2)' : 'transparent', boxShadow: focus ? 'inset 0 0 0 2px var(--ob-focus-ring)' : 'none', outline: 'none', whiteSpace: 'nowrap', transition: 'color var(--ob-dur-fast) var(--ob-ease), background var(--ob-dur-fast) var(--ob-ease)' }}>
+      style={{ position: 'relative', height: underline ? '100%' : z.link, display: 'flex', alignItems: 'center', gap: 6, padding: '0 var(--ob-s-3)', borderRadius: 'var(--ob-r-control)', textDecoration: 'none', fontSize: 'var(--ob-fs-sm)', fontWeight: active ? 'var(--ob-w-semibold)' : 'var(--ob-w-medium)', color: active ? 'var(--ob-fg-strong)' : hover ? 'var(--ob-fg-strong)' : 'var(--ob-fg)', background: !underline && (active || hover) ? 'var(--ob-surface-2)' : 'transparent', boxShadow: focus ? 'inset 0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)' : 'none', outline: 'none', whiteSpace: 'nowrap', transition: 'color var(--ob-dur-fast) var(--ob-ease), background var(--ob-dur-fast) var(--ob-ease)' }}>
       {item.icon && <Ph n={item.icon} size={16} c="currentColor" weight={active ? 'fill' : 'regular'} />}
       {item.label}
       {item.badge != null && <Badge tone="primary" size="sm">{item.badge}</Badge>}
-      {underline && <span aria-hidden="true" style={{ position: 'absolute', left: 'var(--ob-s-3)', right: 'var(--ob-s-3)', bottom: -1, height: 2, borderRadius: 2, background: active ? 'var(--ob-blue)' : 'transparent', transition: 'background var(--ob-dur-fast) var(--ob-ease)' }} />}
+      {underline && <span aria-hidden="true" style={{ position: 'absolute', left: 'var(--ob-s-3)', right: 'var(--ob-s-3)', bottom: -1, height: 2, borderRadius: 'var(--ob-r-2xs)', background: active ? 'var(--ob-blue)' : 'transparent', transition: 'background var(--ob-dur-fast) var(--ob-ease)' }} />}
     </a>
   );
 };

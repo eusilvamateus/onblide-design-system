@@ -48,21 +48,21 @@ function Marker({ item, marker }: { item: TimelineItem; marker: TimelineMarker }
   if (marker === 'avatar') {
     return (
       <span style={{
-        display: 'flex', borderRadius: '50%',
+        display: 'flex', borderRadius: 'var(--ob-r-circle)',
         boxShadow: s === 'current' ? '0 0 0 2px var(--ob-surface), 0 0 0 4px var(--ob-blue)' : s === 'error' ? '0 0 0 2px var(--ob-surface), 0 0 0 4px var(--ob-danger)' : 'none',
-        opacity: s === 'pending' ? 0.5 : 1,
+        opacity: s === 'pending' ? 'var(--ob-opacity-muted)' : 1,
       }}><Avatar name={item.person} size={28} /></span>
     );
   }
   if (marker === 'icon') {
     return (
-      <span style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: t.bg, color: t.c, border: `1.5px ${s === 'pending' ? 'dashed' : 'solid'} ${s === 'pending' ? 'var(--ob-border)' : t.c}` }}>
+      <span style={{ width: 28, height: 28, borderRadius: 'var(--ob-r-circle)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: t.bg, color: t.c, border: `1.5px ${s === 'pending' ? 'dashed' : 'solid'} ${s === 'pending' ? 'var(--ob-border)' : t.c}` }}>
         <Ph n={s === 'error' ? 'warning' : item.icon || 'circle'} size={14} c="currentColor" />
       </span>
     );
   }
   return (
-    <span style={{ width: 16, height: 16, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: s === 'current' ? '0 0 0 4px var(--ob-blue-100)' : 'none' }}>
+    <span style={{ width: 16, height: 16, borderRadius: 'var(--ob-r-circle)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: s === 'current' ? '0 0 0 4px var(--ob-blue-100)' : 'none' }}>
       <StatusDot tone={t.dot} />
     </span>
   );

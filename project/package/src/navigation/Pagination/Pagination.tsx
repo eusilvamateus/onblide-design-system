@@ -29,7 +29,7 @@ export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, on
       width: 34, height: 34, borderRadius: 'var(--ob-r-sm)', border: '1px solid var(--ob-border)',
       background: 'var(--ob-surface)', color: disabled ? 'var(--ob-fg-mute)' : 'var(--ob-fg)',
       cursor: disabled ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      transition: 'all 120ms',
+      transition: 'all var(--ob-dur-fast) var(--ob-ease)',
     }}>
       {dir === 'prev' ? <Icons.caretL size={16}/> : <Icons.caretR size={16}/>}
     </button>
@@ -46,7 +46,7 @@ export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, on
           border: `1px solid ${p === page ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
           background: p === page ? 'var(--ob-blue)' : 'var(--ob-surface)',
           color: p === page ? 'var(--ob-fg-on-color)' : 'var(--ob-fg)', fontFamily: 'inherit', fontSize: 14,
-          fontWeight: p === page ? 600 : 500, cursor: 'pointer', transition: 'all 120ms',
+          fontWeight: p === page ? 600 : 500, cursor: 'pointer', transition: 'all var(--ob-dur-fast) var(--ob-ease)',
         }}>{p}</button>
       ))}
       <Arrow dir="next" disabled={page === total} />

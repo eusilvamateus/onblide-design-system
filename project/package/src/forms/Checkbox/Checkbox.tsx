@@ -46,15 +46,15 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!disabled) onChange?.(!checked); } }}
       style={{
         display: temTexto ? 'flex' : 'inline-flex', alignItems: 'flex-start', gap: 10,
-        cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.5 : 1,
+        cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
       }}>
       <span style={{
-        flex: 'none', width: CAIXA, height: CAIXA, borderRadius: 6,
+        flex: 'none', width: CAIXA, height: CAIXA, borderRadius: 'var(--ob-r-xs)',
         boxShadow: `inset 0 0 0 1.5px ${ativo ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
         background: ativo ? 'var(--ob-blue)' : 'var(--ob-surface)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         transform: 'translateZ(0)',
-        transition: 'background 160ms var(--ob-ease), box-shadow 160ms var(--ob-ease)',
+        transition: 'background var(--ob-dur-fast) var(--ob-ease), box-shadow var(--ob-dur-fast) var(--ob-ease)',
       }}>
         {ativo && (
           <svg width={ICONE} height={ICONE} viewBox={glifo.viewBox} aria-hidden="true" style={{ display: 'block', fill: 'var(--ob-fg-on-color)' }}>

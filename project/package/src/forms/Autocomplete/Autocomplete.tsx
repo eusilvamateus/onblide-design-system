@@ -268,7 +268,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
             {hasValue && !disabled && <button type="button" tabIndex={-1} aria-label="Limpar" onMouseDown={onClear} style={iconBtn}><Ph n="x" size={14} c="currentColor" /></button>}
             {(mode !== 'free' || options.length > 0) && !loadOptions && (
               <button type="button" tabIndex={-1} aria-label={open ? 'Fechar sugestões' : 'Abrir sugestões'} onMouseDown={onCaret} style={iconBtn}>
-                <Ph n="caret-down" size={16} c="currentColor" style={{ transform: showPanel ? 'rotate(180deg)' : 'none', transition: 'transform .15s' }} />
+                <Ph n="caret-down" size={16} c="currentColor" style={{ transform: showPanel ? 'rotate(180deg)' : 'none', transition: 'transform var(--ob-dur-fast) var(--ob-ease)' }} />
               </button>
             )}
           </span>

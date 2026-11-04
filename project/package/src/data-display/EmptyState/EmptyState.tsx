@@ -25,7 +25,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ icon, title, description
       {icon && (
         <span style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', width: pequeno ? 40 : 56, height: pequeno ? 40 : 56,
-          borderRadius: '50%', background: 'var(--ob-bg-warm)', color: 'var(--ob-fg-soft)', marginBottom: pequeno ? 4 : 8,
+          borderRadius: 'var(--ob-r-circle)', background: 'var(--ob-bg-warm)', color: 'var(--ob-fg-soft)', marginBottom: pequeno ? 4 : 8,
         }}>
           <Ph n={icon} size={pequeno ? 20 : 28} />
         </span>

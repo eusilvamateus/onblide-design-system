@@ -56,15 +56,15 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
 
   if (!open) return null;
   return (
-    <div ref={backdropRef} className="ob-modal-fundo" data-cartao={cartao ? '' : undefined} data-ob-modal-motion={animado ? '' : undefined} onClick={onClose} style={{
+    <div ref={backdropRef} className="ob-modal-fundo" data-cartao={cartao ? '' : undefined} onClick={onClose} style={{
       position: 'fixed', inset: 0, zIndex: 'var(--ob-z-overlay)', display: 'flex', alignItems: 'center', justifyContent: 'center',
       background: 'var(--ob-scrim)', backdropFilter: 'blur(2px)',
-      animation: animado ? 'ob-fade 160ms ease-out' : undefined,
+      animation: animado ? 'ob-fade var(--ob-dur-base) var(--ob-ease-out)' : undefined,
     }}>
-      <div ref={contentRef} className="ob-modal" data-ob-modal-motion={animado ? '' : undefined} onClick={(e) => e.stopPropagation()} role={role} aria-modal="true" aria-labelledby={title ? titleId : undefined} aria-describedby={role === 'alertdialog' ? bodyId : undefined} style={{
+      <div ref={contentRef} className="ob-modal" onClick={(e) => e.stopPropagation()} role={role} aria-modal="true" aria-labelledby={title ? titleId : undefined} aria-describedby={role === 'alertdialog' ? bodyId : undefined} style={{
         '--ob-modal-largura': largura, '--ob-modal-altura': altura,
         maxWidth: '100%', display: 'flex', flexDirection: 'column', background: 'var(--ob-surface)',
-        boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden', animation: animado ? 'ob-pop 200ms var(--ob-ease-spring)' : undefined,
+        boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden', animation: animado ? 'ob-pop var(--ob-dur-base) var(--ob-ease-spring)' : undefined,
       } as React.CSSProperties}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, padding: '20px 24px 0', flex: 'none' }}>
           <h3 id={titleId} style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</h3>
@@ -94,5 +94,5 @@ injectStyleOnce('ob-modal-layout', [
 
 injectStyleOnce(
   'ob-modal-kf',
-  '@keyframes ob-fade { from { opacity: 0; } to { opacity: 1; } } @keyframes ob-pop { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } } @media (prefers-reduced-motion: reduce) { [data-ob-modal-motion] { animation: none !important; } }',
+  '@keyframes ob-fade { from { opacity: 0; } to { opacity: 1; } } @keyframes ob-pop { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }',
 );

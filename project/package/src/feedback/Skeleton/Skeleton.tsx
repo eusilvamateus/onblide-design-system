@@ -15,15 +15,15 @@ export interface SkeletonProps {
 }
 
 /** Placeholder animado com shimmer, exibido durante o carregamento de conteúdo. */
-export const Skeleton: React.FC<SkeletonProps> = ({ width = '100%', height = 16, radius = 6, circle = false, style = {} }) => (
+export const Skeleton: React.FC<SkeletonProps> = ({ width = '100%', height = 16, radius = 'var(--ob-r-xs)', circle = false, style = {} }) => (
   <span style={{
     display: 'block',
     width: circle ? height : width,
     height,
-    borderRadius: circle ? '50%' : radius,
+    borderRadius: circle ? 'var(--ob-r-circle)' : radius,
     background: 'linear-gradient(90deg, var(--ob-bg-alt) 25%, var(--ob-border) 50%, var(--ob-bg-alt) 75%)',
     backgroundSize: '200% 100%',
-    animation: 'ob-shimmer 1.4s ease-in-out infinite',
+    animation: 'ob-shimmer var(--ob-dur-loop) var(--ob-ease-in-out) infinite',
     ...style,
   }} />
 );

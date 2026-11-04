@@ -59,10 +59,10 @@ export const Chip: React.FC<ChipProps> = ({
   const base: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', gap: escala.gap,
     padding: removable ? escala.paddingRemovivel : escala.padding,
-    borderRadius: 999, fontSize: escala.fonte, fontWeight: 600,
+    borderRadius: 'var(--ob-r-pill)', fontSize: escala.fonte, fontWeight: 600,
     cursor: disabled ? 'not-allowed' : 'pointer',
-    transition: 'all 0.15s', userSelect: 'none',
-    opacity: disabled ? 0.45 : 1,
+    transition: 'all var(--ob-dur-fast) var(--ob-ease)', userSelect: 'none',
+    opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
     border: '1.5px solid',
     outline: 'none',
     fontFamily: 'var(--ob-font)',
@@ -97,7 +97,7 @@ export const Chip: React.FC<ChipProps> = ({
       }}
       onFocus={e => { setComFoco(e.currentTarget === e.target && e.currentTarget.matches(':focus-visible')); onFocus?.(e); }}
       onBlur={e => { setComFoco(false); onBlur?.(e); }}
-      style={{ ...base, ...stateStyle, ...(comFoco ? { boxShadow: '0 0 0 3px var(--ob-focus-ring)' } : null), ...style }}
+      style={{ ...base, ...stateStyle, ...(comFoco ? { boxShadow: '0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)' } : null), ...style }}
     >
       {icon && <Ph n={icon} size={escala.icone} weight={escala.pesoDoIcone} />}
       {label}
@@ -109,7 +109,7 @@ export const Chip: React.FC<ChipProps> = ({
           style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             width: escala.botao, height: escala.botao,
-            boxSizing: 'border-box', margin: 0, padding: 0, borderRadius: '50%', border: 'none', cursor: 'pointer',
+            boxSizing: 'border-box', margin: 0, padding: 0, borderRadius: 'var(--ob-r-circle)', border: 'none', cursor: 'pointer',
             background: ligado ? 'color-mix(in srgb, var(--ob-fg-on-color) 25%, transparent)' : tone === 'neutral' ? 'var(--ob-bg-warm)' : `color-mix(in srgb, ${tom.fg} 15%, transparent)`,
             color: ligado ? 'var(--ob-fg-on-color)' : tone === 'neutral' ? 'var(--ob-fg-soft)' : tom.fg,
             fontSize: escala.iconeDoBotao, fontWeight: 700, lineHeight: 1, flexShrink: 0,

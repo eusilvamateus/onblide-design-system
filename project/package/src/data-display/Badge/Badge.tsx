@@ -40,10 +40,10 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 5,
-      borderRadius: 999, fontSize: fs, fontWeight: 700,
+      borderRadius: 'var(--ob-r-pill)', fontSize: fs, fontWeight: 700,
       lineHeight: 1, ...(pinturas[pintura] || pinturas.soft), ...forma,
     }}>
-      {!numerico && dot && <span style={{ width: 6, height: 6, borderRadius: '50%', background: pintura === 'solid' ? 'color-mix(in srgb, var(--ob-fg-on-color) 70%, transparent)' : t.dot, flexShrink: 0 }}/>}
+      {!numerico && dot && <span style={{ width: 6, height: 6, borderRadius: 'var(--ob-r-circle)', background: pintura === 'solid' ? 'color-mix(in srgb, var(--ob-fg-on-color) 70%, transparent)' : t.dot, flexShrink: 0 }}/>}
       {children}
     </span>
   );

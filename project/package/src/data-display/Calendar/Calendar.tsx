@@ -94,7 +94,7 @@ export interface RangeCalendarProps extends CalendarBaseProps {
 
 export type CalendarProps = SingleCalendarProps | RangeCalendarProps;
 
-injectStyleOnce('ob-calendar-dia', '.ob-calendar-dia:focus-visible{outline:2px solid var(--ob-blue);outline-offset:-2px}');
+injectStyleOnce('ob-calendar-dia', '.ob-calendar-dia:focus-visible{outline:var(--ob-focus-ring-width) solid var(--ob-focus-ring);outline-offset:calc(var(--ob-focus-ring-width) * -1)}');
 
 const CELULA = 34;
 const ESPACO = 2;
@@ -288,8 +288,8 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
             background: marcado ? 'var(--ob-blue)' : emFaixa ? 'var(--ob-blue-100)' : sobMouse ? 'var(--ob-blue-050)' : 'transparent',
             color: marcado ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-strong)',
             boxShadow: posicao === 'alvo' ? 'inset 0 0 0 1.5px var(--ob-blue)' : atual && !marcado ? 'inset 0 0 0 1px var(--ob-blue)' : 'none',
-            opacity: inativo ? 0.35 : 1, cursor: inativo ? 'not-allowed' : 'pointer',
-            fontFamily: 'inherit', fontSize: 13, fontWeight: marcado ? 700 : 500, transition: 'background 100ms',
+            opacity: inativo ? 'var(--ob-opacity-muted)' : 1, cursor: inativo ? 'not-allowed' : 'pointer',
+            fontFamily: 'inherit', fontSize: 13, fontWeight: marcado ? 700 : 500, transition: 'background var(--ob-dur-fast) var(--ob-ease)',
           }}>{texto}</button>
       </div>
     );
@@ -308,7 +308,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   return (
     <div role="group" aria-label={ariaLabel} style={{
       display: 'inline-flex', flexDirection: 'column', gap: 8, fontFamily: 'var(--ob-font)',
-      opacity: disabled ? 0.5 : 1, ...style,
+      opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, ...style,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: LARGURA }}>
         <Button kind="neutral" iconOnly size="sm" aria-label={rotuloDaVista[0]} disabled={disabled}
@@ -365,9 +365,9 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                         boxShadow: alvoDaPrevia
                           ? 'inset 0 0 0 1.5px var(--ob-blue)'
                           : hojeAqui && !marcado ? 'inset 0 0 0 1px var(--ob-blue)' : 'none',
-                        opacity: inativo ? 0.35 : 1, cursor: inativo ? 'not-allowed' : 'pointer',
+                        opacity: inativo ? 'var(--ob-opacity-muted)' : 1, cursor: inativo ? 'not-allowed' : 'pointer',
                         fontFamily: 'inherit', fontSize: 13, fontWeight: marcado ? 700 : 500,
-                        transition: 'background 100ms',
+                        transition: 'background var(--ob-dur-fast) var(--ob-ease)',
                       }}
                     >{dia.getDate()}</button>
                   </div>

@@ -147,16 +147,16 @@ export const Slider: React.FC<SliderProps> = (props) => {
   const thumbStyle = (val: number, focused: boolean): React.CSSProperties => ({
     position: 'absolute', top: '50%', left: `${pct(val)}%`,
     transform: 'translate(-50%, -50%)',
-    width: 20, height: 20, borderRadius: '50%',
+    width: 20, height: 20, borderRadius: 'var(--ob-r-circle)',
     background: 'var(--ob-surface)',
     border: `2px solid ${error ? 'var(--ob-danger)' : toneColor}`,
     boxShadow: focused
-      ? `0 0 0 4px ${error ? 'color-mix(in srgb, var(--ob-danger) 22%, transparent)' : toneRing}, var(--ob-shadow-sm)`
+      ? `0 0 0 var(--ob-focus-ring-width) ${error ? 'color-mix(in srgb, var(--ob-danger) 22%, transparent)' : toneRing}, var(--ob-shadow-sm)`
       : 'var(--ob-shadow-sm)',
     cursor: disabled ? 'not-allowed' : 'grab',
-    transition: 'box-shadow .15s',
+    transition: 'box-shadow var(--ob-dur-fast) var(--ob-ease)',
     zIndex: 2, outline: 'none',
-    opacity: disabled ? 0.5 : 1,
+    opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
     boxSizing: 'border-box',
     touchAction: 'none', userSelect: 'none',
   });
@@ -170,7 +170,7 @@ export const Slider: React.FC<SliderProps> = (props) => {
     : [];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, opacity: disabled ? 0.6 : 1 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, opacity: disabled ? 'var(--ob-opacity-disabled)' : 1 }}>
       {(label || showValue) && (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
@@ -193,20 +193,20 @@ export const Slider: React.FC<SliderProps> = (props) => {
         <div style={{
           position: 'absolute', top: '50%', left: 0, right: 0,
           height: 5, transform: 'translateY(-50%)',
-          background: 'var(--ob-bg-alt)', borderRadius: 999, overflow: 'hidden',
+          background: 'var(--ob-bg-alt)', borderRadius: 'var(--ob-r-pill)', overflow: 'hidden',
         }}>
           <div style={{
             position: 'absolute', top: 0, bottom: 0,
             left: `${fillLeft}%`, right: `${fillRight}%`,
-            background: error ? 'var(--ob-danger)' : toneColor, borderRadius: 999,
+            background: error ? 'var(--ob-danger)' : toneColor, borderRadius: 'var(--ob-r-pill)',
           }}/>
         </div>
         {markPositions.map((v) => (
           <div key={v} style={{
             position: 'absolute', top: '50%', left: `${pct(v)}%`,
-            width: 4, height: 4, borderRadius: '50%',
+            width: 4, height: 4, borderRadius: 'var(--ob-r-circle)',
             background: v <= lo ? 'var(--ob-surface)' : 'var(--ob-fg-mute)',
-            transform: 'translate(-50%, -50%)', opacity: 0.7, zIndex: 1, pointerEvents: 'none',
+            transform: 'translate(-50%, -50%)', opacity: 'var(--ob-opacity-strong)', zIndex: 1, pointerEvents: 'none',
           }}/>
         ))}
         <div role="slider" tabIndex={disabled ? -1 : 0}

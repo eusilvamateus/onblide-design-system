@@ -91,16 +91,16 @@ export const Tooltip: React.FC<TooltipProps> = ({
           position: 'fixed', top: pos ? pos.top : 0, left: pos ? pos.left : 0, visibility: pos ? 'visible' : 'hidden',
           zIndex: 'var(--ob-z-tooltip)' as React.CSSProperties['zIndex'],
           background: bg, color: fg, border: bordered,
-          borderRadius: variant === 'image' ? 12 : 8,
+          borderRadius: variant === 'image' ? 'var(--ob-r-md)' : 'var(--ob-r-sm)',
           boxShadow: 'var(--ob-shadow-md)',
           padding: variant === 'image' ? 6 : '8px 11px',
           fontSize: 13, lineHeight: 1.4, fontWeight: 500, whiteSpace: 'normal', overflowWrap: 'anywhere',
           width: variant === 'image' ? undefined : 'max-content', maxWidth: variant === 'image' ? 200 : maxWidth, pointerEvents: 'none',
-          animation: 'ob-tip 140ms var(--ob-ease-out)',
+          animation: 'ob-tip var(--ob-dur-fast) var(--ob-ease-out)',
         }}>
           {variant === 'image' ? (
             <span style={{ display: 'block', width: 188 }}>
-              <span style={{ display: 'block', width: '100%', height: 110, borderRadius: 8, overflow: 'hidden', background: 'var(--ob-bg-alt)' }}>
+              <span style={{ display: 'block', width: '100%', height: 110, borderRadius: 'var(--ob-r-sm)', overflow: 'hidden', background: 'var(--ob-bg-alt)' }}>
                 {image && <img src={image} alt={typeof title === 'string' ? title : ''} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />}
               </span>
               {title && <span style={{ display: 'block', fontSize: 13, fontWeight: 600, color: fg, marginTop: 8, padding: '0 4px', whiteSpace: 'normal' }}>{title}</span>}

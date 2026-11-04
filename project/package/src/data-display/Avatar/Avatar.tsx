@@ -28,7 +28,7 @@ export const Avatar: React.FC<AvatarProps> = ({ name = 'OB', initials, src, alt,
   const mostrarImagem = !!src && src !== srcComErro;
   return (
     <div style={{
-      width: size, height: size, borderRadius: '50%', background: color,
+      width: size, height: size, borderRadius: 'var(--ob-r-circle)', background: color,
       color: 'var(--ob-fg-on-color)', fontSize: size * 0.4, fontWeight: 700, display: 'flex',
       alignItems: 'center', justifyContent: 'center', flex: 'none', overflow: 'hidden',
     }}>

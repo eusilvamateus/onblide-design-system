@@ -104,7 +104,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps, current = 0, variant = 
           const s = st(i), val = s === 'done' || s === 'error' ? 100 : s === 'current' ? 50 : 0;
           return (
             <li key={i} aria-current={ariaCur(i)} style={{ margin: 0, minWidth: 0 }}>
-              <Hit can={can(i)} onClick={click(i)} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-s-2)', width: '100%', opacity: s === 'disabled' ? 0.6 : 1 }}>
+              <Hit can={can(i)} onClick={click(i)} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-s-2)', width: '100%', opacity: s === 'disabled' ? 'var(--ob-opacity-disabled)' : 1 }}>
                 <ProgressBar value={val} tone={s === 'error' ? 'danger' : 'primary'} size="sm" />
                 <div style={{ display: 'flex', gap: 6, alignItems: 'baseline', minWidth: 0 }}>
                   <span style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 'var(--ob-fs-xs)', color: s === 'error' ? 'var(--ob-danger)' : s === 'upcoming' || s === 'disabled' ? 'var(--ob-fg-mute)' : 'var(--ob-blue)' }}>{String(i + 1).padStart(2, '0')}</span>

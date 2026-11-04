@@ -14,8 +14,8 @@ if (render({ open: false, title: 'x' }, 'y') !== '') fail('open=false deveria re
 const aberto = render({ open: true, title: 'Título', footer: 'Rodapé' }, 'Corpo');
 if (!aberto.includes('<h3') || !aberto.includes('>Título</h3>')) fail('título não renderizado', aberto);
 if (!aberto.includes('Corpo') || !aberto.includes('Rodapé')) fail('corpo/rodapé não renderizados', aberto);
-if (!aberto.includes('position:fixed') || !aberto.includes('animation:ob-fade 160ms ease-out')) fail('backdrop', aberto);
-if (!aberto.includes('animation:ob-pop 200ms var(--ob-ease-spring)')) fail('animação do painel', aberto);
+if (!aberto.includes('position:fixed') || !aberto.includes('animation:ob-fade var(--ob-dur-base) var(--ob-ease-out)')) fail('backdrop', aberto);
+if (!aberto.includes('animation:ob-pop var(--ob-dur-base) var(--ob-ease-spring)')) fail('animação do painel', aberto);
 if (!aberto.includes('ph-x') || !aberto.includes('font-size:18px')) fail('ícone de fechar (Icons.x 18px)', aberto);
 if (!aberto.includes('--ob-modal-largura:440px')) fail('largura padrão (md) deveria ser 440px', aberto);
 if (!aberto.includes('class="ob-modal-fundo"') || !aberto.includes('class="ob-modal"')) fail('fundo e painel deveriam ter as classes do layout responsivo', aberto);
@@ -57,8 +57,8 @@ if (!limitado.includes('--ob-modal-altura:calc(100vh - 36px)')) fail('maxHeight 
 if (!render({ open: true, title: 't', maxHeight: 500 }, 'c').includes('--ob-modal-altura:500px')) fail('maxHeight numérico deveria virar px');
 
 const semMovimento = render({ open: true, title: 't', motion: 'none' }, 'c');
-if (semMovimento.includes('animation:') || semMovimento.includes('data-ob-modal-motion')) fail('motion="none" não deveria ter animação interna', semMovimento);
-if (!aberto.includes('data-ob-modal-motion')) fail('animação padrão deveria ser marcada para prefers-reduced-motion', aberto);
+if (semMovimento.includes('animation:')) fail('motion="none" não deveria ter animação interna', semMovimento);
+if (!aberto.includes('var(--ob-dur-base)')) fail('animação do modal deveria usar o token de duração (o prefers-reduced-motion zera os tokens)', aberto);
 
 let fundo = null;
 let painel = null;

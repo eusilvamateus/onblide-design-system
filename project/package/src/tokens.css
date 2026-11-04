@@ -528,12 +528,15 @@
   --ob-stack-sm:   var(--ob-s-3); /* @kind spacing */   /* 12px — ritmo vertical — parágrafos   */
   --ob-stack-md:   var(--ob-s-5); /* @kind spacing */   /* 24px — ritmo vertical — seções     */
 
+  --ob-focus-ring-width: 3px;
+
   /* ------------------------------------------------------------
      OPACITY — semantic scale
      ------------------------------------------------------------ */
   --ob-opacity-hover:    0.08; /* @kind other */   /* hover overlay sobre cor sólida           */
   --ob-opacity-focus:    0.32; /* @kind other */   /* anel de foco (focus-ring alpha)           */
   --ob-opacity-scrim:    0.45; /* @kind other */   /* backdrop de modal e drawer                */
+  --ob-opacity-muted:    0.4;  /* @kind other */
   --ob-opacity-disabled: 0.45; /* @kind other */   /* elemento desabilitado                     */
   --ob-opacity-strong:   0.75; /* @kind other */   /* hover link, ícone secundário ativo        */
 
@@ -549,6 +552,7 @@
   --ob-z-overlay:  300;   /* @kind other */   /* backdrop de Modal e Drawer                */
   --ob-z-modal:    400;   /* @kind other */   /* Modal panel, Drawer panel                 */
   --ob-z-toast:    500;   /* @kind other */   /* Toast (acima de tudo interativo)          */
+  --ob-z-drag:     600;   /* @kind other */
   --ob-z-system:  9000;   /* @kind other */   /* overlays de debug / dev tools             */
 
   /* ------------------------------------------------------------
@@ -586,12 +590,14 @@
   /* ------------------------------------------------------------
      RADII — soft (8–12px personality)
      ------------------------------------------------------------ */
+  --ob-r-2xs:   2px;
   --ob-r-xs:    4px;
   --ob-r-sm:    8px;
   --ob-r-md:    12px;
   --ob-r-lg:    16px;
   --ob-r-xl:    20px;
   --ob-r-pill:  999px;
+  --ob-r-circle: 50%;
 
   /* Radii — semantic aliases (component families) */
   --ob-r-control:  var(--ob-r-sm);   /* inputs, buttons, checkboxes, selects */
@@ -608,10 +614,21 @@
      ------------------------------------------------------------ */
   --ob-ease:        cubic-bezier(0.2, 0.7, 0.2, 1); /* @kind other */
   --ob-ease-out:    cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ob-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
   --ob-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* @kind other */
   --ob-dur-fast:    120ms; /* @kind other */
   --ob-dur-base:    200ms; /* @kind other */
   --ob-dur-slow:    400ms; /* @kind other */
+  --ob-dur-spin:    800ms; /* @kind other */
+  --ob-dur-loop:   1400ms; /* @kind other */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ob-dur-fast: 0ms;
+    --ob-dur-base: 0ms;
+    --ob-dur-slow: 0ms;
+  }
 }
 
 /* ============================================================

@@ -50,7 +50,7 @@ export interface NumberFieldProps {
 
 const btnBase: React.CSSProperties = {
   display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'transparent',
-  color: 'var(--ob-fg-mute)', cursor: 'pointer', padding: 0, flex: 'none', transition: 'background .1s, color .1s',
+  color: 'var(--ob-fg-mute)', cursor: 'pointer', padding: 0, flex: 'none', transition: 'background var(--ob-dur-fast) var(--ob-ease), color var(--ob-dur-fast) var(--ob-ease)',
 };
 
 /** Campo numérico com incremento/decremento, limites, passo e formato pt-BR (vírgula decimal). */
@@ -129,7 +129,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
 
   const btn = (d: number, name: string, lbl: string, extra: React.CSSProperties) => (
     <button type="button" tabIndex={-1} aria-label={lbl} aria-controls={uid} disabled={locked || (d < 0 ? atMin : atMax)} onPointerDown={hold(d)}
-      style={{ ...btnBase, ...extra, cursor: locked || (d < 0 ? atMin : atMax) ? 'not-allowed' : 'pointer', opacity: !locked && (d < 0 ? atMin : atMax) ? 0.4 : 1 }}>
+      style={{ ...btnBase, ...extra, cursor: locked || (d < 0 ? atMin : atMax) ? 'not-allowed' : 'pointer', opacity: !locked && (d < 0 ? atMin : atMax) ? 'var(--ob-opacity-disabled)' : 1 }}>
       <Ph n={name} size={controls === 'stacked' ? 12 : 16} c="currentColor" weight={controls === 'stacked' ? 'bold' : undefined} />
     </button>
   );

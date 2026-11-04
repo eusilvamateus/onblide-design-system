@@ -38,7 +38,7 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({ value = 0, size 
         <circle cx={px / 2} cy={px / 2} r={r} stroke="var(--ob-bg-alt)" strokeWidth={sw} />
         <circle cx={px / 2} cy={px / 2} r={r} stroke={color} strokeWidth={sw} strokeLinecap="round"
           strokeDasharray={circ} strokeDashoffset={offset}
-          style={{ transition: 'stroke-dashoffset 0.4s cubic-bezier(.4,0,.2,1)' }} />
+          style={{ transition: 'stroke-dashoffset var(--ob-dur-slow) var(--ob-ease-in-out)' }} />
       </svg>
       {showLabel && (
         <span style={{ position: 'absolute', fontSize: fs, fontWeight: 700, fontFamily: 'var(--ob-font-mono)', color, lineHeight: 1 }}>

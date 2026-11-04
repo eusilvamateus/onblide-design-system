@@ -26,8 +26,8 @@ export const FieldShell: React.FC<FieldShellProps> = ({
 }) => {
   const borderColor = error ? 'var(--ob-danger)' : focused ? 'var(--ob-blue)' : 'var(--ob-border)';
   const ring = !focused ? 'none'
-    : error ? '0 0 0 4px color-mix(in srgb, var(--ob-danger) 22%, transparent)'
-            : '0 0 0 4px var(--ob-focus-ring)';
+    : error ? '0 0 0 var(--ob-focus-ring-width) color-mix(in srgb, var(--ob-danger) 22%, transparent)'
+            : '0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)';
   return (
     <div onClick={onClick} style={{
       display: 'flex', alignItems: 'center', gap: 10,
@@ -36,8 +36,8 @@ export const FieldShell: React.FC<FieldShellProps> = ({
       border: `1.5px solid ${borderColor}`,
       borderRadius: 'var(--ob-r-control)',
       boxShadow: ring,
-      transition: 'border-color .15s, box-shadow .15s',
-      opacity: disabled ? 0.6 : 1,
+      transition: 'border-color var(--ob-dur-fast) var(--ob-ease), box-shadow var(--ob-dur-fast) var(--ob-ease)',
+      opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
       boxSizing: 'border-box',
       ...style,
     }}>

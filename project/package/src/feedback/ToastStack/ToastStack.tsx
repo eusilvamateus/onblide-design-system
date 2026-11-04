@@ -88,7 +88,7 @@ export const ToastStack: React.FC<ToastStackProps> = ({ name, position = 'bottom
       onMouseEnter={() => itens.forEach((item) => cancelar(item.id))}
       onMouseLeave={() => itens.forEach((item) => { if (!item.saindo) armar(item.id, item.opcoes); })}>
       {itens.map(({ id, opcoes, saindo }) => (
-        <div key={id} style={{ width: '100%', pointerEvents: 'all', animation: `${saindo ? saida : entrada} ${DURACAO_DA_SAIDA}ms cubic-bezier(0.16,1,0.3,1) both` }}>
+        <div key={id} style={{ width: '100%', pointerEvents: 'all', animation: `${saindo ? saida : entrada} var(--ob-dur-base) var(--ob-ease-out) both` }}>
           <Toast tone={opcoes.tone} title={opcoes.title} body={opcoes.body} action={opcoes.action} onAction={opcoes.onAction} icon={opcoes.icon} onClose={() => dispensar(id)} />
         </div>
       ))}

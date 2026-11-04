@@ -3,7 +3,7 @@ import { Badge } from '../../data-display/Badge/Badge';
 import type { BadgeTone } from '../../internal/badgeTones';
 import { ACTION_TONES, type ActionTone } from '../../internal/actionTones';
 
-const ANEL_DE_FOCO = '0 0 0 3px var(--ob-focus-ring)';
+const ANEL_DE_FOCO = '0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)';
 
 /** Estilo visual do botão: define a hierarquia da ação (primária, secundária, terciária, suave, destrutiva, neutra ou silenciosa). */
 export type ButtonKind = 'primary' | 'secondary' | 'ghost' | 'cream' | 'danger' | 'neutral' | 'quiet';
@@ -59,7 +59,7 @@ export const Button: React.FC<ButtonProps> = ({
   const base: React.CSSProperties = {
     position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 8, justifyContent: 'center',
     fontFamily: 'inherit', fontWeight: 600, border: 'none', borderRadius: 'var(--ob-r-control)',
-    cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.5 : 1, transition: 'all 160ms cubic-bezier(0.2,0.7,0.2,1)',
+    cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, transition: 'all var(--ob-dur-fast) var(--ob-ease)',
     fontSize: size === 'sm' ? 13 : size === 'lg' ? 15 : 14,
     padding: size === 'sm' ? '0 12px' : size === 'lg' ? '0 22px' : '0 18px',
   };

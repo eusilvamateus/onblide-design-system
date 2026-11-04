@@ -100,9 +100,9 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
         fontFamily: 'inherit', fontWeight: 600, fontSize: FS[size], lineHeight: `${ICO[size]}px`,
         padding: iconOnly ? py : `${py}px ${px}px`, borderRadius: 'var(--ob-r-control)',
         border: `1.5px solid ${bc}`, background: bg, color: fg,
-        cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.5 : 1, outline: 'none',
-        boxShadow: focused ? '0 0 0 3px var(--ob-focus-ring)' : 'none',
-        transition: 'background 160ms var(--ob-ease), color 160ms var(--ob-ease), border-color 160ms var(--ob-ease)',
+        cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, outline: 'none',
+        boxShadow: focused ? '0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)' : 'none',
+        transition: 'background var(--ob-dur-fast) var(--ob-ease), color var(--ob-dur-fast) var(--ob-ease), border-color var(--ob-dur-fast) var(--ob-ease)',
         ...style,
       }}
     >

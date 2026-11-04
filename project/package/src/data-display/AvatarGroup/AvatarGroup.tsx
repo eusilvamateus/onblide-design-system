@@ -16,7 +16,7 @@ export const AvatarGroup: React.FC<AvatarGroupProps> = ({ max, size = 32, childr
   const visiveis = max !== undefined && max >= 0 ? avatares.slice(0, max) : avatares;
   const restantes = avatares.length - visiveis.length;
   const moldura = (indice: number): React.CSSProperties => ({
-    display: 'inline-flex', marginLeft: indice === 0 ? 0 : -Math.round(size * 0.28), borderRadius: '50%',
+    display: 'inline-flex', marginLeft: indice === 0 ? 0 : -Math.round(size * 0.28), borderRadius: 'var(--ob-r-circle)',
     boxShadow: '0 0 0 2px var(--ob-surface)',
   });
   return (

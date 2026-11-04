@@ -31,7 +31,7 @@ const logo = render({ variant: 'image', buttonLabel: 'Subir logo' });
 if (!logo.includes('>Subir logo<') || logo.includes('>Escolher imagem<')) fail('buttonLabel vale também na variante de imagem', logo);
 
 const circular = render({ variant: 'image', shape: 'circle', size: 96 });
-if (!circular.includes('border-radius:50%')) fail('shape circle deixa a área redonda', circular);
+if (!circular.includes('border-radius:var(--ob-r-circle)')) fail('shape circle deixa a área redonda', circular);
 if (!circular.includes('width:96px') || !circular.includes('height:96px')) fail('size define o lado da área', circular);
 const pequena = render({ variant: 'image', shape: 'circle', size: 72 });
 if (pequena.includes('Adicionar foto')) fail('em área pequena só o ícone, sem texto', pequena);

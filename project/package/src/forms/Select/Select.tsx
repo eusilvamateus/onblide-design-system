@@ -199,7 +199,7 @@ export const Select: React.FC<SelectProps> = (props) => {
           }}
         />
         <Ph n="caret-down" size={16} c="var(--ob-fg-mute)"
-          style={{ flex: 'none', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
+          style={{ flex: 'none', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform var(--ob-dur-fast) var(--ob-ease)' }} />
       </Casca>
 
       {open && (
@@ -223,7 +223,7 @@ export const Select: React.FC<SelectProps> = (props) => {
                   fontSize: 14, fontWeight: (isSelected && !multi) ? 600 : 400,
                   color: (isSelected && !multi) ? 'var(--ob-blue-700)' : 'var(--ob-fg)',
                   background: isHigh ? 'var(--ob-bg-warm)' : (isSelected && !multi ? 'var(--ob-blue-100)' : 'transparent'),
-                  transition: 'background 0.1s',
+                  transition: 'background var(--ob-dur-fast) var(--ob-ease)',
                 }}>
                 {multi ? (
                   <Checkbox checked={isSelected} onChange={() => {}} label={lbl} />

@@ -32,7 +32,7 @@ export interface AccordionProps {
 
 injectStyleOnce(
   'ob-accordion',
-  '.ob-accordion-cabecalho{transition:background 120ms}.ob-accordion-cabecalho:hover:not(:disabled){background:var(--ob-bg-alt)}.ob-accordion-cabecalho:focus-visible{outline:2px solid var(--ob-blue);outline-offset:-2px}',
+  '.ob-accordion-cabecalho{transition:background var(--ob-dur-fast) var(--ob-ease)}.ob-accordion-cabecalho:hover:not(:disabled){background:var(--ob-bg-alt)}.ob-accordion-cabecalho:focus-visible{outline:var(--ob-focus-ring-width) solid var(--ob-focus-ring);outline-offset:calc(var(--ob-focus-ring-width) * -1)}',
 );
 
 /** Lista de seções que abrem e fecham, para revelar conteúdo secundário sem sair da página. */
@@ -79,11 +79,11 @@ export const Accordion: React.FC<AccordionProps> = ({ items, type = 'single', va
                 disabled={item.disabled} onClick={() => alternar(item.id)} style={{
                   display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '14px 16px', border: 'none',
                   background: 'transparent', textAlign: 'left', fontFamily: 'inherit', fontSize: 14, fontWeight: 600,
-                  color: 'var(--ob-fg-strong)', cursor: item.disabled ? 'not-allowed' : 'pointer', opacity: item.disabled ? 0.5 : 1,
+                  color: 'var(--ob-fg-strong)', cursor: item.disabled ? 'not-allowed' : 'pointer', opacity: item.disabled ? 'var(--ob-opacity-disabled)' : 1,
                 }}>
                 {item.icon && <Ph n={item.icon} size={18} c="var(--ob-fg-soft)" />}
                 <span style={{ flex: 1, minWidth: 0 }}>{item.title}</span>
-                <Ph n="caret-down" size={16} c="var(--ob-fg-soft)" style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: 'transform 150ms' }} />
+                <Ph n="caret-down" size={16} c="var(--ob-fg-soft)" style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: 'transform var(--ob-dur-fast) var(--ob-ease)' }} />
               </button>
             </h3>
             <div id={idPainel} role="region" aria-labelledby={idCabecalho} hidden={!aberto}

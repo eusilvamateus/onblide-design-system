@@ -19,7 +19,7 @@ const PAD_Y = { md: 6, sm: 3 } as const;
 injectStyleOnce('ob-treeview-kf', `
 .ob-tv-row{outline:none}
 .ob-tv-row:focus-visible{box-shadow:inset 0 0 0 2px var(--ob-blue)}
-.ob-tv-row .ob-tv-act{opacity:0;transition:opacity .12s}
+.ob-tv-row .ob-tv-act{opacity:0;transition:opacity var(--ob-dur-fast) var(--ob-ease)}
 .ob-tv-row:hover .ob-tv-act,.ob-tv-row:focus-within .ob-tv-act{opacity:1}
 .ob-tv-caret:hover,.ob-tv-handle:hover{background:var(--ob-bg-alt);color:var(--ob-fg-strong)}
 .ob-tv-handle{cursor:grab;touch-action:none}
@@ -76,7 +76,7 @@ function Match({ text, query }: { text: string; query: string }) {
   const q = normalize(query).trim();
   const i = q ? normalize(text).indexOf(q) : -1;
   if (i < 0) return <>{text}</>;
-  return <>{text.slice(0, i)}<mark style={{ background: 'var(--ob-blue-100)', color: 'inherit', borderRadius: 2 }}>{text.slice(i, i + q.length)}</mark>{text.slice(i + q.length)}</>;
+  return <>{text.slice(0, i)}<mark style={{ background: 'var(--ob-blue-100)', color: 'inherit', borderRadius: 'var(--ob-r-2xs)' }}>{text.slice(i, i + q.length)}</mark>{text.slice(i + q.length)}</>;
 }
 function Inert({ children }: { children: React.ReactNode }) {
   return <span ref={(el) => el?.setAttribute('inert', '')} aria-hidden="true" style={{ display: 'flex', pointerEvents: 'none' }}>{children}</span>;
@@ -396,19 +396,19 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     const acts = actionsFor(n);
     const style: React.CSSProperties = { padding: `${padY}px 8px ${padY}px ${leftPad(r.level)}px`, minHeight: size === 'sm' ? 28 : 32 };
     const lifted = drag && (drag.id === n.id || isDescendant(index, n.id, drag.id));
-    if (lifted) style.opacity = 0.4;
+    if (lifted) style.opacity = 'var(--ob-opacity-muted)';
     if (drag && drag.id === n.id) { style.background = 'var(--ob-bg-alt)'; style.outline = '1.5px dashed var(--ob-border)'; style.outlineOffset = -2; }
     if (dropHere === 'inside') { style.background = 'var(--ob-blue-050)'; style.boxShadow = 'inset 0 0 0 1.5px var(--ob-blue)'; }
-    if (flash === n.id) style.animation = 'ob-tv-flash .9s ease-out';
+    if (flash === n.id) style.animation = 'ob-tv-flash calc(var(--ob-dur-slow) * 2) var(--ob-ease-out)';
     const lead = (
       <>
         <span className="ob-tv-caret" aria-hidden="true" onClick={(e) => { e.stopPropagation(); if (!n.disabled) { setFocusId(n.id); if (kids) toggle(n); } }}
-          style={{ width: 16, height: 16, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 4, color: 'var(--ob-fg-mute)', cursor: kids && !n.disabled ? 'pointer' : 'default', visibility: kids || loading.has(n.id) ? 'visible' : 'hidden' }}>
-          {loading.has(n.id) ? <Spinner size="xs" /> : <Ph n="caret-right" size={12} weight="bold" c="currentColor" style={{ transform: r.open ? 'rotate(90deg)' : 'none', transition: 'transform .15s' }} />}
+          style={{ width: 16, height: 16, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 'var(--ob-r-xs)', color: 'var(--ob-fg-mute)', cursor: kids && !n.disabled ? 'pointer' : 'default', visibility: kids || loading.has(n.id) ? 'visible' : 'hidden' }}>
+          {loading.has(n.id) ? <Spinner size="xs" /> : <Ph n="caret-right" size={12} weight="bold" c="currentColor" style={{ transform: r.open ? 'rotate(90deg)' : 'none', transition: 'transform var(--ob-dur-fast) var(--ob-ease)' }} />}
         </span>
         {draggable && (
           <span className="ob-tv-handle" aria-hidden="true" title="Arrastar para mover" onPointerDown={(e) => startDrag(e, n)} onClick={(e) => e.stopPropagation()}
-            style={{ width: 16, height: 20, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 4, color: 'var(--ob-fg-mute)', visibility: n.disabled ? 'hidden' : 'visible' }}>
+            style={{ width: 16, height: 20, flex: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 'var(--ob-r-xs)', color: 'var(--ob-fg-mute)', visibility: n.disabled ? 'hidden' : 'visible' }}>
             <Ph n="dots-six-vertical" size={14} weight="bold" c="currentColor" />
           </span>
         )}
@@ -421,7 +421,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
         ref={(el) => { if (el && !el.dataset.f) { el.dataset.f = '1'; el.focus(); el.select(); } }}
         onChange={(e) => setEditing({ id: n.id, value: e.target.value })} onClick={(e) => e.stopPropagation()} onBlur={() => endRename(true)}
         onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter') { e.preventDefault(); endRename(true); } else if (e.key === 'Escape') { e.preventDefault(); endRename(false); } }}
-        style={{ width: '100%', boxSizing: 'border-box', font: 'inherit', color: 'var(--ob-fg-strong)', border: '1.5px solid var(--ob-blue)', borderRadius: 'var(--ob-r-xs)', padding: '0 6px', margin: '-2px 0', height: size === 'sm' ? 22 : 24, outline: 'none', boxShadow: '0 0 0 3px var(--ob-focus-ring)', background: 'var(--ob-surface)' }} />
+        style={{ width: '100%', boxSizing: 'border-box', font: 'inherit', color: 'var(--ob-fg-strong)', border: '1.5px solid var(--ob-blue)', borderRadius: 'var(--ob-r-xs)', padding: '0 6px', margin: '-2px 0', height: size === 'sm' ? 22 : 24, outline: 'none', boxShadow: '0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)', background: 'var(--ob-surface)' }} />
     ) : <Match text={n.label} query={query} />;
     const trail = (n.status || n.badge != null || acts) ? (
       <>
@@ -446,8 +446,8 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
         leading={lead} title={title} meta={n.meta} trailing={trail} style={style}>
         {guideSpans(r.level)}
         {(dropHere === 'before' || dropHere === 'after') && (
-          <span aria-hidden="true" style={{ position: 'absolute', left: leftPad(r.level) + 4, right: 4, height: 2, borderRadius: 1, background: 'var(--ob-blue)', [dropHere === 'before' ? 'top' : 'bottom']: -1, pointerEvents: 'none', zIndex: 2 } as React.CSSProperties}>
-            <span style={{ position: 'absolute', left: -6, top: -3, width: 8, height: 8, boxSizing: 'border-box', borderRadius: '50%', border: '2px solid var(--ob-blue)', background: 'var(--ob-surface)' }} />
+          <span aria-hidden="true" style={{ position: 'absolute', left: leftPad(r.level) + 4, right: 4, height: 2, borderRadius: 'var(--ob-r-2xs)', background: 'var(--ob-blue)', [dropHere === 'before' ? 'top' : 'bottom']: -1, pointerEvents: 'none', zIndex: 2 } as React.CSSProperties}>
+            <span style={{ position: 'absolute', left: -6, top: -3, width: 8, height: 8, boxSizing: 'border-box', borderRadius: 'var(--ob-r-circle)', border: '2px solid var(--ob-blue)', background: 'var(--ob-surface)' }} />
           </span>
         )}
       </ListItem>
@@ -470,11 +470,11 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
       </List>
       <span aria-live="polite" style={srOnly}>{live}</span>
       {drag && ghost && ReactDOM.createPortal(
-        <div aria-hidden="true" style={{ position: 'fixed', left: ghost.x - drag.ox, top: ghost.y - drag.oy, width: drag.w, zIndex: 1000, pointerEvents: 'none' }}>
+        <div aria-hidden="true" style={{ position: 'fixed', left: ghost.x - drag.ox, top: ghost.y - drag.oy, width: drag.w, zIndex: 'var(--ob-z-drag)', pointerEvents: 'none' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8, minHeight: 34, padding: '6px 10px 6px 8px', boxSizing: 'border-box', background: 'var(--ob-surface)',
             border: `1.5px solid ${blocked ? 'var(--ob-danger)' : 'var(--ob-blue)'}`, borderRadius: 'var(--ob-r-sm)', boxShadow: 'var(--ob-shadow-lg)',
-            fontFamily: 'var(--ob-font)', fontSize: 14, color: 'var(--ob-fg-strong)', transformOrigin: `${drag.ox}px ${drag.oy}px`, animation: 'ob-tv-lift .16s ease-out forwards',
+            fontFamily: 'var(--ob-font)', fontSize: 14, color: 'var(--ob-fg-strong)', transformOrigin: `${drag.ox}px ${drag.oy}px`, animation: 'ob-tv-lift var(--ob-dur-fast) var(--ob-ease-out) forwards',
           }}>
             <Ph n="dots-six-vertical" size={14} weight="bold" c={blocked ? 'var(--ob-danger)' : 'var(--ob-blue)'} />
             {icons && drag.node.icon && <Ph n={drag.node.icon} size={16} c="var(--ob-fg-soft)" />}

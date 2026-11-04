@@ -40,7 +40,7 @@ export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', on
   const fundoDe = (focado: boolean) =>
     situacao === 'error' ? 'var(--ob-danger-bg)' : situacao === 'success' ? 'var(--ob-success-bg)' : focado ? 'var(--ob-blue-050)' : 'var(--ob-surface)';
   return (
-    <div style={{ display: 'inline-flex', gap: 10, animation: situacao === 'error' ? 'ob-shake 0.4s' : 'none' }} onPaste={paste}>
+    <div style={{ display: 'inline-flex', gap: 10, animation: situacao === 'error' ? 'ob-shake var(--ob-dur-slow) var(--ob-ease)' : 'none' }} onPaste={paste}>
       {Array.from({ length }).map((_, i) => (
         <input key={i} ref={el => { refs.current[i] = el; }} inputMode="numeric" maxLength={1}
           value={vals[i] || ''} onChange={e => set(i, e.target.value.replace(/\D/g, ''))} onKeyDown={e => keyDown(i, e)}
@@ -50,9 +50,9 @@ export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', on
             borderRadius: 'var(--ob-r-md)', caretColor: 'var(--ob-blue)', outline: 'none', boxSizing: 'border-box',
             color: situacao === 'error' ? 'var(--ob-danger)' : situacao === 'success' ? 'var(--ob-green-700)' : 'var(--ob-fg-strong)',
             background: fundoDe(ativo === i), border: `2px solid ${bordaDe(!!vals[i], ativo === i)}`,
-            boxShadow: ativo === i && situacao === 'default' ? '0 0 0 4px var(--ob-focus-ring)' : 'none',
+            boxShadow: ativo === i && situacao === 'default' ? '0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)' : 'none',
             transform: ativo === i ? 'translateY(-2px)' : 'none',
-            transition: 'border-color 0.15s, box-shadow 0.15s, background 0.15s, transform 0.15s',
+            transition: 'border-color var(--ob-dur-fast) var(--ob-ease), box-shadow var(--ob-dur-fast) var(--ob-ease), background var(--ob-dur-fast) var(--ob-ease), transform var(--ob-dur-fast) var(--ob-ease)',
           }} />
       ))}
     </div>
