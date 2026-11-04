@@ -77,7 +77,7 @@ export const Accordion: React.FC<AccordionProps> = ({ items, type = 'single', va
             <h3 style={{ margin: 0 }}>
               <button type="button" id={idCabecalho} className="ob-accordion-cabecalho" aria-expanded={aberto} aria-controls={idPainel}
                 disabled={item.disabled} onClick={() => alternar(item.id)} style={{
-                  display: 'flex', alignItems: 'center', gap: 10, width: '100%', padding: '14px 16px', border: 'none',
+                  display: 'flex', alignItems: 'center', gap: 'var(--ob-space-10)', width: '100%', padding: 'var(--ob-space-16) var(--ob-space-16)', border: 'none',
                   background: 'transparent', textAlign: 'left', fontFamily: 'inherit', fontSize: 14, fontWeight: 600,
                   color: 'var(--ob-fg-strong)', cursor: item.disabled ? 'not-allowed' : 'pointer', opacity: item.disabled ? 'var(--ob-opacity-disabled)' : 1,
                 }}>
@@ -87,7 +87,7 @@ export const Accordion: React.FC<AccordionProps> = ({ items, type = 'single', va
               </button>
             </h3>
             <div id={idPainel} role="region" aria-labelledby={idCabecalho} hidden={!aberto}
-              style={{ padding: '0 16px 16px', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>
+              style={{ padding: '0 var(--ob-space-16) var(--ob-space-16)', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>
               {item.content}
             </div>
           </div>

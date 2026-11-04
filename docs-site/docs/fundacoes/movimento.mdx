@@ -1,12 +1,54 @@
 ---
 title: Movimento
 sidebar_position: 9
-description: Durações e curvas de animação.
+description: Cinco durações, quatro curvas e como o sistema respeita quem pede menos movimento.
 ---
 
 import { TokenTable } from '@site/src/components/Tokens';
 
-Durações: **120 ms** para microinterações, **200 ms** como padrão, **400 ms** para entradas. Sem quiques em
-elementos de interface; a curva com mola fica reservada para momentos de destaque.
+Movimento explica uma mudança: algo abriu, algo saiu, algo está carregando. Ele precisa ser rápido o bastante para não
+atrasar ninguém e nunca pode ser a única forma de entender o que aconteceu.
 
-<TokenTable prefixos={['--ob-dur', '--ob-ease']} />
+## Durações
+
+| Token | Valor | Quando usar |
+|---|---|---|
+| `--ob-dur-fast` | 120ms | Respostas a um gesto: hover, foco, troca de cor, seta que gira |
+| `--ob-dur-base` | 200ms | Mudança de estado: switch, abrir e fechar modal, drawer, toast |
+| `--ob-dur-slow` | 400ms | Movimentos grandes e progresso: barra de progresso, chacoalhar de erro |
+| `--ob-dur-spin` | 800ms | Uma volta completa de spinner |
+| `--ob-dur-loop` | 1400ms | Um ciclo de pulso: esqueleto, barra indeterminada |
+
+Passe o mouse sobre uma linha para ver a duração:
+
+<TokenTable prefixos={['--ob-dur']} tipo="movimento" />
+
+## Curvas
+
+| Token | Quando usar |
+|---|---|
+| `--ob-ease` | O padrão para quase tudo |
+| `--ob-ease-out` | Entradas: começa rápido e assenta devagar (tooltip, toast, fade do fundo) |
+| `--ob-ease-in-out` | Movimentos contínuos e de ida e volta: progresso, pulsos |
+| `--ob-ease-spring` | Um pequeno exagero no fim, só para momentos de destaque (o painel do modal ao abrir) |
+
+Rotação de spinner usa `linear`, porque uma volta não acelera nem freia.
+
+<TokenTable prefixos={['--ob-ease']} tipo="movimento" />
+
+## Menos movimento
+
+Quando o sistema operacional pede menos movimento (`prefers-reduced-motion: reduce`), o `tokens.css` zera
+`--ob-dur-fast`, `--ob-dur-base` e `--ob-dur-slow`. Como todos os componentes usam esses tokens, tudo deixa de animar
+de uma vez, sem regra própria em cada componente. Spinner e esqueleto continuam, porque comunicam que algo está
+carregando.
+
+Se você escrever um componente novo, use os tokens e ele já respeita a preferência.
+
+## A regra
+
+- Nunca escreva a duração nem a curva: `transition: background var(--ob-dur-fast) var(--ob-ease)`, não
+  `transition: background .15s ease`. O teste `smoke-fundacoes` do pacote recusa durações, `cubic-bezier` e as
+  palavras `ease`, `ease-in` e `ease-out` escritas no componente.
+- Sem quiques em elementos de interface comuns; a curva com mola fica reservada para destaque.
+- Anime `transform` e `opacity` sempre que possível: são baratos para o navegador e não empurram o layout.

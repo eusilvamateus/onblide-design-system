@@ -1,5 +1,5 @@
-<!doctype html>
 <!-- @dsCard group="Spacing" name="Shadows" subtitle="5 elevações + blue pop para CTA" viewport="760x170" -->
+<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Shadows · Onblide DS</title>
 <link rel="stylesheet" href="../../package/src/tokens.css">
 <style>
@@ -177,6 +177,12 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
       </div>
     </div>
     <p style="margin-top:14px">Os tokens semânticos (<code>--ob-shadow-*</code>) já invertem automaticamente com <code>[data-theme="dark"]</code>. Nunca hardcode os valores rgba.</p>
+  </section>
+
+  <section>
+    <h2>Anel de foco</h2>
+    <p>O foco também usa <code>box-shadow</code>, mas não é elevação: é um anel de <code>--ob-focus-ring-width</code> (3px) na cor <code>--ob-focus-ring</code>, igual em todos os componentes. Campos com erro trocam só a cor do anel.</p>
+    <div class="note"><code>box-shadow: 0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring);</code></div>
   </section>
 
   <section>

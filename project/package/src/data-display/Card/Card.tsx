@@ -12,7 +12,7 @@ export interface CardProps {
 }
 
 /** Container de superfície para agrupar conteúdo relacionado. */
-export const Card: React.FC<CardProps> = ({ children, style = {}, padding = 20, elevation = 'border' }) => {
+export const Card: React.FC<CardProps> = ({ children, style = {}, padding = 'var(--ob-space-20)', elevation = 'border' }) => {
   const ev: React.CSSProperties = elevation === 'shadow'
     ? { boxShadow: 'var(--ob-shadow-md)' }
     : { border: '1px solid var(--ob-border)' };

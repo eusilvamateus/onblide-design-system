@@ -32,7 +32,7 @@ interface EscalaDoChip {
   fonte: number;
   padding: string;
   paddingRemovivel: string;
-  gap: number;
+  gap: string;
   icone: number;
   pesoDoIcone: 'bold' | 'regular';
   botao: number;
@@ -40,9 +40,9 @@ interface EscalaDoChip {
 }
 
 const ESCALA: Record<NonNullable<ChipProps['size']>, EscalaDoChip> = {
-  sm: { fonte: 12, padding: '5px 10px', paddingRemovivel: '5px 6px 5px 10px', gap: 5, icone: 13, pesoDoIcone: 'bold', botao: 16, iconeDoBotao: 10 },
-  md: { fonte: 13, padding: '7px 14px', paddingRemovivel: '7px 8px 7px 14px', gap: 6, icone: 15, pesoDoIcone: 'regular', botao: 18, iconeDoBotao: 11 },
-  lg: { fonte: 15, padding: '10px 18px', paddingRemovivel: '10px 10px 10px 18px', gap: 8, icone: 18, pesoDoIcone: 'regular', botao: 22, iconeDoBotao: 13 },
+  sm: { fonte: 12, padding: 'var(--ob-space-6) var(--ob-space-10)', paddingRemovivel: 'var(--ob-space-6) var(--ob-space-6) var(--ob-space-6) var(--ob-space-10)', gap: 'var(--ob-space-6)', icone: 13, pesoDoIcone: 'bold', botao: 16, iconeDoBotao: 10 },
+  md: { fonte: 13, padding: 'var(--ob-space-8) var(--ob-space-16)', paddingRemovivel: 'var(--ob-space-8) var(--ob-space-8) var(--ob-space-8) var(--ob-space-16)', gap: 'var(--ob-space-6)', icone: 15, pesoDoIcone: 'regular', botao: 18, iconeDoBotao: 11 },
+  lg: { fonte: 15, padding: 'var(--ob-space-10) var(--ob-space-20)', paddingRemovivel: 'var(--ob-space-10) var(--ob-space-10) var(--ob-space-10) var(--ob-space-20)', gap: 'var(--ob-space-8)', icone: 18, pesoDoIcone: 'regular', botao: 22, iconeDoBotao: 13 },
 };
 
 /** Elemento compacto e interativo para seleção, filtro ou remoção de itens. */

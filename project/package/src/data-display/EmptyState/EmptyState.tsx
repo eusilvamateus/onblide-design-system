@@ -19,20 +19,20 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ icon, title, description
   const pequeno = size === 'sm';
   return (
     <div style={{
-      display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: pequeno ? 6 : 8,
-      padding: pequeno ? '20px 16px' : '40px 24px', fontFamily: 'var(--ob-font)',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: pequeno ? 'var(--ob-space-6)' : 'var(--ob-space-8)',
+      padding: pequeno ? 'var(--ob-space-20) var(--ob-space-16)' : 'var(--ob-space-40) var(--ob-space-24)', fontFamily: 'var(--ob-font)',
     }}>
       {icon && (
         <span style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', width: pequeno ? 40 : 56, height: pequeno ? 40 : 56,
-          borderRadius: 'var(--ob-r-circle)', background: 'var(--ob-bg-warm)', color: 'var(--ob-fg-soft)', marginBottom: pequeno ? 4 : 8,
+          borderRadius: 'var(--ob-r-circle)', background: 'var(--ob-bg-warm)', color: 'var(--ob-fg-soft)', marginBottom: pequeno ? 'var(--ob-space-4)' : 'var(--ob-space-8)',
         }}>
           <Ph n={icon} size={pequeno ? 20 : 28} />
         </span>
       )}
       <div style={{ fontSize: pequeno ? 14 : 16, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{title}</div>
       {description && <div style={{ fontSize: pequeno ? 13 : 14, lineHeight: 1.5, color: 'var(--ob-fg-soft)', maxWidth: 360 }}>{description}</div>}
-      {action && <div style={{ marginTop: pequeno ? 4 : 8 }}>{action}</div>}
+      {action && <div style={{ marginTop: pequeno ? 'var(--ob-space-4)' : 'var(--ob-space-8)' }}>{action}</div>}
     </div>
   );
 };

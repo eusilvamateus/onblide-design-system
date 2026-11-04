@@ -11,8 +11,8 @@ export type NavbarLayout = 'links' | 'search' | 'context';
 
 interface NavbarSizeSpec { h: number; pad: string; link: number; icon: number; mark: number; avatar: number }
 const NB_SIZE: Record<NavbarSize, NavbarSizeSpec> = {
-  md: { h: 64, pad: 'var(--ob-s-5)', link: 36, icon: 20, mark: 30, avatar: 32 },
-  sm: { h: 48, pad: 'var(--ob-s-4)', link: 30, icon: 18, mark: 25, avatar: 26 },
+  md: { h: 64, pad: 'var(--ob-space-24)', link: 36, icon: 20, mark: 30, avatar: 32 },
+  sm: { h: 48, pad: 'var(--ob-space-16)', link: 30, icon: 18, mark: 25, avatar: 26 },
 };
 
 export interface NavbarItem {
@@ -46,11 +46,11 @@ export const NavbarLink: React.FC<NavbarLinkProps> = ({ item, active, size, onNa
       onClick={(e) => { if (onNav) { e.preventDefault(); onNav(item.id); } }}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       onFocus={(e) => setFocus(e.target.matches(':focus-visible'))} onBlur={() => setFocus(false)}
-      style={{ position: 'relative', height: underline ? '100%' : z.link, display: 'flex', alignItems: 'center', gap: 6, padding: '0 var(--ob-s-3)', borderRadius: 'var(--ob-r-control)', textDecoration: 'none', fontSize: 'var(--ob-fs-sm)', fontWeight: active ? 'var(--ob-w-semibold)' : 'var(--ob-w-medium)', color: active ? 'var(--ob-fg-strong)' : hover ? 'var(--ob-fg-strong)' : 'var(--ob-fg)', background: !underline && (active || hover) ? 'var(--ob-surface-2)' : 'transparent', boxShadow: focus ? 'inset 0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)' : 'none', outline: 'none', whiteSpace: 'nowrap', transition: 'color var(--ob-dur-fast) var(--ob-ease), background var(--ob-dur-fast) var(--ob-ease)' }}>
+      style={{ position: 'relative', height: underline ? '100%' : z.link, display: 'flex', alignItems: 'center', gap: 'var(--ob-space-6)', padding: '0 var(--ob-space-12)', borderRadius: 'var(--ob-r-control)', textDecoration: 'none', fontSize: 'var(--ob-fs-sm)', fontWeight: active ? 'var(--ob-w-semibold)' : 'var(--ob-w-medium)', color: active ? 'var(--ob-fg-strong)' : hover ? 'var(--ob-fg-strong)' : 'var(--ob-fg)', background: !underline && (active || hover) ? 'var(--ob-surface-2)' : 'transparent', boxShadow: focus ? 'inset 0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)' : 'none', outline: 'none', whiteSpace: 'nowrap', transition: 'color var(--ob-dur-fast) var(--ob-ease), background var(--ob-dur-fast) var(--ob-ease)' }}>
       {item.icon && <Ph n={item.icon} size={16} c="currentColor" weight={active ? 'fill' : 'regular'} />}
       {item.label}
       {item.badge != null && <Badge tone="primary" size="sm">{item.badge}</Badge>}
-      {underline && <span aria-hidden="true" style={{ position: 'absolute', left: 'var(--ob-s-3)', right: 'var(--ob-s-3)', bottom: -1, height: 2, borderRadius: 'var(--ob-r-2xs)', background: active ? 'var(--ob-blue)' : 'transparent', transition: 'background var(--ob-dur-fast) var(--ob-ease)' }} />}
+      {underline && <span aria-hidden="true" style={{ position: 'absolute', left: 'var(--ob-space-12)', right: 'var(--ob-space-12)', bottom: -1, height: 2, borderRadius: 'var(--ob-r-2xs)', background: active ? 'var(--ob-blue)' : 'transparent', transition: 'background var(--ob-dur-fast) var(--ob-ease)' }} />}
     </a>
   );
 };
@@ -82,7 +82,7 @@ export const NavbarAccount: React.FC<NavbarAccountProps> = ({ name = 'Marina Sou
   ];
   return (
     <Menu align="right" size="sm" ariaLabel="Conta" items={items}
-      trigger={<button type="button" aria-label={'Conta de ' + name} style={{ border: 0, padding: 2, background: 'transparent', borderRadius: 'var(--ob-r-pill)', cursor: 'pointer', display: 'grid' }}><Avatar name={name} size={z.avatar} /></button>} />
+      trigger={<button type="button" aria-label={'Conta de ' + name} style={{ border: 0, padding: 'var(--ob-space-2)', background: 'transparent', borderRadius: 'var(--ob-r-pill)', cursor: 'pointer', display: 'grid' }}><Avatar name={name} size={z.avatar} /></button>} />
   );
 };
 
@@ -127,18 +127,18 @@ export const Navbar: React.FC<NavbarProps> = ({ layout = 'links', items = [], ac
   const underline = layout === 'links' && !secondary;
   return (
     <header style={{ position: sticky ? 'sticky' : 'relative', top: 0, zIndex: 'var(--ob-z-raised)' as React.CSSProperties['zIndex'], background: 'var(--ob-surface)', borderBottom: '1px solid var(--ob-border)', boxShadow: elevated ? 'var(--ob-shadow-sm)' : 'none', transition: 'box-shadow var(--ob-dur-base) var(--ob-ease)', fontFamily: 'var(--ob-font)', ...style }}>
-      <div style={{ height: z.h, display: 'flex', alignItems: 'center', gap: 'var(--ob-s-4)', padding: '0 ' + z.pad, minWidth: 0 }}>
+      <div style={{ height: z.h, display: 'flex', alignItems: 'center', gap: 'var(--ob-space-16)', padding: '0 ' + z.pad, minWidth: 0 }}>
         {onMenuToggle && <Button kind="neutral" iconOnly size={size === 'sm' ? 'sm' : 'md'} aria-label="Abrir navegação" icon={<Ph n="list" size={z.icon} c="currentColor" />} onClick={onMenuToggle} />}
         {layout !== 'context' && (brand || <a href="#" aria-label="Início" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }} onClick={(e) => e.preventDefault()}><LogoMark size={z.mark} /></a>)}
         {layout === 'links' && !compact && (
-          <nav aria-label="Principal" style={{ alignSelf: 'stretch', display: 'flex', alignItems: 'center', gap: underline ? 0 : 2, marginLeft: 'var(--ob-s-3)', minWidth: 0 }}>
+          <nav aria-label="Principal" style={{ alignSelf: 'stretch', display: 'flex', alignItems: 'center', gap: underline ? 0 : 'var(--ob-space-2)', marginLeft: 'var(--ob-space-12)', minWidth: 0 }}>
             {items.map((it) => <NavbarLink key={it.id} item={it} active={it.id === active} size={size} onNav={onNav} underline={underline} />)}
           </nav>
         )}
         {layout === 'search' && <div style={{ flex: 1, display: 'flex', justifyContent: 'center', minWidth: 0 }}><div style={{ width: '100%', maxWidth: 480 }}>{search}</div></div>}
         {layout === 'context' && <div style={{ flex: 1, minWidth: 0 }}>{crumbs}</div>}
         {layout === 'links' && <div style={{ flex: 1 }} />}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-s-1)', flexShrink: 0 }}>{actions}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-4)', flexShrink: 0 }}>{actions}</div>
       </div>
       {secondary && <div style={{ padding: '0 ' + z.pad }}>{secondary}</div>}
     </header>

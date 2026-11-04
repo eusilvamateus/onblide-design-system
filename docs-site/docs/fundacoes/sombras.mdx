@@ -1,12 +1,51 @@
 ---
 title: Sombras
 sidebar_position: 6
-description: Elevação nos temas claro e escuro.
+description: Cinco sombras de elevação, o anel de foco e como as duas se comportam no tema escuro.
 ---
 
 import { TokenTable } from '@site/src/components/Tokens';
 
-Cartão tem **borda ou sombra**, nunca as duas. No tema escuro as sombras ganham luz ambiente, porque preto sobre
-quase-preto não se vê.
+Sombra comunica **elevação**: quanto mais alto um elemento está sobre a página, mais forte a sombra. O sistema é
+contido e difuso, para não competir com o conteúdo.
+
+## Elevação
+
+| Nível | Token | Onde usar |
+|---|---|---|
+| 1 | `--ob-shadow-xs` | Destaque mínimo dentro do fluxo: polegar do switch, aba ativa na pílula |
+| 2 | `--ob-shadow-sm` | Cartão com sombra, barra superior rolada |
+| 3 | `--ob-shadow-md` | Tooltip, cartão em destaque |
+| 4 | `--ob-shadow-lg` | Tudo que flutua sobre a página: menu, popover, toast, modal, prévia de arrastar |
+| — | `--ob-shadow-pop` | Sombra azul, só para a ação principal de uma tela |
+
+**Regra dos níveis:** o que está por cima tem a sombra mais forte. Um menu aberto sobre um cartão usa `lg`; o
+cartão, `sm`.
 
 <TokenTable prefixos={['--ob-shadow']} tipo="sombra" />
+
+## Tema escuro
+
+Preto sobre quase-preto não aparece. No tema escuro as sombras ficam mais densas, e a `pop` fica mais clara. Isso já
+está nos tokens: use sempre `var(--ob-shadow-*)` e o tema cuida do resto.
+
+## Anel de foco
+
+O foco também é desenhado com `box-shadow`, mas não é elevação: é um anel de largura `--ob-focus-ring-width` (3px)
+na cor `--ob-focus-ring`, igual em todos os componentes. Campos com erro trocam só a cor.
+
+```css
+.meu-controle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring);
+}
+```
+
+<TokenTable prefixos={['--ob-focus-ring']} />
+
+## A regra
+
+- Cartão tem **borda ou sombra**, nunca as duas (a prop `elevation` do `Card` escolhe).
+- Nunca escreva uma sombra à mão. O teste `smoke-fundacoes` do pacote recusa sombras com desfoque ou cor escritos no
+  componente, e anéis de foco com largura fixa.
+- Não empilhe duas sombras de elevação no mesmo elemento.

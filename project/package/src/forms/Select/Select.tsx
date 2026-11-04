@@ -167,18 +167,18 @@ export const Select: React.FC<SelectProps> = (props) => {
       onMouseDownCapture={() => { focadoNoMouseDown.current = document.activeElement === inputRef.current; }}
       style={{ position: 'relative', width: width || (embedded ? 'auto' : '100%'), fontFamily: 'var(--ob-font)', ...(embedded ? { display: 'flex', alignSelf: 'stretch' } : null) }}>
       {label && !embedded && (
-        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>{label}</div>
+        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 'var(--ob-space-6)' }}>{label}</div>
       )}
       <Casca
         embedded={embedded} focused={open || focado} error={!!error} disabled={disabled}
-        padding={multi && (selected as string[]).length ? '6px 10px' : '0 12px'}
+        padding={multi && (selected as string[]).length ? 'var(--ob-space-6) var(--ob-space-10)' : '0 var(--ob-space-12)'}
         onClick={() => {
           if (disabled) return;
           const abrir = focadoNoMouseDown.current ? !open : true;
           setOpen(abrir);
           if (abrir) setTimeout(() => inputRef.current?.focus(), 0);
         }}
-        style={{ flexWrap: multi ? 'wrap' : 'nowrap', gap: 6, cursor: disabled ? 'not-allowed' : 'pointer' }}>
+        style={{ flexWrap: multi ? 'wrap' : 'nowrap', gap: 'var(--ob-space-6)', cursor: disabled ? 'not-allowed' : 'pointer' }}>
         {multi && (selected as string[]).map(s => (
           <Chip key={s} label={s} size="sm" selected removable
             onToggle={() => {}} onRemove={() => removeChip(s)} />
@@ -195,7 +195,7 @@ export const Select: React.FC<SelectProps> = (props) => {
           style={{
             flex: embedded ? 'none' : 1, width: embedded ? `${larguraEmbutida}ch` : undefined, minWidth: multi ? 60 : 0, border: 'none', outline: 'none', background: 'transparent',
             fontSize: 14, color: 'var(--ob-fg-strong)', cursor: disabled ? 'not-allowed' : 'text',
-            padding: multi && (selected as string[]).length ? '0' : '0 2px', height: multi && (selected as string[]).length ? 26 : 40,
+            padding: multi && (selected as string[]).length ? '0' : '0 var(--ob-space-2)', height: multi && (selected as string[]).length ? 26 : 40,
           }}
         />
         <Ph n="caret-down" size={16} c="var(--ob-fg-mute)"
@@ -203,9 +203,9 @@ export const Select: React.FC<SelectProps> = (props) => {
       </Casca>
 
       {open && (
-        <FloatingPanel ref={painelRef} side={lado} maxHeight={240} padding={4}>
+        <FloatingPanel ref={painelRef} side={lado} maxHeight={240} padding="var(--ob-space-4)">
           {filtered.length === 0 && (
-            <div style={{ padding: '12px 14px', fontSize: 13, color: 'var(--ob-fg-mute)', textAlign: 'center' }}>
+            <div style={{ padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 13, color: 'var(--ob-fg-mute)', textAlign: 'center' }}>
               Nenhuma opção encontrada
             </div>
           )}
@@ -218,8 +218,8 @@ export const Select: React.FC<SelectProps> = (props) => {
                 onMouseDown={(e) => { e.preventDefault(); toggle(opt); }}
                 onMouseEnter={() => setHighlighted(i)}
                 style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
-                  padding: '9px 12px', borderRadius: 'var(--ob-r-sm)', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--ob-space-10)',
+                  padding: 'var(--ob-space-10) var(--ob-space-12)', borderRadius: 'var(--ob-r-sm)', cursor: 'pointer',
                   fontSize: 14, fontWeight: (isSelected && !multi) ? 600 : 400,
                   color: (isSelected && !multi) ? 'var(--ob-blue-700)' : 'var(--ob-fg)',
                   background: isHigh ? 'var(--ob-bg-warm)' : (isSelected && !multi ? 'var(--ob-blue-100)' : 'transparent'),
@@ -240,7 +240,7 @@ export const Select: React.FC<SelectProps> = (props) => {
       )}
 
       {error && !embedded && (
-        <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 5, display: 'flex', alignItems: 'center', gap: 4 }}>
+        <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 'var(--ob-space-6)', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-4)' }}>
           <Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />
           {error}
         </div>

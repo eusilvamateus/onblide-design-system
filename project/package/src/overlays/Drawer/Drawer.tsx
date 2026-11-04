@@ -54,18 +54,18 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
       } as React.CSSProperties}>
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '18px 24px', borderBottom: '1px solid var(--ob-border)', flexShrink: 0,
+          padding: 'var(--ob-space-20) var(--ob-space-24)', borderBottom: '1px solid var(--ob-border)', flexShrink: 0,
         }}>
           <span style={{ fontSize: 17, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</span>
           <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={18} />} />
         </div>
         <ScrollArea style={{ flex: 1 }}>
-          <div style={{ padding: '20px 24px' }}>{children}</div>
+          <div style={{ padding: 'var(--ob-space-20) var(--ob-space-24)' }}>{children}</div>
         </ScrollArea>
         {footer && (
           <div style={{
-            padding: '16px 24px', borderTop: '1px solid var(--ob-border)',
-            background: 'var(--ob-bg-alt)', display: 'flex', justifyContent: 'flex-end', gap: 10, flexShrink: 0,
+            padding: 'var(--ob-space-16) var(--ob-space-24)', borderTop: '1px solid var(--ob-border)',
+            background: 'var(--ob-bg-alt)', display: 'flex', justifyContent: 'flex-end', gap: 'var(--ob-space-10)', flexShrink: 0,
           }}>
             {footer}
           </div>

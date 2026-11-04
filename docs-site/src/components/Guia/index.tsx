@@ -10,7 +10,7 @@ export function FacaEvite({ children }: { children: ReactNode }) {
 
 function Lado({ tom, rotulo, icone, children }: { tom: string; rotulo: string; icone: string; children: ReactNode }) {
   return (
-    <Card padding={16}>
+    <Card padding="var(--ob-space-16)">
       <span className="ob-faca-evite__tag" style={{ color: tom }}>
         <Ph n={icone} size={12} /> {rotulo}
       </span>

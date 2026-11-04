@@ -12,10 +12,10 @@ import { List, ListItem, ListSubheader, ListDivider } from '../../data-display/L
 
 export type MenuSize = 'md' | 'sm';
 
-interface MenuSizeSpec { pad: string; fs: number; lh: string; gap: number; panelPad: number; min: number; sepM: string; labelPad: string; icon: number; avatar: number }
+interface MenuSizeSpec { pad: string; fs: number; lh: string; gap: string; panelPad: number; min: number; sepM: string; labelPad: string; icon: number; avatar: number }
 const MENU_SIZES: Record<MenuSize, MenuSizeSpec> = {
-  md: { pad: '7px 10px', fs: 14, lh: '20px', gap: 10, panelPad: 6, min: 220, sepM: '5px -6px', labelPad: '8px 10px 4px', icon: 16, avatar: 32 },
-  sm: { pad: '4px 8px', fs: 13, lh: '18px', gap: 8, panelPad: 4, min: 180, sepM: '3px -4px', labelPad: '6px 8px 2px', icon: 14, avatar: 24 },
+  md: { pad: 'var(--ob-space-8) var(--ob-space-10)', fs: 14, lh: '20px', gap: 'var(--ob-space-10)', panelPad: 6, min: 220, sepM: 'var(--ob-space-6) calc(var(--ob-space-6) * -1)', labelPad: 'var(--ob-space-8) var(--ob-space-10) var(--ob-space-4)', icon: 16, avatar: 32 },
+  sm: { pad: 'var(--ob-space-4) var(--ob-space-8)', fs: 13, lh: '18px', gap: 'var(--ob-space-8)', panelPad: 4, min: 180, sepM: 'var(--ob-space-4) calc(var(--ob-space-4) * -1)', labelPad: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-2)', icon: 14, avatar: 24 },
 };
 
 export type MenuItem =
@@ -123,10 +123,10 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
       style={{
         background: 'var(--ob-surface)', border: '1px solid var(--ob-border)', borderRadius: 'var(--ob-r-surface)', boxShadow: 'var(--ob-shadow-lg)',
         padding: z.panelPad, minWidth: z.min, zIndex: 'var(--ob-z-dropdown)' as React.CSSProperties['zIndex'], outline: 'none',
-        display: 'flex', flexDirection: 'column', gap: 1, boxSizing: 'border-box', ...style,
+        display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-2)', boxSizing: 'border-box', ...style,
       }}>
       {search && (
-        <div style={{ padding: `2px 2px ${z.panelPad}px`, borderBottom: '1px solid var(--ob-border)', margin: `0 -${z.panelPad}px ${z.panelPad}px`, paddingLeft: z.panelPad, paddingRight: z.panelPad }}>
+        <div style={{ padding: `var(--ob-space-2) var(--ob-space-2) ${z.panelPad}px`, borderBottom: '1px solid var(--ob-border)', margin: `0 -${z.panelPad}px ${z.panelPad}px`, paddingLeft: z.panelPad, paddingRight: z.panelPad }}>
           <SearchInput value={search.value} onChange={search.onChange} placeholder={search.placeholder} width="100%" />
         </div>
       )}
@@ -136,7 +136,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
         if (it.type === 'label') return <ListSubheader key={i} size={size}>{it.label}</ListSubheader>;
         if (it.type === 'custom') {
           return (
-            <div key={i} role="group" aria-label={it.ariaLabel} data-ob-menu-custom="" style={{ padding: '4px 2px' }}
+            <div key={i} role="group" aria-label={it.ariaLabel} data-ob-menu-custom="" style={{ padding: 'var(--ob-space-4) var(--ob-space-2)' }}
               onMouseEnter={() => { setActive(-1); setSub({ i: -1, kb: false }); }}>
               {it.content}
             </div>
@@ -164,7 +164,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
             {badge != null && <Embed><Badge tone="danger" variant="numeric" size="sm">{badge}</Badge></Embed>}
             {t === 'toggle' && <Embed><Switch size="sm" checked={!!(it as Extract<MenuItem, { type: 'toggle' }>).checked} /></Embed>}
             {checkedMark}
-            {isSub && <span style={{ display: 'flex', marginLeft: 2 }}><Ph n="caret-right" size={14} c="currentColor" /></span>}
+            {isSub && <span style={{ display: 'flex', marginLeft: 'var(--ob-space-2)' }}><Ph n="caret-right" size={14} c="currentColor" /></span>}
           </>
         ) : null;
         const shortcut = 'shortcut' in it ? it.shortcut : undefined;
@@ -175,7 +175,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
             align={centered ? 'center' : 'start'} indent={hasLead}
             leading={lead} title={label} strong={t === 'account' ? (it as Extract<MenuItem, { type: 'account' }>).large : undefined}
             description={desc} wrap={t !== 'account'}
-            meta={shortcut && <span style={{ marginLeft: 16 }}><Kbd appearance="ghost" size="sm">{shortcut}</Kbd></span>} trailing={trail}
+            meta={shortcut && <span style={{ marginLeft: 'var(--ob-space-16)' }}><Kbd appearance="ghost" size="sm">{shortcut}</Kbd></span>} trailing={trail}
             onMouseEnter={() => {
               if ('disabled' in it && it.disabled) { setActive(-1); setSub({ i: -1, kb: false }); return; }
               setActive(i);
@@ -187,7 +187,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
             {subOpen && (
               <MenuPanel key={sub.kb ? 'k' : 'm'} items={(it as Extract<MenuItem, { type: 'submenu' }>).items} size={size} level={level + 1} keyboard={sub.kb} autoFocus={sub.kb}
                 onClose={closeSub} onCloseTree={onCloseTree} onNavOut={onNavOut} ariaLabel={label}
-                style={{ position: 'absolute', left: '100%', top: -(z.panelPad + 1), marginLeft: z.panelPad + 2, minWidth: 180 }} />
+                style={{ position: 'absolute', left: '100%', top: -(z.panelPad + 1), marginLeft: `calc(${z.panelPad}px + var(--ob-space-2))`, minWidth: 180 }} />
             )}
           </ListItem>
         );

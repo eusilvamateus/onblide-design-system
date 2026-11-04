@@ -68,7 +68,7 @@ const VAZIO: CalendarRange = { start: null, end: null };
 
 const estiloDoCampo: React.CSSProperties = {
   flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
-  fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: '10px 0', textAlign: 'center',
+  fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: 'var(--ob-space-10) 0', textAlign: 'center',
 };
 
 /** Campo de data única ou intervalo, com digitação mascarada (dd/mm/aaaa) e calendário em popover. */
@@ -185,10 +185,10 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
   );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)' }}>
       {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
       <div onFocus={() => setFocado(true)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocado(false); }}>
-        <FieldShell focused={focado} error={temErro} disabled={disabled} padding={comStepper ? '0 6px' : calendarioInline ? '0 14px' : '0 6px 0 14px'}>
+        <FieldShell focused={focado} error={temErro} disabled={disabled} padding={comStepper ? '0 var(--ob-space-6)' : calendarioInline ? '0 var(--ob-space-16)' : '0 var(--ob-space-6) 0 var(--ob-space-16)'}>
           {comStepper && (
             <Button kind="neutral" iconOnly size="sm" disabled={disabled || !vizinha(unidadeDoPasso, -1)}
               aria-label={rotulos[unidadeDoPasso][0]} onClick={() => andarData(unidadeDoPasso, -1)}
@@ -211,7 +211,7 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
               icon={<Ph n="caret-right" size={16} />} />
           )}
           {!calendarioInline && (
-            <Popover align="end" width={276} padding={12} closeButton={false} ariaLabel="Calendário"
+            <Popover align="end" width={276} padding="var(--ob-space-12)" closeButton={false} ariaLabel="Calendário"
               trigger={<Button kind="neutral" iconOnly size="sm" disabled={disabled} aria-label="Abrir calendário" icon={<Ph n="calendar-blank" size={18} />} />}>
               {calendario}
             </Popover>

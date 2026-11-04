@@ -80,7 +80,7 @@ Three families, each with a clear job:
 **Canonical reference.** The full set of text roles (Display, Heading 1–5, Eyebrow, Lead, Body, Caption, Label, Quote, Code), with usage rules and live examples, lives in `ds/foundations/type-semantics.html`.
 
 ### Spacing
-4px base scale: `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96 / 128`. Section padding on slides is **96px** horizontal; cards default to **20px** internal padding.
+Scale `--ob-space-<px>` (the name is the value): `2 / 4 / 6 / 8 / 10 / 12 / 16 / 20 / 24 / 32 / 40 / 48 / 64 / 96 / 128`. The 2/6/10/20 steps are for component interiors. See `docs-site/docs/fundacoes/espacamento.mdx`. Section padding on slides is **96px** horizontal; cards default to **20px** internal padding.
 
 ### Backgrounds
 - **No gradients** in chrome. Solid color blocks only.
@@ -88,16 +88,18 @@ Three families, each with a clear job:
 - **Cream overlays** add warmth, a 12-radius cream block behind a kanban column, a slide built on a cream canvas, but never a full-bleed cream page.
 
 ### Motion
-- **Eases:** `cubic-bezier(0.2, 0.7, 0.2, 1)` for general motion; `cubic-bezier(0.16, 1, 0.3, 1)` for entrances.
-- **Durations:** 120ms (micro), 200ms (default), 400ms (entrance).
-- **No bounces** on UI elements. A spring ease (`0.34, 1.56, 0.64, 1`) is reserved for hero/empty-state moments.
+- **Eases:** `--ob-ease` (general), `--ob-ease-out` (entrances), `--ob-ease-in-out` (progress and pulses), `--ob-ease-spring` (highlight moments only).
+- **Durations:** `--ob-dur-fast` 120ms (hover, focus), `--ob-dur-base` 200ms (state changes, overlays), `--ob-dur-slow` 400ms (progress, large moves), `--ob-dur-spin` 800ms, `--ob-dur-loop` 1400ms.
+- **Reduced motion:** `prefers-reduced-motion: reduce` sets fast/base/slow to 0ms in `tokens.css`, so every component honors it.
+- **No bounces** on UI elements. See `docs-site/docs/fundacoes/movimento.mdx`.
 
 ### States
 - **Hover (primary CTA):** background steps to `--ob-blue-700`, plus a soft `0 8px 24px rgba(10,78,228,0.28)` blue glow. The glow is the brand's signature.
 - **Hover (secondary):** border darkens from `#ececec` → `#545454`. No fill change.
-- **Hover (ghost / link):** opacity 0.75. No color shift.
+- **Hover (ghost / link):** `--ob-opacity-strong` (0.75). No color shift.
 - **Press:** no shrink. Background steps one tone darker; that's it.
-- **Focus ring:** `0 0 0 4px rgba(10, 78, 228, 0.32)`, always visible on keyboard nav.
+- **Focus ring:** `0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)` (3px, 32% blue), the same in every component, always visible on keyboard nav.
+- **Disabled:** `--ob-opacity-disabled` (0.45) on the outer element, in every component.
 
 ### Borders &amp; shadows
 - Hairlines are `#ececec` (1.5px on form inputs, 1px elsewhere).
@@ -106,7 +108,7 @@ Three families, each with a clear job:
 - The "**pop**" shadow (`0 8px 24px rgba(10,78,228,0.28)`) is the only colored shadow, reserved for primary CTA hover.
 
 ### Radii
-Soft personality, 8–12px is the default register. **`12px`** is the workhorse for cards, buttons (`10px` for tighter pills), and inputs. Pills (`999px`) reserved for badges and toggles.
+Soft personality, 8–12px is the default register. Components use the family aliases: `--ob-r-control` (8px: buttons, inputs), `--ob-r-surface` (12px: cards, menus), `--ob-r-overlay` (16px: modals, drawers). `--ob-r-pill` (999px) rounds long elements; `--ob-r-circle` (50%) makes avatars and radios; `--ob-r-2xs` (2px) is for thin indicators. See `docs-site/docs/fundacoes/raios.mdx`.
 
 ### Transparency &amp; blur
 Largely avoided. The brand's energy comes from solid color, not glass. The one exception: focus rings use 32% blue.

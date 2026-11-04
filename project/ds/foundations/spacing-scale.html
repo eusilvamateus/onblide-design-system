@@ -1,5 +1,5 @@
+<!-- @dsCard group="Spacing" name="Spacing Scale" subtitle="15 passos de 2 a 128px, nome = valor" viewport="760x290" -->
 <!doctype html>
-<!-- @dsCard group="Spacing" name="Spacing Scale" subtitle="Base 4px, 9 steps" viewport="760x290" -->
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Spacing · Onblide DS</title>
 <link rel="stylesheet" href="../../package/src/tokens.css">
 <style>
@@ -57,10 +57,10 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
 
   <p class="eyebrow">Foundation · Espaço</p>
   <h1>Spacing <em>Scale</em></h1>
-  <p class="lede">Escala de 10 passos baseada em múltiplos de <strong>4 px</strong>. Todo espaçamento da interface — gap, padding, margin — deve vir desta escala. Valores fora dela indicam desvio.</p>
+  <p class="lede">Quinze passos de <strong>2 a 128 px</strong>. O nome de cada token é o valor dele: <code>--ob-space-8</code> vale 8px. Todo espaçamento da interface (gap, padding, margin) vem desta escala, e um teste automático do pacote recusa qualquer número fora dela.</p>
 
   <section>
-    <h2>Escala base (s-1 → s-10)</h2>
+    <h2>Escala base</h2>
     <div class="scale-wrap">
       <div class="scale-row scale-head">
         <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Token</span>
@@ -69,16 +69,21 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
         <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Visual</span>
         <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute);text-align:right">Uso típico</span>
       </div>
-      <div class="scale-row"><code class="tok">--ob-s-1</code><span class="val-px">4</span><span class="val-rem">0.25</span><div class="bar-wrap"><div class="bar" style="width:4px"></div></div><span class="use">Ícone + texto, dot badge</span></div>
-      <div class="scale-row"><code class="tok">--ob-s-2</code><span class="val-px">8</span><span class="val-rem">0.5</span><div class="bar-wrap"><div class="bar" style="width:8px"></div></div><span class="use">Gap chip, botão + ícone</span></div>
-      <div class="scale-row"><code class="tok">--ob-s-3</code><span class="val-px">12</span><span class="val-rem">0.75</span><div class="bar-wrap"><div class="bar" style="width:12px"></div></div><span class="use">Ritmo entre parágrafos</span></div>
-      <div class="scale-row"><code class="tok">--ob-s-4</code><span class="val-px">16</span><span class="val-rem">1</span><div class="bar-wrap"><div class="bar" style="width:16px"></div></div><span class="use">Gap padrão entre elementos</span></div>
-      <div class="scale-row"><code class="tok">--ob-s-5</code><span class="val-px">24</span><span class="val-rem">1.5</span><div class="bar-wrap"><div class="bar" style="width:24px"></div></div><span class="use">Padding de card (padrão)</span></div>
-      <div class="scale-row"><code class="tok">--ob-s-6</code><span class="val-px">32</span><span class="val-rem">2</span><div class="bar-wrap"><div class="bar" style="width:32px"></div></div><span class="use">Padding horizontal de página</span></div>
-      <div class="scale-row"><code class="tok">--ob-s-7</code><span class="val-px">48</span><span class="val-rem">3</span><div class="bar-wrap"><div class="bar" style="width:48px"></div></div><span class="use">Separação entre seções</span></div>
-      <div class="scale-row"><code class="tok">--ob-s-8</code><span class="val-px">64</span><span class="val-rem">4</span><div class="bar-wrap"><div class="bar" style="width:64px"></div></div><span class="use">Gap entre blocos de conteúdo</span></div>
-      <div class="scale-row"><code class="tok">--ob-s-9</code><span class="val-px">96</span><span class="val-rem">6</span><div class="bar-wrap"><div class="bar" style="width:96px"></div></div><span class="use">Seção hero, espaço editorial</span></div>
-      <div class="scale-row"><code class="tok">--ob-s-10</code><span class="val-px">128</span><span class="val-rem">8</span><div class="bar-wrap"><div class="bar" style="width:128px"></div></div><span class="use">Macro layout, margens de página</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-2</code><span class="val-px">2</span><span class="val-rem">0.125</span><div class="bar-wrap"><div class="bar" style="width:2px"></div></div><span class="use">Ajuste fino: rótulo e descrição, linhas de lista</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-4</code><span class="val-px">4</span><span class="val-rem">0.25</span><div class="bar-wrap"><div class="bar" style="width:4px"></div></div><span class="use">Ícone + texto, dot badge</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-6</code><span class="val-px">6</span><span class="val-rem">0.375</span><div class="bar-wrap"><div class="bar" style="width:6px"></div></div><span class="use">Gap de badge e chip, rótulo do campo</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-8</code><span class="val-px">8</span><span class="val-rem">0.5</span><div class="bar-wrap"><div class="bar" style="width:8px"></div></div><span class="use">Gap de botão + ícone</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-10</code><span class="val-px">10</span><span class="val-rem">0.625</span><div class="bar-wrap"><div class="bar" style="width:10px"></div></div><span class="use">Gap de campo, padding vertical de chip</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-12</code><span class="val-px">12</span><span class="val-rem">0.75</span><div class="bar-wrap"><div class="bar" style="width:12px"></div></div><span class="use">Ritmo entre parágrafos</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-16</code><span class="val-px">16</span><span class="val-rem">1</span><div class="bar-wrap"><div class="bar" style="width:16px"></div></div><span class="use">Padding de campo e de célula, gap padrão</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-20</code><span class="val-px">20</span><span class="val-rem">1.25</span><div class="bar-wrap"><div class="bar" style="width:20px"></div></div><span class="use">Padding horizontal de botão, padding de card</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-24</code><span class="val-px">24</span><span class="val-rem">1.5</span><div class="bar-wrap"><div class="bar" style="width:24px"></div></div><span class="use">Padding de seção interna</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-32</code><span class="val-px">32</span><span class="val-rem">2</span><div class="bar-wrap"><div class="bar" style="width:32px"></div></div><span class="use">Padding horizontal de página</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-40</code><span class="val-px">40</span><span class="val-rem">2.5</span><div class="bar-wrap"><div class="bar" style="width:40px"></div></div><span class="use">Estado vazio, respiro vertical</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-48</code><span class="val-px">48</span><span class="val-rem">3</span><div class="bar-wrap"><div class="bar" style="width:48px"></div></div><span class="use">Separação entre seções</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-64</code><span class="val-px">64</span><span class="val-rem">4</span><div class="bar-wrap"><div class="bar" style="width:64px"></div></div><span class="use">Gap entre blocos de conteúdo</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-96</code><span class="val-px">96</span><span class="val-rem">6</span><div class="bar-wrap"><div class="bar" style="width:96px"></div></div><span class="use">Seção hero, espaço editorial</span></div>
+      <div class="scale-row"><code class="tok">--ob-space-128</code><span class="val-px">128</span><span class="val-rem">8</span><div class="bar-wrap"><div class="bar" style="width:128px"></div></div><span class="use">Macro layout, margens de página</span></div>
     </div>
   </section>
 
@@ -88,14 +93,14 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
     <table class="sem-table">
       <thead><tr><th>Alias</th><th>Aponta para</th><th>Valor</th><th>Intenção</th></tr></thead>
       <tbody>
-        <tr><td><code>--ob-gap-xs</code></td><td><code>--ob-s-1</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">4px</td><td>Ícone + texto inline, dot gap</td></tr>
-        <tr><td><code>--ob-gap-sm</code></td><td><code>--ob-s-2</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">8px</td><td>Gap de chip, botão + ícone, badge</td></tr>
-        <tr><td><code>--ob-gap-md</code></td><td><code>--ob-s-4</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">16px</td><td>Gap padrão entre elementos de UI</td></tr>
-        <tr><td><code>--ob-gap-lg</code></td><td><code>--ob-s-5</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">24px</td><td>Gap de seção interna, grupos de campos</td></tr>
-        <tr><td><code>--ob-pad-card</code></td><td><code>--ob-s-5</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">24px</td><td>Padding interno padrão de Card</td></tr>
-        <tr><td><code>--ob-pad-page</code></td><td><code>--ob-s-6</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">32px</td><td>Padding horizontal de página</td></tr>
-        <tr><td><code>--ob-stack-sm</code></td><td><code>--ob-s-3</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">12px</td><td>Ritmo vertical entre parágrafos</td></tr>
-        <tr><td><code>--ob-stack-md</code></td><td><code>--ob-s-5</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">24px</td><td>Ritmo vertical entre seções</td></tr>
+        <tr><td><code>--ob-gap-xs</code></td><td><code>--ob-space-4</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">4px</td><td>Ícone + texto inline, dot gap</td></tr>
+        <tr><td><code>--ob-gap-sm</code></td><td><code>--ob-space-8</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">8px</td><td>Gap de chip, botão + ícone, badge</td></tr>
+        <tr><td><code>--ob-gap-md</code></td><td><code>--ob-space-16</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">16px</td><td>Gap padrão entre elementos de UI</td></tr>
+        <tr><td><code>--ob-gap-lg</code></td><td><code>--ob-space-24</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">24px</td><td>Gap de seção interna, grupos de campos</td></tr>
+        <tr><td><code>--ob-pad-card</code></td><td><code>--ob-space-24</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">24px</td><td>Padding interno padrão de Card</td></tr>
+        <tr><td><code>--ob-pad-page</code></td><td><code>--ob-space-32</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">32px</td><td>Padding horizontal de página</td></tr>
+        <tr><td><code>--ob-stack-sm</code></td><td><code>--ob-space-12</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">12px</td><td>Ritmo vertical entre parágrafos</td></tr>
+        <tr><td><code>--ob-stack-md</code></td><td><code>--ob-space-24</code></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">24px</td><td>Ritmo vertical entre seções</td></tr>
       </tbody>
     </table>
   </section>
@@ -107,7 +112,7 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
       <div class="ctx-body">
 
         <div>
-          <div class="ctx-label">pad-card (s-5 · 24px) — padding interno</div>
+          <div class="ctx-label">pad-card (24px) — padding interno</div>
           <div style="border:1.5px dashed color-mix(in srgb, var(--ob-orange) 50%, transparent);border-radius:var(--ob-r-md);padding:24px;display:flex;flex-direction:column;gap:16px;">
             <div style="height:14px;border-radius:4px;background:var(--ob-bg-alt);width:40%"></div>
             <div style="height:10px;border-radius:4px;background:var(--ob-bg-alt);width:80%"></div>
@@ -116,7 +121,7 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
         </div>
 
         <div>
-          <div class="ctx-label">gap-md (s-4 · 16px) — gap entre cards</div>
+          <div class="ctx-label">gap-md (16px) — gap entre cards</div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
             <div style="height:56px;border:1px solid var(--ob-border);border-radius:var(--ob-r-md);background:var(--ob-bg-alt);"></div>
             <div style="height:56px;border:1px solid var(--ob-border);border-radius:var(--ob-r-md);background:var(--ob-bg-alt);"></div>
@@ -145,15 +150,16 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
   <section>
     <h2>Instruções de uso</h2>
     <ul>
-      <li>Use sempre um token — nunca valores hardcoded como <code>margin: 10px</code> ou <code>padding: 20px</code>.</li>
+      <li>Use sempre um token, nunca o número solto: <code>padding: var(--ob-space-20)</code>, não <code>padding: 20px</code>.</li>
+      <li>Os passos de 2, 6, 10 e 20px existem para o interior dos componentes (chips, badges, campos). Entre blocos de uma tela, prefira os passos de 8 em diante e os apelidos.</li>
       <li>Prefira <code>gap</code> (flex/grid) a <code>margin</code> entre irmãos — é mais robusto a reordenações de DOM.</li>
       <li>Espaçamentos horizontais e verticais do mesmo contexto devem vir da mesma etapa da escala.</li>
-      <li>Nunca use <code>--ob-s-10</code> (128px) dentro de componentes — é reservado a layout macro.</li>
-      <li>Tamanhos de touch target (mobile): mínimo 44px. Use <code>--ob-s-7</code> (48px) como padrão para altura de botões e inputs em mobile.</li>
+      <li>Nunca use <code>--ob-space-128</code> (128px) dentro de componentes — é reservado a layout macro.</li>
+      <li>Tamanhos de touch target (mobile): mínimo 44px. Use <code>--ob-space-48</code> (48px) como padrão para altura de botões e inputs em mobile.</li>
     </ul>
     <div class="do-dont">
       <div class="dd do"><span class="tag">✓ Faça</span><p>Cards com <code>padding: var(--ob-pad-card)</code>. Grid de cards com <code>gap: var(--ob-gap-md)</code>.</p></div>
-      <div class="dd dont"><span class="tag">✕ Evite</span><p>Valores fora da escala: <code>padding: 18px</code>, <code>gap: 10px</code>. Quebram consistência visual silenciosamente.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Valores fora da escala: <code>padding: 18px</code>, <code>gap: 14px</code>. Quebram a consistência visual sem ninguém perceber.</p></div>
     </div>
     <div class="note"><strong>Debugging de espaçamento:</strong> se um valor não cabe em nenhum token da escala, é um sinal de que o layout precisa ser revisado — não de que a escala precisa de um novo passo.</div>
   </section>

@@ -70,7 +70,7 @@ function Inert({ children }: { children: React.ReactNode }) {
   return <span ref={(el) => el?.setAttribute('inert', '')} aria-hidden="true" style={{ display: 'flex', flex: 'none', pointerEvents: 'none' }}>{children}</span>;
 }
 const iconBtn: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24, border: 'none', background: 'transparent', borderRadius: 'var(--ob-r-sm)', color: 'var(--ob-fg-mute)', cursor: 'pointer', padding: 0, flex: 'none' };
-const msgRow: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '12px 14px', fontSize: 13, color: 'var(--ob-fg-mute)' };
+const msgRow: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--ob-space-8)', padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 13, color: 'var(--ob-fg-mute)' };
 
 type NavEntry = { o: AutocompleteOption } | { create: string };
 
@@ -152,8 +152,8 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     if (!l || active < 0) return;
     const el = l.querySelector<HTMLElement>(`[data-i="${active}"]`);
     if (!el) return;
-    const pad = gKey ? 32 : 4, top = el.offsetTop, bot = top + el.offsetHeight;
-    if (top < l.scrollTop + pad) l.scrollTop = top - pad;
+    const folga = gKey ? 32 : 4, top = el.offsetTop, bot = top + el.offsetHeight;
+    if (top < l.scrollTop + folga) l.scrollTop = top - folga;
     else if (bot > l.scrollTop + l.clientHeight - 4) l.scrollTop = bot - l.clientHeight + 4;
   }, [active, gKey]);
 
@@ -250,10 +250,10 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
 
   return (
     <div ref={rootRef} style={{ position: 'relative', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
-      {label && <label htmlFor={uid} style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 6 }}>{label}</label>}
+      {label && <label htmlFor={uid} style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 'var(--ob-space-6)' }}>{label}</label>}
       <div onMouseDown={onShellDown}>
-        <FieldShell focused={focused || open} error={!!error} disabled={disabled} padding={chips ? '6px 8px 6px 10px' : '0 8px 0 12px'}
-          style={{ flexWrap: 'wrap', gap: 6, cursor: disabled ? 'not-allowed' : 'text' }}>
+        <FieldShell focused={focused || open} error={!!error} disabled={disabled} padding={chips ? 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-6) var(--ob-space-10)' : '0 var(--ob-space-8) 0 var(--ob-space-12)'}
+          style={{ flexWrap: 'wrap', gap: 'var(--ob-space-6)', cursor: disabled ? 'not-allowed' : 'text' }}>
           {icon && <Ph n={icon} size={16} c="var(--ob-fg-mute)" style={{ flex: 'none' }} />}
           {multiple && ((value as string[]) ?? []).map((v) => (
             <Chip key={v} label={v} size="sm" selected removable disabled={disabled} onToggle={() => {}} onRemove={() => commit(((value as string[]) ?? []).filter((x) => x !== v))} />
@@ -263,8 +263,8 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
             autoComplete="off" spellCheck={false} value={input} placeholder={chips ? '' : placeholder} disabled={disabled}
             onChange={onInput} onKeyDown={onKeyDown} onFocus={onFocus} onBlur={onBlur}
             style={{ flex: 1, minWidth: 80, border: 'none', outline: 'none', background: 'transparent', fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: 0, height: chips ? 26 : 40, cursor: disabled ? 'not-allowed' : 'text' }} />
-          <span style={{ display: 'flex', alignItems: 'center', gap: 2, flex: 'none', marginLeft: 'auto' }}>
-            {busy && <span style={{ display: 'flex', padding: '0 4px' }}><Spinner size="xs" label="Buscando" /></span>}
+          <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-2)', flex: 'none', marginLeft: 'auto' }}>
+            {busy && <span style={{ display: 'flex', padding: '0 var(--ob-space-4)' }}><Spinner size="xs" label="Buscando" /></span>}
             {hasValue && !disabled && <button type="button" tabIndex={-1} aria-label="Limpar" onMouseDown={onClear} style={iconBtn}><Ph n="x" size={14} c="currentColor" /></button>}
             {(mode !== 'free' || options.length > 0) && !loadOptions && (
               <button type="button" tabIndex={-1} aria-label={open ? 'Fechar sugestões' : 'Abrir sugestões'} onMouseDown={onCaret} style={iconBtn}>
@@ -277,7 +277,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
       {showPanel && (
         <FloatingPanel ref={painelRef} side={lado} padding={0}>
           <ScrollArea maxHeight={280} viewportRef={listRef}>
-          <div id={listId} role="listbox" aria-multiselectable={multiple || undefined} aria-label={typeof label === 'string' ? label : ariaLabel} style={{ padding: 4 }}>
+          <div id={listId} role="listbox" aria-multiselectable={multiple || undefined} aria-label={typeof label === 'string' ? label : ariaLabel} style={{ padding: 'var(--ob-space-4)' }}>
             {busy ? <div role="status" style={msgRow}><Spinner size="xs" />Buscando…</div>
               : tooShort ? <div style={msgRow}>Digite ao menos {minChars} letras</div>
               : (
@@ -304,8 +304,8 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
           </ScrollArea>
         </FloatingPanel>
       )}
-      {error ? <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 5, display: 'flex', alignItems: 'center', gap: 4 }}><Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />{error}</div>
-        : hint ? <div style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 5 }}>{hint}</div> : null}
+      {error ? <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 'var(--ob-space-6)', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-4)' }}><Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />{error}</div>
+        : hint ? <div style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-6)' }}>{hint}</div> : null}
     </div>
   );
 };

@@ -1,21 +1,60 @@
 ---
 title: Espaçamento
 sidebar_position: 4
-description: Escala de 4 px e apelidos por intenção.
+description: Quinze passos de 2 a 128 px, apelidos por intenção e a regra de nunca escrever um número solto.
 ---
 
 import { TokenTable } from '@site/src/components/Tokens';
+import { FacaEvite, Faca, Evite } from '@site/src/components/Guia';
 
-A escala tem base de **4 px**. Use os apelidos por intenção (`gap`, `pad`, `stack`) sempre que existirem, e a
-escala numérica quando precisar de um valor específico.
+Todo espaço da interface (`gap`, `padding`, `margin`) vem de uma escala de **quinze passos, de 2 a 128 px**. O nome
+de cada token é o valor dele: `--ob-space-8` vale 8px, `--ob-space-20` vale 20px. Não existe conta para fazer.
 
-## Escala
+## A regra
 
-<TokenTable prefixos={['--ob-s']} tipo="espaco" />
+1. **Nunca escreva o número.** Use `padding: var(--ob-space-16)`, não `padding: 16px`.
+2. **Se o valor não está na escala, ele não existe.** Arredonde para o passo mais próximo. Um valor que não cabe em
+   nenhum passo indica que o layout precisa de revisão, não que a escala precisa crescer.
+3. **Prefira o apelido quando ele existe.** `--ob-pad-card` diz para que o espaço serve; se o padrão dos cartões mudar,
+   muda num lugar só.
+
+Um teste automático do pacote (`smoke-fundacoes`) recusa qualquer espaçamento escrito com número nos componentes.
+As únicas exceções são `0` e as compensações de borda de 1 ou 1,5px.
+
+## A escala
+
+<TokenTable prefixos={['--ob-space']} tipo="espaco" />
+
+| Faixa | Passos | Onde usar |
+|---|---|---|
+| Interior dos componentes | 2, 4, 6, 8, 10, 12 | Entre ícone e texto, padding de chips, badges e campos, rótulo e descrição |
+| Entre elementos | 16, 20, 24 | Padding de campo, botão e cartão; gap padrão entre itens de uma tela |
+| Entre blocos | 32, 40, 48, 64 | Padding de página, estados vazios, separação de seções |
+| Layout macro | 96, 128 | Seções de destaque e margens de página; nunca dentro de componentes |
+
+Os passos de 2, 6, 10 e 20px existem porque o interior dos componentes precisa deles. Entre blocos de uma tela,
+fique nos passos de 8 em diante.
 
 ## Apelidos por intenção
 
 <TokenTable prefixos={['--ob-gap', '--ob-pad', '--ob-stack']} tipo="espaco" />
+
+- `gap-*`: espaço entre irmãos numa linha ou grade.
+- `pad-*`: espaço interno de um cartão (`pad-card`) ou da página (`pad-page`).
+- `stack-*`: ritmo vertical entre parágrafos (`stack-sm`) e entre seções (`stack-md`).
+
+<FacaEvite>
+<Faca>
+
+`gap: var(--ob-gap-md)` entre cartões de uma grade, `padding: var(--ob-pad-card)` dentro de cada um.
+
+</Faca>
+<Evite>
+
+`margin-bottom` em cada filho para separar irmãos. O `gap` do pai faz o mesmo e não quebra quando a ordem muda.
+
+</Evite>
+</FacaEvite>
 
 ## Grade e containers
 

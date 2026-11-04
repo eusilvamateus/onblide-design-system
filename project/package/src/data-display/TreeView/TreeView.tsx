@@ -12,9 +12,9 @@ import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import type { BadgeTone } from '../../internal/badgeTones';
 
 const normalize = (s: string) => String(s || '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
-const INDENT = { md: 16, sm: 14 } as const;
+const INDENT = { md: 16, sm: 12 } as const;
 const BASE = { md: 8, sm: 6 } as const;
-const PAD_Y = { md: 6, sm: 3 } as const;
+const PAD_Y = { md: 6, sm: 4 } as const;
 
 injectStyleOnce('ob-treeview-kf', `
 .ob-tv-row{outline:none}
@@ -394,7 +394,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     const cs = selection === 'multiple' ? cstate(n) : null;
     const dropHere = drop && drop.id === n.id ? drop.pos : null;
     const acts = actionsFor(n);
-    const style: React.CSSProperties = { padding: `${padY}px 8px ${padY}px ${leftPad(r.level)}px`, minHeight: size === 'sm' ? 28 : 32 };
+    const style: React.CSSProperties = { padding: `${padY}px var(--ob-space-8) ${padY}px ${leftPad(r.level)}px`, minHeight: size === 'sm' ? 28 : 32 };
     const lifted = drag && (drag.id === n.id || isDescendant(index, n.id, drag.id));
     if (lifted) style.opacity = 'var(--ob-opacity-muted)';
     if (drag && drag.id === n.id) { style.background = 'var(--ob-bg-alt)'; style.outline = '1.5px dashed var(--ob-border)'; style.outlineOffset = -2; }
@@ -421,7 +421,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
         ref={(el) => { if (el && !el.dataset.f) { el.dataset.f = '1'; el.focus(); el.select(); } }}
         onChange={(e) => setEditing({ id: n.id, value: e.target.value })} onClick={(e) => e.stopPropagation()} onBlur={() => endRename(true)}
         onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter') { e.preventDefault(); endRename(true); } else if (e.key === 'Escape') { e.preventDefault(); endRename(false); } }}
-        style={{ width: '100%', boxSizing: 'border-box', font: 'inherit', color: 'var(--ob-fg-strong)', border: '1.5px solid var(--ob-blue)', borderRadius: 'var(--ob-r-xs)', padding: '0 6px', margin: '-2px 0', height: size === 'sm' ? 22 : 24, outline: 'none', boxShadow: '0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)', background: 'var(--ob-surface)' }} />
+        style={{ width: '100%', boxSizing: 'border-box', font: 'inherit', color: 'var(--ob-fg-strong)', border: '1.5px solid var(--ob-blue)', borderRadius: 'var(--ob-r-xs)', padding: '0 var(--ob-space-6)', margin: 'calc(var(--ob-space-2) * -1) 0', height: size === 'sm' ? 22 : 24, outline: 'none', boxShadow: '0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)', background: 'var(--ob-surface)' }} />
     ) : <Match text={n.label} query={query} />;
     const trail = (n.status || n.badge != null || acts) ? (
       <>
@@ -454,7 +454,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     );
   };
   const renderAux = (r: Row & { type: 'loading' | 'error' | 'empty' }, k: string) => (
-    <li key={k} role="none" style={{ margin: 0, position: 'relative', display: 'flex', alignItems: 'center', gap: 8, minHeight: size === 'sm' ? 28 : 32, padding: `${padY}px 8px ${padY}px ${leftPad(r.level) + 26}px`, fontFamily: 'var(--ob-font)', fontSize: size === 'sm' ? 12 : 13, color: r.type === 'error' ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>
+    <li key={k} role="none" style={{ margin: 0, position: 'relative', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', minHeight: size === 'sm' ? 28 : 32, padding: `${padY}px var(--ob-space-8) ${padY}px ${leftPad(r.level) + 26}px`, fontFamily: 'var(--ob-font)', fontSize: size === 'sm' ? 12 : 13, color: r.type === 'error' ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>
       {guideSpans(r.level)}
       {r.type === 'loading' && <><Spinner size="xs" />Carregando…</>}
       {r.type === 'empty' && 'Pasta vazia'}
@@ -466,13 +466,13 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     <div ref={rootRef} style={{ fontFamily: 'var(--ob-font)' }}>
       <List as="ul" role="tree" ariaLabel={ariaLabel} aria-multiselectable={selection === 'multiple' || undefined} size={size} onKeyDown={onKeyDown} style={{ gap: 0 }}>
         {rows.map((r, k) => (r.type === 'node' ? renderNode(r) : renderAux(r, `aux${k}`)))}
-        {rows.length === 0 && <li role="none" style={{ margin: 0, padding: '12px 8px', fontSize: 13, color: 'var(--ob-fg-mute)' }}>{nq ? `Nenhum resultado para "${query.trim()}"` : emptyText}</li>}
+        {rows.length === 0 && <li role="none" style={{ margin: 0, padding: 'var(--ob-space-12) var(--ob-space-8)', fontSize: 13, color: 'var(--ob-fg-mute)' }}>{nq ? `Nenhum resultado para "${query.trim()}"` : emptyText}</li>}
       </List>
       <span aria-live="polite" style={srOnly}>{live}</span>
       {drag && ghost && ReactDOM.createPortal(
         <div aria-hidden="true" style={{ position: 'fixed', left: ghost.x - drag.ox, top: ghost.y - drag.oy, width: drag.w, zIndex: 'var(--ob-z-drag)', pointerEvents: 'none' }}>
           <div style={{
-            display: 'flex', alignItems: 'center', gap: 8, minHeight: 34, padding: '6px 10px 6px 8px', boxSizing: 'border-box', background: 'var(--ob-surface)',
+            display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', minHeight: 34, padding: 'var(--ob-space-6) var(--ob-space-10) var(--ob-space-6) var(--ob-space-8)', boxSizing: 'border-box', background: 'var(--ob-surface)',
             border: `1.5px solid ${blocked ? 'var(--ob-danger)' : 'var(--ob-blue)'}`, borderRadius: 'var(--ob-r-sm)', boxShadow: 'var(--ob-shadow-lg)',
             fontFamily: 'var(--ob-font)', fontSize: 14, color: 'var(--ob-fg-strong)', transformOrigin: `${drag.ox}px ${drag.oy}px`, animation: 'ob-tv-lift var(--ob-dur-fast) var(--ob-ease-out) forwards',
           }}>

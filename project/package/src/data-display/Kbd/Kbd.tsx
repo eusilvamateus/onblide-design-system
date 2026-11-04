@@ -23,7 +23,7 @@ export const Kbd: React.FC<KbdProps> = ({ appearance = 'outline', size = 'md', c
     <kbd style={{
       ...base,
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: size === 'sm' ? 20 : 24,
-      padding: size === 'sm' ? '3px 6px' : '4px 8px', borderRadius: 'var(--ob-r-xs)', boxSizing: 'border-box',
+      padding: size === 'sm' ? 'var(--ob-space-4) var(--ob-space-6)' : 'var(--ob-space-4) var(--ob-space-8)', borderRadius: 'var(--ob-r-xs)', boxSizing: 'border-box',
       background: 'color-mix(in srgb, currentColor 10%, transparent)',
       border: '1px solid color-mix(in srgb, currentColor 30%, transparent)',
       borderBottomWidth: 2,

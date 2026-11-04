@@ -104,13 +104,13 @@ export function Table<T extends object = Record<string, unknown>>({
   const partChecked = selected.length > 0 && selected.length < rows.length;
 
   const thStyle: React.CSSProperties = {
-    padding: '10px 14px', textAlign: 'left', fontFamily: 'var(--ob-font-mono)',
+    padding: 'var(--ob-space-10) var(--ob-space-16)', textAlign: 'left', fontFamily: 'var(--ob-font-mono)',
     fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
     color: 'var(--ob-fg-mute)', borderBottom: '1px solid var(--ob-line-soft)',
     background: 'var(--ob-surface)', whiteSpace: 'nowrap', userSelect: 'none',
   };
   const tdStyle: React.CSSProperties = {
-    padding: '12px 14px', fontSize: 'var(--ob-fs-xs)', color: 'var(--ob-fg)',
+    padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 'var(--ob-fs-xs)', color: 'var(--ob-fg)',
     borderBottom: '1px solid var(--ob-line-soft)', verticalAlign: 'middle',
   };
   const celula = (ultima: boolean): React.CSSProperties => (ultima ? { ...tdStyle, borderBottom: 'none' } : tdStyle);
@@ -122,14 +122,14 @@ export function Table<T extends object = Record<string, unknown>>({
         <thead>
           <tr>
             {selectable && (
-              <th style={{ ...thStyle, width: 44, padding: '10px 14px' }}>
+              <th style={{ ...thStyle, width: 44, padding: 'var(--ob-space-10) var(--ob-space-16)' }}>
                 <Checkbox checked={allChecked} indeterminate={partChecked} onChange={toggleAll} ariaLabel="Selecionar todas as linhas" />
               </th>
             )}
             {columns.map(col => (
               <th key={col.key} style={{ ...thStyle, cursor: col.sortable ? 'pointer' : 'default', width: col.width }}
                 onClick={() => col.sortable && alternarOrdenacao(col.key)}>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-6)' }}>
                   {col.label}
                   {col.sortable && (
                     <span style={{ opacity: sortAtivo?.key === col.key ? 1 : 'var(--ob-opacity-muted)', color: 'var(--ob-blue)' }}>
@@ -156,7 +156,7 @@ export function Table<T extends object = Record<string, unknown>>({
             : rows.length === 0
             ? (
               <tr>
-                <td colSpan={columns.length + (selectable ? 1 : 0)} style={{ ...celula(true), textAlign: 'center', padding: '40px 14px', color: 'var(--ob-fg-mute)' }}>
+                <td colSpan={columns.length + (selectable ? 1 : 0)} style={{ ...celula(true), textAlign: 'center', padding: 'var(--ob-space-40) var(--ob-space-16)', color: 'var(--ob-fg-mute)' }}>
                   {emptyState || 'Nenhum resultado encontrado.'}
                 </td>
               </tr>

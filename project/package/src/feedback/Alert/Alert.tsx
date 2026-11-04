@@ -24,14 +24,14 @@ export interface AlertProps {
 export const Alert: React.FC<AlertProps> = ({ tone = 'info', title, children, dismissible = false, onClose, action, onAction }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
   return (
-    <div role="alert" style={{ display: 'flex', gap: 13, width: '100%', padding: '14px 16px', background: t.bg, border: `1px solid color-mix(in srgb, ${t.fg} 28%, transparent)`, borderRadius: 'var(--ob-r-md)', boxSizing: 'border-box' }}>
+    <div role="alert" style={{ display: 'flex', gap: 'var(--ob-space-12)', width: '100%', padding: 'var(--ob-space-16) var(--ob-space-16)', background: t.bg, border: `1px solid color-mix(in srgb, ${t.fg} 28%, transparent)`, borderRadius: 'var(--ob-r-md)', boxSizing: 'border-box' }}>
       <Ph n={t.icon} size={20} c={t.fg} weight="fill" />
       <div style={{ flex: 1, minWidth: 0 }}>
-        {title && <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: children ? 3 : 0 }}>{title}</div>}
+        {title && <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: children ? 'var(--ob-space-4)' : 0 }}>{title}</div>}
         {children && <div style={{ fontSize: 13.5, color: 'var(--ob-fg)', lineHeight: 1.5 }}>{children}</div>}
-        {action && <Button kind="ghost" size="sm" onClick={onAction} style={{ marginTop: 6, marginLeft: -12, color: t.strong }}>{action} →</Button>}
+        {action && <Button kind="ghost" size="sm" onClick={onAction} style={{ marginTop: 'var(--ob-space-6)', marginLeft: 'calc(var(--ob-space-12) * -1)', color: t.strong }}>{action} →</Button>}
       </div>
-      {dismissible && onClose && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={16} />} style={{ flex: 'none', margin: '-8px -10px -8px 0' }} />}
+      {dismissible && onClose && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={16} />} style={{ flex: 'none', margin: 'calc(var(--ob-space-8) * -1) calc(var(--ob-space-10) * -1) calc(var(--ob-space-8) * -1) 0' }} />}
     </div>
   );
 };

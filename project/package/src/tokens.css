@@ -505,28 +505,33 @@
   --ob-tracking-wide:   0.04em; /* @kind font */
 
   /* ------------------------------------------------------------
-     SPACING (4px base)
+     SPACING
      ------------------------------------------------------------ */
-  --ob-s-1:  4px;
-  --ob-s-2:  8px;
-  --ob-s-3:  12px;
-  --ob-s-4:  16px;
-  --ob-s-5:  24px;
-  --ob-s-6:  32px;
-  --ob-s-7:  48px;
-  --ob-s-8:  64px;
-  --ob-s-9:  96px;
-  --ob-s-10: 128px;
+  --ob-space-2:   2px;
+  --ob-space-4:   4px;
+  --ob-space-6:   6px;
+  --ob-space-8:   8px;
+  --ob-space-10:  10px;
+  --ob-space-12:  12px;
+  --ob-space-16:  16px;
+  --ob-space-20:  20px;
+  --ob-space-24:  24px;
+  --ob-space-32:  32px;
+  --ob-space-40:  40px;
+  --ob-space-48:  48px;
+  --ob-space-64:  64px;
+  --ob-space-96:  96px;
+  --ob-space-128: 128px;
 
   /* Spacing — semantic aliases (intent-based) */
-  --ob-gap-xs:     var(--ob-s-1); /* @kind spacing */   /* 4px  — ícone+texto, badge+ícone        */
-  --ob-gap-sm:     var(--ob-s-2); /* @kind spacing */   /* 8px  — gap de chip, botão+ícone        */
-  --ob-gap-md:     var(--ob-s-4); /* @kind spacing */   /* 16px — gap padrão entre elementos      */
-  --ob-gap-lg:     var(--ob-s-5); /* @kind spacing */   /* 24px — gap de seção interna           */
-  --ob-pad-card:   var(--ob-s-5); /* @kind spacing */   /* 24px — padding interno de card        */
-  --ob-pad-page:   var(--ob-s-6); /* @kind spacing */   /* 32px — padding horizontal de página   */
-  --ob-stack-sm:   var(--ob-s-3); /* @kind spacing */   /* 12px — ritmo vertical — parágrafos   */
-  --ob-stack-md:   var(--ob-s-5); /* @kind spacing */   /* 24px — ritmo vertical — seções     */
+  --ob-gap-xs:     var(--ob-space-4); /* @kind spacing */   /* 4px  — ícone+texto, badge+ícone        */
+  --ob-gap-sm:     var(--ob-space-8); /* @kind spacing */   /* 8px  — gap de chip, botão+ícone        */
+  --ob-gap-md:     var(--ob-space-16); /* @kind spacing */   /* 16px — gap padrão entre elementos      */
+  --ob-gap-lg:     var(--ob-space-24); /* @kind spacing */   /* 24px — gap de seção interna           */
+  --ob-pad-card:   var(--ob-space-24); /* @kind spacing */   /* 24px — padding interno de card        */
+  --ob-pad-page:   var(--ob-space-32); /* @kind spacing */   /* 32px — padding horizontal de página   */
+  --ob-stack-sm:   var(--ob-space-12); /* @kind spacing */   /* 12px — ritmo vertical — parágrafos   */
+  --ob-stack-md:   var(--ob-space-24); /* @kind spacing */   /* 24px — ritmo vertical — seções     */
 
   --ob-focus-ring-width: 3px;
 
@@ -570,13 +575,13 @@
   --ob-grid-cols-sm:    8; /* @kind other */
   --ob-grid-cols-md:   12; /* @kind other */
 
-  --ob-grid-gutter:     var(--ob-s-4);
-  --ob-grid-gutter-sm:  var(--ob-s-5);
-  --ob-grid-gutter-md:  var(--ob-s-5);
+  --ob-grid-gutter:     var(--ob-space-16);
+  --ob-grid-gutter-sm:  var(--ob-space-24);
+  --ob-grid-gutter-md:  var(--ob-space-24);
 
-  --ob-grid-margin:     var(--ob-s-4);
-  --ob-grid-margin-sm:  var(--ob-s-6);
-  --ob-grid-margin-md:  var(--ob-s-7);
+  --ob-grid-margin:     var(--ob-space-16);
+  --ob-grid-margin-sm:  var(--ob-space-32);
+  --ob-grid-margin-md:  var(--ob-space-48);
 
   /* ------------------------------------------------------------
      CONTAINERS
@@ -747,7 +752,7 @@ code, .ob-code {
   font-family: var(--ob-font-mono);
   font-size: 0.92em;
   background: var(--ob-cream);
-  padding: 2px 6px;
+  padding: var(--ob-space-2) var(--ob-space-6);
   border-radius: var(--ob-r-xs);
   color: var(--ob-ink-strong);
 }

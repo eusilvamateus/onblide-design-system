@@ -45,7 +45,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       onClick={(e) => { e.preventDefault(); if (!disabled) onChange?.(!checked); }}
       onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!disabled) onChange?.(!checked); } }}
       style={{
-        display: temTexto ? 'flex' : 'inline-flex', alignItems: 'flex-start', gap: 10,
+        display: temTexto ? 'flex' : 'inline-flex', alignItems: 'flex-start', gap: 'var(--ob-space-10)',
         cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
       }}>
       <span style={{
@@ -65,7 +65,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       {temTexto && (
         <span>
           {label != null && <span style={{ fontSize: 14, color: 'var(--ob-fg-strong)', fontWeight: 500, lineHeight: `${CAIXA}px`, display: 'block' }}>{label}</span>}
-          {description != null && <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 2, display: 'block' }}>{description}</span>}
+          {description != null && <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-2)', display: 'block' }}>{description}</span>}
         </span>
       )}
     </label>

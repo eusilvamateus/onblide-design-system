@@ -18,7 +18,7 @@ export const Switch: React.FC<SwitchProps> = ({ checked, onChange, label, disabl
   const w = size === 'sm' ? 32 : 40, h = size === 'sm' ? 18 : 22, knob = h - 4;
   const alternar = () => { if (!disabled) onChange?.(!checked); };
   return (
-    <label style={{ display: 'inline-flex', alignItems: 'center', gap: 10, cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1 }}>
+    <label style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-10)', cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1 }}>
       <span
         role="switch"
         aria-checked={checked}

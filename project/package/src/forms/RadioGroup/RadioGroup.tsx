@@ -25,7 +25,7 @@ export interface RadioGroupProps {
 
 /** Conjunto de opções de escolha única (Radio) exibidas em coluna. */
 export const RadioGroup: React.FC<RadioGroupProps> = ({ options, value, onChange, name = 'radio-group' }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-12)' }}>
     {options.map(opt => (
       <Radio key={opt.value} name={name} value={opt.value} label={opt.label}
         description={opt.description} disabled={opt.disabled}

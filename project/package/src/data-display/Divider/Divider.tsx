@@ -48,7 +48,7 @@ export const Divider: React.FC<DividerProps> = ({
   const seg = <span style={{ flex: 1, minWidth: 16, borderTop: line }} />;
   return (
     <div {...a11y} style={{
-      display: 'flex', alignItems: 'center', gap: 12, flex: 'none', margin: `${spacing}px ${-bleed}px`,
+      display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)', flex: 'none', margin: `${spacing}px ${-bleed}px`,
       fontFamily: 'var(--ob-font)', fontSize: 'var(--ob-fs-xs)', lineHeight: 'var(--ob-lh-normal)',
       fontWeight: 'var(--ob-w-medium)', color: 'var(--ob-fg-soft)', ...style,
     }}>

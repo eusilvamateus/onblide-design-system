@@ -96,7 +96,7 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
       onBlur={() => setFocused(false)}
       style={{
         position: 'relative', zIndex: focused ? 2 : on ? 1 : 0,
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--ob-space-8)',
         fontFamily: 'inherit', fontWeight: 600, fontSize: FS[size], lineHeight: `${ICO[size]}px`,
         padding: iconOnly ? py : `${py}px ${px}px`, borderRadius: 'var(--ob-r-control)',
         border: `1.5px solid ${bc}`, background: bg, color: fg,

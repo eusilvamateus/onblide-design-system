@@ -1,12 +1,44 @@
 ---
 title: Raios
 sidebar_position: 5
-description: Arredondamento de cartões, botões e campos.
+description: Oito raios, três apelidos por família de componente e quando usar a pílula e o círculo.
 ---
 
 import { TokenTable } from '@site/src/components/Tokens';
 
-A personalidade é suave: **8 a 12 px** é o registro padrão, com 12 px como valor de trabalho para cartões, botões e
-campos. Pílulas (`999px`) ficam para selos e interruptores.
+A forma do Onblide é **suave, nunca aguda**: o registro padrão fica entre 8 e 12px. Cada raio tem um papel, e os
+componentes usam os apelidos por família, não o número.
+
+## Use o apelido da família
+
+| Família | Apelido | Valor | Componentes |
+|---|---|---|---|
+| Controles | `--ob-r-control` | 8px (`sm`) | Botão, campo, select, toggle |
+| Superfícies | `--ob-r-surface` | 12px (`md`) | Cartão, painel, menu, popover |
+| Sobreposições | `--ob-r-overlay` | 16px (`lg`) | Modal, drawer |
+
+Se o padrão de uma família mudar, muda no apelido e todos os componentes dela acompanham.
+
+## A escala
 
 <TokenTable prefixos={['--ob-r']} tipo="raio" />
+
+| Raio | Quando usar |
+|---|---|
+| `2xs` (2px) | Sublinhados e indicadores finos: a linha da aba ativa, a linha de soltar ao arrastar |
+| `xs` (4px) | Elementos pequenos: código inline, checkbox, tecla, esqueleto de texto |
+| `sm`, `md`, `lg`, `xl` | Pelos apelidos acima; `xl` (20px) para áreas grandes de destaque |
+| `pill` (999px) | Pontas totalmente redondas num elemento comprido: badge, chip, barra de progresso, switch |
+| `circle` (50%) | Um círculo a partir de um quadrado: avatar, radio, ponto de status, polegar do slider |
+
+`pill` e `circle` parecem iguais num quadrado, mas não são: num retângulo, `circle` faz uma elipse e `pill` mantém as
+laterais retas. Escolha pelo formato que você quer.
+
+## A regra
+
+- Nunca escreva o número: `border-radius: var(--ob-r-surface)`, não `border-radius: 12px`. O teste `smoke-fundacoes`
+  do pacote recusa raios escritos à mão.
+- Dentro de um cartão, uma imagem encostada na borda usa o mesmo raio do cartão; `overflow: hidden` no cartão resolve
+  sem raio próprio.
+- Um painel que encosta no gatilho pode zerar o raio do lado que encosta. Fora disso, não misture raios no mesmo
+  elemento.

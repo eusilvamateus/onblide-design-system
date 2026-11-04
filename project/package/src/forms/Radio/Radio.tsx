@@ -22,7 +22,7 @@ export const Radio: React.FC<RadioProps> = ({
   name, value, checked, onChange, label, disabled = false, description,
 }) => (
   <label style={{
-    display: 'flex', alignItems: 'flex-start', gap: 10, cursor: disabled ? 'not-allowed' : 'pointer',
+    display: 'flex', alignItems: 'flex-start', gap: 'var(--ob-space-10)', cursor: disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
   }}>
     <span style={{ position: 'relative', flex: 'none' }}>
@@ -39,7 +39,7 @@ export const Radio: React.FC<RadioProps> = ({
     </span>
     <span>
       <span style={{ fontSize: 14, color: 'var(--ob-fg-strong)', fontWeight: 500, lineHeight: '18px', display: 'block' }}>{label}</span>
-      {description && <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 2, display: 'block' }}>{description}</span>}
+      {description && <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-2)', display: 'block' }}>{description}</span>}
     </span>
   </label>
 );

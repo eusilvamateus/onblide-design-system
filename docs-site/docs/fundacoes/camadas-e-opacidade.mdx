@@ -1,17 +1,60 @@
 ---
 title: Camadas e opacidade
 sidebar_position: 7
-description: Ordem de empilhamento e escalas de transparência.
+description: A ordem fixa de empilhamento da interface e os seis níveis de transparência com significado.
 ---
 
 import { TokenTable } from '@site/src/components/Tokens';
 
 ## Camadas (`z-index`)
 
-Nunca invente um valor fora da escala: escolha a camada pelo papel do elemento.
+Tudo que flutua sobre a página tem uma camada fixa, escolhida pelo **papel** do elemento, nunca por tentativa e erro.
+
+| Camada | Token | Valor | O que fica nela |
+|---|---|---|---|
+| Base | `--ob-z-base` | 0 | O fluxo normal da página |
+| Elevada | `--ob-z-raised` | 10 | Barra superior fixa, navegação lateral fixa |
+| Dropdown | `--ob-z-dropdown` | 100 | Menu, select, popover, calendário do datepicker |
+| Tooltip | `--ob-z-tooltip` | 200 | Tooltip, que precisa ficar acima de um menu aberto |
+| Fundo de sobreposição | `--ob-z-overlay` | 300 | O fundo escurecido do modal e do drawer |
+| Modal | `--ob-z-modal` | 400 | O painel do modal e do drawer |
+| Toast | `--ob-z-toast` | 500 | Notificações, acima de tudo que é interativo |
+| Arrastar | `--ob-z-drag` | 600 | A prévia de arrastar, que só existe durante o gesto |
+| Sistema | `--ob-z-system` | 9000 | Ferramentas de depuração; nunca em produto |
 
 <TokenTable prefixos={['--ob-z']} />
 
+**A regra:**
+
+- Nunca invente um valor (`z-index: 1200`). Se nenhuma camada serve, discuta antes uma camada nova para todos.
+- Um menu dentro de um modal continua em `--ob-z-dropdown`, porque o modal já isola o que está dentro dele. Não
+  aumente o número para compensar.
+- Dentro de um único componente, 0, 1 e 2 ordenam peças locais, como o botão com foco sobre o vizinho num grupo. Isso
+  não é camada e não usa token.
+
+O teste `smoke-fundacoes` do pacote recusa qualquer `z-index` de 3 para cima escrito com número.
+
 ## Opacidade
 
-<TokenTable prefixos={['--ob-opacity']} />
+Opacidade tem uso restrito: cada nível tem um significado, e o mesmo significado usa sempre o mesmo nível.
+
+| Token | Valor | Significado |
+|---|---|---|
+| `--ob-opacity-hover` | 0.08 | Véu de hover sobre uma cor sólida |
+| `--ob-opacity-focus` | 0.32 | Transparência do anel de foco |
+| `--ob-opacity-muted` | 0.4 | Item inativo: dia fora do mês, etapa pendente, ícone de ordenação desligado |
+| `--ob-opacity-disabled` | 0.45 | Elemento desabilitado, em qualquer componente |
+| `--ob-opacity-scrim` | 0.45 | Fundo escurecido de modal e drawer |
+| `--ob-opacity-strong` | 0.75 | Hover de link, marca secundária ativa |
+
+<TokenTable prefixos={['--ob-opacity']} tipo="opacidade" />
+
+**A regra:**
+
+- Desabilitado é sempre `--ob-opacity-disabled`, no elemento de fora, junto com `cursor: not-allowed`.
+- Não use opacidade para deixar texto mais claro. Use as cores `--ob-fg-soft` e `--ob-fg-mute`: opacidade em texto
+  sobre fundo colorido perde contraste.
+- Para um fundo levemente colorido, use `color-mix(in srgb, var(--ob-blue) 12%, transparent)` em vez de opacidade no
+  elemento, que também apagaria o conteúdo dele.
+
+Só `0` e `1` podem ser escritos como número; o teste `smoke-fundacoes` recusa qualquer outra opacidade fixa.

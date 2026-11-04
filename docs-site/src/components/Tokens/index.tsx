@@ -3,7 +3,7 @@ import { Table, type TableColumn } from '@onblide/ui';
 import tokens from '@site/src/data/tokens.json';
 
 type Token = { nome: string; valor: string; escuro: string | null };
-type Tipo = 'cor' | 'raio' | 'sombra' | 'espaco' | 'texto' | 'nenhuma';
+type Tipo = 'cor' | 'raio' | 'sombra' | 'espaco' | 'texto' | 'opacidade' | 'movimento' | 'nenhuma';
 
 const todos = tokens as Token[];
 const filtrar = (prefixos: string[]) =>
@@ -17,6 +17,15 @@ function Amostra({ nome, tipo }: { nome: string; tipo: Tipo }) {
   if (tipo === 'sombra') return <div style={{ ...base, border: 'none', borderRadius: 6, background: 'var(--ob-surface)', boxShadow: v }} />;
   if (tipo === 'espaco') return <div style={{ height: 12, width: v, minWidth: 2, background: 'var(--ob-blue)', borderRadius: 2 }} />;
   if (tipo === 'texto') return <span style={{ fontSize: v, lineHeight: 1 }}>Aa</span>;
+  if (tipo === 'opacidade') return <div style={{ ...base, borderRadius: 6, background: 'var(--ob-blue)', opacity: v }} />;
+  if (tipo === 'movimento') {
+    const curva = nome.startsWith('--ob-ease');
+    return (
+      <span className="ob-amostra-movimento" title="Passe o mouse para ver" style={{ '--ob-amostra-dur': curva ? 'var(--ob-dur-slow)' : v, '--ob-amostra-curva': curva ? v : 'var(--ob-ease)' } as React.CSSProperties}>
+        <span />
+      </span>
+    );
+  }
   return null;
 }
 

@@ -88,6 +88,17 @@ Resumo para o agente: escala `sm` 768, `md` 1024, `lg` 1280, `xl` 1440 (abaixo d
 `mediaQuery()` (`src/layout/breakpoints.ts`); em React, `useBreakpoint()`. Grade e containers usam os mesmos nomes
 (`--ob-grid-*-sm|md`, `--ob-container-*`). O `smoke-breakpoints` recusa qualquer `@media` fora da regra.
 
+## Fundações: nenhum número solto
+
+Regras completas nas páginas de Fundações do site (`docs-site/docs/fundacoes/`), decisão em
+[`docs/decisions/0012`](../docs/decisions/0012-componentes-sem-numeros-soltos-nas-fundacoes.md).
+Resumo para o agente: nos componentes, espaçamento é `--ob-space-<px>` (2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48, 64,
+96, 128) ou os apelidos `--ob-gap-*`/`--ob-pad-*`/`--ob-stack-*`; raio é `--ob-r-*` (de preferência `control`, `surface`,
+`overlay`, `pill`, `circle`); duração e curva são `--ob-dur-*` e `--ob-ease-*`; camada é `--ob-z-*` (0, 1 e 2 só para a
+ordem local de um componente); opacidade é `--ob-opacity-*` (desabilitado é sempre `--ob-opacity-disabled`); foco é
+`0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)`. Valor fora da escala vai para o passo mais próximo; se nenhum
+serve, a escala cresce para todos antes. O `smoke-fundacoes` recusa números soltos em `src/`.
+
 ## Site de documentação (`docs-site/`)
 
 Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, <https://onblide-design-system.vercel.app>),

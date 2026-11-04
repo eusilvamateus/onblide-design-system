@@ -21,7 +21,7 @@ export interface FieldShellProps {
 
 /** Invólucro visual reutilizável para campos de formulário, cuidando de borda, foco, erro e estado desabilitado. */
 export const FieldShell: React.FC<FieldShellProps> = ({
-  focused = false, error = false, disabled = false, minHeight = 44, padding = '0 14px',
+  focused = false, error = false, disabled = false, minHeight = 44, padding = '0 var(--ob-space-16)',
   onClick, style = {}, children,
 }) => {
   const borderColor = error ? 'var(--ob-danger)' : focused ? 'var(--ob-blue)' : 'var(--ob-border)';
@@ -30,7 +30,7 @@ export const FieldShell: React.FC<FieldShellProps> = ({
             : '0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)';
   return (
     <div onClick={onClick} style={{
-      display: 'flex', alignItems: 'center', gap: 10,
+      display: 'flex', alignItems: 'center', gap: 'var(--ob-space-10)',
       minHeight, padding,
       background: disabled ? 'var(--ob-bg-alt)' : 'var(--ob-surface)',
       border: `1.5px solid ${borderColor}`,

@@ -66,15 +66,15 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
         maxWidth: '100%', display: 'flex', flexDirection: 'column', background: 'var(--ob-surface)',
         boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden', animation: animado ? 'ob-pop var(--ob-dur-base) var(--ob-ease-spring)' : undefined,
       } as React.CSSProperties}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, padding: '20px 24px 0', flex: 'none' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--ob-space-16)', padding: 'var(--ob-space-20) var(--ob-space-24) 0', flex: 'none' }}>
           <h3 id={titleId} style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</h3>
-          {closeButton && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Icons.x size={18} />} style={{ flex: 'none', margin: '-4px -8px 0 0' }} />}
+          {closeButton && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Icons.x size={18} />} style={{ flex: 'none', margin: 'calc(var(--ob-space-4) * -1) calc(var(--ob-space-8) * -1) 0 0' }} />}
         </div>
         <ScrollArea style={{ flex: '1 1 auto' }}>
-          <div id={bodyId} style={{ padding: '12px 24px 20px', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>{children}</div>
+          <div id={bodyId} style={{ padding: 'var(--ob-space-12) var(--ob-space-24) var(--ob-space-20)', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>{children}</div>
         </ScrollArea>
         {footer && (
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, flex: 'none', padding: '16px 24px', borderTop: '1px solid var(--ob-border)', background: 'var(--ob-bg-alt)' }}>{footer}</div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--ob-space-8)', flex: 'none', padding: 'var(--ob-space-16) var(--ob-space-24)', borderTop: '1px solid var(--ob-border)', background: 'var(--ob-bg-alt)' }}>{footer}</div>
         )}
       </div>
     </div>
@@ -84,10 +84,10 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
 injectStyleOnce('ob-modal-layout', [
   '.ob-modal-fundo{padding:0}',
   '.ob-modal{width:100%;height:100%;max-height:100%;border-radius:0}',
-  '.ob-modal-fundo[data-cartao]{padding:16px}',
+  '.ob-modal-fundo[data-cartao]{padding:var(--ob-space-16)}',
   '.ob-modal-fundo[data-cartao] .ob-modal{width:var(--ob-modal-largura);height:auto;max-height:var(--ob-modal-altura);border-radius:var(--ob-r-overlay)}',
   `@media ${mediaQuery('sm')}{`,
-  '.ob-modal-fundo,.ob-modal-fundo[data-cartao]{padding:24px}',
+  '.ob-modal-fundo,.ob-modal-fundo[data-cartao]{padding:var(--ob-space-24)}',
   '.ob-modal{width:var(--ob-modal-largura);height:auto;max-height:var(--ob-modal-altura);border-radius:var(--ob-r-overlay)}',
   '}',
 ].join(''));

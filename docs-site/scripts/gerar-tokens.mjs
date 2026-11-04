@@ -23,7 +23,7 @@ const claro = {};
 for (const m of css.matchAll(/(?:^|\n):root\b[^{]*\{/g)) Object.assign(claro, extrair(bloco(m.index)));
 const escuro = extrair(bloco(css.search(/\n\[data-theme="dark"\]\s*\{/)));
 
-const familias = ['--ob-blue', '--ob-shadow', '--ob-s-', '--ob-r-', '--ob-z-', '--ob-opacity', '--ob-dur', '--ob-fs', '--ob-bp'];
+const familias = ['--ob-blue', '--ob-shadow', '--ob-space-', '--ob-r-', '--ob-z-', '--ob-opacity', '--ob-dur', '--ob-fs', '--ob-bp'];
 const faltando = familias.filter((f) => !Object.keys(claro).some((n) => n.startsWith(f)));
 if (faltando.length) {
   console.error(`tokens.css: nenhum token encontrado para ${faltando.join(', ')}; o seletor do bloco mudou?`);

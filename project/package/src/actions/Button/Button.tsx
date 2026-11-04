@@ -57,11 +57,11 @@ export const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const base: React.CSSProperties = {
-    position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 8, justifyContent: 'center',
+    position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)', justifyContent: 'center',
     fontFamily: 'inherit', fontWeight: 600, border: 'none', borderRadius: 'var(--ob-r-control)',
     cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, transition: 'all var(--ob-dur-fast) var(--ob-ease)',
     fontSize: size === 'sm' ? 13 : size === 'lg' ? 15 : 14,
-    padding: size === 'sm' ? '0 12px' : size === 'lg' ? '0 22px' : '0 18px',
+    padding: size === 'sm' ? '0 var(--ob-space-12)' : size === 'lg' ? '0 var(--ob-space-24)' : '0 var(--ob-space-20)',
   };
   const tom = ACTION_TONES[tone];
   const tomDoContador = countTone ?? TOM_DO_CONTADOR[kind] ?? 'danger';

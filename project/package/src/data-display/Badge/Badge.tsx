@@ -26,7 +26,7 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label
   const numerico = variant === 'numeric';
   const pintura: BadgeAppearance = appearance ?? (numerico ? 'solid' : 'soft');
   const fs = size === 'sm' ? 11 : 12;
-  const px = size === 'sm' ? '2px 8px' : '4px 10px';
+  const preenchimento = size === 'sm' ? 'var(--ob-space-2) var(--ob-space-8)' : 'var(--ob-space-4) var(--ob-space-10)';
 
   const pinturas: Record<BadgeAppearance, React.CSSProperties> = {
     soft:    { background: t.bg, color: t.fg, border: 'none' },
@@ -34,12 +34,12 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label
     outline: { background: 'transparent', color: t.fg, border: `1.5px solid ${t.border}` },
   };
   const forma: React.CSSProperties = numerico
-    ? { minWidth: 18, height: 18, padding: '0 5px', justifyContent: 'center' }
-    : { padding: px };
+    ? { minWidth: 18, height: 18, padding: '0 var(--ob-space-6)', justifyContent: 'center' }
+    : { padding: preenchimento };
 
   return (
     <span style={{
-      display: 'inline-flex', alignItems: 'center', gap: 5,
+      display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-6)',
       borderRadius: 'var(--ob-r-pill)', fontSize: fs, fontWeight: 700,
       lineHeight: 1, ...(pinturas[pintura] || pinturas.soft), ...forma,
     }}>

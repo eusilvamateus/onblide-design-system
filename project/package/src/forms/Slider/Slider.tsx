@@ -170,7 +170,7 @@ export const Slider: React.FC<SliderProps> = (props) => {
     : [];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, opacity: disabled ? 'var(--ob-opacity-disabled)' : 1 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1 }}>
       {(label || showValue) && (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
@@ -225,7 +225,7 @@ export const Slider: React.FC<SliderProps> = (props) => {
         )}
       </div>
       {marks && markPositions.length > 0 && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 'var(--ob-space-2)' }}>
           <span style={{ fontSize: 10, color: 'var(--ob-fg-mute)', fontFamily: 'var(--ob-font-mono)' }}>{min}</span>
           <span style={{ fontSize: 10, color: 'var(--ob-fg-mute)', fontFamily: 'var(--ob-font-mono)' }}>{max}</span>
         </div>

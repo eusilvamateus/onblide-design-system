@@ -30,7 +30,7 @@ export const Link: React.FC<LinkProps> = ({ href = '#', children, tone = 'primar
     <a href={href} onClick={onClick} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       style={{
-        display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: 'inherit',
+        display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-4)', fontFamily: 'inherit',
         fontWeight: 500, fontSize: 'inherit', cursor: 'pointer', transition: 'color var(--ob-dur-fast) var(--ob-ease)',
         ...tons[tone],
       }}>

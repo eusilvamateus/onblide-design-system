@@ -23,7 +23,7 @@ export const FieldAddon: React.FC<FieldAddonProps> = ({ side, focused, error, on
         display: 'flex', alignItems: 'center', alignSelf: 'stretch', flex: 'none',
         ...(side === 'end' ? { borderLeft: divisoria } : { borderRight: divisoria }),
         ...(texto ? {
-          padding: '0 14px', fontSize: 14, color: 'var(--ob-fg-soft)', background: 'var(--ob-bg-alt)', whiteSpace: 'nowrap',
+          padding: '0 var(--ob-space-16)', fontSize: 14, color: 'var(--ob-fg-soft)', background: 'var(--ob-bg-alt)', whiteSpace: 'nowrap',
           borderRadius: side === 'end' ? `0 ${RAIO} ${RAIO} 0` : `${RAIO} 0 0 ${RAIO}`,
         } : null),
       }}>

@@ -1,5 +1,5 @@
+<!-- @dsCard group="Spacing" name="Radii" subtitle="Soft 8–12px — 2/4/8/12/16/20/pill/círculo" viewport="760x170" -->
 <!doctype html>
-<!-- @dsCard group="Spacing" name="Radii" subtitle="Soft 8–12px — 4/8/12/16/20/pill" viewport="760x170" -->
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Radii · Onblide DS</title>
 <link rel="stylesheet" href="../../package/src/tokens.css">
 <style>
@@ -56,7 +56,7 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
 
   <p class="eyebrow">Foundation · Forma</p>
   <h1>Border <em>Radius</em></h1>
-  <p class="lede">Seis etapas de arredondamento constroem a linguagem de forma da Onblide — do micro ajuste de 4 px ao círculo perfeito. A personalidade é <strong>suave, nunca aguda</strong>: o raio mínimo já visível em todo controle interativo é <code>--ob-r-sm</code> (8 px).</p>
+  <p class="lede">Oito etapas de arredondamento constroem a linguagem de forma da Onblide — do micro ajuste de 4 px ao círculo perfeito. A personalidade é <strong>suave, nunca aguda</strong>: o raio mínimo já visível em todo controle interativo é <code>--ob-r-sm</code> (8 px).</p>
 
   <section>
     <h2>Escala de tokens</h2>
@@ -66,6 +66,11 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
         <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Valor</span>
         <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Demo</span>
         <span style="font-family:var(--ob-font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ob-fg-mute)">Uso típico</span>
+      </div>
+      <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
+        <code class="tok">--ob-r-2xs</code><span class="val">2 px</span>
+        <div class="demo-box" style="border-radius:2px;width:80px;height:6px;"></div>
+        <span class="usage-cell">Sublinhados e indicadores finos (aba ativa, linha de arrastar)</span>
       </div>
       <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
         <code class="tok">--ob-r-xs</code><span class="val">4 px</span>
@@ -97,6 +102,11 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
         <div class="demo-box" style="border-radius:999px;width:80px;height:32px;"></div>
         <span class="usage-cell">Badges, chips, progress bars, tags</span>
       </div>
+      <div class="scale-row" style="grid-template-columns:120px 60px 80px 1fr">
+        <code class="tok">--ob-r-circle</code><span class="val">50 %</span>
+        <div class="demo-box" style="border-radius:50%;width:32px;height:32px;"></div>
+        <span class="usage-cell">Avatares, radio, pontos de status, polegar do slider</span>
+      </div>
     </div>
   </section>
 
@@ -126,7 +136,7 @@ code { font-family: var(--ob-font-mono); font-size: 0.87em; background: var(--ob
         </tr>
       </tbody>
     </table>
-    <div class="note">Raios pílula (<code>--ob-r-pill</code>) não possuem alias semântico — o valor 999px é autoexplicativo e universal para todos os elementos em pílula.</div>
+    <div class="note"><code>--ob-r-pill</code> (999px) arredonda as pontas de qualquer elemento comprido; <code>--ob-r-circle</code> (50%) faz um círculo de um elemento quadrado. Nenhum dos dois tem apelido, porque o nome já diz o formato.</div>
   </section>
 
   <section>

@@ -42,7 +42,7 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
   const botao = (
     <button type="button" onClick={() => (grupo ? setAberto((a) => !a) : onNav?.(it.id))} aria-expanded={grupo ? aberto : undefined}
       title={collapsed ? (typeof it.label === 'string' ? it.label : undefined) : undefined}
-      style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 12, justifyContent: collapsed ? 'center' : 'flex-start', width: '100%', height: nivel ? 36 : 42, padding: collapsed ? 0 : `0 12px 0 ${12 + nivel * 14}px`, borderRadius: 'var(--ob-r-md)', border: 'none', cursor: 'pointer', position: 'relative', background: on ? 'var(--ob-blue-100)' : 'transparent', color: on ? 'var(--ob-blue-700)' : grupo ? 'var(--ob-fg-strong)' : 'var(--ob-fg-soft)', fontFamily: 'var(--ob-font)', fontSize: nivel ? 13 : 14, fontWeight: on || grupo ? 600 : 500, transition: 'background var(--ob-dur-fast) var(--ob-ease)' }}
+      style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)', justifyContent: collapsed ? 'center' : 'flex-start', width: '100%', height: nivel ? 36 : 42, padding: collapsed ? 0 : `0 var(--ob-space-12) 0 calc(var(--ob-space-12) + ${nivel} * var(--ob-space-16))`, borderRadius: 'var(--ob-r-md)', border: 'none', cursor: 'pointer', position: 'relative', background: on ? 'var(--ob-blue-100)' : 'transparent', color: on ? 'var(--ob-blue-700)' : grupo ? 'var(--ob-fg-strong)' : 'var(--ob-fg-soft)', fontFamily: 'var(--ob-font)', fontSize: nivel ? 13 : 14, fontWeight: on || grupo ? 600 : 500, transition: 'background var(--ob-dur-fast) var(--ob-ease)' }}
       onMouseEnter={e => { if (!on) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
       onMouseLeave={e => { if (!on) e.currentTarget.style.background = 'transparent'; }}>
       {it.icon && <Ph n={it.icon} size={20} weight={on ? 'fill' : 'regular'} />}
@@ -54,7 +54,7 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
   );
   if (!grupo) return botao;
   return (
-    <div style={{ flex: 'none', display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <div style={{ flex: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-2)' }}>
       {botao}
       {aberto && !collapsed && it.children!.map((c, i) => <Item key={c.id || i} it={c} active={active} onNav={onNav} collapsed={collapsed} nivel={nivel + 1} />)}
     </div>
@@ -94,7 +94,7 @@ const BotaoLateral: React.FC<BotaoLateralProps> = ({ onClick, rotulo, repouso, i
 const CabecalhoRecolhido: React.FC<{ onToggle?: () => void; marca: React.ReactNode | null }> = ({ onToggle, marca }) => {
   if (!onToggle && marca === null) return null;
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', padding: '4px 0 14px' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', padding: 'var(--ob-space-4) 0 var(--ob-space-16)' }}>
       {onToggle ? (
         <BotaoLateral onClick={onToggle} rotulo="Abrir barra lateral" repouso={marca ?? <IconeLateral n="caret-right" />} iconeAtivo="caret-line-right" contorno={marca === null} />
       ) : (
@@ -172,23 +172,23 @@ export const SideNav: React.FC<SideNavProps> = ({
     </>
   );
   return (
-    <div style={{ position: 'relative', flexShrink: flush && !collapsed ? 1 : 0, width: collapsed ? 72 : (flush ? '100%' : 240), minWidth: 0, boxSizing: 'border-box', height: flush ? '100%' : undefined, background: 'var(--ob-surface)', border: flush ? 'none' : '1px solid var(--ob-border)', borderRight: flush ? '1px solid var(--ob-border)' : undefined, borderRadius: flush ? 0 : 'var(--ob-r-lg)', padding: 14, display: 'flex', flexDirection: 'column', gap: 4 }}>
+    <div style={{ position: 'relative', flexShrink: flush && !collapsed ? 1 : 0, width: collapsed ? 72 : (flush ? '100%' : 240), minWidth: 0, boxSizing: 'border-box', height: flush ? '100%' : undefined, background: 'var(--ob-surface)', border: flush ? 'none' : '1px solid var(--ob-border)', borderRight: flush ? '1px solid var(--ob-border)' : undefined, borderRadius: flush ? 0 : 'var(--ob-r-lg)', padding: 'var(--ob-space-16)', display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-4)' }}>
       {collapsed
         ? <CabecalhoRecolhido onToggle={onToggle} marca={hideBrand ? null : (brandMark ?? <LogoMark size={22} />)} />
-        : hideBrand ? null : <div style={{ display: 'flex', alignItems: 'center', padding: '4px 4px 14px 8px' }}>{brand ?? <Logo size={24} />}</div>
+        : hideBrand ? null : <div style={{ display: 'flex', alignItems: 'center', padding: 'var(--ob-space-4) var(--ob-space-4) var(--ob-space-16) var(--ob-space-8)' }}>{brand ?? <Logo size={24} />}</div>
       }
       {!collapsed && onToggle && <BotaoDeBorda onToggle={onToggle} />}
-      <ScrollArea style={{ flex: '1 1 auto', margin: -2 }}>
-      <div style={{ padding: 2, display: 'flex', flexDirection: 'column', gap: 4 }}>
-        {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 10px 6px' }}>{menuLabel}</p>}
+      <ScrollArea style={{ flex: '1 1 auto', margin: 'calc(var(--ob-space-2) * -1)' }}>
+      <div style={{ padding: 'var(--ob-space-2)', display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-4)' }}>
+        {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 var(--ob-space-10) var(--ob-space-6)' }}>{menuLabel}</p>}
         {items.map((it, i) => {
-          if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '12px 10px 4px' }}>{it.section}</p> : null;
+          if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: 'var(--ob-space-12) var(--ob-space-10) var(--ob-space-4)' }}>{it.section}</p> : null;
           return <Item key={it.id || i} it={it} active={active} onNav={onNav} collapsed={collapsed} nivel={0} />;
         })}
       </div>
       </ScrollArea>
       {!hideAccount && (
-        <div style={{ flex: 'none', margin: '0 -14px' }}>
+        <div style={{ flex: 'none', margin: '0 calc(var(--ob-space-16) * -1)' }}>
           <Menu
             block
             placement={collapsed ? 'right-end' : 'top'}
@@ -197,9 +197,9 @@ export const SideNav: React.FC<SideNavProps> = ({
             items={itensDaConta}
             trigger={
               <button type="button" aria-label={`Abrir menu de ${accountName}`} style={{
-                flex: 1, minWidth: 0, margin: '0 14px', border: 'none', borderTop: '1px solid var(--ob-line-soft)',
-                background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10,
-                padding: collapsed ? '10px 0 2px' : '10px 8px 2px', justifyContent: collapsed ? 'center' : 'flex-start',
+                flex: 1, minWidth: 0, margin: '0 var(--ob-space-16)', border: 'none', borderTop: '1px solid var(--ob-line-soft)',
+                background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-10)',
+                padding: collapsed ? 'var(--ob-space-10) 0 var(--ob-space-2)' : 'var(--ob-space-10) var(--ob-space-8) var(--ob-space-2)', justifyContent: collapsed ? 'center' : 'flex-start',
                 borderRadius: 'var(--ob-r-md)',
               }}>
                 {conteudoConta}

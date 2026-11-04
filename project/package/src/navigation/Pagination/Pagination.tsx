@@ -36,13 +36,13 @@ export const Pagination: React.FC<PaginationProps> = ({ page = 1, total = 10, on
   );
 
   return (
-    <nav aria-label="Paginação" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+    <nav aria-label="Paginação" style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-6)' }}>
       <Arrow dir="prev" disabled={page === 1} />
       {pages.map((p, i) => p === '…' ? (
         <span key={`e${i}`} style={{ width: 34, textAlign: 'center', color: 'var(--ob-fg-mute)' }}>…</span>
       ) : (
         <button key={p} onClick={() => onChange?.(p)} aria-current={p === page ? 'page' : undefined} style={{
-          minWidth: 34, height: 34, padding: '0 8px', borderRadius: 'var(--ob-r-sm)',
+          minWidth: 34, height: 34, padding: '0 var(--ob-space-8)', borderRadius: 'var(--ob-r-sm)',
           border: `1px solid ${p === page ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
           background: p === page ? 'var(--ob-blue)' : 'var(--ob-surface)',
           color: p === page ? 'var(--ob-fg-on-color)' : 'var(--ob-fg)', fontFamily: 'inherit', fontSize: 14,

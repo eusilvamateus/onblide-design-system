@@ -28,11 +28,11 @@ export const Input: React.FC<InputProps> = ({ label, hint, error, icon, startAdd
   const temFim = endAddon != null && endAddon !== false;
   const emFoco = focused || addonFocused;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)' }}>
       {label && <label htmlFor={id} style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</label>}
       <FieldShell
         focused={emFoco} error={!!error} disabled={rest.disabled}
-        padding={`0 ${temFim ? 0 : 14}px 0 ${temInicio ? 0 : 14}px`}
+        padding={`0 ${temFim ? 0 : 'var(--ob-space-16)'} 0 ${temInicio ? 0 : 'var(--ob-space-16)'}`}
         onClick={(e) => { if (focoNoAddon(e.target)) inputRef.current?.focus(); }}>
         {temInicio && <FieldAddon side="start" focused={emFoco} error={!!error} onFocusChange={setAddonFocused}>{startAddon}</FieldAddon>}
         {icon && <span style={{ display: 'flex', color: 'var(--ob-fg-mute)', flex: 'none' }}>{icon}</span>}
@@ -44,7 +44,7 @@ export const Input: React.FC<InputProps> = ({ label, hint, error, icon, startAdd
           onBlur={(e) => { setFocused(false); rest.onBlur?.(e); }}
           style={{
             flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
-            fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: '10px 0',
+            fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: 'var(--ob-space-10) 0',
           }}
         />
         {temFim && <FieldAddon side="end" focused={emFoco} error={!!error} onFocusChange={setAddonFocused}>{endAddon}</FieldAddon>}

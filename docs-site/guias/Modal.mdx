@@ -61,7 +61,7 @@ Montar uma confirmação do zero com o Modal: use o **AlertDialog**. Nunca empil
 
 **Tokens.** Card `--ob-surface` + `--ob-shadow-lg`; backdrop `rgba(20,20,20,.45)` com `blur(2px)`. Raio `16 px`. Footer fundo `--ob-bg-alt`.
 
-**Motion.** Backdrop fade 160ms ease-out; card scale + fade 200ms `--ob-ease-spring`.
+**Motion.** Fundo e painel em `--ob-dur-base` (200ms): o fundo some com `--ob-ease-out`, o painel cresce com `--ob-ease-spring`. Com `prefers-reduced-motion` as durações vão a zero.
 
 **Responsivo / mobile.** Em viewports estreitas, todos os tamanhos reduzem com margem de 16 px. Em mobile (`< 480 px`), `lg` e `full` viram folha de largura total ancorada na base.
 

@@ -10,7 +10,9 @@ Leia isto antes de montar qualquer tela. Tudo vem de `window.OnblideUI` (o bundl
 ## Marca e visual
 - Azul `#0a4ee4` é a voz da marca (CTA primário, links, foco). Verde só para sucesso, laranja para aviso/acento, tinta `#545454` no texto, creme `#f2f0e8` só como sobreposição (a página é branca).
 - Poppins para UI, Playfair Display (itálico) só como acento editorial, JetBrains Mono para código e rótulos pequenos.
-- Raios de 8–12px (12px é o padrão); pílulas (999px) só em badges e switches. Sem gradientes no chrome, sem emoji.
+- Raios pelos apelidos: `--ob-r-control` (campos, botões), `--ob-r-surface` (cartões, menus), `--ob-r-overlay` (modal, drawer); `--ob-r-pill` para badges, chips e switches; `--ob-r-circle` para avatares. Sem gradientes no chrome, sem emoji.
+- Espaçamento só com `--ob-space-<px>` (o nome é o valor: 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48, 64, 96, 128) ou com os apelidos `--ob-gap-*`, `--ob-pad-*`, `--ob-stack-*`. Nunca um número solto.
+- Movimento só com `--ob-dur-*` e `--ob-ease-*`; camadas só com `--ob-z-*`; opacidade só com `--ob-opacity-*` (desabilitado é sempre `--ob-opacity-disabled`); foco é `0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)`.
 - Cartão com borda OU com sombra, nunca os dois.
 
 ## Ícones

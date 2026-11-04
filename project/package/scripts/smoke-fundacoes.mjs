@@ -85,5 +85,36 @@ if (!/@media \(prefers-reduced-motion: reduce\)\s*\{\s*:root\s*\{[^}]*--ob-dur-f
   problemas.push('movimento: o tokens.css deveria zerar --ob-dur-* em prefers-reduced-motion');
 }
 
+const CHAVES_DE_ESPACO = /(?<![\w-])(gap|rowGap|columnGap|padding(?:Top|Bottom|Left|Right|Inline|Block|Removivel)?|margin(?:Top|Bottom|Left|Right|Inline|Block)?|pad|sub|sepM|labelPad)(\s*[:=]\s*)([^,}\n]*)/g;
+const ESPACO_EM_CSS = /(?<=[{;])(?:gap|row-gap|column-gap|padding[-a-z]*|margin[-a-z]*):([^;}'"]*)/g;
+const PX = /(?<![\w.$-])(-?\d+(?:\.\d+)?)px/g;
+const NUMERO_SOLTO = /(?<![\w.$*/+-]|[*/+-] )(-?\d+(?:\.\d+)?)(?![\w.%(]| ?[*/+-])/g;
+const CITADO = /(['"`])((?:(?!\1).)*)\1/g;
+const COMPENSACAO_DE_BORDA = new Set([1, 1.5]);
+const fora = (n, chave) => n !== 0 && !(/^margin/.test(chave) && COMPENSACAO_DE_BORDA.has(Math.abs(n)));
+
+let declaracoesDeEspaco = 0;
+for (const arquivo of arquivos) {
+  semComentarios(readFileSync(arquivo, 'utf8')).split('\n').forEach((linha, i) => {
+    const onde = `${relative(pacote, arquivo)}:${i + 1}`;
+    for (const m of linha.matchAll(ESPACO_EM_CSS)) {
+      declaracoesDeEspaco++;
+      for (const v of m[1].matchAll(PX)) if (fora(Number(v[1]), 'css')) problemas.push(`espaçamento: valor fixo (use --ob-space-*) em ${onde}: ${m[0]}`);
+    }
+    if (/^\s*import /.test(linha)) return;
+    for (const [, chave, , valor] of linha.matchAll(CHAVES_DE_ESPACO)) {
+      declaracoesDeEspaco++;
+      for (const [, , texto] of valor.matchAll(CITADO)) {
+        for (const v of texto.replace(/\$\{[^}]*\}/g, '').matchAll(PX)) if (fora(Number(v[1]), chave)) problemas.push(`espaçamento: valor fixo (use --ob-space-*) em ${onde}: ${chave} ${texto}`);
+      }
+      const solto = valor.replace(CITADO, '').replace(/\$\{[^}]*\}/g, '');
+      for (const v of solto.matchAll(NUMERO_SOLTO)) if (fora(Number(v[1]), chave)) problemas.push(`espaçamento: número fixo (use --ob-space-*) em ${onde}: ${chave} ${valor.trim()}`);
+    }
+  });
+}
+if (declaracoesDeEspaco < 100) problemas.push(`espaçamento: só ${declaracoesDeEspaco} declarações encontradas; a busca quebrou?`);
+for (const v of [2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48, 64, 96, 128]) if (!temToken(`--ob-space-${v}`)) problemas.push(`espaçamento: token --ob-space-${v} não existe no tokens.css`);
+if (/--ob-s-\d/.test(tokens)) problemas.push('espaçamento: o tokens.css ainda tem --ob-s-*');
+
 if (problemas.length) fail(`${problemas.length} valores fora das fundações`, '\n' + problemas.join('\n'));
-console.log(`OK: fundações (${regras.map((r) => r.fundacao).join(', ')}) sem valores fixos em ${arquivos.length} arquivos`);
+console.log(`OK: fundações (${regras.map((r) => r.fundacao).join(', ')}, espaçamento) sem valores fixos em ${arquivos.length} arquivos, ${declaracoesDeEspaco} declarações de espaçamento`);

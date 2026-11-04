@@ -24,7 +24,7 @@ export interface FloatingPanelProps {
 
 /** Painel flutuante base dos overlays ancorados a um elemento (Select, Autocomplete e Popover). */
 export const FloatingPanel = React.forwardRef<HTMLDivElement, FloatingPanelProps>(({
-  side = 'bottom', align = 'stretch', maxHeight, padding = 4, minWidth, style = {}, children,
+  side = 'bottom', align = 'stretch', maxHeight, padding = 'var(--ob-space-4)', minWidth, style = {}, children,
 }, ref) => {
   const pos: React.CSSProperties =
     align === 'right' ? { right: 0 } : align === 'left' ? { left: 0 } : { left: 0, right: 0 };

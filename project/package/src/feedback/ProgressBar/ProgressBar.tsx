@@ -28,12 +28,12 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ value = 0, tone = 'pri
   const limitado = Math.min(100, Math.max(0, value));
   const h = size === 'sm' ? 6 : size === 'lg' ? 14 : 10;
   if (segments) return (
-    <div style={{ display: 'flex', gap: 6, width: '100%' }}>
+    <div style={{ display: 'flex', gap: 'var(--ob-space-6)', width: '100%' }}>
       {Array.from({ length: segments }).map((_, i) => <div key={i} style={{ flex: 1, height: h, borderRadius: 'var(--ob-r-pill)', background: i < currentSegment ? t.fg : 'var(--ob-border)' }} />)}
     </div>
   );
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)', width: '100%' }}>
       <div style={{ flex: 1, height: h, background: 'var(--ob-bg-warm)', borderRadius: 'var(--ob-r-pill)', overflow: 'hidden', position: 'relative' }}>
         {indeterminate
           ? <div style={{ position: 'absolute', height: '100%', background: t.fg, borderRadius: 'var(--ob-r-pill)', animation: 'ob-indet var(--ob-dur-loop) var(--ob-ease-in-out) infinite' }} />

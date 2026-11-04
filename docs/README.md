@@ -41,6 +41,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0009-corrigir-a-numeracao-para-a-serie-0x.md`](decisions/0009-corrigir-a-numeracao-para-a-serie-0x.md)
 - [`decisions/0010-vocabulario-unico-para-tone-appearance-e-variant.md`](decisions/0010-vocabulario-unico-para-tone-appearance-e-variant.md) — o vocabulário vive em `docs-site/docs/fundacoes/vocabulario-das-props.mdx`
 - [`decisions/0011-breakpoints-mobile-first-com-escala-unica.md`](decisions/0011-breakpoints-mobile-first-com-escala-unica.md) — a regra vive em `docs-site/docs/fundacoes/breakpoints.mdx`
+- [`decisions/0012-componentes-sem-numeros-soltos-nas-fundacoes.md`](decisions/0012-componentes-sem-numeros-soltos-nas-fundacoes.md) — as regras vivem nas páginas de `docs-site/docs/fundacoes/`
 
 ## Como manter esta documentação
 

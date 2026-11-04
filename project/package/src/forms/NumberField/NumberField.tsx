@@ -142,15 +142,15 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   const [padEsq, padDir] = controls === 'split' ? [4, 4] : controls === 'stacked' ? [12, 0] : [12, 12];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: width || '100%', fontFamily: 'var(--ob-font)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
       {label && <label htmlFor={uid} style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</label>}
       <FieldShell focused={emFoco} error={!!err} disabled={disabled}
         padding={`0 ${temFim ? 0 : padDir}px 0 ${temInicio ? 0 : padEsq}px`}
         onClick={(e) => { if (focoNoAddon(e.target)) inputRef.current?.focus(); }}
-        style={{ gap: 8, overflow: temInicio || temFim ? 'visible' : 'hidden', background: readOnly && !disabled ? 'var(--ob-bg-alt)' : undefined, alignItems: controls === 'stacked' ? 'stretch' : 'center' }}>
+        style={{ gap: 'var(--ob-space-8)', overflow: temInicio || temFim ? 'visible' : 'hidden', background: readOnly && !disabled ? 'var(--ob-bg-alt)' : undefined, alignItems: controls === 'stacked' ? 'stretch' : 'center' }}>
         {temInicio && <FieldAddon side="start" focused={emFoco} error={!!err} onFocusChange={setAddonFocused}>{startAddon}</FieldAddon>}
         {controls === 'split' && btn(-step, 'minus', 'Diminuir', { width: 32, height: 32, borderRadius: 'var(--ob-r-sm)', alignSelf: 'center' })}
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6, flex: 1, minWidth: 0, justifyContent: textAlign === 'center' ? 'center' : textAlign === 'right' ? 'flex-end' : 'flex-start' }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-6)', flex: 1, minWidth: 0, justifyContent: textAlign === 'center' ? 'center' : textAlign === 'right' ? 'flex-end' : 'flex-start' }}>
           {adorn(prefix)}
           <input id={uid} ref={inputRef} role="spinbutton" inputMode={decimals > 0 || min < 0 ? 'decimal' : 'numeric'} autoComplete="off"
             aria-valuenow={value ?? undefined} aria-valuemin={Number.isFinite(min) ? min : undefined} aria-valuemax={Number.isFinite(max) ? max : undefined}
@@ -163,7 +163,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
             style={{
               flex: textAlign === 'left' ? 1 : '0 1 auto', width: textAlign === 'left' ? 'auto' : `${Math.max(2, (shown || placeholder || '').length + 1)}ch`,
               minWidth: 0, maxWidth: '100%', border: 'none', outline: 'none', background: 'transparent', fontFamily: 'inherit', fontSize: 14,
-              fontVariantNumeric: 'tabular-nums', color: 'var(--ob-fg-strong)', padding: '10px 0', textAlign, cursor: disabled ? 'not-allowed' : readOnly ? 'default' : 'text',
+              fontVariantNumeric: 'tabular-nums', color: 'var(--ob-fg-strong)', padding: 'var(--ob-space-10) 0', textAlign, cursor: disabled ? 'not-allowed' : readOnly ? 'default' : 'text',
             }} />
           {adorn(suffix)}
         </span>

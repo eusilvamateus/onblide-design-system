@@ -9,7 +9,7 @@ export type ButtonGroupJustify = 'start' | 'end' | 'between';
 export type ButtonGroupSelection = 'single' | 'multiple';
 
 export interface ButtonGroupProps {
-  /** Anexado (padrão): os botões compartilham bordas, só as pontas arredondam. `false`: espaçados por `--ob-s-2`. */
+  /** Anexado (padrão): os botões compartilham bordas, só as pontas arredondam. `false`: espaçados por `--ob-space-8`. */
   attached?: boolean;
   orientation?: ButtonGroupOrientation;
   /** Repassado a todo `Button` filho que não define o próprio `kind`. */
@@ -145,7 +145,7 @@ export const ButtonGroup: React.FC<ButtonGroupProps> = ({
       aria-disabled={disabled || undefined}
       style={{
         display: fullWidth ? 'flex' : 'inline-flex', flexDirection: vertical ? 'column' : 'row',
-        alignItems: 'stretch', gap: attached ? 0 : 'var(--ob-s-2)',
+        alignItems: 'stretch', gap: attached ? 0 : 'var(--ob-space-8)',
         justifyContent: { start: 'flex-start', end: 'flex-end', between: 'space-between' }[justify],
         width: fullWidth || (!attached && justify !== 'start') ? '100%' : undefined,
         ...style,

@@ -62,7 +62,7 @@ export const Textarea: React.FC<TextareaProps> = ({
   const describe = [hint || error ? `${uid}-h` : null, showCounter ? `${uid}-c` : null].filter(Boolean).join(' ') || undefined;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: width || '100%', fontFamily: 'var(--ob-font)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
       {label && <label htmlFor={uid} style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</label>}
       <FieldShell focused={focused} error={!!error} disabled={disabled} padding="0" minHeight={0}
         style={{ flexDirection: 'column', alignItems: 'stretch', gap: 0, overflow: 'hidden', background: readOnly && !disabled ? 'var(--ob-bg-alt)' : undefined }}>
@@ -74,10 +74,10 @@ export const Textarea: React.FC<TextareaProps> = ({
             fontFamily: 'inherit', fontSize: 14, lineHeight: `${LINE_HEIGHT}px`, color: 'var(--ob-fg-strong)', padding: `${PAD_Y}px 14px`,
             resize: autosize || disabled || readOnly ? 'none' : resize, minHeight: minRows * LINE_HEIGHT + PAD_Y * 2, cursor: disabled ? 'not-allowed' : 'text',
           }} />
-        {footer && <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 8px 8px 10px' }}>{footer}</div>}
+        {footer && <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', padding: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-8) var(--ob-space-10)' }}>{footer}</div>}
       </FieldShell>
       {(hint || error || showCounter) && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 11 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--ob-space-12)', fontSize: 11 }}>
           <span id={`${uid}-h`} style={{ color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{error || hint}</span>
           {showCounter && (
             <span id={`${uid}-c`} aria-live={near ? 'polite' : 'off'} style={{

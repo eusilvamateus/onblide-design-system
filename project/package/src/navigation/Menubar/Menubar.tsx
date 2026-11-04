@@ -30,7 +30,7 @@ export const Menubar: React.FC<MenubarProps> = ({ menus, ariaLabel = 'Menu princ
   const openMenu = (i: number, kb: boolean) => { setFocus(i); setOpen({ i, kb }); };
   const closeAll = () => { const i = open ? open.i : focus; setOpen(null); focusBtn(i); };
   return (
-    <div ref={wrap} role="menubar" aria-label={ariaLabel} style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+    <div ref={wrap} role="menubar" aria-label={ariaLabel} style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-2)' }}>
       {menus.map((m, i) => {
         const isOpen = !!open && open.i === i;
         return (
@@ -49,7 +49,7 @@ export const Menubar: React.FC<MenubarProps> = ({ menus, ariaLabel = 'Menu princ
                 } else if (k === 'ArrowDown' || k === 'ArrowUp') { e.preventDefault(); openMenu(i, true); }
               }}
               style={{
-                height: 32, padding: '0 10px', border: 'none', borderRadius: 'var(--ob-r-sm)', background: isOpen ? 'var(--ob-bg-alt)' : 'transparent',
+                height: 32, padding: '0 var(--ob-space-10)', border: 'none', borderRadius: 'var(--ob-r-sm)', background: isOpen ? 'var(--ob-bg-alt)' : 'transparent',
                 color: 'var(--ob-fg-strong)', fontFamily: 'inherit', fontSize: 14, fontWeight: 500, cursor: 'pointer', transition: 'background var(--ob-dur-fast) var(--ob-ease)',
               }}>{m.label}</button>
             {isOpen && (

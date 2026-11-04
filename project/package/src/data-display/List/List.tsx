@@ -4,10 +4,10 @@ import type { Tone } from '../../internal/tone';
 
 export type ListSize = 'md' | 'sm';
 
-interface SizeSpec { pad: string; minH: number; fs: number; lh: string; gap: number; icon: number; sub: string }
+interface SizeSpec { pad: string; minH: number; fs: number; lh: string; gap: string; icon: number; sub: string }
 const LIST_SIZES: Record<ListSize, SizeSpec> = {
-  md: { pad: '8px 12px', minH: 36, fs: 14, lh: '20px', gap: 10, icon: 16, sub: '8px 12px 4px' },
-  sm: { pad: '4px 8px', minH: 28, fs: 13, lh: '18px', gap: 8, icon: 14, sub: '6px 8px 2px' },
+  md: { pad: 'var(--ob-space-8) var(--ob-space-12)', minH: 36, fs: 14, lh: '20px', gap: 'var(--ob-space-10)', icon: 16, sub: 'var(--ob-space-8) var(--ob-space-12) var(--ob-space-4)' },
+  sm: { pad: 'var(--ob-space-4) var(--ob-space-8)', minH: 28, fs: 13, lh: '18px', gap: 'var(--ob-space-8)', icon: 14, sub: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-2)' },
 };
 
 interface ListContextValue { size: ListSize; itemAs: 'li' | 'div' }
@@ -37,7 +37,7 @@ export const List: React.FC<ListProps> = ({ size = 'md', dividers = false, inset
     : kids;
   return (
     <ListContext.Provider value={{ size, itemAs }}>
-      <Tag aria-label={ariaLabel} {...rest} style={{ listStyle: 'none', margin: 0, padding: inset ? 4 : 0, display: 'flex', flexDirection: 'column', gap: dividers ? 0 : 1, borderRadius: dividers ? 'var(--ob-r-surface)' : undefined, overflow: dividers ? 'hidden' : undefined, ...style }}>
+      <Tag aria-label={ariaLabel} {...rest} style={{ listStyle: 'none', margin: 0, padding: inset ? 'var(--ob-space-4)' : 0, display: 'flex', flexDirection: 'column', gap: dividers ? 0 : 'var(--ob-space-2)', borderRadius: dividers ? 'var(--ob-r-surface)' : undefined, overflow: dividers ? 'hidden' : undefined, ...style }}>
         {items}
       </Tag>
     </ListContext.Provider>
@@ -118,7 +118,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
           {leading}
         </span>
       )}
-      <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-2)' }}>
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{title}</span>
         {description && (
           <span style={{
@@ -134,7 +134,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
         </span>
       )}
       {trailing && (
-        <span style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 6, alignSelf: 'center', color: disabled ? 'inherit' : 'var(--ob-fg-soft)' }}>
+        <span style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-6)', alignSelf: 'center', color: disabled ? 'inherit' : 'var(--ob-fg-soft)' }}>
           {trailing}
         </span>
       )}

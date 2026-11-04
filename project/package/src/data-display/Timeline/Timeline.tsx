@@ -76,11 +76,11 @@ function line(item: TimelineItem, next: TimelineItem | undefined, dir: 'v' | 'h'
 function Content({ item, showTime = true, align = 'left' }: { item: TimelineItem; showTime?: boolean; align?: 'left' | 'right' | 'center' }) {
   const s = item.status || 'done';
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, textAlign: align, alignItems: align === 'right' ? 'flex-end' : align === 'center' ? 'center' : 'flex-start' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-2)', minWidth: 0, textAlign: align, alignItems: align === 'right' ? 'flex-end' : align === 'center' ? 'center' : 'flex-start' }}>
       {showTime && item.time && <span style={{ fontSize: 'var(--ob-fs-xs)', lineHeight: 'var(--ob-lh-normal)', color: 'var(--ob-fg-soft)' }}>{item.time}</span>}
       <span style={{ fontSize: 14, lineHeight: '20px', fontWeight: 'var(--ob-w-semibold)', color: s === 'pending' ? 'var(--ob-fg-soft)' : s === 'error' ? 'var(--ob-danger)' : 'var(--ob-fg-strong)' }}>{item.title}</span>
       {item.description && <span style={{ fontSize: 'var(--ob-fs-sm)', lineHeight: 'var(--ob-lh-normal)', color: 'var(--ob-fg)', textWrap: 'pretty' }}>{item.description}</span>}
-      {item.content && <div style={{ marginTop: 'var(--ob-s-2)', width: '100%' }}>{item.content}</div>}
+      {item.content && <div style={{ marginTop: 'var(--ob-space-8)', width: '100%' }}>{item.content}</div>}
       <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>{STATUS_LABEL[s]}</span>
     </div>
   );
@@ -94,17 +94,17 @@ export const Timeline: React.FC<TimelineProps> = ({ items, orientation = 'vertic
     const alt = align === 'alternate';
     return (
       <ScrollArea orientation="horizontal">
-      <ol aria-label={ariaLabel} style={{ listStyle: 'none', margin: 0, padding: '4px 4px 8px', display: 'flex' }}>
+      <ol aria-label={ariaLabel} style={{ listStyle: 'none', margin: 0, padding: 'var(--ob-space-4) var(--ob-space-4) var(--ob-space-8)', display: 'flex' }}>
         {items.map((it, i) => {
           const next = items[i + 1], top = alt && i % 2 === 1;
           return (
-            <li key={i} style={{ margin: 0, flex: '1 0 168px', display: 'grid', gridTemplateRows: alt ? 'minmax(64px, auto) auto minmax(64px, auto)' : 'auto auto', rowGap: 'var(--ob-s-3)', position: 'relative' }}>
-              {alt && <div style={{ alignSelf: 'end', paddingRight: 'var(--ob-s-4)' }}>{top && <Content item={it} />}</div>}
+            <li key={i} style={{ margin: 0, flex: '1 0 168px', display: 'grid', gridTemplateRows: alt ? 'minmax(64px, auto) auto minmax(64px, auto)' : 'auto auto', rowGap: 'var(--ob-space-12)', position: 'relative' }}>
+              {alt && <div style={{ alignSelf: 'end', paddingRight: 'var(--ob-space-16)' }}>{top && <Content item={it} />}</div>}
               <div style={{ display: 'flex', alignItems: 'center', height: mw }}>
                 <Marker item={it} marker={marker} />
-                {next && <span style={{ flex: 1, margin: '0 6px', ...line(it, next, 'h') }} />}
+                {next && <span style={{ flex: 1, margin: '0 var(--ob-space-6)', ...line(it, next, 'h') }} />}
               </div>
-              <div style={{ paddingRight: 'var(--ob-s-4)' }}>{(!alt || !top) && <Content item={it} />}</div>
+              <div style={{ paddingRight: 'var(--ob-space-16)' }}>{(!alt || !top) && <Content item={it} />}</div>
             </li>
           );
         })}
@@ -120,14 +120,14 @@ export const Timeline: React.FC<TimelineProps> = ({ items, orientation = 'vertic
       {items.map((it, i) => {
         const next = items[i + 1], left = alt && i % 2 === 1;
         const rail = (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: marker === 'dot' ? 2 : 0 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: marker === 'dot' ? 'var(--ob-space-2)' : 0 }}>
             <Marker item={it} marker={marker} />
-            {next && <span style={{ flex: 1, minHeight: 16, margin: '6px 0', ...line(it, next, 'v') }} />}
+            {next && <span style={{ flex: 1, minHeight: 16, margin: 'var(--ob-space-6) 0', ...line(it, next, 'v') }} />}
           </div>
         );
-        const pad: React.CSSProperties = { paddingBottom: next ? 'var(--ob-s-5)' : 0, paddingTop: marker === 'dot' ? 0 : 4 };
+        const pad: React.CSSProperties = { paddingBottom: next ? 'var(--ob-space-24)' : 0, paddingTop: marker === 'dot' ? 0 : 'var(--ob-space-4)' };
         return (
-          <li key={i} style={{ margin: 0, display: 'grid', gridTemplateColumns: cols, columnGap: 'var(--ob-s-3)', position: 'relative' }}>
+          <li key={i} style={{ margin: 0, display: 'grid', gridTemplateColumns: cols, columnGap: 'var(--ob-space-12)', position: 'relative' }}>
             {opp && <div style={{ ...pad, textAlign: 'right', fontSize: 'var(--ob-fs-xs)', lineHeight: '20px', color: 'var(--ob-fg-soft)' }}>{it.time}</div>}
             {alt && <div style={pad}>{left && <Content item={it} align="right" />}</div>}
             {rail}

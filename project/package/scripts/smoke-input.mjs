@@ -36,7 +36,7 @@ if (!e.includes('disabled=""')) fail('disabled não repassado', e);
 const f = renderToStaticMarkup(h(Input, { label: 'Peso', defaultValue: '1', endAddon: 'kg' }));
 if (!f.includes('data-ob-addon') || !f.includes('>kg</span>')) fail('endAddon de texto ausente', f);
 if (!f.includes('border-left:1.5px solid var(--ob-border)')) fail('divisória do endAddon ausente', f);
-if (!f.includes('padding:0 0px 0 14px') && !f.includes('padding:0 0 0 14px')) fail('padding do campo sem o lado do endAddon', f);
+if (!f.includes('padding:0 0 0 var(--ob-space-16)')) fail('padding do campo sem o lado do endAddon', f);
 if (!f.includes('background:var(--ob-bg-alt)')) fail('addon de texto deveria ter fundo próprio', f);
 if (f.indexOf('<input') > f.indexOf('data-ob-addon')) fail('endAddon deve vir depois do input', f);
 

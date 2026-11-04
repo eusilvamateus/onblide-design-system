@@ -45,18 +45,18 @@ export interface TabsProps {
 /** Alterna entre seções de conteúdo relacionado sem mudar de página. */
 export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant = 'line', size = 'md', appearance, dot = false }) => {
   const isLine = variant === 'line';
-  const pad = size === 'sm' ? '7px 14px' : '10px 18px';
+  const pad = size === 'sm' ? 'var(--ob-space-8) var(--ob-space-16)' : 'var(--ob-space-10) var(--ob-space-20)';
   const fs  = size === 'sm' ? 13 : 14;
 
   return (
     <div style={{ position: 'relative' }}>
       {isLine && <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'var(--ob-border)' }}/>}
       <div style={{
-        display: 'inline-flex', gap: isLine ? 0 : 4,
+        display: 'inline-flex', gap: isLine ? 0 : 'var(--ob-space-4)',
         background: isLine ? 'none' : 'var(--ob-bg-alt)',
         border: isLine ? 'none' : '1px solid var(--ob-border)',
         borderRadius: isLine ? 0 : 'var(--ob-r-sm)',
-        padding: isLine ? 0 : 3,
+        padding: isLine ? 0 : 'var(--ob-space-4)',
         position: 'relative',
       }}>
         {tabs.map(tab => {
@@ -78,7 +78,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
               onClick={() => onChange?.(tab.id)}
               disabled={tab.disabled}
               style={{
-                display: 'inline-flex', alignItems: 'center', gap: 7,
+                display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)',
                 padding: pad, border: 'none', cursor: tab.disabled ? 'not-allowed' : 'pointer',
                 fontFamily: 'var(--ob-font)', fontSize: fs, fontWeight: 600,
                 borderRadius: isLine ? 0 : 'var(--ob-r-sm)',

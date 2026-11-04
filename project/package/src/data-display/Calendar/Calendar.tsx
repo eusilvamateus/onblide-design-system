@@ -248,7 +248,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   }[vista];
 
   const botaoDoCabecalho = (texto: React.ReactNode, rotulo: string, aoClicar: () => void) => (
-    <Button kind="neutral" size="sm" aria-label={rotulo} disabled={disabled} onClick={aoClicar} style={{ padding: '7px 8px', fontSize: 14 }}>
+    <Button kind="neutral" size="sm" aria-label={rotulo} disabled={disabled} onClick={aoClicar} style={{ padding: 'var(--ob-space-8) var(--ob-space-8)', fontSize: 14 }}>
       {texto}
     </Button>
   );
@@ -307,13 +307,13 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
 
   return (
     <div role="group" aria-label={ariaLabel} style={{
-      display: 'inline-flex', flexDirection: 'column', gap: 8, fontFamily: 'var(--ob-font)',
+      display: 'inline-flex', flexDirection: 'column', gap: 'var(--ob-space-8)', fontFamily: 'var(--ob-font)',
       opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, ...style,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: LARGURA }}>
         <Button kind="neutral" iconOnly size="sm" aria-label={rotuloDaVista[0]} disabled={disabled}
           onClick={() => navegar(-1)} icon={<Ph n="caret-left" size={16} />} />
-        <div aria-live="polite" style={{ display: 'flex', alignItems: 'center', gap: 2, fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>
+        <div aria-live="polite" style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-2)', fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>
           {vista === 'days' && (
             <>
               {botaoDoCabecalho(MESES[mes], `Escolher o mês, ${MESES[mes]}`, () => trocarVista('months'))}

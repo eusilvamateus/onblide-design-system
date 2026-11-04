@@ -1,5 +1,5 @@
-<!doctype html>
 <!-- @dsCard group="Spacing" name="Layers" subtitle="Escala de z-index — governança de camadas visuais" -->
+<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><title>Layers</title>
 <link rel="stylesheet" href="../../package/src/tokens.css">
 <style>
@@ -165,6 +165,19 @@
       </div>
     </div>
 
+    <div class="layer-row row-toast">
+      <span class="layer-z">600</span>
+      <div class="layer-bar-wrap">
+        <div class="layer-bar">
+          <i class="ph ph-hand-grabbing"></i> Drag
+        </div>
+      </div>
+      <div class="layer-meta">
+        <span class="layer-token">--ob-z-drag</span>
+        <span class="layer-uses">prévia de arrastar (TreeView), acima de tudo enquanto o dedo ou o mouse a segura</span>
+      </div>
+    </div>
+
     <div class="layer-row row-system">
       <span class="layer-z">9000</span>
       <div class="layer-bar-wrap">
@@ -198,7 +211,7 @@
         </tr>
         <tr>
           <td>Toast sempre no topo</td>
-          <td><code>--ob-z-toast</code> (500) deve ser sempre a camada mais alta da UI interativa. Apenas overlays de sistema (debug, tweaks-panel) ficam acima — via <code>--ob-z-system</code>.</td>
+          <td><code>--ob-z-toast</code> (500) é a camada mais alta da UI interativa. Acima dele só ficam a prévia de arrastar (<code>--ob-z-drag</code>, 600), que existe só durante o gesto, e os overlays de sistema (<code>--ob-z-system</code>). Dentro de um componente, 0, 1 e 2 ordenam peças locais e não são camadas.</td>
         </tr>
         <tr>
           <td>Deck-stage e DC runtime</td>

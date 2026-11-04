@@ -103,7 +103,7 @@ injectStyleOnce('ob-toast-kf', [
   '@keyframes ob-toast-out-bottom{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(16px)}}',
 ].join(''));
 injectStyleOnce('ob-toast-pos', [
-  '.ob-toast-stack{position:fixed;z-index:var(--ob-z-toast);display:flex;gap:10px;pointer-events:none;left:50%;transform:translateX(-50%);width:calc(100vw - 24px);align-items:stretch}',
+  '.ob-toast-stack{position:fixed;z-index:var(--ob-z-toast);display:flex;gap:var(--ob-space-10);pointer-events:none;left:50%;transform:translateX(-50%);width:calc(100vw - 24px);align-items:stretch}',
   '.ob-toast-stack[data-pos^="top"]{top:16px;flex-direction:column-reverse}',
   '.ob-toast-stack[data-pos^="bottom"]{bottom:16px;flex-direction:column}',
   `@media ${mediaQuery('sm')}{`,

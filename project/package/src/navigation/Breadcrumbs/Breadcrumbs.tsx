@@ -30,12 +30,12 @@ export interface BreadcrumbsProps {
 }
 
 function BreadcrumbSeparatorIcon({ kind, size }: { kind: BreadcrumbSeparator; size: BreadcrumbSize }) {
-  if (kind === 'slash') return <span aria-hidden="true" style={{ color: 'var(--ob-fg-mute)', padding: '0 2px', userSelect: 'none' }}>/</span>;
+  if (kind === 'slash') return <span aria-hidden="true" style={{ color: 'var(--ob-fg-mute)', padding: '0 var(--ob-space-2)', userSelect: 'none' }}>/</span>;
   return <span aria-hidden="true" style={{ display: 'flex', color: 'var(--ob-fg-mute)' }}><Ph n="caret-right" size={size === 'sm' ? 12 : 14} c="currentColor" /></span>;
 }
 
 function Crumb({ item, current, size, onNavigate }: { item: BreadcrumbItem; current: boolean; size: BreadcrumbSize; onNavigate?: (item: BreadcrumbItem) => void }) {
-  const pad = size === 'sm' ? '2px 4px' : '4px 6px';
+  const pad = size === 'sm' ? 'var(--ob-space-2) var(--ob-space-4)' : 'var(--ob-space-4) var(--ob-space-6)';
   const inner = (
     <>
       {item.icon && <Ph n={item.icon} size={size === 'sm' ? 14 : 16} c="currentColor" />}
@@ -43,7 +43,7 @@ function Crumb({ item, current, size, onNavigate }: { item: BreadcrumbItem; curr
     </>
   );
   const base: React.CSSProperties = {
-    display: 'flex', alignItems: 'center', gap: 6, minWidth: 0, maxWidth: 220, padding: pad,
+    display: 'flex', alignItems: 'center', gap: 'var(--ob-space-6)', minWidth: 0, maxWidth: 220, padding: pad,
     borderRadius: 'var(--ob-r-sm)', textDecoration: 'none',
     transition: 'background var(--ob-dur-base) var(--ob-ease), color var(--ob-dur-base) var(--ob-ease)',
   };
@@ -77,11 +77,11 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, separator = 'ca
     <nav aria-label="Você está em">
       <ol style={{
         listStyle: 'none', margin: 0, padding: 0, display: 'flex', alignItems: 'center', flexWrap: 'wrap',
-        rowGap: 4, columnGap: 2, fontSize: size === 'sm' ? 'var(--ob-fs-xs)' : 'var(--ob-fs-sm)',
+        rowGap: 'var(--ob-space-4)', columnGap: 'var(--ob-space-2)', fontSize: size === 'sm' ? 'var(--ob-fs-xs)' : 'var(--ob-fs-sm)',
         lineHeight: 'var(--ob-lh-normal)', fontWeight: 'var(--ob-w-medium)',
       }}>
         {visible.map((v, k) => (
-          <li key={k} style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 2, minWidth: 0 }}>
+          <li key={k} style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 'var(--ob-space-2)', minWidth: 0 }}>
             {k > 0 && <BreadcrumbSeparatorIcon kind={separator} size={size} />}
             {'more' in v && v.more ? (
               <Menu

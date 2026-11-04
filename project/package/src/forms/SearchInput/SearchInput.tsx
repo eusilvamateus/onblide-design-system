@@ -28,12 +28,12 @@ export const SearchInput: React.FC<SearchInputProps> = ({
   const [focus, setFocus] = useState(false);
   return (
     <div style={{ width }}>
-      <FieldShell focused={focus} disabled={disabled} padding="0 6px 0 14px">
+      <FieldShell focused={focus} disabled={disabled} padding="0 var(--ob-space-6) 0 var(--ob-space-16)">
         <Ph n="magnifying-glass" size={18} c="var(--ob-fg-mute)" />
         <input role="searchbox" value={value} disabled={disabled} aria-label={ariaLabel} placeholder={placeholder}
           onChange={(e) => onChange?.(e.target.value)} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}
           style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'none', fontFamily: 'var(--ob-font)', fontSize: 14.5, color: 'var(--ob-fg-strong)' }} />
-        {loading && <Ph n="circle-notch" size={17} c="var(--ob-blue)" style={{ animation: 'ob-spin var(--ob-dur-spin) linear infinite', marginRight: 8 }} />}
+        {loading && <Ph n="circle-notch" size={17} c="var(--ob-blue)" style={{ animation: 'ob-spin var(--ob-dur-spin) linear infinite', marginRight: 'var(--ob-space-8)' }} />}
         {!loading && value && !disabled && (
           <Button kind="neutral" iconOnly size="sm" aria-label="Limpar" onClick={() => onChange?.('')} icon={<Ph n="x-circle" size={17} />} />
         )}

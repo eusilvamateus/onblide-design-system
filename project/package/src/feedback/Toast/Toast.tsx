@@ -25,8 +25,8 @@ export const Toast: React.FC<ToastProps> = ({ tone = 'info', title, body, action
   const t = OB_TONES[tone] || OB_TONES.info;
   return (
     <div role="status" aria-live="polite" style={{
-      display: 'flex', alignItems: 'center', gap: 12,
-      width: '100%', maxWidth: 400, padding: 14, boxSizing: 'border-box',
+      display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)',
+      width: '100%', maxWidth: 400, padding: 'var(--ob-space-16)', boxSizing: 'border-box',
       background: 'var(--ob-surface)',
       border: '1px solid var(--ob-border)',
       borderRadius: 'var(--ob-r-surface)',
@@ -42,10 +42,10 @@ export const Toast: React.FC<ToastProps> = ({ tone = 'info', title, body, action
       )}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.4 }}>{title}</div>
-        {body && <div style={{ fontSize: 13, color: 'var(--ob-fg-soft)', marginTop: 3, lineHeight: 1.5 }}>{body}</div>}
-        {action && <Button kind="ghost" size="sm" onClick={onAction} style={{ marginTop: 4, marginLeft: -12, color: t.strong }}>{action}</Button>}
+        {body && <div style={{ fontSize: 13, color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-4)', lineHeight: 1.5 }}>{body}</div>}
+        {action && <Button kind="ghost" size="sm" onClick={onAction} style={{ marginTop: 'var(--ob-space-4)', marginLeft: 'calc(var(--ob-space-12) * -1)', color: t.strong }}>{action}</Button>}
       </div>
-      {onClose && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={16} />} style={{ flexShrink: 0, margin: '-8px -6px -8px 0' }} />}
+      {onClose && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={16} />} style={{ flexShrink: 0, margin: 'calc(var(--ob-space-8) * -1) calc(var(--ob-space-6) * -1) calc(var(--ob-space-8) * -1) 0' }} />}
     </div>
   );
 };

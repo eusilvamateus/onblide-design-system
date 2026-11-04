@@ -40,7 +40,7 @@ export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', on
   const fundoDe = (focado: boolean) =>
     situacao === 'error' ? 'var(--ob-danger-bg)' : situacao === 'success' ? 'var(--ob-success-bg)' : focado ? 'var(--ob-blue-050)' : 'var(--ob-surface)';
   return (
-    <div style={{ display: 'inline-flex', gap: 10, animation: situacao === 'error' ? 'ob-shake var(--ob-dur-slow) var(--ob-ease)' : 'none' }} onPaste={paste}>
+    <div style={{ display: 'inline-flex', gap: 'var(--ob-space-10)', animation: situacao === 'error' ? 'ob-shake var(--ob-dur-slow) var(--ob-ease)' : 'none' }} onPaste={paste}>
       {Array.from({ length }).map((_, i) => (
         <input key={i} ref={el => { refs.current[i] = el; }} inputMode="numeric" maxLength={1}
           value={vals[i] || ''} onChange={e => set(i, e.target.value.replace(/\D/g, ''))} onKeyDown={e => keyDown(i, e)}
