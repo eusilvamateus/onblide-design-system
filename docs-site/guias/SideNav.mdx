@@ -69,7 +69,7 @@ Item de seção: `{ section: 'Rótulo' }`, renderiza um kicker mono entre grupos
 
 **Motion.** Transição de `background` a 120ms (`--ob-ease`) nos itens. A animação de expand/collapse (width) deve ser implementada no shell pai: o componente usa `width` calculado e não anima internamente para não conflitar com o layout do grid.
 
-**Responsivo.** Em viewports \< 768px, use o modo colapsado como padrão. Abaixo de 480px, converta para drawer (overlay) com backdrop clicável.
+**Responsivo.** Abaixo de `sm` (768px), troque a navegação por um `Drawer` com backdrop clicável. De `sm` a `md` (1024px), use o modo colapsado como padrão; a partir de `md`, expandido. Veja [Breakpoints](/fundacoes/breakpoints).
 
 <Nota>
 

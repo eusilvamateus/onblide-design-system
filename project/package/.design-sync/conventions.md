@@ -27,6 +27,12 @@ Cada palavra tem um significado só, igual em todos os componentes. Nunca use um
 - `variant` = **a forma** (`line`/`pill` nas `Tabs`, `label`/`numeric` no `Badge`, `text`/`image` no `Tooltip`). Nunca é cor nem pintura.
 - Cada componente aceita um recorte: `Badge` `appearance` soft | solid | outline; `Chip` outline | soft (selecionado é sempre cheio); `ToggleButton` e `Kbd` outline | ghost; `Tooltip` solid | outline; `Tabs` soft | solid (aba ativa na pílula) e `dot` para o ponto do tom; `Link` `tone` primary | neutral | muted.
 
+## Layout responsivo
+- Breakpoints mobile-first: `sm` 768px, `md` 1024px, `lg` 1280px, `xl` 1440px; abaixo de `sm` é a faixa `base` (celular). Escreva o layout do celular primeiro e acrescente mudanças com `@media (min-width: 768px)` (e os outros valores da escala). Nunca `max-width` nem número inventado.
+- Em React, `useBreakpoint()` devolve `current` (`base`, `sm`, `md`, `lg`, `xl`) e `atLeast('md')`; `BREAKPOINTS` e `mediaQuery('md')` dão os valores.
+- Grade: `--ob-grid-cols` (4), `--ob-grid-cols-sm` (8), `--ob-grid-cols-md` (12), com `--ob-grid-gutter*` e `--ob-grid-margin*` nos mesmos sufixos. Largura máxima da página: `--ob-container-page` (1280px).
+- `Modal` ocupa a tela inteira abaixo de `sm` (menos `size="sm"`); `ToastStack` centraliza abaixo de `sm`.
+
 ## Composição
 - Botões: `kind` é a hierarquia da ação, não a pintura: primary | secondary | ghost | cream | danger | neutral | quiet (no `quiet`, `tone` escolhe a cor do hover); `size` = sm | md | lg. Um primário por região.
 - Campos (`Input`, `Select`, `SearchInput`, `Datepicker`, `CodeInput`) compartilham a superfície `FieldShell`; erro entra pela prop `error`.

@@ -6,7 +6,7 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, toast } from '@onblide/ui';
+import { Table, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -18,6 +18,7 @@ import type {
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
   ToastOptions, ToastShortcutOptions,
+  Breakpoint, BreakpointName,
 } from '@onblide/ui';
 
 // Todo tipo usado em prop pública precisa estar exportado por src/index.ts
@@ -33,6 +34,7 @@ export type TiposExportados = [
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
   ToastOptions, ToastShortcutOptions,
+  Breakpoint, BreakpointName,
 ];
 
 interface Linha { id: number; nome: string } // interface: sem index signature
@@ -161,3 +163,15 @@ toast({ tone: 'info' });
 toast({ title: 'x', tone: 'loud' });
 // @ts-expect-error o atalho já define o tom
 toast.success('x', { tone: 'danger' });
+
+export function VerificaBreakpoints() {
+  const { current, atLeast } = useBreakpoint();
+  const largura: 1024 = BREAKPOINTS.md;
+  const faixa: Breakpoint = current;
+  const consulta: string = mediaQuery('sm');
+  // @ts-expect-error base não é breakpoint com largura mínima
+  mediaQuery('base');
+  // @ts-expect-error xs saiu da escala
+  atLeast('xs');
+  return <span>{largura}{faixa}{consulta}{String(atLeast('md'))}</span>;
+}

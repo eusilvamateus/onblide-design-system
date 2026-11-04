@@ -119,6 +119,7 @@ Geometric / abstract shapes only. Composed from circles, squares, pills, arcs an
 - Sidebar background: `#fbfbfb` (subtle warmth)
 - Cream is an *element* color, not a *page* color
 - Max content width on marketing-ish layouts: ~1080px
+- Breakpoints (mobile-first, `min-width` only): `sm` 768 · `md` 1024 · `lg` 1280 · `xl` 1440; below `sm` is `base`. Grid 4 / 8 / 12 columns (`base` / `sm` / `md`+). See `docs-site/docs/fundacoes/breakpoints.mdx`.
 - Slides: 1280×720 (16:9)
 
 ---

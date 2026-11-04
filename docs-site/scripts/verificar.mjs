@@ -1,6 +1,7 @@
 // Verifica o site construído (build/) num Chromium de testes: todas as páginas carregam sem erro, nenhuma
 // sobreposição abre sozinha, as abas da demo escondem de verdade o painel inativo e o conteúdo das demos e dos
-// exemplos tem largura útil e não está vazio. Uso: npm run build && npm run verificar
+// exemplos tem largura útil e não está vazio, o useBreakpoint acompanha a janela e o CSS do site só usa @media
+// mobile-first com valores da escala. Uso: npm run build && npm run verificar
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -91,6 +92,24 @@ for (const rota of rotas) {
   if (res.status() !== 200) r.push(`status ${res.status()}`);
   if (erros.length) r.push(...erros.map((e) => 'erro de página: ' + e));
   if (r.length) falhas.push(`${rota}: ${[...new Set(r)].join('; ')}`);
+}
+const faixas = [[500, 'base'], [800, 'sm'], [1100, 'md'], [1300, 'lg'], [1500, 'xl']];
+await p.goto(base + '/fundacoes/breakpoints');
+for (const [largura, esperada] of faixas) {
+  await p.setViewportSize({ width: largura, height: 900 });
+  await p.waitForTimeout(300);
+  const faixa = await p.locator('[data-faixa-atual]').getAttribute('data-faixa-atual');
+  if (faixa !== esperada) falhas.push(`/fundacoes/breakpoints: em ${largura}px useBreakpoint deu ${faixa}, esperado ${esperada}`);
+  const rotuloVisivel = await p.locator('.ob-topbar__label').isVisible();
+  if (rotuloVisivel !== largura >= 768) falhas.push(`barra superior em ${largura}px: rótulo ${rotuloVisivel ? 'visível' : 'escondido'}`);
+}
+const escala = new Set([768, 1024, 1280, 1440]);
+for (const nome of fs.readdirSync(path.resolve('src/css'))) {
+  const texto = fs.readFileSync(path.resolve('src/css', nome), 'utf8');
+  for (const m of texto.matchAll(/@media[^{;<]*/g)) {
+    if (/max-width|width\s*[<>]/.test(m[0])) falhas.push(`src/css/${nome}: não é mobile-first: ${m[0].trim()}`);
+    for (const v of m[0].matchAll(/min-width\s*:\s*(\d+)px/g)) if (!escala.has(Number(v[1]))) falhas.push(`src/css/${nome}: valor fora da escala: ${m[0].trim()}`);
+  }
 }
 await b.close();
 servidor.close();

@@ -1,11 +1,88 @@
 ---
 title: Breakpoints
 sidebar_position: 8
-description: Larguras de referência para layouts responsivos.
+description: As quatro larguras em que o layout muda, a regra mobile-first e como usá-las em CSS e em JavaScript.
 ---
 
 import { TokenTable } from '@site/src/components/Tokens';
+import { FaixaAtual } from '@site/src/components/FaixaAtual';
+
+O design system tem **quatro breakpoints**. Cada um é a largura **mínima** de uma faixa de tela. Abaixo do primeiro
+fica a faixa `base`, que é o celular.
+
+| Faixa | Começa em | Telas típicas |
+|---|---|---|
+| `base` | 0px | Celulares |
+| `sm` | 768px | Tablets |
+| `md` | 1024px | Laptops e tablets deitados |
+| `lg` | 1280px | Desktop padrão |
+| `xl` | 1440px | Monitores largos |
+
+<FaixaAtual />
+
+## A regra: mobile-first
+
+1. Escreva primeiro o estilo do celular, sem `@media`.
+2. Acrescente o que muda com `@media (min-width: …)`, do menor breakpoint para o maior.
+3. Use só os valores da escala: 768, 1024, 1280 e 1440. Nunca `max-width`, nunca um número inventado (600px, 900px).
+
+Um teste automático do pacote (`smoke-breakpoints`) recusa qualquer `@media` que quebre a regra no pacote e nas
+páginas de preview.
+
+```css
+.lista { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 768px)  { .lista { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .lista { grid-template-columns: repeat(3, 1fr); } }
+```
+
+Variáveis CSS não funcionam dentro de `@media`, então o número vai escrito na consulta. Os tokens `--ob-bp-*`
+guardam os mesmos valores para consulta e para o JavaScript.
+
+## Em JavaScript
+
+O pacote exporta a escala e um hook:
+
+```tsx
+import { BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
+
+BREAKPOINTS.md;      // 1024
+mediaQuery('md');    // "(min-width: 1024px)", para matchMedia ou CSS-in-JS
+
+function Painel() {
+  const { current, atLeast } = useBreakpoint();
+  // current: "base" | "sm" | "md" | "lg" | "xl"
+  return atLeast('md') ? <TabelaCompleta /> : <ListaCompacta />;
+}
+```
+
+No servidor e na hidratação, `useBreakpoint` devolve `base`, igual ao CSS mobile-first. Depois ele acompanha a janela
+e atualiza quando ela cruza um breakpoint. Prefira resolver o layout no CSS e use o hook só quando a estrutura muda
+de verdade (trocar uma tabela por uma lista, por exemplo).
+
+## Grade e containers
+
+Os tokens de grade usam os mesmos nomes: sem sufixo valem na faixa `base`, com `-sm` a partir de `sm` e com `-md` a
+partir de `md`.
+
+| Faixa | Colunas | Gutter | Margem |
+|---|---|---|---|
+| `base` | `--ob-grid-cols` (4) | `--ob-grid-gutter` (16px) | `--ob-grid-margin` (16px) |
+| `sm` | `--ob-grid-cols-sm` (8) | `--ob-grid-gutter-sm` (24px) | `--ob-grid-margin-sm` (32px) |
+| `md` em diante | `--ob-grid-cols-md` (12) | `--ob-grid-gutter-md` (24px) | `--ob-grid-margin-md` (48px) |
+
+Os containers (`--ob-container-*`) limitam a largura de um bloco. Cada nome vale o mesmo que o breakpoint de mesmo
+nome, então `md` é sempre 1024px, seja breakpoint ou container. A largura padrão da página é `--ob-container-page`
+(1280px).
+
+## Como os componentes respondem
+
+| Componente | Abaixo de `sm` | A partir de `sm` |
+|---|---|---|
+| `Modal` | Ocupa a tela inteira, exceto `size="sm"` (e o `AlertDialog`), que continua um cartão centralizado | Largura do `size` ou de `width` |
+| `ToastStack` | Centralizado, quase na largura da tela, a 16px da borda | No canto de `position`, com até 400px, a 24px da borda |
+
+## Tokens
 
 <TokenTable prefixos={['--ob-bp']} />
 
-Variáveis CSS não funcionam dentro de `@media`, então use estes valores como referência e escreva o número na consulta.
+<TokenTable prefixos={['--ob-grid', '--ob-container']} />

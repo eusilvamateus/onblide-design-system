@@ -30,6 +30,9 @@ Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<catego
 | `brand` | Logo |
 | `iconography` | Icons, Ph |
 
+Fora das categorias, `src/theme/` tem o tema claro/escuro (`themeManager`, `useTheme`, `themeInitScript`) e
+`src/layout/` tem os breakpoints (`BREAKPOINTS`, `mediaQuery`, `useBreakpoint`).
+
 `src/internal/` guarda o que é compartilhado e não faz parte da API pública (tons de cor, posições do toast, injeção de CSS, datas e lógica do calendário, posicionamento de painéis, `FloatingPanel` e `StatusDot`). Ao criar um componente, escolha a categoria pelo que ele faz para o usuário e exporte-o em `src/index.ts`.
 
 ## Uso
@@ -101,6 +104,12 @@ Os dois existem, e `Icons` é construído sobre `Ph`:
 `tone` é a cor, `appearance` é a pintura (`solid`, `soft`, `outline`, `ghost`) e `variant` é a forma, com o mesmo
 significado em todos os componentes. A tabela de valores por componente está no site de documentação, em
 Fundações › Vocabulário das props.
+
+### Breakpoints
+
+Escala mobile-first: `sm` 768px, `md` 1024px, `lg` 1280px, `xl` 1440px (abaixo de `sm` é `base`). Em CSS, só
+`@media (min-width: …)` com esses valores; em JavaScript, `BREAKPOINTS`, `mediaQuery('md')` e o hook `useBreakpoint()`.
+Regra completa no site de documentação, em Fundações › Breakpoints.
 
 ### Pesos
 

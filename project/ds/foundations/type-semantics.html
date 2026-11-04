@@ -16,7 +16,7 @@
   .tier-label .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
   .tier-label .name { font-size: 13px; font-weight: 700; color: var(--ob-fg-strong); letter-spacing: -0.01em; }
   .tier-label .desc { font-size: 12px; color: var(--ob-fg-mute); }
-  .fam { display: grid; grid-template-columns: 140px 1fr; gap: 1px; background: var(--ob-border); border: 1px solid var(--ob-border); border-radius: 12px; overflow: hidden; }
+  .fam { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--ob-border); border: 1px solid var(--ob-border); border-radius: 12px; overflow: hidden; }
   .fam .cell { background: var(--ob-surface); padding: 13px 16px; }
   .fam .role { font-weight: 700; font-size: 14px; color: var(--ob-fg-strong); }
   .fam .role .spec { display: block; font-family: var(--ob-font-mono); font-size: 10.5px; font-weight: 500; color: var(--ob-fg-mute); margin-top: 3px; letter-spacing: 0; }
@@ -37,9 +37,9 @@
   .demo-label { font-family: var(--ob-font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ob-fg-mute); margin: 0 0 14px; }
 
   /* spec + usage footer */
-  .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .meta { display: grid; grid-template-columns: 1fr; gap: 0; }
   .meta > div { padding: 16px 22px; }
-  .meta > div:first-child { border-right: 1px solid var(--ob-border); }
+  .meta > div:first-child { border-bottom: 1px solid var(--ob-border); }
   .meta h4 { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ob-fg-soft); margin: 0 0 10px; }
   .meta ul { margin: 0; padding-left: 16px; }
   .meta li { font-size: 13px; line-height: 1.65; color: var(--ob-fg); }
@@ -53,13 +53,13 @@
 
   /* tones */
   .tones { display: flex; flex-direction: column; gap: 1px; background: var(--ob-border); border: 1px solid var(--ob-border); border-radius: 12px; overflow: hidden; }
-  .tones .trow { display: grid; grid-template-columns: 200px 1fr; gap: 16px; align-items: center; background: var(--ob-surface); padding: 14px 18px; }
+  .tones .trow { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: center; background: var(--ob-surface); padding: 14px 18px; }
   .tones .sample { font-size: 16px; }
   .tones .meta-t { font-family: var(--ob-font-mono); font-size: 11.5px; color: var(--ob-fg-mute); }
   .tones .meta-t b { color: var(--ob-fg-soft); font-weight: 600; }
 
   /* rules grid */
-  .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .rules { display: grid; grid-template-columns: 1fr; gap: 14px; }
   .rule { border: 1px solid var(--ob-border); border-radius: 12px; padding: 16px 18px; }
   .rule h4 { font-size: 14px; font-weight: 700; color: var(--ob-fg-strong); margin: 0 0 6px; }
   .rule p { font-size: 13.5px; line-height: 1.6; color: var(--ob-fg-soft); margin: 0; }
@@ -68,11 +68,11 @@
   .footnote { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--ob-border); font-size: 13px; line-height: 1.6; color: var(--ob-fg-mute); }
   .footnote a { color: var(--ob-blue); }
 
-  @media (max-width: 640px) {
-    .title { font-size: 38px; }
-    .fam, .tones .trow { grid-template-columns: 1fr; }
-    .meta, .rules { grid-template-columns: 1fr; }
-    .meta > div:first-child { border-right: none; border-bottom: 1px solid var(--ob-border); }
+  @media (min-width: 768px) {
+    .fam { grid-template-columns: 140px 1fr; }
+    .tones .trow { grid-template-columns: 200px 1fr; }
+    .meta, .rules { grid-template-columns: 1fr 1fr; }
+    .meta > div:first-child { border-bottom: none; border-right: 1px solid var(--ob-border); }
   }
 </style>
 </head>

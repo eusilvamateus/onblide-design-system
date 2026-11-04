@@ -3,8 +3,8 @@
 /*
  * Tudo aqui deriva dos tokens do design system (--ob-*) e repete a linguagem das páginas de documentação
  * de ds/foundations/doc.css: superfície branca, coluna de leitura de 760px, eyebrow em mono, títulos em 800,
- * seções em caixa-alta com filete, códigos em cream. Breakpoints: sm 768px e md 1024px (--ob-bp-*).
- * Variáveis CSS não funcionam em @media, então os números aparecem literais.
+ * seções em caixa-alta com filete, códigos em cream. Breakpoints mobile-first, só com min-width e só com os valores
+ * da escala (sm 768px, md 1024px, lg 1280px, xl 1440px); variáveis CSS não funcionam em @media.
  */
 
 :root {
@@ -45,13 +45,13 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 }
 .ob-topbar__inner {
   height: 100%;
-  padding: 0 var(--ob-grid-margin-mobile);
+  padding: 0 var(--ob-grid-margin);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--ob-gap-md);
 }
-.ob-topbar__github { font-size: var(--ob-fs-sm); }
+.ob-topbar__github { font-size: var(--ob-fs-sm); display: none; }
 .ob-topbar__brand, .ob-topbar__actions { display: flex; align-items: center; gap: var(--ob-gap-md); }
 .ob-topbar__label { margin: 0; color: var(--ob-fg-mute); display: none; }
 .ob-topbar__menu { display: inline-flex; }
@@ -64,13 +64,14 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-wrap {
   max-width: 760px;
   margin: 0 auto;
-  padding: var(--ob-s-7) var(--ob-grid-margin-mobile) 80px;
+  padding: var(--ob-s-7) var(--ob-grid-margin) 80px;
   box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
-  .ob-topbar__inner { padding: 0 var(--ob-grid-margin-tablet); }
+  .ob-topbar__inner { padding: 0 var(--ob-grid-margin-sm); }
   .ob-topbar__menu { display: none; }
+  .ob-topbar__github { display: inline; }
   .ob-topbar__label { display: block; }
   .ob-shell { display: grid; grid-template-columns: 260px minmax(0, 1fr); }
   .ob-shell__nav {
@@ -82,11 +83,11 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
     overflow-y: auto;
     box-sizing: border-box;
   }
-  .ob-wrap { padding-left: var(--ob-grid-margin-tablet); padding-right: var(--ob-grid-margin-tablet); }
+  .ob-wrap { padding-left: var(--ob-grid-margin-sm); padding-right: var(--ob-grid-margin-sm); }
 }
 @media (min-width: 1024px) {
-  .ob-topbar__inner { padding: 0 var(--ob-grid-margin-desktop); }
-  .ob-wrap { padding-left: var(--ob-grid-margin-desktop); padding-right: var(--ob-grid-margin-desktop); }
+  .ob-topbar__inner { padding: 0 var(--ob-grid-margin-md); }
+  .ob-wrap { padding-left: var(--ob-grid-margin-md); padding-right: var(--ob-grid-margin-md); }
 }
 
 /* ---------- Tipografia do conteúdo (mesma de ds/foundations/doc.css) ---------- */
@@ -147,10 +148,6 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-playground__editor { padding: 6px 4px; }
 
 
-@media (max-width: 767px) {
-  .ob-topbar__github { display: none; }
-}
-
 /* Blocos de código: cores de sintaxe vêm dos tokens --ob-code-* (src/prism/tema.ts) */
 .ob-wrap .markdown div[class*='codeBlockContainer'] pre { background: none !important; border: none; margin: 0; border-radius: 0; }
 .ob-wrap .ob-playground pre { border: none; border-radius: 0; margin: 0; padding: 6px 8px; }
@@ -176,9 +173,9 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 
 /* ---------- Marca (Fundações › Marca) ---------- */
 .ob-marca-grade {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--ob-gap-md); margin: var(--ob-gap-md) 0 var(--ob-gap-xl);
+  display: grid; grid-template-columns: 1fr; gap: var(--ob-gap-md); margin: var(--ob-gap-md) 0 var(--ob-gap-xl);
 }
-@media (max-width: 640px) { .ob-marca-grade { grid-template-columns: 1fr; } }
+@media (min-width: 768px) { .ob-marca-grade { grid-template-columns: repeat(3, 1fr); } }
 .ob-marca-celula {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
   min-height: 118px; padding: 18px; margin: 0; border-radius: var(--ob-r-surface); border: 1px solid var(--ob-border);
@@ -232,3 +229,6 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-icones__item:hover { background: var(--ob-bg-warm); }
 .ob-icones__item--ativo { background: var(--ob-blue-100); color: var(--ob-blue-700); }
 .ob-icones__item span { font-size: 10px; color: var(--ob-fg-mute); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- Fundações › Breakpoints ---------- */
+.ob-wrap .markdown .ob-faixa-atual { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 12px 16px; background: var(--ob-bg-alt); border-radius: var(--ob-r-surface); font-size: 14px; }

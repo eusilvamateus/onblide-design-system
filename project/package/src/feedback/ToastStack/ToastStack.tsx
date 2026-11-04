@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Toast } from '../Toast/Toast';
 import type { ToastOptions } from './toast';
-import { OB_TOAST_POS, OBToastPosition } from '../../internal/obToastPos';
+import { OB_TOAST_POSITIONS, OBToastPosition } from '../../internal/obToastPos';
 import { registrarPilha } from '../../internal/toastEvents';
 import type { ToastEntregue } from '../../internal/toastEvents';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
+import { mediaQuery } from '../../layout/breakpoints';
 
 export interface ToastStackProps {
   /** Nome da fila, para ter mais de um `ToastStack` na tela: `toast(..., { stack: nome })` entrega só a ela. Sem nome, a fila recebe os toasts sem `stack`. */
@@ -78,22 +79,14 @@ export const ToastStack: React.FC<ToastStackProps> = ({ name, position = 'bottom
   }, [name, armar, dispensar]);
 
   if (!itens.length) return null;
-  const pos = OB_TOAST_POS[position] || OB_TOAST_POS['bottom-right'];
-  const noTopo = position.startsWith('top');
+  const posicao = OB_TOAST_POSITIONS.includes(position) ? position : 'bottom-right';
+  const noTopo = posicao.startsWith('top');
   const entrada = noTopo ? 'ob-toast-in-top' : 'ob-toast-in-bottom';
   const saida = noTopo ? 'ob-toast-out-top' : 'ob-toast-out-bottom';
-  const { align, cx, ...ancora } = pos;
   return (
-    <div className="ob-toast-stack" data-pos={position} role="region" aria-label="Notificações"
+    <div className="ob-toast-stack" data-pos={posicao} role="region" aria-label="Notificações"
       onMouseEnter={() => itens.forEach((item) => cancelar(item.id))}
-      onMouseLeave={() => itens.forEach((item) => { if (!item.saindo) armar(item.id, item.opcoes); })}
-      style={{
-        position: 'fixed', zIndex: 'var(--ob-z-toast)', ...ancora,
-        transform: cx ? 'translateX(-50%)' : undefined,
-        display: 'flex', flexDirection: noTopo ? 'column-reverse' : 'column',
-        gap: 10, alignItems: align, pointerEvents: 'none',
-        width: 'min(400px, calc(100vw - 32px))',
-      } as React.CSSProperties}>
+      onMouseLeave={() => itens.forEach((item) => { if (!item.saindo) armar(item.id, item.opcoes); })}>
       {itens.map(({ id, opcoes, saindo }) => (
         <div key={id} style={{ width: '100%', pointerEvents: 'all', animation: `${saindo ? saida : entrada} ${DURACAO_DA_SAIDA}ms cubic-bezier(0.16,1,0.3,1) both` }}>
           <Toast tone={opcoes.tone} title={opcoes.title} body={opcoes.body} action={opcoes.action} onAction={opcoes.onAction} icon={opcoes.icon} onClose={() => dispensar(id)} />
@@ -110,9 +103,15 @@ injectStyleOnce('ob-toast-kf', [
   '@keyframes ob-toast-out-bottom{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(16px)}}',
 ].join(''));
 injectStyleOnce('ob-toast-pos', [
-  '@media(max-width:600px){',
-  '.ob-toast-stack{left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:calc(100vw - 24px)!important;align-items:stretch!important}',
-  '.ob-toast-stack[data-pos^="top"]{top:16px!important;bottom:auto!important;flex-direction:column-reverse!important}',
-  '.ob-toast-stack[data-pos^="bottom"]{bottom:16px!important;top:auto!important;flex-direction:column!important}',
+  '.ob-toast-stack{position:fixed;z-index:var(--ob-z-toast);display:flex;gap:10px;pointer-events:none;left:50%;transform:translateX(-50%);width:calc(100vw - 24px);align-items:stretch}',
+  '.ob-toast-stack[data-pos^="top"]{top:16px;flex-direction:column-reverse}',
+  '.ob-toast-stack[data-pos^="bottom"]{bottom:16px;flex-direction:column}',
+  `@media ${mediaQuery('sm')}{`,
+  '.ob-toast-stack{width:min(400px,calc(100vw - 32px))}',
+  '.ob-toast-stack[data-pos^="top"]{top:24px}',
+  '.ob-toast-stack[data-pos^="bottom"]{bottom:24px}',
+  '.ob-toast-stack[data-pos$="-left"]{left:24px;transform:none;align-items:flex-start}',
+  '.ob-toast-stack[data-pos$="-right"]{left:auto;right:24px;transform:none;align-items:flex-end}',
+  '.ob-toast-stack[data-pos$="-center"]{align-items:center}',
   '}',
 ].join(''));

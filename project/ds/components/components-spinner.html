@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="../../package/src/tokens.css"/>
 <style>
   body { margin: 0; padding: 24px; background: var(--ob-surface); font-family: var(--ob-font); }
-  .wrap { display: grid; grid-template-columns: 240px 1fr; gap: 28px; align-items: start; }
-  @media (max-width: 680px) { .wrap { grid-template-columns: 1fr; } }
+  .wrap { display: grid; grid-template-columns: 1fr; gap: 28px; align-items: start; }
+  @media (min-width: 768px) { .wrap { grid-template-columns: 240px 1fr; } }
   .panel { display: flex; flex-direction: column; gap: 20px; }
   .ctrl { display: flex; flex-direction: column; gap: 9px; }
   .ctrl > .head { font-family: var(--ob-font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ob-fg-mute); }

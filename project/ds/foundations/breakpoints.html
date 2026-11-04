@@ -37,6 +37,10 @@ pre code { background: none; padding: 0; font-size: 13px; line-height: 1.65; col
 .tick-name { font-family: var(--ob-font-mono); font-size: 9px; color: var(--ob-fg-mute); }
 .tick-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ob-blue); margin-bottom: 2px; }
 .tick:first-child .tick-dot { background: var(--ob-fg-mute); }
+.mono { font-family: var(--ob-font-mono); }
+.mudo { font-family: var(--ob-font-mono); color: var(--ob-fg-mute); }
+.faixa { font-family: var(--ob-font-mono); font-size: 12px; color: var(--ob-fg-mute); }
+.ico { font-size: 15px; vertical-align: middle; margin-right: 5px; }
 
 /* ── BP table ── */
 .bp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -88,111 +92,76 @@ pre code { background: none; padding: 0; font-size: 13px; line-height: 1.65; col
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css">
 </head><body><div class="wrap">
-
   <p class="eyebrow">Foundation · Layout</p>
   <h1>Breakpoints <em>&amp; Grid</em></h1>
-  <p class="lede">Grades de layout organizam o conteúdo em colunas responsivas que se adaptam automaticamente por breakpoint. Cada ponto de quebra define colunas, gutter e margem — o comportamento visual muda, os princípios permanecem.</p>
+  <p class="lede">Quatro breakpoints, mobile-first. Cada um é a largura <strong>mínima</strong> de uma faixa de tela: o estilo base vale no celular, e cada breakpoint acrescenta o que muda a partir dele.</p>
 
-  <!-- ══ 1. BREAKPOINTS ══ -->
   <section>
     <h2>1 · Breakpoints</h2>
-    <p>Sistema de 5 pontos de quebra, mobile-first. Cada breakpoint representa o início da faixa — um layout que começa em <code>md</code> (1024px) vale para 1024px em diante até o próximo.</p>
+    <p>Abaixo de <code>sm</code> fica a faixa <code>base</code>. Um layout escrito para <code>md</code> vale de 1024px em diante, até alguém mudá-lo num breakpoint maior.</p>
 
     <div class="ruler-wrap">
-      <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
-        <span style="font-family:var(--ob-font-mono);font-size:10px;color:var(--ob-fg-mute)">0px</span>
-        <span style="font-family:var(--ob-font-mono);font-size:10px;color:var(--ob-fg-mute)">1440px+</span>
-      </div>
       <div class="ruler-track"><div class="ruler-fill"></div></div>
       <div class="ruler-ticks">
-        <div class="tick"><div class="tick-dot" style="background:var(--ob-fg-mute)"></div><div class="tick-val">0</div><div class="tick-name">base</div></div>
-        <div class="tick"><div class="tick-dot"></div><div class="tick-val">480</div><div class="tick-name">xs</div></div>
+        <div class="tick"><div class="tick-dot"></div><div class="tick-val">0</div><div class="tick-name">base</div></div>
         <div class="tick"><div class="tick-dot"></div><div class="tick-val">768</div><div class="tick-name">sm</div></div>
         <div class="tick"><div class="tick-dot"></div><div class="tick-val">1024</div><div class="tick-name">md</div></div>
         <div class="tick"><div class="tick-dot"></div><div class="tick-val">1280</div><div class="tick-name">lg</div></div>
-        <div class="tick"><div class="tick-dot" style="background:color-mix(in srgb,var(--ob-blue) 60%,var(--ob-green))"></div><div class="tick-val">1440</div><div class="tick-name">xl</div></div>
+        <div class="tick"><div class="tick-dot"></div><div class="tick-val">1440</div><div class="tick-name">xl</div></div>
       </div>
     </div>
 
     <div style="margin-top:24px;">
       <table class="bp-table">
-        <thead><tr><th>Nome</th><th>Token</th><th>Min-width</th><th>Dispositivos típicos</th></tr></thead>
+        <thead><tr><th>Faixa</th><th>Token</th><th>Começa em</th><th>Telas típicas</th></tr></thead>
         <tbody>
-          <tr><td><strong>base</strong></td><td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">—</td><td style="font-family:var(--ob-font-mono)">0px</td><td><i class="ph ph-device-mobile" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Phones pequenos (&lt; 480px)</td></tr>
-          <tr><td><strong>xs</strong></td><td><code>--ob-bp-xs</code></td><td style="font-family:var(--ob-font-mono)">480px</td><td><i class="ph ph-device-mobile" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Phones grandes, landscape</td></tr>
-          <tr><td><strong>sm</strong></td><td><code>--ob-bp-sm</code></td><td style="font-family:var(--ob-font-mono)">768px</td><td><i class="ph ph-device-tablet" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Tablets, landscape phone</td></tr>
-          <tr><td><strong>md</strong></td><td><code>--ob-bp-md</code></td><td style="font-family:var(--ob-font-mono)">1024px</td><td><i class="ph ph-laptop" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Laptops pequenos, tablets landscape</td></tr>
-          <tr><td><strong>lg</strong></td><td><code>--ob-bp-lg</code></td><td style="font-family:var(--ob-font-mono)">1280px</td><td><i class="ph ph-monitor" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Desktop padrão</td></tr>
-          <tr><td><strong>xl</strong></td><td><code>--ob-bp-xl</code></td><td style="font-family:var(--ob-font-mono)">1440px</td><td><i class="ph ph-monitor" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Desktop wide, monitores</td></tr>
+          <tr><td><strong>base</strong></td><td class="mudo">—</td><td class="mono">0px</td><td><i class="ph ph-device-mobile ico"></i>Celulares</td></tr>
+          <tr><td><strong>sm</strong></td><td><code>--ob-bp-sm</code></td><td class="mono">768px</td><td><i class="ph ph-device-tablet ico"></i>Tablets</td></tr>
+          <tr><td><strong>md</strong></td><td><code>--ob-bp-md</code></td><td class="mono">1024px</td><td><i class="ph ph-laptop ico"></i>Laptops e tablets deitados</td></tr>
+          <tr><td><strong>lg</strong></td><td><code>--ob-bp-lg</code></td><td class="mono">1280px</td><td><i class="ph ph-monitor ico"></i>Desktop padrão</td></tr>
+          <tr><td><strong>xl</strong></td><td><code>--ob-bp-xl</code></td><td class="mono">1440px</td><td><i class="ph ph-monitor ico"></i>Monitores largos</td></tr>
         </tbody>
       </table>
     </div>
 
-    <div class="note"><strong>CSS Variables não funcionam em @media queries.</strong> Os tokens de breakpoint são valores de referência para documentação e lógica JavaScript. Em CSS, use os valores literais: <code>@media (min-width: 768px)</code>.</div>
+    <h3>Uso em CSS</h3>
+    <p>Escreva o estilo do celular primeiro e acrescente as mudanças com <code>min-width</code>. Nunca use <code>max-width</code> nem um número fora da escala. Variáveis CSS não funcionam dentro de <code>@media</code>, então o número vai literal.</p>
+    <pre><code>.lista { grid-template-columns: 1fr; }
+@media (min-width: 768px)  { .lista { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .lista { grid-template-columns: repeat(3, 1fr); } }</code></pre>
 
-    <h3>Uso em CSS e JS</h3>
-    <pre><code>/* CSS — use os valores literais */
-@media (min-width: 768px) { /* sm → tablet */ }
-@media (min-width: 1024px) { /* md → desktop */ }
+    <h3>Uso em JavaScript</h3>
+    <pre><code>import { BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
 
-/* JavaScript — referencie os tokens via getComputedStyle */
-const bp = getComputedStyle(document.documentElement)
-  .getPropertyValue('--ob-bp-sm').trim(); // "768px"</code></pre>
+BREAKPOINTS.md;        // 1024
+mediaQuery('md');      // "(min-width: 1024px)"
+
+const { current, atLeast } = useBreakpoint();
+current;               // "base" | "sm" | "md" | "lg" | "xl"
+atLeast('md');         // true a partir de 1024px</code></pre>
   </section>
 
-  <!-- ══ 2. GRID ══ -->
   <section>
     <h2>2 · Grade de layout</h2>
-    <p>A grade muda de configuração em três faixas: mobile, tablet e desktop. Todas têm em comum: colunas, gutter (espaço entre colunas) e margem (espaço lateral externo).</p>
-
+    <p>Os tokens da grade seguem os mesmos nomes: sem sufixo valem na faixa <code>base</code>, com <code>-sm</code> a partir de <code>sm</code> e com <code>-md</code> a partir de <code>md</code>.</p>
     <table class="grid-table">
-      <thead>
-        <tr>
-          <th>Faixa</th>
-          <th>Breakpoints</th>
-          <th>Colunas</th>
-          <th>Gutter</th>
-          <th>Margem</th>
-          <th>Max-width</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Faixa</th><th>Largura</th><th>Colunas</th><th>Gutter</th><th>Margem</th></tr></thead>
       <tbody>
-        <tr>
-          <td><i class="ph ph-device-mobile" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Mobile</td>
-          <td style="font-family:var(--ob-font-mono);font-size:12px;color:var(--ob-fg-mute)">&lt; 480px</td>
-          <td><span class="col-pill">4</span></td>
-          <td style="font-family:var(--ob-font-mono)">16px</td>
-          <td style="font-family:var(--ob-font-mono)">16px</td>
-          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">100%</td>
-        </tr>
-        <tr>
-          <td><i class="ph ph-device-tablet" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Tablet</td>
-          <td style="font-family:var(--ob-font-mono);font-size:12px;color:var(--ob-fg-mute)">480px – 1023px</td>
-          <td><span class="col-pill">8</span></td>
-          <td style="font-family:var(--ob-font-mono)">24px</td>
-          <td style="font-family:var(--ob-font-mono)">32px</td>
-          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">100%</td>
-        </tr>
-        <tr>
-          <td><i class="ph ph-laptop" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Desktop</td>
-          <td style="font-family:var(--ob-font-mono);font-size:12px;color:var(--ob-fg-mute)">≥ 1024px</td>
-          <td><span class="col-pill">12</span></td>
-          <td style="font-family:var(--ob-font-mono)">24px</td>
-          <td style="font-family:var(--ob-font-mono)">48px</td>
-          <td style="font-family:var(--ob-font-mono)">1280px</td>
-        </tr>
+        <tr><td><i class="ph ph-device-mobile ico"></i>base</td><td class="faixa">&lt; 768px</td><td><span class="col-pill">4</span></td><td class="mono">16px</td><td class="mono">16px</td></tr>
+        <tr><td><i class="ph ph-device-tablet ico"></i>sm</td><td class="faixa">768px – 1023px</td><td><span class="col-pill">8</span></td><td class="mono">24px</td><td class="mono">32px</td></tr>
+        <tr><td><i class="ph ph-laptop ico"></i>md em diante</td><td class="faixa">≥ 1024px</td><td><span class="col-pill">12</span></td><td class="mono">24px</td><td class="mono">48px</td></tr>
       </tbody>
     </table>
 
     <h3>Visualização interativa</h3>
     <div class="grid-demo-wrap">
       <div class="grid-demo-controls">
-        <button class="bp-btn" onclick="setGrid('mobile')"><i class="ph ph-device-mobile" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Mobile</button>
-        <button class="bp-btn" onclick="setGrid('tablet')"><i class="ph ph-device-tablet" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Tablet</button>
-        <button class="bp-btn on" onclick="setGrid('desktop')"><i class="ph ph-laptop" style="font-size:15px;vertical-align:middle;margin-right:5px;"></i>Desktop</button>
+        <button class="bp-btn" data-faixa="base"><i class="ph ph-device-mobile ico"></i>base</button>
+        <button class="bp-btn" data-faixa="sm"><i class="ph ph-device-tablet ico"></i>sm</button>
+        <button class="bp-btn" data-faixa="md"><i class="ph ph-laptop ico"></i>md</button>
       </div>
       <div class="grid-demo-stage">
-        <div class="grid-frame" id="grid-frame" style="max-width:100%;">
+        <div class="grid-frame" id="grid-frame">
           <div class="grid-inner" id="grid-inner"></div>
           <div class="grid-info-bar" id="grid-info"></div>
         </div>
@@ -200,175 +169,103 @@ const bp = getComputedStyle(document.documentElement)
     </div>
   </section>
 
-  <!-- ══ 3. COLUNAS E SPANS ══ -->
   <section>
     <h2>3 · Spans de coluna</h2>
-    <p>A largura de um elemento é definida pelo número de colunas que ele ocupa. Os spans abaixo se referem ao grid de desktop (12 colunas) — adapte proporcionalmente para tablet (8) e mobile (4).</p>
-
+    <p>A largura de um elemento é o número de colunas que ele ocupa. Os spans abaixo usam a grade de 12 colunas (<code>md</code> em diante); em <code>sm</code> a grade tem 8 e em <code>base</code>, 4.</p>
     <table class="span-table">
       <thead><tr><th>Span</th><th>% do container</th><th>Uso típico</th><th>Visual</th></tr></thead>
       <tbody>
-        <tr>
-          <td><code>2 / 12</code></td>
-          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">16,6%</td>
-          <td>Sidebar estreita, ícone + label</td>
-          <td><div class="span-bar" style="width:16.6%"></div></td>
-        </tr>
-        <tr>
-          <td><code>3 / 12</code></td>
-          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">25%</td>
-          <td>Sidebar padrão, filtros</td>
-          <td><div class="span-bar" style="width:25%"></div></td>
-        </tr>
-        <tr>
-          <td><code>4 / 12</code></td>
-          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">33,3%</td>
-          <td>Card em grade de 3, coluna auxiliar</td>
-          <td><div class="span-bar" style="width:33.3%"></div></td>
-        </tr>
-        <tr>
-          <td><code>6 / 12</code></td>
-          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">50%</td>
-          <td>Dois cards lado a lado, formulário split</td>
-          <td><div class="span-bar" style="width:50%"></div></td>
-        </tr>
-        <tr>
-          <td><code>8 / 12</code></td>
-          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">66,6%</td>
-          <td>Conteúdo principal com sidebar</td>
-          <td><div class="span-bar" style="width:66.6%"></div></td>
-        </tr>
-        <tr>
-          <td><code>9 / 12</code></td>
-          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">75%</td>
-          <td>Leitura longa, artigo + nav lateral</td>
-          <td><div class="span-bar" style="width:75%"></div></td>
-        </tr>
-        <tr>
-          <td><code>12 / 12</code></td>
-          <td style="font-family:var(--ob-font-mono);color:var(--ob-fg-mute)">100%</td>
-          <td>Full-width: hero, tabela, cabeçalho</td>
-          <td><div class="span-bar" style="width:100%"></div></td>
-        </tr>
+        <tr><td><code>3 / 12</code></td><td class="mudo">25%</td><td>Barra lateral, filtros</td><td><div class="span-bar" style="width:25%"></div></td></tr>
+        <tr><td><code>4 / 12</code></td><td class="mudo">33,3%</td><td>Card em grade de 3</td><td><div class="span-bar" style="width:33.3%"></div></td></tr>
+        <tr><td><code>6 / 12</code></td><td class="mudo">50%</td><td>Dois cards lado a lado</td><td><div class="span-bar" style="width:50%"></div></td></tr>
+        <tr><td><code>8 / 12</code></td><td class="mudo">66,6%</td><td>Conteúdo principal com barra lateral</td><td><div class="span-bar" style="width:66.6%"></div></td></tr>
+        <tr><td><code>12 / 12</code></td><td class="mudo">100%</td><td>Largura total: tabela, cabeçalho</td><td><div class="span-bar" style="width:100%"></div></td></tr>
       </tbody>
     </table>
 
     <h3>Implementação CSS</h3>
-    <pre><code>/* Container responsivo */
-.page-container {
-  max-width: var(--ob-max-w-page);  /* 1280px */
+    <pre><code>.pagina {
+  max-width: var(--ob-container-page);
   margin: 0 auto;
-  padding: 0 var(--ob-grid-margin-desktop);
+  padding: 0 var(--ob-grid-margin);
 }
-
-@media (max-width: 1023px) {
-  .page-container { padding: 0 var(--ob-grid-margin-tablet); }
-}
-@media (max-width: 479px) {
-  .page-container { padding: 0 var(--ob-grid-margin-mobile); }
-}
-
-/* Grade de 12 colunas */
-.grid {
+.grade {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--ob-grid-gutter-desktop);
+  grid-template-columns: repeat(var(--ob-grid-cols), 1fr);
+  gap: var(--ob-grid-gutter);
 }
-@media (max-width: 1023px) {
-  .grid {
-    grid-template-columns: repeat(8, 1fr);
-    gap: var(--ob-grid-gutter-tablet);
-  }
+@media (min-width: 768px) {
+  .pagina { padding: 0 var(--ob-grid-margin-sm); }
+  .grade  { grid-template-columns: repeat(var(--ob-grid-cols-sm), 1fr); gap: var(--ob-grid-gutter-sm); }
 }
-@media (max-width: 479px) {
-  .grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--ob-grid-gutter-mobile);
-  }
+@media (min-width: 1024px) {
+  .pagina { padding: 0 var(--ob-grid-margin-md); }
+  .grade  { grid-template-columns: repeat(var(--ob-grid-cols-md), 1fr); gap: var(--ob-grid-gutter-md); }
 }</code></pre>
   </section>
 
-  <!-- ══ 4. TOKENS ══ -->
   <section>
     <h2>4 · Tokens</h2>
-    <h3>Breakpoints</h3>
+    <h3>Grade</h3>
     <table class="tok-table">
-      <thead><tr><th>Token</th><th>Valor</th><th>Faixa de uso</th></tr></thead>
+      <thead><tr><th>Token</th><th>Valor</th><th>Vale em</th></tr></thead>
       <tbody>
-        <tr><td><code>--ob-bp-xs</code></td><td style="font-family:var(--ob-font-mono)">480px</td><td>Phones grandes → tablets</td></tr>
-        <tr><td><code>--ob-bp-sm</code></td><td style="font-family:var(--ob-font-mono)">768px</td><td>Tablets → laptop pequeno</td></tr>
-        <tr><td><code>--ob-bp-md</code></td><td style="font-family:var(--ob-font-mono)">1024px</td><td>Laptop → desktop padrão</td></tr>
-        <tr><td><code>--ob-bp-lg</code></td><td style="font-family:var(--ob-font-mono)">1280px</td><td>Desktop → wide</td></tr>
-        <tr><td><code>--ob-bp-xl</code></td><td style="font-family:var(--ob-font-mono)">1440px</td><td>Wide desktop +</td></tr>
+        <tr><td><code>--ob-grid-cols</code></td><td class="mono">4</td><td>base</td></tr>
+        <tr><td><code>--ob-grid-cols-sm</code></td><td class="mono">8</td><td>sm</td></tr>
+        <tr><td><code>--ob-grid-cols-md</code></td><td class="mono">12</td><td>md em diante</td></tr>
+        <tr><td><code>--ob-grid-gutter</code></td><td class="mono">16px (--ob-s-4)</td><td>base</td></tr>
+        <tr><td><code>--ob-grid-gutter-sm</code></td><td class="mono">24px (--ob-s-5)</td><td>sm</td></tr>
+        <tr><td><code>--ob-grid-gutter-md</code></td><td class="mono">24px (--ob-s-5)</td><td>md em diante</td></tr>
+        <tr><td><code>--ob-grid-margin</code></td><td class="mono">16px (--ob-s-4)</td><td>base</td></tr>
+        <tr><td><code>--ob-grid-margin-sm</code></td><td class="mono">32px (--ob-s-6)</td><td>sm</td></tr>
+        <tr><td><code>--ob-grid-margin-md</code></td><td class="mono">48px (--ob-s-7)</td><td>md em diante</td></tr>
       </tbody>
     </table>
-
-    <h3>Grid</h3>
+    <h3>Containers</h3>
+    <p>Largura máxima de um bloco. Cada nome vale o mesmo que o breakpoint de mesmo nome, então <code>md</code> é sempre 1024px.</p>
     <table class="tok-table">
-      <thead><tr><th>Token</th><th>Valor</th><th>Intenção</th></tr></thead>
+      <thead><tr><th>Token</th><th>Valor</th></tr></thead>
       <tbody>
-        <tr><td><code>--ob-grid-cols-mobile</code></td><td style="font-family:var(--ob-font-mono)">4</td><td>Colunas mobile</td></tr>
-        <tr><td><code>--ob-grid-cols-tablet</code></td><td style="font-family:var(--ob-font-mono)">8</td><td>Colunas tablet</td></tr>
-        <tr><td><code>--ob-grid-cols-desktop</code></td><td style="font-family:var(--ob-font-mono)">12</td><td>Colunas desktop</td></tr>
-        <tr><td><code>--ob-grid-gutter-mobile</code></td><td style="font-family:var(--ob-font-mono)">16px (--ob-s-4)</td><td>Gap entre colunas mobile</td></tr>
-        <tr><td><code>--ob-grid-gutter-tablet</code></td><td style="font-family:var(--ob-font-mono)">24px (--ob-s-5)</td><td>Gap entre colunas tablet</td></tr>
-        <tr><td><code>--ob-grid-gutter-desktop</code></td><td style="font-family:var(--ob-font-mono)">24px (--ob-s-5)</td><td>Gap entre colunas desktop</td></tr>
-        <tr><td><code>--ob-grid-margin-mobile</code></td><td style="font-family:var(--ob-font-mono)">16px (--ob-s-4)</td><td>Margem lateral mobile</td></tr>
-        <tr><td><code>--ob-grid-margin-tablet</code></td><td style="font-family:var(--ob-font-mono)">32px (--ob-s-6)</td><td>Margem lateral tablet</td></tr>
-        <tr><td><code>--ob-grid-margin-desktop</code></td><td style="font-family:var(--ob-font-mono)">48px (--ob-s-7)</td><td>Margem lateral desktop</td></tr>
-        <tr><td><code>--ob-max-w-page</code></td><td style="font-family:var(--ob-font-mono)">1280px</td><td>Largura máxima de conteúdo</td></tr>
+        <tr><td><code>--ob-container-sm</code></td><td class="mono">768px</td></tr>
+        <tr><td><code>--ob-container-md</code></td><td class="mono">1024px</td></tr>
+        <tr><td><code>--ob-container-lg</code></td><td class="mono">1280px</td></tr>
+        <tr><td><code>--ob-container-xl</code></td><td class="mono">1440px</td></tr>
+        <tr><td><code>--ob-container-page</code></td><td class="mono">1280px (lg), largura padrão da página</td></tr>
       </tbody>
     </table>
   </section>
 
-  <!-- ══ 5. USO ══ -->
   <section>
-    <h2>5 · Instruções de uso</h2>
+    <h2>5 · Regras</h2>
     <ul>
-      <li>Use sempre a grade para organizar conteúdo de página — nunca posicione elementos com <code>position: absolute</code> para layout estrutural.</li>
-      <li>O gutter define o espaço <em>entre</em> colunas. O espaço <em>dentro</em> do conteúdo usa os tokens de spacing (<code>--ob-gap-*</code>, <code>--ob-pad-card</code>).</li>
-      <li>Elementos fluidos (sem largura fixa) esticam para preencher as colunas disponíveis. Use spans fixos apenas para elementos que precisam de proporção específica.</li>
-      <li>Em mobile (4 colunas), a maioria dos elementos ocupa 4/4 (full-width). Reserve spans menores para ações secundárias em linha.</li>
-      <li>Não use a grade para micro-layout interno de componentes — a grade é para estrutura de página, não para dentro de cards ou formulários.</li>
+      <li>Mobile-first: o estilo base é o do celular; cada <code>@media (min-width: …)</code> acrescenta o que muda.</li>
+      <li>Só os valores da escala: 768, 1024, 1280 e 1440. Um teste automático do pacote recusa qualquer outro número e qualquer <code>max-width</code>.</li>
+      <li>A grade organiza a página, não o interior de cards e formulários; ali valem os tokens de espaçamento (<code>--ob-gap-*</code>, <code>--ob-pad-card</code>).</li>
     </ul>
     <div class="do-dont">
-      <div class="dd do"><span class="tag">✓ Faça</span><p>Use <code>grid-column: span 6</code> para dois cards lado a lado no desktop. No tablet, sobrescreva para <code>span 8</code> (full).</p></div>
-      <div class="dd dont"><span class="tag">✕ Evite</span><p>Criar um número de colunas diferente dos tokens (ex: 10-col custom). Quebraria a consistência responsiva.</p></div>
+      <div class="dd do"><span class="tag">✓ Faça</span><p>Comece com <code>grid-column: span 4</code> (largura total no celular) e passe para <code>span 6</code> a partir de <code>md</code>.</p></div>
+      <div class="dd dont"><span class="tag">✕ Evite</span><p>Inventar um ponto de quebra (600px, 900px) para um caso de uma tela só.</p></div>
     </div>
-    <div class="note"><strong>Tokens de breakpoint em @media:</strong> CSS não suporta variáveis em media queries. Use os valores numéricos literais (480, 768, 1024, 1280, 1440). Os tokens existem como referência de documentação e para uso em JavaScript.</div>
   </section>
 
 </div>
 <script>
-const configs = {
-  mobile:  { cols: 4,  gutter: 16, margin: 16,  maxW: '100%',    label: '< 480px' },
-  tablet:  { cols: 8,  gutter: 24, margin: 32,  maxW: '768px',   label: '480–1023px' },
-  desktop: { cols: 12, gutter: 24, margin: 48,  maxW: '100%',    label: '≥ 1024px' },
+const faixas = {
+  base: { cols: 4,  gutter: 16, margin: 16, largura: '< 768px' },
+  sm:   { cols: 8,  gutter: 24, margin: 32, largura: '768–1023px' },
+  md:   { cols: 12, gutter: 24, margin: 48, largura: '≥ 1024px' },
 };
-
-function setGrid(bp) {
-  const cfg = configs[bp];
-  const inner = document.getElementById('grid-inner');
-  const frame = document.getElementById('grid-frame');
-  const info  = document.getElementById('grid-info');
-
-  frame.style.maxWidth = cfg.maxW;
-  inner.style.setProperty('--demo-cols', cfg.cols);
-  inner.style.setProperty('--demo-gutter', cfg.gutter + 'px');
-  inner.style.gridTemplateColumns = `repeat(${cfg.cols}, 1fr)`;
-  inner.style.gap = cfg.gutter + 'px';
-  inner.style.padding = cfg.margin + 'px';
-
-  inner.innerHTML = Array.from({ length: cfg.cols }, (_, i) =>
-    `<div class="grid-col">${i + 1}</div>`).join('');
-
-  info.innerHTML = `<span><b>${cfg.cols}</b> colunas</span><span>gutter <b>${cfg.gutter}px</b></span><span>margem <b>${cfg.margin}px</b></span><span>${cfg.label}</span>`;
-
-  document.querySelectorAll('.bp-btn').forEach(b => b.classList.remove('on'));
-  event.target.classList.add('on');
+function mostrar(nome) {
+  const f = faixas[nome];
+  const grade = document.getElementById('grid-inner');
+  grade.style.gridTemplateColumns = `repeat(${f.cols}, 1fr)`;
+  grade.style.gap = f.gutter + 'px';
+  grade.style.padding = f.margin + 'px';
+  grade.innerHTML = Array.from({ length: f.cols }, (_, i) => `<div class="grid-col">${i + 1}</div>`).join('');
+  document.getElementById('grid-info').innerHTML = `<span><b>${f.cols}</b> colunas</span><span>gutter <b>${f.gutter}px</b></span><span>margem <b>${f.margin}px</b></span><span>${f.largura}</span>`;
+  document.querySelectorAll('.bp-btn').forEach((b) => b.classList.toggle('on', b.dataset.faixa === nome));
 }
-
-// init desktop
-document.querySelector('.bp-btn:last-child').click();
+document.querySelectorAll('.bp-btn').forEach((b) => b.addEventListener('click', () => mostrar(b.dataset.faixa)));
+mostrar('md');
 </script>
 </body></html>

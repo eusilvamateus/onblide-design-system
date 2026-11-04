@@ -79,6 +79,15 @@ Nunca reaproveitar uma palavra do vocabulário com outro sentido nem criar sinô
 `Extract` de `Tone` e `Appearance` (`src/internal/tone.ts`, `src/internal/appearance.ts`). Se nenhuma palavra serve,
 o vocabulário cresce para todos antes de o componente ganhar a prop.
 
+## Breakpoints
+
+Regra e tabela completa: [`docs-site/docs/fundacoes/breakpoints.mdx`](../docs-site/docs/fundacoes/breakpoints.mdx)
+(decisão em [`docs/decisions/0011`](../docs/decisions/0011-breakpoints-mobile-first-com-escala-unica.md)).
+Resumo para o agente: escala `sm` 768, `md` 1024, `lg` 1280, `xl` 1440 (abaixo de `sm` é `base`), mobile-first, só
+`min-width` com esses valores; nunca `max-width` nem número inventado. No CSS injetado do pacote a consulta vem de
+`mediaQuery()` (`src/layout/breakpoints.ts`); em React, `useBreakpoint()`. Grade e containers usam os mesmos nomes
+(`--ob-grid-*-sm|md`, `--ob-container-*`). O `smoke-breakpoints` recusa qualquer `@media` fora da regra.
+
 ## Site de documentação (`docs-site/`)
 
 Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, <https://onblide-design-system.vercel.app>),
@@ -90,7 +99,7 @@ verificar`. Deploy: ver `docs-site/README.md`.
 **O site segue o design system, não o tema padrão do Docusaurus:** cores, tipografia, raios e espaçamentos vêm dos
 tokens `--ob-*`; a barra superior, a navegação (`SideNav`), o Drawer mobile, o interruptor de tema (`Switch`), os
 links e os botões são componentes do `@onblide/ui`; a coluna de leitura de 760px, os títulos, tabelas e códigos
-repetem a linguagem de `ds/foundations/doc.css`; os breakpoints são `sm` 768px e `md` 1024px. Não adicionar elementos que o design system
+repetem a linguagem de `ds/foundations/doc.css`; os breakpoints seguem a escala do pacote (o site usa `sm` 768px e `md` 1024px). Não adicionar elementos que o design system
 não tem (rodapé, breadcrumbs, sumário lateral, paginação, colorização de sintaxe) nem cores fora dos tokens.
 
 ## Catálogo: só o que é comum no mercado

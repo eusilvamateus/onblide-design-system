@@ -1,25 +1,12 @@
-import React, { useEffect, useState, type ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 import { useHistory } from '@docusaurus/router';
 import { useColorMode } from '@docusaurus/theme-common';
-import { Button, Link, Logo, Ph, Switch } from '@onblide/ui';
-
-// Abaixo do breakpoint `sm` (768px) o rótulo do interruptor some para a barra caber.
-function useTelaPequena(): boolean {
-  const [pequena, setPequena] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 767px)');
-    const atualizar = () => setPequena(mq.matches);
-    atualizar();
-    mq.addEventListener('change', atualizar);
-    return () => mq.removeEventListener('change', atualizar);
-  }, []);
-  return pequena;
-}
+import { Button, Link, Logo, Ph, Switch, useBreakpoint } from '@onblide/ui';
 
 export default function Navbar(): ReactNode {
   const { colorMode, setColorMode } = useColorMode();
   const history = useHistory();
-  const pequena = useTelaPequena();
+  const pequena = !useBreakpoint().atLeast('sm');
   return (
     <header className="ob-topbar">
       <div className="ob-topbar__inner">

@@ -553,35 +553,35 @@
 
   /* ------------------------------------------------------------
      BREAKPOINTS — mobile-first
-     (referência de documentação; use valores literais em @media)
      ------------------------------------------------------------ */
-  --ob-bp-xs:   480px; /* @kind other */   /* large phones                    */
-  --ob-bp-sm:   768px; /* @kind other */   /* tablets / small landscape       */
-  --ob-bp-md:  1024px; /* @kind other */   /* small laptops, landscape tablet */
-  --ob-bp-lg:  1280px; /* @kind other */   /* standard desktop                */
-  --ob-bp-xl:  1440px; /* @kind other */   /* wide desktop                    */
+  --ob-bp-sm:   768px; /* @kind other */
+  --ob-bp-md:  1024px; /* @kind other */
+  --ob-bp-lg:  1280px; /* @kind other */
+  --ob-bp-xl:  1440px; /* @kind other */
 
   /* ------------------------------------------------------------
-     GRID — columns, gutter, margin per breakpoint
+     GRID
      ------------------------------------------------------------ */
-  --ob-grid-cols-mobile:    4; /* @kind other */
-  --ob-grid-cols-tablet:    8; /* @kind other */
-  --ob-grid-cols-desktop:  12; /* @kind other */
+  --ob-grid-cols:       4; /* @kind other */
+  --ob-grid-cols-sm:    8; /* @kind other */
+  --ob-grid-cols-md:   12; /* @kind other */
 
-  --ob-grid-gutter-mobile:  var(--ob-s-4);   /* 16px */
-  --ob-grid-gutter-tablet:  var(--ob-s-5);   /* 24px */
-  --ob-grid-gutter-desktop: var(--ob-s-5);   /* 24px */
+  --ob-grid-gutter:     var(--ob-s-4);
+  --ob-grid-gutter-sm:  var(--ob-s-5);
+  --ob-grid-gutter-md:  var(--ob-s-5);
 
-  --ob-grid-margin-mobile:  var(--ob-s-4);   /* 16px */
-  --ob-grid-margin-tablet:  var(--ob-s-6);   /* 32px */
-  --ob-grid-margin-desktop: var(--ob-s-7);   /* 48px */
+  --ob-grid-margin:     var(--ob-s-4);
+  --ob-grid-margin-sm:  var(--ob-s-6);
+  --ob-grid-margin-md:  var(--ob-s-7);
 
-  --ob-max-w-sm:    640px; /* @kind spacing */
-  --ob-max-w-md:    768px; /* @kind spacing */
-  --ob-max-w-lg:   1024px; /* @kind spacing */
-  --ob-max-w-xl:   1280px; /* @kind spacing */
-  --ob-max-w-2xl:  1440px; /* @kind spacing */
-  --ob-max-w-page: var(--ob-max-w-xl); /* @kind spacing */   /* default page max-width */
+  /* ------------------------------------------------------------
+     CONTAINERS
+     ------------------------------------------------------------ */
+  --ob-container-sm:    768px; /* @kind spacing */
+  --ob-container-md:   1024px; /* @kind spacing */
+  --ob-container-lg:   1280px; /* @kind spacing */
+  --ob-container-xl:   1440px; /* @kind spacing */
+  --ob-container-page: var(--ob-container-lg); /* @kind spacing */
 
   /* ------------------------------------------------------------
      RADII — soft (8–12px personality)

@@ -3,6 +3,7 @@ import { Icons } from '../../iconography/Icons/Icons';
 import { Button } from '../../actions/Button/Button';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import { ScrollArea } from '../../data-display/ScrollArea/ScrollArea';
+import { mediaQuery } from '../../layout/breakpoints';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'full';
 
@@ -19,9 +20,9 @@ export interface ModalProps {
   children?: React.ReactNode;
   /** Conteúdo exibido no rodapé, geralmente botões de ação. */
   footer?: React.ReactNode;
-  /** Largura explícita, que sobrepõe a derivada de `size`. */
+  /** Largura explícita, que sobrepõe a derivada de `size`. Abaixo do breakpoint `sm` só vale no `size="sm"`; nos outros tamanhos o modal ocupa a tela inteira. */
   width?: number | string;
-  /** Tamanho predefinido do modal. */
+  /** Tamanho predefinido do modal. Abaixo do breakpoint `sm`, `md`, `lg` e `full` ocupam a tela inteira e `sm` continua um cartão centralizado. */
   size?: ModalSize;
   /** `alertdialog` marca o modal como uma decisão que exige resposta e liga o texto do corpo à descrição acessível. */
   role?: 'dialog' | 'alertdialog';
@@ -40,6 +41,9 @@ export interface ModalProps {
 /** Diálogo que interrompe o fluxo, com backdrop escurecido, para uma decisão ou foco. */
 export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, footer, width, size = 'md', role = 'dialog', closeButton = true, maxHeight, motion = 'default', backdropRef, contentRef }) => {
   const resolvedWidth = width ?? MODAL_WIDTHS[size] ?? MODAL_WIDTHS.md;
+  const largura = typeof resolvedWidth === 'number' ? `${resolvedWidth}px` : resolvedWidth;
+  const altura = typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight ?? '100%';
+  const cartao = size === 'sm';
   const titleId = useId();
   const bodyId = useId();
   const animado = motion !== 'none';
@@ -52,15 +56,16 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
 
   if (!open) return null;
   return (
-    <div ref={backdropRef} data-ob-modal-motion={animado ? '' : undefined} onClick={onClose} style={{
+    <div ref={backdropRef} className="ob-modal-fundo" data-cartao={cartao ? '' : undefined} data-ob-modal-motion={animado ? '' : undefined} onClick={onClose} style={{
       position: 'fixed', inset: 0, zIndex: 'var(--ob-z-overlay)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'var(--ob-scrim)', backdropFilter: 'blur(2px)', padding: 24,
+      background: 'var(--ob-scrim)', backdropFilter: 'blur(2px)',
       animation: animado ? 'ob-fade 160ms ease-out' : undefined,
     }}>
-      <div ref={contentRef} data-ob-modal-motion={animado ? '' : undefined} onClick={(e) => e.stopPropagation()} role={role} aria-modal="true" aria-labelledby={title ? titleId : undefined} aria-describedby={role === 'alertdialog' ? bodyId : undefined} style={{
-        width: resolvedWidth, maxWidth: '100%', maxHeight: maxHeight ?? '100%', display: 'flex', flexDirection: 'column', background: 'var(--ob-surface)', borderRadius: 'var(--ob-r-overlay)',
+      <div ref={contentRef} className="ob-modal" data-ob-modal-motion={animado ? '' : undefined} onClick={(e) => e.stopPropagation()} role={role} aria-modal="true" aria-labelledby={title ? titleId : undefined} aria-describedby={role === 'alertdialog' ? bodyId : undefined} style={{
+        '--ob-modal-largura': largura, '--ob-modal-altura': altura,
+        maxWidth: '100%', display: 'flex', flexDirection: 'column', background: 'var(--ob-surface)',
         boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden', animation: animado ? 'ob-pop 200ms var(--ob-ease-spring)' : undefined,
-      }}>
+      } as React.CSSProperties}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, padding: '20px 24px 0', flex: 'none' }}>
           <h3 id={titleId} style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</h3>
           {closeButton && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Icons.x size={18} />} style={{ flex: 'none', margin: '-4px -8px 0 0' }} />}
@@ -75,6 +80,17 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
     </div>
   );
 };
+
+injectStyleOnce('ob-modal-layout', [
+  '.ob-modal-fundo{padding:0}',
+  '.ob-modal{width:100%;height:100%;max-height:100%;border-radius:0}',
+  '.ob-modal-fundo[data-cartao]{padding:16px}',
+  '.ob-modal-fundo[data-cartao] .ob-modal{width:var(--ob-modal-largura);height:auto;max-height:var(--ob-modal-altura);border-radius:var(--ob-r-overlay)}',
+  `@media ${mediaQuery('sm')}{`,
+  '.ob-modal-fundo,.ob-modal-fundo[data-cartao]{padding:24px}',
+  '.ob-modal{width:var(--ob-modal-largura);height:auto;max-height:var(--ob-modal-altura);border-radius:var(--ob-r-overlay)}',
+  '}',
+].join(''));
 
 injectStyleOnce(
   'ob-modal-kf',

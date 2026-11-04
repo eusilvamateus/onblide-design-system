@@ -68,3 +68,6 @@ export { themeManager } from './theme/themeManager';
 export type { ResolvedTheme, ThemePreference, ThemeState } from './theme/themeManager';
 export { useTheme } from './theme/useTheme';
 export { themeInitScript } from './theme/themeInitScript';
+export { BREAKPOINTS, BREAKPOINT_ORDER, mediaQuery } from './layout/breakpoints';
+export type { Breakpoint, BreakpointName } from './layout/breakpoints';
+export { useBreakpoint } from './layout/useBreakpoint';
