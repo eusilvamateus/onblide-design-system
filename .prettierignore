@@ -1,0 +1,17 @@
+**/dist/
+**/build/
+**/.docusaurus/
+**/.vercel/
+.claude/
+project/package/ds-bundle/
+project/package/.ds-sync/
+project/package/.design-sync/.cache/
+project/package/.design-sync/learnings/
+project/package/scripts/fixtures/
+docs-site/demos/
+docs-site/src/data/
+docs-site/static/
+*.md
+*.mdx
+*.html
+package-lock.json

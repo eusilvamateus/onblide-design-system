@@ -21,6 +21,29 @@ npm start                                             # gera os dados e abre em 
 
 Detalhes de onde vem cada parte do conteúdo gerado: [`docs-site/README.md`](../../docs-site/README.md).
 
+## Formatação e lint (raiz do repositório)
+
+Prettier e ESLint ficam na raiz e valem para os dois pacotes, com uma configuração só de cada um:
+
+```bash
+npm install            # na raiz; instala só as ferramentas de formatação e lint
+npm run format:check   # lista os arquivos fora da formatação, sem alterar nada
+npm run format         # formata
+npm run lint           # aponta problemas de código
+npm run lint:fix       # corrige o que o ESLint sabe corrigir sozinho
+```
+
+- **Prettier** (`.prettierrc.json`) cuida só da forma: aspas simples, ponto e vírgula, linhas de até 120 caracteres
+  e o fim de linha que cada arquivo já tem (o repositório usa `core.autocrlf`). Markdown, MDX e as páginas HTML de
+  preview ficam fora (`.prettierignore`), assim como os arquivos gerados.
+- **ESLint** (`eslint.config.mjs`) cuida da qualidade: regras recomendadas de JavaScript, de TypeScript
+  (`typescript-eslint`) e de hooks do React (`eslint-plugin-react-hooks`). O `eslint-config-prettier` desliga as
+  regras de estilo, então os dois nunca discordam; `npx eslint-config-prettier <arquivo>` confirma.
+- **VS Code**: `.vscode/extensions.json` recomenda as extensões Prettier e ESLint, e `.vscode/settings.json` formata
+  ao salvar e aplica as correções do ESLint. O `prettier.prettierPath` aponta para a cópia da raiz porque
+  `project/package/node_modules` traz o Prettier 2 como dependência do `@changesets/cli`.
+- O `typescript` da raiz fica na linha 6.0 porque o `typescript-eslint` ainda não aceita o TypeScript 7.
+
 ## Convenções de código
 
 - **camelCase** para variáveis, funções, props e handlers (`focadoNoMouseDown`, `handleDayClick`).
