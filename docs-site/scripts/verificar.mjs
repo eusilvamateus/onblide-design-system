@@ -57,7 +57,10 @@ for (const rota of rotas) {
       const visivelNaTela = Math.max(0, Math.min(b.right, innerWidth) - Math.max(b.left, 0)) * Math.max(0, Math.min(b.bottom, innerHeight) - Math.max(b.top, 0));
       if (visivelNaTela > area * 0.4 && !el.closest('.ob-topbar, .ob-shell__nav')) problemas.push('sobreposição aberta ao carregar');
     }
-    for (const e of document.querySelectorAll('.ob-playground__error')) if (e.innerText.trim()) problemas.push('erro no exemplo: ' + e.innerText.trim().slice(0, 60));
+    for (const t of document.querySelectorAll('.ob-wrap table')) {
+      if (!t.closest('.ob-playground, .ob-demo') && t.innerText.includes('Nenhum resultado encontrado.')) problemas.push('tabela de documentação vazia');
+    }
+    for (const e of document.querySelectorAll('.ob-playground__error'))if (e.innerText.trim()) problemas.push('erro no exemplo: ' + e.innerText.trim().slice(0, 60));
     const demo = document.querySelector('.ob-demo');
     if (demo) {
       const palco = demo.querySelector('.ob-demo__palco') || demo.querySelector('.ob-demo__resultado > div');
