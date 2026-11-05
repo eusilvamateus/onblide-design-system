@@ -114,3 +114,9 @@ Versões e changelog via [Changesets](https://github.com/changesets/changesets):
 arquivo em `.changeset/`, rode `npx changeset version`, depois `npm install --package-lock-only`
 (o `changeset version` não atualiza o `package-lock.json`) e commite `package.json`,
 `CHANGELOG.md` e `package-lock.json`. Commits seguem Conventional Commits em português (`CLAUDE.md`).
+
+## Licença
+
+O código é distribuído sob a [licença MIT](LICENSE). As fontes em `src/fonts/` têm licença própria, a
+[SIL Open Font License 1.1](src/fonts/OFL.txt). Nenhuma das duas autoriza usar o nome Onblide e o logo como marca: eles
+continuam reservados ao autor.

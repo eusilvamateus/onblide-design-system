@@ -15,3 +15,8 @@ All three families are declared in `tokens.css` via `@font-face` blocks pointing
 ## Offline use
 
 Because fonts are local, the design system works fully offline — no network request needed for typography.
+
+## Licença
+
+Todas as fontes desta pasta usam a SIL Open Font License 1.1. O texto da licença e os avisos de copyright de cada família
+estão em [`OFL.txt`](OFL.txt).

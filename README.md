@@ -18,3 +18,9 @@ cd ../../docs-site && npm install && npm start  # site em http://localhost:3000
 
 Para verificar o pacote, rode `npm run verify` em `packages/ui/`. O restante está em
 [`docs/development/ambiente-de-desenvolvimento.md`](docs/development/ambiente-de-desenvolvimento.md).
+
+## Licença
+
+O código é distribuído sob a [licença MIT](LICENSE). As fontes em `packages/ui/src/fonts/` têm licença própria, a
+[SIL Open Font License 1.1](packages/ui/src/fonts/OFL.txt). Nenhuma das duas autoriza usar o nome Onblide e o logo como
+marca: eles continuam reservados ao autor.

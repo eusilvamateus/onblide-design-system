@@ -39,6 +39,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0011-breakpoints-mobile-first-com-escala-unica.md`](decisions/0011-breakpoints-mobile-first-com-escala-unica.md) — a regra vive em `docs-site/docs/fundacoes/breakpoints.mdx`
 - [`decisions/0012-componentes-sem-numeros-soltos-nas-fundacoes.md`](decisions/0012-componentes-sem-numeros-soltos-nas-fundacoes.md) — as regras vivem nas páginas de `docs-site/docs/fundacoes/`
 - [`decisions/0013-repositorio-so-com-o-design-system.md`](decisions/0013-repositorio-so-com-o-design-system.md) — encerra o Claude Design e define a estrutura de pastas
+- [`decisions/0014-licenca-mit-para-o-codigo.md`](decisions/0014-licenca-mit-para-o-codigo.md) — licença do código, das fontes e da marca
 
 ## Como manter esta documentação
 
