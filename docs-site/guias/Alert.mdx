@@ -62,7 +62,13 @@ Largura de bloco (100% do container). Ícone Phosphor à esquerda, alinhado ao t
 
 ## Guia de design
 
-**Tokens.** Fundo e borda derivados do tom: `--ob-*-100` e `color-mix(--ob-* 28%)`. Ícone na cor forte do tom. CTA em `--ob-*-700`.
+**Pintura (`appearance`).** O padrão é `outline`: superfície, borda neutra e só o ícone colorido, para o alerta fazer parte da tela sem competir com ela. Use `soft`, com o fundo clarinho do tom, no que precisa chamar mais atenção.
+
+**Tokens.** No `outline`, fundo `--ob-surface` e borda `--ob-border`. No `soft`, fundo `--ob-*-050`. Ícone na cor forte do tom (`--ob-*-700`; em `danger`, `--ob-danger`).
+
+**Ação.** `action` vira um `Button` pequeno com seta à direita do conteúdo. Em espaços estreitos, ele desce para baixo do texto.
+
+**Leitor de tela.** `info` e `success` usam `role="status"`, que não interrompe a leitura. `warning` e `danger` usam `role="alert"`, que interrompe. Para mudar, passe `role`.
 
 **Posicionamento.** Sempre dentro do fluxo da página, nunca flutuante. Se estiver numa seção específica (ex: formulário), posicione logo acima do botão de submit.
 

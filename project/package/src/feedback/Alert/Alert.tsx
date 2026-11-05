@@ -2,10 +2,17 @@ import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Button } from '../../actions/Button/Button';
 import { OB_TONES, OBTone } from '../../internal/obTones';
+import type { Appearance } from '../../internal/appearance';
 
-export interface AlertProps {
+export type AlertAppearance = Extract<Appearance, 'outline' | 'soft'>;
+
+export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Tom do alerta, que define ícone e cores. */
   tone?: OBTone;
+  /** Pintura do alerta: `outline` usa a superfície com borda neutra e só o ícone colorido; `soft` usa o fundo clarinho do tom, para o que precisa chamar mais atenção. */
+  appearance?: AlertAppearance;
+  /** Nome do ícone Phosphor (sem o prefixo "ph-") que substitui o ícone padrão do tom. */
+  icon?: string;
   /** Título curto exibido em destaque no topo do conteúdo. */
   title?: React.ReactNode;
   /** Corpo da mensagem, exibido abaixo do título. */
@@ -14,24 +21,35 @@ export interface AlertProps {
   dismissible?: boolean;
   /** Chamado ao clicar no botão de fechar. */
   onClose?: () => void;
-  /** Rótulo do link de ação exibido abaixo do conteúdo. */
+  /** Rótulo do botão de ação, exibido à direita do conteúdo; desce para baixo do texto quando não cabe. */
   action?: React.ReactNode;
-  /** Chamado ao clicar no link de ação. */
+  /** Chamado ao clicar no botão de ação. */
   onAction?: () => void;
 }
 
+const PAPEL_DO_TOM: Record<OBTone, 'alert' | 'status'> = { info: 'status', success: 'status', warning: 'alert', danger: 'alert' };
+
 /** Mensagem de feedback contextual e persistente exibida dentro do conteúdo da página. */
-export const Alert: React.FC<AlertProps> = ({ tone = 'info', title, children, dismissible = false, onClose, action, onAction }) => {
+export const Alert: React.FC<AlertProps> = ({ tone = 'info', appearance = 'outline', icon, title, children, dismissible = false, onClose, action, onAction, role, style, ...rest }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
+  const pintura: React.CSSProperties = appearance === 'soft'
+    ? { background: t.tint, border: '1px solid transparent' }
+    : { background: 'var(--ob-surface)', border: '1px solid var(--ob-border)' };
   return (
-    <div role="alert" style={{ display: 'flex', gap: 'var(--ob-space-12)', width: '100%', padding: 'var(--ob-space-16) var(--ob-space-16)', background: t.bg, border: `1px solid color-mix(in srgb, ${t.fg} 28%, transparent)`, borderRadius: 'var(--ob-r-md)', boxSizing: 'border-box' }}>
-      <Ph n={t.icon} size={20} c={t.fg} weight="fill" />
-      <div style={{ flex: 1, minWidth: 0 }}>
-        {title && <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: children ? 'var(--ob-space-4)' : 0 }}>{title}</div>}
-        {children && <div style={{ fontSize: 13.5, color: 'var(--ob-fg)', lineHeight: 1.5 }}>{children}</div>}
-        {action && <Button kind="ghost" size="sm" onClick={onAction} style={{ marginTop: 'var(--ob-space-6)', marginLeft: 'calc(var(--ob-space-12) * -1)', color: t.strong }}>{action} →</Button>}
+    <div
+      {...rest}
+      role={role ?? PAPEL_DO_TOM[tone] ?? 'status'}
+      style={{ display: 'flex', gap: 'var(--ob-space-12)', width: '100%', padding: 'var(--ob-space-12) var(--ob-space-16)', borderRadius: 'var(--ob-r-surface)', boxSizing: 'border-box', ...pintura, ...style }}
+    >
+      <Ph n={icon ?? t.icon} size={20} c={t.strong} weight="fill" />
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--ob-space-8) var(--ob-space-16)' }}>
+        <div style={{ flex: '1 1 260px', minWidth: 0, fontSize: 'var(--ob-fs-sm)', lineHeight: 'var(--ob-lh-normal)' }}>
+          {title && <div style={{ fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{title}</div>}
+          {children && <div style={{ color: 'var(--ob-fg)' }}>{children}</div>}
+        </div>
+        {action && <Button kind="cream" size="sm" onClick={onAction} style={{ flex: 'none' }}>{action}<Ph n="arrow-right" size={14} /></Button>}
       </div>
-      {dismissible && onClose && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={16} />} style={{ flex: 'none', margin: 'calc(var(--ob-space-8) * -1) calc(var(--ob-space-10) * -1) calc(var(--ob-space-8) * -1) 0' }} />}
+      {dismissible && onClose && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={16} />} style={{ flex: 'none', margin: 'calc(var(--ob-space-6) * -1) calc(var(--ob-space-8) * -1) calc(var(--ob-space-6) * -1) 0' }} />}
     </div>
   );
 };

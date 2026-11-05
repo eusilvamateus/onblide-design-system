@@ -35,6 +35,7 @@
         <div className="lbl">COMPACTO</div>
         <div className="col" style={{maxWidth:560}}>
           <Alert tone="info">Versão compacta, apenas texto e tom.</Alert>
+          <Alert tone="danger" appearance="soft" title="Mais destaque">Fundo clarinho do tom, para o que precisa chamar mais atenção.</Alert>
           {open && <Alert tone="warning" dismissible onClose={() => setOpen(false)}>Você pode dispensar este alerta — clique no ×.</Alert>}
         </div>
       </div>

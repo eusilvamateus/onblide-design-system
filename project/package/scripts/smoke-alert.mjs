@@ -25,10 +25,20 @@ const dismissivel = render({ title: 'Aviso', dismissible: true, onClose() {} });
 if (!dismissivel.includes('aria-label="Fechar"') || !dismissivel.includes('ph-x')) fail('botão de fechar com ícone Phosphor', dismissivel);
 if (render({ title: 'Aviso', dismissible: true }).includes('aria-label="Fechar"')) fail('dismissible sem onClose não mostra o botão');
 
-for (const tone of ['info', 'success', 'warning', 'danger']) {
-  if (!render({ tone, title: 'x' }).includes('role="alert"')) fail(`tom ${tone}`);
-}
-if (!render({ tone: 'nenhum', title: 'x' }).includes('role="alert"')) fail('tom desconhecido cai em info');
+if (!render({ tone: 'nenhum', title: 'x' }).includes('role="status"')) fail('tom desconhecido cai em info');
+for (const tone of ['info', 'success']) if (!render({ tone, title: 'x' }).includes('role="status"')) fail(`${tone} é anunciado sem interromper`);
+for (const tone of ['warning', 'danger']) if (!render({ tone, title: 'x' }).includes('role="alert"')) fail(`${tone} interrompe o leitor de tela`);
+if (!render({ tone: 'danger', role: 'note', title: 'x' }).includes('role="note"')) fail('role explícito vence o do tom');
+
+const contorno = render({ tone: 'warning', title: 'x' });
+if (!contorno.includes('background:var(--ob-surface)') || !contorno.includes('border:1px solid var(--ob-border)')) fail('outline é o padrão: superfície e borda neutra', contorno);
+if (!contorno.includes('var(--ob-orange-700)')) fail('ícone na cor forte do tom', contorno);
+const suave = render({ tone: 'warning', appearance: 'soft', title: 'x' });
+if (!suave.includes('background:var(--ob-orange-050)') || !suave.includes('border:1px solid transparent')) fail('soft usa o fundo clarinho do tom, sem borda visível', suave);
+if (!render({ tone: 'danger', appearance: 'soft', title: 'x' }).includes('var(--ob-red-050)')) fail('soft de danger usa o vermelho clarinho');
+if (!render({ tone: 'info', icon: 'rocket', title: 'x' }).includes('ph-rocket')) fail('icon troca o ícone do tom');
+const comAtributos = render({ title: 'x', className: 'meu-alerta', 'data-teste': 'a', style: { marginTop: 8 } });
+if (!comAtributos.includes('class="meu-alerta"') || !comAtributos.includes('data-teste="a"') || !comAtributos.includes('margin-top:8px')) fail('repassa atributos e style', comAtributos);
 
 const cliques = [];
 const arvore = Alert({ title: 'T', dismissible: true, onClose: () => cliques.push('fechar'), action: 'Ver', onAction: () => cliques.push('acao') });
@@ -40,5 +50,7 @@ if (!fechar || fechar.props.iconOnly !== true) fail('fechar é Button iconOnly')
 fechar.props.onClick();
 acao.props.onClick();
 if (cliques.join() !== 'fechar,acao') fail('handlers de fechar e ação', cliques.join());
-if (!render({ title: 'T', action: 'Ver' }).includes('Ver →')) fail('texto da ação');
-console.log('OK: Alert (role, tons, fechar e ação via Button, handlers)');
+if (acao.props.kind !== 'cream' || acao.props.size !== 'sm') fail('ação é um Button com fundo discreto', JSON.stringify(acao.props.kind));
+const comAcao = render({ title: 'T', action: 'Ver' });
+if (!comAcao.includes('Ver') || !comAcao.includes('ph-arrow-right') || comAcao.includes('→')) fail('ação com rótulo e ícone Phosphor', comAcao);
+console.log('OK: Alert (papel por tom, tons, appearance, icon, atributos, fechar e ação via Button, handlers)');

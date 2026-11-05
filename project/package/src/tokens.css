@@ -400,10 +400,14 @@
   --ob-green:       #9bbf60;
   --ob-green-700:   #b3d17f;
   --ob-green-100:   #1f2a13;
+  --ob-green-050:   #1a2113;
 
   --ob-orange:      #f59554;
   --ob-orange-700:  #ffa86d;
   --ob-orange-100:  #3a1f0c;
+  --ob-orange-050:  #2b1a0e;
+
+  --ob-red-050:     #2b1616;
 
   /* Cream becomes warm dark — overlay on near-black */
   --ob-cream:       #2a2620;
