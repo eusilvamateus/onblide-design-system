@@ -4,7 +4,7 @@ import ts from 'typescript';
 
 const pacote = path.resolve('../project/package');
 const src = path.join(pacote, 'src');
-const previews = path.join(pacote, '.design-sync/previews');
+const pastaExemplos = path.resolve('exemplos');
 const saida = path.resolve('docs/componentes');
 
 const categorias = ['actions', 'forms', 'feedback', 'overlays', 'navigation', 'data-display', 'brand', 'iconography'];
@@ -123,7 +123,7 @@ const dedentar = (texto) => {
 };
 
 const exemplosDe = (nome) => {
-  const arq = path.join(previews, `${nome}.tsx`);
+  const arq = path.join(pastaExemplos, `${nome}.tsx`);
   if (!fs.existsSync(arq)) return [];
   const sf = ts.createSourceFile(`${nome}.tsx`, fs.readFileSync(arq, 'utf8').replace(/\r\n/g, '\n'), ts.ScriptTarget.ESNext, true, ts.ScriptKind.TSX);
   const auxiliares = [];

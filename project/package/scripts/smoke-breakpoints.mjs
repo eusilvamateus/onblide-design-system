@@ -1,5 +1,5 @@
 import React from 'react';
-import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -38,14 +38,13 @@ const permitidos = new Set(Object.values(BREAKPOINTS));
 const arquivos = [];
 const andar = (dir) => {
   for (const nome of readdirSync(dir)) {
-    if (['node_modules', 'dist', 'ds-bundle', '.cache', '.ds-sync'].includes(nome)) continue;
+    if (['node_modules', 'dist'].includes(nome)) continue;
     const caminho = join(dir, nome);
     if (statSync(caminho).isDirectory()) andar(caminho);
     else if (/\.(css|html|ts|tsx)$/.test(nome)) arquivos.push(caminho);
   }
 };
 andar(join(pacote, 'src'));
-if (existsSync(join(projeto, 'ds'))) andar(join(projeto, 'ds'));
 
 const problemas = [];
 for (const arquivo of arquivos) {

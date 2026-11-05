@@ -14,15 +14,11 @@ publicado em `docs-site/`, não é duplicada aqui.
 
 ### Arquitetura
 
-- [`architecture/visao-geral.md`](architecture/visao-geral.md) — os três subsistemas do repositório (`project/package`, `docs-site`, sync com o Claude Design) e como se relacionam.
+- [`architecture/visao-geral.md`](architecture/visao-geral.md) — os três subsistemas do repositório (`project/package`, `docs-site`), sem o antigo sync com o Claude Design) e como se relacionam.
 
 ### Desenvolvimento
 
 - [`development/ambiente-de-desenvolvimento.md`](development/ambiente-de-desenvolvimento.md) — como rodar e verificar o pacote e o `docs-site` localmente, convenções de código e o fluxo de versionamento/release.
-
-### Integrações
-
-- [`integrations/sincronizacao-com-claude-design.md`](integrations/sincronizacao-com-claude-design.md) — como e quando `@onblide/ui` é sincronizado com o Claude Design.
 
 ### Operações
 
@@ -42,12 +38,13 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0010-vocabulario-unico-para-tone-appearance-e-variant.md`](decisions/0010-vocabulario-unico-para-tone-appearance-e-variant.md) — o vocabulário vive em `docs-site/docs/fundacoes/vocabulario-das-props.mdx`
 - [`decisions/0011-breakpoints-mobile-first-com-escala-unica.md`](decisions/0011-breakpoints-mobile-first-com-escala-unica.md) — a regra vive em `docs-site/docs/fundacoes/breakpoints.mdx`
 - [`decisions/0012-componentes-sem-numeros-soltos-nas-fundacoes.md`](decisions/0012-componentes-sem-numeros-soltos-nas-fundacoes.md) — as regras vivem nas páginas de `docs-site/docs/fundacoes/`
+- [`decisions/0013-repositorio-so-com-o-design-system.md`](decisions/0013-repositorio-so-com-o-design-system.md) — encerra o Claude Design e define a estrutura de pastas
 
 ## Como manter esta documentação
 
 - Atualize a fonte canônica junto com a alteração que a tornou desatualizada.
 - Evite duplicar explicações completas em mais de um arquivo — se o assunto já tem fonte canônica em
-  `docs-site/`, `project/package/README.md` ou `project/package/.design-sync/`, aponte para lá.
+  `docs-site/` ou `project/package/README.md`, aponte para lá.
 - Use português técnico natural, preservando termos e identificadores que devam permanecer em inglês.
 - Atualize este índice sempre que documentos forem criados, removidos, movidos, renomeados, consolidados
   ou arquivados.

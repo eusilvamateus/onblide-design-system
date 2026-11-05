@@ -1,9 +1,6 @@
 import React, { type ReactNode } from 'react';
 import { Alert, Card, Ph } from '@onblide/ui';
 
-// Blocos dos guias de componente, com a mesma linguagem de ds/foundations/doc.css:
-// "faça / evite" lado a lado, nota em destaque e a matriz de critérios.
-
 export function FacaEvite({ children }: { children: ReactNode }) {
   return <div className="ob-faca-evite">{children}</div>;
 }

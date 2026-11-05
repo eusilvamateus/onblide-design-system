@@ -1,18 +1,6 @@
 import { defineConfig } from 'tsup';
 import type { Plugin } from 'esbuild';
 
-// Maps react/react-dom imports to the page's own window.React / window.ReactDOM
-// globals (loaded via <script src=unpkg react...> on the preview pages) instead
-// of bundling a second private copy of React — required so the IIFE bundle's
-// hooks (useState, useEffect, ...) run against the SAME React instance that
-// actually renders the page. Two separate React module instances in one page
-// is the classic cause of "Cannot read properties of null (reading 'useState')".
-// Note: this only intercepts exact bare specifiers ("react", "react-dom").
-// A future direct import of a subpath (react/jsx-runtime, react-dom/client,
-// ...) is not a regression risk, though: those entry points internally
-// require('react')/require('react-dom') with the bare specifier too, which
-// this plugin still catches — it would just add a little bundle size, not
-// reintroduce a second React instance.
 function externalGlobalPlugin(mapping: Record<string, string>): Plugin {
   return {
     name: 'external-global',
@@ -31,23 +19,16 @@ function externalGlobalPlugin(mapping: Record<string, string>): Plugin {
 
 export default defineConfig([
   {
-    // The real package build: what /design-sync and any future npm consumer use.
     entry: { index: 'src/index.ts', periodo: 'src/internal/periodo.ts' },
     format: ['esm', 'cjs'],
     dts: true,
     sourcemap: true,
     clean: true,
     outDir: 'dist',
-    // Glifos SVG oficiais do Phosphor (@phosphor-icons/core) usados pelo Checkbox: entram no build como texto,
-    // para o consumidor não precisar de loader de SVG.
     noExternal: [/^@phosphor-icons\/core/],
     loader: { '.svg': 'text' },
   },
   {
-    // Browser-global bundle for the ds/components/*.html preview pages.
-    // clean:false is required here — tsup runs array entries as
-    // separate builds, and a second clean:true would delete the first build's
-    // output before this one starts.
     entry: { 'onblide-ui.browser': 'src/browser.ts' },
     format: ['iife'],
     sourcemap: true,
@@ -55,16 +36,10 @@ export default defineConfig([
     minify: true,
     outDir: 'dist',
     loader: { '.svg': 'text' },
-    // Selects react/jsx-runtime's production build at build time and strips
-    // its "process.env.NODE_ENV" check — the browser has no `process` global,
-    // so without this the bundle throws "process is not defined" on load.
     define: { 'process.env.NODE_ENV': JSON.stringify('production') },
     esbuildPlugins: [
       externalGlobalPlugin({ react: 'window.React', 'react-dom': 'window.ReactDOM' }),
     ],
-    // tsup/esbuild suffix iife/umd output with ".global.js" by default; the
-    // preview pages hardcode the plain "onblide-ui.browser.js" filename, so
-    // this keeps the plain extension instead.
     outExtension: () => ({
       js: '.js',
     }),

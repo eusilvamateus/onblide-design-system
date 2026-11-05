@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const exigir = createRequire(import.meta.url);
 const aqui = path.dirname(new URL(import.meta.url).pathname.replace(/^\/(\w:)/, '$1'));
-const candidatos = ['../.ds-sync/node_modules/playwright', '../../docs-site/node_modules/playwright'];
+const candidatos = ['../../../docs-site/node_modules/playwright'];
 let chromium;
 for (const c of candidatos) {
   try {
@@ -14,7 +14,7 @@ for (const c of candidatos) {
   }
 }
 if (!chromium) {
-  console.log('SKIP: playwright não instalado (.ds-sync ou docs-site)');
+  console.log('SKIP: playwright não instalado (rode npm install em docs-site)');
   process.exit(0);
 }
 

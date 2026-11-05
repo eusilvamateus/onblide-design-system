@@ -1,8 +1,7 @@
 @import '@onblide/ui/styles.css';
 
 /*
- * Tudo aqui deriva dos tokens do design system (--ob-*) e repete a linguagem das páginas de documentação
- * de ds/foundations/doc.css: superfície branca, coluna de leitura de 760px, eyebrow em mono, títulos em 800,
+ * Tudo aqui deriva dos tokens do design system (--ob-*): superfície branca, coluna de leitura de 760px, eyebrow em mono, títulos em 800,
  * seções em caixa-alta com filete, códigos em cream. Breakpoints mobile-first, só com min-width e só com os valores
  * da escala (sm 768px, md 1024px, lg 1280px, xl 1440px); variáveis CSS não funcionam em @media.
  */
@@ -127,7 +126,7 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
   .ob-doc__sumario-compacto { display: none; }
 }
 
-/* ---------- Tipografia do conteúdo (mesma de ds/foundations/doc.css) ---------- */
+/* ---------- Tipografia do conteúdo ---------- */
 .ob-wrap .markdown h1, .ob-wrap h1 {
   font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
   color: var(--ob-fg-strong); margin: 0 0 12px;
@@ -191,7 +190,7 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 
 .ob-wrap .markdown code, .ob-wrap .markdown pre, .ob-playground__editor { font-variant-ligatures: none; }
 
-/* ---------- Guias (mesma linguagem de ds/foundations/doc.css) ---------- */
+/* ---------- Guias ---------- */
 .ob-faca-evite { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 8px 0 16px; }
 @media (min-width: 768px) { .ob-faca-evite { grid-template-columns: 1fr 1fr; } }
 .ob-faca-evite__tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; margin-bottom: 8px; }

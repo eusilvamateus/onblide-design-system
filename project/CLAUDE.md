@@ -15,11 +15,11 @@ design system whose own artifacts don't follow it is broken.
 1. Delete superseded/orphaned files and unregister their manifest entries (don't just stop
    linking them).
 2. Update every downstream artifact that depends on what changed — including compiled/
-   exported snapshots, the preview pages, `README.md` and `SKILL.md`.
+   exported snapshots and `README.md`.
    Regenerate standalone bundles so they match the live source.
 3. Grep the whole project for stale references (old filenames, old values, renamed folders,
    replaced libraries) and fix or remove every hit.
-4. Keep `README.md`, `SKILL.md` and this file factually accurate — no dead paths, no
+4. Keep `README.md` and this file factually accurate — no dead paths, no
    outdated counts, no references to removed tooling.
 
 Removing legacy is not optional cleanup; it ships with the change.
@@ -54,17 +54,16 @@ para constantes de módulo, nunca snake_case nem kebab-case em identificadores.
 **Regra obrigatória, pedido explícito do usuário em 2026-10-01: nenhum comentário explicativo (`//`, `/* */`)
 em código novo ou editado, em nenhuma circunstância.** Não vale "só quando o porquê não é óbvio" — é zero,
 sempre. Única exceção: os JSDoc `/** ... */` que documentam cada prop pública de componente (ex.: `/** Rótulo
-exibido acima do campo. */`), que continuam — são parte da API pública e alimentam a geração do `.prompt.md`
-do design-sync e as tabelas de props do `docs-site`.
+exibido acima do campo. */`), que continuam — são parte da API pública e alimentam as tabelas de props do `docs-site`.
 
 ## Componentes: nunca duplicar
 
 **Regra obrigatória, pedido explícito do usuário em 2026-10-10: jamais criar versão, variante ou cópia de um
 componente que já existe no design system.** Se o catálogo (`src/index.ts`) já tem o componente, o código o usa;
 desenhar à mão o mesmo conceito dentro de outro componente (um círculo com iniciais, um botão próprio) é violação,
-mesmo sem nome novo — vale para o pacote, o `docs-site`, as demos e os previews. Procurar no catálogo **antes** de
+mesmo sem nome novo — vale para o pacote, o `docs-site`, as demos e os exemplos. Procurar no catálogo **antes** de
 criar qualquer elemento visual. Se falta uma variação explicitamente necessária, ela entra no componente original
-primeiro, em ordem: estender o original, cobrir com smoke/preview/demo/docs, versionar e publicar (changeset
+primeiro, em ordem: estender o original, cobrir com smoke/exemplo/demo/docs, versionar e publicar (changeset
 próprio) e só então o consumidor passa a usá-lo. A extensão descreve a capacidade do componente (`src`,
 `initials`), nunca o consumidor (`sidenavAvatar`). "Explicitamente necessário" é exigência real, não
 conveniência: se dá para usar o componente como ele é, usa-se como ele é. Helpers que não são componentes visuais
@@ -102,8 +101,8 @@ serve, a escala cresce para todos antes. O `smoke-fundacoes` recusa números sol
 ## Site de documentação (`docs-site/`)
 
 Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, <https://onblide-design-system.vercel.app>),
-independente do pacote e do `/design-sync`. Páginas de componentes, tabelas de props e de tokens são **geradas**
-(`npm run gerar`) do pacote e dos exemplos em `project/package/.design-sync/previews/`; primeiros passos e
+independente do pacote. Páginas de componentes, tabelas de props e de tokens são **geradas**
+(`npm run gerar`) do pacote e dos exemplos em `docs-site/exemplos/`; primeiros passos e
 fundações são escritos à mão em `docs-site/docs/`, os guias em `docs-site/guias/` e o ponto de partida de cada
 demo interativa em `docs-site/demos/`. Não editar os arquivos gerados. Antes de publicar: `npm run build && npm run
 verificar`. Deploy: ver `docs-site/README.md`.
@@ -122,45 +121,12 @@ sustente (o `Datepicker` usa o `Calendar`, o `Popover` e o `FieldShell`; nada na
 existe"). Antes de criar, procurar no catálogo (`src/index.ts`) e nos design systems públicos; se a peça não é comum,
 a aplicação monta com o que já existe. Peças de apoio não são API pública e ficam em `src/internal/`.
 
-## Fluxo com o Claude Design
-
-O código (`@onblide/ui`) é a única fonte; o sync (`/design-sync`) vai só do código para o Claude Design. O agente de
-lá recebe, no README gerado de `project/package/.design-sync/conventions.md`, a regra de não editar as pastas geradas
-e de propor mudanças em `proposals/<Nome>/`. Para trazer uma proposta ao código, portar manualmente (ver
-`.design-sync/NOTES.md`). Antes de cada sync, listar o projeto remoto e avisar o usuário de arquivos novos ou fora do lugar.
-
 ## Idioma da documentação
 
 Toda documentação (`docs/`, `docs-site/`), e a memória persistente do agente relacionada a este projeto
 devem ser escritas inteiramente em português — pedido explícito do usuário em 2026-09-22. Vale para
 conteúdo novo a partir dessa data; conteúdo já escrito em inglês (este arquivo incluído) não foi traduzido
 retroativamente ainda.
-
-## Preview de componentes portados para @onblide/ui
-
-24 páginas em `ds/components/` carregam `project/package/dist/onblide-ui.browser.js` — um
-arquivo gerado (`dist/` é git-ignored, não versionado). São as 2 da Fase 1
-(`components-checkbox.html`, `components-datepicker.html`) mais
-as 8 do Lote A (`components-radio.html`, `components-toggle.html`, `components-skeleton.html`,
-`components-tooltip.html`, `components-chip.html`, `components-badge.html`,
-`components-spinner.html`, `components-progress-circle.html`) mais
-as 11 do Lote B (`components-alert.html`, `components-progressbar.html`, `components-toast.html`,
-`components-drawer.html`, `components-code-input.html`, `components-search-input.html`,
-`components-side-nav.html`, `components-tabs.html`, `components-table.html`,
-`components-select.html`, `components-slider.html`) mais
-as 3 do Lote C (`components-link.html`, `components-pagination.html`, `components-modal.html`).
-Para achar a lista atualizada a qualquer momento: `grep -rl onblide-ui.browser.js ds/components/`.
-
-O comentário `<!-- @dsCard group="…" name="…" -->` de cada página de preview deve ficar na
-**primeira linha** do HTML, antes do `<!doctype html>`: o Design System pane (`/design-sync`) monta
-o índice de cards lendo só essa linha (regra da ferramenta `DesignSync`).
-
-Sem o `dist/` gerado, qualquer uma dessas páginas abre em branco, sem explicação no HTML.
-Antes de servir essas páginas num clone novo do repositório, rode uma vez:
-
-```bash
-cd project/package && npm install && npm run build
-```
 
 ## Verificação do pacote @onblide/ui
 
@@ -178,7 +144,7 @@ npm run verify   # typecheck (src) → build → typecheck:dist (tipos como o co
 - `scripts/fixtures/brands.json` e `logo.json` congelam os dados das marcas e a marcação do `Logo`.
 - **Nenhum agente abre, fecha ou encerra Chrome/Edge** (nem headless, CDP ou `taskkill`) nem usa
   `mcp__claude-in-chrome__*`: uma verificação headless já encerrou o navegador do usuário e
-  destruiu o trabalho manual dele. A conferência visual das páginas de preview é do usuário.
+  destruiu o trabalho manual dele. A conferência visual é do usuário.
 
 ## Implementation notes
 

@@ -1,8 +1,7 @@
 # Documentação do Onblide Design System
 
 Site de documentação feito com [Docusaurus](https://docusaurus.io/), publicado no Vercel. Ele é independente do
-pacote `@onblide/ui` (em `../project/package`) e do fluxo do Claude Design (`/design-sync`): nada aqui altera o que
-é enviado para lá.
+pacote `@onblide/ui` (em `../project/package`).
 
 ## Rodar localmente
 
@@ -16,7 +15,7 @@ npm start                                            # gera os dados e abre em h
 
 | Conteúdo | Origem |
 |---|---|
-| Páginas de componentes (`docs/componentes/`) | Geradas por `scripts/gerar-componentes.mjs`, com os exemplos de `project/package/.design-sync/previews/*.tsx` (os mesmos cards do Claude Design) |
+| Páginas de componentes (`docs/componentes/`) | Geradas por `scripts/gerar-componentes.mjs`, com os exemplos de `exemplos/*.tsx` (os mesmos cards do Claude Design) |
 | Tabela de props | Geradas dos tipos TypeScript do pacote (`scripts/gerar-props.mjs`) |
 | Tabelas de tokens | Geradas de `project/package/src/tokens.css` (`scripts/gerar-tokens.mjs`) |
 | Changelog | Cópia do `CHANGELOG.md` do pacote |
@@ -25,7 +24,7 @@ npm start                                            # gera os dados e abre em h
 | Demo interativa | Controles gerados das props; o ponto de partida é `demos/<Componente>.jsx`, escrito à mão (o `<Componente>` do arquivo define os valores iniciais; o que estiver em volta, como o botão que abre uma sobreposição, aparece igual no resultado e no código) |
 
 Os arquivos gerados não são versionados (`docs/componentes/`, `docs/changelog.md`, `src/data/`): `npm run gerar`
-os recria, e o `npm run build` já faz isso. Para mudar um exemplo de componente, edite o `.tsx` em `.design-sync/previews/`.
+os recria, e o `npm run build` já faz isso. Para mudar um exemplo de componente, edite o `.tsx` em `exemplos/`.
 
 A busca é local (`@easyops-cn/docusaurus-search-local`): o índice nasce no build, então ela só funciona com `npm run build`, não no `npm start`.
 

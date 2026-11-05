@@ -34,8 +34,8 @@ npm run lint:fix       # corrige o que o ESLint sabe corrigir sozinho
 ```
 
 - **Prettier** (`.prettierrc.json`) cuida só da forma: aspas simples, ponto e vírgula, linhas de até 120 caracteres
-  e o fim de linha que cada arquivo já tem (o repositório usa `core.autocrlf`). Markdown, MDX e as páginas HTML de
-  preview ficam fora (`.prettierignore`), assim como os arquivos gerados.
+  e o fim de linha que cada arquivo já tem (o repositório usa `core.autocrlf`). Markdown e MDX ficam fora
+  (`.prettierignore`), assim como os arquivos gerados.
 - **ESLint** (`eslint.config.mjs`) cuida da qualidade: regras recomendadas de JavaScript, de TypeScript
   (`typescript-eslint`) e de hooks do React (`eslint-plugin-react-hooks`). O `eslint-config-prettier` desliga as
   regras de estilo, então os dois nunca discordam; `npx eslint-config-prettier <arquivo>` confirma.
@@ -55,13 +55,13 @@ npm run lint:fix       # corrige o que o ESLint sabe corrigir sozinho
   [`0002-phosphor-como-unica-biblioteca-de-icones.md`](../decisions/0002-phosphor-como-unica-biblioteca-de-icones.md).
 - **Nenhum comentário explicativo** (`//`, `/* */`), em nenhuma circunstância — regra obrigatória, pedido
   explícito do usuário em 2026-10-01. Exceção: os JSDoc `/** ... */` de documentação de prop pública, que
-  continuam (alimentam a geração do `.prompt.md` do design-sync e as tabelas de props do `docs-site`).
+  continuam (alimentam as tabelas de props do `docs-site`).
 - **Nunca criar versão, variante ou cópia de um componente que já existe** — regra obrigatória, pedido
   explícito do usuário em 2026-10-10. Se o catálogo (`src/index.ts`) já tem o componente (avatar, botão,
   tooltip, menu, badge…), o código o usa; desenhar à mão o mesmo conceito dentro de outro componente é
-  violação, mesmo sem nome novo, no pacote, no `docs-site`, nas demos e nos previews. Procurar no catálogo
+  violação, mesmo sem nome novo, no pacote, no `docs-site`, nas demos e nos exemplos. Procurar no catálogo
   antes de criar qualquer elemento visual. Se falta uma variação explicitamente necessária, ela entra no
-  componente original antes: estender, cobrir com smoke/preview/demo/docs, versionar e publicar (changeset
+  componente original antes: estender, cobrir com smoke/exemplo/demo/docs, versionar e publicar (changeset
   próprio) e só então o consumidor passa a usar. A extensão descreve a capacidade do componente (`src`,
   `initials`), nunca o consumidor. "Explicitamente necessário" é exigência real, não conveniência. Helpers que
   não são componentes visuais (`injectStyleOnce`) ficam fora da regra.

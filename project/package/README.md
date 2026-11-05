@@ -12,8 +12,7 @@ npm run build    # gera dist/: ESM, CJS, .d.ts e o bundle de navegador
 npm run verify   # typecheck + build + teste de tipos (contra o .d.ts) + smokes
 ```
 
-`dist/` é gerado e não é versionado: rode o build antes de usar o pacote ou de abrir as
-páginas de preview em `project/ds/components/`.
+`dist/` é gerado e não é versionado: rode o build antes de usar o pacote.
 
 ## Estrutura do código
 
@@ -55,7 +54,7 @@ export const Exemplo = () => (
 `react` e `react-dom` (^18.3.1) são peer dependencies. O pacote também exporta
 `@onblide/ui/tokens.css` (só os tokens) e `@onblide/ui/styles.css` (tokens + Phosphor).
 
-### Como bundle de navegador (páginas de preview)
+### Como bundle de navegador (sem bundler)
 
 `dist/onblide-ui.browser.js` é um IIFE que registra todos os componentes como globais em
 `window` (`Button`, `Select`, ...). Carregue-o **depois** de React e ReactDOM (UMD), pois ele
@@ -64,7 +63,7 @@ usa o `window.React` e o `window.ReactDOM` da página e não embute uma cópia p
 ```html
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
-<script src="../../package/dist/onblide-ui.browser.js"></script>
+<script src="dist/onblide-ui.browser.js"></script>
 ```
 
 ## Ícones
