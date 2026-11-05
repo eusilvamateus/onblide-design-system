@@ -27,6 +27,8 @@ npm start                                            # gera os dados e abre em h
 Os arquivos gerados não são versionados (`docs/componentes/`, `docs/changelog.md`, `src/data/`): `npm run gerar`
 os recria, e o `npm run build` já faz isso. Para mudar um exemplo de componente, edite o `.tsx` em `.design-sync/previews/`.
 
+A busca é local (`@easyops-cn/docusaurus-search-local`): o índice nasce no build, então ela só funciona com `npm run build`, não no `npm start`.
+
 ## Publicar
 
 O projeto no Vercel se chama `onblide-design-system`. O deploy é feito a partir desta pasta:

@@ -11,7 +11,21 @@ const config: Config = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   i18n: { defaultLocale: 'pt-BR', locales: ['pt-BR'] },
-  themes: ['@docusaurus/theme-live-codeblock'],
+  themes: [
+    '@docusaurus/theme-live-codeblock',
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        hashed: true,
+        language: ['pt'],
+        docsRouteBasePath: '/',
+        indexBlog: false,
+        indexPages: false,
+        searchBarShortcutHint: false,
+        explicitSearchResultPath: true,
+      },
+    ],
+  ],
   plugins: [
     // O pacote é linkado de ../project/package e tem o próprio node_modules: força uma única cópia do React.
     () => ({

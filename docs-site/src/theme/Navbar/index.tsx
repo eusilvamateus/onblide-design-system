@@ -1,6 +1,7 @@
 import React, { type ReactNode } from 'react';
 import { useHistory } from '@docusaurus/router';
 import { useColorMode } from '@docusaurus/theme-common';
+import SearchBar from '@theme/SearchBar';
 import { Button, Link, Logo, Ph, Switch, useBreakpoint } from '@onblide/ui';
 
 export default function Navbar(): ReactNode {
@@ -8,7 +9,7 @@ export default function Navbar(): ReactNode {
   const history = useHistory();
   const pequena = !useBreakpoint().atLeast('sm');
   return (
-    <header className="ob-topbar">
+    <header className="ob-topbar navbar">
       <div className="ob-topbar__inner">
         <div className="ob-topbar__brand">
           <span className="ob-topbar__menu">
@@ -26,6 +27,7 @@ export default function Navbar(): ReactNode {
           <span className="ob-eyebrow ob-topbar__label">Design System</span>
         </div>
         <div className="ob-topbar__actions">
+          <SearchBar />
           <span className="ob-topbar__github">
             <Link href="https://github.com/eusilvamateus/onblide-design-system" external tone="neutral">GitHub</Link>
           </span>

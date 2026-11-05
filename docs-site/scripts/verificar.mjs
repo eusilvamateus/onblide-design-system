@@ -32,6 +32,17 @@ andar(path.resolve('docs'), '');
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 const falhas = [];
+
+await p.goto(base + '/componentes/Button');
+await p.waitForSelector('.ob-doc__sumario .table-of-contents a');
+if (!(await p.locator('.ob-doc__sumario').isVisible())) falhas.push('sumário: não aparece na janela larga');
+await p.fill('.navbar__search-input', 'botão');
+await p.waitForSelector('.navbar__search .aa-suggestion, [class*="dropdownMenu"] a', { timeout: 8000 }).catch(() => falhas.push('busca: nenhum resultado para "botão"'));
+await p.setViewportSize({ width: 800, height: 900 });
+await p.reload();
+await p.waitForSelector('.ob-doc__sumario-compacto button');
+if (await p.locator('.ob-doc__sumario').isVisible()) falhas.push('sumário: a coluna lateral deveria sumir na janela estreita');
+await p.setViewportSize({ width: 1280, height: 900 });
 for (const rota of rotas) {
   const erros = [];
   const aoErro = (e) => erros.push(e.message.slice(0, 100));

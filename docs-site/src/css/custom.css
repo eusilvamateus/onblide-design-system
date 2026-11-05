@@ -20,6 +20,19 @@
   --ifm-code-background: var(--ob-bg-warm);
   --ifm-navbar-height: 64px;
   --ifm-toc-border-color: var(--ob-border);
+  --ifm-toc-link-color: var(--ob-fg-soft);
+  --ifm-navbar-search-input-background-color: var(--ob-bg-alt);
+  --ifm-navbar-search-input-color: var(--ob-fg);
+  --ifm-navbar-search-input-placeholder-color: var(--ob-fg-soft);
+  --search-local-modal-background: var(--ob-surface);
+  --search-local-modal-shadow: var(--ob-shadow-md);
+  --search-local-hit-background: var(--ob-surface);
+  --search-local-hit-color: var(--ob-fg);
+  --search-local-hit-shadow: none;
+  --search-local-hit-active-color: var(--ob-fg-on-color);
+  --search-local-highlight-color: var(--ob-blue);
+  --search-local-muted-color: var(--ob-fg-soft);
+  --search-local-input-active-border-color: var(--ob-blue);
   --ifm-color-emphasis-300: var(--ob-border);
 }
 
@@ -61,6 +74,24 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 .ob-shell__nav { display: none; }
 .ob-shell__main { min-width: 0; }
 
+.ob-topbar.navbar { display: block; padding: 0; box-shadow: none; }
+.ob-topbar .navbar__search-input {
+  font-family: var(--ob-font);
+  font-size: var(--ob-fs-sm);
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-r-control);
+}
+.ob-topbar .navbar__search { padding: 0; }
+
+.ob-doc { display: block; }
+.ob-doc__artigo { min-width: 0; }
+.ob-doc__sumario { display: none; }
+.ob-doc__sumario-compacto { margin-bottom: var(--ob-space-24); }
+.ob-doc__sumario .table-of-contents { font-size: 13px; }
+.ob-doc__sumario .table-of-contents__link--active { color: var(--ob-blue); font-weight: 600; }
+.ob-doc__sumario-compacto .theme-doc-toc-mobile { display: block; }
+.ob-doc__sumario-compacto button { font-family: var(--ob-font); font-size: var(--ob-fs-sm); }
+
 .ob-wrap {
   max-width: 760px;
   margin: 0 auto;
@@ -88,6 +119,12 @@ html, body { background: var(--ob-surface); color: var(--ob-fg); font-family: va
 @media (min-width: 1024px) {
   .ob-topbar__inner { padding: 0 var(--ob-grid-margin-md); }
   .ob-wrap { padding-left: var(--ob-grid-margin-md); padding-right: var(--ob-grid-margin-md); }
+}
+@media (min-width: 1280px) {
+  .ob-wrap { max-width: 1060px; }
+  .ob-doc { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: var(--ob-space-40); align-items: start; }
+  .ob-doc__sumario { display: block; position: sticky; top: calc(64px + var(--ob-space-32)); }
+  .ob-doc__sumario-compacto { display: none; }
 }
 
 /* ---------- Tipografia do conteúdo (mesma de ds/foundations/doc.css) ---------- */

@@ -22,22 +22,22 @@
     "@docusaurus/core": "3.10.2",
     "@docusaurus/faster": "3.10.2",
     "@docusaurus/preset-classic": "3.10.2",
+    "@docusaurus/theme-live-codeblock": "3.10.2",
+    "@easyops-cn/docusaurus-search-local": "^0.55.3",
     "@mdx-js/react": "^3.0.0",
-    "clsx": "^2.0.0",
+    "@onblide/ui": "file:../project/package",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@onblide/ui": "file:../project/package",
-    "@docusaurus/theme-live-codeblock": "3.10.2"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.10.2",
     "@docusaurus/tsconfig": "3.10.2",
     "@docusaurus/types": "3.10.2",
     "@types/react": "^18.3.0",
-    "typescript": "~6.0.2",
+    "playwright": "1.63.0",
     "react-docgen-typescript": "^2.4.0",
-    "playwright": "1.63.0"
+    "typescript": "~6.0.2"
   },
   "browserslist": {
     "production": [
