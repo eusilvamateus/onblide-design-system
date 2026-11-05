@@ -1,4 +1,3 @@
-// project/package/scripts/smoke-logo.mjs
 import fs from 'node:fs';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';

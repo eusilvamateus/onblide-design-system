@@ -3,7 +3,7 @@
 **/.docusaurus/
 **/.vercel/
 .claude/
-project/package/scripts/fixtures/
+packages/ui/scripts/fixtures/
 docs-site/demos/
 docs-site/src/data/
 docs-site/static/

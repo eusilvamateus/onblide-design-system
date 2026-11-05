@@ -11,7 +11,7 @@ vercel deploy --prebuilt --prod --scope onblide
 ```
 
 **O build do pacote (`@onblide/ui`) e o build do `docs-site` são publicados separadamente.** Uma mudança em
-`project/package/src/` só chega ao site em produção depois de: `npm run build` no pacote (regenera `dist/`)
+`packages/ui/src/` só chega ao site em produção depois de: `npm run build` no pacote (regenera `dist/`)
 e, então, o deploy do `docs-site` acima — o `npm run gerar` do `docs-site` lê do `dist/` já construído do
 pacote. Esquecer o segundo passo deixa o site em produção servindo um build antigo mesmo com o pacote
 corrigido no repositório.

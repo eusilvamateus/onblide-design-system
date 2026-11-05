@@ -2,7 +2,7 @@
 
 Este arquivo cobre **como o agente deve trabalhar** neste repositório. Conhecimento sobre **como o projeto
 funciona** — arquitetura, decisões duráveis, ambiente de desenvolvimento, operações, integrações — vive em
-[`docs/README.md`](../docs/README.md); leia-o antes de assumir contexto que pode já estar desatualizado aqui.
+[`docs/README.md`](docs/README.md); leia-o antes de assumir contexto que pode já estar desatualizado aqui.
 
 ## No legacy left behind
 
@@ -26,7 +26,7 @@ Removing legacy is not optional cleanup; it ships with the change.
 
 ## Iconography: Phosphor only
 
-Regra e razão completas: [`docs/decisions/0002-phosphor-como-unica-biblioteca-de-icones.md`](../docs/decisions/0002-phosphor-como-unica-biblioteca-de-icones.md).
+Regra e razão completas: [`docs/decisions/0002-phosphor-como-unica-biblioteca-de-icones.md`](docs/decisions/0002-phosphor-como-unica-biblioteca-de-icones.md).
 Resumo para o agente: Phosphor é a única biblioteca aceita, nos seis pesos, cada um com um papel fixo; nunca
 misturar outra biblioteca nem desenhar um glifo `<svg>` à mão; sempre pelo registro `Icons`/`Ph`.
 
@@ -34,7 +34,7 @@ misturar outra biblioteca nem desenhar um glifo `<svg>` à mão; sempre pelo reg
 
 O fluxo Git obrigatório deste repositório é a skill `/fluxo-git-releases` — branches `main`/`dev`,
 histórico linear, Conventional Commits, amend/fixup para trabalho ainda não publicado, Versionamento
-Semântico, tag `vX.Y.Z` + GitHub Release por versão (ver [`docs/decisions/0006`](../docs/decisions/0006-adotar-tag-e-github-release-por-versao.md)).
+Semântico, tag `vX.Y.Z` + GitHub Release por versão (ver [`docs/decisions/0006`](docs/decisions/0006-adotar-tag-e-github-release-por-versao.md)).
 Segue-a à risca; o que está aqui é só o que é específico deste repositório e não está na skill:
 
 - `main` foi renomeada de `master` em 2026-09-22 (rename de verdade, sem `master` residual no remoto);
@@ -45,7 +45,7 @@ Segue-a à risca; o que está aqui é só o que é específico deste repositóri
 
 ## Nomenclatura de código
 
-Convenções completas: [`docs/development/ambiente-de-desenvolvimento.md`](../docs/development/ambiente-de-desenvolvimento.md#convenções-de-código).
+Convenções completas: [`docs/development/ambiente-de-desenvolvimento.md`](docs/development/ambiente-de-desenvolvimento.md#convenções-de-código).
 Resumo: camelCase para variáveis/funções/props/handlers, PascalCase para componentes/tipos, UPPER_SNAKE_CASE
 para constantes de módulo, nunca snake_case nem kebab-case em identificadores.
 
@@ -71,8 +71,8 @@ conveniência: se dá para usar o componente como ele é, usa-se como ele é. He
 
 ## Vocabulário das props visuais
 
-Regra e tabela completa: [`docs-site/docs/fundacoes/vocabulario-das-props.mdx`](../docs-site/docs/fundacoes/vocabulario-das-props.mdx)
-(decisão em [`docs/decisions/0010`](../docs/decisions/0010-vocabulario-unico-para-tone-appearance-e-variant.md)).
+Regra e tabela completa: [`docs-site/docs/fundacoes/vocabulario-das-props.mdx`](docs-site/docs/fundacoes/vocabulario-das-props.mdx)
+(decisão em [`docs/decisions/0010`](docs/decisions/0010-vocabulario-unico-para-tone-appearance-e-variant.md)).
 Resumo para o agente: `tone` é a cor, `appearance` é a pintura (`solid`, `soft`, `outline`, `ghost`), `variant` é a forma.
 Nunca reaproveitar uma palavra do vocabulário com outro sentido nem criar sinônimo; os tipos de cada componente são
 `Extract` de `Tone` e `Appearance` (`src/internal/tone.ts`, `src/internal/appearance.ts`). Se nenhuma palavra serve,
@@ -80,8 +80,8 @@ o vocabulário cresce para todos antes de o componente ganhar a prop.
 
 ## Breakpoints
 
-Regra e tabela completa: [`docs-site/docs/fundacoes/breakpoints.mdx`](../docs-site/docs/fundacoes/breakpoints.mdx)
-(decisão em [`docs/decisions/0011`](../docs/decisions/0011-breakpoints-mobile-first-com-escala-unica.md)).
+Regra e tabela completa: [`docs-site/docs/fundacoes/breakpoints.mdx`](docs-site/docs/fundacoes/breakpoints.mdx)
+(decisão em [`docs/decisions/0011`](docs/decisions/0011-breakpoints-mobile-first-com-escala-unica.md)).
 Resumo para o agente: escala `sm` 768, `md` 1024, `lg` 1280, `xl` 1440 (abaixo de `sm` é `base`), mobile-first, só
 `min-width` com esses valores; nunca `max-width` nem número inventado. No CSS injetado do pacote a consulta vem de
 `mediaQuery()` (`src/layout/breakpoints.ts`); em React, `useBreakpoint()`. Grade e containers usam os mesmos nomes
@@ -90,7 +90,7 @@ Resumo para o agente: escala `sm` 768, `md` 1024, `lg` 1280, `xl` 1440 (abaixo d
 ## Fundações: nenhum número solto
 
 Regras completas nas páginas de Fundações do site (`docs-site/docs/fundacoes/`), decisão em
-[`docs/decisions/0012`](../docs/decisions/0012-componentes-sem-numeros-soltos-nas-fundacoes.md).
+[`docs/decisions/0012`](docs/decisions/0012-componentes-sem-numeros-soltos-nas-fundacoes.md).
 Resumo para o agente: nos componentes, espaçamento é `--ob-space-<px>` (2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48, 64,
 96, 128) ou os apelidos `--ob-gap-*`/`--ob-pad-*`/`--ob-stack-*`; raio é `--ob-r-*` (de preferência `control`, `surface`,
 `overlay`, `pill`, `circle`); duração e curva são `--ob-dur-*` e `--ob-ease-*`; camada é `--ob-z-*` (0, 1 e 2 só para a
@@ -130,7 +130,7 @@ retroativamente ainda.
 
 ## Verificação do pacote @onblide/ui
 
-Tudo em `project/package/`:
+Tudo em `packages/ui/`:
 
 ```bash
 npm run verify   # typecheck (src) → build → typecheck:dist (tipos como o consumidor vê) → smoke

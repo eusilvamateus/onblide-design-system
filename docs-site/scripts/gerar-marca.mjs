@@ -1,9 +1,9 @@
-// Copia as variantes de arquivo da logo (project/marca/ — fonte única, organizada por formato: svg/, png/,
+// Copia as variantes de arquivo da logo (docs-site/marca/ — fonte única, organizada por formato: svg/, png/,
 // png/icones/) para static/img/marca/, de onde a página de Fundações › Marca as referencia. Nada é editado
-// à mão em docs-site: mudou a arte, mudou em project/marca/, e este script refaz a cópia no próximo `npm run gerar`.
+// à mão em docs-site: mudou a arte, mudou em docs-site/marca/, e este script refaz a cópia no próximo `npm run gerar`.
 import fs from 'node:fs';
 
-const raiz = new URL('../../project/marca/', import.meta.url);
+const raiz = new URL('../marca/', import.meta.url);
 const destino = new URL('../static/img/marca/', import.meta.url);
 fs.mkdirSync(destino, { recursive: true });
 

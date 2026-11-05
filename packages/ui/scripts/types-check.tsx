@@ -1,4 +1,3 @@
-// project/package/scripts/types-check.tsx
 //
 // Verificação de TIPOS (só compila, nunca executa), do ponto de vista do
 // CONSUMIDOR: importa de '@onblide/ui', que o tsconfig.types.json mapeia para o

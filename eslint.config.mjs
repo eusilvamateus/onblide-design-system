@@ -29,7 +29,7 @@ export default defineConfig([
     languageOptions: { globals: globals.node },
   },
   {
-    files: ['docs-site/scripts/verificar.mjs', 'project/package/scripts/medir-checkbox.mjs', 'project/package/scripts/verificar-table.mjs', 'project/package/scripts/verificar-tabs.mjs'],
+    files: ['docs-site/scripts/verificar.mjs', 'packages/ui/scripts/medir-checkbox.mjs', 'packages/ui/scripts/verificar-table.mjs', 'packages/ui/scripts/verificar-tabs.mjs'],
     languageOptions: { globals: { ...globals.browser, React: 'readonly', ReactDOM: 'readonly' } },
   },
   prettier,

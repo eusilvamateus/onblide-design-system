@@ -1,12 +1,12 @@
 # Documentação do Onblide Design System
 
 Site de documentação feito com [Docusaurus](https://docusaurus.io/), publicado no Vercel. Ele é independente do
-pacote `@onblide/ui` (em `../project/package`).
+pacote `@onblide/ui` (em `../packages/ui`).
 
 ## Rodar localmente
 
 ```bash
-cd project/package && npm install && npm run build   # o site usa o pacote construído
+cd packages/ui && npm install && npm run build   # o site usa o pacote construído
 cd ../../docs-site && npm install
 npm start                                            # gera os dados e abre em http://localhost:3000
 ```
@@ -17,7 +17,7 @@ npm start                                            # gera os dados e abre em h
 |---|---|
 | Páginas de componentes (`docs/componentes/`) | Geradas por `scripts/gerar-componentes.mjs`, com os exemplos de `exemplos/*.tsx` (os mesmos cards do Claude Design) |
 | Tabela de props | Geradas dos tipos TypeScript do pacote (`scripts/gerar-props.mjs`) |
-| Tabelas de tokens | Geradas de `project/package/src/tokens.css` (`scripts/gerar-tokens.mjs`) |
+| Tabelas de tokens | Geradas de `packages/ui/src/tokens.css` (`scripts/gerar-tokens.mjs`) |
 | Changelog | Cópia do `CHANGELOG.md` do pacote |
 | Primeiros passos e fundações | Escritos à mão em `docs/` |
 | Guias de uso, conteúdo e design de cada componente | Escritos à mão em `guias/<Componente>.mdx` (frontmatter `resumo` e `criterios`); entram na página gerada |

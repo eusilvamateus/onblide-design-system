@@ -1,7 +1,7 @@
-// Lê project/package/src/tokens.css e gera src/data/tokens.json (tokens do tema claro e sobrescritas do escuro).
+// Lê packages/ui/src/tokens.css e gera src/data/tokens.json (tokens do tema claro e sobrescritas do escuro).
 import fs from 'node:fs';
 
-const css = fs.readFileSync(new URL('../../project/package/src/tokens.css', import.meta.url), 'utf8');
+const css = fs.readFileSync(new URL('../../packages/ui/src/tokens.css', import.meta.url), 'utf8');
 
 const bloco = (inicio) => {
   let nivel = 0, j = css.indexOf('{', inicio);

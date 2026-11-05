@@ -1,4 +1,3 @@
-// project/package/scripts/lib/injected-styles.mjs
 //
 // Coleta, EM ORDEM, todos os <style> que os módulos da biblioteca injetam ao
 // serem importados, usando um `document` falso mínimo. Devolve um array

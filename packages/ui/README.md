@@ -1,12 +1,12 @@
 # @onblide/ui
 
 Componentes React do design system Onblide, escritos em TypeScript. Pacote interno
-(`"private": true`), mantido neste repositório em `project/package/`.
+(`"private": true`), mantido neste repositório em `packages/ui/`.
 
 ## Instalação e build
 
 ```bash
-cd project/package
+cd packages/ui
 npm install
 npm run build    # gera dist/: ESM, CJS, .d.ts e o bundle de navegador
 npm run verify   # typecheck + build + teste de tipos (contra o .d.ts) + smokes
@@ -91,7 +91,7 @@ Os dois existem, e `Icons` é construído sobre `Ph`:
 - **`Icons`**: registro com 28 ícones semânticos (`Icons.check`, `Icons.caretR`, ...). Cada
   entrada é uma função: `<Icons.check size={16} />` ou `Icons.check({ size: 16 })`. Tamanho
   padrão 20; a cor vem de `style`; a marcação é a mesma de `<Ph n="…" size={20} />`. Use para os ícones do registro, porque trocar o peso ou a
-  fonte dos ícones num lugar só é a regra do projeto (`project/CLAUDE.md`). `Link`,
+  fonte dos ícones num lugar só é a regra do projeto (`CLAUDE.md`). `Link`,
   `Pagination` e `Modal` usam `Icons`.
 - **`Ph`**: `<Ph n="check" size={18} c="var(--ob-blue)" weight="bold" />` renderiza qualquer glifo Phosphor
   pelo nome (`n`), com cor por prop (`c`) e peso (`weight`: regular, fill, bold, light, thin, duotone). Tamanho padrão 18. Use quando o ícone não estiver
@@ -122,7 +122,7 @@ Fundações › Iconografia.
 
 `<Logo />` renderiza o lockup horizontal da marca (SVG inline, cores pelos tokens `--ob-*`, então
 acompanha o tema claro/escuro). `size` é a altura em px (padrão 28). As demais variantes (empilhada,
-símbolo, em arquivo) ficam em `project/marca/`.
+símbolo, em arquivo) ficam em `docs-site/marca/`.
 
 ## Efeitos colaterais no import
 
@@ -135,4 +135,4 @@ Alguns módulos injetam `<style>` (keyframes e regras de mídia) no `<head>` qua
 Versões e changelog via [Changesets](https://github.com/changesets/changesets): escreva um
 arquivo em `.changeset/`, rode `npx changeset version`, depois `npm install --package-lock-only`
 (o `changeset version` não atualiza o `package-lock.json`) e commite `package.json`,
-`CHANGELOG.md` e `package-lock.json`. Commits seguem Conventional Commits em português (`project/CLAUDE.md`).
+`CHANGELOG.md` e `package-lock.json`. Commits seguem Conventional Commits em português (`CLAUDE.md`).

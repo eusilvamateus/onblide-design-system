@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import ts from 'typescript';
 
-const pacote = path.resolve('../project/package');
+const pacote = path.resolve('../packages/ui');
 const src = path.join(pacote, 'src');
 const pastaExemplos = path.resolve('exemplos');
 const saida = path.resolve('docs/componentes');

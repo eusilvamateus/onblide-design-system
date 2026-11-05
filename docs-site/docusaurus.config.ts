@@ -27,7 +27,7 @@ const config: Config = {
     ],
   ],
   plugins: [
-    // O pacote é linkado de ../project/package e tem o próprio node_modules: força uma única cópia do React.
+    // O pacote é linkado de ../packages/ui e tem o próprio node_modules: força uma única cópia do React.
     () => ({
       name: 'react-unico',
       configureWebpack: () => ({

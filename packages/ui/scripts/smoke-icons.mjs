@@ -1,4 +1,3 @@
-// project/package/scripts/smoke-icons.mjs
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Icons, Ph } from '../dist/index.js';

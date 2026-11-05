@@ -1,20 +1,19 @@
 # Visão geral da arquitetura
 
 O repositório reúne dois subsistemas independentes que compartilham a mesma fonte de verdade visual
-(`project/package/src/tokens.css`), mas têm ciclos de build, deploy e versionamento próprios.
+(`packages/ui/src/tokens.css`), mas têm ciclos de build, deploy e versionamento próprios.
 
 ```text
 onblide-design-system/
-├── project/
-│   ├── package/        # @onblide/ui — o design system em si (React + TypeScript)
-│   ├── marca/           # arte da marca (svg/, png/, png/icones/), fonte única para logo e favicon
-│   ├── CLAUDE.md         # instruções de agente para este repositório
-│   └── README.md         # contexto de marca e fundações visuais do projeto
+├── packages/
+│   └── ui/               # @onblide/ui — o design system em si (React + TypeScript)
 ├── docs-site/            # site Docusaurus publicado (documentação do produto)
-└── docs/                 # esta pasta — memória canônica e persistente do projeto
+│   └── marca/            # arte da marca (svg/, png/, png/icones/), fonte única para logo e favicon
+├── docs/                 # esta pasta — memória canônica e persistente do projeto
+└── CLAUDE.md             # instruções de agente para este repositório
 ```
 
-## `project/package` — `@onblide/ui`
+## `packages/ui` — `@onblide/ui`
 
 Biblioteca React/TypeScript com todos os componentes, organizados por papel na interface
 (`actions/`, `brand/`, `data-display/`, `feedback/`, `forms/`, `iconography/`, `internal/`, `navigation/`,

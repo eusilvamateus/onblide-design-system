@@ -6,7 +6,7 @@ feitas.
 
 Use este índice para localizar o contexto necessário sem precisar ler toda a pasta `/docs`.
 
-`project/CLAUDE.md` traz as instruções de como o agente deve trabalhar neste repositório; aqui explica-se
+`CLAUDE.md` traz as instruções de como o agente deve trabalhar neste repositório; aqui explica-se
 como o projeto funciona. A documentação **de produto** — como instalar e usar `@onblide/ui` — vive no site
 publicado em `docs-site/`, não é duplicada aqui.
 
@@ -14,7 +14,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 
 ### Arquitetura
 
-- [`architecture/visao-geral.md`](architecture/visao-geral.md) — os três subsistemas do repositório (`project/package`, `docs-site`), sem o antigo sync com o Claude Design) e como se relacionam.
+- [`architecture/visao-geral.md`](architecture/visao-geral.md) — os dois subsistemas do repositório (`packages/ui`, `docs-site`), sem o antigo sync com o Claude Design) e como se relacionam.
 
 ### Desenvolvimento
 
@@ -44,7 +44,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 
 - Atualize a fonte canônica junto com a alteração que a tornou desatualizada.
 - Evite duplicar explicações completas em mais de um arquivo — se o assunto já tem fonte canônica em
-  `docs-site/` ou `project/package/README.md`, aponte para lá.
+  `docs-site/` ou `packages/ui/README.md`, aponte para lá.
 - Use português técnico natural, preservando termos e identificadores que devam permanecer em inglês.
 - Atualize este índice sempre que documentos forem criados, removidos, movidos, renomeados, consolidados
   ou arquivados.

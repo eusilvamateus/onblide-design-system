@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { withCustomConfig } from 'react-docgen-typescript';
 
-const pacote = path.resolve('../project/package');
+const pacote = path.resolve('../packages/ui');
 const src = path.join(pacote, 'src');
 const categorias = fs.readdirSync(src, { withFileTypes: true }).filter((e) => e.isDirectory() && e.name !== 'internal' && e.name !== 'fonts');
 

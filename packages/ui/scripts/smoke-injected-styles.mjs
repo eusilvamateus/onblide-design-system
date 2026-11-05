@@ -1,4 +1,3 @@
-// project/package/scripts/smoke-injected-styles.mjs
 //
 // Guarda de regressão do CSS injetado pelos componentes (keyframes etc.):
 // compara a SEQUÊNCIA de <style> coletada de dist/index.js (ordem, id e CSS,

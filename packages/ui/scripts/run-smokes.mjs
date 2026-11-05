@@ -1,4 +1,3 @@
-// project/package/scripts/run-smokes.mjs
 //
 // Roda todos os scripts/smoke-*.mjs, um processo por script, e falha se
 // qualquer um falhar. Uso: `npm run build && npm run smoke` (os smokes leem
