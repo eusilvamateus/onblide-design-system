@@ -1,24 +1,13 @@
 // Verifica o clique de ordenação do Table num Chromium de testes (Playwright do docs-site):
 // sem onSort, clicar no cabeçalho reordena de verdade e cicla crescente → decrescente → sem ordenação; com
 // onSort, a Table não reordena sozinha, só avisa a coluna clicada. Uso: npm run build && node scripts/verificar-table.mjs
-import { createRequire } from 'node:module';
-import path from 'node:path';
+import { carregarPacoteNoNavegador, obterChromium } from './lib/pacote-no-navegador.mjs';
 
-const exigir = createRequire(import.meta.url);
-const candidatos = ['../../../docs-site/node_modules/playwright'];
-let chromium;
-for (const c of candidatos) {
-  try { ({ chromium } = exigir(path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/(\w:)/, '$1')), c))); break; } catch { /* tenta o próximo */ }
-}
-if (!chromium) { console.log('SKIP: playwright não instalado (rode npm install em docs-site)'); process.exit(0); }
-
-const pasta = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/(\w:)/, '$1')), '..');
+const chromium = obterChromium();
 const b = await chromium.launch();
 const p = await b.newPage();
 await p.setContent('<html><body style="margin:0"><div id="r"></div></body></html>');
-for (const f of ['node_modules/react/umd/react.production.min.js', 'node_modules/react-dom/umd/react-dom.production.min.js', 'dist/onblide-ui.browser.js']) {
-  await p.addScriptTag({ path: path.join(pasta, f) });
-}
+await carregarPacoteNoNavegador(p);
 
 const colunas = [{ key: 'nome', label: 'Nome', sortable: true }];
 const linhas = [{ nome: 'Carla' }, { nome: 'Ana' }, { nome: 'Bruno' }];

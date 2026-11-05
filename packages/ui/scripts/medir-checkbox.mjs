@@ -1,27 +1,17 @@
 // Mede a centralização do glifo do Checkbox num Chromium de testes (Playwright do docs-site),
 // em telas 1x e 2x e com a caixa em posições fracionadas da página. Falha se o glifo sobrar mais de um lado
 // do que do outro (tolerância de meio pixel CSS). Uso: npm run build && node scripts/medir-checkbox.mjs
-import { createRequire } from 'node:module';
 import path from 'node:path';
+import { carregarPacoteNoNavegador, obterChromium, pasta } from './lib/pacote-no-navegador.mjs';
 
-const exigir = createRequire(import.meta.url);
-const candidatos = ['../../../docs-site/node_modules/playwright'];
-let chromium;
-for (const c of candidatos) {
-  try { ({ chromium } = exigir(path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/(\w:)/, '$1')), c))); break; } catch { /* tenta o próximo */ }
-}
-if (!chromium) { console.log('SKIP: playwright não instalado (rode npm install em docs-site)'); process.exit(0); }
-
-const pasta = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/(\w:)/, '$1')), '..');
+const chromium = obterChromium();
 const b = await chromium.launch();
 const falhas = [];
 for (const dpr of [1, 2]) {
   const p = await b.newPage({ viewport: { width: 400, height: 300 }, deviceScaleFactor: dpr });
   await p.setContent('<html><body style="margin:0"><div id="r"></div></body></html>');
   await p.addStyleTag({ path: path.join(pasta, 'src/tokens.css') });
-  await p.addScriptTag({ path: path.join(pasta, 'node_modules/react/umd/react.production.min.js') });
-  await p.addScriptTag({ path: path.join(pasta, 'node_modules/react-dom/umd/react-dom.production.min.js') });
-  await p.addScriptTag({ path: path.join(pasta, 'dist/onblide-ui.browser.js') });
+  await carregarPacoteNoNavegador(p);
   for (const deslocamento of [0, 0.17, 0.5, 0.83]) {
     for (const estado of ['check', 'minus']) {
       await p.evaluate(({ deslocamento, estado }) => {

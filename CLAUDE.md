@@ -16,7 +16,6 @@ design system whose own artifacts don't follow it is broken.
    linking them).
 2. Update every downstream artifact that depends on what changed — including compiled/
    exported snapshots and `README.md`.
-   Regenerate standalone bundles so they match the live source.
 3. Grep the whole project for stale references (old filenames, old values, renamed folders,
    replaced libraries) and fix or remove every hit.
 4. Keep `README.md` and this file factually accurate — no dead paths, no

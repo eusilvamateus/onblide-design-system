@@ -5,7 +5,7 @@
 ```bash
 cd packages/ui
 npm install
-npm run build    # gera dist/: ESM, CJS, .d.ts e o bundle de navegador
+npm run build    # gera dist/: ESM, CJS e .d.ts
 npm run verify   # typecheck + build + teste de tipos (contra o .d.ts) + smokes
 ```
 

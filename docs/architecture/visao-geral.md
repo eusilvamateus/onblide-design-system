@@ -17,8 +17,7 @@ onblide-design-system/
 
 Biblioteca React/TypeScript com todos os componentes, organizados por papel na interface
 (`actions/`, `brand/`, `data-display/`, `feedback/`, `forms/`, `iconography/`, `internal/`, `navigation/`,
-`overlays/`). `tsup` gera três saídas: ESM/CJS (`dist/index.js`/`.cjs`, o pacote publicável) e um bundle IIFE
-de navegador (`dist/onblide-ui.browser.js`), para páginas sem bundler e para os testes em navegador do pacote.
+`overlays/`). `tsup` gera ESM e CJS (`dist/index.js` e `dist/index.cjs`) com os tipos.
 
 Versionamento via [Changesets](https://github.com/changesets/changesets): cada mudança ganha um arquivo em
 `.changeset/`, `npx changeset version` consome esses arquivos e atualiza `package.json` + `CHANGELOG.md`.

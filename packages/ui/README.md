@@ -8,7 +8,7 @@ Componentes React do design system Onblide, escritos em TypeScript. Pacote inter
 ```bash
 cd packages/ui
 npm install
-npm run build    # gera dist/: ESM, CJS, .d.ts e o bundle de navegador
+npm run build    # gera dist/: ESM, CJS e .d.ts
 npm run verify   # typecheck + build + teste de tipos (contra o .d.ts) + smokes
 ```
 
@@ -54,35 +54,13 @@ export const Exemplo = () => (
 `react` e `react-dom` (^18.3.1) são peer dependencies. O pacote também exporta
 `@onblide/ui/tokens.css` (só os tokens) e `@onblide/ui/styles.css` (tokens + Phosphor).
 
-### Como bundle de navegador (sem bundler)
-
-`dist/onblide-ui.browser.js` é um IIFE que registra todos os componentes como globais em
-`window` (`Button`, `Select`, ...). Carregue-o **depois** de React e ReactDOM (UMD), pois ele
-usa o `window.React` e o `window.ReactDOM` da página e não embute uma cópia própria de React:
-
-```html
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
-<script src="dist/onblide-ui.browser.js"></script>
-```
-
 ## Ícones
 
 Os componentes renderizam `<i class="ph ph-...">` (peso regular) ou `<i class="ph-<peso> ph-...">`. O pacote **não** injeta o CSS do Phosphor:
 ele precisa estar carregado na página, senão os ícones aparecem vazios.
 
-- Com bundler: `import '@onblide/ui/styles.css'` já traz os seis pesos do Phosphor (dependência
-  `@phosphor-icons/web`) junto dos tokens. Cada fonte só é baixada quando algum ícone usa aquele peso.
-- Com o bundle de navegador (IIFE) o CSS não vem junto. Use o CDN:
-
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/thin/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/light/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/duotone/style.css">
-```
+`import '@onblide/ui/styles.css'` já traz os seis pesos do Phosphor (dependência `@phosphor-icons/web`) junto dos
+tokens. Cada fonte só é baixada quando algum ícone usa aquele peso.
 
 ### `Ph` ou `Icons`?
 

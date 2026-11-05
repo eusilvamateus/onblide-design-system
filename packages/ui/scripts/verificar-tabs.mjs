@@ -1,35 +1,12 @@
-import { createRequire } from 'node:module';
 import path from 'node:path';
+import { carregarPacoteNoNavegador, obterChromium, pasta } from './lib/pacote-no-navegador.mjs';
 
-const exigir = createRequire(import.meta.url);
-const aqui = path.dirname(new URL(import.meta.url).pathname.replace(/^\/(\w:)/, '$1'));
-const candidatos = ['../../../docs-site/node_modules/playwright'];
-let chromium;
-for (const c of candidatos) {
-  try {
-    ({ chromium } = exigir(path.resolve(aqui, c)));
-    break;
-  } catch {
-    chromium = undefined;
-  }
-}
-if (!chromium) {
-  console.log('SKIP: playwright não instalado (rode npm install em docs-site)');
-  process.exit(0);
-}
-
-const pasta = path.resolve(aqui, '..');
+const chromium = obterChromium();
 const b = await chromium.launch();
 const p = await b.newPage();
 await p.setContent('<html><body style="margin:0"><div id="r"></div></body></html>');
 await p.addStyleTag({ path: path.join(pasta, 'src/tokens.css') });
-for (const f of [
-  'node_modules/react/umd/react.production.min.js',
-  'node_modules/react-dom/umd/react-dom.production.min.js',
-  'dist/onblide-ui.browser.js',
-]) {
-  await p.addScriptTag({ path: path.join(pasta, f) });
-}
+await carregarPacoteNoNavegador(p);
 
 const falhas = [];
 const esperar = (cond, msg) => {

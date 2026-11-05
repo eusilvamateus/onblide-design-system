@@ -13,7 +13,7 @@ Claude Design: ele é exclusivamente um design system, como o Material UI.
 
 - Encerrar a sincronização com o Claude Design e remover o que existia só para ela.
 - Manter os exemplos de componente, que alimentam o site, em `docs-site/exemplos/`.
-- Manter o bundle de navegador, documentado para páginas sem bundler e usado pelos testes em navegador do pacote.
+- Remover o bundle de navegador: ele servia às páginas removidas e depende do UMD do React, que não existe no React 19. Os testes em navegador do pacote montam o código na hora com o `esbuild`.
 - Organizar o repositório em `packages/ui` (o pacote), `docs-site` (o site) e `docs` (memória do projeto), sem `project/`.
 
 ## Consequências
