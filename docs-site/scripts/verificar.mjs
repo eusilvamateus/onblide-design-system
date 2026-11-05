@@ -42,6 +42,21 @@ await p.setViewportSize({ width: 800, height: 900 });
 await p.reload();
 await p.waitForSelector('.ob-doc__sumario-compacto button');
 if (await p.locator('.ob-doc__sumario').isVisible()) falhas.push('sumário: a coluna lateral deveria sumir na janela estreita');
+for (const largura of [360, 768, 1024]) {
+  await p.setViewportSize({ width: largura, height: 900 });
+  if (await p.evaluate(() => { const e = document.querySelector('.ob-topbar__inner'); return e.scrollWidth > e.clientWidth; })) falhas.push(`barra superior: estoura a janela em ${largura}px`);
+}
+await p.emulateMedia({ colorScheme: 'dark' });
+await p.goto(base + '/');
+await p.waitForSelector('[aria-label="Tema: Sistema"]');
+const temaAtual = () => p.evaluate(() => { const h = document.documentElement.dataset; return `${h.themeChoice}/${h.theme}`; });
+for (const esperado of ['light/light', 'dark/dark', 'system/dark']) {
+  await p.click('[aria-label^="Tema:"]');
+  if ((await temaAtual()) !== esperado) falhas.push(`tema: esperava ${esperado}, veio ${await temaAtual()}`);
+}
+await p.emulateMedia({ colorScheme: 'light' });
+await p.waitForTimeout(100);
+if ((await temaAtual()) !== 'system/light') falhas.push('tema: "sistema" não acompanhou a mudança do sistema operacional');
 await p.setViewportSize({ width: 1280, height: 900 });
 for (const rota of rotas) {
   const erros = [];

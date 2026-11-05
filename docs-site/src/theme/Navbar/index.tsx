@@ -2,12 +2,20 @@ import React, { type ReactNode } from 'react';
 import { useHistory } from '@docusaurus/router';
 import { useColorMode } from '@docusaurus/theme-common';
 import SearchBar from '@theme/SearchBar';
-import { Button, Link, Logo, Ph, Switch, useBreakpoint } from '@onblide/ui';
+import { Button, Logo, Ph, Tooltip } from '@onblide/ui';
+
+const REPOSITORIO = 'https://github.com/eusilvamateus/onblide-design-system';
+
+const TEMAS = {
+  claro: { escolha: 'light', icone: 'sun', dica: 'Claro', proximo: 'escuro' },
+  escuro: { escolha: 'dark', icone: 'moon', dica: 'Escuro', proximo: 'sistema' },
+  sistema: { escolha: null, icone: 'monitor', dica: 'Sistema', proximo: 'claro' },
+} as const;
 
 export default function Navbar(): ReactNode {
-  const { colorMode, setColorMode } = useColorMode();
+  const { colorModeChoice, setColorMode } = useColorMode();
   const history = useHistory();
-  const pequena = !useBreakpoint().atLeast('sm');
+  const tema = colorModeChoice === 'light' ? TEMAS.claro : colorModeChoice === 'dark' ? TEMAS.escuro : TEMAS.sistema;
   return (
     <header className="ob-topbar navbar">
       <div className="ob-topbar__inner">
@@ -28,15 +36,30 @@ export default function Navbar(): ReactNode {
         </div>
         <div className="ob-topbar__actions">
           <SearchBar />
-          <span className="ob-topbar__github">
-            <Link href="https://github.com/eusilvamateus/onblide-design-system" external tone="neutral">GitHub</Link>
+          <span className="ob-topbar__icones">
+            <span className="ob-topbar__github">
+              <Tooltip label="Ver no GitHub" placement="bottom">
+                <Button
+                  kind="neutral"
+                  size="sm"
+                  iconOnly
+                  aria-label="Ver no GitHub"
+                  onClick={() => window.open(REPOSITORIO, '_blank', 'noopener')}
+                  icon={<Ph n="github-logo" size={18} />}
+                />
+              </Tooltip>
+            </span>
+            <Tooltip label={tema.dica} placement="bottom">
+              <Button
+                kind="neutral"
+                size="sm"
+                iconOnly
+                aria-label={`Tema: ${tema.dica}`}
+                onClick={() => setColorMode(TEMAS[tema.proximo].escolha)}
+                icon={<Ph n={tema.icone} size={18} />}
+              />
+            </Tooltip>
           </span>
-          <Switch
-            size="sm"
-            label={pequena ? undefined : 'Tema escuro'}
-            checked={colorMode === 'dark'}
-            onChange={(v) => setColorMode(v ? 'dark' : 'light')}
-          />
         </div>
       </div>
     </header>
