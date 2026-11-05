@@ -4,7 +4,7 @@
 
 ### Numeração corrigida
 
-A versão deste código, antes numerada 6.1.0, passa a ser 0.17.0. Nenhuma linha de código mudou: apenas o rótulo de versão. As versões 1.0.0 a 6.1.0 abaixo foram arquivadas (tags `arquivo/vX.Y.Z` e `arquivo/onblide-ui@X.Y.Z`; GitHub Releases marcados como `[arquivada]`) e seu conteúdo continua aqui como histórico. Motivo e detalhes: `docs/decisions/0009-corrigir-a-numeracao-para-a-serie-0x.md`.
+A versão deste código, antes numerada 6.1.0, passa a ser 0.17.0. Nenhuma linha de código mudou: apenas o rótulo de versão. As versões 1.0.0 a 6.1.0 foram arquivadas (tags `arquivo/vX.Y.Z` e `arquivo/onblide-ui@X.Y.Z`; GitHub Releases marcados como `[arquivada]`) e seu conteúdo continua no `CHANGELOG.md` do pacote como histórico. Motivo e detalhes: `docs/decisions/0009-corrigir-a-numeracao-para-a-serie-0x.md`.
 
 ## 6.1.0 (arquivada)
 

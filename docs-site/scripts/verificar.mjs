@@ -46,6 +46,15 @@ for (const largura of [360, 768, 1024]) {
   await p.setViewportSize({ width: largura, height: 900 });
   if (await p.evaluate(() => { const e = document.querySelector('.ob-topbar__inner'); return e.scrollWidth > e.clientWidth; })) falhas.push(`barra superior: estoura a janela em ${largura}px`);
 }
+await p.setViewportSize({ width: 1280, height: 600 });
+await p.goto(base + '/changelog');
+await p.waitForSelector('.ob-doc__sumario .ob-sa-viewport');
+if ((await p.locator('h2', { hasText: '(arquivada)' }).count()) > 0) falhas.push('changelog: mostra versões arquivadas');
+if (await p.evaluate(() => getComputedStyle(document.querySelector('.ob-doc__sumario .theme-doc-toc-desktop')).overflowY !== 'visible')) falhas.push('sumário: rola com a barra nativa em vez do ScrollArea');
+await p.setViewportSize({ width: 2370, height: 900 });
+if (await p.evaluate(() => { const margem = parseFloat(getComputedStyle(document.querySelector('.ob-wrap')).paddingRight); return Math.abs(document.querySelector('.ob-doc__sumario').getBoundingClientRect().right - (document.documentElement.clientWidth - margem)) > 1; })) falhas.push('sumário: não está alinhado à direita da janela');
+if (await p.evaluate(() => document.querySelector('.ob-doc__artigo').getBoundingClientRect().width > 760)) falhas.push('artigo: passou da largura de leitura em tela larga');
+if (await p.evaluate(() => [...document.querySelectorAll('.ob-doc__sumario *')].some((e) => parseFloat(getComputedStyle(e).borderLeftWidth) > 0))) falhas.push('sumário: voltou a ter linha vertical');
 await p.emulateMedia({ colorScheme: 'dark' });
 await p.goto(base + '/');
 await p.waitForSelector('[aria-label="Tema: Sistema"]');

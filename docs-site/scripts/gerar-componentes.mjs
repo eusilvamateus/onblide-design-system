@@ -217,7 +217,10 @@ fs.writeFileSync(
   JSON.stringify({ label: 'Componentes', position: 4 }, null, 2),
 );
 
-const changelog = fs.readFileSync(path.join(pacote, 'CHANGELOG.md'), 'utf8').replace(/^# .*\n/, '');
+const changelog = fs
+  .readFileSync(path.join(pacote, 'CHANGELOG.md'), 'utf8')
+  .replace(/^# .*\r?\n/, '')
+  .replace(/^## .*\(arquivada\)\r?\n[\s\S]*?(?=^## )/gm, '');
 fs.writeFileSync(
   path.resolve('docs/changelog.md'),
   `---\ntitle: Changelog\nsidebar_position: 5\ndescription: Histórico de versões do @onblide/ui.\n---\n\n${changelog}`,

@@ -3,6 +3,7 @@ import { useDoc } from '@docusaurus/plugin-content-docs/client';
 import DocItemContent from '@theme/DocItem/Content';
 import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import DocItemTOCMobile from '@theme/DocItem/TOC/Mobile';
+import { ScrollArea } from '@onblide/ui';
 
 export default function DocItemLayout({ children }: { children: ReactNode }): ReactNode {
   const { frontMatter, toc } = useDoc();
@@ -19,7 +20,9 @@ export default function DocItemLayout({ children }: { children: ReactNode }): Re
       </article>
       {comSumario && (
         <aside className="ob-doc__sumario" aria-label="Nesta página">
-          <DocItemTOCDesktop />
+          <ScrollArea maxHeight="calc(100vh - 64px - var(--ob-space-64))" ariaLabel="Nesta página">
+            <DocItemTOCDesktop />
+          </ScrollArea>
         </aside>
       )}
     </div>

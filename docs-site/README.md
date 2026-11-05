@@ -18,7 +18,7 @@ npm start                                            # gera os dados e abre em h
 | Páginas de componentes (`docs/componentes/`) | Geradas por `scripts/gerar-componentes.mjs`, com os exemplos de `exemplos/*.tsx` (os mesmos cards do Claude Design) |
 | Tabela de props | Geradas dos tipos TypeScript do pacote (`scripts/gerar-props.mjs`) |
 | Tabelas de tokens | Geradas de `packages/ui/src/tokens.css` (`scripts/gerar-tokens.mjs`) |
-| Changelog | Cópia do `CHANGELOG.md` do pacote |
+| Changelog | `CHANGELOG.md` do pacote, sem as versões arquivadas |
 | Primeiros passos e fundações | Escritos à mão em `docs/` |
 | Guias de uso, conteúdo e design de cada componente | Escritos à mão em `guias/<Componente>.mdx` (frontmatter `resumo` e `criterios`); entram na página gerada |
 | Demo interativa | Controles gerados das props; o ponto de partida é `demos/<Componente>.jsx`, escrito à mão (o `<Componente>` do arquivo define os valores iniciais; o que estiver em volta, como o botão que abre uma sobreposição, aparece igual no resultado e no código) |
