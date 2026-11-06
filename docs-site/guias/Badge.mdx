@@ -23,6 +23,7 @@ O `label` mostra um ponto colorido por padrão. Com `icon`, um ícone Phosphor e
 - **`soft`**: padrão no `label`. Fundo clarinho na cor, sem borda.
 - **`solid`**: padrão no `numeric`. Fundo cheio na cor forte. Para rótulos de plano (Pro, Beta) e categorias em destaque.
 - **`outline`**: só a borda na cor, sem fundo. Para contextos onde o fundo precisa respirar.
+- **`ghost`**: só o texto e o ponto ou ícone, sem fundo, borda nem preenchimento. Para listas densas, onde muitos status juntos pesariam a tela; o ponto alinha com o texto em volta.
 
 ### Cor (`tone`)
 
@@ -76,7 +77,7 @@ Badge clicável ou como filtro. Para isso, use **Chip**. Badge nunca deve ter cu
 
 ## Guia de design
 
-**Tokens.** `soft`: `--ob-*-100` fundo, `--ob-*-700` texto, `--ob-*` dot. `solid`: `--ob-*` fundo, `--ob-fg-on-color` texto. `outline`: fundo transparente, borda `color-mix(--ob-* 35%)`.
+**Tokens.** `soft`: `--ob-*-100` fundo, `--ob-*-700` texto, `--ob-*` dot. `solid`: `--ob-*` fundo, `--ob-fg-on-color` texto. `outline`: fundo transparente, borda `color-mix(--ob-* 35%)`. `ghost`: fundo transparente, sem borda, cor de texto igual à do `soft`.
 
 **Tamanhos.** md (padrão) = 12 px, padding 4×10, ícone de 14 px. sm = 11 px, padding 2×8, ícone de 12 px. Raio sempre pílula (999px).
 

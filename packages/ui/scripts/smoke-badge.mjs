@@ -35,9 +35,15 @@ if (solido.includes('#fff')) fail('nenhuma cor solta', solido);
 if (!render({ tone: 'warning' }).includes('color:var(--ob-warning-fg)')) fail('warning usa o token de texto, que muda com o tema');
 
 if (!render({ appearance: 'outline', tone: 'danger' }).includes('border:1.5px solid')) fail('outline tem contorno');
+const fantasma = render({ appearance: 'ghost', tone: 'success' });
+if (!fantasma.includes('background:transparent') || !fantasma.includes('border:none')) fail('ghost não tem fundo nem borda', fantasma);
+if (!fantasma.includes('padding:0')) fail('ghost não tem preenchimento, para alinhar com o texto em volta', fantasma);
+if ((fantasma.match(/<span/g) ?? []).length !== 2) fail('ghost mantém o ponto', fantasma);
+if (!render({ appearance: 'ghost', icon: 'check' }).includes('ph-check')) fail('ghost aceita ícone');
+
 for (const tone of ['neutral', 'primary', 'success', 'warning', 'danger']) {
   if (!render({ tone }).includes('Ativo')) fail(`tom ${tone}`);
 }
 if (!render({ tone: 'inexistente' }).includes('Ativo')) fail('tom desconhecido cai no padrão');
 if (!render({ size: 'sm' }).includes('font-size:11px')) fail('size sm');
-console.log('OK: Badge (appearance soft/solid/outline, variant label/numeric, tons, dot, icon, size)');
+console.log('OK: Badge (appearance soft/solid/outline/ghost, variant label/numeric, tons, dot, icon, size)');

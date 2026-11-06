@@ -35,7 +35,17 @@ export const Aparencias = () => (
     <Badge appearance="soft" tone="primary">Suave</Badge>
     <Badge appearance="solid" tone="success">Sólido</Badge>
     <Badge appearance="outline" tone="warning">Contorno</Badge>
+    <Badge appearance="ghost" tone="primary">Sem fundo</Badge>
     <Badge variant="numeric" tone="danger">12</Badge>
+  </div>
+);
+
+export const SemFundo = () => (
+  <div style={{ display: 'flex', gap: 16, padding: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+    <Badge appearance="ghost" tone="success">Elegível</Badge>
+    <Badge appearance="ghost" tone="warning" icon="warning">Abaixo da meta</Badge>
+    <Badge appearance="ghost" tone="danger">Recusado</Badge>
+    <Badge appearance="ghost" tone="neutral">Rascunho</Badge>
   </div>
 );
 

@@ -4,14 +4,14 @@ import { BADGE_TONES, BadgeTone } from '../../internal/badgeTones';
 import type { Appearance } from '../../internal/appearance';
 
 export type BadgeVariant = 'label' | 'numeric';
-export type BadgeAppearance = Extract<Appearance, 'soft' | 'solid' | 'outline'>;
+export type BadgeAppearance = Extract<Appearance, 'soft' | 'solid' | 'outline' | 'ghost'>;
 
 export interface BadgeProps {
   /** Cor semântica do badge. */
   tone?: BadgeTone;
   /** Forma do badge: `label` é a pílula de rótulo; `numeric` é o contador compacto, sem ponto. */
   variant?: BadgeVariant;
-  /** Pintura do badge: `soft` (fundo clarinho, sem borda), `solid` (cheio na cor forte) ou `outline` (com borda, sem fundo). Padrão: `soft` em `label` e `solid` em `numeric`. */
+  /** Pintura do badge: `soft` (fundo clarinho, sem borda), `solid` (cheio na cor forte), `outline` (com borda, sem fundo) ou `ghost` (só texto e ponto ou ícone, sem fundo, borda nem preenchimento). Padrão: `soft` em `label` e `solid` em `numeric`. */
   appearance?: BadgeAppearance;
   /** Exibe um ponto colorido antes do conteúdo (ignorado com `icon` e na variante `numeric`). */
   dot?: boolean;
@@ -29,12 +29,13 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label
   const numerico = variant === 'numeric';
   const pintura: BadgeAppearance = appearance ?? (numerico ? 'solid' : 'soft');
   const fs = size === 'sm' ? 11 : 12;
-  const preenchimento = size === 'sm' ? 'var(--ob-space-2) var(--ob-space-8)' : 'var(--ob-space-4) var(--ob-space-10)';
+  const preenchimento = pintura === 'ghost' ? 0 : size === 'sm' ? 'var(--ob-space-2) var(--ob-space-8)' : 'var(--ob-space-4) var(--ob-space-10)';
 
   const pinturas: Record<BadgeAppearance, React.CSSProperties> = {
     soft:    { background: t.bg, color: t.fg, border: 'none' },
     solid:   { background: t.solid, color: 'var(--ob-fg-on-color)', border: 'none' },
     outline: { background: 'transparent', color: t.fg, border: `1.5px solid ${t.border}` },
+    ghost:   { background: 'transparent', color: t.fg, border: 'none' },
   };
   const forma: React.CSSProperties = numerico
     ? { minWidth: 18, height: 18, padding: '0 var(--ob-space-6)', justifyContent: 'center' }
