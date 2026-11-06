@@ -13,6 +13,14 @@ if (!padrao.includes('Ativo')) fail('conteúdo', padrao);
 if ((padrao.match(/<span/g) ?? []).length !== 2) fail('soft com dot padrão deveria ter o ponto', padrao);
 if ((render({ dot: false }).match(/<span/g) ?? []).length !== 1) fail('dot={false} remove o ponto');
 
+const comIcone = render({ icon: 'check-circle' });
+if (!comIcone.includes('ph-check-circle')) fail('icon mostra o ícone', comIcone);
+if (!comIcone.includes('ph-bold')) fail('ícone pequeno usa o peso bold', comIcone);
+if ((comIcone.match(/<span/g) ?? []).length !== 1) fail('icon substitui o ponto', comIcone);
+if (!comIcone.includes('font-size:14px')) fail('ícone do md tem 14px', comIcone);
+if (!render({ icon: 'check-circle', size: 'sm' }).includes('font-size:12px')) fail('ícone do sm tem 12px');
+if (render({ icon: 'check-circle', variant: 'numeric' }, '4').includes('ph-check-circle')) fail('numeric ignora o ícone');
+
 const numerico = render({ variant: 'numeric' }, '4');
 if ((numerico.match(/<span/g) ?? []).length !== 1) fail('numeric nunca mostra o ponto', numerico);
 if (!numerico.includes('min-width:18px') || !numerico.includes('height:18px')) fail('numeric é compacto e redondo', numerico);
@@ -30,4 +38,4 @@ for (const tone of ['neutral', 'primary', 'success', 'warning', 'danger']) {
 }
 if (!render({ tone: 'inexistente' }).includes('Ativo')) fail('tom desconhecido cai no padrão');
 if (!render({ size: 'sm' }).includes('font-size:11px')) fail('size sm');
-console.log('OK: Badge (appearance soft/solid/outline, variant label/numeric, tons, dot, size)');
+console.log('OK: Badge (appearance soft/solid/outline, variant label/numeric, tons, dot, icon, size)');

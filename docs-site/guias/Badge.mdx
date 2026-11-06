@@ -14,6 +14,10 @@ Use Badge para comunicar informação sobre um item sem nenhuma ação. É um in
 - **`label`** (padrão): pílula de rótulo, com ponto colorido opcional. Para status em cards, listas e tabelas.
 - **`numeric`**: contador compacto e redondo, sem ponto. Para notificações, mensagens não lidas, alertas em ícones.
 
+### Ponto ou ícone
+
+O `label` mostra um ponto colorido por padrão. Com `icon`, um ícone Phosphor entra no lugar do ponto: use quando o ícone ajudar a reconhecer o estado sem depender só da cor. Com `dot={false}`, sem `icon`, o Badge fica só com o texto.
+
 ### Pintura (`appearance`)
 
 - **`soft`**: padrão no `label`. Fundo clarinho na cor, sem borda.
@@ -53,11 +57,12 @@ Badge clicável ou como filtro. Para isso, use **Chip**. Badge nunca deve ter cu
 <Badge tone="primary" appearance="solid" dot={false}>Pro</Badge>
 <Badge tone="danger" variant="numeric">3</Badge>
 <Badge tone="warning" appearance="outline" dot={false}>Pendente</Badge>
+<Badge tone="success" icon="check-circle">Elegível</Badge>
 ```
 
 <Nota>
 
-**dot** é ignorado em `variant="numeric"` automaticamente.
+`dot` e `icon` são ignorados em `variant="numeric"`, e `icon` tem prioridade sobre `dot`.
 
 </Nota>
 
@@ -73,7 +78,9 @@ Badge clicável ou como filtro. Para isso, use **Chip**. Badge nunca deve ter cu
 
 **Tokens.** `soft`: `--ob-*-100` fundo, `--ob-*-700` texto, `--ob-*` dot. `solid`: `--ob-*` fundo, `--ob-fg-on-color` texto. `outline`: fundo transparente, borda `color-mix(--ob-* 35%)`.
 
-**Tamanhos.** md (padrão) = 12 px, padding 4×10. sm = 11 px, padding 2×8. Raio sempre pílula (999px).
+**Tamanhos.** md (padrão) = 12 px, padding 4×10, ícone de 14 px. sm = 11 px, padding 2×8, ícone de 12 px. Raio sempre pílula (999px).
+
+**Ícone.** Sempre no peso `bold`, que dá legibilidade em tamanhos pequenos, e na cor do texto do Badge.
 
 **Motion.** Estático, sem animação. Não marca motion na matriz.
 

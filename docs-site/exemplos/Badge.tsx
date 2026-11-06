@@ -20,6 +20,16 @@ export const SemPonto = () => (
   </div>
 );
 
+export const ComIcone = () => (
+  <div style={{ display: 'flex', gap: 10, padding: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+    <Badge tone="success" icon="check-circle">Elegível</Badge>
+    <Badge tone="warning" icon="warning">Abaixo da meta</Badge>
+    <Badge tone="primary" icon="clock" size="sm">Programado</Badge>
+    <Badge tone="danger" appearance="solid" icon="x-circle">Recusado</Badge>
+    <Badge tone="neutral" appearance="outline" icon="lock-simple">Bloqueado</Badge>
+  </div>
+);
+
 export const Aparencias = () => (
   <div style={{ display: 'flex', gap: 10, padding: 16, flexWrap: 'wrap', alignItems: 'center' }}>
     <Badge appearance="soft" tone="primary">Suave</Badge>

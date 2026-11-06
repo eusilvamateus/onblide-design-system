@@ -1,4 +1,5 @@
 import React from 'react';
+import { Ph } from '../../iconography/Ph/Ph';
 import { BADGE_TONES, BadgeTone } from '../../internal/badgeTones';
 import type { Appearance } from '../../internal/appearance';
 
@@ -12,8 +13,10 @@ export interface BadgeProps {
   variant?: BadgeVariant;
   /** Pintura do badge: `soft` (fundo clarinho, sem borda), `solid` (cheio na cor forte) ou `outline` (com borda, sem fundo). Padrão: `soft` em `label` e `solid` em `numeric`. */
   appearance?: BadgeAppearance;
-  /** Exibe um ponto colorido antes do conteúdo (ignorado na variante `numeric`). */
+  /** Exibe um ponto colorido antes do conteúdo (ignorado com `icon` e na variante `numeric`). */
   dot?: boolean;
+  /** Nome do ícone Phosphor (sem o prefixo "ph-") exibido no lugar do ponto (ignorado na variante `numeric`). */
+  icon?: string;
   /** Tamanho do texto e do espaçamento interno. */
   size?: 'sm' | 'md';
   /** Conteúdo do badge, geralmente um rótulo curto ou número. */
@@ -21,7 +24,7 @@ export interface BadgeProps {
 }
 
 /** Rótulo curto e colorido para status, categorias ou contagens. */
-export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label', appearance, dot = true, size = 'md', children }) => {
+export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label', appearance, dot = true, icon, size = 'md', children }) => {
   const t = BADGE_TONES[tone] || BADGE_TONES.primary;
   const numerico = variant === 'numeric';
   const pintura: BadgeAppearance = appearance ?? (numerico ? 'solid' : 'soft');
@@ -43,7 +46,8 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label
       borderRadius: 'var(--ob-r-pill)', fontSize: fs, fontWeight: 700,
       lineHeight: 1, ...(pinturas[pintura] || pinturas.soft), ...forma,
     }}>
-      {!numerico && dot && <span style={{ width: 6, height: 6, borderRadius: 'var(--ob-r-circle)', background: pintura === 'solid' ? 'color-mix(in srgb, var(--ob-fg-on-color) 70%, transparent)' : t.dot, flexShrink: 0 }}/>}
+      {!numerico && icon && <Ph n={icon} size={size === 'sm' ? 12 : 14} weight="bold" />}
+      {!numerico && !icon && dot && <span style={{ width: 6, height: 6, borderRadius: 'var(--ob-r-circle)', background: pintura === 'solid' ? 'color-mix(in srgb, var(--ob-fg-on-color) 70%, transparent)' : t.dot, flexShrink: 0 }}/>}
       {children}
     </span>
   );
