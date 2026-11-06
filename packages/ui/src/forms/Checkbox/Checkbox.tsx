@@ -21,6 +21,7 @@ export interface CheckboxProps {
 
 const CAIXA = 18;
 const ICONE = 12;
+const BORDA = 1.5;
 
 const caminho = (svg: string) => svg.match(/ d="([^"]+)"/)?.[1] ?? '';
 const GLIFOS = {
@@ -48,20 +49,22 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         display: temTexto ? 'flex' : 'inline-flex', alignItems: 'flex-start', gap: 'var(--ob-space-10)',
         cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
       }}>
-      <span style={{
-        flex: 'none', width: CAIXA, height: CAIXA, borderRadius: 'var(--ob-r-xs)',
-        boxShadow: `inset 0 0 0 1.5px ${ativo ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
-        background: ativo ? 'var(--ob-blue)' : 'var(--ob-surface)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        transform: 'translateZ(0)',
-        transition: 'background var(--ob-dur-fast) var(--ob-ease), box-shadow var(--ob-dur-fast) var(--ob-ease)',
-      }}>
+      <svg width={CAIXA} height={CAIXA} viewBox={`0 0 ${CAIXA} ${CAIXA}`} aria-hidden="true" style={{ flex: 'none', display: 'block' }}>
+        <rect
+          x={BORDA / 2} y={BORDA / 2} width={CAIXA - BORDA} height={CAIXA - BORDA} strokeWidth={BORDA}
+          style={{
+            rx: `calc(var(--ob-r-xs) - ${BORDA / 2}px)`,
+            fill: ativo ? 'var(--ob-blue)' : 'var(--ob-surface)',
+            stroke: ativo ? 'var(--ob-blue)' : 'var(--ob-border)',
+            transition: 'fill var(--ob-dur-fast) var(--ob-ease), stroke var(--ob-dur-fast) var(--ob-ease)',
+          } as React.CSSProperties}
+        />
         {ativo && (
-          <svg width={ICONE} height={ICONE} viewBox={glifo.viewBox} aria-hidden="true" style={{ display: 'block', fill: 'var(--ob-fg-on-color)' }}>
-            <path d={glifo.d} style={glifo.contorno ? { stroke: 'var(--ob-fg-on-color)' } : undefined} strokeWidth={glifo.contorno || undefined} strokeLinejoin="round" />
+          <svg x={(CAIXA - ICONE) / 2} y={(CAIXA - ICONE) / 2} width={ICONE} height={ICONE} viewBox={glifo.viewBox}>
+            <path d={glifo.d} style={{ fill: 'var(--ob-fg-on-color)', stroke: glifo.contorno ? 'var(--ob-fg-on-color)' : undefined }} strokeWidth={glifo.contorno || undefined} strokeLinejoin="round" />
           </svg>
         )}
-      </span>
+      </svg>
       {temTexto && (
         <span>
           {label != null && <span style={{ fontSize: 14, color: 'var(--ob-fg-strong)', fontWeight: 500, lineHeight: `${CAIXA}px`, display: 'block' }}>{label}</span>}

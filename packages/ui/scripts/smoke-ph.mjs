@@ -27,8 +27,8 @@ if (!reg.includes('class="ph-fill ph-star"')) fail('Icons deveria repassar o pes
 // para ter a mesma espessura (@phosphor-icons/core).
 const marcado = renderToStaticMarkup(h(Checkbox, { checked: true, label: 'x' }));
 const parcial = renderToStaticMarkup(h(Checkbox, { checked: false, indeterminate: true, label: 'x' }));
-if (!marcado.includes('<svg width="12" height="12"') || !marcado.includes('M243.31,90.91')) fail('check deveria ser o check-fat fill do Phosphor em 12px', marcado);
-if (marcado.includes('stroke-width')) fail('check-fat não deveria ter contorno extra', marcado);
-if (!parcial.includes('<svg width="12" height="12"') || !parcial.includes('M228,128') || !parcial.includes('stroke-width="37"')) fail('traço deveria ser o minus bold do Phosphor em 12px com contorno 37', parcial);
+if (!marcado.includes('width="12" height="12"') || !marcado.includes('M243.31,90.91')) fail('check deveria ser o check-fat fill do Phosphor em 12px', marcado);
+if (marcado.includes('stroke-width="37"')) fail('check-fat não deveria ter contorno extra', marcado);
+if (!parcial.includes('width="12" height="12"') || !parcial.includes('M228,128') || !parcial.includes('stroke-width="37"')) fail('traço deveria ser o minus bold do Phosphor em 12px com contorno 37', parcial);
 
 console.log('OK: Ph (6 pesos, caixa quadrada), Icons repassa peso, Checkbox com check-fat e minus engrossado do Phosphor');
