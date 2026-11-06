@@ -353,6 +353,7 @@
   --ob-success-bg:  var(--ob-green-100);
   --ob-warning:     var(--ob-orange);
   --ob-warning-bg:  var(--ob-orange-100);
+  --ob-warning-fg:  #9a4000;
   --ob-danger:      var(--ob-red);
   --ob-danger-bg:   var(--ob-red-100);
 
@@ -448,6 +449,7 @@
   --ob-success-bg:  var(--ob-green-100);
   --ob-warning:     var(--ob-orange);
   --ob-warning-bg:  var(--ob-orange-100);
+  --ob-warning-fg:  var(--ob-orange-700);
   --ob-danger:      #f06a6a;
   --ob-danger-bg:   #3a1818;
 

@@ -32,6 +32,8 @@ const solido = render({ appearance: 'solid', tone: 'success' });
 if (!solido.includes('color:var(--ob-fg-on-color)')) fail('solid usa o token de texto sobre cor', solido);
 if (solido.includes('#fff')) fail('nenhuma cor solta', solido);
 
+if (!render({ tone: 'warning' }).includes('color:var(--ob-warning-fg)')) fail('warning usa o token de texto, que muda com o tema');
+
 if (!render({ appearance: 'outline', tone: 'danger' }).includes('border:1.5px solid')) fail('outline tem contorno');
 for (const tone of ['neutral', 'primary', 'success', 'warning', 'danger']) {
   if (!render({ tone }).includes('Ativo')) fail(`tom ${tone}`);
