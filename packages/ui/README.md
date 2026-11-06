@@ -1,9 +1,17 @@
 # @onblide/ui
 
-Componentes React do design system Onblide, escritos em TypeScript. Pacote interno
-(`"private": true`), mantido neste repositório em `packages/ui/`.
+Componentes React do design system Onblide, escritos em TypeScript, com tokens e ícones Phosphor. Documentação em
+<https://onblide-design-system.vercel.app>.
 
-## Instalação e build
+## Instalação
+
+```bash
+npm install @onblide/ui
+```
+
+O pacote precisa de React 18 (`react` e `react-dom` na versão `^18.3.1`).
+
+## Desenvolvimento
 
 ```bash
 cd packages/ui
