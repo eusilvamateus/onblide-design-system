@@ -198,7 +198,7 @@ export const SideNav: React.FC<SideNavProps> = ({
             trigger={
               <button type="button" aria-label={`Abrir menu de ${accountName}`} style={{
                 flex: 1, minWidth: 0, margin: '0 var(--ob-space-16)', border: 'none', borderTop: '1px solid var(--ob-line-soft)',
-                background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-10)',
+                background: 'transparent', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-10)', fontFamily: 'var(--ob-font)',
                 padding: collapsed ? 'var(--ob-space-10) 0 var(--ob-space-2)' : 'var(--ob-space-10) var(--ob-space-8) var(--ob-space-2)', justifyContent: collapsed ? 'center' : 'flex-start',
                 borderRadius: 'var(--ob-r-md)',
               }}>

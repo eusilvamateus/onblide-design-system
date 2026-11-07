@@ -34,6 +34,7 @@ const marcaCustom = renderToStaticMarkup(h(SideNav, { items: [], brand: h('span'
 if (marcaCustom.includes('aria-label="Onblide"')) fail('brand customizado deveria substituir a logo da Onblide', marcaCustom);
 if (!marcaCustom.includes('LogoAcme')) fail('brand deveria aparecer no topo', marcaCustom);
 if (!marcaCustom.includes('aria-label="Abrir menu de Equipe Acme"')) fail('accountName deveria aparecer no aria-label do gatilho de conta', marcaCustom);
+if (!/aria-label="Abrir menu de Equipe Acme" style="[^"]*font-family:var\(--ob-font\)/.test(marcaCustom)) fail('o botão da conta deveria usar a fonte do design system, sem depender de reset global', marcaCustom);
 if (!marcaCustom.includes('time@acme.com') || !marcaCustom.includes('>EA<')) fail('accountDetail e as iniciais derivadas deveriam aparecer no rodapé', marcaCustom);
 
 const semMarcaRecolhida = renderToStaticMarkup(h(SideNav, { items: [], collapsed: true, hideBrand: true, onToggle: () => {} }));
