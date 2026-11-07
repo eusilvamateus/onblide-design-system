@@ -1,10 +1,13 @@
 import type { ReactNode } from 'react';
 import type { OBTone } from '../../internal/obTones';
+import type { ToastAppearance } from '../Toast/Toast';
 import { dispensarToasts, entregarToast } from '../../internal/toastEvents';
 
 export interface ToastOptions {
   /** Cor semântica do toast; o padrão é `info`. */
   tone?: OBTone;
+  /** Pintura do toast; sobrepõe a `appearance` do `ToastStack`. */
+  appearance?: ToastAppearance;
   /** Mensagem principal, curta e no passado: "Projeto salvo". */
   title: ReactNode;
   /** Detalhe opcional, em até duas linhas. */

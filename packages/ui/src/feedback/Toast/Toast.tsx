@@ -2,10 +2,15 @@ import React from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Button } from '../../actions/Button/Button';
 import { OB_TONES, OBTone } from '../../internal/obTones';
+import type { Appearance } from '../../internal/appearance';
+
+export type ToastAppearance = Extract<Appearance, 'outline' | 'soft'>;
 
 export interface ToastProps {
   /** Tom da notificação, que define o ícone e a cor do chip. */
   tone?: OBTone;
+  /** Pintura do toast: `outline` usa a superfície com borda neutra e só o ícone colorido; `soft` preenche o toast com o fundo clarinho do tom. */
+  appearance?: ToastAppearance;
   /** Título curto exibido em destaque. */
   title?: React.ReactNode;
   /** Detalhe opcional exibido abaixo do título. */
@@ -21,14 +26,15 @@ export interface ToastProps {
 }
 
 /** Notificação flutuante e efêmera que confirma ações ou informa eventos em segundo plano. */
-export const Toast: React.FC<ToastProps> = ({ tone = 'info', title, body, action, onAction, onClose, icon = true }) => {
+export const Toast: React.FC<ToastProps> = ({ tone = 'info', appearance = 'outline', title, body, action, onAction, onClose, icon = true }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
+  const suave = appearance === 'soft';
   return (
     <div role="status" aria-live="polite" style={{
       display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)',
       width: '100%', maxWidth: 400, padding: 'var(--ob-space-16)', boxSizing: 'border-box',
-      background: 'var(--ob-surface)',
-      border: '1px solid var(--ob-border)',
+      background: suave ? t.tint : 'var(--ob-surface)',
+      border: suave ? `1px solid color-mix(in srgb, ${t.fg} 25%, transparent)` : '1px solid var(--ob-border)',
       borderRadius: 'var(--ob-r-surface)',
       boxShadow: 'var(--ob-shadow-lg)',
     }}>

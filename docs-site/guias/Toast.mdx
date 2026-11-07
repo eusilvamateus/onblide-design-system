@@ -65,7 +65,9 @@ Com mais de um **ToastStack** na tela (um palco de exemplo, uma área isolada), 
 
 ## Guia de design
 
-**Tokens.** Fundo `--ob-surface`, borda `--ob-border` (uniforme, 1px em todos os lados, sem acento lateral). Chip de ícone `30×30px` com fundo `OB_TONES[tone].bg` e ícone na cor `.fg`. Raio `--ob-r-surface`. Sombra `--ob-shadow-lg`.
+**Pintura (`appearance`).** `outline` (padrão) usa a superfície com borda neutra, e só o chip do ícone leva a cor. `soft` preenche o toast inteiro com o fundo clarinho do tom (`OB_TONES[tone].tint`) e uma borda na cor do tom a 25%: use quando a notificação precisa chamar mais atenção, como um erro. Defina a pintura da fila inteira na `appearance` do `ToastStack`; cada toast pode sobrepor com `toast(..., { appearance })`.
+
+**Tokens.** No `outline`, fundo `--ob-surface`, borda `--ob-border` (uniforme, 1px em todos os lados, sem acento lateral). Chip de ícone `30×30px` com fundo `OB_TONES[tone].bg` e ícone na cor `.fg`. Raio `--ob-r-surface`. Sombra `--ob-shadow-lg`.
 
 **Ícone.** O chip tonal carrega todo o sinal de cor: contido e simétrico, sem reforçar direção de origem. Ícone Phosphor 17px centralizado no chip, e o chip é centralizado verticalmente no toast (mesmo com corpo de 2 linhas). O botão fechar fica alinhado ao topo.
 

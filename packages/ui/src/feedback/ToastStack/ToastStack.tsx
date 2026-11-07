@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Toast } from '../Toast/Toast';
+import type { ToastAppearance } from '../Toast/Toast';
 import type { ToastOptions } from './toast';
 import { OB_TOAST_POSITIONS, OBToastPosition } from '../../internal/obToastPos';
 import { registrarPilha } from '../../internal/toastEvents';
@@ -16,6 +17,8 @@ export interface ToastStackProps {
   duration?: number;
   /** Quantos toasts aparecem ao mesmo tempo; ao exceder, o mais antigo sai. */
   limit?: number;
+  /** Pintura padrão dos toasts da fila. Um toast pode definir a própria `appearance`. */
+  appearance?: ToastAppearance;
 }
 
 interface ItemDaFila {
@@ -30,7 +33,7 @@ const DURACAO_DA_SAIDA = 200;
  * Monta o container fixo que empilha e anima os toasts disparados por `toast()`. Pausa a contagem enquanto o mouse
  * está sobre a fila e recomeça ao sair.
  */
-export const ToastStack: React.FC<ToastStackProps> = ({ name, position = 'bottom-right', duration = 5000, limit = 3 }) => {
+export const ToastStack: React.FC<ToastStackProps> = ({ name, position = 'bottom-right', duration = 5000, limit = 3, appearance = 'outline' }) => {
   const [itens, setItens] = useState<ItemDaFila[]>([]);
   const prazos = useRef(new Map<string, ReturnType<typeof setTimeout>>());
   const duracaoPadrao = useRef(duration);
@@ -89,7 +92,7 @@ export const ToastStack: React.FC<ToastStackProps> = ({ name, position = 'bottom
       onMouseLeave={() => itens.forEach((item) => { if (!item.saindo) armar(item.id, item.opcoes); })}>
       {itens.map(({ id, opcoes, saindo }) => (
         <div key={id} style={{ width: '100%', pointerEvents: 'all', animation: `${saindo ? saida : entrada} var(--ob-dur-base) var(--ob-ease-out) both` }}>
-          <Toast tone={opcoes.tone} title={opcoes.title} body={opcoes.body} action={opcoes.action} onAction={opcoes.onAction} icon={opcoes.icon} onClose={() => dispensar(id)} />
+          <Toast tone={opcoes.tone} appearance={opcoes.appearance ?? appearance} title={opcoes.title} body={opcoes.body} action={opcoes.action} onAction={opcoes.onAction} icon={opcoes.icon} onClose={() => dispensar(id)} />
         </div>
       ))}
     </div>

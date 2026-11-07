@@ -11,6 +11,15 @@ export const Tons = () => (
   </div>
 );
 
+export const Suave = () => (
+  <div style={box}>
+    <Toast appearance="soft" tone="info" title="Nova versão disponível" body="Atualize para receber as melhorias." />
+    <Toast appearance="soft" tone="success" title="Tarefa concluída" body="A revisão foi enviada para aprovação." action="Ver revisão" onAction={() => {}} onClose={() => {}} />
+    <Toast appearance="soft" tone="warning" title="Prazo se aproximando" body="O projeto vence em 2 dias." />
+    <Toast appearance="soft" tone="danger" title="Falha ao salvar" body="Verifique sua conexão e tente novamente." />
+  </div>
+);
+
 export const ComAcao = () => (
   <div style={box}>
     <Toast tone="success" title="Tarefa excluída" body="Você removeu a tarefa Revisar proposta." action="Desfazer" onAction={() => {}} onClose={() => {}} />
