@@ -20,4 +20,12 @@ if (!err.includes('aria-invalid="true"') || !err.includes('Obrigatório')) fail(
 const disabled = renderToStaticMarkup(h(Textarea, { disabled: true }));
 if (!disabled.includes('disabled=""')) fail('disabled deveria desabilitar o textarea', disabled);
 
-console.log('OK: Textarea (valor, contador, limite, error, disabled)');
+const padrao = renderToStaticMarkup(h(Textarea, { label: 'Bio' }));
+if (!padrao.includes('class="ob-sa-alvo"') || !padrao.includes('resize:none')) fail('a barra e a alça nativas deveriam dar lugar às do design system', padrao);
+if (!padrao.includes('data-alca="vertical"') || !padrao.includes('ph-arrows-vertical')) fail('a alça padrão redimensiona na vertical', padrao);
+for (const resize of ['horizontal', 'both']) if (!renderToStaticMarkup(h(Textarea, { resize })).includes(`data-alca="${resize}"`)) fail(`resize ${resize} deveria mostrar a alça`);
+for (const props of [{ resize: 'none' }, { autosize: true }, { disabled: true }, { readOnly: true }]) {
+  if (renderToStaticMarkup(h(Textarea, props)).includes('data-alca')) fail('sem alça com ' + JSON.stringify(props));
+}
+
+console.log('OK: Textarea (valor, contador, limite, error, disabled, barra e alça do design system)');
