@@ -12,6 +12,8 @@ Use para texto livre de mais de uma linha: observações, descrições, comentá
 `autosize` cresce com o conteúdo, entre `minRows` e `maxRows`. Prefira em formulários curtos, onde o campo
 fixo deixaria espaço em branco. `rows` fixo funciona melhor quando o espaço da tela é limitado (Drawer, Modal).
 
+`resize` define em que direção a pessoa pode mudar o tamanho pelo canto do campo: `vertical` (padrão), `horizontal`, `both` ou `none`. A largura nunca passa da área disponível nem fica abaixo de 160px, e a altura nunca fica abaixo de `minRows`. Com `autosize`, `disabled` ou `readOnly` o campo não redimensiona.
+
 <FacaEvite>
 <Faca>
 
@@ -30,6 +32,7 @@ Limite sem contador visível: a mensagem de erro some no meio do texto.
 ```jsx
 <Textarea label="Observações" placeholder="Escreva uma nota…" maxLength={200} />
 <Textarea label="Descrição" autosize minRows={2} maxRows={8} />
+<Textarea label="Anotações" resize="both" />
 ```
 
 ## Guia de conteúdo
@@ -41,5 +44,7 @@ Limite sem contador visível: a mensagem de erro some no meio do texto.
 
 **Tokens.** Mesmo `FieldShell` do `Input`; contador em `--ob-fg-mute`, laranja (`--ob-warning`) a partir de
 90% do limite, vermelho (`--ob-danger`) no limite.
+
+**Rolagem e redimensionamento.** A barra de rolagem e o canto de redimensionar são os nativos do navegador. A barra fica fina e usa a cor `--ob-scrollbar-thumb`, a mesma do `ScrollArea`.
 
 **Rótulo/mensagem.** 12px e 11px, mesmo tamanho do `Input` e do `NumberField`.

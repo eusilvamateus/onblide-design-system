@@ -20,4 +20,11 @@ if (!err.includes('aria-invalid="true"') || !err.includes('Obrigatório')) fail(
 const disabled = renderToStaticMarkup(h(Textarea, { disabled: true }));
 if (!disabled.includes('disabled=""')) fail('disabled deveria desabilitar o textarea', disabled);
 
-console.log('OK: Textarea (valor, contador, limite, error, disabled)');
+const padrao = renderToStaticMarkup(h(Textarea, { label: 'Bio' }));
+if (!padrao.includes('resize:vertical') || !padrao.includes('scrollbar-width:thin') || !padrao.includes('scrollbar-color:var(--ob-scrollbar-thumb) transparent')) fail('o padrão redimensiona na vertical, com a barra nativa fina e pintada pelos tokens', padrao);
+for (const resize of ['horizontal', 'both', 'none']) if (!renderToStaticMarkup(h(Textarea, { resize })).includes(`resize:${resize}`)) fail(`resize ${resize} deveria chegar ao textarea`);
+for (const props of [{ autosize: true }, { disabled: true }, { readOnly: true }]) {
+  if (!renderToStaticMarkup(h(Textarea, { resize: 'both', ...props })).includes('resize:none')) fail('sem redimensionar com ' + JSON.stringify(props));
+}
+
+console.log('OK: Textarea (valor, contador, limite, error, disabled, resize, barra nativa fina)');
