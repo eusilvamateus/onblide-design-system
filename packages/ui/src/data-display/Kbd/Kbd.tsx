@@ -17,8 +17,9 @@ export interface KbdProps {
 export const Kbd: React.FC<KbdProps> = ({ appearance = 'outline', size = 'md', children }) => {
   const base: React.CSSProperties = {
     fontFamily: 'var(--ob-font-mono)', fontSize: size === 'sm' ? 11 : 12, fontWeight: 600, lineHeight: 1, whiteSpace: 'nowrap',
+    color: 'inherit', boxShadow: 'none',
   };
-  if (appearance === 'ghost') return <kbd style={base}>{children}</kbd>;
+  if (appearance === 'ghost') return <kbd style={{ ...base, background: 'none', border: 'none', borderRadius: 0, padding: 0 }}>{children}</kbd>;
   return (
     <kbd style={{
       ...base,
