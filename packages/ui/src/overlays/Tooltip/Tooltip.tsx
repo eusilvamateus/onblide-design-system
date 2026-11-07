@@ -51,8 +51,10 @@ export const Tooltip: React.FC<TooltipProps> = ({
     const place = () => {
       const t = trigRef.current, p = tipRef.current;
       if (!t || !p) return;
+      const r = t.getBoundingClientRect();
+      if (r.bottom < 0 || r.right < 0 || r.top > window.innerHeight || r.left > window.innerWidth) { setPos(null); return; }
       setPos(posicionarPainel(
-        placement, 'center', t.getBoundingClientRect(), { largura: p.offsetWidth, altura: p.offsetHeight },
+        placement, 'center', r, { largura: p.offsetWidth, altura: p.offsetHeight },
         { largura: window.innerWidth, altura: window.innerHeight }, 8,
       ));
     };
