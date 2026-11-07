@@ -18,12 +18,6 @@ export const Autoajustavel = () => (
   </div>
 );
 
-export const RedimensionavelNosDoisEixos = () => (
-  <div style={{ padding: 16, width: 480 }}>
-    <Textarea label="Anotações" resize="both" width={280} placeholder="Arraste a alça no canto para mudar o tamanho" />
-  </div>
-);
-
 export const Erro = () => (
   <div style={{ padding: 16, width: 280 }}>
     <Textarea label="Observações" error="Descreva o motivo do cancelamento" />
