@@ -108,7 +108,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
         position: 'relative', display: 'flex', alignItems: align === 'start' ? 'flex-start' : 'center', gap: z.gap,
         padding: z.pad, minHeight: z.minH, boxSizing: 'border-box', borderRadius: _divider !== undefined ? 0 : 'var(--ob-r-sm)',
         borderBottom: _divider ? '1px solid var(--ob-border)' : 'none',
-        background: hl ? 'var(--ob-bg-warm)' : fill ? 'var(--ob-blue-100)' : 'transparent', color,
+        background: fill ? 'var(--ob-blue-100)' : hl ? 'var(--ob-bg-warm)' : 'transparent', color,
         fontFamily: 'var(--ob-font)', fontSize: z.fs, lineHeight: z.lh, fontWeight: fill || strong ? 600 : 400,
         textDecoration: 'none', cursor: disabled ? 'not-allowed' : pointer ? 'pointer' : 'default',
         opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, userSelect: 'none', transition: 'background var(--ob-dur-fast) var(--ob-ease)', ...style,

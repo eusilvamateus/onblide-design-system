@@ -19,6 +19,10 @@ const sel = renderToStaticMarkup(h(ListItem, { title: 'X', selected: true }));
 if (!sel.includes('var(--ob-blue-100)')) fail('selected (fill) deveria pintar o fundo', sel);
 const selNone = renderToStaticMarkup(h(ListItem, { title: 'X', selected: true, selectedStyle: 'none' }));
 if (selNone.includes('var(--ob-blue-100)')) fail('selectedStyle none não deveria pintar o fundo', selNone);
+const selEmFoco = renderToStaticMarkup(h(ListItem, { title: 'X', selected: true, highlighted: true }));
+if (!selEmFoco.includes('var(--ob-blue-100)') || selEmFoco.includes('var(--ob-bg-warm)')) fail('selecionado com o mouse em cima deveria continuar azul', selEmFoco);
+const soEmFoco = renderToStaticMarkup(h(ListItem, { title: 'X', highlighted: true }));
+if (!soEmFoco.includes('var(--ob-bg-warm)')) fail('item não selecionado deveria destacar no hover', soEmFoco);
 
 const disabled = renderToStaticMarkup(h(ListItem, { title: 'X', disabled: true, href: '#' }));
 if (!disabled.includes('aria-disabled="true"') || !disabled.includes('cursor:not-allowed')) fail('disabled deveria bloquear interação', disabled);
