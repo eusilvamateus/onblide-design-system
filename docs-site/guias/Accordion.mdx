@@ -44,6 +44,19 @@ const [abertos, setAbertos] = useState(['conta']);
 
 `value` é a lista de ids abertos, nos dois modos. Sem `value`, o componente guarda o estado (`defaultValue` define o início).
 
+### Forma e pintura
+
+- `attached` (padrão): os itens formam uma unidade, separados por divisórias. Com `attached={false}`, cada item fica solto, com 8px entre eles, como no **ButtonGroup** espaçado. Use itens soltos quando cada seção tem peso próprio, como as etapas de uma configuração.
+- `appearance="outline"` (padrão) tem borda e fundo de superfície. `appearance="ghost"` tira a borda externa e o fundo e mantém só as divisórias, para o acordeão ficar dentro de um **Card** ou de um painel lateral sem caixa dentro de caixa.
+
+### Tamanhos
+
+`size` aceita `sm`, `md` (padrão) e `lg`. Texto em 13, 14 e 15px; o recuo (12, 16 e 20px) e os ícones crescem junto. Use `sm` em painéis densos.
+
+### Nível do título
+
+Cada cabeçalho fica dentro de um título, `h3` por padrão. Ajuste `headingLevel` para seguir a hierarquia da página: abaixo de um `h3`, use `4`. Pular níveis atrapalha quem navega por títulos com leitor de tela.
+
 ## Teclado
 
 | Tecla | Ação |
@@ -59,12 +72,12 @@ const [abertos, setAbertos] = useState(['conta']);
 
 ## Guia de design
 
-**Tokens.** Contorno `--ob-border` e raio `--ob-r-surface`; cabeçalho com texto `--ob-fg-strong`; hover `--ob-bg-alt`; foco com contorno `--ob-blue`.
+**Tokens.** Contorno e divisórias `--ob-border` e raio `--ob-r-surface` (no `ghost`, o hover do cabeçalho usa `--ob-r-control`); cabeçalho com texto `--ob-fg-strong`; hover `--ob-bg-alt`; foco com contorno `--ob-blue`.
 
-**Motion.** A seta gira 180° em 150 ms. O conteúdo aparece e some sem animação de altura, para ficar previsível.
+**Motion.** Ao abrir e fechar, o conteúdo cresce e recolhe em altura e a seta gira 180°, os dois em `--ob-dur-base` com `--ob-ease`. Com movimento reduzido no sistema, abre e fecha de uma vez. Fechado, o conteúdo fica fora do alcance do Tab e do leitor de tela.
 
 <Nota>
 
-**Acessibilidade:** cada cabeçalho é um botão dentro de um título (`h3`) com `aria-expanded` e `aria-controls`; o painel é uma região (`role="region"`) nomeada pelo cabeçalho.
+**Acessibilidade:** cada cabeçalho é um botão dentro de um título (`h3` por padrão, ajustável com `headingLevel`) com `aria-expanded` e `aria-controls`; o painel é uma região (`role="region"`) nomeada pelo cabeçalho.
 
 </Nota>

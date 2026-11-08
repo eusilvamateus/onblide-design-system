@@ -1,6 +1,7 @@
 import React, { useId, useRef, useState } from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
+import type { Appearance } from '../../internal/appearance';
 
 export interface AccordionItem {
   /** Identificador estável do item, usado em `value`. */
@@ -15,6 +16,13 @@ export interface AccordionItem {
   disabled?: boolean;
 }
 
+/** Pintura do acordeão: `outline` com borda e fundo de superfície, `ghost` sem borda externa nem fundo. */
+export type AccordionAppearance = Extract<Appearance, 'outline' | 'ghost'>;
+/** Tamanho do acordeão, que ajusta texto, ícones e espaçamento interno. */
+export type AccordionSize = 'sm' | 'md' | 'lg';
+/** Nível do título (`h2` a `h6`) que envolve cada cabeçalho. */
+export type AccordionHeadingLevel = 2 | 3 | 4 | 5 | 6;
+
 export interface AccordionProps {
   /** Itens do acordeão, na ordem exibida. */
   items: AccordionItem[];
@@ -26,9 +34,28 @@ export interface AccordionProps {
   defaultValue?: string[];
   /** Chamado ao abrir ou fechar um item, com os ids abertos. */
   onChange?: (value: string[]) => void;
+  /** Itens juntos numa só unidade, separados por divisórias. Com `false`, cada item fica solto, com espaço entre eles. */
+  attached?: boolean;
+  /** Pintura: `outline` tem borda e fundo de superfície; `ghost` não tem borda externa nem fundo, para ficar dentro de um `Card` ou painel. */
+  appearance?: AccordionAppearance;
+  /** Tamanho do texto, dos ícones e do espaçamento interno. */
+  size?: AccordionSize;
+  /** Nível do título que envolve cada cabeçalho, para seguir a hierarquia da página: o acordeão abaixo de um `h2` usa `3`. */
+  headingLevel?: AccordionHeadingLevel;
   /** Nome acessível do grupo de itens. */
   ariaLabel?: string;
 }
+
+interface EscalaDoAcordeao { fonte: number; cabecalho: string; painel: string; icone: number; seta: number; espaco: string }
+
+const ESCALA: Record<AccordionSize, EscalaDoAcordeao> = {
+  sm: { fonte: 13, cabecalho: 'var(--ob-space-10) var(--ob-space-12)', painel: '0 var(--ob-space-12) var(--ob-space-12)', icone: 16, seta: 14, espaco: 'var(--ob-space-8)' },
+  md: { fonte: 14, cabecalho: 'var(--ob-space-16) var(--ob-space-16)', painel: '0 var(--ob-space-16) var(--ob-space-16)', icone: 18, seta: 16, espaco: 'var(--ob-space-10)' },
+  lg: { fonte: 15, cabecalho: 'var(--ob-space-20) var(--ob-space-20)', painel: '0 var(--ob-space-20) var(--ob-space-20)', icone: 20, seta: 18, espaco: 'var(--ob-space-12)' },
+};
+
+const DIVISORIA = '1px solid var(--ob-border)';
+const DESLIZE = 'var(--ob-dur-base) var(--ob-ease)';
 
 injectStyleOnce(
   'ob-accordion',
@@ -36,11 +63,16 @@ injectStyleOnce(
 );
 
 /** Lista de seções que abrem e fecham, para revelar conteúdo secundário sem sair da página. */
-export const Accordion: React.FC<AccordionProps> = ({ items, type = 'single', value, defaultValue = [], onChange, ariaLabel }) => {
+export const Accordion: React.FC<AccordionProps> = ({
+  items, type = 'single', value, defaultValue = [], onChange, attached = true, appearance = 'outline', size = 'md', headingLevel = 3, ariaLabel,
+}) => {
   const [interno, setInterno] = useState<string[]>(defaultValue);
   const abertos = value ?? interno;
   const uid = useId();
   const raiz = useRef<HTMLDivElement>(null);
+  const escala = ESCALA[size];
+  const contorno = appearance === 'outline';
+  const Titulo = `h${headingLevel}` as 'h3';
 
   const alternar = (id: string) => {
     const aberto = abertos.includes(id);
@@ -63,32 +95,43 @@ export const Accordion: React.FC<AccordionProps> = ({ items, type = 'single', va
     cabecalhos[alvo].focus();
   };
 
+  const caixa: React.CSSProperties = contorno
+    ? { border: DIVISORIA, borderRadius: 'var(--ob-r-surface)', overflow: 'hidden', background: 'var(--ob-surface)' }
+    : {};
+
   return (
     <div ref={raiz} role="group" aria-label={ariaLabel} onKeyDown={aoTeclar} style={{
-      border: '1px solid var(--ob-border)', borderRadius: 'var(--ob-r-surface)', overflow: 'hidden',
-      background: 'var(--ob-surface)', fontFamily: 'var(--ob-font)',
+      display: 'flex', flexDirection: 'column', gap: attached ? 0 : 'var(--ob-space-8)', fontFamily: 'var(--ob-font)',
+      ...(attached ? caixa : null),
     }}>
       {items.map((item, i) => {
         const aberto = abertos.includes(item.id);
         const idCabecalho = `${uid}-c-${item.id}`;
         const idPainel = `${uid}-p-${item.id}`;
         return (
-          <div key={item.id} style={{ borderTop: i === 0 ? 'none' : '1px solid var(--ob-border)' }}>
-            <h3 style={{ margin: 0 }}>
+          <div key={item.id} style={attached ? { borderTop: i === 0 ? 'none' : DIVISORIA } : caixa}>
+            <Titulo style={{ margin: 0 }}>
               <button type="button" id={idCabecalho} className="ob-accordion-cabecalho" aria-expanded={aberto} aria-controls={idPainel}
                 disabled={item.disabled} onClick={() => alternar(item.id)} style={{
-                  display: 'flex', alignItems: 'center', gap: 'var(--ob-space-10)', width: '100%', padding: 'var(--ob-space-16) var(--ob-space-16)', border: 'none',
-                  background: 'transparent', textAlign: 'left', fontFamily: 'inherit', fontSize: 14, fontWeight: 600,
+                  display: 'flex', alignItems: 'center', gap: escala.espaco, width: '100%', padding: escala.cabecalho, border: 'none',
+                  borderRadius: contorno ? 0 : 'var(--ob-r-control)',
+                  background: 'transparent', textAlign: 'left', fontFamily: 'inherit', fontSize: escala.fonte, fontWeight: 600,
                   color: 'var(--ob-fg-strong)', cursor: item.disabled ? 'not-allowed' : 'pointer', opacity: item.disabled ? 'var(--ob-opacity-disabled)' : 1,
                 }}>
-                {item.icon && <Ph n={item.icon} size={18} c="var(--ob-fg-soft)" />}
+                {item.icon && <Ph n={item.icon} size={escala.icone} c="var(--ob-fg-soft)" />}
                 <span style={{ flex: 1, minWidth: 0 }}>{item.title}</span>
-                <Ph n="caret-down" size={16} c="var(--ob-fg-soft)" style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: 'transform var(--ob-dur-fast) var(--ob-ease)' }} />
+                <Ph n="caret-down" size={escala.seta} c="var(--ob-fg-soft)" style={{ flex: 'none', transform: aberto ? 'rotate(180deg)' : 'none', transition: `transform ${DESLIZE}` }} />
               </button>
-            </h3>
-            <div id={idPainel} role="region" aria-labelledby={idCabecalho} hidden={!aberto}
-              style={{ padding: '0 var(--ob-space-16) var(--ob-space-16)', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>
-              {item.content}
+            </Titulo>
+            <div id={idPainel} role="region" aria-labelledby={idCabecalho} style={{
+              display: 'grid', gridTemplateRows: aberto ? '1fr' : '0fr', visibility: aberto ? 'visible' : 'hidden',
+              transition: `grid-template-rows ${DESLIZE}, visibility ${DESLIZE}`,
+            }}>
+              <div style={{ minHeight: 0, overflow: 'hidden' }}>
+                <div style={{ padding: escala.painel, fontSize: escala.fonte, lineHeight: 1.6, color: 'var(--ob-fg)' }}>
+                  {item.content}
+                </div>
+              </div>
             </div>
           </div>
         );

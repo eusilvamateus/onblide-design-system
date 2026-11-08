@@ -40,3 +40,23 @@ export const Desabilitado = () => (
     />
   </div>
 );
+
+export const Espacado = () => (
+  <div style={{ padding: 16, maxWidth: 520 }}>
+    <Accordion items={itens} attached={false} defaultValue={['conta']} />
+  </div>
+);
+
+export const SemCaixa = () => (
+  <div style={{ padding: 16, maxWidth: 520 }}>
+    <Accordion items={itens} appearance="ghost" defaultValue={['conta']} />
+  </div>
+);
+
+export const Tamanhos = () => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 16, maxWidth: 520 }}>
+    <Accordion items={itens.slice(0, 2)} size="sm" />
+    <Accordion items={itens.slice(0, 2)} size="md" />
+    <Accordion items={itens.slice(0, 2)} size="lg" />
+  </div>
+);

@@ -21,6 +21,7 @@ import type {
   CheckboxSize, RadioSize, SwitchSize,
   FieldShellSize, InputSize, SelectSize, SearchInputSize, NumberFieldSize, DatepickerSize, AutocompleteSize, TextareaSize, CodeInputSize,
   TabsSize, BadgeSize,
+  AccordionAppearance, AccordionSize, AccordionHeadingLevel,
 } from '@onblide/ui';
 
 // Todo tipo usado em prop pública precisa estar exportado por src/index.ts
@@ -40,6 +41,7 @@ export type TiposExportados = [
   CheckboxSize, RadioSize, SwitchSize,
   FieldShellSize, InputSize, SelectSize, SearchInputSize, NumberFieldSize, DatepickerSize, AutocompleteSize, TextareaSize, CodeInputSize,
   TabsSize, BadgeSize,
+  AccordionAppearance, AccordionSize, AccordionHeadingLevel,
 ];
 
 interface Linha { id: number; nome: string } // interface: sem index signature
