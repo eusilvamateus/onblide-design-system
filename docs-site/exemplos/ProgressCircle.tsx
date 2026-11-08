@@ -14,13 +14,14 @@ export const Tamanhos = () => (
     <ProgressCircle value={60} size="sm" />
     <ProgressCircle value={60} size="md" showLabel />
     <ProgressCircle value={60} size="lg" showLabel />
-    <ProgressCircle value={60} size="xl" showLabel label="Sprint" />
+    <ProgressCircle value={60} size="xl" showLabel />
   </div>
 );
 
 export const RotuloPersonalizado = () => (
   <div style={{ display: 'flex', gap: 20, padding: 16, alignItems: 'center' }}>
     <ProgressCircle value={100} size="lg" tone="success" showLabel label={<span style={{ fontSize: 18 }}>✓</span>} />
+    <ProgressCircle value={60} size="xl" showLabel label="3/5" />
     <ProgressCircle value={0} size="lg" tone="danger" showLabel={false} />
   </div>
 );
