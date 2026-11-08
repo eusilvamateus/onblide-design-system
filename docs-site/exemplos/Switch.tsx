@@ -13,6 +13,7 @@ export const Tamanhos = () => (
   <div style={col}>
     <Switch checked size="sm" label="Modo compacto" />
     <Switch checked size="md" label="Modo compacto" />
+    <Switch checked size="lg" label="Modo compacto" />
   </div>
 );
 

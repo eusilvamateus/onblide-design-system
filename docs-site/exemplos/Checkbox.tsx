@@ -16,6 +16,14 @@ export const ComDescricao = () => (
   </div>
 );
 
+export const Tamanhos = () => (
+  <div style={col}>
+    <Checkbox checked size="sm" label="Receber notificações" />
+    <Checkbox checked size="md" label="Receber notificações" />
+    <Checkbox checked size="lg" label="Receber notificações" />
+  </div>
+);
+
 export const Desabilitado = () => (
   <div style={col}>
     <Checkbox checked={false} disabled label="Autenticação em duas etapas" />

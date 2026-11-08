@@ -1,4 +1,7 @@
 import React from 'react';
+import { ESCALA_DE_ESCOLHA, TamanhoDeEscolha } from '../../internal/controlesDeEscolha';
+
+export type SwitchSize = TamanhoDeEscolha;
 
 export interface SwitchProps {
   /** Estado atual do interruptor: `true` para ligado, `false` para desligado. */
@@ -9,16 +12,17 @@ export interface SwitchProps {
   label?: React.ReactNode;
   /** Impede a alternância e reduz a opacidade, indicando que o controle está bloqueado. */
   disabled?: boolean;
-  /** Dimensão do trilho e do knob. */
-  size?: 'sm' | 'md';
+  /** Tamanho do trilho, do knob e do texto: `sm` (32×18px), `md` (40×22px) ou `lg` (48×26px). */
+  size?: SwitchSize;
 }
 
 /** Interruptor binário que aplica uma configuração imediatamente, sem exigir confirmação. */
 export const Switch: React.FC<SwitchProps> = ({ checked, onChange, label, disabled = false, size = 'md' }) => {
-  const w = size === 'sm' ? 32 : 40, h = size === 'sm' ? 18 : 22, knob = h - 4;
+  const { trilho, fonte, espaco } = ESCALA_DE_ESCOLHA[size];
+  const w = trilho.largura, h = trilho.altura, knob = h - 4;
   const alternar = () => { if (!disabled) onChange?.(!checked); };
   return (
-    <label style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-10)', cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1 }}>
+    <label style={{ display: 'inline-flex', alignItems: 'center', gap: espaco, cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1 }}>
       <span
         role="switch"
         aria-checked={checked}
@@ -37,7 +41,7 @@ export const Switch: React.FC<SwitchProps> = ({ checked, onChange, label, disabl
           boxShadow: 'var(--ob-shadow-xs)',
         }} />
       </span>
-      {label && <span style={{ fontSize: 14, color: 'var(--ob-fg-strong)', fontWeight: 500 }}>{label}</span>}
+      {label && <span style={{ fontSize: fonte, color: 'var(--ob-fg-strong)', fontWeight: 500 }}>{label}</span>}
     </label>
   );
 };

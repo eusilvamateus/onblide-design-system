@@ -19,4 +19,10 @@ if ((filled.match(/<label/g) || []).length !== 2) {
   process.exit(1);
 }
 
-console.log('OK: options vazio e preenchido, ambos corretos');
+const grande = renderToStaticMarkup(React.createElement(RadioGroup, { options: [{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }], value: 'a', size: 'lg' }));
+if ((grande.match(/width:20px;height:20px/g) || []).length !== 2) {
+  console.error('FAIL: size do grupo deveria chegar a todos os radios:', grande);
+  process.exit(1);
+}
+
+console.log('OK: options vazio e preenchido, ambos corretos, size repassado aos radios');

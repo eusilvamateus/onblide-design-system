@@ -1,4 +1,7 @@
 import React from 'react';
+import { ESCALA_DE_ESCOLHA, TamanhoDeEscolha } from '../../internal/controlesDeEscolha';
+
+export type RadioSize = TamanhoDeEscolha;
 
 export interface RadioProps {
   /** Nome do grupo de radios (atributo `name` nativo); radios com o mesmo nome se excluem mutuamente. */
@@ -15,31 +18,39 @@ export interface RadioProps {
   disabled?: boolean;
   /** Texto complementar exibido abaixo do label, explicando a opção. */
   description?: React.ReactNode;
+  /** Tamanho do círculo e do texto: `sm` (16px), `md` (18px) ou `lg` (20px). */
+  size?: RadioSize;
 }
+
+const MARGEM_DO_PONTO = 5;
 
 /** Opção de escolha única (radio button) com label e descrição opcionais. */
 export const Radio: React.FC<RadioProps> = ({
-  name, value, checked, onChange, label, disabled = false, description,
-}) => (
-  <label style={{
-    display: 'flex', alignItems: 'flex-start', gap: 'var(--ob-space-10)', cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
-  }}>
-    <span style={{ position: 'relative', flex: 'none' }}>
-      <input type="radio" name={name} value={value} checked={checked} disabled={disabled}
-        onChange={() => onChange?.(value)}
-        style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }} />
-      <span style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: 'var(--ob-r-circle)',
-        boxShadow: `inset 0 0 0 1.5px ${checked ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
-        background: 'var(--ob-surface)', transform: 'translateZ(0)', transition: 'box-shadow var(--ob-dur-fast) var(--ob-ease)',
-      }}>
-        {checked && <span style={{ width: 8, height: 8, borderRadius: 'var(--ob-r-circle)', background: 'var(--ob-blue)' }} />}
+  name, value, checked, onChange, label, disabled = false, description, size = 'md',
+}) => {
+  const { caixa, fonte, espaco } = ESCALA_DE_ESCOLHA[size];
+  const ponto = caixa - MARGEM_DO_PONTO * 2;
+  return (
+    <label style={{
+      display: 'flex', alignItems: 'flex-start', gap: espaco, cursor: disabled ? 'not-allowed' : 'pointer',
+      opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
+    }}>
+      <span style={{ position: 'relative', flex: 'none' }}>
+        <input type="radio" name={name} value={value} checked={checked} disabled={disabled}
+          onChange={() => onChange?.(value)}
+          style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }} />
+        <span style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', width: caixa, height: caixa, borderRadius: 'var(--ob-r-circle)',
+          boxShadow: `inset 0 0 0 1.5px ${checked ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
+          background: 'var(--ob-surface)', transform: 'translateZ(0)', transition: 'box-shadow var(--ob-dur-fast) var(--ob-ease)',
+        }}>
+          {checked && <span style={{ width: ponto, height: ponto, borderRadius: 'var(--ob-r-circle)', background: 'var(--ob-blue)' }} />}
+        </span>
       </span>
-    </span>
-    <span>
-      <span style={{ fontSize: 14, color: 'var(--ob-fg-strong)', fontWeight: 500, lineHeight: '18px', display: 'block' }}>{label}</span>
-      {description && <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-2)', display: 'block' }}>{description}</span>}
-    </span>
-  </label>
-);
+      <span>
+        <span style={{ fontSize: fonte, color: 'var(--ob-fg-strong)', fontWeight: 500, lineHeight: `${caixa}px`, display: 'block' }}>{label}</span>
+        {description && <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-2)', display: 'block' }}>{description}</span>}
+      </span>
+    </label>
+  );
+};

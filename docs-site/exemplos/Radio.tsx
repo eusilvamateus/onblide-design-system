@@ -17,6 +17,14 @@ export const ComDescricao = () => (
   </div>
 );
 
+export const Tamanhos = () => (
+  <div style={col}>
+    <Radio name="tam-sm" value="a" checked size="sm" label="Profissional" />
+    <Radio name="tam-md" value="a" checked size="md" label="Profissional" />
+    <Radio name="tam-lg" value="a" checked size="lg" label="Profissional" />
+  </div>
+);
+
 export const Desabilitado = () => (
   <div style={col}>
     <Radio name="d" value="a" checked={false} disabled label="Integração SSO" />
