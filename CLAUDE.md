@@ -120,6 +120,15 @@ sustente (o `Datepicker` usa o `Calendar`, o `Popover` e o `FieldShell`; nada na
 existe"). Antes de criar, procurar no catálogo (`src/index.ts`) e nos design systems públicos; se a peça não é comum,
 a aplicação monta com o que já existe. Peças de apoio não são API pública e ficam em `src/internal/`.
 
+## Melhorar telas e maquetes: repensar, não transcrever
+
+**Regra obrigatória, pedido explícito do usuário em 2026-11-08: quando o usuário traz uma tela ou pede para melhorar
+uma maquete, o trabalho é entender o propósito da tela e melhorar tudo de UI e UX com o design system da Onblide.**
+Trocar os elementos da referência pelos componentes equivalentes do pacote não é melhorar: a maioria dessas telas já
+foi feita com o próprio design system. Antes de desenhar, entender quem usa a tela, qual tarefa a pessoa vai fazer ali
+e o que atrapalha hoje. Depois, repensar a hierarquia, o fluxo, a densidade, os estados (vazio, carregando, erro), as
+ações e os textos. A referência mostra o problema, não a solução.
+
 ## Idioma da documentação
 
 Toda documentação (`docs/`, `docs-site/`), e a memória persistente do agente relacionada a este projeto
