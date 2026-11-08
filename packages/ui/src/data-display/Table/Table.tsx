@@ -106,21 +106,22 @@ export function Table<T extends object = Record<string, unknown>>({
   const thStyle: React.CSSProperties = {
     padding: 'var(--ob-space-10) var(--ob-space-16)', textAlign: 'left', fontFamily: 'var(--ob-font-mono)',
     fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-    color: 'var(--ob-fg-mute)', borderBottom: '1px solid var(--ob-line-soft)',
+    color: 'var(--ob-fg-mute)', borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: '1px solid var(--ob-line-soft)',
     background: 'var(--ob-surface)', whiteSpace: 'nowrap', userSelect: 'none',
   };
   const tdStyle: React.CSSProperties = {
     padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 'var(--ob-fs-xs)', color: 'var(--ob-fg)',
-    borderBottom: '1px solid var(--ob-line-soft)', verticalAlign: 'middle',
+    borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: '1px solid var(--ob-line-soft)', background: 'none', verticalAlign: 'middle',
   };
+  const linhaSemBorda: React.CSSProperties = { border: 'none', background: 'none' };
   const celula = (ultima: boolean): React.CSSProperties => (ultima ? { ...tdStyle, borderBottom: 'none' } : tdStyle);
 
   return (
     <div style={{ width: '100%', overflow: 'hidden', borderRadius: 'var(--ob-r-md)', border: '1px solid var(--ob-border)' }}>
       <ScrollArea orientation="horizontal">
-      <table style={{ width: '100%', borderCollapse: 'collapse', background: 'var(--ob-surface)' }}>
-        <thead>
-          <tr>
+      <table style={{ display: 'table', width: '100%', margin: 0, border: 'none', borderCollapse: 'collapse', background: 'var(--ob-surface)' }}>
+        <thead style={{ background: 'none' }}>
+          <tr style={linhaSemBorda}>
             {selectable && (
               <th style={{ ...thStyle, width: 44, padding: 'var(--ob-space-10) var(--ob-space-16)' }}>
                 <Checkbox checked={allChecked} indeterminate={partChecked} onChange={toggleAll} ariaLabel="Selecionar todas as linhas" />
@@ -144,7 +145,7 @@ export function Table<T extends object = Record<string, unknown>>({
         <tbody>
           {loading
             ? Array.from({ length: LINHAS_ESQUELETO }).map((_, i) => (
-              <tr key={i}>
+              <tr key={i} style={linhaSemBorda}>
                 {selectable && <td style={celula(i === LINHAS_ESQUELETO - 1)}><div style={{ width: 15, height: 15, borderRadius: 'var(--ob-r-2xs)', background: 'var(--ob-bg-alt)' }}/></td>}
                 {columns.map(col => (
                   <td key={col.key} style={celula(i === LINHAS_ESQUELETO - 1)}>
@@ -155,23 +156,23 @@ export function Table<T extends object = Record<string, unknown>>({
             ))
             : rows.length === 0
             ? (
-              <tr>
+              <tr style={linhaSemBorda}>
                 <td colSpan={columns.length + (selectable ? 1 : 0)} style={{ ...celula(true), textAlign: 'center', padding: 'var(--ob-space-40) var(--ob-space-16)', color: 'var(--ob-fg-mute)' }}>
                   {emptyState || 'Nenhum resultado encontrado.'}
                 </td>
               </tr>
             )
-            : ordemExibida.map((i) => { const row = rows[i]; return (
-              <tr key={i} style={{ background: selected.includes(i) ? 'var(--ob-blue-100)' : 'none', transition: 'background var(--ob-dur-fast) var(--ob-ease)' }}
+            : ordemExibida.map((i, posicao) => { const row = rows[i]; const ultima = posicao === ordemExibida.length - 1; return (
+              <tr key={i} style={{ border: 'none', background: selected.includes(i) ? 'var(--ob-blue-100)' : 'none', transition: 'background var(--ob-dur-fast) var(--ob-ease)' }}
                 onMouseEnter={e => { if (!selected.includes(i)) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = selected.includes(i) ? 'var(--ob-blue-100)' : 'none'; }}>
                 {selectable && (
-                  <td style={celula(i === rows.length - 1)}>
-                    <Checkbox checked={selected.includes(i)} onChange={() => toggleRow(i)} ariaLabel={`Selecionar linha ${i + 1}`} />
+                  <td style={celula(ultima)}>
+                    <Checkbox checked={selected.includes(i)} onChange={() => toggleRow(i)} ariaLabel={`Selecionar linha ${posicao + 1}`} />
                   </td>
                 )}
                 {columns.map(col => (
-                  <td key={col.key} style={{ ...celula(i === rows.length - 1), fontWeight: col.bold ? 600 : 400, color: col.bold ? 'var(--ob-fg-strong)' : 'var(--ob-fg)' }}>
+                  <td key={col.key} style={{ ...celula(ultima), fontWeight: col.bold ? 600 : 400, color: col.bold ? 'var(--ob-fg-strong)' : 'var(--ob-fg)' }}>
                     {col.render ? col.render((row as Record<string, unknown>)[col.key], row) : ((row as Record<string, unknown>)[col.key] as React.ReactNode)}
                   </td>
                 ))}
