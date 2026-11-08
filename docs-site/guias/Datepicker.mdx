@@ -37,6 +37,8 @@ const [periodo, setPeriodo] = useState({ start: null, end: null });
 <Datepicker mode="range" label="Período" value={periodo} onChange={setPeriodo} />
 ```
 
+`size` aceita `sm` (32px de altura), `md` (40px, padrão) e `lg` (48px), as mesmas alturas do **Button**: um campo e um botão do mesmo tamanho ficam alinhados lado a lado. Texto em 13, 14 e 15px; as setas e o botão do calendário acompanham; o calendário não muda.
+
 ## Escolher mês ou ano
 
 Com `precision="month"` ou `precision="year"`, o campo escolhe o mês ou o ano inteiro, e o calendário abre na grade de meses ou de anos. Vale para a data única e para o intervalo.

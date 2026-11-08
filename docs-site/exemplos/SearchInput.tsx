@@ -23,3 +23,11 @@ export const Desabilitado = () => (
     <SearchInput value="relatório trimestral" disabled />
   </div>
 );
+
+export const Tamanhos = () => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: 16 }}>
+    <SearchInput size="sm" value="relatório" />
+    <SearchInput size="md" value="relatório" />
+    <SearchInput size="lg" value="relatório" />
+  </div>
+);

@@ -1,9 +1,11 @@
 import React from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
+import { ESCALA_DE_CAMPO, type TamanhoDeCampo } from '../../internal/tamanhoDeCampo';
 
-const LINE_HEIGHT = 20;
-const PAD_Y = 10;
 const LARGURA_MINIMA = 160;
+
+/** Tamanho do campo, na mesma escala dos campos de uma linha: `sm`, `md` e `lg`. */
+export type TextareaSize = TamanhoDeCampo;
 
 export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
 
@@ -44,6 +46,8 @@ export interface TextareaProps {
   readOnly?: boolean;
   /** Largura inicial do campo. */
   width?: number | string;
+  /** Tamanho do campo, que ajusta fonte, altura da linha e recuo interno. */
+  size?: TextareaSize;
   /** Nome acessível quando não há `label` visível. */
   ariaLabel?: string;
 }
@@ -52,8 +56,11 @@ export interface TextareaProps {
 export const Textarea: React.FC<TextareaProps> = ({
   label, hint, error, value: valueProp, defaultValue = '', onChange, placeholder, rows = 3,
   autosize = false, minRows = 2, maxRows = 8, maxLength, counter, resize = 'vertical', footer,
-  disabled = false, readOnly = false, width, ariaLabel,
+  disabled = false, readOnly = false, width, size = 'md', ariaLabel,
 }) => {
+  const escala = ESCALA_DE_CAMPO[size];
+  const linha = escala.linha;
+  const recuoY = escala.recuoVertical;
   const [val, setVal] = React.useState(defaultValue);
   const value = valueProp !== undefined ? valueProp : val;
   const [focused, setFocused] = React.useState(false);
@@ -73,12 +80,12 @@ export const Textarea: React.FC<TextareaProps> = ({
   React.useLayoutEffect(() => {
     const el = ref.current;
     if (!autosize || !el) return;
-    const min = minRows * LINE_HEIGHT + PAD_Y * 2, max = maxRows * LINE_HEIGHT + PAD_Y * 2;
+    const min = minRows * linha + recuoY * 2, max = maxRows * linha + recuoY * 2;
     el.style.height = 'auto';
     const h = Math.min(max, Math.max(min, el.scrollHeight));
     el.style.height = `${h}px`;
     el.style.overflowY = el.scrollHeight > max ? 'auto' : 'hidden';
-  }, [value, autosize, minRows, maxRows]);
+  }, [value, autosize, minRows, maxRows, linha, recuoY]);
 
   const len = value.length;
   const full = maxLength != null && len >= maxLength;
@@ -91,16 +98,16 @@ export const Textarea: React.FC<TextareaProps> = ({
       fontFamily: 'var(--ob-font)',
     }}>
       {label && <label htmlFor={uid} style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</label>}
-      <FieldShell focused={focused} error={!!error} disabled={disabled} padding="0" minHeight={0}
+      <FieldShell focused={focused} error={!!error} disabled={disabled} size={size} padding="0" minHeight={0}
         style={{ flexDirection: 'column', alignItems: 'stretch', gap: 0, overflow: 'hidden', background: readOnly && !disabled ? 'var(--ob-bg-alt)' : undefined }}>
         <textarea id={uid} ref={ref} value={value} placeholder={placeholder} rows={autosize ? minRows : rows} maxLength={maxLength} disabled={disabled} readOnly={readOnly}
           aria-invalid={error ? true : undefined} aria-describedby={describe} aria-label={label ? undefined : ariaLabel}
           onChange={(e) => { setVal(e.target.value); onChange?.(e.target.value); }} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
           style={{
             display: 'block', width: larguraLivre ? larguraInicial! : '100%', minWidth: horizontal ? LARGURA_MINIMA : undefined, maxWidth: '100%', boxSizing: 'border-box', border: 'none', outline: 'none', background: 'transparent',
-            fontFamily: 'inherit', fontSize: 14, lineHeight: `${LINE_HEIGHT}px`, color: 'var(--ob-fg-strong)', padding: `${PAD_Y}px 14px`,
+            fontFamily: 'inherit', fontSize: escala.fonte, lineHeight: `${linha}px`, color: 'var(--ob-fg-strong)', padding: `var(--ob-space-${recuoY}) ${escala.recuo}`,
             scrollbarWidth: 'thin', scrollbarColor: 'var(--ob-scrollbar-thumb) transparent',
-            resize: redimensiona, minHeight: minRows * LINE_HEIGHT + PAD_Y * 2, cursor: disabled ? 'not-allowed' : 'text',
+            resize: redimensiona, minHeight: minRows * linha + recuoY * 2, cursor: disabled ? 'not-allowed' : 'text',
           }} />
         {footer && <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', padding: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-8) var(--ob-space-10)' }}>{footer}</div>}
       </FieldShell>

@@ -35,3 +35,11 @@ export const SucessoComAjuda = () => (
     </p>
   </div>
 );
+
+export const Tamanhos = () => (
+  <div style={{ ...box, display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <CodeInput size="sm" length={4} value="12" />
+    <CodeInput size="md" length={4} value="12" />
+    <CodeInput size="lg" length={4} value="12" />
+  </div>
+);

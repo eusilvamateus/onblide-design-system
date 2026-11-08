@@ -86,3 +86,11 @@ export const ResumoDoPeriodo = () => (
     <ChipDePeriodo inicio={new Date(2026, 8, 2)} fim={new Date(2027, 0, 31)} />
   </div>
 );
+
+export const Tamanhos = () => (
+  <div style={{ ...caixa, display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <Datepicker size="sm" label="Pequeno" defaultValue={new Date(2026, 10, 8)} />
+    <Datepicker size="md" label="Médio" defaultValue={new Date(2026, 10, 8)} />
+    <Datepicker size="lg" label="Grande" defaultValue={new Date(2026, 10, 8)} />
+  </div>
+);

@@ -3,8 +3,10 @@ import { FieldShell } from '../FieldShell/FieldShell';
 import { Button } from '../../actions/Button/Button';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Spinner } from '../../feedback/Spinner/Spinner';
+import { ESCALA_DE_CAMPO, estiloDaAcao, type TamanhoDeCampo } from '../../internal/tamanhoDeCampo';
 
-const ESPACO_DA_ACAO = 32;
+/** Tamanho do campo: `sm` 32px, `md` 40px e `lg` 48px de altura, as mesmas alturas do `Button`. */
+export type SearchInputSize = TamanhoDeCampo;
 
 export interface SearchInputProps {
   /** Texto atual do campo de busca. */
@@ -19,29 +21,33 @@ export interface SearchInputProps {
   ariaLabel?: string;
   /** Desabilita o campo. */
   disabled?: boolean;
+  /** Tamanho do campo, que ajusta altura, fonte, ícone e o botão de limpar. */
+  size?: SearchInputSize;
   /** Largura do campo de busca. */
   width?: number | string;
 }
 
 /** Campo de texto de busca, com ícone de lupa, botão de limpar e estado de carregamento. Para sugestões, use o Autocomplete. */
 export const SearchInput: React.FC<SearchInputProps> = ({
-  value = '', onChange, loading = false, placeholder = 'Buscar…', ariaLabel = 'Buscar', disabled = false, width = 320,
+  value = '', onChange, loading = false, placeholder = 'Buscar…', ariaLabel = 'Buscar', disabled = false, size = 'md', width = 320,
 }) => {
   const [focus, setFocus] = useState(false);
+  const escala = ESCALA_DE_CAMPO[size];
   return (
     <div style={{ width }}>
-      <FieldShell focused={focus} disabled={disabled} padding="0 var(--ob-space-6) 0 var(--ob-space-16)">
-        <Ph n="magnifying-glass" size={18} c="var(--ob-fg-mute)" />
+      <FieldShell focused={focus} disabled={disabled} size={size} padding={`0 ${escala.recuoDaAcao} 0 ${escala.recuo}`}>
+        <Ph n="magnifying-glass" size={escala.icone} c="var(--ob-fg-mute)" />
         <input role="searchbox" value={value} disabled={disabled} aria-label={ariaLabel} placeholder={placeholder}
           onChange={(e) => onChange?.(e.target.value)} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}
-          style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'none', fontFamily: 'var(--ob-font)', fontSize: 14.5, color: 'var(--ob-fg-strong)' }} />
+          style={{ flex: 1, minWidth: 0, alignSelf: 'stretch', padding: 0, border: 'none', outline: 'none', background: 'none', fontFamily: 'var(--ob-font)', fontSize: escala.fonte, color: 'var(--ob-fg-strong)' }} />
         {loading && (
-          <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: ESPACO_DA_ACAO, height: ESPACO_DA_ACAO, flex: 'none' }}>
-            <Spinner size="sm" label="Buscando" />
+          <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: escala.acao, height: escala.acao, flex: 'none' }}>
+            <Spinner size={size === 'sm' ? 'xs' : 'sm'} label="Buscando" />
           </span>
         )}
         {!loading && value && !disabled && (
-          <Button kind="neutral" iconOnly size="sm" aria-label="Limpar" onClick={() => onChange?.('')} icon={<Ph n="x-circle" size={17} />} />
+          <Button kind="neutral" iconOnly size="sm" aria-label="Limpar" onClick={() => onChange?.('')}
+            style={estiloDaAcao(size)} icon={<Ph n="x-circle" size={escala.icone - 1} />} />
         )}
       </FieldShell>
     </div>

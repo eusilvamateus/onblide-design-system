@@ -5,6 +5,16 @@ import { FloatingPanel } from '../../internal/FloatingPanel';
 import { useLadoVertical } from '../../internal/useLadoVertical';
 import { Ph } from '../../iconography/Ph/Ph';
 import { FieldShell } from '../FieldShell/FieldShell';
+import { ESCALA_DE_CAMPO, type TamanhoDeCampo } from '../../internal/tamanhoDeCampo';
+
+/** Tamanho do campo: `sm` 32px, `md` 40px e `lg` 48px de altura, as mesmas alturas do `Button`. */
+export type SelectSize = TamanhoDeCampo;
+
+const RECUO_DA_OPCAO: Record<SelectSize, string> = {
+  sm: 'var(--ob-space-6) var(--ob-space-10)',
+  md: 'var(--ob-space-10) var(--ob-space-12)',
+  lg: 'var(--ob-space-12) var(--ob-space-16)',
+};
 
 /** Uma opção da lista, no formato de objeto — aceita campos extras além do rótulo exibido. */
 export interface SelectOption {
@@ -26,6 +36,8 @@ export interface SelectBaseProps {
   error?: React.ReactNode;
   /** Largura do campo. */
   width?: number | string;
+  /** Tamanho do campo, que ajusta altura, fonte, recuo e as opções da lista. Com `embedded`, use o mesmo tamanho do campo que o contém. */
+  size?: SelectSize;
   /** Nome acessível do campo quando não há `label` visível. */
   ariaLabel?: string;
 }
@@ -69,10 +81,10 @@ interface CascaProps extends React.ComponentProps<typeof FieldShell> {
   embedded: boolean;
 }
 
-const Casca: React.FC<CascaProps> = ({ embedded, focused, error, disabled, padding, onClick, style, children }) => embedded ? (
+const Casca: React.FC<CascaProps> = ({ embedded, focused, error, disabled, size, padding, onClick, style, children }) => embedded ? (
   <div onClick={onClick} style={{ display: 'flex', alignItems: 'center', flex: 1, padding, boxSizing: 'border-box', ...style }}>{children}</div>
 ) : (
-  <FieldShell focused={focused} error={error} disabled={disabled} padding={padding} onClick={onClick} style={style}>{children}</FieldShell>
+  <FieldShell focused={focused} error={error} disabled={disabled} size={size} padding={padding} onClick={onClick} style={style}>{children}</FieldShell>
 );
 
 /** Campo de seleção com lista de opções, busca por digitação e modos de seleção única ou múltipla. */
@@ -87,9 +99,11 @@ export const Select: React.FC<SelectProps> = (props) => {
     error,
     width,
     ariaLabel,
+    size = 'md',
     embedded: embeddedProp = false,
   } = props as SelectLooseProps;
   const embedded = embeddedProp && !multi;
+  const escala = ESCALA_DE_CAMPO[size];
   const [valorInterno, setValorInterno] = useState<string | string[] | null>(
     (props as SelectLooseProps).defaultValue ?? null,
   );
@@ -161,6 +175,7 @@ export const Select: React.FC<SelectProps> = (props) => {
 
   const larguraEmbutida = Math.max(2, ...options.map(o => getLabel(o).length)) + 1;
   const displayValue = !multi && selected && !open ? (selected as string) : '';
+  const comChips = multi && (selected as string[]).length > 0;
 
   return (
     <div ref={rootRef}
@@ -170,8 +185,8 @@ export const Select: React.FC<SelectProps> = (props) => {
         <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 'var(--ob-space-6)' }}>{label}</div>
       )}
       <Casca
-        embedded={embedded} focused={open || focado} error={!!error} disabled={disabled}
-        padding={multi && (selected as string[]).length ? 'var(--ob-space-6) var(--ob-space-10)' : '0 var(--ob-space-12)'}
+        embedded={embedded} focused={open || focado} error={!!error} disabled={disabled} size={size}
+        padding={comChips ? `${escala.recuoComChips} ${escala.recuo} ${escala.recuoComChips} ${escala.recuoComChips}` : `0 ${escala.recuo}`}
         onClick={() => {
           if (disabled) return;
           const abrir = focadoNoMouseDown.current ? !open : true;
@@ -180,7 +195,7 @@ export const Select: React.FC<SelectProps> = (props) => {
         }}
         style={{ flexWrap: multi ? 'wrap' : 'nowrap', gap: 'var(--ob-space-6)', cursor: disabled ? 'not-allowed' : 'pointer' }}>
         {multi && (selected as string[]).map(s => (
-          <Chip key={s} label={s} size="sm" selected removable
+          <Chip key={s} label={s} size={escala.chip} selected removable
             onToggle={() => {}} onRemove={() => removeChip(s)} />
         ))}
         <input
@@ -194,11 +209,11 @@ export const Select: React.FC<SelectProps> = (props) => {
           onBlur={() => setFocado(false)}
           style={{
             flex: embedded ? 'none' : 1, width: embedded ? `${larguraEmbutida}ch` : undefined, minWidth: multi ? 60 : 0, border: 'none', outline: 'none', background: 'transparent',
-            fontSize: 14, color: 'var(--ob-fg-strong)', cursor: disabled ? 'not-allowed' : 'text',
-            padding: multi && (selected as string[]).length ? '0' : '0 var(--ob-space-2)', height: multi && (selected as string[]).length ? 26 : 40,
+            fontFamily: 'inherit', fontSize: escala.fonte, color: 'var(--ob-fg-strong)', cursor: disabled ? 'not-allowed' : 'text',
+            padding: comChips ? `0 ${escala.recuoComChips}` : 0, alignSelf: comChips ? 'center' : 'stretch',
           }}
         />
-        <Ph n="caret-down" size={16} c="var(--ob-fg-mute)"
+        <Ph n="caret-down" size={escala.icone - 2} c="var(--ob-fg-mute)"
           style={{ flex: 'none', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform var(--ob-dur-fast) var(--ob-ease)' }} />
       </Casca>
 
@@ -219,14 +234,14 @@ export const Select: React.FC<SelectProps> = (props) => {
                 onMouseEnter={() => setHighlighted(i)}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--ob-space-10)',
-                  padding: 'var(--ob-space-10) var(--ob-space-12)', borderRadius: 'var(--ob-r-sm)', cursor: 'pointer',
-                  fontSize: 14, fontWeight: (isSelected && !multi) ? 600 : 400,
+                  padding: RECUO_DA_OPCAO[size], borderRadius: 'var(--ob-r-sm)', cursor: 'pointer',
+                  fontSize: escala.fonte, fontWeight: (isSelected && !multi) ? 600 : 400,
                   color: (isSelected && !multi) ? 'var(--ob-blue-700)' : 'var(--ob-fg)',
                   background: isHigh ? 'var(--ob-bg-warm)' : (isSelected && !multi ? 'var(--ob-blue-100)' : 'transparent'),
                   transition: 'background var(--ob-dur-fast) var(--ob-ease)',
                 }}>
                 {multi ? (
-                  <Checkbox checked={isSelected} onChange={() => {}} label={lbl} />
+                  <Checkbox checked={isSelected} onChange={() => {}} label={lbl} size={size} />
                 ) : (
                   <>
                     <span>{lbl}</span>

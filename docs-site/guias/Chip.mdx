@@ -61,12 +61,13 @@ Chips com mais de 3 palavras. Misturar chips single e multi no mesmo grupo sem s
 <Chip label="Q3 2026" selected removable onRemove={() => remove('Q3 2026')}/>
 
 // Tamanhos
+<Chip label="Mensal" size="xs"/>
 <Chip label="Mensal" size="sm"/>
 <Chip label="Mensal"/>
 <Chip label="Mensal" size="lg"/>
 ```
 
-`size` aceita `sm`, `md` (padrão) e `lg`. Texto, espaçamento, ícone e botão ✕ crescem juntos em cada tamanho.
+`size` aceita `xs`, `sm`, `md` (padrão) e `lg`. Texto, espaçamento, ícone e botão ✕ crescem juntos em cada tamanho. O `xs` existe para as opções escolhidas dentro de um campo `sm` (**Select** e **Autocomplete** de seleção múltipla); fora deles, prefira `sm` ou maior.
 
 ## Guia de conteúdo
 

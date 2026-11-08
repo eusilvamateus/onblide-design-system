@@ -9,11 +9,14 @@ import { Avatar } from '../../data-display/Avatar/Avatar';
 import { Spinner } from '../../feedback/Spinner/Spinner';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { ListItem, ListSubheader, ListDivider } from '../../data-display/List/List';
+import { ESCALA_DE_CAMPO, type TamanhoDeCampo } from '../../internal/tamanhoDeCampo';
 
 const normalize = (s: string) => String(s || '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
 
 export type AutocompleteMode = 'restrict' | 'free' | 'creatable';
 export type AutocompleteCompletion = 'list' | 'inline';
+/** Tamanho do campo: `sm` 32px, `md` 40px e `lg` 48px de altura, as mesmas alturas do `Button`. */
+export type AutocompleteSize = TamanhoDeCampo;
 
 export interface AutocompleteOption {
   label: string;
@@ -48,6 +51,8 @@ export interface AutocompleteProps {
   placeholder?: string;
   icon?: string;
   width?: number | string;
+  /** Tamanho do campo, que ajusta altura, fonte, recuo, os chips e os botões de dentro dele. */
+  size?: AutocompleteSize;
   value?: string | string[] | null;
   defaultValue?: string | string[] | null;
   onChange?: (value: string | string[] | null) => void;
@@ -69,7 +74,7 @@ function Match({ text, query }: { text: string; query: string }) {
 function Inert({ children }: { children: React.ReactNode }) {
   return <span ref={(el) => el?.setAttribute('inert', '')} aria-hidden="true" style={{ display: 'flex', flex: 'none', pointerEvents: 'none' }}>{children}</span>;
 }
-const iconBtn: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24, border: 'none', background: 'transparent', borderRadius: 'var(--ob-r-sm)', color: 'var(--ob-fg-mute)', cursor: 'pointer', padding: 0, flex: 'none' };
+const iconBtn = (lado: number): React.CSSProperties => ({ display: 'flex', alignItems: 'center', justifyContent: 'center', width: lado, height: lado, border: 'none', background: 'transparent', borderRadius: 'var(--ob-r-sm)', color: 'var(--ob-fg-mute)', cursor: 'pointer', padding: 0, flex: 'none' });
 const msgRow: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--ob-space-8)', padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 13, color: 'var(--ob-fg-mute)' };
 
 type NavEntry = { o: AutocompleteOption } | { create: string };
@@ -81,8 +86,10 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     options = [], mode = 'restrict', multiple = false, groupBy, completion = 'list', loadOptions, minChars = 0,
     label, hint, error, disabled = false, placeholder = 'Digite para buscar…', icon, width, value: valueProp,
     defaultValue, onChange, onCreate, open: openProp, defaultInputValue, loading: loadingProp,
-    emptyText = 'Nenhuma opção encontrada', ariaLabel,
+    emptyText = 'Nenhuma opção encontrada', ariaLabel, size = 'md',
   } = props;
+  const escala = ESCALA_DE_CAMPO[size];
+  const tamanhoDaLista = size === 'sm' ? 'sm' : 'md';
   const empty = multiple ? [] : null;
   const [val, setVal] = React.useState<string | string[] | null>(defaultValue ?? empty);
   const value = valueProp !== undefined ? valueProp : val;
@@ -233,13 +240,13 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     const i = idx, sel = selectedList.includes(o.label);
     const lead = multiple || o.icon || o.avatar ? (
       <>
-        {multiple && <Inert><Checkbox checked={sel} onChange={() => {}} disabled={o.disabled} /></Inert>}
+        {multiple && <Inert><Checkbox checked={sel} onChange={() => {}} disabled={o.disabled} size={size} /></Inert>}
         {o.icon && <Ph n={o.icon} size={16} c="currentColor" />}
         {o.avatar && <Avatar name={o.label} size={o.description ? 32 : 24} />}
       </>
     ) : null;
     return (
-      <ListItem key={o.label} id={`${uid}-o${i}`} data-i={i} role="option" aria-selected={sel} highlighted={i === active} selected={sel}
+      <ListItem key={o.label} size={tamanhoDaLista} id={`${uid}-o${i}`} data-i={i} role="option" aria-selected={sel} highlighted={i === active} selected={sel}
         selectedStyle={multiple ? 'none' : 'fill'} disabled={o.disabled}
         onMouseDown={(e) => { e.preventDefault(); if (!o.disabled) choose({ o }); }} onMouseEnter={() => !o.disabled && setActive(i)}
         leading={lead} title={<Match text={o.label} query={q} />} description={o.description} meta={o.meta}
@@ -252,23 +259,24 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     <div ref={rootRef} style={{ position: 'relative', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
       {label && <label htmlFor={uid} style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 'var(--ob-space-6)' }}>{label}</label>}
       <div onMouseDown={onShellDown}>
-        <FieldShell focused={focused || open} error={!!error} disabled={disabled} padding={chips ? 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-6) var(--ob-space-10)' : '0 var(--ob-space-8) 0 var(--ob-space-12)'}
+        <FieldShell focused={focused || open} error={!!error} disabled={disabled} size={size}
+          padding={chips ? `${escala.recuoComChips} ${escala.recuoDaAcao} ${escala.recuoComChips} ${escala.recuoComChips}` : `0 ${escala.recuoDaAcao} 0 ${escala.recuo}`}
           style={{ flexWrap: 'wrap', gap: 'var(--ob-space-6)', cursor: disabled ? 'not-allowed' : 'text' }}>
-          {icon && <Ph n={icon} size={16} c="var(--ob-fg-mute)" style={{ flex: 'none' }} />}
+          {icon && <Ph n={icon} size={escala.icone - 2} c="var(--ob-fg-mute)" style={{ flex: 'none' }} />}
           {multiple && ((value as string[]) ?? []).map((v) => (
-            <Chip key={v} label={v} size="sm" selected removable disabled={disabled} onToggle={() => {}} onRemove={() => commit(((value as string[]) ?? []).filter((x) => x !== v))} />
+            <Chip key={v} label={v} size={escala.chip} selected removable disabled={disabled} onToggle={() => {}} onRemove={() => commit(((value as string[]) ?? []).filter((x) => x !== v))} />
           ))}
           <input id={uid} ref={inputRef} role="combobox" aria-expanded={showPanel} aria-controls={listId} aria-autocomplete={completion === 'inline' ? 'both' : 'list'}
             aria-activedescendant={showPanel && active >= 0 ? `${uid}-o${active}` : undefined} aria-invalid={error ? true : undefined} aria-label={label ? undefined : ariaLabel}
             autoComplete="off" spellCheck={false} value={input} placeholder={chips ? '' : placeholder} disabled={disabled}
             onChange={onInput} onKeyDown={onKeyDown} onFocus={onFocus} onBlur={onBlur}
-            style={{ flex: 1, minWidth: 80, border: 'none', outline: 'none', background: 'transparent', fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: 0, height: chips ? 26 : 40, cursor: disabled ? 'not-allowed' : 'text' }} />
+            style={{ flex: 1, minWidth: 80, border: 'none', outline: 'none', background: 'transparent', fontFamily: 'inherit', fontSize: escala.fonte, color: 'var(--ob-fg-strong)', padding: chips ? `0 ${escala.recuoComChips}` : 0, alignSelf: chips ? 'center' : 'stretch', cursor: disabled ? 'not-allowed' : 'text' }} />
           <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-2)', flex: 'none', marginLeft: 'auto' }}>
             {busy && <span style={{ display: 'flex', padding: '0 var(--ob-space-4)' }}><Spinner size="xs" label="Buscando" /></span>}
-            {hasValue && !disabled && <button type="button" tabIndex={-1} aria-label="Limpar" onMouseDown={onClear} style={iconBtn}><Ph n="x" size={14} c="currentColor" /></button>}
+            {hasValue && !disabled && <button type="button" tabIndex={-1} aria-label="Limpar" onMouseDown={onClear} style={iconBtn(escala.botaoInterno)}><Ph n="x" size={escala.icone - 4} c="currentColor" /></button>}
             {(mode !== 'free' || options.length > 0) && !loadOptions && (
-              <button type="button" tabIndex={-1} aria-label={open ? 'Fechar sugestões' : 'Abrir sugestões'} onMouseDown={onCaret} style={iconBtn}>
-                <Ph n="caret-down" size={16} c="currentColor" style={{ transform: showPanel ? 'rotate(180deg)' : 'none', transition: 'transform var(--ob-dur-fast) var(--ob-ease)' }} />
+              <button type="button" tabIndex={-1} aria-label={open ? 'Fechar sugestões' : 'Abrir sugestões'} onMouseDown={onCaret} style={iconBtn(escala.botaoInterno)}>
+                <Ph n="caret-down" size={escala.icone - 2} c="currentColor" style={{ transform: showPanel ? 'rotate(180deg)' : 'none', transition: 'transform var(--ob-dur-fast) var(--ob-ease)' }} />
               </button>
             )}
           </span>
@@ -284,7 +292,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
                 <>
                   {groups.map((g, gi) => !g.items.length ? null : g.name ? (
                     <div key={g.name} role="group" aria-labelledby={`${uid}-g${gi}`}>
-                      <ListSubheader id={`${uid}-g${gi}`} sticky>{g.name}</ListSubheader>
+                      <ListSubheader size={tamanhoDaLista} id={`${uid}-g${gi}`} sticky>{g.name}</ListSubheader>
                       {g.items.map(renderOpt)}
                     </div>
                   ) : <React.Fragment key="flat">{g.items.map(renderOpt)}</React.Fragment>)}
@@ -292,7 +300,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
                   {showCreate && (
                     <>
                       {filtered.length > 0 && <ListDivider bleed={4} />}
-                      <ListItem id={`${uid}-o${ci}`} data-i={ci} role="option" aria-selected="false" tone="primary" highlighted={active === ci}
+                      <ListItem size={tamanhoDaLista} id={`${uid}-o${ci}`} data-i={ci} role="option" aria-selected="false" tone="primary" highlighted={active === ci}
                         onMouseDown={(e) => { e.preventDefault(); choose(nav[ci]); }} onMouseEnter={() => setActive(ci)}
                         leading={<Ph n="plus" size={16} c="currentColor" />}
                         title={<>Criar "<strong style={{ fontWeight: 'var(--ob-w-semibold)' }}>{'create' in nav[ci] ? nav[ci].create : ''}</strong>"</>} />

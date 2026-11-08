@@ -54,3 +54,11 @@ export const OpcoesComObjeto = () => (
     />
   </div>
 );
+
+export const Tamanhos = () => (
+  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12, padding: 16, width: 300 }}>
+    <Select size="sm" ariaLabel="Equipe pequena" defaultValue="Design" options={equipes} />
+    <Select size="md" ariaLabel="Equipe média" defaultValue="Engenharia" options={equipes} />
+    <Select size="lg" ariaLabel="Equipe grande" defaultValue="Marketing" options={equipes} />
+  </div>
+);

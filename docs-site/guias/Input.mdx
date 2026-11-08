@@ -32,6 +32,8 @@ Usar placeholder como label.
   endAddon={<Select embedded ariaLabel="Unidade" options={['cm', 'mm', 'm']} value={un} onChange={setUn} />} />
 ```
 
+`size` aceita `sm` (32px de altura), `md` (40px, padrão) e `lg` (48px), as mesmas alturas do **Button**: um campo e um botão do mesmo tamanho ficam alinhados lado a lado. Texto em 13, 14 e 15px; recuo, ícones e botões internos acompanham. O `Select` com `embedded` dentro de um addon deve usar o mesmo `size` do campo.
+
 <Nota>
 
 **Complemento no campo.** `startAddon` e `endAddon` colocam um texto, um **Select** com `embedded` ou um botão compacto dentro da mesma borda do campo, separado por uma divisória. O foco e o erro envolvem o campo e o complemento juntos. Use para unidade de medida, moeda ou prefixo, quando o complemento faz parte do valor; se ele é um campo independente, use dois campos.

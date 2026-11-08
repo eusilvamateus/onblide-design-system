@@ -42,3 +42,11 @@ export const ComTextoNoInicio = () => (
     <Input label="Valor" defaultValue="1.250,00" startAddon="R$" />
   </div>
 );
+
+export const Tamanhos = () => (
+  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12, padding: 16, width: 320 }}>
+    <Input size="sm" aria-label="Nome pequeno" placeholder="Pequeno (32px)" />
+    <Input size="md" aria-label="Nome médio" placeholder="Médio (40px)" />
+    <Input size="lg" aria-label="Nome grande" placeholder="Grande (48px)" />
+  </div>
+);

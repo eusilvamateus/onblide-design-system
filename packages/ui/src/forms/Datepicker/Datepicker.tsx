@@ -12,6 +12,10 @@ import {
   normalizarPorPrecisao, paraIso,
 } from '../../internal/dates';
 import type { PrecisaoDaData } from '../../internal/dates';
+import { ESCALA_DE_CAMPO, estiloDaAcao, type TamanhoDeCampo } from '../../internal/tamanhoDeCampo';
+
+/** Tamanho do campo: `sm` 32px, `md` 40px e `lg` 48px de altura, as mesmas alturas do `Button`. */
+export type DatepickerSize = TamanhoDeCampo;
 
 interface DatepickerBaseProps {
   /** Rótulo exibido acima do campo. */
@@ -32,6 +36,8 @@ interface DatepickerBaseProps {
   placeholder?: string;
   /** Desabilita o campo e o calendário. */
   disabled?: boolean;
+  /** Tamanho do campo, que ajusta altura, fonte, recuo e os botões de dentro dele. O calendário não muda. */
+  size?: DatepickerSize;
   /** Exibe o calendário em um popover (padrão) ou permanentemente abaixo dos campos. */
   calendarDisplay?: 'popover' | 'inline';
   /** O que o campo escolhe: dia (padrão), mês ou ano. Em `month` e `year` o campo mostra só `mm/aaaa` ou `aaaa`, `isDateDisabled` não se aplica e o calendário abre na grade de meses ou de anos. Na data única o valor é o primeiro dia do mês ou 1º de janeiro; no intervalo, o início é o primeiro dia e o fim, o último dia do mês ou do ano. */
@@ -66,17 +72,19 @@ export type DatepickerProps = SingleDatepickerProps | RangeDatepickerProps;
 
 const VAZIO: CalendarRange = { start: null, end: null };
 
-const estiloDoCampo: React.CSSProperties = {
-  flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'transparent',
-  fontFamily: 'inherit', fontSize: 14, color: 'var(--ob-fg-strong)', padding: 'var(--ob-space-10) 0', textAlign: 'center',
-};
+const estiloDoCampo = (fonte: number): React.CSSProperties => ({
+  flex: 1, minWidth: 0, alignSelf: 'stretch', border: 'none', outline: 'none', background: 'transparent',
+  fontFamily: 'inherit', fontSize: fonte, color: 'var(--ob-fg-strong)', padding: 0, textAlign: 'center',
+});
 
 /** Campo de data única ou intervalo, com digitação mascarada (dd/mm/aaaa) e calendário em popover. */
 export const Datepicker: React.FC<DatepickerProps> = (props) => {
   const {
     label, hint, error, min, max, isDateDisabled, weekStartsOn, disabled = false,
-    calendarDisplay = 'popover',
+    calendarDisplay = 'popover', size = 'md',
   } = props;
+  const escala = ESCALA_DE_CAMPO[size];
+  const acao = estiloDaAcao(size);
   const intervalo = props.mode === 'range';
   const precisao: PrecisaoDaData = props.precision ?? (props.mode === 'range' ? undefined : props.stepper) ?? 'day';
   const placeholder = props.placeholder ?? PLACEHOLDER_DA_DATA[precisao];
@@ -188,31 +196,32 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)' }}>
       {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
       <div onFocus={() => setFocado(true)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocado(false); }}>
-        <FieldShell focused={focado} error={temErro} disabled={disabled} padding={comStepper ? '0 var(--ob-space-6)' : calendarioInline ? '0 var(--ob-space-16)' : '0 var(--ob-space-6) 0 var(--ob-space-16)'}>
+        <FieldShell focused={focado} error={temErro} disabled={disabled} size={size}
+          padding={comStepper ? `0 ${escala.recuoDaAcao}` : calendarioInline ? `0 ${escala.recuo}` : `0 ${escala.recuoDaAcao} 0 ${escala.recuo}`}>
           {comStepper && (
             <Button kind="neutral" iconOnly size="sm" disabled={disabled || !vizinha(unidadeDoPasso, -1)}
               aria-label={rotulos[unidadeDoPasso][0]} onClick={() => andarData(unidadeDoPasso, -1)}
-              icon={<Ph n="caret-left" size={16} />} />
+              style={acao} icon={<Ph n="caret-left" size={escala.icone - 2} />} />
           )}
           <input type="text" inputMode="numeric" maxLength={tamanhoDoTexto} value={textoInicio} placeholder={placeholder} disabled={disabled}
             aria-label={intervalo ? 'Data inicial' : undefined} aria-invalid={!!(error || erroInicio) || undefined}
-            onChange={digitarInicio} onKeyDown={teclasDoCampo} style={estiloDoCampo} />
+            onChange={digitarInicio} onKeyDown={teclasDoCampo} style={estiloDoCampo(escala.fonte)} />
           {intervalo && (
             <>
               <span aria-hidden="true" style={{ color: 'var(--ob-fg-mute)', flex: 'none' }}>–</span>
               <input type="text" inputMode="numeric" maxLength={tamanhoDoTexto} value={textoFim} placeholder={placeholder} disabled={disabled}
                 aria-label="Data final" aria-invalid={!!(error || erroFim) || undefined}
-                onChange={digitarFim} style={estiloDoCampo} />
+                onChange={digitarFim} style={estiloDoCampo(escala.fonte)} />
             </>
           )}
           {comStepper && (
             <Button kind="neutral" iconOnly size="sm" disabled={disabled || !vizinha(unidadeDoPasso, 1)}
               aria-label={rotulos[unidadeDoPasso][1]} onClick={() => andarData(unidadeDoPasso, 1)}
-              icon={<Ph n="caret-right" size={16} />} />
+              style={acao} icon={<Ph n="caret-right" size={escala.icone - 2} />} />
           )}
           {!calendarioInline && (
             <Popover align="end" width={276} padding="var(--ob-space-12)" closeButton={false} ariaLabel="Calendário"
-              trigger={<Button kind="neutral" iconOnly size="sm" disabled={disabled} aria-label="Abrir calendário" icon={<Ph n="calendar-blank" size={18} />} />}>
+              trigger={<Button kind="neutral" iconOnly size="sm" disabled={disabled} aria-label="Abrir calendário" style={acao} icon={<Ph n="calendar-blank" size={escala.icone} />} />}>
               {calendario}
             </Popover>
           )}

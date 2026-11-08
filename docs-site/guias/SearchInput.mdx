@@ -36,7 +36,7 @@ Usar o SearchInput para mostrar sugestões ou escolher um item de uma lista: par
 
 ## Formatação
 
-Altura padrão 44px. Ícone de lupa fixo à esquerda. O carregamento usa o **Spinner** `sm`, no mesmo espaço do botão de limpar, para o texto não mudar de largura. O botão de limpar (**Button** neutro só com ícone) aparece quando há texto.
+Ícone de lupa fixo à esquerda. O carregamento usa o **Spinner** (`xs` no campo `sm`, `sm` nos demais), no mesmo espaço do botão de limpar, para o texto não mudar de largura. O botão de limpar (**Button** neutro só com ícone) aparece quando há texto.
 
 ```jsx
 <SearchInput
@@ -47,6 +47,8 @@ Altura padrão 44px. Ícone de lupa fixo à esquerda. O carregamento usa o **Spi
   width={320}
 />
 ```
+
+`size` aceita `sm` (32px de altura), `md` (40px, padrão) e `lg` (48px), as mesmas alturas do **Button**: um campo e um botão do mesmo tamanho ficam alinhados lado a lado. Texto em 13, 14 e 15px; a lupa e o botão de limpar acompanham.
 
 ## Guia de conteúdo
 

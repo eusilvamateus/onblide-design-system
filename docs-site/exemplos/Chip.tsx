@@ -38,19 +38,12 @@ export const Removiveis = () => (
   </div>
 );
 
-export const Pequeno = () => (
+export const Tamanhos = () => (
   <div style={row}>
-    <Chip label="Mensal" size="sm" selected />
-    <Chip label="Semanal" size="sm" />
-    <Chip label="Diário" size="sm" />
-  </div>
-);
-
-export const Grande = () => (
-  <div style={row}>
-    <Chip label="Mensal" size="lg" selected />
-    <Chip label="Semanal" size="lg" icon="calendar-blank" />
-    <Chip label="Design" size="lg" removable onRemove={() => {}} />
+    <Chip label="Extra pequeno" size="xs" removable onRemove={() => {}} />
+    <Chip label="Pequeno" size="sm" removable onRemove={() => {}} />
+    <Chip label="Médio" size="md" removable onRemove={() => {}} />
+    <Chip label="Grande" size="lg" icon="calendar-blank" removable onRemove={() => {}} />
   </div>
 );
 

@@ -47,6 +47,8 @@ O campo renderiza `length` células de 48×56px cada, com gap de 10px. Navegaç�
 />
 ```
 
+`size` aceita `sm` (células de 40×48px), `md` (48×56px, padrão) e `lg` (56×64px). As células são maiores que um campo comum para o código ser lido de relance.
+
 ## Guia de conteúdo
 
 - Label acima: "Insira o código de verificação", Sentence case, direto.
@@ -63,7 +65,7 @@ O campo renderiza `length` células de 48×56px cada, com gap de 10px. Navegaç�
 
 **Motion.** Foco/blur: `border-color`, `background`, `box-shadow` e elevação com transição de 150ms (`--ob-ease`). Erro: animação `ob-shake` de 400ms no container inteiro.
 
-**Responsivo/mobile.** No mobile, `inputMode="numeric"` exibe o teclado numérico nativo. Células de 44px mínimo (hit target). Gap reduz para 8px em viewports estreitas.
+**Responsivo/mobile.** No mobile, `inputMode="numeric"` exibe o teclado numérico nativo. Prefira `md` ou `lg` no mobile, para as células terem área de toque confortável. Gap reduz para 8px em viewports estreitas.
 
 <Nota>
 

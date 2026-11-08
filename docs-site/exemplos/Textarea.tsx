@@ -29,3 +29,11 @@ export const Erro = () => (
     <Textarea label="Observações" error="Descreva o motivo do cancelamento" />
   </div>
 );
+
+export const Tamanhos = () => (
+  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12, padding: 16, width: 280 }}>
+    <Textarea size="sm" rows={2} ariaLabel="Nota pequena" placeholder="Pequeno" />
+    <Textarea size="md" rows={2} ariaLabel="Nota média" placeholder="Médio" />
+    <Textarea size="lg" rows={2} ariaLabel="Nota grande" placeholder="Grande" />
+  </div>
+);

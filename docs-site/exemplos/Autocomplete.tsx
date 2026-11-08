@@ -25,3 +25,11 @@ export const Criavel = () => (
     <Autocomplete options={['Design', 'Engenharia']} mode="creatable" label="Categoria" open defaultInputValue="Marketing" />
   </div>
 );
+
+export const Tamanhos = () => (
+  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12, padding: 16, width: 280 }}>
+    <Autocomplete size="sm" options={pessoas} multiple defaultValue={['Ana Souza']} ariaLabel="Responsáveis, pequeno" />
+    <Autocomplete size="md" options={pessoas} multiple defaultValue={['Ana Souza']} ariaLabel="Responsáveis, médio" />
+    <Autocomplete size="lg" options={pessoas} multiple defaultValue={['Ana Souza']} ariaLabel="Responsáveis, grande" />
+  </div>
+);

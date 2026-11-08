@@ -53,5 +53,6 @@ export const ComPontoETamanhos = () => (
   <div style={{ display: 'flex', gap: 10, padding: 16, alignItems: 'center' }}>
     <Badge dot tone="success" size="sm">Online</Badge>
     <Badge dot tone="warning" size="md">Aguardando revisão</Badge>
+    <Badge dot tone="primary" size="lg">Em destaque</Badge>
   </div>
 );

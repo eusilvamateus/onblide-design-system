@@ -1,6 +1,17 @@
 import React, { useRef, useState } from 'react';
 import { injectStyleOnce } from '../../internal/injectStyleOnce';
 
+/** Tamanho das células: `sm`, `md` e `lg`. As células ficam maiores que um campo comum do mesmo tamanho, para o código ser lido de relance. */
+export type CodeInputSize = 'sm' | 'md' | 'lg';
+
+interface EscalaDaCelula { largura: number; altura: number; fonte: number; espaco: string }
+
+const ESCALA_DA_CELULA: Record<CodeInputSize, EscalaDaCelula> = {
+  sm: { largura: 40, altura: 48, fonte: 18, espaco: 'var(--ob-space-8)' },
+  md: { largura: 48, altura: 56, fonte: 22, espaco: 'var(--ob-space-10)' },
+  lg: { largura: 56, altura: 64, fonte: 26, espaco: 'var(--ob-space-12)' },
+};
+
 export interface CodeInputProps {
   /** Quantidade de células (dígitos) exibidas pelo campo. */
   length?: number;
@@ -10,10 +21,13 @@ export interface CodeInputProps {
   onChange?: (value: string) => void;
   /** Estado visual do campo: padrão, erro (com animação de shake) ou sucesso. Só aparece depois que todas as células estão preenchidas. */
   status?: 'default' | 'error' | 'success';
+  /** Tamanho das células, que ajusta largura, altura, fonte e o espaço entre elas. */
+  size?: CodeInputSize;
 }
 
 /** Campo de verificação por código (OTP), com uma célula por dígito, navegação por teclado e suporte a colar. */
-export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', onChange, status = 'default' }) => {
+export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', onChange, status = 'default', size = 'md' }) => {
+  const celula = ESCALA_DA_CELULA[size];
   const refs = useRef<Array<HTMLInputElement | null>>([]);
   const [ativo, setAtivo] = useState<number | null>(null);
   const vals = value.split('');
@@ -40,13 +54,13 @@ export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', on
   const fundoDe = (focado: boolean) =>
     situacao === 'error' ? 'var(--ob-danger-bg)' : situacao === 'success' ? 'var(--ob-success-bg)' : focado ? 'var(--ob-blue-050)' : 'var(--ob-surface)';
   return (
-    <div style={{ display: 'inline-flex', gap: 'var(--ob-space-10)', animation: situacao === 'error' ? 'ob-shake var(--ob-dur-slow) var(--ob-ease)' : 'none' }} onPaste={paste}>
+    <div style={{ display: 'inline-flex', gap: celula.espaco, animation: situacao === 'error' ? 'ob-shake var(--ob-dur-slow) var(--ob-ease)' : 'none' }} onPaste={paste}>
       {Array.from({ length }).map((_, i) => (
         <input key={i} ref={el => { refs.current[i] = el; }} inputMode="numeric" maxLength={1}
           value={vals[i] || ''} onChange={e => set(i, e.target.value.replace(/\D/g, ''))} onKeyDown={e => keyDown(i, e)}
           onFocus={e => { setAtivo(i); e.target.select(); }} onBlur={() => setAtivo(null)}
           style={{
-            width: 48, height: 56, textAlign: 'center', fontFamily: 'var(--ob-font-mono)', fontSize: 22, fontWeight: 700,
+            width: celula.largura, height: celula.altura, textAlign: 'center', fontFamily: 'var(--ob-font-mono)', fontSize: celula.fonte, fontWeight: 700,
             borderRadius: 'var(--ob-r-md)', caretColor: 'var(--ob-blue)', outline: 'none', boxSizing: 'border-box',
             color: situacao === 'error' ? 'var(--ob-danger)' : situacao === 'success' ? 'var(--ob-green-700)' : 'var(--ob-fg-strong)',
             background: fundoDe(ativo === i), border: `2px solid ${bordaDe(!!vals[i], ativo === i)}`,

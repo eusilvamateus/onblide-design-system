@@ -22,8 +22,8 @@ export interface ChipProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, '
   tone?: ActionTone;
   /** Pintura do chip quando não está selecionado: `outline` (com borda) ou `soft` (fundo clarinho, sem borda). Selecionado, ele fica sempre cheio (`solid`). */
   appearance?: ChipAppearance;
-  /** Tamanho do texto e do espaçamento interno. */
-  size?: 'sm' | 'md' | 'lg';
+  /** Tamanho do texto e do espaçamento interno. `xs` é o chip das opções escolhidas dentro de um campo `sm`. */
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   /** Desabilita interações e reduz a opacidade. */
   disabled?: boolean;
 }
@@ -40,6 +40,7 @@ interface EscalaDoChip {
 }
 
 const ESCALA: Record<NonNullable<ChipProps['size']>, EscalaDoChip> = {
+  xs: { fonte: 11, padding: 'var(--ob-space-4) var(--ob-space-8)', paddingRemovivel: 'var(--ob-space-4) var(--ob-space-4) var(--ob-space-4) var(--ob-space-8)', gap: 'var(--ob-space-4)', icone: 12, pesoDoIcone: 'bold', botao: 14, iconeDoBotao: 9 },
   sm: { fonte: 12, padding: 'var(--ob-space-6) var(--ob-space-10)', paddingRemovivel: 'var(--ob-space-6) var(--ob-space-6) var(--ob-space-6) var(--ob-space-10)', gap: 'var(--ob-space-6)', icone: 13, pesoDoIcone: 'bold', botao: 16, iconeDoBotao: 10 },
   md: { fonte: 13, padding: 'var(--ob-space-8) var(--ob-space-16)', paddingRemovivel: 'var(--ob-space-8) var(--ob-space-8) var(--ob-space-8) var(--ob-space-16)', gap: 'var(--ob-space-6)', icone: 15, pesoDoIcone: 'regular', botao: 18, iconeDoBotao: 11 },
   lg: { fonte: 15, padding: 'var(--ob-space-10) var(--ob-space-20)', paddingRemovivel: 'var(--ob-space-10) var(--ob-space-10) var(--ob-space-10) var(--ob-space-20)', gap: 'var(--ob-space-8)', icone: 18, pesoDoIcone: 'regular', botao: 22, iconeDoBotao: 13 },

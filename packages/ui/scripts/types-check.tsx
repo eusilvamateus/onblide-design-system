@@ -19,6 +19,8 @@ import type {
   ToastOptions, ToastShortcutOptions,
   Breakpoint, BreakpointName,
   CheckboxSize, RadioSize, SwitchSize,
+  FieldShellSize, InputSize, SelectSize, SearchInputSize, NumberFieldSize, DatepickerSize, AutocompleteSize, TextareaSize, CodeInputSize,
+  TabsSize, BadgeSize,
 } from '@onblide/ui';
 
 // Todo tipo usado em prop pública precisa estar exportado por src/index.ts
@@ -36,6 +38,8 @@ export type TiposExportados = [
   ToastOptions, ToastShortcutOptions,
   Breakpoint, BreakpointName,
   CheckboxSize, RadioSize, SwitchSize,
+  FieldShellSize, InputSize, SelectSize, SearchInputSize, NumberFieldSize, DatepickerSize, AutocompleteSize, TextareaSize, CodeInputSize,
+  TabsSize, BadgeSize,
 ];
 
 interface Linha { id: number; nome: string } // interface: sem index signature

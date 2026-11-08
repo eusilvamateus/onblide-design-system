@@ -30,3 +30,11 @@ export const ComUnidade = () => (
       endAddon={<Select embedded ariaLabel="Unidade" options={['g', 'kg']} defaultValue="g" />} />
   </div>
 );
+
+export const Tamanhos = () => (
+  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12, padding: 16, width: 220 }}>
+    <NumberField size="sm" ariaLabel="Quantidade pequena" defaultValue={2} min={1} />
+    <NumberField size="md" ariaLabel="Quantidade média" defaultValue={2} min={1} />
+    <NumberField size="lg" ariaLabel="Quantidade grande" defaultValue={2} min={1} />
+  </div>
+);

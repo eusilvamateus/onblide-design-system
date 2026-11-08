@@ -40,8 +40,10 @@ export const LinhaComCor = () => (
   </div>
 );
 
-export const Pequeno = () => (
-  <div style={{ padding: 16 }}>
+export const Tamanhos = () => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 16 }}>
     <Tabs tabs={abas.slice(0, 3)} active="historico" size="sm" />
+    <Tabs tabs={abas.slice(0, 3)} active="historico" size="md" />
+    <Tabs tabs={abas.slice(0, 3)} active="historico" size="lg" />
   </div>
 );

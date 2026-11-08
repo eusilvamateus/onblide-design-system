@@ -38,6 +38,8 @@ Combina com **Slider** quando os dois representam o mesmo valor (um mostra a fai
   endAddon={<Select embedded ariaLabel="Unidade" options={['g', 'kg']} value={un} onChange={setUn} />} />
 ```
 
+`size` aceita `sm` (32px de altura), `md` (40px, padrão) e `lg` (48px), as mesmas alturas do **Button**: um campo e um botão do mesmo tamanho ficam alinhados lado a lado. Texto em 13, 14 e 15px; os botões de incrementar e decrementar acompanham.
+
 `prefix` e `suffix` são texto fixo dentro do campo. Quando a unidade muda, use `startAddon` ou `endAddon` com um **Select** `embedded`: o complemento fica dentro da mesma borda, separado por uma divisória, e o foco e o erro envolvem os dois.
 
 ## Guia de conteúdo

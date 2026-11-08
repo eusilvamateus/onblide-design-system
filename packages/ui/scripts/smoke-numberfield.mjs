@@ -27,7 +27,7 @@ if (!prefix.includes('R$')) fail('deveria mostrar o prefixo', prefix);
 
 const fim = renderToStaticMarkup(h(NumberField, { value: 5, controls: 'none', endAddon: 'cm' }));
 if (!fim.includes('data-ob-addon') || !fim.includes('>cm</span>')) fail('endAddon ausente', fim);
-if (!fim.includes('padding:0 0px 0 12px') && !fim.includes('padding:0 0 0 12px')) fail('padding sem o lado do endAddon', fim);
+if (!fim.includes('padding:0 0 0 var(--ob-space-16)')) fail('padding sem o lado do endAddon', fim);
 if (!fim.includes('overflow:visible')) fail('com addon o campo não pode cortar a lista do Select', fim);
 const semAddon = renderToStaticMarkup(h(NumberField, { value: 5 }));
 if (semAddon.includes('data-ob-addon') || !semAddon.includes('overflow:hidden')) fail('sem addon mantém o corte de overflow', semAddon);

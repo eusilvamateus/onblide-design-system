@@ -2,6 +2,7 @@ import React from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { Ph } from '../../iconography/Ph/Ph';
 import { FieldAddon, focoNoAddon } from '../../internal/FieldAddon';
+import { ESCALA_DE_CAMPO, type TamanhoDeCampo } from '../../internal/tamanhoDeCampo';
 
 const numberFormat = (n: number | null | undefined, decimals: number, group = true): string =>
   n == null || Number.isNaN(n) ? '' : new Intl.NumberFormat('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals, useGrouping: group }).format(n);
@@ -16,6 +17,10 @@ const round = (n: number, decimals: number) => Math.round(n * 10 ** decimals) / 
 
 export type NumberFieldControls = 'split' | 'stacked' | 'none';
 export type NumberFieldAlign = 'left' | 'center' | 'right';
+/** Tamanho do campo: `sm` 32px, `md` 40px e `lg` 48px de altura, as mesmas alturas do `Button`. */
+export type NumberFieldSize = TamanhoDeCampo;
+
+const LARGURA_DO_EMPILHADO: Record<NumberFieldSize, number> = { sm: 24, md: 28, lg: 32 };
 
 export interface NumberFieldProps {
   label?: React.ReactNode;
@@ -41,6 +46,8 @@ export interface NumberFieldProps {
   readOnly?: boolean;
   placeholder?: string;
   width?: number | string;
+  /** Tamanho do campo, que ajusta altura, fonte, recuo e os botões de incrementar e decrementar. */
+  size?: NumberFieldSize;
   ariaLabel?: string;
   /** Conteúdo no início do campo, dentro da mesma borda e separado por uma divisória: texto, `Select` com `embedded` ou botão compacto. */
   startAddon?: React.ReactNode;
@@ -57,8 +64,9 @@ const btnBase: React.CSSProperties = {
 export const NumberField: React.FC<NumberFieldProps> = ({
   label, hint, error, value: valueProp, defaultValue = null, onChange, min = -Infinity, max = Infinity,
   step = 1, largeStep, decimals = 0, prefix, suffix, controls = 'split', clamp = true, align, disabled = false,
-  readOnly = false, placeholder, width, ariaLabel, startAddon, endAddon,
+  readOnly = false, placeholder, width, size = 'md', ariaLabel, startAddon, endAddon,
 }) => {
+  const escala = ESCALA_DE_CAMPO[size];
   const [val, setVal] = React.useState<number | null>(defaultValue);
   const value = valueProp !== undefined ? valueProp : val;
   const [text, setText] = React.useState('');
@@ -130,27 +138,27 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   const btn = (d: number, name: string, lbl: string, extra: React.CSSProperties) => (
     <button type="button" tabIndex={-1} aria-label={lbl} aria-controls={uid} disabled={locked || (d < 0 ? atMin : atMax)} onPointerDown={hold(d)}
       style={{ ...btnBase, ...extra, cursor: locked || (d < 0 ? atMin : atMax) ? 'not-allowed' : 'pointer', opacity: !locked && (d < 0 ? atMin : atMax) ? 'var(--ob-opacity-disabled)' : 1 }}>
-      <Ph n={name} size={controls === 'stacked' ? 12 : 16} c="currentColor" weight={controls === 'stacked' ? 'bold' : undefined} />
+      <Ph n={name} size={controls === 'stacked' ? 12 : escala.icone - 2} c="currentColor" weight={controls === 'stacked' ? 'bold' : undefined} />
     </button>
   );
-  const adorn = (t?: string) => t != null && <span style={{ fontSize: 14, color: 'var(--ob-fg-mute)', flex: 'none', whiteSpace: 'nowrap' }}>{t}</span>;
+  const adorn = (t?: string) => t != null && <span style={{ fontSize: escala.fonte, color: 'var(--ob-fg-mute)', flex: 'none', whiteSpace: 'nowrap' }}>{t}</span>;
   const textAlign = align || (controls === 'split' ? 'center' : 'left');
   const shown = focused ? text : numberFormat(value, decimals);
   const temInicio = startAddon != null && startAddon !== false;
   const temFim = endAddon != null && endAddon !== false;
   const emFoco = focused || addonFocused;
-  const [padEsq, padDir] = controls === 'split' ? [4, 4] : controls === 'stacked' ? [12, 0] : [12, 12];
+  const [padEsq, padDir] = controls === 'split' ? [escala.recuoDaAcao, escala.recuoDaAcao] : controls === 'stacked' ? [escala.recuo, '0'] : [escala.recuo, escala.recuo];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
       {label && <label htmlFor={uid} style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</label>}
-      <FieldShell focused={emFoco} error={!!err} disabled={disabled}
-        padding={`0 ${temFim ? 0 : padDir}px 0 ${temInicio ? 0 : padEsq}px`}
+      <FieldShell focused={emFoco} error={!!err} disabled={disabled} size={size}
+        padding={`0 ${temFim ? 0 : padDir} 0 ${temInicio ? 0 : padEsq}`}
         onClick={(e) => { if (focoNoAddon(e.target)) inputRef.current?.focus(); }}
         style={{ gap: 'var(--ob-space-8)', overflow: temInicio || temFim ? 'visible' : 'hidden', background: readOnly && !disabled ? 'var(--ob-bg-alt)' : undefined, alignItems: controls === 'stacked' ? 'stretch' : 'center' }}>
-        {temInicio && <FieldAddon side="start" focused={emFoco} error={!!err} onFocusChange={setAddonFocused}>{startAddon}</FieldAddon>}
-        {controls === 'split' && btn(-step, 'minus', 'Diminuir', { width: 32, height: 32, borderRadius: 'var(--ob-r-sm)', alignSelf: 'center' })}
-        <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-6)', flex: 1, minWidth: 0, justifyContent: textAlign === 'center' ? 'center' : textAlign === 'right' ? 'flex-end' : 'flex-start' }}>
+        {temInicio && <FieldAddon side="start" size={size} focused={emFoco} error={!!err} onFocusChange={setAddonFocused}>{startAddon}</FieldAddon>}
+        {controls === 'split' && btn(-step, 'minus', 'Diminuir', { width: escala.acao, height: escala.acao, borderRadius: 'var(--ob-r-sm)', alignSelf: 'center' })}
+        <span style={{ display: 'flex', alignItems: 'center', alignSelf: 'stretch', gap: 'var(--ob-space-6)', flex: 1, minWidth: 0, justifyContent: textAlign === 'center' ? 'center' : textAlign === 'right' ? 'flex-end' : 'flex-start' }}>
           {adorn(prefix)}
           <input id={uid} ref={inputRef} role="spinbutton" inputMode={decimals > 0 || min < 0 ? 'decimal' : 'numeric'} autoComplete="off"
             aria-valuenow={value ?? undefined} aria-valuemin={Number.isFinite(min) ? min : undefined} aria-valuemax={Number.isFinite(max) ? max : undefined}
@@ -162,19 +170,19 @@ export const NumberField: React.FC<NumberFieldProps> = ({
             onChange={(e) => setText(e.target.value.replace(/[^\d,.-]/g, ''))} onKeyDown={onKeyDown}
             style={{
               flex: textAlign === 'left' ? 1 : '0 1 auto', width: textAlign === 'left' ? 'auto' : `${Math.max(2, (shown || placeholder || '').length + 1)}ch`,
-              minWidth: 0, maxWidth: '100%', border: 'none', outline: 'none', background: 'transparent', fontFamily: 'inherit', fontSize: 14,
-              fontVariantNumeric: 'tabular-nums', color: 'var(--ob-fg-strong)', padding: 'var(--ob-space-10) 0', textAlign, cursor: disabled ? 'not-allowed' : readOnly ? 'default' : 'text',
+              minWidth: 0, maxWidth: '100%', border: 'none', outline: 'none', background: 'transparent', fontFamily: 'inherit', fontSize: escala.fonte,
+              fontVariantNumeric: 'tabular-nums', color: 'var(--ob-fg-strong)', padding: 0, alignSelf: 'stretch', textAlign, cursor: disabled ? 'not-allowed' : readOnly ? 'default' : 'text',
             }} />
           {adorn(suffix)}
         </span>
-        {controls === 'split' && btn(step, 'plus', 'Aumentar', { width: 32, height: 32, borderRadius: 'var(--ob-r-sm)', alignSelf: 'center' })}
+        {controls === 'split' && btn(step, 'plus', 'Aumentar', { width: escala.acao, height: escala.acao, borderRadius: 'var(--ob-r-sm)', alignSelf: 'center' })}
         {controls === 'stacked' && (
-          <span style={{ display: 'flex', flexDirection: 'column', width: 28, flex: 'none', borderLeft: '1px solid var(--ob-border)' }}>
+          <span style={{ display: 'flex', flexDirection: 'column', width: LARGURA_DO_EMPILHADO[size], flex: 'none', borderLeft: '1px solid var(--ob-border)' }}>
             {btn(step, 'caret-up', 'Aumentar', { flex: 1, width: '100%', borderBottom: '1px solid var(--ob-border)' })}
             {btn(-step, 'caret-down', 'Diminuir', { flex: 1, width: '100%' })}
           </span>
         )}
-        {temFim && <FieldAddon side="end" focused={emFoco} error={!!err} onFocusChange={setAddonFocused}>{endAddon}</FieldAddon>}
+        {temFim && <FieldAddon side="end" size={size} focused={emFoco} error={!!err} onFocusChange={setAddonFocused}>{endAddon}</FieldAddon>}
       </FieldShell>
       {(hint || err) && <span style={{ fontSize: 11, color: err ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{err || hint}</span>}
     </div>

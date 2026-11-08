@@ -7,6 +7,16 @@ import type { Appearance } from '../../internal/appearance';
 
 export type TabTone = ActionTone;
 export type TabsAppearance = Extract<Appearance, 'soft' | 'solid'>;
+/** Tamanho das abas, que ajusta texto, ícone e espaçamento interno. */
+export type TabsSize = 'sm' | 'md' | 'lg';
+
+interface EscalaDaAba { recuo: string; fonte: number; icone: number; contador: 'sm' | 'md' }
+
+const ESCALA_DA_ABA: Record<TabsSize, EscalaDaAba> = {
+  sm: { recuo: 'var(--ob-space-8) var(--ob-space-16)', fonte: 13, icone: 15, contador: 'sm' },
+  md: { recuo: 'var(--ob-space-10) var(--ob-space-20)', fonte: 14, icone: 15, contador: 'sm' },
+  lg: { recuo: 'var(--ob-space-12) var(--ob-space-24)', fonte: 15, icone: 18, contador: 'md' },
+};
 
 const useMedicao = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
 
@@ -39,7 +49,7 @@ export interface TabsProps {
   /** Estilo visual: sublinhado (`line`) ou segmentado (`pill`). */
   variant?: 'line' | 'pill';
   /** Tamanho do texto e do espaçamento interno das abas. */
-  size?: 'sm' | 'md';
+  size?: TabsSize;
   /** Pintura da aba ativa na variante `pill`, quando ela tem `tone`: `soft` usa o fundo clarinho do tom e `solid` preenche com a cor forte do tom. Sem ela, a aba ativa fica com fundo de superfície e só o texto no tom. Ignorada na variante `line`. */
   appearance?: TabsAppearance;
   /** Mostra um ponto na cor do `tone` antes do rótulo de cada aba que tem tom. */
@@ -49,8 +59,7 @@ export interface TabsProps {
 /** Alterna entre seções de conteúdo relacionado sem mudar de página. */
 export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant = 'line', size = 'md', appearance, dot = false }) => {
   const isLine = variant === 'line';
-  const pad = size === 'sm' ? 'var(--ob-space-8) var(--ob-space-16)' : 'var(--ob-space-10) var(--ob-space-20)';
-  const fs  = size === 'sm' ? 13 : 14;
+  const escala = ESCALA_DA_ABA[size];
   const lista = React.useRef<HTMLDivElement>(null);
   const [indicador, setIndicador] = React.useState<Indicador | null>(null);
   const ids = tabs.map(tab => tab.id).join('|');
@@ -127,8 +136,8 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
               data-ativa={isActive ? '' : undefined}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)',
-                padding: pad, border: 'none', cursor: tab.disabled ? 'not-allowed' : 'pointer',
-                fontFamily: 'var(--ob-font)', fontSize: fs, fontWeight: 600,
+                padding: escala.recuo, border: 'none', cursor: tab.disabled ? 'not-allowed' : 'pointer',
+                fontFamily: 'var(--ob-font)', fontSize: escala.fonte, fontWeight: 600,
                 borderRadius: isLine ? 0 : 'var(--ob-r-sm)',
                 transition: `color ${deslizando}`,
                 position: 'relative',
@@ -141,12 +150,12 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
               {dot && colorida && (
                 <span aria-hidden="true" style={{ width: 7, height: 7, borderRadius: 'var(--ob-r-circle)', background: tom.fg, flex: 'none' }}/>
               )}
-              {tab.icon && <Ph n={tab.icon} size={15} weight={isActive ? 'fill' : 'regular'}/>}
+              {tab.icon && <Ph n={tab.icon} size={escala.icone} weight={isActive ? 'fill' : 'regular'}/>}
               {tab.label}
               {tab.badge != null && (
                 preenchida
-                  ? <Badge tone="neutral" size="sm" dot={false}>{tab.badge}</Badge>
-                  : <Badge tone={isActive ? (colorida ? TOM_DO_CONTADOR[tab.tone as TabTone] : 'primary') : 'neutral'} appearance={isActive ? 'solid' : 'soft'} size="sm" dot={false}>{tab.badge}</Badge>
+                  ? <Badge tone="neutral" size={escala.contador} dot={false}>{tab.badge}</Badge>
+                  : <Badge tone={isActive ? (colorida ? TOM_DO_CONTADOR[tab.tone as TabTone] : 'primary') : 'neutral'} appearance={isActive ? 'solid' : 'soft'} size={escala.contador} dot={false}>{tab.badge}</Badge>
               )}
               {!indicador && isLine && isActive && (
                 <span style={{
