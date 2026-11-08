@@ -19,3 +19,21 @@ export const Fim = () => {
 };
 
 export const NaoControlado = () => <div style={box}><Pagination defaultPage={3} total={50} /></div>;
+
+export const Tamanhos = () => (
+  <div style={{ ...box, display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <Pagination size="sm" defaultPage={4} total={12} />
+    <Pagination size="md" defaultPage={4} total={12} />
+    <Pagination size="lg" defaultPage={4} total={12} />
+  </div>
+);
+
+export const PrimeiraEUltima = () => <div style={box}><Pagination defaultPage={8} total={40} showEdges /></div>;
+
+export const IrPara = () => <div style={box}><Pagination defaultPage={8} total={40} showJumper /></div>;
+
+export const ItensPorPagina = () => (
+  <div style={box}><Pagination totalItems={487} pageSizeOptions={[10, 20, 50]} /></div>
+);
+
+export const Compacta = () => <div style={box}><Pagination variant="compact" defaultPage={3} total={20} showEdges /></div>;

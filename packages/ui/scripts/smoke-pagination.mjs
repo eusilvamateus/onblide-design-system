@@ -61,4 +61,33 @@ if (!/aria-label="Página 6" aria-current="page"[^>]*>6<\/button>/.test(ativa)) 
 if (!ativa.includes('aria-label="Página anterior"') || !ativa.includes('aria-label="Próxima página"')) fail('setas sem nome acessível', ativa);
 if (!ativa.includes('aria-label="Voltar 5 páginas"') || !ativa.includes('aria-label="Avançar 5 páginas"')) fail('reticências deveriam ser botões que saltam 5 páginas', ativa);
 
-console.log('OK: Pagination (janela de páginas, reticência nunca esconde uma página só, reticências que saltam, setas desabilitadas, página ativa, acessibilidade)');
+const bordas = render({ page: 1, total: 20, showEdges: true });
+if (!bordas.includes('aria-label="Primeira página"') || !bordas.includes('aria-label="Última página"')) fail('showEdges mostra primeira e última página', bordas);
+if (!bordas.includes('ph-caret-line-left') || !bordas.includes('ph-caret-line-right')) fail('ícones de primeira e última página', bordas);
+if (desabilitados(bordas) !== 2) fail('na página 1, primeira e anterior ficam desabilitadas', bordas);
+if (render({ page: 1, total: 20 }).includes('Primeira página')) fail('sem showEdges não há primeira e última página');
+
+const compacta = render({ page: 3, total: 20, variant: 'compact' });
+if (!/Página <strong[^>]*>3<\/strong> de 20/.test(compacta)) fail('compact mostra "Página 3 de 20"', compacta);
+if (compacta.includes('aria-label="Página 1"') || compacta.includes('Avançar')) fail('compact não mostra os números nem as reticências', compacta);
+if (!compacta.includes('aria-live="polite"')) fail('compact anuncia a página nova', compacta);
+
+const comItens = render({ page: 2, totalItems: 205, pageSize: 20 });
+if (!comItens.includes('21–40 de 205')) fail('resumo com totalItems', comItens);
+if (!comItens.includes('aria-label="Página 11"') || comItens.includes('aria-label="Página 12"')) fail('total de páginas vem de totalItems e pageSize', comItens);
+if (!render({ totalItems: 0 }).includes('Nenhum item')) fail('resumo sem itens');
+if (!render({ page: 11, totalItems: 205, pageSize: 20 }).includes('201–205 de 205')) fail('a última página termina no total de itens');
+
+const seletor = render({ totalItems: 200, pageSizeOptions: [10, 20, 50] });
+if (!seletor.includes('aria-label="Itens por página"') || !seletor.includes('value="10 por página"')) fail('pageSizeOptions mostra o seletor com a primeira opção', seletor);
+if (!render({ totalItems: 200, pageSizeOptions: [10, 20, 50], defaultPageSize: 50 }).includes('1–50 de 200')) fail('defaultPageSize define os itens por página');
+
+const salto = render({ total: 20, showJumper: true });
+if (!salto.includes('Ir para') || !salto.includes('aria-label="Ir para a página"') || !salto.includes('role="spinbutton"')) fail('showJumper mostra o campo "Ir para"', salto);
+
+for (const [size, lado, fonte] of [['sm', 32, 13], ['md', 40, 14], ['lg', 48, 15]]) {
+  const html = render({ page: 2, total: 5, size });
+  if (!html.includes(`min-width:${lado}px;height:${lado}px`) || !html.includes(`font-size:${fonte}px`)) fail(`size ${size}: botões de ${lado}px e texto de ${fonte}px`, html);
+}
+
+console.log('OK: Pagination (janela de páginas, reticências que saltam, setas, primeira e última, compacta, resumo de itens, itens por página, "Ir para", tamanhos, acessibilidade)');
