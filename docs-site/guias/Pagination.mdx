@@ -1,5 +1,5 @@
 ---
-resumo: "Navegação entre páginas de uma lista longa, com ellipsis dinâmico e setas."
+resumo: "Navegação entre páginas de uma lista longa, com setas e reticências que saltam páginas."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
 ---
 
@@ -7,14 +7,20 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Listas paginadas (tabelas, resultados). Mostra primeira, última, vizinhas da atual e ellipsis no meio.
+Listas paginadas (tabelas, resultados). Mostra a primeira, a última e as vizinhas da atual; os intervalos escondidos viram reticências.
 
 ## Formatação
 
 ```jsx
 <Pagination page={p} total={20}
   siblings={1} onChange={setP} />
+
+<Pagination defaultPage={1} total={20} />
 ```
+
+Com `page`, quem usa guarda a página e a atualiza no `onChange`. Sem `page`, a Pagination guarda a própria página (`defaultPage` define a inicial) e só avisa a escolha pelo `onChange`.
+
+As reticências são botões: a da direita avança 5 páginas e a da esquerda volta 5. No hover e no foco, o "…" vira uma seta dupla. Uma reticência nunca esconde uma página só; nesse caso a página aparece no lugar dela.
 
 ## Guia de conteúdo
 

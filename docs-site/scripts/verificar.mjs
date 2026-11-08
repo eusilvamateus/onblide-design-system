@@ -156,6 +156,16 @@ for (const alvo of [p.locator('nav[aria-label="Principal"] a', { hasText: 'Equip
   await p.waitForTimeout(200);
   if (Math.abs((await p.evaluate(() => scrollY)) - antes) > 1) falhas.push('/componentes/Navbar: clicar num link dos exemplos rola a página para o topo');
 }
+await p.goto(base + '/componentes/Pagination');
+await p.waitForSelector('.ob-demo__resultado nav[aria-label="Paginação"]');
+const paginaAtual = () => p.locator('.ob-demo__resultado [aria-current="page"]').textContent();
+await p.locator('.ob-demo__resultado [aria-label="Próxima página"]').click();
+if ((await paginaAtual())?.trim() !== '6') falhas.push('/componentes/Pagination: a seta da demo não avança a página');
+await p.locator('.ob-demo__resultado [aria-label="Avançar 5 páginas"]').click();
+if ((await paginaAtual())?.trim() !== '11') falhas.push('/componentes/Pagination: a reticência da demo não avança 5 páginas');
+const exemplo = p.locator('nav[aria-label="Paginação"]').nth(1);
+await exemplo.locator('[aria-label="Próxima página"]').click();
+if ((await exemplo.locator('[aria-current="page"]').textContent())?.trim() !== '2') falhas.push('/componentes/Pagination: o primeiro exemplo não muda de página');
 await p.goto(base + '/fundacoes/breakpoints');
 for (const [largura, esperada] of faixas) {
   await p.setViewportSize({ width: largura, height: 900 });

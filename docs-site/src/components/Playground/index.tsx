@@ -19,7 +19,7 @@ const CONDICIONAIS: Record<string, Record<string, { prop: string; valor: string 
 
 const REMONTA = ['selection'];
 
-const LIGADAS = ['open', 'onClose', 'onChange', 'checked', 'value', 'values', 'active'];
+const LIGADAS = ['open', 'onClose', 'onChange', 'checked', 'value', 'values', 'active', 'page'];
 
 function controlesDe(nome: string, brutos: Record<string, string>): Controle[] {
   const lista: Controle[] = [];
@@ -98,8 +98,8 @@ export default function Playground({
   };
 
   const evento = temProp('onChange') ? 'onChange' : temProp('onNav') && !('onNav' in brutos) ? 'onNav' : null;
-  const controlado = !!evento && (temProp('checked') || temProp('value') || temProp('active'));
-  const alvoLigado = temProp('checked') ? 'checked' : temProp('value') ? 'value' : 'active';
+  const controlado = !!evento && (temProp('checked') || temProp('value') || temProp('active') || temProp('page'));
+  const alvoLigado = temProp('checked') ? 'checked' : temProp('value') ? 'value' : temProp('page') ? 'page' : 'active';
 
   const alternavel = temProp('selected') && temProp('onToggle');
 
