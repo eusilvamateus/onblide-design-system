@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { Button } from '../../actions/Button/Button';
 import { Ph } from '../../iconography/Ph/Ph';
-import { injectSpinKeyframes } from '../../internal/keyframes';
+import { Spinner } from '../../feedback/Spinner/Spinner';
+
+const ESPACO_DA_ACAO = 32;
 
 export interface SearchInputProps {
   /** Texto atual do campo de busca. */
@@ -33,7 +35,11 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         <input role="searchbox" value={value} disabled={disabled} aria-label={ariaLabel} placeholder={placeholder}
           onChange={(e) => onChange?.(e.target.value)} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)}
           style={{ flex: 1, minWidth: 0, border: 'none', outline: 'none', background: 'none', fontFamily: 'var(--ob-font)', fontSize: 14.5, color: 'var(--ob-fg-strong)' }} />
-        {loading && <Ph n="circle-notch" size={17} c="var(--ob-blue)" style={{ animation: 'ob-spin var(--ob-dur-spin) linear infinite', marginRight: 'var(--ob-space-8)' }} />}
+        {loading && (
+          <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: ESPACO_DA_ACAO, height: ESPACO_DA_ACAO, flex: 'none' }}>
+            <Spinner size="sm" label="Buscando" />
+          </span>
+        )}
         {!loading && value && !disabled && (
           <Button kind="neutral" iconOnly size="sm" aria-label="Limpar" onClick={() => onChange?.('')} icon={<Ph n="x-circle" size={17} />} />
         )}
@@ -41,5 +47,3 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     </div>
   );
 };
-
-injectSpinKeyframes();

@@ -20,7 +20,9 @@ const comValor = render({ value: 'ab' });
 if (!comValor.includes('value="ab"') || !comValor.includes('aria-label="Limpar"')) fail('valor e botão de limpar', comValor);
 
 const carregando = render({ value: 'ab', loading: true });
-if (!carregando.includes('ph-circle-notch')) fail('loading mostra o indicador', carregando);
+if (!carregando.includes('role="status"') || !carregando.includes('aria-label="Buscando"')) fail('loading mostra o Spinner do design system', carregando);
+if (carregando.includes('ph-circle-notch')) fail('o loading não gira um ícone da fonte; usa o Spinner', carregando);
+if (!carregando.includes('width:32px;height:32px')) fail('o Spinner ocupa o mesmo espaço do botão de limpar', carregando);
 if (carregando.includes('aria-label="Limpar"')) fail('loading esconde o botão de limpar', carregando);
 
 const desabilitado = render({ value: 'ab', disabled: true });
