@@ -23,6 +23,7 @@ import type {
   TabsSize, BadgeSize,
   AccordionAppearance, AccordionSize, AccordionHeadingLevel,
   PaginationSize, PaginationVariant, StepperSize,
+  TableSize, TableAlign, TableRowKey,
 } from '@onblide/ui';
 
 // Todo tipo usado em prop pública precisa estar exportado por src/index.ts
@@ -44,6 +45,7 @@ export type TiposExportados = [
   TabsSize, BadgeSize,
   AccordionAppearance, AccordionSize, AccordionHeadingLevel,
   PaginationSize, PaginationVariant, StepperSize,
+  TableSize, TableAlign, TableRowKey,
 ];
 
 interface Linha { id: number; nome: string } // interface: sem index signature
@@ -63,6 +65,10 @@ export function Verificacoes({ linhas, aliases }: { linhas: Linha[]; aliases: Li
       <Table rows={linhas} />
       <Table<Linha> rows={linhas} columns={[{ key: 'nome', label: 'Nome', render: (valor, linha) => `${String(valor)}-${linha.id}` }]} />
       <Table rows={aliases} />
+      <Table<Linha> rows={linhas} rowKey="id" size="lg" selectable selectedKeys={[1]} onSelect={(sel, chaves) => setLista(sel.map((l) => l.nome).concat(chaves.map(String)))} />
+      <Table<Linha> rows={linhas} rowKey={(l) => l.nome} onRowClick={(l) => setTexto(l.nome)} renderExpanded={(l) => l.nome} onExpandedChange={(chaves) => setNum(chaves.length)} maxHeight={320} caption="Pessoas" columns={[{ key: 'id', label: 'ID', align: 'right' }]} />
+      {/* @ts-expect-error rowKey precisa ser um campo da linha */}
+      <Table<Linha> rows={linhas} rowKey="inexistente" />
       <Table />
 
       {/* Select: setState direto como onChange, nos dois modos */}

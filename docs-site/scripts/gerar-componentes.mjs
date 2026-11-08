@@ -81,7 +81,7 @@ const titulos = {
   Inicio: 'Início', Integracoes: 'Integrações', Intervalo: 'Intervalo', Invertido: 'Invertido', Linha: 'Linha',
   Medio: 'Médio', Meio: 'Meio', Multipla: 'Múltipla', Navegacao: 'Navegação', Padrao: 'Padrão', Pequeno: 'Pequeno',
   Pilula: 'Pílula', PreEnchido: 'Pré-preenchido', Recolhido: 'Recolhido', Removiveis: 'Removíveis',
-  Rolavel: 'Rolável', Selecionavel: 'Selecionável',
+  Rolavel: 'Rolável', Selecionavel: 'Selecionável', CabecalhoFixo: 'Cabeçalho fixo', LinhaClicavel: 'Linha clicável', Expansivel: 'Expansível', SelecaoEntrePaginas: 'Seleção entre páginas',
   SemDescricao: 'Sem descrição', Simples: 'Simples', Sombra: 'Com sombra', Sucesso: 'Sucesso', Tamanhos: 'Tamanhos',
   TamanhosECores: 'Tamanhos e cores', Texto: 'Texto', Tons: 'Tons', Variantes: 'Variantes', Vazio: 'Vazio',
   Aparencia: 'Aparência', SoIcone: 'Só ícone', Anexado: 'Anexado', Espacado: 'Espaçado', SemCaixa: 'Sem caixa', NaoControlado: 'Não controlado', PrimeiraEUltima: 'Primeira e última', IrPara: 'Ir para', ItensPorPagina: 'Itens por página', Compacta: 'Compacta',

@@ -1,6 +1,6 @@
 ---
-resumo: "Exibe conjuntos de dados estruturados em linhas e colunas. Suporta seleção de linhas, ordenação por coluna, estado de loading (skeleton) e estado vazio. Compõe com **Tabs**, **Badge**, **Pagination** e **SearchInput**."
-criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+resumo: "Exibe conjuntos de dados estruturados em linhas e colunas. Suporta seleção que segue a linha entre páginas, ordenação por coluna pelo mouse e pelo teclado, linhas clicáveis e expansíveis, cabeçalho fixo, alinhamento por coluna, três densidades, carregamento com **Skeleton** e estado vazio. Compõe com **Tabs**, **Badge**, **Pagination** e **SearchInput**."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
 ---
 
 {/* Guia do Table: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
@@ -9,46 +9,54 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 Use Table para dados estruturados com 3+ colunas onde o usuário precisa escanear, comparar ou selecionar itens. Para listas simples de 1–2 atributos, prefira uma lista comum.
 
-### Quando usar cada feature
+### Quando usar cada recurso
 
-- **Seleção** (`selectable`): quando há ações em lote, como excluir, exportar ou mover selecionados.
-- **Ordenação** (`sortable` por coluna): quando a ordem importa para o usuário (data, valor, status). Sem `onSort`,
-  a Table ordena as linhas sozinha ao clicar no cabeçalho (crescente → decrescente → sem ordenação), reconhecendo
-  data em `dd/mm/aaaa`, número e texto. Use `onSort` só quando quem busca os dados precisa decidir a ordenação,
-  como numa paginação no servidor; nesse caso a Table para de ordenar sozinha e só avisa qual coluna foi
-  clicada.
-- **Loading skeleton** (`loading`): sempre que os dados vêm de requisição assíncrona.
+- **Identificador da linha** (`rowKey`): a seleção e as linhas abertas seguem esse identificador, então continuam certas ao paginar, filtrar, ordenar ou excluir. Sem `rowKey`, a Table usa o campo `id` da linha e, na falta dele, a posição. Se as linhas mudam, tenha um `id` ou passe `rowKey`.
+- **Seleção** (`selectable`): quando há ações em lote, como excluir, exportar ou mover selecionados. `onSelect` recebe as linhas selecionadas da página e todos os identificadores selecionados. Para selecionar entre páginas ou limpar a seleção depois de uma ação, controle com `selectedKeys`.
+- **Ordenação** (`sortable` por coluna): quando a ordem importa para o usuário (data, valor, status). O cabeçalho vira um botão, que funciona com clique, Enter ou Espaço e anuncia a ordem atual a leitores de tela. Sem `onSort`, a Table ordena as linhas sozinha (crescente → decrescente → sem ordenação), reconhecendo data em `dd/mm/aaaa`, número e texto. Use `onSort` só quando quem busca os dados decide a ordenação, como numa paginação no servidor; nesse caso a Table só avisa qual coluna foi clicada.
+- **Linha clicável** (`onRowClick`): quando a linha leva ao detalhe do item. A linha recebe foco e abre com Enter ou Espaço. Cliques em botões, links, checkboxes e campos dentro da linha não disparam `onRowClick`.
+- **Linha expansível** (`renderExpanded`): para mostrar detalhes abaixo da linha sem sair da tela, como itens de um pedido ou o histórico de um registro. Linhas para as quais a função devolve `null` não ganham o botão de abrir. Controle com `expandedKeys` e `onExpandedChange`, ou use `defaultExpandedKeys`.
+- **Cabeçalho fixo** (`maxHeight`): em listas longas sem paginação, limite a altura; o corpo rola e o cabeçalho fica no topo.
+- **Alinhamento** (`align` por coluna): números e valores sempre à direita, para que as casas fiquem uma embaixo da outra. Nessas colunas os algarismos têm largura fixa.
+- **Título** (`caption`): um título visível acima do cabeçalho, também lido por leitores de tela. Sem título visível, nomeie a tabela com `ariaLabel`.
+- **Carregamento** (`loading`): sempre que os dados vêm de requisição assíncrona. As linhas viram **Skeleton**.
 - **Estado vazio** (`emptyState`): nunca deixe a tabela simplesmente sem linhas, oriente o próximo passo. Passe um **EmptyState** com `size="sm"`.
 
 <FacaEvite>
 <Faca>
 
-Coluna de nome/título sempre em negrito (`bold: true`). Use `render` para Badges de status. Paginação abaixo para listas longas.
+Coluna de nome/título sempre em negrito (`bold: true`). Valores à direita (`align: 'right'`). Use `render` para Badges de status. Paginação abaixo para listas longas.
 
 </Faca>
 <Evite>
 
-Mais de 7 colunas sem scroll horizontal. Tabela em mobile sem adaptação: prefira cards verticais abaixo de 640 px.
+Mais de 7 colunas sem scroll horizontal. Linha clicável e linha expansível na mesma tabela: a pessoa não sabe qual das duas o clique faz.
 
 </Evite>
 </FacaEvite>
+
+### Tamanhos
+
+`size` aceita `sm`, `md` (padrão) e `lg`, com texto de 13, 14 e 15px e o espaço das células crescendo junto. Use `sm` em painéis densos e telas de consulta, e `lg` em tabelas curtas que são o centro da página.
 
 ### Composição
 
 - **Tabs** acima para filtrar categoria de dados.
 - **SearchInput** para filtro inline.
 - **Badge** nas células de status/prioridade via prop `render`.
-- **Pagination** abaixo para conjuntos grandes.
+- **Pagination** abaixo para conjuntos grandes; com `selectedKeys`, a seleção sobrevive à troca de página.
 - **Menu** (kebab) por linha para ações contextuais.
 
 ## Formatação
 
 ```jsx
 <Table
+  rowKey="id"
   columns={[
     { key: 'name',   label: 'Tarefa',  bold: true },
     { key: 'status', label: 'Status',  render: (v) => <Badge tone="success">{v}</Badge> },
     { key: 'due',    label: 'Prazo',   sortable: true, width: 90 },
+    { key: 'hours',  label: 'Horas',   align: 'right' },
   ]}
   rows={tasks}
   selectable
@@ -57,19 +65,23 @@ Mais de 7 colunas sem scroll horizontal. Tabela em mobile sem adaptação: prefi
 />
 ```
 
-Sem `onSort`, é só isso, clicar em "Prazo" já ordena. Com dados paginados no servidor, controle a ordenação você
+Sem `onSort`, é só isso: clicar em "Prazo" já ordena. Com dados paginados no servidor, controle a ordenação e a seleção você
 mesmo:
 
 ```jsx
 <Table
+  rowKey="id"
   columns={columns}
   rows={tasks}
   sort={sort}
   onSort={(key) => buscarPagina({ sort: proximaOrdenacao(sort, key) })}
+  selectable
+  selectedKeys={selecionadas}
+  onSelect={(_, chaves) => setSelecionadas(chaves)}
 />
 ```
 
-Tipo `Column`: `{ key, label, bold?, sortable?, width?, render?: (value, row) => ReactNode }`
+Tipo `TableColumn`: `{ key, label, bold?, sortable?, align?, width?, render?: (value, row) => ReactNode }`
 
 ## Guia de conteúdo
 
@@ -77,19 +89,23 @@ Tipo `Column`: `{ key, label, bold?, sortable?, width?, render?: (value, row) =>
 - Coluna de nome: sempre a primeira, em negrito, com o identificador principal do item.
 - Status: use Badge com tom semântico (green=concluído, blue=andamento, orange=pendente, red=atrasado).
 - Datas: formato "dd mmm" (ex: "04 jun"), compacto e legível.
+- Valores: com a unidade ou a moeda, à direita.
+- Título (`caption`): diga o que a tabela lista, como "Pedidos de outubro".
 - Estado vazio: inclua um CTA. "Nenhuma tarefa encontrada. Criar tarefa."
 - Estado de loading: skeleton automático, não adicione texto.
 
 ## Guia de design
 
-**Tokens.** Cabeçalho: mono 11px uppercase, cor `--ob-fg-mute`, borda de baixo `1px solid --ob-line-soft`, igual à das linhas (a hierarquia vem da tipografia; só o contorno externo usa `--ob-border`). Linha: 14px, hover `--ob-bg-warm`, selecionada `color-mix(--ob-blue 8%)`. Borda entre linhas `--ob-line-soft`.
+**Tokens.** Cabeçalho: mono 11px (12px no `lg`) uppercase, cor `--ob-fg-mute`, borda de baixo `1px solid --ob-line-soft`, igual à das linhas (a hierarquia vem da tipografia; só o contorno externo usa `--ob-border`). Linha: 14px no `md`, hover `--ob-bg-warm`, selecionada `--ob-blue-100`. Detalhe expandido sobre `--ob-bg-alt`. Foco do teclado no cabeçalho e na linha clicável com `--ob-focus-ring`.
 
-**Scroll horizontal.** O container rola na horizontal pelo `ScrollArea`, para não quebrar o layout em viewports estreitas. Em mobile (\< 640px), considere uma visualização alternativa em cards empilhados.
+**Movimento.** A linha expandida abre e fecha deslizando (`--ob-dur-base`), e a seta do botão gira junto. Com movimento reduzido, a troca é imediata.
 
-**Seleção.** Checkbox indeterminate quando parte das linhas está selecionada. Linha selecionada com background azul sutil. Ação em lote deve aparecer acima da tabela ao selecionar ≥ 1 linha.
+**Scroll.** O container rola na horizontal pelo `ScrollArea`, para não quebrar o layout em telas estreitas. Com `maxHeight`, rola também na vertical, com o cabeçalho fixo.
+
+**Seleção.** Checkbox indeterminate quando parte das linhas da página está selecionada. Linha selecionada com fundo azul sutil. A ação em lote aparece acima da tabela ao selecionar ≥ 1 linha, com o total selecionado e um botão para limpar.
 
 <Nota>
 
-**Table não é mobile-first.** Para viewports abaixo de 640px, converta os dados em cards verticais ou use um layout responsivo alternativo. Tabela com scroll horizontal é aceitável somente em contextos de uso desktop.
+**Table não é mobile-first.** Abaixo de `sm` (768px), converta os dados em cards verticais ou use um layout alternativo. Tabela com scroll horizontal é aceitável somente em contextos de uso desktop.
 
 </Nota>

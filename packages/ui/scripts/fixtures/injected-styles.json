@@ -44,8 +44,8 @@
     "css": "@keyframes ob-shake{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(2px)}30%,50%,70%{transform:translateX(-4px)}40%,60%{transform:translateX(4px)}}"
   },
   {
-    "id": "ob-pulse-kf",
-    "css": "@keyframes ob-pulse{0%,100%{opacity:1}50%{opacity:var(--ob-opacity-muted)}}"
+    "id": "ob-table",
+    "css": ".ob-table-ordenar{transition:color var(--ob-dur-fast) var(--ob-ease)}.ob-table-ordenar:hover{color:var(--ob-fg)}.ob-table-ordenar:focus-visible,.ob-table-linha:focus-visible{outline:var(--ob-focus-ring-width) solid var(--ob-focus-ring);outline-offset:calc(var(--ob-focus-ring-width) * -1)}.ob-table-ordenar:focus-visible{outline-offset:var(--ob-space-2)}"
   },
   {
     "id": "ob-modal-layout",
