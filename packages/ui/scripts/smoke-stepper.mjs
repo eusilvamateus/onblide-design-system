@@ -36,4 +36,15 @@ if ((nonLinear.match(/<button/g) || []).length !== 2) fail('não linear: qualque
     }
   }
 }
-console.log('OK: Stepper (aria-current, 5 variantes, status sobrepõe, linear/não-linear)');
+const comDica = [{ label: 'Escopo', hint: 'Entregáveis' }, { label: 'Orçamento' }, { label: 'Aprovação' }];
+for (const [size, marcador, rotulo] of [['sm', 22, 'var(--ob-fs-xs)'], ['md', 28, 'var(--ob-fs-sm)'], ['lg', 34, 'var(--ob-fs-base)']]) {
+  for (const variant of ['horizontal', 'vertical', 'bar']) {
+    const html = renderToStaticMarkup(h(Stepper, { steps: comDica, current: 1, size, variant }));
+    if (!html.includes('width:' + marcador + 'px;height:' + marcador + 'px')) fail('size ' + size + ' (' + variant + '): marcador de ' + marcador + 'px', html);
+    if (!html.includes('font-size:' + rotulo)) fail('size ' + size + ' (' + variant + '): rótulo em ' + rotulo, html);
+  }
+}
+if (renderToStaticMarkup(h(Stepper, { steps: comDica, current: 1, size: 'sm' })).includes('Entregáveis')) fail('sm esconde a dica');
+if (!renderToStaticMarkup(h(Stepper, { steps: comDica, current: 1, size: 'lg' })).includes('Entregáveis')) fail('lg mostra a dica');
+if (!renderToStaticMarkup(h(Stepper, { steps, current: 1, size: 'lg', variant: 'compact' })).includes('font-size:var(--ob-fs-md)')) fail('compact lg destaca a etapa em fs-md');
+console.log('OK: Stepper (aria-current, 5 variantes, status sobrepõe, linear/não-linear, tamanhos sm/md/lg)');

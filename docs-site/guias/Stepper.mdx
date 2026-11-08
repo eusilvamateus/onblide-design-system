@@ -1,5 +1,5 @@
 ---
-resumo: "Indicador de etapas de um fluxo. Cinco layouts, três marcadores, dois tamanhos: os estados são independentes da variante escolhida."
+resumo: "Indicador de etapas de um fluxo. Cinco layouts, três marcadores, três tamanhos: os estados são independentes da variante escolhida."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",true]]
 ---
 
@@ -15,6 +15,10 @@ cada uma, diferente de `Tabs` ou de um `ProgressBar` com `segments`, que não no
 - **`bar`**: barra contínua com marcadores sobre ela.
 - **`segmented`**: um segmento por etapa, cada um com o estado da própria etapa.
 - **`compact`**: "Etapa 2 de 4 · Escopo" + barra; use em mobile, modal ou Drawer.
+
+### Tamanhos
+
+`size` aceita `sm` (marcador de 22px), `md` (28px, padrão) e `lg` (34px). Texto, dica, linhas e barra crescem junto. Use `sm` em painéis e modais estreitos e `lg` em fluxos de página inteira, como onboarding e cadastro em etapas. No `sm` a dica (`hint`) não aparece.
 
 <FacaEvite>
 <Faca>

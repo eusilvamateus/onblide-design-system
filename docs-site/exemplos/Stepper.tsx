@@ -25,3 +25,11 @@ export const ComErro = () => (
     <Stepper steps={[{ label: 'Escopo' }, { label: 'Orçamento', status: 'error', hint: 'Falta o valor' }, { label: 'Aprovação' }]} current={2} />
   </div>
 );
+
+export const Tamanhos = () => (
+  <div style={{ padding: 16, width: 560, display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <Stepper steps={etapas} current={1} size="sm" />
+    <Stepper steps={etapas} current={1} size="md" />
+    <Stepper steps={etapas} current={1} size="lg" />
+  </div>
+);
