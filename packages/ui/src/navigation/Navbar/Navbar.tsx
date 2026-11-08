@@ -20,7 +20,7 @@ export interface NavbarItem {
   id: string;
   /** Rótulo do link. */
   label: React.ReactNode;
-  /** URL do link; sem `onNav`, segue normalmente. */
+  /** URL do link; sem `onNav`, segue normalmente. Sem `href` e sem `onNav`, o clique não navega. */
   href?: string;
   /** Nome do ícone Phosphor (sem o prefixo "ph-") exibido antes do rótulo. */
   icon?: string;
@@ -43,7 +43,7 @@ export const NavbarLink: React.FC<NavbarLinkProps> = ({ item, active, size, onNa
   const [focus, setFocus] = useState(false);
   return (
     <a href={item.href || '#'} aria-current={active ? 'page' : undefined}
-      onClick={(e) => { if (onNav) { e.preventDefault(); onNav(item.id); } }}
+      onClick={(e) => { if (onNav || !item.href) e.preventDefault(); onNav?.(item.id); }}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       onFocus={(e) => setFocus(e.target.matches(':focus-visible'))} onBlur={() => setFocus(false)}
       style={{ position: 'relative', height: underline ? '100%' : z.link, display: 'flex', alignItems: 'center', gap: 'var(--ob-space-6)', padding: '0 var(--ob-space-12)', borderRadius: 'var(--ob-r-control)', textDecoration: 'none', fontSize: 'var(--ob-fs-sm)', fontWeight: active ? 'var(--ob-w-semibold)' : 'var(--ob-w-medium)', color: active ? 'var(--ob-fg-strong)' : hover ? 'var(--ob-fg-strong)' : 'var(--ob-fg)', background: !underline && (active || hover) ? 'var(--ob-surface-2)' : 'transparent', boxShadow: focus ? 'inset 0 0 0 var(--ob-focus-ring-width) var(--ob-focus-ring)' : 'none', outline: 'none', whiteSpace: 'nowrap', transition: 'color var(--ob-dur-fast) var(--ob-ease), background var(--ob-dur-fast) var(--ob-ease)' }}>
@@ -126,12 +126,12 @@ export const Navbar: React.FC<NavbarProps> = ({ layout = 'links', items = [], ac
   const z = NB_SIZE[size];
   const underline = layout === 'links' && !secondary;
   return (
-    <header style={{ position: sticky ? 'sticky' : 'relative', top: 0, zIndex: 'var(--ob-z-raised)' as React.CSSProperties['zIndex'], background: 'var(--ob-surface)', borderBottom: '1px solid var(--ob-border)', boxShadow: elevated ? 'var(--ob-shadow-sm)' : 'none', transition: 'box-shadow var(--ob-dur-base) var(--ob-ease)', fontFamily: 'var(--ob-font)', ...style }}>
+    <header style={{ position: sticky ? 'sticky' : 'relative', top: 0, width: '100%', boxSizing: 'border-box', zIndex: 'var(--ob-z-raised)' as React.CSSProperties['zIndex'], background: 'var(--ob-surface)', borderBottom: '1px solid var(--ob-border)', boxShadow: elevated ? 'var(--ob-shadow-sm)' : 'none', transition: 'box-shadow var(--ob-dur-base) var(--ob-ease)', fontFamily: 'var(--ob-font)', ...style }}>
       <div style={{ height: z.h, display: 'flex', alignItems: 'center', gap: 'var(--ob-space-16)', padding: '0 ' + z.pad, minWidth: 0 }}>
         {onMenuToggle && <Button kind="neutral" iconOnly size={size === 'sm' ? 'sm' : 'md'} aria-label="Abrir navegação" icon={<Ph n="list" size={z.icon} c="currentColor" />} onClick={onMenuToggle} />}
         {layout !== 'context' && (brand || <a href="#" aria-label="Início" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }} onClick={(e) => e.preventDefault()}><LogoMark size={z.mark} /></a>)}
         {layout === 'links' && !compact && (
-          <nav aria-label="Principal" style={{ alignSelf: 'stretch', display: 'flex', alignItems: 'center', gap: underline ? 0 : 'var(--ob-space-2)', marginLeft: 'var(--ob-space-12)', minWidth: 0 }}>
+          <nav aria-label="Principal" style={{ alignSelf: 'stretch', display: 'flex', alignItems: 'center', gap: underline ? 0 : 'var(--ob-space-2)', marginLeft: 'var(--ob-space-12)', flexShrink: 0 }}>
             {items.map((it) => <NavbarLink key={it.id} item={it} active={it.id === active} size={size} onNav={onNav} underline={underline} />)}
           </nav>
         )}

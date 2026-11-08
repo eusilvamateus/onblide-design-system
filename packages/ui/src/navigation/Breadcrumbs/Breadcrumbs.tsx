@@ -9,7 +9,7 @@ export type BreadcrumbSize = 'sm' | 'md';
 export interface BreadcrumbItem {
   /** Texto do nível; omitido quando o item é só ícone (com `ariaLabel`). */
   label?: React.ReactNode;
-  /** URL do nível; sem `onNavigate`, o clique segue o link normalmente. */
+  /** URL do nível; sem `onNavigate`, o clique segue o link normalmente. Sem `href` e sem `onNavigate`, o clique não navega. */
   href?: string;
   /** Nome do ícone Phosphor exibido antes do rótulo. */
   icon?: string;
@@ -56,7 +56,7 @@ function Crumb({ item, current, size, onNavigate }: { item: BreadcrumbItem; curr
   return (
     <a href={item.href || '#'} title={typeof item.label === 'string' ? item.label : undefined}
       aria-label={item.label ? undefined : item.ariaLabel}
-      onClick={(e) => { if (onNavigate) { e.preventDefault(); onNavigate(item); } }}
+      onClick={(e) => { if (onNavigate || !item.href) e.preventDefault(); onNavigate?.(item); }}
       onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--ob-fg-strong)'; e.currentTarget.style.background = 'var(--ob-surface-2)'; }}
       onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--ob-fg-soft)'; e.currentTarget.style.background = 'transparent'; }}
       style={{ ...base, color: 'var(--ob-fg-soft)' }}>{inner}</a>

@@ -132,6 +132,30 @@ for (const rota of rotas) {
   if (r.length) falhas.push(`${rota}: ${[...new Set(r)].join('; ')}`);
 }
 const faixas = [[500, 'base'], [800, 'sm'], [1100, 'md'], [1300, 'lg'], [1500, 'xl']];
+await p.setViewportSize({ width: 1280, height: 900 });
+await p.goto(base + '/componentes/Navbar');
+await p.waitForSelector('.ob-demo__resultado nav[aria-label="Principal"]');
+const demoNav = await p.evaluate(() => {
+  const barra = document.querySelector('.ob-demo__resultado header');
+  const links = [...barra.querySelectorAll('nav[aria-label="Principal"] a')].pop().getBoundingClientRect();
+  const acoes = barra.querySelector('[aria-label="Notificações"]').getBoundingClientRect();
+  return { sobrepoe: links.right > acoes.left, largura: barra.getBoundingClientRect().width, palco: barra.closest('.ob-demo__resultado').getBoundingClientRect().width };
+});
+if (demoNav.sobrepoe) falhas.push('/componentes/Navbar: na demo, os links passam por cima das ações');
+if (demoNav.largura < demoNav.palco * 0.9) falhas.push('/componentes/Navbar: a demo não ocupa a largura do palco');
+await p.setViewportSize({ width: 800, height: 900 });
+await p.waitForTimeout(200);
+if (await p.evaluate(() => { const barra = document.querySelector('.ob-demo__resultado header'); return [...barra.querySelectorAll('nav[aria-label="Principal"] a')].pop().getBoundingClientRect().right > barra.querySelector('[aria-label="Notificações"]').getBoundingClientRect().left; })) falhas.push('/componentes/Navbar: em 800px, os links da demo passam por cima das ações');
+await p.setViewportSize({ width: 1280, height: 900 });
+await p.locator('.ob-demo__resultado nav[aria-label="Principal"] a', { hasText: 'Equipe' }).click();
+if ((await p.locator('.ob-demo__resultado [aria-current="page"]').textContent())?.trim() !== 'Equipe') falhas.push('/componentes/Navbar: clicar num link da demo não o torna ativo');
+for (const alvo of [p.locator('nav[aria-label="Principal"] a', { hasText: 'Equipe' }).last(), p.locator('a', { hasText: 'Site institucional' }).last()]) {
+  await alvo.scrollIntoViewIfNeeded();
+  const antes = await p.evaluate(() => scrollY);
+  await alvo.click();
+  await p.waitForTimeout(200);
+  if (Math.abs((await p.evaluate(() => scrollY)) - antes) > 1) falhas.push('/componentes/Navbar: clicar num link dos exemplos rola a página para o topo');
+}
 await p.goto(base + '/fundacoes/breakpoints');
 for (const [largura, esperada] of faixas) {
   await p.setViewportSize({ width: largura, height: 900 });

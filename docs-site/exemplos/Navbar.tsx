@@ -8,18 +8,22 @@ const itensPrincipais = [
   { id: 'relatorios', label: 'Relatórios' },
 ];
 
-export const ComLinks = () => (
-  <Navbar
-    items={itensPrincipais}
-    active="projetos"
-    actions={
-      <>
-        <Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} count={3} />
-        <NavbarAccount />
-      </>
-    }
-  />
-);
+export const ComLinks = () => {
+  const [ativo, setAtivo] = useState('projetos');
+  return (
+    <Navbar
+      items={itensPrincipais}
+      active={ativo}
+      onNav={setAtivo}
+      actions={
+        <>
+          <Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} count={3} />
+          <NavbarAccount />
+        </>
+      }
+    />
+  );
+};
 
 export const BuscaCentral = () => {
   const [busca, setBusca] = useState('');
@@ -39,10 +43,12 @@ export const BuscaCentral = () => {
 
 export const ComAbas = () => {
   const [aba, setAba] = useState('geral');
+  const [ativo, setAtivo] = useState('projetos');
   return (
     <Navbar
       items={itensPrincipais}
-      active="projetos"
+      active={ativo}
+      onNav={setAtivo}
       secondary={
         <Tabs
           variant="line"
@@ -68,8 +74,8 @@ export const Contexto = () => (
     crumbs={
       <Breadcrumbs
         items={[
-          { label: 'Projetos', href: '#' },
-          { label: 'Site institucional', href: '#' },
+          { label: 'Projetos' },
+          { label: 'Site institucional' },
           { label: 'Configurações' },
         ]}
       />

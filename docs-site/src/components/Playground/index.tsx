@@ -52,7 +52,7 @@ function atributo(c: Controle, v: Valor): string | null {
   return v.includes('"') ? `${nome}={${JSON.stringify(v)}}` : `${nome}="${v}"`;
 }
 
-const LARGOS = ['Table', 'Tabs', 'Spinner', 'SideNav'];
+const LARGOS = ['Table', 'Tabs', 'Spinner', 'SideNav', 'Navbar'];
 
 const recuar = (t: string, n = 2) => t.split('\n').join('\n' + ' '.repeat(n));
 
@@ -97,7 +97,8 @@ export default function Playground({
     setVersao((n) => n + 1);
   };
 
-  const controlado = temProp('onChange') && (temProp('checked') || temProp('value') || temProp('active'));
+  const evento = temProp('onChange') ? 'onChange' : temProp('onNav') && !('onNav' in brutos) ? 'onNav' : null;
+  const controlado = !!evento && (temProp('checked') || temProp('value') || temProp('active'));
   const alvoLigado = temProp('checked') ? 'checked' : temProp('value') ? 'value' : 'active';
 
   const alternavel = temProp('selected') && temProp('onToggle');
@@ -107,7 +108,7 @@ export default function Playground({
   if (alternavel) ligacoes.push('onToggle={alternar}');
   if (controlado) {
     ligacoes.push(`${alvoLigado}={valor}`);
-    ligacoes.push('onChange={alterar}');
+    ligacoes.push(`${evento}={alterar}`);
   }
 
   const attrs = [
