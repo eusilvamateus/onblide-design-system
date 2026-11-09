@@ -29,7 +29,7 @@ sublinhado; `actions` é só para ações à direita (ícones, conta).
 ### Composição
 
 - **Button** (`kind="neutral"`, `iconOnly`): ações só com ícone em `actions` (notificações, ajuda), com contador opcional em `count`.
-- **Conta**: um **Menu** com um **Button** `quiet` e `iconOnly` e um **Avatar** como gatilho. O menu traz a conta (`type: 'account'`), perfil, configurações e sair. A Navbar não traz conta pronta: cada aplicação decide o que o menu oferece.
+- **Conta**: um **Menu** com um **Button** `quiet` e `iconOnly` e um **Avatar** como gatilho. O menu traz a conta (`type: 'account'`), perfil, configurações e sair. Com foto, passe a mesma URL em `src` ao `Avatar` do gatilho e ao item `account`. A Navbar não traz conta pronta: cada aplicação decide o que o menu oferece.
 - **Marca** (`brand`): geralmente o `LogoMark` dentro de um link para o início. Sem `brand`, a barra não mostra marca.
 - **SearchInput**: conteúdo de `search`, no layout `search`.
 - **Breadcrumbs**: conteúdo de `crumbs`, no layout `context`.

@@ -61,4 +61,9 @@ const menubar = renderToStaticMarkup(h(Menubar, { menus: [{ label: 'Arquivo', it
 if (!menubar.includes('role="menubar"') || !menubar.includes('Arquivo') || !menubar.includes('Editar')) fail('Menubar deveria renderizar role=menubar com os gatilhos', menubar);
 if ((menubar.match(/role="menuitem"/g) || []).length !== 2) fail('Menubar deveria ter um menuitem por gatilho', menubar);
 
-console.log('OK: Menu/ContextMenu/Menubar (fechado sem painel, ContextMenu com aria-haspopup, Menubar com role=menubar)');
+const contaComFoto = renderToStaticMarkup(h(MenuPanel, { items: [{ type: 'account', name: 'Camila Duarte', email: 'camila@onblide.com', src: 'https://exemplo.com/camila.jpg' }] }));
+if (!contaComFoto.includes('src="https://exemplo.com/camila.jpg"') || contaComFoto.includes('alt="Camila')) fail('item account mostra a foto, decorativa porque o nome já está ao lado', contaComFoto);
+const contaSemFoto = renderToStaticMarkup(h(MenuPanel, { items: [{ type: 'account', name: 'Camila Duarte', email: 'camila@onblide.com', initials: 'CD2' }] }));
+if (contaSemFoto.includes('<img') || !contaSemFoto.includes('>CD2<')) fail('item account sem foto mostra as iniciais, que podem ser trocadas por initials', contaSemFoto);
+
+console.log('OK: Menu/ContextMenu/Menubar (fechado sem painel, ContextMenu com aria-haspopup, Menubar com role=menubar, conta com foto ou iniciais)');
