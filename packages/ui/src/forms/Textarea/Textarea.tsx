@@ -97,7 +97,7 @@ export const Textarea: React.FC<TextareaProps> = ({
       display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)', width: larguraLivre ? 'fit-content' : width || '100%', maxWidth: '100%',
       fontFamily: 'var(--ob-font)',
     }}>
-      {label && <label htmlFor={uid} style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</label>}
+      {label && <label htmlFor={uid} style={{ fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{label}</label>}
       <FieldShell focused={focused} error={!!error} disabled={disabled} size={size} padding="0" minHeight={0}
         style={{ flexDirection: 'column', alignItems: 'stretch', gap: 0, overflow: 'hidden', background: readOnly && !disabled ? 'var(--ob-bg-alt)' : undefined }}>
         <textarea id={uid} ref={ref} value={value} placeholder={placeholder} rows={autosize ? minRows : rows} maxLength={maxLength} disabled={disabled} readOnly={readOnly}
@@ -112,12 +112,12 @@ export const Textarea: React.FC<TextareaProps> = ({
         {footer && <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', padding: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-8) var(--ob-space-10)' }}>{footer}</div>}
       </FieldShell>
       {(hint || error || showCounter) && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--ob-space-12)', fontSize: 11, width: 0, minWidth: '100%' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--ob-space-12)', fontSize: 'var(--ob-fs-11)', width: 0, minWidth: '100%' }}>
           <span id={`${uid}-h`} style={{ color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{error || hint}</span>
           {showCounter && (
             <span id={`${uid}-c`} aria-live={near ? 'polite' : 'off'} style={{
-              flex: 'none', fontVariantNumeric: 'tabular-nums',
-              color: full ? 'var(--ob-danger)' : near ? 'var(--ob-warning)' : 'var(--ob-fg-mute)', fontWeight: full ? 600 : 400,
+              flex: 'none', fontFamily: 'var(--ob-font-mono)',
+              color: full ? 'var(--ob-danger)' : near ? 'var(--ob-warning)' : 'var(--ob-fg-mute)', fontWeight: full ? 'var(--ob-w-semibold)' : 'var(--ob-w-regular)',
             }}>{len}{maxLength != null ? ` / ${maxLength}` : ''}</span>
           )}
         </div>

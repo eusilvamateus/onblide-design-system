@@ -248,7 +248,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
   }[vista];
 
   const botaoDoCabecalho = (texto: React.ReactNode, rotulo: string, aoClicar: () => void) => (
-    <Button kind="neutral" size="sm" aria-label={rotulo} disabled={disabled} onClick={aoClicar} style={{ padding: 'var(--ob-space-8) var(--ob-space-8)', fontSize: 14 }}>
+    <Button kind="neutral" size="sm" aria-label={rotulo} disabled={disabled} onClick={aoClicar} style={{ padding: 'var(--ob-space-8) var(--ob-space-8)', fontSize: 'var(--ob-fs-14)' }}>
       {texto}
     </Button>
   );
@@ -289,7 +289,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
             color: marcado ? 'var(--ob-fg-on-color)' : 'var(--ob-fg-strong)',
             boxShadow: posicao === 'alvo' ? 'inset 0 0 0 1.5px var(--ob-blue)' : atual && !marcado ? 'inset 0 0 0 1px var(--ob-blue)' : 'none',
             opacity: inativo ? 'var(--ob-opacity-muted)' : 1, cursor: inativo ? 'not-allowed' : 'pointer',
-            fontFamily: 'inherit', fontSize: 13, fontWeight: marcado ? 700 : 500, transition: 'background var(--ob-dur-fast) var(--ob-ease)',
+            fontFamily: 'inherit', fontSize: 'var(--ob-fs-13)', fontWeight: marcado ? 'var(--ob-w-bold)' : 'var(--ob-w-medium)', transition: 'background var(--ob-dur-fast) var(--ob-ease)',
           }}>{texto}</button>
       </div>
     );
@@ -313,7 +313,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: LARGURA }}>
         <Button kind="neutral" iconOnly size="sm" aria-label={rotuloDaVista[0]} disabled={disabled}
           onClick={() => navegar(-1)} icon={<Ph n="caret-left" size={16} />} />
-        <div aria-live="polite" style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-2)', fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>
+        <div aria-live="polite" style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-2)', fontSize: 'var(--ob-fs-14)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>
           {vista === 'days' && (
             <>
               {botaoDoCabecalho(MESES[mes], `Escolher o mês, ${MESES[mes]}`, () => trocarVista('months'))}
@@ -334,7 +334,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
             {cabecalho.map((dia) => (
               <div key={dia} role="columnheader" aria-label={DIAS_DA_SEMANA[dia]} style={{
                 height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 11, fontWeight: 600, color: 'var(--ob-fg-mute)',
+                fontSize: 'var(--ob-fs-11)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-mute)',
               }}>{INICIAIS_DA_SEMANA[dia]}</div>
             ))}
           </div>
@@ -366,7 +366,7 @@ export const Calendar: React.FC<CalendarProps> = (props) => {
                           ? 'inset 0 0 0 1.5px var(--ob-blue)'
                           : hojeAqui && !marcado ? 'inset 0 0 0 1px var(--ob-blue)' : 'none',
                         opacity: inativo ? 'var(--ob-opacity-muted)' : 1, cursor: inativo ? 'not-allowed' : 'pointer',
-                        fontFamily: 'inherit', fontSize: 13, fontWeight: marcado ? 700 : 500,
+                        fontFamily: 'inherit', fontSize: 'var(--ob-fs-13)', fontWeight: marcado ? 'var(--ob-w-bold)' : 'var(--ob-w-medium)',
                         transition: 'background var(--ob-dur-fast) var(--ob-ease)',
                       }}
                     >{dia.getDate()}</button>

@@ -43,8 +43,8 @@ export const Alert: React.FC<AlertProps> = ({ tone = 'info', appearance = 'outli
     >
       <Ph n={icon ?? t.icon} size={20} c={t.strong} weight="fill" />
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--ob-space-8) var(--ob-space-16)' }}>
-        <div style={{ flex: '1 1 260px', minWidth: 0, fontSize: 'var(--ob-fs-sm)', lineHeight: 'var(--ob-lh-normal)' }}>
-          {title && <div style={{ fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{title}</div>}
+        <div style={{ flex: '1 1 260px', minWidth: 0, fontSize: 'var(--ob-fs-14)', lineHeight: 'var(--ob-lh-normal)' }}>
+          {title && <div style={{ fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{title}</div>}
           {children && <div style={{ color: 'var(--ob-fg)' }}>{children}</div>}
         </div>
         {action && <Button kind="cream" size="sm" onClick={onAction} style={{ flex: 'none' }}>{action}<Ph n="arrow-right" size={14} /></Button>}

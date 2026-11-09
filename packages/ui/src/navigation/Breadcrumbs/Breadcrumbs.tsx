@@ -77,7 +77,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items, separator = 'ca
     <nav aria-label="Você está em">
       <ol style={{
         listStyle: 'none', margin: 0, padding: 0, display: 'flex', alignItems: 'center', flexWrap: 'wrap',
-        rowGap: 'var(--ob-space-4)', columnGap: 'var(--ob-space-2)', fontSize: size === 'sm' ? 'var(--ob-fs-xs)' : 'var(--ob-fs-sm)',
+        rowGap: 'var(--ob-space-4)', columnGap: 'var(--ob-space-2)', fontSize: size === 'sm' ? 'var(--ob-fs-12)' : 'var(--ob-fs-14)',
         lineHeight: 'var(--ob-lh-normal)', fontWeight: 'var(--ob-w-medium)',
       }}>
         {visible.map((v, k) => (

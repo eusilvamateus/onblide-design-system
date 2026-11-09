@@ -1,7 +1,7 @@
 ---
 title: Tipografia
 sidebar_position: 3
-description: Famílias, pesos, escala de tamanhos e entrelinhas.
+description: Famílias, pesos, escala de tamanhos, entrelinhas e os estilos de texto prontos.
 ---
 
 import { TokenTable } from '@site/src/components/Tokens';
@@ -10,15 +10,19 @@ Três famílias, cada uma com um trabalho:
 
 - **Poppins** (`--ob-font`) é a base: interface, títulos e corpo.
 - **Playfair Display** (`--ob-font-serif`) é o acento editorial, em itálico, usada com parcimônia.
-- **JetBrains Mono** (`--ob-font-mono`) é para código, tokens e rótulos pequenos.
+- **JetBrains Mono** (`--ob-font-mono`) é para código, tokens, rótulos técnicos e números que precisam alinhar.
 
-```jsx live
-<div style={{ display: 'grid', gap: 8, padding: 16 }}>
-  <div style={{ fontFamily: 'var(--ob-font)', fontSize: 32, fontWeight: 800, letterSpacing: '-0.03em' }}>Poppins, o texto da interface</div>
-  <div style={{ fontFamily: 'var(--ob-font-serif)', fontSize: 28, fontStyle: 'italic' }}>Playfair Display, o acento editorial</div>
-  <div style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 14 }}>JetBrains Mono: --ob-blue: #0a4ee4;</div>
-</div>
-```
+Todas vêm com o pacote, em `woff2`, com todos os pesos e itálicos. Nenhuma depende de CDN.
+
+## Regras
+
+- **Nenhuma caixa-alta.** A hierarquia vem do tamanho, do peso, da cor e da família, nunca de `text-transform: uppercase`.
+- **Números que precisam alinhar usam a JetBrains Mono.** A Poppins não tem algarismos de largura fixa, então
+  `font-variant-numeric: tabular-nums` não faz efeito nela. Colunas de valores (`numeric` na **Table**), a **Pagination**,
+  contadores e porcentagens usam `--ob-font-mono` ou a classe `.ob-numeric`.
+- **Nada escrito à mão.** Tamanho é `--ob-fs-*`, peso é `--ob-w-*`, entrelinha é `--ob-lh-*` e espaçamento entre letras
+  é `--ob-tracking-*`. Valor fora da escala vai para o passo mais próximo. O `smoke-fundacoes` recusa números soltos,
+  caixa-alta e `tabular-nums` nos componentes.
 
 ## Famílias
 
@@ -26,12 +30,81 @@ Três famílias, cada uma com um trabalho:
 
 ## Pesos
 
+Os nove pesos valem para a Poppins (100 a 900) e para a JetBrains Mono (100 a 800). A Playfair Display vai de 400 a 900.
+
+```jsx live
+<div style={{ display: 'grid', gap: 'var(--ob-space-16)', padding: 'var(--ob-space-16)' }}>
+  {[
+    ['--ob-font', 'Poppins', ['thin', 'extralight', 'light', 'regular', 'medium', 'semibold', 'bold', 'extrabold', 'black']],
+    ['--ob-font-mono', 'JetBrains Mono', ['thin', 'extralight', 'light', 'regular', 'medium', 'semibold', 'bold', 'extrabold']],
+    ['--ob-font-serif', 'Playfair Display', ['regular', 'medium', 'semibold', 'bold', 'extrabold', 'black']],
+  ].map(([familia, nome, pesos]) => (
+    <div key={familia} style={{ display: 'grid', gap: 'var(--ob-space-4)' }}>
+      <span className="ob-caption">{nome}</span>
+      {pesos.map((p) => (
+        <div key={p} style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--ob-space-16)' }}>
+          <span className="ob-numeric" style={{ width: 120, fontSize: 'var(--ob-fs-12)', color: 'var(--ob-fg-mute)' }}>{p}</span>
+          <span style={{ fontFamily: `var(${familia})`, fontWeight: `var(--ob-w-${p})`, fontSize: 'var(--ob-fs-22)' }}>Design system 0123</span>
+        </div>
+      ))}
+    </div>
+  ))}
+</div>
+```
+
 <TokenTable prefixos={['--ob-w']} />
 
 ## Escala de tamanhos
+
+O nome é o valor em pixels, como no espaçamento. De 10 a 16px a escala anda de 1 em 1, porque é onde vive o texto da
+interface; acima disso, os passos servem a títulos.
 
 <TokenTable prefixos={['--ob-fs']} tipo="texto" />
 
 ## Entrelinhas e espaçamento entre letras
 
 <TokenTable prefixos={['--ob-lh', '--ob-tracking']} />
+
+## Estilos de texto
+
+Combinações prontas de família, tamanho, peso, entrelinha e cor. Os títulos (`h1` a `h6`) e o parágrafo já recebem o
+estilo pelo elemento; os demais são classes.
+
+```jsx live
+<div style={{ display: 'grid', gap: 'var(--ob-space-12)', padding: 'var(--ob-space-16)' }}>
+  <div className="ob-display">Display</div>
+  <div className="ob-h1">Título 1</div>
+  <div className="ob-h2">Título 2</div>
+  <div className="ob-h3">Título 3</div>
+  <div className="ob-h4">Título 4</div>
+  <div className="ob-h5">Título 5</div>
+  <div className="ob-h6">Título 6</div>
+  <div className="ob-body-lg">Corpo grande, para a abertura de uma página.</div>
+  <div className="ob-body">Corpo, o texto corrido padrão.</div>
+  <div className="ob-body-sm">Corpo pequeno, para painéis e cartões.</div>
+  <div className="ob-label">Rótulo de campo</div>
+  <div className="ob-caption">Legenda e texto de apoio</div>
+  <div className="ob-eyebrow">eyebrow acima de um título</div>
+  <div><code>código em linha</code></div>
+  <div className="ob-numeric">R$ 1.250,00 · 89,90 · 432,10</div>
+  <div className="ob-serif-italic" style={{ fontSize: 'var(--ob-fs-28)' }}>Acento editorial</div>
+</div>
+```
+
+| Estilo | Família | Tamanho | Peso | Uso |
+|---|---|---|---|---|
+| `.ob-display` | Poppins | `--ob-fs-88` | `extrabold` | Peças de marca e capas |
+| `h1` / `.ob-h1` | Poppins | `--ob-fs-64` | `bold` | Título de página de marketing |
+| `h2` / `.ob-h2` | Poppins | `--ob-fs-48` | `bold` | Seção de página de marketing |
+| `h3` / `.ob-h3` | Poppins | `--ob-fs-36` | `semibold` | Título de página de aplicação |
+| `h4` / `.ob-h4` | Poppins | `--ob-fs-28` | `semibold` | Seção de página |
+| `h5` / `.ob-h5` | Poppins | `--ob-fs-22` | `semibold` | Título de cartão ou painel |
+| `h6` / `.ob-h6` | Poppins | `--ob-fs-18` | `semibold` | Subtítulo, título de Modal |
+| `.ob-body-lg` | Poppins | `--ob-fs-18` | `regular` | Abertura de página |
+| `p` / `.ob-body` | Poppins | `--ob-fs-16` | `regular` | Texto corrido |
+| `.ob-body-sm` | Poppins | `--ob-fs-14` | `regular` | Texto de interface |
+| `.ob-label` | Poppins | `--ob-fs-14` | `medium` | Rótulos e itens de navegação |
+| `.ob-caption` | Poppins | `--ob-fs-13` | `regular` | Legendas, dicas e metadados |
+| `.ob-eyebrow` | JetBrains Mono | `--ob-fs-13` | `medium` | Rótulo acima de um título |
+| `code` / `.ob-code` | JetBrains Mono | `0.92em` | `regular` | Código em linha |
+| `.ob-numeric` | JetBrains Mono | herdado | herdado | Números que precisam alinhar |

@@ -31,7 +31,7 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({ value = 0, size 
               : tone === 'warning' ? 'var(--ob-orange)'
               : tone === 'danger'  ? 'var(--ob-danger)'
               : 'var(--ob-blue)';
-  const fs = px <= 32 ? 9 : px <= 48 ? 11 : px <= 64 ? 14 : 20;
+  const fs = px <= 32 ? 'var(--ob-fs-10)' : px <= 48 ? 'var(--ob-fs-11)' : px <= 64 ? 'var(--ob-fs-14)' : 'var(--ob-fs-20)';
   return (
     <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
       <svg width={px} height={px} viewBox={`0 0 ${px} ${px}`} fill="none" style={{ transform: 'rotate(-90deg)' }}>
@@ -41,7 +41,7 @@ export const ProgressCircle: React.FC<ProgressCircleProps> = ({ value = 0, size 
           style={{ transition: 'stroke-dashoffset var(--ob-dur-slow) var(--ob-ease-in-out)' }} />
       </svg>
       {showLabel && (
-        <span style={{ position: 'absolute', fontSize: fs, fontWeight: 700, fontFamily: 'var(--ob-font-mono)', color, lineHeight: 1 }}>
+        <span style={{ position: 'absolute', fontSize: fs, fontWeight: 'var(--ob-w-bold)', fontFamily: 'var(--ob-font-mono)', color, lineHeight: 1 }}>
           {label || `${Math.round(v)}%`}
         </span>
       )}

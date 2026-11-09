@@ -75,7 +75,7 @@ function Inert({ children }: { children: React.ReactNode }) {
   return <span ref={(el) => el?.setAttribute('inert', '')} aria-hidden="true" style={{ display: 'flex', flex: 'none', pointerEvents: 'none' }}>{children}</span>;
 }
 const iconBtn = (lado: number): React.CSSProperties => ({ display: 'flex', alignItems: 'center', justifyContent: 'center', width: lado, height: lado, border: 'none', background: 'transparent', borderRadius: 'var(--ob-r-sm)', color: 'var(--ob-fg-mute)', cursor: 'pointer', padding: 0, flex: 'none' });
-const msgRow: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--ob-space-8)', padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 13, color: 'var(--ob-fg-mute)' };
+const msgRow: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--ob-space-8)', padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-mute)' };
 
 type NavEntry = { o: AutocompleteOption } | { create: string };
 
@@ -257,7 +257,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
 
   return (
     <div ref={rootRef} style={{ position: 'relative', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
-      {label && <label htmlFor={uid} style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 'var(--ob-space-6)' }}>{label}</label>}
+      {label && <label htmlFor={uid} style={{ display: 'block', fontSize: 'var(--ob-fs-13)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)', marginBottom: 'var(--ob-space-6)' }}>{label}</label>}
       <div onMouseDown={onShellDown}>
         <FieldShell focused={focused || open} error={!!error} disabled={disabled} size={size}
           padding={chips ? `${escala.recuoComChips} ${escala.recuoDaAcao} ${escala.recuoComChips} ${escala.recuoComChips}` : `0 ${escala.recuoDaAcao} 0 ${escala.recuo}`}
@@ -312,8 +312,8 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
           </ScrollArea>
         </FloatingPanel>
       )}
-      {error ? <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 'var(--ob-space-6)', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-4)' }}><Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />{error}</div>
-        : hint ? <div style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-6)' }}>{hint}</div> : null}
+      {error ? <div style={{ fontSize: 'var(--ob-fs-12)', color: 'var(--ob-danger)', marginTop: 'var(--ob-space-6)', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-4)' }}><Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />{error}</div>
+        : hint ? <div style={{ fontSize: 'var(--ob-fs-12)', color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-6)' }}>{hint}</div> : null}
     </div>
   );
 };

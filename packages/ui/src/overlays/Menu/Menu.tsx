@@ -12,10 +12,10 @@ import { List, ListItem, ListSubheader, ListDivider } from '../../data-display/L
 
 export type MenuSize = 'md' | 'sm';
 
-interface MenuSizeSpec { pad: string; fs: number; lh: string; gap: string; panelPad: number; min: number; sepM: string; labelPad: string; icon: number; avatar: number }
+interface MenuSizeSpec { pad: string; fs: string; lh: string; gap: string; panelPad: number; min: number; sepM: string; labelPad: string; icon: number; avatar: number }
 const MENU_SIZES: Record<MenuSize, MenuSizeSpec> = {
-  md: { pad: 'var(--ob-space-8) var(--ob-space-10)', fs: 14, lh: '20px', gap: 'var(--ob-space-10)', panelPad: 6, min: 220, sepM: 'var(--ob-space-6) calc(var(--ob-space-6) * -1)', labelPad: 'var(--ob-space-8) var(--ob-space-10) var(--ob-space-4)', icon: 16, avatar: 32 },
-  sm: { pad: 'var(--ob-space-4) var(--ob-space-8)', fs: 13, lh: '18px', gap: 'var(--ob-space-8)', panelPad: 4, min: 180, sepM: 'var(--ob-space-4) calc(var(--ob-space-4) * -1)', labelPad: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-2)', icon: 14, avatar: 24 },
+  md: { pad: 'var(--ob-space-8) var(--ob-space-10)', fs: 'var(--ob-fs-14)', lh: '20px', gap: 'var(--ob-space-10)', panelPad: 6, min: 220, sepM: 'var(--ob-space-6) calc(var(--ob-space-6) * -1)', labelPad: 'var(--ob-space-8) var(--ob-space-10) var(--ob-space-4)', icon: 16, avatar: 32 },
+  sm: { pad: 'var(--ob-space-4) var(--ob-space-8)', fs: 'var(--ob-fs-13)', lh: '18px', gap: 'var(--ob-space-8)', panelPad: 4, min: 180, sepM: 'var(--ob-space-4) calc(var(--ob-space-4) * -1)', labelPad: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-2)', icon: 14, avatar: 24 },
 };
 
 export type MenuItem =

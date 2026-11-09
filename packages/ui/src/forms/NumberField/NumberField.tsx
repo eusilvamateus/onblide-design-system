@@ -151,7 +151,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
-      {label && <label htmlFor={uid} style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</label>}
+      {label && <label htmlFor={uid} style={{ fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{label}</label>}
       <FieldShell focused={emFoco} error={!!err} disabled={disabled} size={size}
         padding={`0 ${temFim ? 0 : padDir} 0 ${temInicio ? 0 : padEsq}`}
         onClick={(e) => { if (focoNoAddon(e.target)) inputRef.current?.focus(); }}
@@ -171,7 +171,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
             style={{
               flex: textAlign === 'left' ? 1 : '0 1 auto', width: textAlign === 'left' ? 'auto' : `${Math.max(2, (shown || placeholder || '').length + 1)}ch`,
               minWidth: 0, maxWidth: '100%', border: 'none', outline: 'none', background: 'transparent', fontFamily: 'inherit', fontSize: escala.fonte,
-              fontVariantNumeric: 'tabular-nums', color: 'var(--ob-fg-strong)', padding: 0, alignSelf: 'stretch', textAlign, cursor: disabled ? 'not-allowed' : readOnly ? 'default' : 'text',
+              color: 'var(--ob-fg-strong)', padding: 0, alignSelf: 'stretch', textAlign, cursor: disabled ? 'not-allowed' : readOnly ? 'default' : 'text',
             }} />
           {adorn(suffix)}
         </span>
@@ -184,7 +184,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
         )}
         {temFim && <FieldAddon side="end" size={size} focused={emFoco} error={!!err} onFocusChange={setAddonFocused}>{endAddon}</FieldAddon>}
       </FieldShell>
-      {(hint || err) && <span style={{ fontSize: 11, color: err ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{err || hint}</span>}
+      {(hint || err) && <span style={{ fontSize: 'var(--ob-fs-11)', color: err ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{err || hint}</span>}
     </div>
   );
 };

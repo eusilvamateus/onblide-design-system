@@ -49,7 +49,7 @@ export const Divider: React.FC<DividerProps> = ({
   return (
     <div {...a11y} style={{
       display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)', flex: 'none', margin: `${spacing}px ${-bleed}px`,
-      fontFamily: 'var(--ob-font)', fontSize: 'var(--ob-fs-xs)', lineHeight: 'var(--ob-lh-normal)',
+      fontFamily: 'var(--ob-font)', fontSize: 'var(--ob-fs-12)', lineHeight: 'var(--ob-lh-normal)',
       fontWeight: 'var(--ob-w-medium)', color: 'var(--ob-fg-soft)', ...style,
     }}>
       {align !== 'start' && seg}

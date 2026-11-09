@@ -77,9 +77,9 @@ function Content({ item, showTime = true, align = 'left' }: { item: TimelineItem
   const s = item.status || 'done';
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-2)', minWidth: 0, textAlign: align, alignItems: align === 'right' ? 'flex-end' : align === 'center' ? 'center' : 'flex-start' }}>
-      {showTime && item.time && <span style={{ fontSize: 'var(--ob-fs-xs)', lineHeight: 'var(--ob-lh-normal)', color: 'var(--ob-fg-soft)' }}>{item.time}</span>}
-      <span style={{ fontSize: 14, lineHeight: '20px', fontWeight: 'var(--ob-w-semibold)', color: s === 'pending' ? 'var(--ob-fg-soft)' : s === 'error' ? 'var(--ob-danger)' : 'var(--ob-fg-strong)' }}>{item.title}</span>
-      {item.description && <span style={{ fontSize: 'var(--ob-fs-sm)', lineHeight: 'var(--ob-lh-normal)', color: 'var(--ob-fg)', textWrap: 'pretty' }}>{item.description}</span>}
+      {showTime && item.time && <span style={{ fontSize: 'var(--ob-fs-12)', lineHeight: 'var(--ob-lh-normal)', color: 'var(--ob-fg-soft)' }}>{item.time}</span>}
+      <span style={{ fontSize: 'var(--ob-fs-14)', lineHeight: '20px', fontWeight: 'var(--ob-w-semibold)', color: s === 'pending' ? 'var(--ob-fg-soft)' : s === 'error' ? 'var(--ob-danger)' : 'var(--ob-fg-strong)' }}>{item.title}</span>
+      {item.description && <span style={{ fontSize: 'var(--ob-fs-14)', lineHeight: 'var(--ob-lh-normal)', color: 'var(--ob-fg)', textWrap: 'pretty' }}>{item.description}</span>}
       {item.content && <div style={{ marginTop: 'var(--ob-space-8)', width: '100%' }}>{item.content}</div>}
       <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>{STATUS_LABEL[s]}</span>
     </div>
@@ -128,7 +128,7 @@ export const Timeline: React.FC<TimelineProps> = ({ items, orientation = 'vertic
         const pad: React.CSSProperties = { paddingBottom: next ? 'var(--ob-space-24)' : 0, paddingTop: marker === 'dot' ? 0 : 'var(--ob-space-4)' };
         return (
           <li key={i} style={{ margin: 0, display: 'grid', gridTemplateColumns: cols, columnGap: 'var(--ob-space-12)', position: 'relative' }}>
-            {opp && <div style={{ ...pad, textAlign: 'right', fontSize: 'var(--ob-fs-xs)', lineHeight: '20px', color: 'var(--ob-fg-soft)' }}>{it.time}</div>}
+            {opp && <div style={{ ...pad, textAlign: 'right', fontSize: 'var(--ob-fs-12)', lineHeight: '20px', color: 'var(--ob-fg-soft)' }}>{it.time}</div>}
             {alt && <div style={pad}>{left && <Content item={it} align="right" />}</div>}
             {rail}
             <div style={pad}>{(!alt || !left) && <Content item={it} showTime={!opp} />}</div>

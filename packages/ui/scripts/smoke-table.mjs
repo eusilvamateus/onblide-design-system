@@ -59,11 +59,14 @@ if (!carregando.includes('ob-shimmer') || carregando.includes('ob-pulse')) fail(
 if (carregando !== render({ columns, rows, loading: true, selectable: true })) fail('o esqueleto deveria ter as mesmas larguras a cada renderização');
 
 for (const [size, fonte] of [['sm', 13], ['md', 14], ['lg', 15]]) {
-  if (!render({ columns, rows, size }).includes(`font-size:${fonte}px`)) fail(`size ${size}: texto de ${fonte}px`);
+  if (!render({ columns, rows, size }).includes(`font-size:var(--ob-fs-${fonte})`)) fail(`size ${size}: texto de ${fonte}px`);
 }
 
 const alinhada = render({ columns: [{ key: 'a', label: 'Valor', align: 'right', sortable: true }], rows: [{ a: 10 }] });
 if (contar(alinhada, /text-align:right/g) !== 2 || !alinhada.includes('flex-direction:row-reverse')) fail('align right no cabeçalho e na célula, com o ícone antes do rótulo', alinhada);
+const numerica = render({ columns: [{ key: 'a', label: 'Total', numeric: true }], rows: [{ a: 10 }] });
+if (contar(numerica, /text-align:right/g) !== 2 || !/<td[^>]*text-align:right;font-family:var\(--ob-font-mono\)/.test(numerica)) fail('numeric alinha à direita e usa a fonte mono nas células', numerica);
+if (/<td[^>]*font-family:var\(--ob-font-mono\)/.test(alinhada)) fail('só align não troca a fonte das células', alinhada);
 
 const comTitulo = render({ columns, rows, caption: 'Tarefas da semana', ariaLabel: 'ignorado' });
 if (!comTitulo.includes('>Tarefas da semana</caption>') || comTitulo.includes('aria-label="ignorado"')) fail('caption visível dispensa o aria-label', comTitulo);

@@ -50,7 +50,7 @@ export const Menubar: React.FC<MenubarProps> = ({ menus, ariaLabel = 'Menu princ
               }}
               style={{
                 height: 32, padding: '0 var(--ob-space-10)', border: 'none', borderRadius: 'var(--ob-r-sm)', background: isOpen ? 'var(--ob-bg-alt)' : 'transparent',
-                color: 'var(--ob-fg-strong)', fontFamily: 'inherit', fontSize: 14, fontWeight: 500, cursor: 'pointer', transition: 'background var(--ob-dur-fast) var(--ob-ease)',
+                color: 'var(--ob-fg-strong)', fontFamily: 'inherit', fontSize: 'var(--ob-fs-14)', fontWeight: 'var(--ob-w-medium)', cursor: 'pointer', transition: 'background var(--ob-dur-fast) var(--ob-ease)',
               }}>{m.label}</button>
             {isOpen && (
               <MenuPanel key={`${i}-${open.kb}`} items={m.items} keyboard={open.kb} onCloseTree={closeAll}

@@ -39,14 +39,14 @@ if (!composto.includes('aria-expanded="false"')) fail('chip deveria encaminhar a
 if (!composto.includes('max-width:240px')) fail('chip deveria mesclar estilos recebidos', composto);
 
 const lg = render({ label: 'Tag', size: 'lg', removable: true, icon: 'check' });
-if (!lg.includes('font-size:15px') || !lg.includes('padding:var(--ob-space-10) var(--ob-space-10) var(--ob-space-10) var(--ob-space-20)')) fail('lg usa fonte 15 e o padding próprio', lg);
+if (!lg.includes('font-size:var(--ob-fs-15)') || !lg.includes('padding:var(--ob-space-10) var(--ob-space-10) var(--ob-space-10) var(--ob-space-20)')) fail('lg usa fonte 15 e o padding próprio', lg);
 if (!lg.includes('width:22px;height:22px')) fail('lg aumenta o botão de remover', lg);
 if (!lg.includes('font-size:18px;width:18px;height:18px')) fail('lg aumenta o ícone', lg);
 if (!lg.includes('gap:var(--ob-space-8)')) fail('lg usa gap 8', lg);
 if (!render({ label: 'Tag', size: 'lg' }).includes('padding:var(--ob-space-10) var(--ob-space-20)')) fail('lg sem remover usa padding simétrico');
 if (!render({ label: 'Tag', size: 'md' }).includes('padding:var(--ob-space-8) var(--ob-space-16)')) fail('md mantém o padding');
 if (!render({ label: 'Tag', size: 'sm' }).includes('padding:var(--ob-space-6) var(--ob-space-10)')) fail('sm mantém o padding');
-if (!render({ label: 'Tag' }).includes('font-size:13px')) fail('o padrão continua md');
+if (!render({ label: 'Tag' }).includes('font-size:var(--ob-fs-13)')) fail('o padrão continua md');
 
 const contorno = render({ label: 'Tag', tone: 'primary' });
 if (!contorno.includes('border-color:color-mix(in srgb, var(--ob-blue) 35%, transparent)')) fail('outline é o padrão e tem borda', contorno);

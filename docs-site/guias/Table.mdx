@@ -17,7 +17,7 @@ Use Table para dados estruturados com 3+ colunas onde o usuário precisa escanea
 - **Linha clicável** (`onRowClick`): quando a linha leva ao detalhe do item. A linha recebe foco e abre com Enter ou Espaço. Cliques em botões, links, checkboxes e campos dentro da linha não disparam `onRowClick`.
 - **Linha expansível** (`renderExpanded`): para mostrar detalhes abaixo da linha sem sair da tela, como itens de um pedido ou o histórico de um registro. Linhas para as quais a função devolve `null` não ganham o botão de abrir. Controle com `expandedKeys` e `onExpandedChange`, ou use `defaultExpandedKeys`.
 - **Cabeçalho fixo** (`maxHeight`): em listas longas sem paginação, limite a altura; o corpo rola e o cabeçalho fica no topo.
-- **Alinhamento** (`align` por coluna): números e valores sempre à direita, para que as casas fiquem uma embaixo da outra. Nessas colunas os algarismos têm largura fixa.
+- **Colunas numéricas** (`numeric` na coluna): valores, quantidades e totais ficam à direita e em JetBrains Mono, em que todos os algarismos têm a mesma largura, para que as casas fiquem uma embaixo da outra. A Poppins não tem algarismos de largura fixa. Para só mudar o alinhamento, use `align`.
 - **Título** (`caption`): um título visível acima do cabeçalho, também lido por leitores de tela. Sem título visível, nomeie a tabela com `ariaLabel`.
 - **Carregamento** (`loading`): sempre que os dados vêm de requisição assíncrona. As linhas viram **Skeleton**.
 - **Estado vazio** (`emptyState`): nunca deixe a tabela simplesmente sem linhas, oriente o próximo passo. Passe um **EmptyState** com `size="sm"`.
@@ -25,7 +25,7 @@ Use Table para dados estruturados com 3+ colunas onde o usuário precisa escanea
 <FacaEvite>
 <Faca>
 
-Coluna de nome/título sempre em negrito (`bold: true`). Valores à direita (`align: 'right'`). Use `render` para Badges de status. Paginação abaixo para listas longas.
+Coluna de nome/título sempre em negrito (`bold: true`). Valores com `numeric: true`. Use `render` para Badges de status. Paginação abaixo para listas longas.
 
 </Faca>
 <Evite>
@@ -56,7 +56,7 @@ Mais de 7 colunas sem scroll horizontal. Linha clicável e linha expansível na 
     { key: 'name',   label: 'Tarefa',  bold: true },
     { key: 'status', label: 'Status',  render: (v) => <Badge tone="success">{v}</Badge> },
     { key: 'due',    label: 'Prazo',   sortable: true, width: 90 },
-    { key: 'hours',  label: 'Horas',   align: 'right' },
+    { key: 'hours',  label: 'Horas',   numeric: true },
   ]}
   rows={tasks}
   selectable
@@ -81,7 +81,7 @@ mesmo:
 />
 ```
 
-Tipo `TableColumn`: `{ key, label, bold?, sortable?, align?, width?, render?: (value, row) => ReactNode }`
+Tipo `TableColumn`: `{ key, label, bold?, sortable?, align?, numeric?, width?, render?: (value, row) => ReactNode }`
 
 ## Guia de conteúdo
 
@@ -89,14 +89,14 @@ Tipo `TableColumn`: `{ key, label, bold?, sortable?, align?, width?, render?: (v
 - Coluna de nome: sempre a primeira, em negrito, com o identificador principal do item.
 - Status: use Badge com tom semântico (green=concluído, blue=andamento, orange=pendente, red=atrasado).
 - Datas: formato "dd mmm" (ex: "04 jun"), compacto e legível.
-- Valores: com a unidade ou a moeda, à direita.
+- Valores: com a unidade ou a moeda, em coluna `numeric`.
 - Título (`caption`): diga o que a tabela lista, como "Pedidos de outubro".
 - Estado vazio: inclua um CTA. "Nenhuma tarefa encontrada. Criar tarefa."
 - Estado de loading: skeleton automático, não adicione texto.
 
 ## Guia de design
 
-**Tokens.** Cabeçalho: mono 11px (12px no `lg`) uppercase, cor `--ob-fg-mute`, borda de baixo `1px solid --ob-line-soft`, igual à das linhas (a hierarquia vem da tipografia; só o contorno externo usa `--ob-border`). Linha: 14px no `md`, hover `--ob-bg-warm`, selecionada `--ob-blue-100`. Detalhe expandido sobre `--ob-bg-alt`. Foco do teclado no cabeçalho e na linha clicável com `--ob-focus-ring`.
+**Tokens.** Cabeçalho: JetBrains Mono `--ob-fs-12` (`--ob-fs-13` no `lg`), peso `--ob-w-medium`, sem caixa-alta, cor `--ob-fg-soft`, borda de baixo `1px solid --ob-line-soft`, igual à das linhas (a hierarquia vem da tipografia; só o contorno externo usa `--ob-border`). Linha: `--ob-fs-14` no `md`, hover `--ob-bg-warm`, selecionada `--ob-blue-100`. Detalhe expandido sobre `--ob-bg-alt`. Foco do teclado no cabeçalho e na linha clicável com `--ob-focus-ring`.
 
 **Movimento.** A linha expandida abre e fecha deslizando (`--ob-dur-base`), e a seta do botão gira junto. Com movimento reduzido, a troca é imediata.
 

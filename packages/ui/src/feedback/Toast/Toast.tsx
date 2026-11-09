@@ -47,8 +47,8 @@ export const Toast: React.FC<ToastProps> = ({ tone = 'info', appearance = 'outli
         </span>
       )}
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.4 }}>{title}</div>
-        {body && <div style={{ fontSize: 13, color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-4)', lineHeight: 1.5 }}>{body}</div>}
+        <div style={{ fontSize: 'var(--ob-fs-14)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)', lineHeight: 1.4 }}>{title}</div>
+        {body && <div style={{ fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-4)', lineHeight: 1.5 }}>{body}</div>}
         {action && <Button kind="ghost" size="sm" onClick={onAction} style={{ marginTop: 'var(--ob-space-4)', marginLeft: 'calc(var(--ob-space-12) * -1)', color: t.strong }}>{action}</Button>}
       </div>
       {onClose && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={16} />} style={{ flexShrink: 0, margin: 'calc(var(--ob-space-8) * -1) calc(var(--ob-space-6) * -1) calc(var(--ob-space-8) * -1) 0' }} />}

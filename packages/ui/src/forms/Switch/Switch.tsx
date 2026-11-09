@@ -41,7 +41,7 @@ export const Switch: React.FC<SwitchProps> = ({ checked, onChange, label, disabl
           boxShadow: 'var(--ob-shadow-xs)',
         }} />
       </span>
-      {label && <span style={{ fontSize: fonte, color: 'var(--ob-fg-strong)', fontWeight: 500 }}>{label}</span>}
+      {label && <span style={{ fontSize: fonte, color: 'var(--ob-fg-strong)', fontWeight: 'var(--ob-w-medium)' }}>{label}</span>}
     </label>
   );
 };

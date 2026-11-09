@@ -27,6 +27,24 @@ const semComentarios = (texto) => texto.replace(/\/\*[\s\S]*?\*\//g, '').replace
 
 const regras = [
   {
+    fundacao: 'tipografia',
+    tokens: [
+      ...[10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 28, 36, 48, 64, 88].map((n) => `--ob-fs-${n}`),
+      ...['thin', 'extralight', 'light', 'regular', 'medium', 'semibold', 'bold', 'extrabold', 'black'].map((p) => `--ob-w-${p}`),
+      '--ob-lh-none', '--ob-lh-display', '--ob-lh-tight', '--ob-lh-snug', '--ob-lh-normal', '--ob-lh-relaxed',
+      '--ob-tracking-tighter', '--ob-tracking-tight', '--ob-tracking-snug', '--ob-tracking-normal',
+    ],
+    proibido: [
+      { padrao: /(?:font-?[sS]ize|\bfonte|\bfs|\bcabecalho|\bnumero)['"]?\s*[:=]\s*['"`]?\d/g, motivo: 'tamanho de fonte fixo (use --ob-fs-*)' },
+      { padrao: /font-?[sS]ize['"]?\s*:[^,;}\n]*\?\s*\d/g, motivo: 'tamanho de fonte fixo (use --ob-fs-*)' },
+      { padrao: /font-?[wW]eight['"]?\s*[:=][^,;}\n]*?(?<![\w-])[1-9]00(?!\w)/g, motivo: 'peso fixo (use --ob-w-*)' },
+      { padrao: /letter-?[sS]pacing['"]?\s*[:=]\s*['"`]?-?\d/g, motivo: 'espaçamento entre letras fixo (use --ob-tracking-*)' },
+      { padrao: /uppercase/g, motivo: 'caixa-alta (a tipografia do sistema não usa caixa-alta)' },
+      { padrao: /font-?[fF]amily['"]?\s*[:=]\s*['"`](?!var\(--ob-font|inherit)/g, motivo: 'família fixa (use --ob-font, --ob-font-serif ou --ob-font-mono)' },
+      { padrao: /tabular-nums/g, motivo: 'tabular-nums não tem efeito na Poppins (use a fonte mono para números alinhados)' },
+    ],
+  },
+  {
     fundacao: 'movimento',
     tokens: ['--ob-dur-fast', '--ob-dur-base', '--ob-dur-slow', '--ob-dur-spin', '--ob-dur-loop', '--ob-ease', '--ob-ease-out', '--ob-ease-in-out', '--ob-ease-spring'],
     proibido: [

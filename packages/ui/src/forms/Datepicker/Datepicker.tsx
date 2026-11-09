@@ -72,7 +72,7 @@ export type DatepickerProps = SingleDatepickerProps | RangeDatepickerProps;
 
 const VAZIO: CalendarRange = { start: null, end: null };
 
-const estiloDoCampo = (fonte: number): React.CSSProperties => ({
+const estiloDoCampo = (fonte: string): React.CSSProperties => ({
   flex: 1, minWidth: 0, alignSelf: 'stretch', border: 'none', outline: 'none', background: 'transparent',
   fontFamily: 'inherit', fontSize: fonte, color: 'var(--ob-fg-strong)', padding: 0, textAlign: 'center',
 });
@@ -194,7 +194,7 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)' }}>
-      {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
+      {label && <span style={{ fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{label}</span>}
       <div onFocus={() => setFocado(true)} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocado(false); }}>
         <FieldShell focused={focado} error={temErro} disabled={disabled} size={size}
           padding={comStepper ? `0 ${escala.recuoDaAcao}` : calendarioInline ? `0 ${escala.recuo}` : `0 ${escala.recuoDaAcao} 0 ${escala.recuo}`}>
@@ -228,7 +228,7 @@ export const Datepicker: React.FC<DatepickerProps> = (props) => {
         </FieldShell>
       </div>
       {calendarioInline && calendario(() => undefined)}
-      {(hint || mensagem) && <span style={{ fontSize: 11, color: mensagem ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{mensagem || hint}</span>}
+      {(hint || mensagem) && <span style={{ fontSize: 'var(--ob-fs-11)', color: mensagem ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{mensagem || hint}</span>}
     </div>
   );
 };

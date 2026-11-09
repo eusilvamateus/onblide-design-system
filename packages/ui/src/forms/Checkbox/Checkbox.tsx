@@ -73,8 +73,8 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       </svg>
       {temTexto && (
         <span>
-          {label != null && <span style={{ fontSize: fonte, color: 'var(--ob-fg-strong)', fontWeight: 500, lineHeight: `${caixa}px`, display: 'block' }}>{label}</span>}
-          {description != null && <span style={{ fontSize: 12, color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-2)', display: 'block' }}>{description}</span>}
+          {label != null && <span style={{ fontSize: fonte, color: 'var(--ob-fg-strong)', fontWeight: 'var(--ob-w-medium)', lineHeight: `${caixa}px`, display: 'block' }}>{label}</span>}
+          {description != null && <span style={{ fontSize: 'var(--ob-fs-12)', color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-2)', display: 'block' }}>{description}</span>}
         </span>
       )}
     </label>

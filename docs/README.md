@@ -41,6 +41,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0013-repositorio-so-com-o-design-system.md`](decisions/0013-repositorio-so-com-o-design-system.md) — encerra o Claude Design e define a estrutura de pastas
 - [`decisions/0014-licenca-mit-para-o-codigo.md`](decisions/0014-licenca-mit-para-o-codigo.md) — licença do código, das fontes e da marca
 - [`decisions/0015-publicar-o-pacote-no-npm.md`](decisions/0015-publicar-o-pacote-no-npm.md) — publicação no npm pelo escopo da conta `onblide`
+- [`decisions/0016-tipografia-completa.md`](decisions/0016-tipografia-completa.md) — a regra vive em `docs-site/docs/fundacoes/tipografia.mdx`
 
 ## Como manter esta documentação
 

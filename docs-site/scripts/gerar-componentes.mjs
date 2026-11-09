@@ -70,7 +70,7 @@ const descricoes = {
 };
 
 const titulos = {
-  Aberto: 'Aberto', Acoes: 'Ações', AlinhadoADireita: 'Alinhado à direita', Borda: 'Com borda', Carregando: 'Carregando',
+  Aberto: 'Aberto', Acoes: 'Ações', Borda: 'Com borda', Carregando: 'Carregando',
   CartaoCarregando: 'Cartão carregando', ComAcao: 'Com ação', ComDescricao: 'Com descrição', ComErro: 'Com erro',
   ComIcone: 'Com ícone', SemFundo: 'Sem fundo', RedimensionavelNosDoisEixos: 'Redimensionável nos dois eixos', Completo: 'Completo', ComPontoETamanhos: 'Com ponto e tamanhos', ComRotulo: 'Com rótulo',
   ComTitulo: 'Com título', ComValor: 'Com valor', Confirmacao: 'Confirmação', Cores: 'Cores', DataMinima: 'Data mínima',
@@ -81,7 +81,7 @@ const titulos = {
   Inicio: 'Início', Integracoes: 'Integrações', Intervalo: 'Intervalo', Invertido: 'Invertido', Linha: 'Linha',
   Medio: 'Médio', Meio: 'Meio', Multipla: 'Múltipla', Navegacao: 'Navegação', Padrao: 'Padrão', Pequeno: 'Pequeno',
   Pilula: 'Pílula', PreEnchido: 'Pré-preenchido', Recolhido: 'Recolhido', Removiveis: 'Removíveis',
-  Rolavel: 'Rolável', Selecionavel: 'Selecionável', CabecalhoFixo: 'Cabeçalho fixo', LinhaClicavel: 'Linha clicável', Expansivel: 'Expansível', SelecaoEntrePaginas: 'Seleção entre páginas',
+  Rolavel: 'Rolável', Selecionavel: 'Selecionável', CabecalhoFixo: 'Cabeçalho fixo', LinhaClicavel: 'Linha clicável', Expansivel: 'Expansível', SelecaoEntrePaginas: 'Seleção entre páginas', ColunasNumericas: 'Colunas numéricas',
   SemDescricao: 'Sem descrição', Simples: 'Simples', Sombra: 'Com sombra', Sucesso: 'Sucesso', Tamanhos: 'Tamanhos',
   TamanhosECores: 'Tamanhos e cores', Texto: 'Texto', Tons: 'Tons', Variantes: 'Variantes', Vazio: 'Vazio',
   Aparencia: 'Aparência', SoIcone: 'Só ícone', Anexado: 'Anexado', Espacado: 'Espaçado', SemCaixa: 'Sem caixa', NaoControlado: 'Não controlado', PrimeiraEUltima: 'Primeira e última', IrPara: 'Ir para', ItensPorPagina: 'Itens por página', Compacta: 'Compacta',

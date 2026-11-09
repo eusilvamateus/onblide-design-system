@@ -182,7 +182,7 @@ export const Select: React.FC<SelectProps> = (props) => {
       onMouseDownCapture={() => { focadoNoMouseDown.current = document.activeElement === inputRef.current; }}
       style={{ position: 'relative', width: width || (embedded ? 'auto' : '100%'), fontFamily: 'var(--ob-font)', ...(embedded ? { display: 'flex', alignSelf: 'stretch' } : null) }}>
       {label && !embedded && (
-        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)', marginBottom: 'var(--ob-space-6)' }}>{label}</div>
+        <div style={{ fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)', marginBottom: 'var(--ob-space-6)' }}>{label}</div>
       )}
       <Casca
         embedded={embedded} focused={open || focado} error={!!error} disabled={disabled} size={size}
@@ -220,7 +220,7 @@ export const Select: React.FC<SelectProps> = (props) => {
       {open && (
         <FloatingPanel ref={painelRef} side={lado} maxHeight={240} padding="var(--ob-space-4)">
           {filtered.length === 0 && (
-            <div style={{ padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 13, color: 'var(--ob-fg-mute)', textAlign: 'center' }}>
+            <div style={{ padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-mute)', textAlign: 'center' }}>
               Nenhuma opção encontrada
             </div>
           )}
@@ -235,7 +235,7 @@ export const Select: React.FC<SelectProps> = (props) => {
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--ob-space-10)',
                   padding: RECUO_DA_OPCAO[size], borderRadius: 'var(--ob-r-sm)', cursor: 'pointer',
-                  fontSize: escala.fonte, fontWeight: (isSelected && !multi) ? 600 : 400,
+                  fontSize: escala.fonte, fontWeight: (isSelected && !multi) ? 'var(--ob-w-semibold)' : 'var(--ob-w-regular)',
                   color: (isSelected && !multi) ? 'var(--ob-blue-700)' : 'var(--ob-fg)',
                   background: isHigh ? 'var(--ob-bg-warm)' : (isSelected && !multi ? 'var(--ob-blue-100)' : 'transparent'),
                   transition: 'background var(--ob-dur-fast) var(--ob-ease)',
@@ -255,7 +255,7 @@ export const Select: React.FC<SelectProps> = (props) => {
       )}
 
       {error && !embedded && (
-        <div style={{ fontSize: 12, color: 'var(--ob-danger)', marginTop: 'var(--ob-space-6)', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-4)' }}>
+        <div style={{ fontSize: 'var(--ob-fs-12)', color: 'var(--ob-danger)', marginTop: 'var(--ob-space-6)', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-4)' }}>
           <Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />
           {error}
         </div>

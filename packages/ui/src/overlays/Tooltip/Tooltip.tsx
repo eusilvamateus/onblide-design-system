@@ -96,7 +96,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           borderRadius: variant === 'image' ? 'var(--ob-r-md)' : 'var(--ob-r-sm)',
           boxShadow: 'var(--ob-shadow-md)',
           padding: variant === 'image' ? 'var(--ob-space-6)' : 'var(--ob-space-8) var(--ob-space-12)',
-          fontSize: 13, lineHeight: 1.4, fontWeight: 500, whiteSpace: 'normal', overflowWrap: 'anywhere',
+          fontSize: 'var(--ob-fs-13)', lineHeight: 1.4, fontWeight: 'var(--ob-w-medium)', whiteSpace: 'normal', overflowWrap: 'anywhere',
           width: variant === 'image' ? undefined : 'max-content', maxWidth: variant === 'image' ? 200 : maxWidth, pointerEvents: 'none',
           animation: 'ob-tip var(--ob-dur-fast) var(--ob-ease-out)',
         }}>
@@ -105,8 +105,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
               <span style={{ display: 'block', width: '100%', height: 110, borderRadius: 'var(--ob-r-sm)', overflow: 'hidden', background: 'var(--ob-bg-alt)' }}>
                 {image && <img src={image} alt={typeof title === 'string' ? title : ''} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />}
               </span>
-              {title && <span style={{ display: 'block', fontSize: 13, fontWeight: 600, color: fg, marginTop: 'var(--ob-space-8)', padding: '0 var(--ob-space-4)', whiteSpace: 'normal' }}>{title}</span>}
-              {subtitle && <span style={{ display: 'block', fontSize: 12, color: subFg, marginTop: 'var(--ob-space-2)', padding: '0 var(--ob-space-4) var(--ob-space-4)', whiteSpace: 'normal' }}>{subtitle}</span>}
+              {title && <span style={{ display: 'block', fontSize: 'var(--ob-fs-13)', fontWeight: 'var(--ob-w-semibold)', color: fg, marginTop: 'var(--ob-space-8)', padding: '0 var(--ob-space-4)', whiteSpace: 'normal' }}>{title}</span>}
+              {subtitle && <span style={{ display: 'block', fontSize: 'var(--ob-fs-12)', color: subFg, marginTop: 'var(--ob-space-2)', padding: '0 var(--ob-space-4) var(--ob-space-4)', whiteSpace: 'normal' }}>{subtitle}</span>}
             </span>
           ) : (
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)' }}>

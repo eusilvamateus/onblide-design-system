@@ -29,7 +29,7 @@ export interface ChipProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, '
 }
 
 interface EscalaDoChip {
-  fonte: number;
+  fonte: string;
   padding: string;
   paddingRemovivel: string;
   gap: string;
@@ -40,10 +40,10 @@ interface EscalaDoChip {
 }
 
 const ESCALA: Record<NonNullable<ChipProps['size']>, EscalaDoChip> = {
-  xs: { fonte: 11, padding: 'var(--ob-space-4) var(--ob-space-8)', paddingRemovivel: 'var(--ob-space-4) var(--ob-space-4) var(--ob-space-4) var(--ob-space-8)', gap: 'var(--ob-space-4)', icone: 12, pesoDoIcone: 'bold', botao: 14, iconeDoBotao: 9 },
-  sm: { fonte: 12, padding: 'var(--ob-space-6) var(--ob-space-10)', paddingRemovivel: 'var(--ob-space-6) var(--ob-space-6) var(--ob-space-6) var(--ob-space-10)', gap: 'var(--ob-space-6)', icone: 13, pesoDoIcone: 'bold', botao: 16, iconeDoBotao: 10 },
-  md: { fonte: 13, padding: 'var(--ob-space-8) var(--ob-space-16)', paddingRemovivel: 'var(--ob-space-8) var(--ob-space-8) var(--ob-space-8) var(--ob-space-16)', gap: 'var(--ob-space-6)', icone: 15, pesoDoIcone: 'regular', botao: 18, iconeDoBotao: 11 },
-  lg: { fonte: 15, padding: 'var(--ob-space-10) var(--ob-space-20)', paddingRemovivel: 'var(--ob-space-10) var(--ob-space-10) var(--ob-space-10) var(--ob-space-20)', gap: 'var(--ob-space-8)', icone: 18, pesoDoIcone: 'regular', botao: 22, iconeDoBotao: 13 },
+  xs: { fonte: 'var(--ob-fs-11)', padding: 'var(--ob-space-4) var(--ob-space-8)', paddingRemovivel: 'var(--ob-space-4) var(--ob-space-4) var(--ob-space-4) var(--ob-space-8)', gap: 'var(--ob-space-4)', icone: 12, pesoDoIcone: 'bold', botao: 14, iconeDoBotao: 9 },
+  sm: { fonte: 'var(--ob-fs-12)', padding: 'var(--ob-space-6) var(--ob-space-10)', paddingRemovivel: 'var(--ob-space-6) var(--ob-space-6) var(--ob-space-6) var(--ob-space-10)', gap: 'var(--ob-space-6)', icone: 13, pesoDoIcone: 'bold', botao: 16, iconeDoBotao: 10 },
+  md: { fonte: 'var(--ob-fs-13)', padding: 'var(--ob-space-8) var(--ob-space-16)', paddingRemovivel: 'var(--ob-space-8) var(--ob-space-8) var(--ob-space-8) var(--ob-space-16)', gap: 'var(--ob-space-6)', icone: 15, pesoDoIcone: 'regular', botao: 18, iconeDoBotao: 11 },
+  lg: { fonte: 'var(--ob-fs-15)', padding: 'var(--ob-space-10) var(--ob-space-20)', paddingRemovivel: 'var(--ob-space-10) var(--ob-space-10) var(--ob-space-10) var(--ob-space-20)', gap: 'var(--ob-space-8)', icone: 18, pesoDoIcone: 'regular', botao: 22, iconeDoBotao: 13 },
 };
 
 /** Elemento compacto e interativo para seleção, filtro ou remoção de itens. */
@@ -60,7 +60,7 @@ export const Chip: React.FC<ChipProps> = ({
   const base: React.CSSProperties = {
     display: 'inline-flex', alignItems: 'center', gap: escala.gap,
     padding: removable ? escala.paddingRemovivel : escala.padding,
-    borderRadius: 'var(--ob-r-pill)', fontSize: escala.fonte, fontWeight: 600,
+    borderRadius: 'var(--ob-r-pill)', fontSize: escala.fonte, fontWeight: 'var(--ob-w-semibold)',
     cursor: disabled ? 'not-allowed' : 'pointer',
     transition: 'all var(--ob-dur-fast) var(--ob-ease)', userSelect: 'none',
     opacity: disabled ? 'var(--ob-opacity-disabled)' : 1,
@@ -113,7 +113,7 @@ export const Chip: React.FC<ChipProps> = ({
             boxSizing: 'border-box', margin: 0, padding: 0, borderRadius: 'var(--ob-r-circle)', border: 'none', cursor: 'pointer',
             background: ligado ? 'color-mix(in srgb, var(--ob-fg-on-color) 25%, transparent)' : tone === 'neutral' ? 'var(--ob-bg-warm)' : `color-mix(in srgb, ${tom.fg} 15%, transparent)`,
             color: ligado ? 'var(--ob-fg-on-color)' : tone === 'neutral' ? 'var(--ob-fg-soft)' : tom.fg,
-            fontSize: escala.iconeDoBotao, fontWeight: 700, lineHeight: 1, flexShrink: 0,
+            lineHeight: 1, flexShrink: 0,
           }}
         ><Ph n="x" size={escala.iconeDoBotao} weight="bold" /></button>
       )}

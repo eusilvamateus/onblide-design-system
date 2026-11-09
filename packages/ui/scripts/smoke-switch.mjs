@@ -45,7 +45,7 @@ if (acionar({ checked: false, disabled: true }, 'click').chamadas.length) fail('
 
 for (const [size, w, h, fonte] of [['sm', 32, 18, 13], ['md', 40, 22, 14], ['lg', 48, 26, 15]]) {
   const html = render({ checked: true, label: 'Rótulo', size });
-  if (!html.includes(`width:${w}px;height:${h}px`) || !html.includes(`font-size:${fonte}px`)) fail(`size ${size} deveria ter trilho de ${w}×${h}px e texto de ${fonte}px`, html);
+  if (!html.includes(`width:${w}px;height:${h}px`) || !html.includes(`font-size:var(--ob-fs-${fonte})`)) fail(`size ${size} deveria ter trilho de ${w}×${h}px e texto de ${fonte}px`, html);
 }
 if (!render({ checked: false }).includes('width:40px;height:22px')) fail('o padrão é md, com 40×22px');
 

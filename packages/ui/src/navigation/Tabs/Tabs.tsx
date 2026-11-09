@@ -10,12 +10,12 @@ export type TabsAppearance = Extract<Appearance, 'soft' | 'solid'>;
 /** Tamanho das abas, que ajusta texto, ícone e espaçamento interno. */
 export type TabsSize = 'sm' | 'md' | 'lg';
 
-interface EscalaDaAba { recuo: string; fonte: number; icone: number; contador: 'sm' | 'md' }
+interface EscalaDaAba { recuo: string; fonte: string; icone: number; contador: 'sm' | 'md' }
 
 const ESCALA_DA_ABA: Record<TabsSize, EscalaDaAba> = {
-  sm: { recuo: 'var(--ob-space-8) var(--ob-space-16)', fonte: 13, icone: 15, contador: 'sm' },
-  md: { recuo: 'var(--ob-space-10) var(--ob-space-20)', fonte: 14, icone: 15, contador: 'sm' },
-  lg: { recuo: 'var(--ob-space-12) var(--ob-space-24)', fonte: 15, icone: 18, contador: 'md' },
+  sm: { recuo: 'var(--ob-space-8) var(--ob-space-16)', fonte: 'var(--ob-fs-13)', icone: 15, contador: 'sm' },
+  md: { recuo: 'var(--ob-space-10) var(--ob-space-20)', fonte: 'var(--ob-fs-14)', icone: 15, contador: 'sm' },
+  lg: { recuo: 'var(--ob-space-12) var(--ob-space-24)', fonte: 'var(--ob-fs-15)', icone: 18, contador: 'md' },
 };
 
 const useMedicao = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
@@ -137,7 +137,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)',
                 padding: escala.recuo, border: 'none', cursor: tab.disabled ? 'not-allowed' : 'pointer',
-                fontFamily: 'var(--ob-font)', fontSize: escala.fonte, fontWeight: 600,
+                fontFamily: 'var(--ob-font)', fontSize: escala.fonte, fontWeight: 'var(--ob-w-semibold)',
                 borderRadius: isLine ? 0 : 'var(--ob-r-sm)',
                 transition: `color ${deslizando}`,
                 position: 'relative',

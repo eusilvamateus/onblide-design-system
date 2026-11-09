@@ -87,7 +87,7 @@ if (!salto.includes('Ir para') || !salto.includes('aria-label="Ir para a página
 
 for (const [size, lado, fonte] of [['sm', 32, 13], ['md', 40, 14], ['lg', 48, 15]]) {
   const html = render({ page: 2, total: 5, size });
-  if (!html.includes(`min-width:${lado}px;height:${lado}px`) || !html.includes(`font-size:${fonte}px`)) fail(`size ${size}: botões de ${lado}px e texto de ${fonte}px`, html);
+  if (!html.includes(`min-width:${lado}px;height:${lado}px`) || !html.includes(`font-size:var(--ob-fs-${fonte})`)) fail(`size ${size}: botões de ${lado}px e texto de ${fonte}px`, html);
 }
 
 console.log('OK: Pagination (janela de páginas, reticências que saltam, setas, primeira e última, compacta, resumo de itens, itens por página, "Ir para", tamanhos, acessibilidade)');

@@ -56,7 +56,7 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: 'var(--ob-space-20) var(--ob-space-24)', borderBottom: '1px solid var(--ob-border)', flexShrink: 0,
         }}>
-          <span style={{ fontSize: 17, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</span>
+          <span style={{ fontSize: 'var(--ob-fs-18)', fontWeight: 'var(--ob-w-bold)', color: 'var(--ob-fg-strong)' }}>{title}</span>
           <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={18} />} />
         </div>
         <ScrollArea style={{ flex: 1 }}>

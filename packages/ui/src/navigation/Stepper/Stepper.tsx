@@ -37,14 +37,14 @@ function stepState(step: StepItem, i: number, current: number): StepState {
 const labelColor = (st: StepState) => st === 'error' ? 'var(--ob-danger)' : st === 'upcoming' ? 'var(--ob-fg-soft)' : st === 'disabled' ? 'var(--ob-fg-mute)' : 'var(--ob-fg-strong)';
 
 interface EscalaDoStepper {
-  marcador: number; icone: number; ponto: number; numero: number | string; rotulo: string; dica: string | null;
+  marcador: number; icone: number; ponto: number; numero: string; rotulo: string; dica: string | null;
   destaque: string; contador: string; passo: number; linha: number; recuoTopo: string; recuoBase: string; barra: 'sm' | 'md' | 'lg';
 }
 
 const ESCALA: Record<StepperSize, EscalaDoStepper> = {
-  sm: { marcador: 22, icone: 12, ponto: 8, numero: 11, rotulo: 'var(--ob-fs-xs)', dica: null, destaque: 'var(--ob-fs-sm)', contador: 'var(--ob-fs-xs)', passo: 88, linha: 16, recuoTopo: 'var(--ob-space-2)', recuoBase: 'var(--ob-space-12)', barra: 'sm' },
-  md: { marcador: 28, icone: 14, ponto: 10, numero: 'var(--ob-fs-xs)', rotulo: 'var(--ob-fs-sm)', dica: 'var(--ob-fs-xs)', destaque: 'var(--ob-fs-base)', contador: 'var(--ob-fs-xs)', passo: 112, linha: 24, recuoTopo: 'var(--ob-space-4)', recuoBase: 'var(--ob-space-24)', barra: 'md' },
-  lg: { marcador: 34, icone: 16, ponto: 12, numero: 'var(--ob-fs-sm)', rotulo: 'var(--ob-fs-base)', dica: 'var(--ob-fs-sm)', destaque: 'var(--ob-fs-md)', contador: 'var(--ob-fs-sm)', passo: 136, linha: 32, recuoTopo: 'var(--ob-space-6)', recuoBase: 'var(--ob-space-32)', barra: 'lg' },
+  sm: { marcador: 22, icone: 12, ponto: 8, numero: 'var(--ob-fs-11)', rotulo: 'var(--ob-fs-12)', dica: null, destaque: 'var(--ob-fs-14)', contador: 'var(--ob-fs-12)', passo: 88, linha: 16, recuoTopo: 'var(--ob-space-2)', recuoBase: 'var(--ob-space-12)', barra: 'sm' },
+  md: { marcador: 28, icone: 14, ponto: 10, numero: 'var(--ob-fs-12)', rotulo: 'var(--ob-fs-14)', dica: 'var(--ob-fs-12)', destaque: 'var(--ob-fs-16)', contador: 'var(--ob-fs-12)', passo: 112, linha: 24, recuoTopo: 'var(--ob-space-4)', recuoBase: 'var(--ob-space-24)', barra: 'md' },
+  lg: { marcador: 34, icone: 16, ponto: 12, numero: 'var(--ob-fs-14)', rotulo: 'var(--ob-fs-16)', dica: 'var(--ob-fs-14)', destaque: 'var(--ob-fs-18)', contador: 'var(--ob-fs-14)', passo: 136, linha: 32, recuoTopo: 'var(--ob-space-6)', recuoBase: 'var(--ob-space-32)', barra: 'lg' },
 };
 
 function StepMark({ state, n, icon, marker = 'number', size = 'md' }: { state: StepState; n: number; icon?: string; marker?: StepperMarker; size?: StepperSize }) {

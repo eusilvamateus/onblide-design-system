@@ -20,8 +20,10 @@ export interface TableColumn<T> {
   label: React.ReactNode;
   /** Largura fixa da coluna. */
   width?: number | string;
-  /** Alinhamento do cabeçalho e das células; `right` para números e valores. */
+  /** Alinhamento do cabeçalho e das células. */
   align?: TableAlign;
+  /** Coluna de números e valores: alinha à direita e usa a fonte mono, em que todos os algarismos têm a mesma largura e as casas ficam uma embaixo da outra. */
+  numeric?: boolean;
   /** Habilita a ordenação por essa coluna, pelo clique ou pelo teclado no cabeçalho. */
   sortable?: boolean;
   /** Exibe o valor da coluna em negrito e com cor de destaque. */
@@ -84,14 +86,14 @@ export interface TableProps<T> {
 }
 
 interface EscalaDaTabela {
-  recuoY: string; recuoX: string; fonte: number; linha: number; cabecalho: number; seta: number;
+  recuoY: string; recuoX: string; fonte: string; linha: number; cabecalho: string; seta: number;
   esqueleto: number; escolha: CheckboxSize; botao: ButtonSize; icone: number;
 }
 
 const ESCALA: Record<TableSize, EscalaDaTabela> = {
-  sm: { recuoY: 'var(--ob-space-6)', recuoX: 'var(--ob-space-12)', fonte: 13, linha: 18, cabecalho: 11, seta: 12, esqueleto: 12, escolha: 'sm', botao: 'sm', icone: 14 },
-  md: { recuoY: 'var(--ob-space-10)', recuoX: 'var(--ob-space-16)', fonte: 14, linha: 20, cabecalho: 11, seta: 12, esqueleto: 14, escolha: 'md', botao: 'sm', icone: 16 },
-  lg: { recuoY: 'var(--ob-space-12)', recuoX: 'var(--ob-space-20)', fonte: 15, linha: 22, cabecalho: 12, seta: 14, esqueleto: 16, escolha: 'lg', botao: 'md', icone: 18 },
+  sm: { recuoY: 'var(--ob-space-6)', recuoX: 'var(--ob-space-12)', fonte: 'var(--ob-fs-13)', linha: 18, cabecalho: 'var(--ob-fs-12)', seta: 12, esqueleto: 12, escolha: 'sm', botao: 'sm', icone: 14 },
+  md: { recuoY: 'var(--ob-space-10)', recuoX: 'var(--ob-space-16)', fonte: 'var(--ob-fs-14)', linha: 20, cabecalho: 'var(--ob-fs-12)', seta: 12, esqueleto: 14, escolha: 'md', botao: 'sm', icone: 16 },
+  lg: { recuoY: 'var(--ob-space-12)', recuoX: 'var(--ob-space-20)', fonte: 'var(--ob-fs-15)', linha: 22, cabecalho: 'var(--ob-fs-13)', seta: 14, esqueleto: 16, escolha: 'lg', botao: 'md', icone: 18 },
 };
 
 const LINHAS_ESQUELETO = 4;
@@ -177,8 +179,8 @@ export function Table<T extends object = Record<string, unknown>>({
 
   const th: React.CSSProperties = {
     padding: `${escala.recuoY} ${escala.recuoX}`, textAlign: 'left', fontFamily: 'var(--ob-font-mono)',
-    fontSize: escala.cabecalho, lineHeight: `${escala.linha}px`, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-    color: 'var(--ob-fg-mute)', border: 'none', borderBottom: DIVISORIA,
+    fontSize: escala.cabecalho, lineHeight: `${escala.linha}px`, fontWeight: 'var(--ob-w-medium)',
+    color: 'var(--ob-fg-soft)', border: 'none', borderBottom: DIVISORIA,
     background: 'var(--ob-surface)', whiteSpace: 'nowrap', userSelect: 'none', verticalAlign: 'middle',
     ...(maxHeight !== undefined ? { position: 'sticky' as const, top: 0, zIndex: 1 } : {}),
   };
@@ -189,9 +191,9 @@ export function Table<T extends object = Record<string, unknown>>({
   const linhaSemBorda: React.CSSProperties = { border: 'none', background: 'none' };
   const celula = (ultima: boolean, extra?: React.CSSProperties): React.CSSProperties => ({ ...td, ...(ultima ? { borderBottom: 'none' } : {}), ...extra });
   const colunaDeControle: React.CSSProperties = { width: 1, paddingRight: 0 };
-  const alinhar = (col: TableColumn<T>): React.CSSProperties => ({
-    textAlign: col.align ?? 'left', ...(col.align === 'right' ? { fontVariantNumeric: 'tabular-nums' } : {}),
-  });
+  const alinhamento = (col: TableColumn<T>): TableAlign => col.align ?? (col.numeric ? 'right' : 'left');
+  const alinhar = (col: TableColumn<T>): React.CSSProperties => ({ textAlign: alinhamento(col) });
+  const numerica = (col: TableColumn<T>): React.CSSProperties => (col.numeric ? { fontFamily: 'var(--ob-font-mono)' } : {});
   const pararClique = (e: React.MouseEvent) => e.stopPropagation();
 
   const cabecalho = (col: TableColumn<T>) => {
@@ -200,9 +202,9 @@ export function Table<T extends object = Record<string, unknown>>({
     const icone = ativa ? (sortAtivo.dir === 'asc' ? 'arrow-up' : 'arrow-down') : 'arrows-down-up';
     return (
       <button type="button" className="ob-table-ordenar" onClick={() => alternarOrdenacao(col.key)} style={{
-        display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-6)', flexDirection: col.align === 'right' ? 'row-reverse' : 'row',
+        display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-6)', flexDirection: alinhamento(col) === 'right' ? 'row-reverse' : 'row',
         margin: 0, padding: 0, border: 'none', background: 'none', borderRadius: 'var(--ob-r-2xs)', cursor: 'pointer',
-        font: 'inherit', letterSpacing: 'inherit', textTransform: 'inherit', color: ativa ? 'var(--ob-fg)' : 'inherit',
+        font: 'inherit', color: ativa ? 'var(--ob-fg)' : 'inherit',
       }}>
         {col.label}
         <Ph n={icone} size={escala.seta} c={ativa ? 'var(--ob-blue)' : undefined} style={{ opacity: ativa ? 1 : 'var(--ob-opacity-muted)' }} />
@@ -221,7 +223,7 @@ export function Table<T extends object = Record<string, unknown>>({
             {columns.map((col, c) => (
               <td key={col.key} style={celula(ultima)}>
                 <Skeleton height={escala.esqueleto} width={LARGURAS_DO_ESQUELETO[(i + c) % LARGURAS_DO_ESQUELETO.length]}
-                  style={col.align === 'right' ? { marginLeft: 'auto' } : col.align === 'center' ? { margin: '0 auto' } : undefined} />
+                  style={alinhamento(col) === 'right' ? { marginLeft: 'auto' } : alinhamento(col) === 'center' ? { margin: '0 auto' } : undefined} />
               </td>
             ))}
           </tr>
@@ -282,7 +284,7 @@ export function Table<T extends object = Record<string, unknown>>({
               </td>
             )}
             {columns.map((col) => (
-              <td key={col.key} style={celula(semDivisoria, { ...alinhar(col), fontWeight: col.bold ? 600 : 400, color: col.bold ? 'var(--ob-fg-strong)' : 'var(--ob-fg)' })}>
+              <td key={col.key} style={celula(semDivisoria, { ...alinhar(col), ...numerica(col), fontWeight: col.bold ? 'var(--ob-w-semibold)' : 'var(--ob-w-regular)', color: col.bold ? 'var(--ob-fg-strong)' : 'var(--ob-fg)' })}>
                 {col.render ? col.render((row as Record<string, unknown>)[col.key], row) : ((row as Record<string, unknown>)[col.key] as React.ReactNode)}
               </td>
             ))}
@@ -313,7 +315,7 @@ export function Table<T extends object = Record<string, unknown>>({
           {caption && (
             <caption style={{
               captionSide: 'top', textAlign: 'left', padding: `${escala.recuoY} ${escala.recuoX}`, fontSize: escala.fonte, lineHeight: `${escala.linha}px`,
-              fontWeight: 600, color: 'var(--ob-fg-strong)', background: 'var(--ob-surface)', borderBottom: DIVISORIA,
+              fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)', background: 'var(--ob-surface)', borderBottom: DIVISORIA,
             }}>{caption}</caption>
           )}
           <thead style={{ background: 'none' }}>

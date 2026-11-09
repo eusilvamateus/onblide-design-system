@@ -1,6 +1,5 @@
 Copyright 2020 The Poppins Project Authors (https://github.com/itfoundry/Poppins)
 Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
-Copyright 2020 The JetBrains Mono NL Project Authors (https://github.com/JetBrains/JetBrainsMonoNL)
 Copyright 2017 The Playfair Display Project Authors (https://github.com/clauseggers/Playfair-Display), with Reserved Font Name "Playfair Display".
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.

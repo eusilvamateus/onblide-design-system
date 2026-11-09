@@ -1,20 +1,21 @@
-# Fonts
+# Fontes
 
-Three families, all **self-hosted** in this folder (`fonts/`). No CDN dependency.
+As três famílias vêm nesta pasta (`fonts/`), em `woff2`, sem depender de CDN.
 
-| Family | Token | Role | Weights locally available |
+| Família | Token | Papel | Pesos |
 |---|---|---|---|
-| **Poppins** | `--ob-font` | UI, headings, body — the workhorse | 100–900 (all weights + italics) |
-| **Playfair Display** | `--ob-font-serif` | Editorial accents, pull-quotes, italic emphasis | 400–900 + italics |
-| **JetBrains Mono** | `--ob-font-mono` | Code, tokens, design-system labels | 100–800 + italics |
+| **Poppins** | `--ob-font` | Interface, títulos e corpo | 100–900, com itálicos |
+| **Playfair Display** | `--ob-font-serif` | Acento editorial, em itálico | 400–900, com itálicos |
+| **JetBrains Mono** | `--ob-font-mono` | Código, tokens, rótulos técnicos e números alinhados | 100–800, com itálicos |
 
 ## @font-face
 
-All three families are declared in `tokens.css` via `@font-face` blocks pointing to `fonts/*.ttf`. No `@import` from Google Fonts.
+O `tokens.css` declara cada peso e itálico com `@font-face`, apontando para `fonts/*.woff2`, com `font-display: swap`.
+Cada arquivo só é baixado quando a página usa aquele peso.
 
-## Offline use
+## Uso offline
 
-Because fonts are local, the design system works fully offline — no network request needed for typography.
+Como as fontes são locais, o design system funciona sem rede.
 
 ## Licença
 

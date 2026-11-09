@@ -36,7 +36,7 @@ export const Input: React.FC<InputProps> = ({ label, hint, error, size = 'md', i
   const emFoco = focused || addonFocused;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)' }}>
-      {label && <label htmlFor={id} style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</label>}
+      {label && <label htmlFor={id} style={{ fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{label}</label>}
       <FieldShell
         focused={emFoco} error={!!error} disabled={rest.disabled} size={size}
         padding={`0 ${temFim ? 0 : escala.recuo} 0 ${temInicio ? 0 : escala.recuo}`}
@@ -56,7 +56,7 @@ export const Input: React.FC<InputProps> = ({ label, hint, error, size = 'md', i
         />
         {temFim && <FieldAddon side="end" size={size} focused={emFoco} error={!!error} onFocusChange={setAddonFocused}>{endAddon}</FieldAddon>}
       </FieldShell>
-      {(hint || error) && <span style={{ fontSize: 11, color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{error || hint}</span>}
+      {(hint || error) && <span style={{ fontSize: 'var(--ob-fs-11)', color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{error || hint}</span>}
     </div>
   );
 };

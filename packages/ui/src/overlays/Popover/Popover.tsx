@@ -131,7 +131,7 @@ export const Popover: React.FC<PopoverProps> = ({
             style={{ position: 'fixed', top: pos ? pos.top : 0, left: pos ? pos.left : 0, width, maxWidth: 'calc(100vw - 16px)', zIndex: 'var(--ob-z-dropdown)' as React.CSSProperties['zIndex'], visibility: pos ? 'visible' : 'hidden', outline: 'none' }}>
             <FloatingPanel padding={0} style={{ position: 'relative', top: 0, left: 0, right: 'auto', overflow: 'visible' }}>
               {arrow && pos && <span aria-hidden="true" style={{ position: 'absolute', width: 10, height: 10, background: 'var(--ob-surface)', transform: 'rotate(45deg)', ...arrowStyle }} />}
-              <div style={{ position: 'relative', padding, display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-12)', fontFamily: 'var(--ob-font)', fontSize: 14, lineHeight: '20px', color: 'var(--ob-fg)' }}>
+              <div style={{ position: 'relative', padding, display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-12)', fontFamily: 'var(--ob-font)', fontSize: 'var(--ob-fs-14)', lineHeight: '20px', color: 'var(--ob-fg)' }}>
                 {title && (
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--ob-space-8)', margin: 'calc(var(--ob-space-2) * -1) calc(var(--ob-space-4) * -1) calc(var(--ob-space-2) * -1) 0' }}>
                     <span id={`${uid}-t`} style={{ fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{title}</span>

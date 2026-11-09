@@ -454,7 +454,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     );
   };
   const renderAux = (r: Row & { type: 'loading' | 'error' | 'empty' }, k: string) => (
-    <li key={k} role="none" style={{ margin: 0, position: 'relative', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', minHeight: size === 'sm' ? 28 : 32, padding: `${padY}px var(--ob-space-8) ${padY}px ${leftPad(r.level) + 26}px`, fontFamily: 'var(--ob-font)', fontSize: size === 'sm' ? 12 : 13, color: r.type === 'error' ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>
+    <li key={k} role="none" style={{ margin: 0, position: 'relative', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', minHeight: size === 'sm' ? 28 : 32, padding: `${padY}px var(--ob-space-8) ${padY}px ${leftPad(r.level) + 26}px`, fontFamily: 'var(--ob-font)', fontSize: size === 'sm' ? 'var(--ob-fs-12)' : 'var(--ob-fs-13)', color: r.type === 'error' ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>
       {guideSpans(r.level)}
       {r.type === 'loading' && <><Spinner size="xs" />Carregando…</>}
       {r.type === 'empty' && 'Pasta vazia'}
@@ -466,7 +466,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     <div ref={rootRef} style={{ fontFamily: 'var(--ob-font)' }}>
       <List as="ul" role="tree" ariaLabel={ariaLabel} aria-multiselectable={selection === 'multiple' || undefined} size={size} onKeyDown={onKeyDown} style={{ gap: 0 }}>
         {rows.map((r, k) => (r.type === 'node' ? renderNode(r) : renderAux(r, `aux${k}`)))}
-        {rows.length === 0 && <li role="none" style={{ margin: 0, padding: 'var(--ob-space-12) var(--ob-space-8)', fontSize: 13, color: 'var(--ob-fg-mute)' }}>{nq ? `Nenhum resultado para "${query.trim()}"` : emptyText}</li>}
+        {rows.length === 0 && <li role="none" style={{ margin: 0, padding: 'var(--ob-space-12) var(--ob-space-8)', fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-mute)' }}>{nq ? `Nenhum resultado para "${query.trim()}"` : emptyText}</li>}
       </List>
       <span aria-live="polite" style={srOnly}>{live}</span>
       {drag && ghost && ReactDOM.createPortal(
@@ -474,7 +474,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
           <div style={{
             display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', minHeight: 34, padding: 'var(--ob-space-6) var(--ob-space-10) var(--ob-space-6) var(--ob-space-8)', boxSizing: 'border-box', background: 'var(--ob-surface)',
             border: `1.5px solid ${blocked ? 'var(--ob-danger)' : 'var(--ob-blue)'}`, borderRadius: 'var(--ob-r-sm)', boxShadow: 'var(--ob-shadow-lg)',
-            fontFamily: 'var(--ob-font)', fontSize: 14, color: 'var(--ob-fg-strong)', transformOrigin: `${drag.ox}px ${drag.oy}px`, animation: 'ob-tv-lift var(--ob-dur-fast) var(--ob-ease-out) forwards',
+            fontFamily: 'var(--ob-font)', fontSize: 'var(--ob-fs-14)', color: 'var(--ob-fg-strong)', transformOrigin: `${drag.ox}px ${drag.oy}px`, animation: 'ob-tv-lift var(--ob-dur-fast) var(--ob-ease-out) forwards',
           }}>
             <Ph n="dots-six-vertical" size={14} weight="bold" c={blocked ? 'var(--ob-danger)' : 'var(--ob-blue)'} />
             {icons && drag.node.icon && <Ph n={drag.node.icon} size={16} c="var(--ob-fg-soft)" />}

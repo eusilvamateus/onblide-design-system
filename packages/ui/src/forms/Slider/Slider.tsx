@@ -173,9 +173,9 @@ export const Slider: React.FC<SliderProps> = (props) => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1 }}>
       {(label || showValue) && (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
+          {label && <span style={{ fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{label}</span>}
           {showValue && (
-            <span style={{ fontSize: 12, fontWeight: 700, fontFamily: 'var(--ob-font-mono)', color: error ? 'var(--ob-danger)' : toneColor }}>
+            <span style={{ fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-bold)', fontFamily: 'var(--ob-font-mono)', color: error ? 'var(--ob-danger)' : toneColor }}>
               {range ? `${fmt(lo)} – ${fmt(hi ?? max)}` : fmt(lo)}
             </span>
           )}
@@ -226,12 +226,12 @@ export const Slider: React.FC<SliderProps> = (props) => {
       </div>
       {marks && markPositions.length > 0 && (
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 'var(--ob-space-2)' }}>
-          <span style={{ fontSize: 10, color: 'var(--ob-fg-mute)', fontFamily: 'var(--ob-font-mono)' }}>{min}</span>
-          <span style={{ fontSize: 10, color: 'var(--ob-fg-mute)', fontFamily: 'var(--ob-font-mono)' }}>{max}</span>
+          <span style={{ fontSize: 'var(--ob-fs-10)', color: 'var(--ob-fg-mute)', fontFamily: 'var(--ob-font-mono)' }}>{min}</span>
+          <span style={{ fontSize: 'var(--ob-fs-10)', color: 'var(--ob-fg-mute)', fontFamily: 'var(--ob-font-mono)' }}>{max}</span>
         </div>
       )}
       {(hint || error) && (
-        <span style={{ fontSize: 11, color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{error || hint}</span>
+        <span style={{ fontSize: 'var(--ob-fs-11)', color: error ? 'var(--ob-danger)' : 'var(--ob-fg-mute)' }}>{error || hint}</span>
       )}
     </div>
   );

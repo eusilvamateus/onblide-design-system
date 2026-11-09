@@ -16,25 +16,25 @@ const linhas = [
 ];
 
 export const Padrao = () => (
-  <div style={{ padding: 16, width: 720 }}>
+  <div style={{ padding: 16, maxWidth: 720 }}>
     <Table columns={colunas} rows={linhas} sort={{ key: 'prazo', dir: 'asc' }} />
   </div>
 );
 
 export const Selecionavel = () => (
-  <div style={{ padding: 16, width: 720 }}>
+  <div style={{ padding: 16, maxWidth: 720 }}>
     <Table columns={colunas} rows={linhas} selectable />
   </div>
 );
 
 export const Vazio = () => (
-  <div style={{ padding: 16, width: 720 }}>
+  <div style={{ padding: 16, maxWidth: 720 }}>
     <Table columns={colunas} rows={[]} emptyState="Nenhuma tarefa encontrada" />
   </div>
 );
 
 export const Carregando = () => (
-  <div style={{ padding: 16, width: 720 }}>
+  <div style={{ padding: 16, maxWidth: 720 }}>
     <Table columns={colunas} rows={[]} loading />
   </div>
 );
@@ -49,7 +49,7 @@ const statusMap: Record<string, ['primary' | 'warning' | 'success', string]> = {
 };
 
 export const ComBadges = () => (
-  <div style={{ padding: 16, width: 640 }}>
+  <div style={{ padding: 16, maxWidth: 640 }}>
     <Table
       selectable
       columns={[
@@ -63,7 +63,7 @@ export const ComBadges = () => (
 );
 
 export const Tamanhos = () => (
-  <div style={{ padding: 16, width: 720, display: 'flex', flexDirection: 'column', gap: 24 }}>
+  <div style={{ padding: 16, maxWidth: 720, display: 'flex', flexDirection: 'column', gap: 24 }}>
     <Table size="sm" caption="sm" columns={colunas} rows={linhas} selectable />
     <Table size="md" caption="md" columns={colunas} rows={linhas} selectable />
     <Table size="lg" caption="lg" columns={colunas} rows={linhas} selectable />
@@ -79,18 +79,18 @@ const pedidos = [
 const colunasDePedidos = [
   { key: 'id', label: 'Pedido', bold: true, render: (v: unknown) => `#${v}` },
   { key: 'cliente', label: 'Cliente' },
-  { key: 'itens', label: 'Itens', align: 'right' as const, sortable: true },
-  { key: 'total', label: 'Total', align: 'right' as const, sortable: true, render: moeda },
+  { key: 'itens', label: 'Itens', numeric: true, sortable: true },
+  { key: 'total', label: 'Total', numeric: true, sortable: true, render: moeda },
 ];
 
-export const AlinhadoADireita = () => (
-  <div style={{ padding: 16, width: 640 }}>
+export const ColunasNumericas = () => (
+  <div style={{ padding: 16, maxWidth: 640 }}>
     <Table columns={colunasDePedidos} rows={pedidos} />
   </div>
 );
 
 export const Expansivel = () => (
-  <div style={{ padding: 16, width: 640 }}>
+  <div style={{ padding: 16, maxWidth: 640 }}>
     <Table
       columns={colunasDePedidos}
       rows={pedidos}
@@ -103,7 +103,7 @@ export const Expansivel = () => (
 export const LinhaClicavel = () => {
   const [aberto, setAberto] = useState<string | null>(null);
   return (
-    <div style={{ padding: 16, width: 640, display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div style={{ padding: 16, maxWidth: 640, display: 'flex', flexDirection: 'column', gap: 12 }}>
       <Table columns={colunasDePedidos} rows={pedidos} onRowClick={(p) => setAberto(`#${p.id} · ${p.cliente}`)} />
       <span style={nota}>{aberto ? `Abrir pedido ${aberto}` : 'Clique numa linha ou use Tab e Enter.'}</span>
     </div>
@@ -114,11 +114,11 @@ const clientes = Array.from({ length: 24 }, (_, i) => ({ id: i + 1, nome: `Clien
 const colunasDeClientes = [
   { key: 'nome', label: 'Cliente', bold: true },
   { key: 'cidade', label: 'Cidade' },
-  { key: 'pedidos', label: 'Pedidos', align: 'right' as const },
+  { key: 'pedidos', label: 'Pedidos', numeric: true },
 ];
 
 export const CabecalhoFixo = () => (
-  <div style={{ padding: 16, width: 560 }}>
+  <div style={{ padding: 16, maxWidth: 560 }}>
     <Table caption="Clientes ativos" maxHeight={280} columns={colunasDeClientes} rows={clientes} />
   </div>
 );
@@ -128,7 +128,7 @@ export const SelecaoEntrePaginas = () => {
   const [selecionados, setSelecionados] = useState<(string | number)[]>([]);
   const porPagina = 6;
   return (
-    <div style={{ padding: 16, width: 560, display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div style={{ padding: 16, maxWidth: 560, display: 'flex', flexDirection: 'column', gap: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 32 }}>
         <span style={nota}>{selecionados.length ? `${selecionados.length} selecionados` : 'Nenhum selecionado'}</span>
         {selecionados.length > 0 && <Button kind="ghost" size="sm" onClick={() => setSelecionados([])}>Limpar seleção</Button>}

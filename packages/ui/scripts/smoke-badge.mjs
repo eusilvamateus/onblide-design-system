@@ -45,5 +45,5 @@ for (const tone of ['neutral', 'primary', 'success', 'warning', 'danger']) {
   if (!render({ tone }).includes('Ativo')) fail(`tom ${tone}`);
 }
 if (!render({ tone: 'inexistente' }).includes('Ativo')) fail('tom desconhecido cai no padrão');
-if (!render({ size: 'sm' }).includes('font-size:11px')) fail('size sm');
+if (!render({ size: 'sm' }).includes('font-size:var(--ob-fs-11)')) fail('size sm');
 console.log('OK: Badge (appearance soft/solid/outline/ghost, variant label/numeric, tons, dot, icon, size)');

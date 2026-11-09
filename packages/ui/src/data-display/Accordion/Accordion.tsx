@@ -46,12 +46,12 @@ export interface AccordionProps {
   ariaLabel?: string;
 }
 
-interface EscalaDoAcordeao { fonte: number; cabecalho: string; painel: string; icone: number; seta: number; espaco: string }
+interface EscalaDoAcordeao { fonte: string; cabecalho: string; painel: string; icone: number; seta: number; espaco: string }
 
 const ESCALA: Record<AccordionSize, EscalaDoAcordeao> = {
-  sm: { fonte: 13, cabecalho: 'var(--ob-space-10) var(--ob-space-12)', painel: '0 var(--ob-space-12) var(--ob-space-12)', icone: 16, seta: 14, espaco: 'var(--ob-space-8)' },
-  md: { fonte: 14, cabecalho: 'var(--ob-space-16) var(--ob-space-16)', painel: '0 var(--ob-space-16) var(--ob-space-16)', icone: 18, seta: 16, espaco: 'var(--ob-space-10)' },
-  lg: { fonte: 15, cabecalho: 'var(--ob-space-20) var(--ob-space-20)', painel: '0 var(--ob-space-20) var(--ob-space-20)', icone: 20, seta: 18, espaco: 'var(--ob-space-12)' },
+  sm: { fonte: 'var(--ob-fs-13)', cabecalho: 'var(--ob-space-10) var(--ob-space-12)', painel: '0 var(--ob-space-12) var(--ob-space-12)', icone: 16, seta: 14, espaco: 'var(--ob-space-8)' },
+  md: { fonte: 'var(--ob-fs-14)', cabecalho: 'var(--ob-space-16) var(--ob-space-16)', painel: '0 var(--ob-space-16) var(--ob-space-16)', icone: 18, seta: 16, espaco: 'var(--ob-space-10)' },
+  lg: { fonte: 'var(--ob-fs-15)', cabecalho: 'var(--ob-space-20) var(--ob-space-20)', painel: '0 var(--ob-space-20) var(--ob-space-20)', icone: 20, seta: 18, espaco: 'var(--ob-space-12)' },
 };
 
 const DIVISORIA = '1px solid var(--ob-border)';
@@ -115,7 +115,7 @@ export const Accordion: React.FC<AccordionProps> = ({
                 disabled={item.disabled} onClick={() => alternar(item.id)} style={{
                   display: 'flex', alignItems: 'center', gap: escala.espaco, width: '100%', padding: escala.cabecalho, border: 'none',
                   borderRadius: contorno ? 0 : 'var(--ob-r-control)',
-                  background: 'transparent', textAlign: 'left', fontFamily: 'inherit', fontSize: escala.fonte, fontWeight: 600,
+                  background: 'transparent', textAlign: 'left', fontFamily: 'inherit', fontSize: escala.fonte, fontWeight: 'var(--ob-w-semibold)',
                   color: 'var(--ob-fg-strong)', cursor: item.disabled ? 'not-allowed' : 'pointer', opacity: item.disabled ? 'var(--ob-opacity-disabled)' : 1,
                 }}>
                 {item.icon && <Ph n={item.icon} size={escala.icone} c="var(--ob-fg-soft)" />}

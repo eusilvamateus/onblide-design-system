@@ -16,7 +16,7 @@ export interface KbdProps {
 /** Tecla ou atalho de teclado, em fonte monoespaçada. Usa a cor do texto ao redor, então funciona em qualquer fundo. */
 export const Kbd: React.FC<KbdProps> = ({ appearance = 'outline', size = 'md', children }) => {
   const base: React.CSSProperties = {
-    fontFamily: 'var(--ob-font-mono)', fontSize: size === 'sm' ? 11 : 12, fontWeight: 600, lineHeight: 1, whiteSpace: 'nowrap',
+    fontFamily: 'var(--ob-font-mono)', fontSize: size === 'sm' ? 'var(--ob-fs-11)' : 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', lineHeight: 1, whiteSpace: 'nowrap',
     color: 'inherit', boxShadow: 'none',
   };
   if (appearance === 'ghost') return <kbd style={{ ...base, background: 'none', border: 'none', borderRadius: 0, padding: 0 }}>{children}</kbd>;

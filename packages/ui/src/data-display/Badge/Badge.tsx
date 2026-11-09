@@ -8,12 +8,12 @@ export type BadgeAppearance = Extract<Appearance, 'soft' | 'solid' | 'outline' |
 /** Tamanho do badge, que ajusta texto, ícone e espaçamento interno. */
 export type BadgeSize = 'sm' | 'md' | 'lg';
 
-interface EscalaDoBadge { fonte: number; recuo: string; icone: number; ponto: number; contador: number; recuoDoContador: string }
+interface EscalaDoBadge { fonte: string; recuo: string; icone: number; ponto: number; contador: number; recuoDoContador: string }
 
 const ESCALA_DO_BADGE: Record<BadgeSize, EscalaDoBadge> = {
-  sm: { fonte: 11, recuo: 'var(--ob-space-2) var(--ob-space-8)', icone: 12, ponto: 6, contador: 18, recuoDoContador: 'var(--ob-space-6)' },
-  md: { fonte: 12, recuo: 'var(--ob-space-4) var(--ob-space-10)', icone: 14, ponto: 6, contador: 18, recuoDoContador: 'var(--ob-space-6)' },
-  lg: { fonte: 13, recuo: 'var(--ob-space-6) var(--ob-space-12)', icone: 16, ponto: 8, contador: 22, recuoDoContador: 'var(--ob-space-8)' },
+  sm: { fonte: 'var(--ob-fs-11)', recuo: 'var(--ob-space-2) var(--ob-space-8)', icone: 12, ponto: 6, contador: 18, recuoDoContador: 'var(--ob-space-6)' },
+  md: { fonte: 'var(--ob-fs-12)', recuo: 'var(--ob-space-4) var(--ob-space-10)', icone: 14, ponto: 6, contador: 18, recuoDoContador: 'var(--ob-space-6)' },
+  lg: { fonte: 'var(--ob-fs-13)', recuo: 'var(--ob-space-6) var(--ob-space-12)', icone: 16, ponto: 8, contador: 22, recuoDoContador: 'var(--ob-space-8)' },
 };
 
 export interface BadgeProps {
@@ -54,7 +54,7 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-6)',
-      borderRadius: 'var(--ob-r-pill)', fontSize: escala.fonte, fontWeight: 700,
+      borderRadius: 'var(--ob-r-pill)', fontSize: escala.fonte, fontWeight: 'var(--ob-w-bold)',
       lineHeight: 1, ...(pinturas[pintura] || pinturas.soft), ...forma,
     }}>
       {!numerico && icon && <Ph n={icon} size={escala.icone} weight="bold" />}

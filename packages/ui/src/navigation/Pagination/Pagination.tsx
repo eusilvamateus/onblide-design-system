@@ -39,12 +39,12 @@ export interface PaginationProps {
   onPageSizeChange?: (pageSize: number) => void;
 }
 
-interface EscalaDaPaginacao { lado: number; fonte: number; icone: number; espaco: string; seletor: number; campo: number }
+interface EscalaDaPaginacao { lado: number; fonte: string; icone: number; espaco: string; seletor: number; campo: number }
 
 const ESCALA: Record<PaginationSize, EscalaDaPaginacao> = {
-  sm: { lado: 32, fonte: 13, icone: 14, espaco: 'var(--ob-space-4)', seletor: 136, campo: 64 },
-  md: { lado: 40, fonte: 14, icone: 16, espaco: 'var(--ob-space-6)', seletor: 152, campo: 72 },
-  lg: { lado: 48, fonte: 15, icone: 18, espaco: 'var(--ob-space-8)', seletor: 168, campo: 80 },
+  sm: { lado: 32, fonte: 'var(--ob-fs-13)', icone: 14, espaco: 'var(--ob-space-4)', seletor: 136, campo: 64 },
+  md: { lado: 40, fonte: 'var(--ob-fs-14)', icone: 16, espaco: 'var(--ob-space-6)', seletor: 152, campo: 72 },
+  lg: { lado: 48, fonte: 'var(--ob-fs-15)', icone: 18, espaco: 'var(--ob-space-8)', seletor: 168, campo: 80 },
 };
 
 const SALTO = 5;
@@ -75,8 +75,8 @@ const estiloDoBotao = (escala: EscalaDaPaginacao, ativo: boolean, desabilitado =
   border: `1px solid ${ativo ? 'var(--ob-blue)' : 'var(--ob-border)'}`,
   background: ativo ? 'var(--ob-blue)' : 'var(--ob-surface)',
   color: ativo ? 'var(--ob-fg-on-color)' : desabilitado ? 'var(--ob-fg-mute)' : 'var(--ob-fg)',
-  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'inherit', fontSize: escala.fonte,
-  fontVariantNumeric: 'tabular-nums', fontWeight: ativo ? 600 : 500, cursor: desabilitado ? 'not-allowed' : 'pointer',
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--ob-font-mono)', fontSize: escala.fonte,
+  fontWeight: ativo ? 'var(--ob-w-semibold)' : 'var(--ob-w-medium)', cursor: desabilitado ? 'not-allowed' : 'pointer',
   transition: 'all var(--ob-dur-fast) var(--ob-ease)',
 });
 
@@ -129,7 +129,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     mudarPara(Math.floor(primeiroItem / novo) + 1);
   };
 
-  const texto: React.CSSProperties = { fontSize: escala.fonte, color: 'var(--ob-fg-soft)', whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums' };
+  const texto: React.CSSProperties = { fontSize: escala.fonte, color: 'var(--ob-fg-soft)', whiteSpace: 'nowrap' };
   const grupo: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: escala.espaco };
   const resumo = totalItems != null && (totalItems > 0
     ? `${formatar((page - 1) * pageSize + 1)}–${formatar(Math.min(page * pageSize, totalItems))} de ${formatar(totalItems)}`
@@ -147,7 +147,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         <Seta direcao="anterior" escala={escala} disabled={page === 1} onClick={() => ir(page - 1)} />
         {variant === 'compact' ? (
           <span aria-live="polite" style={{ ...texto, color: 'var(--ob-fg)', padding: '0 var(--ob-space-8)' }}>
-            Página <strong style={{ fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{formatar(page)}</strong> de {formatar(total)}
+            Página <strong style={{ fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{formatar(page)}</strong> de {formatar(total)}
           </span>
         ) : itensDaPaginacao(page, total, siblings).map((item) => typeof item === 'number' ? (
           <button key={item} type="button" onClick={() => ir(item)} aria-label={`Página ${item}`} aria-current={item === page ? 'page' : undefined}

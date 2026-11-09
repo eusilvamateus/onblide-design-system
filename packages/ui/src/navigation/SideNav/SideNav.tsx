@@ -42,7 +42,7 @@ const Item: React.FC<ItemProps> = ({ it, active, onNav, collapsed, nivel }) => {
   const botao = (
     <button type="button" onClick={() => (grupo ? setAberto((a) => !a) : onNav?.(it.id))} aria-expanded={grupo ? aberto : undefined}
       title={collapsed ? (typeof it.label === 'string' ? it.label : undefined) : undefined}
-      style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)', justifyContent: collapsed ? 'center' : 'flex-start', width: '100%', height: nivel ? 36 : 42, padding: collapsed ? 0 : `0 var(--ob-space-12) 0 calc(var(--ob-space-12) + ${nivel} * var(--ob-space-16))`, borderRadius: 'var(--ob-r-md)', border: 'none', cursor: 'pointer', position: 'relative', background: on ? 'var(--ob-blue-100)' : 'transparent', color: on ? 'var(--ob-blue-700)' : grupo ? 'var(--ob-fg-strong)' : 'var(--ob-fg-soft)', fontFamily: 'var(--ob-font)', fontSize: nivel ? 13 : 14, fontWeight: on || grupo ? 600 : 500, transition: 'background var(--ob-dur-fast) var(--ob-ease)' }}
+      style={{ flex: 'none', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)', justifyContent: collapsed ? 'center' : 'flex-start', width: '100%', height: nivel ? 36 : 42, padding: collapsed ? 0 : `0 var(--ob-space-12) 0 calc(var(--ob-space-12) + ${nivel} * var(--ob-space-16))`, borderRadius: 'var(--ob-r-md)', border: 'none', cursor: 'pointer', position: 'relative', background: on ? 'var(--ob-blue-100)' : 'transparent', color: on ? 'var(--ob-blue-700)' : grupo ? 'var(--ob-fg-strong)' : 'var(--ob-fg-soft)', fontFamily: 'var(--ob-font)', fontSize: nivel ? 'var(--ob-fs-13)' : 'var(--ob-fs-14)', fontWeight: on || grupo ? 'var(--ob-w-semibold)' : 'var(--ob-w-medium)', transition: 'background var(--ob-dur-fast) var(--ob-ease)' }}
       onMouseEnter={e => { if (!on) e.currentTarget.style.background = 'var(--ob-bg-warm)'; }}
       onMouseLeave={e => { if (!on) e.currentTarget.style.background = 'transparent'; }}>
       {it.icon && <Ph n={it.icon} size={20} weight={on ? 'fill' : 'regular'} />}
@@ -168,7 +168,7 @@ export const SideNav: React.FC<SideNavProps> = ({
   const conteudoConta = (
     <>
       <Avatar name={accountName} initials={userInitials} src={accountImage} alt={accountImageAlt} size={30} />
-      {!collapsed && <div style={{ minWidth: 0, textAlign: 'left' }}><div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ob-fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountName}</div>{accountDetail && <div style={{ fontSize: 11, color: 'var(--ob-fg-mute)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountDetail}</div>}</div>}
+      {!collapsed && <div style={{ minWidth: 0, textAlign: 'left' }}><div style={{ fontSize: 'var(--ob-fs-13)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)', lineHeight: 1.2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountName}</div>{accountDetail && <div style={{ fontSize: 'var(--ob-fs-11)', color: 'var(--ob-fg-mute)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{accountDetail}</div>}</div>}
     </>
   );
   return (
@@ -180,9 +180,9 @@ export const SideNav: React.FC<SideNavProps> = ({
       {!collapsed && onToggle && <BotaoDeBorda onToggle={onToggle} />}
       <ScrollArea style={{ flex: '1 1 auto', margin: 'calc(var(--ob-space-2) * -1)' }}>
       <div style={{ padding: 'var(--ob-space-2)', display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-4)' }}>
-        {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: '0 var(--ob-space-10) var(--ob-space-6)' }}>{menuLabel}</p>}
+        {!collapsed && menuLabel !== null && <p style={{ fontFamily: 'var(--ob-font-mono)', fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-medium)', color: 'var(--ob-fg-mute)', margin: '0 var(--ob-space-10) var(--ob-space-6)' }}>{menuLabel}</p>}
         {items.map((it, i) => {
-          if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ob-fg-mute)', margin: 'var(--ob-space-12) var(--ob-space-10) var(--ob-space-4)' }}>{it.section}</p> : null;
+          if (it.section) return !collapsed ? <p key={i} style={{ flex: 'none', fontFamily: 'var(--ob-font-mono)', fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-medium)', color: 'var(--ob-fg-mute)', margin: 'var(--ob-space-12) var(--ob-space-10) var(--ob-space-4)' }}>{it.section}</p> : null;
           return <Item key={it.id || i} it={it} active={active} onNav={onNav} collapsed={collapsed} nivel={0} />;
         })}
       </div>

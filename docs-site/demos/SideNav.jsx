@@ -19,8 +19,8 @@ function Aplicacao({ children }) {
     <div style={{ display: 'flex', gap: 12, height: 520, padding: 12, background: 'var(--ob-bg-alt)', borderRadius: 14 }}>
       <div style={{ display: 'flex', flex: 'none', width: colapsada ? 72 : 240 }}>{children(estado)}</div>
       <main style={{ flex: 1, minWidth: 0, padding: '16px 24px' }}>
-        <h3 style={{ margin: '0 0 8px', fontSize: 'var(--ob-fs-lg)', color: 'var(--ob-fg-strong)' }}>{paginas[pagina]}</h3>
-        <p style={{ margin: 0, fontSize: 'var(--ob-fs-sm)', color: 'var(--ob-fg-mute)' }}>Última ação do menu de conta: {aviso}</p>
+        <h3 style={{ margin: '0 0 8px', fontSize: 'var(--ob-fs-22)', color: 'var(--ob-fg-strong)' }}>{paginas[pagina]}</h3>
+        <p style={{ margin: 0, fontSize: 'var(--ob-fs-14)', color: 'var(--ob-fg-mute)' }}>Última ação do menu de conta: {aviso}</p>
       </main>
     </div>
   );

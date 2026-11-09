@@ -4,12 +4,12 @@ import { injectStyleOnce } from '../../internal/injectStyleOnce';
 /** Tamanho das células: `sm`, `md` e `lg`. As células ficam maiores que um campo comum do mesmo tamanho, para o código ser lido de relance. */
 export type CodeInputSize = 'sm' | 'md' | 'lg';
 
-interface EscalaDaCelula { largura: number; altura: number; fonte: number; espaco: string }
+interface EscalaDaCelula { largura: number; altura: number; fonte: string; espaco: string }
 
 const ESCALA_DA_CELULA: Record<CodeInputSize, EscalaDaCelula> = {
-  sm: { largura: 40, altura: 48, fonte: 18, espaco: 'var(--ob-space-8)' },
-  md: { largura: 48, altura: 56, fonte: 22, espaco: 'var(--ob-space-10)' },
-  lg: { largura: 56, altura: 64, fonte: 26, espaco: 'var(--ob-space-12)' },
+  sm: { largura: 40, altura: 48, fonte: 'var(--ob-fs-18)', espaco: 'var(--ob-space-8)' },
+  md: { largura: 48, altura: 56, fonte: 'var(--ob-fs-22)', espaco: 'var(--ob-space-10)' },
+  lg: { largura: 56, altura: 64, fonte: 'var(--ob-fs-28)', espaco: 'var(--ob-space-12)' },
 };
 
 export interface CodeInputProps {
@@ -60,7 +60,7 @@ export const CodeInput: React.FC<CodeInputProps> = ({ length = 6, value = '', on
           value={vals[i] || ''} onChange={e => set(i, e.target.value.replace(/\D/g, ''))} onKeyDown={e => keyDown(i, e)}
           onFocus={e => { setAtivo(i); e.target.select(); }} onBlur={() => setAtivo(null)}
           style={{
-            width: celula.largura, height: celula.altura, textAlign: 'center', fontFamily: 'var(--ob-font-mono)', fontSize: celula.fonte, fontWeight: 700,
+            width: celula.largura, height: celula.altura, textAlign: 'center', fontFamily: 'var(--ob-font-mono)', fontSize: celula.fonte, fontWeight: 'var(--ob-w-bold)',
             borderRadius: 'var(--ob-r-md)', caretColor: 'var(--ob-blue)', outline: 'none', boxSizing: 'border-box',
             color: situacao === 'error' ? 'var(--ob-danger)' : situacao === 'success' ? 'var(--ob-green-700)' : 'var(--ob-fg-strong)',
             background: fundoDe(ativo === i), border: `2px solid ${bordaDe(!!vals[i], ativo === i)}`,

@@ -33,7 +33,7 @@ const ghost = render({ appearance: 'ghost' });
 if (ghost.includes('border:1px solid') || ghost.includes('background:var(--ob-surface)') || quantas(ghost, 'border-top:1px solid var(--ob-border)') !== 2) fail('ghost: sem caixa nem fundo, só as divisórias', ghost);
 const ghostSolto = render({ attached: false, appearance: 'ghost' });
 if (ghostSolto.includes('1px solid') || ghostSolto.includes('background:var(--ob-surface)')) fail('ghost solto: sem bordas nem fundo', ghostSolto);
-for (const [size, fonte] of [['sm', 13], ['md', 14], ['lg', 15]]) if (!render({ size }).includes('font-size:' + fonte + 'px')) fail('size ' + size + ' usa texto de ' + fonte + 'px');
+for (const [size, fonte] of [['sm', 13], ['md', 14], ['lg', 15]]) if (!render({ size }).includes('font-size:var(--ob-fs-' + fonte + ')')) fail('size ' + size + ' usa texto de ' + fonte + 'px');
 
 const aberto = render({ defaultValue: ['b'] });
 if (contar(aberto, 'aria-expanded="true"') !== 1) fail('só o item b aberto', aberto);

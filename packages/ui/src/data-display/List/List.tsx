@@ -4,10 +4,10 @@ import type { Tone } from '../../internal/tone';
 
 export type ListSize = 'md' | 'sm';
 
-interface SizeSpec { pad: string; minH: number; fs: number; lh: string; gap: string; icon: number; sub: string }
+interface SizeSpec { pad: string; minH: number; fs: string; lh: string; gap: string; icon: number; sub: string }
 const LIST_SIZES: Record<ListSize, SizeSpec> = {
-  md: { pad: 'var(--ob-space-8) var(--ob-space-12)', minH: 36, fs: 14, lh: '20px', gap: 'var(--ob-space-10)', icon: 16, sub: 'var(--ob-space-8) var(--ob-space-12) var(--ob-space-4)' },
-  sm: { pad: 'var(--ob-space-4) var(--ob-space-8)', minH: 28, fs: 13, lh: '18px', gap: 'var(--ob-space-8)', icon: 14, sub: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-2)' },
+  md: { pad: 'var(--ob-space-8) var(--ob-space-12)', minH: 36, fs: 'var(--ob-fs-14)', lh: '20px', gap: 'var(--ob-space-10)', icon: 16, sub: 'var(--ob-space-8) var(--ob-space-12) var(--ob-space-4)' },
+  sm: { pad: 'var(--ob-space-4) var(--ob-space-8)', minH: 28, fs: 'var(--ob-fs-13)', lh: '18px', gap: 'var(--ob-space-8)', icon: 14, sub: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-2)' },
 };
 
 interface ListContextValue { size: ListSize; itemAs: 'li' | 'div' }
@@ -109,7 +109,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
         padding: z.pad, minHeight: z.minH, boxSizing: 'border-box', borderRadius: _divider !== undefined ? 0 : 'var(--ob-r-sm)',
         borderBottom: _divider ? '1px solid var(--ob-border)' : 'none',
         background: fill ? 'var(--ob-blue-100)' : hl ? 'var(--ob-bg-warm)' : 'transparent', color,
-        fontFamily: 'var(--ob-font)', fontSize: z.fs, lineHeight: z.lh, fontWeight: fill || strong ? 600 : 400,
+        fontFamily: 'var(--ob-font)', fontSize: z.fs, lineHeight: z.lh, fontWeight: fill || strong ? 'var(--ob-w-semibold)' : 'var(--ob-w-regular)',
         textDecoration: 'none', cursor: disabled ? 'not-allowed' : pointer ? 'pointer' : 'default',
         opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, userSelect: 'none', transition: 'background var(--ob-dur-fast) var(--ob-ease)', ...style,
       }}>
@@ -122,14 +122,14 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{title}</span>
         {description && (
           <span style={{
-            fontSize: 'var(--ob-fs-xs)', lineHeight: 'var(--ob-lh-normal)', fontWeight: 400,
+            fontSize: 'var(--ob-fs-12)', lineHeight: 'var(--ob-lh-normal)', fontWeight: 'var(--ob-w-regular)',
             color: disabled ? 'inherit' : 'var(--ob-fg-soft)', whiteSpace: wrap ? 'normal' : 'nowrap',
             overflow: 'hidden', textOverflow: 'ellipsis', textWrap: wrap ? 'pretty' : undefined,
           }}>{description}</span>
         )}
       </span>
       {meta != null && meta !== false && (
-        <span style={{ flex: 'none', minHeight: z.lh, display: 'flex', alignItems: 'center', fontSize: 'var(--ob-fs-xs)', fontWeight: 400, color: disabled ? 'inherit' : 'var(--ob-fg-soft)', whiteSpace: 'nowrap', fontVariantNumeric: 'tabular-nums' }}>
+        <span style={{ flex: 'none', minHeight: z.lh, display: 'flex', alignItems: 'center', fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-regular)', color: disabled ? 'inherit' : 'var(--ob-fg-soft)', whiteSpace: 'nowrap' }}>
           {meta}
         </span>
       )}
@@ -158,7 +158,7 @@ export const ListSubheader: React.FC<ListSubheaderProps> = ({ children, sticky =
   const z = LIST_SIZES[sizeProp ?? ctx?.size ?? 'md'];
   return (
     <div id={id} role="presentation" style={{
-      padding: z.sub, fontFamily: 'var(--ob-font)', fontSize: 'var(--ob-fs-xs)', lineHeight: 'var(--ob-lh-normal)',
+      padding: z.sub, fontFamily: 'var(--ob-font)', fontSize: 'var(--ob-fs-12)', lineHeight: 'var(--ob-lh-normal)',
       fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-soft)',
       ...(sticky ? { position: 'sticky' as const, top: -4, zIndex: 1, background: 'var(--ob-surface)' } : {}),
       ...style,

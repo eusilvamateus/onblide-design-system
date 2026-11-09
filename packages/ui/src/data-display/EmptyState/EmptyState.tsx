@@ -30,8 +30,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ icon, title, description
           <Ph n={icon} size={pequeno ? 20 : 28} />
         </span>
       )}
-      <div style={{ fontSize: pequeno ? 14 : 16, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{title}</div>
-      {description && <div style={{ fontSize: pequeno ? 13 : 14, lineHeight: 1.5, color: 'var(--ob-fg-soft)', maxWidth: 360 }}>{description}</div>}
+      <div style={{ fontSize: pequeno ? 'var(--ob-fs-14)' : 'var(--ob-fs-16)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{title}</div>
+      {description && <div style={{ fontSize: pequeno ? 'var(--ob-fs-13)' : 'var(--ob-fs-14)', lineHeight: 1.5, color: 'var(--ob-fg-soft)', maxWidth: 360 }}>{description}</div>}
       {action && <div style={{ marginTop: pequeno ? 'var(--ob-space-4)' : 'var(--ob-space-8)' }}>{action}</div>}
     </div>
   );

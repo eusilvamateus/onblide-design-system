@@ -67,11 +67,11 @@ export const Modal: React.FC<ModalProps> = ({ open, onClose, title, children, fo
         boxShadow: 'var(--ob-shadow-lg)', overflow: 'hidden', animation: animado ? 'ob-pop var(--ob-dur-base) var(--ob-ease-spring)' : undefined,
       } as React.CSSProperties}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--ob-space-16)', padding: 'var(--ob-space-20) var(--ob-space-24) 0', flex: 'none' }}>
-          <h3 id={titleId} style={{ margin: 0, fontSize: 18, fontWeight: 700, color: 'var(--ob-fg-strong)' }}>{title}</h3>
+          <h3 id={titleId} style={{ margin: 0, fontSize: 'var(--ob-fs-18)', fontWeight: 'var(--ob-w-bold)', color: 'var(--ob-fg-strong)' }}>{title}</h3>
           {closeButton && <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Icons.x size={18} />} style={{ flex: 'none', margin: 'calc(var(--ob-space-4) * -1) calc(var(--ob-space-8) * -1) 0 0' }} />}
         </div>
         <ScrollArea style={{ flex: '1 1 auto' }}>
-          <div id={bodyId} style={{ padding: 'var(--ob-space-12) var(--ob-space-24) var(--ob-space-20)', fontSize: 14, lineHeight: 1.6, color: 'var(--ob-fg)' }}>{children}</div>
+          <div id={bodyId} style={{ padding: 'var(--ob-space-12) var(--ob-space-24) var(--ob-space-20)', fontSize: 'var(--ob-fs-14)', lineHeight: 1.6, color: 'var(--ob-fg)' }}>{children}</div>
         </ScrollArea>
         {footer && (
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--ob-space-8)', flex: 'none', padding: 'var(--ob-space-16) var(--ob-space-24)', borderTop: '1px solid var(--ob-border)', background: 'var(--ob-bg-alt)' }}>{footer}</div>

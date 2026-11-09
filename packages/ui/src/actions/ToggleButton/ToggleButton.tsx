@@ -7,7 +7,7 @@ export type ToggleButtonSize = 'sm' | 'md' | 'lg';
 export type ToggleButtonTone = Exclude<ActionTone, 'neutral'>;
 
 const PAD: Record<ToggleButtonSize, [number, number]> = { sm: [7, 12], md: [10, 18], lg: [14, 22] };
-const FS: Record<ToggleButtonSize, number> = { sm: 13, md: 14, lg: 15 };
+const FS: Record<ToggleButtonSize, string> = { sm: 'var(--ob-fs-13)', md: 'var(--ob-fs-14)', lg: 'var(--ob-fs-15)' };
 const ICO: Record<ToggleButtonSize, number> = { sm: 14, md: 16, lg: 18 };
 
 export interface ToggleButtonProps {
@@ -97,7 +97,7 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
       style={{
         position: 'relative', zIndex: focused ? 2 : on ? 1 : 0,
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--ob-space-8)',
-        fontFamily: 'inherit', fontWeight: 600, fontSize: FS[size], lineHeight: `${ICO[size]}px`,
+        fontFamily: 'inherit', fontWeight: 'var(--ob-w-semibold)', fontSize: FS[size], lineHeight: `${ICO[size]}px`,
         padding: iconOnly ? py : `${py}px ${px}px`, borderRadius: 'var(--ob-r-control)',
         border: `1.5px solid ${bc}`, background: bg, color: fg,
         cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, outline: 'none',

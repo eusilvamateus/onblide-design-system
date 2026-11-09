@@ -119,12 +119,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     onDrop: (e: React.DragEvent) => { e.preventDefault(); setDrag(false); add(e.dataTransfer.files); },
   };
   const keyPick = (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } };
-  const hintEl = (hint || error) && <span id={`${uid}-h`} style={{ fontSize: 12, color: error ? 'var(--ob-danger)' : 'var(--ob-fg-soft)' }}>{error || hint}</span>;
+  const hintEl = (hint || error) && <span id={`${uid}-h`} style={{ fontSize: 'var(--ob-fs-12)', color: error ? 'var(--ob-danger)' : 'var(--ob-fg-soft)' }}>{error || hint}</span>;
 
   const desc = (f: UploadFile) => f.status === 'uploading'
     ? indeterminate
       ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)', marginTop: 'var(--ob-space-4)' }}><Spinner size="xs" label={`Enviando ${f.name}`} />Enviando...</span>
-      : <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', marginTop: 'var(--ob-space-4)' }}><span style={{ flex: 1, minWidth: 0 }}><ProgressBar value={f.progress ?? 0} size="sm" /></span><span style={{ fontVariantNumeric: 'tabular-nums' }}>{f.progress}%</span></span>
+      : <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', marginTop: 'var(--ob-space-4)' }}><span style={{ flex: 1, minWidth: 0 }}><ProgressBar value={f.progress ?? 0} size="sm" /></span><span style={{ fontFamily: 'var(--ob-font-mono)' }}>{f.progress}%</span></span>
     : f.status === 'error' ? <span style={{ color: 'var(--ob-danger)' }}>{f.error}</span> : fileSize(f.size);
   const actions = (f: UploadFile) => f.status === 'uploading'
     ? <Button kind="ghost" size="sm" aria-label={`Cancelar envio de ${f.name}`} onClick={() => remove(f)} icon={<Ph n="x" size={16} />} />
@@ -161,7 +161,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     const comTexto = size >= 104;
     const camada: React.CSSProperties = {
       position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 'var(--ob-space-4)',
-      background: 'var(--ob-scrim)', color: 'var(--ob-fg-on-color)', fontSize: 12, fontWeight: 600, ...(isDrag ? { opacity: 1 } : {}),
+      background: 'var(--ob-scrim)', color: 'var(--ob-fg-on-color)', fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', ...(isDrag ? { opacity: 1 } : {}),
     };
     body = (
       <div {...dropProps} style={{
@@ -181,7 +181,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
             : (
               <>
                 <Ph n={isDrag ? 'download-simple' : 'camera-plus'} size={Math.round(size * 0.26)} c={isDrag ? 'var(--ob-blue)' : 'var(--ob-fg-mute)'} />
-                {comTexto && <span style={{ fontSize: 12, fontWeight: 600, color: isDrag ? 'var(--ob-blue)' : 'var(--ob-fg-soft)' }}>{isDrag ? 'Solte aqui' : 'Adicionar foto'}</span>}
+                {comTexto && <span style={{ fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', color: isDrag ? 'var(--ob-blue)' : 'var(--ob-fg-soft)' }}>{isDrag ? 'Solte aqui' : 'Adicionar foto'}</span>}
               </>
             )}
           {temImagem && !enviando && !disabled && (
@@ -224,8 +224,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
               <Button kind="secondary" size="sm" onClick={pick} disabled={disabled} icon={<Ph n="upload-simple" size={16} />}>{rotuloDoBotao}</Button>
             )}
           </div>
-          {comErro && <span style={{ fontSize: 12, color: 'var(--ob-danger)' }}>{img.error}</span>}
-          {!temImagem && !comErro && !disabled && <span style={{ fontSize: 12, color: 'var(--ob-fg-mute)' }}>Ou arraste uma imagem para cá</span>}
+          {comErro && <span style={{ fontSize: 'var(--ob-fs-12)', color: 'var(--ob-danger)' }}>{img.error}</span>}
+          {!temImagem && !comErro && !disabled && <span style={{ fontSize: 'var(--ob-fs-12)', color: 'var(--ob-fg-mute)' }}>Ou arraste uma imagem para cá</span>}
           {!comErro && hintEl}
         </div>
       </div>
@@ -234,7 +234,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     body = (
       <div {...dropProps} style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)', flexWrap: 'wrap', padding: 'var(--ob-space-6)', margin: 'calc(var(--ob-space-6) * -1)', borderRadius: 'var(--ob-r-control)', border: `1.5px dashed ${isDrag ? 'var(--ob-blue)' : 'transparent'}`, background: isDrag ? 'var(--ob-blue-050)' : 'transparent' }}>
         <Button kind="secondary" onClick={pick} disabled={disabled} aria-describedby={hintEl ? `${uid}-h` : undefined} icon={<Ph n="paperclip" size={16} />}>{rotuloDoBotao}</Button>
-        {hintEl || (!disabled && <span style={{ fontSize: 12, color: 'var(--ob-fg-mute)' }}>Ou arraste os arquivos para cá</span>)}
+        {hintEl || (!disabled && <span style={{ fontSize: 'var(--ob-fs-12)', color: 'var(--ob-fg-mute)' }}>Ou arraste os arquivos para cá</span>)}
       </div>
     );
   } else {
@@ -249,8 +249,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         <span style={{ width: 40, height: 40, borderRadius: 'var(--ob-r-circle)', background: 'var(--ob-blue-050)', color: 'var(--ob-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Ph n={isDrag ? 'download-simple' : 'upload-simple'} size={20} c="currentColor" />
         </span>
-        <span style={{ fontSize: 14, lineHeight: '20px', color: 'var(--ob-fg-strong)' }}>
-          {isDrag ? 'Solte para enviar' : <>Arraste arquivos ou <span style={{ color: 'var(--ob-blue)', fontWeight: 600 }}>escolha no computador</span></>}
+        <span style={{ fontSize: 'var(--ob-fs-14)', lineHeight: '20px', color: 'var(--ob-fg-strong)' }}>
+          {isDrag ? 'Solte para enviar' : <>Arraste arquivos ou <span style={{ color: 'var(--ob-blue)', fontWeight: 'var(--ob-w-semibold)' }}>escolha no computador</span></>}
         </span>
         {hintEl}
       </div>
@@ -258,7 +258,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   }
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: variant === 'image' ? 'var(--ob-space-6)' : 'var(--ob-space-10)', fontFamily: 'var(--ob-font)' }}>
-      {label && <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--ob-fg-strong)' }}>{label}</span>}
+      {label && <span style={{ fontSize: 'var(--ob-fs-12)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{label}</span>}
       {body}{input}{fileList}
       <span aria-live="polite" style={srOnly}>{live}</span>
     </div>

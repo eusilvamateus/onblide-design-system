@@ -58,9 +58,9 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const base: React.CSSProperties = {
     position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)', justifyContent: 'center',
-    fontFamily: 'inherit', fontWeight: 600, border: 'none', borderRadius: 'var(--ob-r-control)',
+    fontFamily: 'inherit', fontWeight: 'var(--ob-w-semibold)', border: 'none', borderRadius: 'var(--ob-r-control)',
     cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, transition: 'all var(--ob-dur-fast) var(--ob-ease)',
-    fontSize: size === 'sm' ? 13 : size === 'lg' ? 15 : 14,
+    fontSize: size === 'sm' ? 'var(--ob-fs-13)' : size === 'lg' ? 'var(--ob-fs-15)' : 'var(--ob-fs-14)',
     padding: size === 'sm' ? '0 var(--ob-space-12)' : size === 'lg' ? '0 var(--ob-space-24)' : '0 var(--ob-space-20)',
   };
   const tom = ACTION_TONES[tone];
