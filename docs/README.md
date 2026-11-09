@@ -42,6 +42,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0014-licenca-mit-para-o-codigo.md`](decisions/0014-licenca-mit-para-o-codigo.md) — licença do código, das fontes e da marca
 - [`decisions/0015-publicar-o-pacote-no-npm.md`](decisions/0015-publicar-o-pacote-no-npm.md) — publicação no npm pelo escopo da conta `onblide`
 - [`decisions/0016-tipografia-completa.md`](decisions/0016-tipografia-completa.md) — a regra vive em `docs-site/docs/fundacoes/tipografia.mdx`
+- [`decisions/0017-sidebar-e-navbar-no-modelo-de-mercado.md`](decisions/0017-sidebar-e-navbar-no-modelo-de-mercado.md) — o uso vive nos guias da Sidebar e da Navbar
 
 ## Como manter esta documentação
 

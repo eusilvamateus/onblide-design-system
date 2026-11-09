@@ -1,5 +1,5 @@
 ---
-resumo: "Barra de navegação superior da aplicação, par da `SideNav`. Três layouts: `links` (marca + navegação principal), `search` (busca central) e `context` (trilha de navegação, ao lado de uma `SideNav`). Aceita um segundo nível de abas e ações à direita."
+resumo: "Barra de navegação superior da aplicação, par da `Sidebar`. Três layouts: `links` (marca + navegação principal), `search` (busca central) e `context` (trilha de navegação, ao lado de uma `Sidebar`). Aceita um segundo nível de abas e ações à direita."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",false],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
 ---
 
@@ -14,7 +14,7 @@ ao mesmo tempo.
 <FacaEvite>
 <Faca>
 
-Usar `layout="context"` junto de uma `SideNav`: a Navbar cede o espaço central pra trilha (`Breadcrumbs`) e o
+Usar `layout="context"` junto de uma `Sidebar`: a Navbar cede o espaço central pra trilha (`Breadcrumbs`) e o
 botão de menu abre a navegação lateral num `Drawer` no mobile.
 
 </Faca>
@@ -29,7 +29,8 @@ sublinhado; `actions` é só para ações à direita (ícones, conta).
 ### Composição
 
 - **Button** (`kind="neutral"`, `iconOnly`): ações só com ícone em `actions` (notificações, ajuda), com contador opcional em `count`.
-- **NavbarAccount**: botão de conta pronto, com avatar e `Menu` de perfil/configurações/sair.
+- **Conta**: um **Menu** com um **Button** `quiet` e `iconOnly` e um **Avatar** como gatilho. O menu traz a conta (`type: 'account'`), perfil, configurações e sair. A Navbar não traz conta pronta: cada aplicação decide o que o menu oferece.
+- **Marca** (`brand`): geralmente o `LogoMark` dentro de um link para o início. Sem `brand`, a barra não mostra marca.
 - **SearchInput**: conteúdo de `search`, no layout `search`.
 - **Breadcrumbs**: conteúdo de `crumbs`, no layout `context`.
 - **Tabs** (`variant="line"`, `size="sm"`): conteúdo de `secondary`, para um segundo nível abaixo da barra.
@@ -38,15 +39,17 @@ sublinhado; `actions` é só para ações à direita (ícones, conta).
 
 ```jsx
 <Navbar
-  items={[{ id: 'inicio', label: 'Início' }, { id: 'projetos', label: 'Projetos', badge: 3 }]}
+  items={[{ id: 'inicio', label: 'Início', href: '/inicio' }, { id: 'projetos', label: 'Projetos', href: '/projetos', badge: 3 }]}
   active="projetos"
-  actions={<><Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} count={3} /><NavbarAccount /></>}
+  onNav={(id) => router.push(`/${id}`)}
+  brand={<a href="/" aria-label="Início"><LogoMark size={30} /></a>}
+  actions={<><Button kind="neutral" iconOnly aria-label="Notificações" icon={<Icons.bell size={20} />} count={3} /><MenuDaConta /></>}
 />
 
 <Navbar
   layout="search"
   search={<SearchInput value={busca} onChange={setBusca} placeholder="Buscar..." />}
-  actions={<NavbarAccount />}
+  actions={<MenuDaConta />}
 />
 ```
 
@@ -54,14 +57,16 @@ sublinhado; `actions` é só para ações à direita (ícones, conta).
 
 **Layouts.** `links` mostra a navegação principal ao lado da marca, com o link ativo sublinhado. `search`
 centraliza um campo de busca, cedendo o espaço entre marca e ações. `context` cede esse mesmo espaço pra uma
-trilha de navegação, pensado pra telas com `SideNav` — aí a Navbar não repete a marca.
+trilha de navegação, pensado pra telas com `Sidebar` — aí a Navbar não repete a marca.
 
 **Segundo nível.** Com `secondary`, o link ativo do layout `links` troca o sublinhado por um fundo (pra não
 competir visualmente com as abas do segundo nível).
 
 **Estados.** `sticky` fixa a barra no topo; `elevated` aplica sombra e é controlado por quem usa (tipicamente
 ligado ao rolar a página). `compact` esconde a navegação principal no modo responsivo, deixando só marca e
-ações; some com o botão de menu (`onMenuToggle`) pra abrir a navegação em um `Drawer`.
+ações; some com o botão de menu (`onMenuToggle`), que abre a `Sidebar` no celular (`onMobileOpenChange`); passe `menuOpen` para o botão anunciar se o painel está aberto.
+
+**Links.** Cada item com `href` é um link de verdade e o ativo recebe `aria-current="page"`. Com `onNav`, só o clique simples é interceptado: Ctrl+clique e o botão do meio abrem em outra aba. Item sem `href` vira botão. O contador é neutro por padrão; `badgeTone` muda o tom.
 
 **Tamanho.** `size="md"` (64px) é o padrão; `size="sm"` (48px) serve para contextos mais densos, como dentro
 de um painel ou modal.

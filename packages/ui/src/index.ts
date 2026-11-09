@@ -38,7 +38,7 @@ export type { ToastOptions, ToastShortcutOptions } from './feedback/ToastStack/t
 export * from './overlays/Drawer/Drawer';
 export * from './forms/CodeInput/CodeInput';
 export * from './forms/SearchInput/SearchInput';
-export * from './navigation/SideNav/SideNav';
+export * from './navigation/Sidebar/Sidebar';
 export * from './navigation/Tabs/Tabs';
 export * from './data-display/Table/Table';
 export * from './forms/Select/Select';

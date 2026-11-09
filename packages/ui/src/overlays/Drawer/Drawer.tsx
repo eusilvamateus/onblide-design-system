@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useId } from 'react';
 import { ScrollArea } from '../../data-display/ScrollArea/ScrollArea';
 import ReactDOM from 'react-dom';
 import { Button } from '../../actions/Button/Button';
@@ -23,6 +23,7 @@ export interface DrawerProps {
 
 /** Painel lateral que desliza sobre o conteúdo, mantendo o contexto da página por trás. */
 export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, side = 'right', width = 400, footer }) => {
+  const uid = useId();
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -42,7 +43,7 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
         opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none',
         transition: 'opacity var(--ob-dur-base) var(--ob-ease)',
       }}/>
-      <div style={{
+      <div role="dialog" aria-modal="true" aria-labelledby={title != null ? uid : undefined} aria-hidden={open ? undefined : true} style={{
         position: 'fixed', top: 0, bottom: 0,
         [side]: 0,
         width, maxWidth: '100%',
@@ -50,13 +51,13 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
         borderLeft: side === 'right' ? '1px solid var(--ob-border)' : 'none',
         borderRight: side === 'left' ? '1px solid var(--ob-border)' : 'none',
         zIndex: 'var(--ob-z-modal)', display: 'flex', flexDirection: 'column',
-        transform, transition: 'transform var(--ob-dur-base) var(--ob-ease)',
+        transform, visibility: open ? 'visible' : 'hidden', transition: 'transform var(--ob-dur-base) var(--ob-ease), visibility var(--ob-dur-base) var(--ob-ease)',
       } as React.CSSProperties}>
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: 'var(--ob-space-20) var(--ob-space-24)', borderBottom: '1px solid var(--ob-border)', flexShrink: 0,
         }}>
-          <span style={{ fontSize: 'var(--ob-fs-18)', fontWeight: 'var(--ob-w-bold)', color: 'var(--ob-fg-strong)' }}>{title}</span>
+          <span id={uid} style={{ fontSize: 'var(--ob-fs-18)', fontWeight: 'var(--ob-w-bold)', color: 'var(--ob-fg-strong)' }}>{title}</span>
           <Button kind="neutral" iconOnly size="sm" onClick={onClose} aria-label="Fechar" icon={<Ph n="x" size={18} />} />
         </div>
         <ScrollArea style={{ flex: 1 }}>

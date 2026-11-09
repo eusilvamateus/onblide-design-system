@@ -4,7 +4,6 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import { Drawer } from '@onblide/ui';
 import Navegacao from '@site/src/components/Navegacao';
 
-// Abaixo do breakpoint `sm` (768px) a navegação abre num Drawer, disparado pelo botão da barra superior.
 function GavetaDeNavegacao(): ReactNode {
   const [aberta, setAberta] = useState(false);
   const { pathname } = useLocation();
@@ -23,14 +22,12 @@ function GavetaDeNavegacao(): ReactNode {
   );
 }
 
-// Estrutura da página: coluna de navegação (SideNav do design system) e conteúdo.
-// A coluna aparece a partir do breakpoint `sm` (768px).
 export default function DocRootLayout({ children }: { children: ReactNode }): ReactNode {
   return (
     <div className="ob-shell">
-      <aside className="ob-shell__nav" aria-label="Navegação da documentação">
+      <div className="ob-shell__nav">
         <Navegacao />
-      </aside>
+      </div>
       <main className="ob-shell__main ob-wrap">{children}</main>
       <BrowserOnly>{() => <GavetaDeNavegacao />}</BrowserOnly>
     </div>

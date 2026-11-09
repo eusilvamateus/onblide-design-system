@@ -52,7 +52,7 @@ function atributo(c: Controle, v: Valor): string | null {
   return v.includes('"') ? `${nome}={${JSON.stringify(v)}}` : `${nome}="${v}"`;
 }
 
-const LARGOS = ['Table', 'Tabs', 'Spinner', 'SideNav', 'Navbar'];
+const LARGOS = ['Table', 'Tabs', 'Spinner', 'Sidebar', 'Navbar'];
 
 const recuar = (t: string, n = 2) => t.split('\n').join('\n' + ' '.repeat(n));
 

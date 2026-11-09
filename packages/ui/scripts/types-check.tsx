@@ -5,7 +5,7 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
+import { Table, Sidebar, Navbar, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -24,6 +24,7 @@ import type {
   AccordionAppearance, AccordionSize, AccordionHeadingLevel,
   PaginationSize, PaginationVariant, StepperSize,
   TableSize, TableAlign, TableRowKey,
+  SidebarProps, SidebarItem, SidebarGroup, SidebarVariant, SidebarState, SidebarSlot, NavbarProps, NavbarItem,
 } from '@onblide/ui';
 
 // Todo tipo usado em prop pública precisa estar exportado por src/index.ts
@@ -46,6 +47,7 @@ export type TiposExportados = [
   AccordionAppearance, AccordionSize, AccordionHeadingLevel,
   PaginationSize, PaginationVariant, StepperSize,
   TableSize, TableAlign, TableRowKey,
+  SidebarProps, SidebarItem, SidebarGroup, SidebarVariant, SidebarState, SidebarSlot, NavbarProps, NavbarItem,
 ];
 
 interface Linha { id: number; nome: string } // interface: sem index signature
@@ -70,6 +72,12 @@ export function Verificacoes({ linhas, aliases }: { linhas: Linha[]; aliases: Li
       {/* @ts-expect-error rowKey precisa ser um campo da linha */}
       <Table<Linha> rows={linhas} rowKey="inexistente" />
       <Table />
+
+      <Sidebar groups={[{ label: 'Geral', items: [{ id: 'a', label: 'A', href: '/a', badge: 2, badgeTone: 'danger', children: [{ id: 'b', label: 'B' }] }] }]} active="a" onNav={setTexto}
+        header={({ collapsed }) => (collapsed ? 'A' : 'Acme')} footer="Conta" collapsible toggleShortcut="b" defaultCollapsed onCollapsedChange={(c) => setNum(c ? 1 : 0)} variant="flush" mobileOpen={false} onMobileOpenChange={() => {}} />
+      {/* @ts-expect-error o modelo antigo de seções não existe mais */}
+      <Sidebar items={[{ section: 'Geral' }]} />
+      <Navbar items={[{ id: 'a', label: 'A', href: '/a', badgeTone: 'primary' }]} onNav={setTexto} onMenuToggle={() => {}} menuOpen />
 
       {/* Select: setState direto como onChange, nos dois modos */}
       <Select value={texto} onChange={setTexto} />

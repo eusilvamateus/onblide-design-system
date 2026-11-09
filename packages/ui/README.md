@@ -32,7 +32,7 @@ Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<catego
 | `forms` | Input, SearchInput, Select, Datepicker, CodeInput, Checkbox, Radio, RadioGroup, Switch, Slider, FieldShell, Textarea, NumberField, FileUpload, Autocomplete |
 | `feedback` | Alert, Toast, ToastStack, ProgressBar, ProgressCircle, Spinner, Skeleton |
 | `overlays` | Modal, AlertDialog, Drawer, Tooltip, Menu (+ ContextMenu, MenuPanel), Popover |
-| `navigation` | Tabs, SideNav, Navbar, Pagination, Breadcrumbs, Stepper, Menubar |
+| `navigation` | Tabs, Sidebar, Navbar, Pagination, Breadcrumbs, Stepper, Menubar |
 | `data-display` | Table, Card, Calendar, Avatar, AvatarGroup, Badge, Chip, Divider, ScrollArea, Kbd, EmptyState, Accordion, List (+ ListItem, ListSubheader, ListDivider), Timeline, TreeView |
 | `brand` | Logo |
 | `iconography` | Icons, Ph |
@@ -81,7 +81,7 @@ Os dois existem, e `Icons` é construído sobre `Ph`:
   `Pagination` e `Modal` usam `Icons`.
 - **`Ph`**: `<Ph n="check" size={18} c="var(--ob-blue)" weight="bold" />` renderiza qualquer glifo Phosphor
   pelo nome (`n`), com cor por prop (`c`) e peso (`weight`: regular, fill, bold, light, thin, duotone). Tamanho padrão 18. Use quando o ícone não estiver
-  no registro. `Alert`, `Checkbox`, `SearchInput`, `Select`, `SideNav`, `Tabs` e `Toast` usam
+  no registro. `Alert`, `Checkbox`, `SearchInput`, `Select`, `Sidebar`, `Tabs` e `Toast` usam
   `Ph`; `Chip` também. Nenhum componente monta `<i class="ph ...">` à mão.
 
 ### Vocabulário das props
@@ -98,7 +98,7 @@ Regra completa no site de documentação, em Fundações › Breakpoints.
 
 ### Pesos
 
-Cada peso tem um papel: **regular** é o padrão; **fill** é o estado ligado (item ativo do `SideNav`,
+Cada peso tem um papel: **regular** é o padrão; **fill** é o estado ligado (item ativo da `Sidebar`,
 aba ativa dos `Tabs`, ícone de status do `Alert` e do `Toast`, check do `Checkbox`); **bold** é para ícones
 de até 14px ou sobre fundo sólido; **light** para 32–48px; **thin** só editorial (64px+);
 **duotone** só em destaques ilustrativos. As regras completas estão no site de documentação, em
