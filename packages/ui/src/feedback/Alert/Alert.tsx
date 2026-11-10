@@ -4,12 +4,12 @@ import { Button } from '../../actions/Button/Button';
 import { OB_TONES, OBTone } from '../../internal/obTones';
 import type { Appearance } from '../../internal/appearance';
 
-export type AlertAppearance = Extract<Appearance, 'outline' | 'soft'>;
+export type AlertAppearance = Extract<Appearance, 'plain' | 'outline' | 'soft'>;
 
 export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Tom do alerta, que define ícone e cores. */
   tone?: OBTone;
-  /** Pintura do alerta: `outline` usa o fundo clarinho do tom com uma borda na cor do tom; `soft` usa só o fundo clarinho, sem borda, para uma mensagem mais discreta. */
+  /** Pintura do alerta: `plain` usa a superfície com borda neutra e só o ícone na cor do tom; `outline` usa o fundo clarinho do tom com uma borda na cor do tom; `soft` usa só o fundo clarinho do tom, sem borda. */
   appearance?: AlertAppearance;
   /** Nome do ícone Phosphor (sem o prefixo "ph-") que substitui o ícone padrão do tom. */
   icon?: string;
@@ -30,11 +30,14 @@ export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, '
 const PAPEL_DO_TOM: Record<OBTone, 'alert' | 'status'> = { info: 'status', success: 'status', warning: 'alert', danger: 'alert' };
 
 /** Mensagem de feedback contextual e persistente exibida dentro do conteúdo da página. */
-export const Alert: React.FC<AlertProps> = ({ tone = 'info', appearance = 'outline', icon, title, children, dismissible = false, onClose, action, onAction, role, style, ...rest }) => {
+export const Alert: React.FC<AlertProps> = ({ tone = 'info', appearance = 'plain', icon, title, children, dismissible = false, onClose, action, onAction, role, style, ...rest }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
-  const pintura: React.CSSProperties = appearance === 'soft'
-    ? { background: t.tint, border: '1px solid transparent' }
-    : { background: t.tint, border: `1px solid ${t.border}` };
+  const pinturas: Record<AlertAppearance, React.CSSProperties> = {
+    plain: { background: 'var(--ob-surface)', border: '1px solid var(--ob-border)' },
+    outline: { background: t.tint, border: `1px solid ${t.border}` },
+    soft: { background: t.tint, border: '1px solid transparent' },
+  };
+  const pintura = pinturas[appearance] ?? pinturas.plain;
   return (
     <div
       {...rest}

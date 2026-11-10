@@ -5,7 +5,7 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Sidebar, Navbar, Menu, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
+import { Table, Sidebar, Navbar, Menu, Alert, Toast, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -78,6 +78,11 @@ export function Verificacoes({ linhas, aliases }: { linhas: Linha[]; aliases: Li
       {/* @ts-expect-error o modelo antigo de seções não existe mais */}
       <Sidebar items={[{ section: 'Geral' }]} />
       <Navbar items={[{ id: 'a', label: 'A', href: '/a', badgeTone: 'primary' }]} onNav={setTexto} onMenuToggle={() => {}} menuOpen />
+      <Alert appearance="plain" tone="success" title="x" />
+      <Alert appearance="outline" tone="danger" title="x" />
+      <Toast appearance="plain" title="x" />
+      <Toast appearance="outline" tone="success" title="x" />
+      <Toast appearance="soft" title="x" />
       <Menu trigger={<button type="button">Conta</button>} items={[{ type: 'account', name: 'Camila Duarte', email: 'camila@onblide.com', src: 'https://exemplo.com/camila.jpg', initials: 'CD' }]} />
 
       {/* Select: setState direto como onChange, nos dois modos */}

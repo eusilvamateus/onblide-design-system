@@ -25,10 +25,12 @@ if (!render({ title: 'x', onClose() {} }).includes('aria-label="Fechar"')) fail(
 for (const tone of ['info', 'success', 'warning', 'danger']) if (!render({ tone, title: 'x' }).includes('role="status"')) fail(`tom ${tone}`);
 
 const contorno = render({ tone: 'success', title: 'x' });
-if (!contorno.includes('background:var(--ob-surface)') || !contorno.includes('border:1px solid var(--ob-border)')) fail('outline é o padrão: superfície e borda neutra', contorno);
+if (!contorno.includes('background:var(--ob-surface)') || !contorno.includes('border:1px solid var(--ob-border)')) fail('plain é o padrão: superfície e borda neutra', contorno);
 const suave = render({ tone: 'success', appearance: 'soft', title: 'x' });
 if (!suave.includes('background:var(--ob-green-050)') || suave.includes('background:var(--ob-surface)')) fail('soft preenche o toast com o fundo clarinho do tom', suave);
-if (!suave.includes('border:1px solid color-mix(in srgb, var(--ob-green) 25%, transparent)')) fail('soft tem borda na cor do tom', suave);
+if (!suave.includes('border:1px solid transparent')) fail('soft não tem borda visível', suave);
+const contornado = render({ tone: 'success', appearance: 'outline', title: 'x' });
+if (!contornado.includes('background:var(--ob-green-050)') || !contornado.includes('border:1px solid color-mix(in srgb, var(--ob-green) 35%, transparent)')) fail('outline usa o fundo clarinho e a borda na cor do tom, como no Alert', contornado);
 if (!render({ tone: 'danger', appearance: 'soft', title: 'x' }).includes('background:var(--ob-red-050)')) fail('soft segue o tom');
 
 const cliques = [];

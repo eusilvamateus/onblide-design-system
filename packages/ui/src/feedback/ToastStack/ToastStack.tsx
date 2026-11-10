@@ -33,7 +33,7 @@ const DURACAO_DA_SAIDA = 200;
  * Monta o container fixo que empilha e anima os toasts disparados por `toast()`. Pausa a contagem enquanto o mouse
  * está sobre a fila e recomeça ao sair.
  */
-export const ToastStack: React.FC<ToastStackProps> = ({ name, position = 'bottom-right', duration = 5000, limit = 3, appearance = 'outline' }) => {
+export const ToastStack: React.FC<ToastStackProps> = ({ name, position = 'bottom-right', duration = 5000, limit = 3, appearance = 'plain' }) => {
   const [itens, setItens] = useState<ItemDaFila[]>([]);
   const prazos = useRef(new Map<string, ReturnType<typeof setTimeout>>());
   const duracaoPadrao = useRef(duration);

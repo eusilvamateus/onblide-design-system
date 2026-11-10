@@ -4,12 +4,12 @@ import { Button } from '../../actions/Button/Button';
 import { OB_TONES, OBTone } from '../../internal/obTones';
 import type { Appearance } from '../../internal/appearance';
 
-export type ToastAppearance = Extract<Appearance, 'outline' | 'soft'>;
+export type ToastAppearance = Extract<Appearance, 'plain' | 'outline' | 'soft'>;
 
 export interface ToastProps {
   /** Tom da notificação, que define o ícone e a cor do chip. */
   tone?: OBTone;
-  /** Pintura do toast: `outline` usa a superfície com borda neutra e só o ícone colorido; `soft` preenche o toast com o fundo clarinho do tom. */
+  /** Pintura do toast: `plain` usa a superfície com borda neutra e só o ícone na cor do tom; `outline` usa o fundo clarinho do tom com uma borda na cor do tom; `soft` usa só o fundo clarinho do tom, sem borda. */
   appearance?: ToastAppearance;
   /** Título curto exibido em destaque. */
   title?: React.ReactNode;
@@ -26,15 +26,19 @@ export interface ToastProps {
 }
 
 /** Notificação flutuante e efêmera que confirma ações ou informa eventos em segundo plano. */
-export const Toast: React.FC<ToastProps> = ({ tone = 'info', appearance = 'outline', title, body, action, onAction, onClose, icon = true }) => {
+export const Toast: React.FC<ToastProps> = ({ tone = 'info', appearance = 'plain', title, body, action, onAction, onClose, icon = true }) => {
   const t = OB_TONES[tone] || OB_TONES.info;
-  const suave = appearance === 'soft';
+  const pinturas: Record<ToastAppearance, React.CSSProperties> = {
+    plain: { background: 'var(--ob-surface)', border: '1px solid var(--ob-border)' },
+    outline: { background: t.tint, border: `1px solid ${t.border}` },
+    soft: { background: t.tint, border: '1px solid transparent' },
+  };
+  const pintura = pinturas[appearance] ?? pinturas.plain;
   return (
     <div role="status" aria-live="polite" style={{
       display: 'flex', alignItems: 'center', gap: 'var(--ob-space-12)',
       width: '100%', maxWidth: 400, padding: 'var(--ob-space-16)', boxSizing: 'border-box',
-      background: suave ? t.tint : 'var(--ob-surface)',
-      border: suave ? `1px solid color-mix(in srgb, ${t.fg} 25%, transparent)` : '1px solid var(--ob-border)',
+      ...pintura,
       borderRadius: 'var(--ob-r-surface)',
       boxShadow: 'var(--ob-shadow-lg)',
     }}>

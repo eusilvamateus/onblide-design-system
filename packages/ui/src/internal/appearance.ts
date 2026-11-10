@@ -1,1 +1,1 @@
-export type Appearance = 'solid' | 'soft' | 'outline' | 'ghost';
+export type Appearance = 'solid' | 'soft' | 'outline' | 'plain' | 'ghost';

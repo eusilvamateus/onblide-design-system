@@ -12,6 +12,7 @@ export const Tons = () => (
 export const Aparencias = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: 16, maxWidth: 520 }}>
     <Alert tone="danger" title="Falha no envio">Não foi possível enviar o relatório.</Alert>
+    <Alert tone="danger" appearance="outline" title="Falha no envio">Não foi possível enviar o relatório.</Alert>
     <Alert tone="danger" appearance="soft" title="Falha no envio">Não foi possível enviar o relatório.</Alert>
   </div>
 );

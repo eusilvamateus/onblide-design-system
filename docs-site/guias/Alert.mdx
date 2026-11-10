@@ -62,9 +62,9 @@ Largura de bloco (100% do container). Ícone Phosphor à esquerda, alinhado ao t
 
 ## Guia de design
 
-**Pintura (`appearance`).** O padrão é `outline`: fundo clarinho do tom com uma borda na cor do tom, para o alerta se destacar como bloco próprio. Use `soft`, só com o fundo clarinho e sem borda, quando a mensagem deve ser mais discreta, por exemplo dentro de um cartão ou em sequência com outros alertas.
+**Pintura (`appearance`).** O padrão é `plain`: superfície, borda neutra e só o ícone na cor do tom, para o alerta fazer parte da tela sem competir com ela. Use `outline`, com o fundo clarinho e a borda na cor do tom, quando o alerta precisa se destacar como bloco próprio. Use `soft`, só com o fundo clarinho e sem borda, para o mesmo destaque com menos contorno, por exemplo dentro de um cartão.
 
-**Tokens.** Nas duas pinturas, fundo `--ob-*-050` do tom. No `outline`, borda de 1px na cor do tom misturada com transparência (35%; 45% no `warning` e 40% no `danger`), a mesma receita do `Badge`. Ícone na cor forte do tom (`--ob-*-700`; em `danger`, `--ob-danger`).
+**Tokens.** No `plain`, fundo `--ob-surface` e borda `--ob-border`. No `outline` e no `soft`, fundo `--ob-*-050` do tom; no `outline`, borda de 1px na cor do tom misturada com transparência (35%; 45% no `warning` e 40% no `danger`), a mesma receita do `Badge`. Ícone na cor forte do tom (`--ob-*-700`; em `danger`, `--ob-danger`).
 
 **Ação.** `action` vira um `Button` pequeno com seta à direita do conteúdo. Em espaços estreitos, ele desce para baixo do texto.
 

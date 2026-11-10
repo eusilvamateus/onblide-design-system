@@ -59,16 +59,19 @@ recorte dele, então o TypeScript recusa qualquer cor fora do vocabulário.
 |---|---|---|
 | `solid` | não | cheio na cor forte do tom, com texto claro por cima |
 | `soft` | não | clarinho na cor do tom |
-| `outline` | **sim** | superfície, transparente ou clarinho, nunca cheio |
+| `outline` | **sim**, na cor do tom quando o componente tem tom | superfície, transparente ou clarinho, nunca cheio |
+| `plain` | sim, neutra | superfície; a cor do tom aparece só no ícone ou no ponto |
 | `ghost` | não | **nenhum** em repouso; o fundo só aparece no hover ou quando ligado |
 
 O que define o `outline` é a borda. A diferença que mais confunde é entre `soft` e `ghost`: os dois não têm borda, mas
-o `soft` **tem fundo** e o `ghost` **não tem**.
+o `soft` **tem fundo** e o `ghost` **não tem**. Entre `outline` e `plain`, os dois têm borda, e a diferença é onde fica o
+tom: no `outline` a borda leva a cor do tom; no `plain` a borda e o fundo ficam neutros e só o ícone leva a cor. Em
+componentes sem tom, como `Kbd`, `Tooltip` e `Accordion`, a borda do `outline` é neutra, e `plain` não se aplica.
 
 | Componente | Valores aceitos | Padrão |
 |---|---|---|
-| `Alert` | `outline`, `soft` | `outline` |
-| `Toast`, `toast()`, `ToastStack` | `outline`, `soft` | `outline` |
+| `Alert` | `plain`, `outline`, `soft` | `plain` |
+| `Toast`, `toast()`, `ToastStack` | `plain`, `outline`, `soft` | `plain` |
 | `Badge` | `soft`, `solid`, `outline`, `ghost` | `soft` (`solid` no `variant="numeric"`) |
 | `Chip` | `outline`, `soft` (selecionado, é sempre `solid`) | `outline` |
 | `ToggleButton` | `outline`, `ghost` | `outline` |

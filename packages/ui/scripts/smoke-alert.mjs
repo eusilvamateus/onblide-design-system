@@ -30,9 +30,12 @@ for (const tone of ['info', 'success']) if (!render({ tone, title: 'x' }).includ
 for (const tone of ['warning', 'danger']) if (!render({ tone, title: 'x' }).includes('role="alert"')) fail(`${tone} interrompe o leitor de tela`);
 if (!render({ tone: 'danger', role: 'note', title: 'x' }).includes('role="note"')) fail('role explícito vence o do tom');
 
-const contorno = render({ tone: 'warning', title: 'x' });
-if (!contorno.includes('background:var(--ob-orange-050)') || !contorno.includes('border:1px solid color-mix(in srgb, var(--ob-orange) 45%, transparent)')) fail('outline é o padrão: fundo clarinho e borda na cor do tom', contorno);
-if (!render({ tone: 'danger', title: 'x' }).includes('border:1px solid color-mix(in srgb, var(--ob-danger) 40%, transparent)')) fail('outline de danger tem a borda vermelha');
+const simples = render({ tone: 'warning', title: 'x' });
+if (!simples.includes('background:var(--ob-surface)') || !simples.includes('border:1px solid var(--ob-border)')) fail('plain é o padrão: superfície e borda neutra', simples);
+if (!simples.includes('var(--ob-orange-700)')) fail('no plain, só o ícone leva a cor do tom', simples);
+const contorno = render({ tone: 'warning', appearance: 'outline', title: 'x' });
+if (!contorno.includes('background:var(--ob-orange-050)') || !contorno.includes('border:1px solid color-mix(in srgb, var(--ob-orange) 45%, transparent)')) fail('outline usa o fundo clarinho e a borda na cor do tom', contorno);
+if (!render({ tone: 'danger', appearance: 'outline', title: 'x' }).includes('border:1px solid color-mix(in srgb, var(--ob-danger) 40%, transparent)')) fail('outline de danger tem a borda vermelha');
 if (!contorno.includes('var(--ob-orange-700)')) fail('ícone na cor forte do tom', contorno);
 const suave = render({ tone: 'warning', appearance: 'soft', title: 'x' });
 if (!suave.includes('background:var(--ob-orange-050)') || !suave.includes('border:1px solid transparent')) fail('soft usa o fundo clarinho do tom, sem borda visível', suave);

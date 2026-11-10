@@ -11,6 +11,14 @@ export const Tons = () => (
   </div>
 );
 
+export const Aparencia = () => (
+  <div style={box}>
+    <Toast tone="danger" title="Falha ao salvar" body="plain: superfície, borda neutra e o ícone no tom." />
+    <Toast appearance="outline" tone="danger" title="Falha ao salvar" body="outline: fundo e borda na cor do tom." />
+    <Toast appearance="soft" tone="danger" title="Falha ao salvar" body="soft: fundo na cor do tom, sem borda." />
+  </div>
+);
+
 export const Suave = () => (
   <div style={box}>
     <Toast appearance="soft" tone="info" title="Nova versão disponível" body="Atualize para receber as melhorias." />

@@ -1,5 +1,7 @@
 # 0010. Vocabulário único para `tone`, `appearance` e `variant`
 
+> Complementada pela [0018](0018-pintura-plain-no-vocabulario.md), que acrescenta a pintura `plain`.
+
 ## Contexto
 
 As props visuais do `@onblide/ui` cresceram componente a componente, e a mesma ideia ganhou nomes diferentes:
