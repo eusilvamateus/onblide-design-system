@@ -9,7 +9,7 @@ export type AlertAppearance = Extract<Appearance, 'outline' | 'soft'>;
 export interface AlertProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Tom do alerta, que define ícone e cores. */
   tone?: OBTone;
-  /** Pintura do alerta: `outline` usa a superfície com borda neutra e só o ícone colorido; `soft` usa o fundo clarinho do tom, para o que precisa chamar mais atenção. */
+  /** Pintura do alerta: `outline` usa o fundo clarinho do tom com uma borda na cor do tom; `soft` usa só o fundo clarinho, sem borda, para uma mensagem mais discreta. */
   appearance?: AlertAppearance;
   /** Nome do ícone Phosphor (sem o prefixo "ph-") que substitui o ícone padrão do tom. */
   icon?: string;
@@ -34,7 +34,7 @@ export const Alert: React.FC<AlertProps> = ({ tone = 'info', appearance = 'outli
   const t = OB_TONES[tone] || OB_TONES.info;
   const pintura: React.CSSProperties = appearance === 'soft'
     ? { background: t.tint, border: '1px solid transparent' }
-    : { background: 'var(--ob-surface)', border: '1px solid var(--ob-border)' };
+    : { background: t.tint, border: `1px solid ${t.border}` };
   return (
     <div
       {...rest}
