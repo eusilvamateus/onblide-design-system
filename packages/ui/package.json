@@ -3,7 +3,7 @@
   "version": "0.17.0",
   "description": "Componentes React, tokens e ícones do design system Onblide.",
   "license": "MIT AND OFL-1.1",
-  "homepage": "https://onblide-design-system.vercel.app",
+  "homepage": "https://design.onblide.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eusilvamateus/onblide-design-system.git",

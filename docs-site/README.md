@@ -41,7 +41,7 @@ vercel deploy --prebuilt --prod
 ## Verificar
 
 ```bash
-npm run build && npm run verificar   # ou VERIFICAR_URL=https://onblide-design-system.vercel.app npm run verificar
+npm run build && npm run verificar   # ou VERIFICAR_URL=https://design.onblide.com npm run verificar
 ```
 
 Abre todas as páginas num Chromium de testes (Playwright) e falha se alguma tiver erro, sobreposição aberta ao

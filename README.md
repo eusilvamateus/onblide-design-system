@@ -5,7 +5,7 @@ Biblioteca de componentes React do Onblide, com tokens, ícones Phosphor e docum
 | Pasta | O que é |
 |---|---|
 | `packages/ui/` | `@onblide/ui`: componentes, tokens e testes |
-| `docs-site/` | Site de documentação (Docusaurus), publicado em <https://onblide-design-system.vercel.app> |
+| `docs-site/` | Site de documentação (Docusaurus), publicado em <https://design.onblide.com> |
 | `docs/` | Arquitetura, decisões e como desenvolver |
 
 ## Começar

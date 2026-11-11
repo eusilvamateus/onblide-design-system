@@ -16,7 +16,7 @@ const servidor = http.createServer((q, r) => {
   if (!fs.existsSync(f) && fs.existsSync(f + '.html')) f += '.html';
   fs.readFile(f, (e, d) => { if (e) { r.statusCode = 404; r.end(); } else { r.setHeader('content-type', tipos[path.extname(f)] || 'application/octet-stream'); r.end(d); } });
 }).listen(0);
-// VERIFICAR_URL permite rodar contra o site publicado (ex.: https://onblide-design-system.vercel.app).
+// VERIFICAR_URL permite rodar contra o site publicado (ex.: https://design.onblide.com).
 const base = process.env.VERIFICAR_URL || `http://127.0.0.1:${servidor.address().port}`;
 
 const rotas = [];

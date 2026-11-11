@@ -102,7 +102,7 @@ serve, a escala cresce para todos antes. O `smoke-fundacoes` recusa números sol
 
 ## Site de documentação (`docs-site/`)
 
-Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, <https://onblide-design-system.vercel.app>),
+Docusaurus publicado no Vercel (projeto próprio `onblide-design-system`, <https://design.onblide.com>),
 independente do pacote. Páginas de componentes, tabelas de props e de tokens são **geradas**
 (`npm run gerar`) do pacote e dos exemplos em `docs-site/exemplos/`; primeiros passos e
 fundações são escritos à mão em `docs-site/docs/`, os guias em `docs-site/guias/` e o ponto de partida de cada

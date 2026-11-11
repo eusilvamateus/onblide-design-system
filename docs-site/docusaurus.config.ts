@@ -7,7 +7,7 @@ const config: Config = {
   title: 'Onblide Design System',
   tagline: 'Componentes, fundações e diretrizes para construir produtos Onblide.',
   favicon: 'img/favicon.ico',
-  url: 'https://onblide-design-system.vercel.app',
+  url: 'https://design.onblide.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   i18n: { defaultLocale: 'pt-BR', locales: ['pt-BR'] },

@@ -1,7 +1,7 @@
 # @onblide/ui
 
 Componentes React do design system Onblide, escritos em TypeScript, com tokens e ícones Phosphor. Documentação em
-<https://onblide-design-system.vercel.app>.
+<https://design.onblide.com>.
 
 ## Instalação
 
