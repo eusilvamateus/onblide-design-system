@@ -6,6 +6,7 @@ import { Button } from '../../actions/Button/Button';
 import { posicionarPainel } from '../../internal/floating';
 import type { PosicaoFixa } from '../../internal/floating';
 
+const useLayoutNoCliente = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
 const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 const PopoverAncestorsContext = React.createContext<readonly string[]>([]);
 
@@ -69,7 +70,7 @@ export const Popover: React.FC<PopoverProps> = ({
       { largura: window.innerWidth, altura: window.innerHeight }, arrow ? 10 : 6,
     ));
   };
-  React.useLayoutEffect(() => {
+  useLayoutNoCliente(() => {
     if (!open) { setPos(null); return; }
     place();
     const h = () => place();

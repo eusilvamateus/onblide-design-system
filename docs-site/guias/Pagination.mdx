@@ -20,19 +20,18 @@ Listas paginadas (tabelas, resultados). Mostra a primeira, a última e as vizinh
 
 Com `page`, quem usa guarda a página e a atualiza no `onChange`. Sem `page`, a Pagination guarda a própria página (`defaultPage` define a inicial) e só avisa a escolha pelo `onChange`.
 
-As reticências são botões: a da direita avança 5 páginas e a da esquerda volta 5. No hover e no foco, o "…" vira uma seta dupla. Uma reticência nunca esconde uma página só; nesse caso a página aparece no lugar dela.
+As reticências são botões que levam a qualquer página. No hover e no foco, o "…" ganha o fundo de botão; ao clicar, abre um painel com "Página [ ] de 40" e o campo já em foco. O texto de exemplo do campo mostra as páginas que aquela reticência esconde, mas qualquer página vale. Enter ou **Ir** navega; Esc ou clicar fora fecha sem navegar, e uma página além do total leva à última. Uma reticência nunca esconde uma página só; nesse caso a página aparece no lugar dela.
 
 ### Recursos opcionais
 
 - `showEdges`: botões de primeira e última página, nas pontas das setas. Útil em listas longas.
-- `showJumper`: campo "Ir para", onde a pessoa digita a página e confirma com Enter. Uma página além do total leva à última.
 - `totalItems`: com a quantidade de itens, o total de páginas vem de `totalItems` e `pageSize`, e aparece o resumo "11–20 de 487".
-- `pageSizeOptions`: seletor "10 por página". Ao trocar, a página muda para continuar mostrando o primeiro item que estava na tela. Controle com `pageSize` e `onPageSizeChange`, ou use `defaultPageSize`.
-- `variant="compact"`: troca os números por "Página 3 de 20" entre as setas, para telas estreitas. Com `useBreakpoint()`, use `compact` abaixo de `sm`.
+- `pageSizeOptions`: seletor de itens por página, com a legenda "Itens por página" ao lado e só o número dentro. Ao trocar, a página muda para continuar mostrando o primeiro item que estava na tela. Controle com `pageSize` e `onPageSizeChange`, ou use `defaultPageSize`.
+- `variant="compact"`: troca os números por "Página [3] de 20" entre as setas, para telas estreitas. O número é um campo: ao clicar, ele fica selecionado para digitar por cima; Enter navega, e Esc ou clicar fora volta à página atual. Com `useBreakpoint()`, use `compact` abaixo de `sm`.
 
 ### Tamanhos
 
-`size` aceita `sm` (32px), `md` (40px, padrão) e `lg` (48px), as mesmas alturas do **Button** e dos campos. O seletor de itens por página e o campo "Ir para" acompanham o tamanho.
+`size` aceita `sm` (32px), `md` (40px, padrão) e `lg` (48px), as mesmas alturas do **Button** e dos campos. O seletor de itens por página e o campo da forma compacta acompanham o tamanho; o painel das reticências usa sempre o tamanho `sm`.
 
 ## Guia de conteúdo
 
@@ -47,6 +46,6 @@ As reticências são botões: a da direita avança 5 páginas e a da esquerda vo
 
 <Nota>
 
-**Versão mobile:** a régua de números não cabe em telas estreitas. Em mobile, use `variant="compact"`, que mostra "Página 3 de 20" entre as setas e anuncia a página nova a leitores de tela.
+**Versão mobile:** a régua de números não cabe em telas estreitas. Em mobile, use `variant="compact"`, que mostra "Página [3] de 20" entre as setas, deixa digitar a página e anuncia a página nova a leitores de tela.
 
 </Nota>

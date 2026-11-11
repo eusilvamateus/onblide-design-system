@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Select } from '../../forms/Select/Select';
 import { NumberField } from '../../forms/NumberField/NumberField';
+import { Popover } from '../../overlays/Popover/Popover';
+import { Button } from '../../actions/Button/Button';
 
 /** Tamanho dos botões e campos: `sm` 32px, `md` 40px e `lg` 48px, as mesmas alturas do `Button` e dos campos. */
 export type PaginationSize = 'sm' | 'md' | 'lg';
-/** Forma: `numbered` mostra os números das páginas; `compact` mostra só "Página 3 de 20" entre as setas. */
+/** Forma: `numbered` mostra os números das páginas; `compact` mostra só "Página 3 de 20" entre as setas, com a página atual editável. */
 export type PaginationVariant = 'numbered' | 'compact';
 
 export interface PaginationProps {
@@ -25,15 +27,13 @@ export interface PaginationProps {
   variant?: PaginationVariant;
   /** Mostra os botões de ir para a primeira e para a última página. */
   showEdges?: boolean;
-  /** Mostra o campo "Ir para", onde a pessoa digita a página e confirma com Enter. */
-  showJumper?: boolean;
   /** Quantidade total de itens da lista. Com ela, o total de páginas vem de `totalItems` e `pageSize`, e aparece o resumo "11–20 de 200". */
   totalItems?: number;
   /** Itens por página, em modo controlado. */
   pageSize?: number;
   /** Itens por página iniciais, em modo não controlado. */
   defaultPageSize?: number;
-  /** Opções de itens por página. Com elas, aparece o seletor "10 por página". */
+  /** Opções de itens por página. Com elas, aparece o seletor "Itens por página". */
   pageSizeOptions?: number[];
   /** Chamado com a nova quantidade de itens por página. */
   onPageSizeChange?: (pageSize: number) => void;
@@ -42,16 +42,16 @@ export interface PaginationProps {
 interface EscalaDaPaginacao { lado: number; fonte: string; icone: number; espaco: string; seletor: number; campo: number }
 
 const ESCALA: Record<PaginationSize, EscalaDaPaginacao> = {
-  sm: { lado: 32, fonte: 'var(--ob-fs-13)', icone: 14, espaco: 'var(--ob-space-4)', seletor: 136, campo: 64 },
-  md: { lado: 40, fonte: 'var(--ob-fs-14)', icone: 16, espaco: 'var(--ob-space-6)', seletor: 152, campo: 72 },
-  lg: { lado: 48, fonte: 'var(--ob-fs-15)', icone: 18, espaco: 'var(--ob-space-8)', seletor: 168, campo: 80 },
+  sm: { lado: 32, fonte: 'var(--ob-fs-13)', icone: 14, espaco: 'var(--ob-space-4)', seletor: 72, campo: 56 },
+  md: { lado: 40, fonte: 'var(--ob-fs-14)', icone: 16, espaco: 'var(--ob-space-6)', seletor: 80, campo: 64 },
+  lg: { lado: 48, fonte: 'var(--ob-fs-15)', icone: 18, espaco: 'var(--ob-space-8)', seletor: 88, campo: 72 },
 };
 
-const SALTO = 5;
 const formatar = (n: number) => n.toLocaleString('pt-BR');
-const rotuloDoTamanho = (n: number) => `${n} por página`;
+const somenteLeitor: React.CSSProperties = { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' };
 
-type Item = number | 'antes' | 'depois';
+interface Faixa { de: number; ate: number }
+type Item = number | Faixa;
 
 const intervalo = (inicio: number, fim: number) => Array.from({ length: Math.max(0, fim - inicio + 1) }, (_, i) => inicio + i);
 
@@ -63,9 +63,9 @@ function itensDaPaginacao(page: number, total: number, siblings: number): Item[]
   if (direita === total - 2) direita = total - 1;
   return [
     1,
-    ...(esquerda > 2 ? ['antes' as const] : []),
+    ...(esquerda > 2 ? [{ de: 2, ate: esquerda - 1 }] : []),
     ...intervalo(esquerda, direita),
-    ...(direita < total - 1 ? ['depois' as const] : []),
+    ...(direita < total - 1 ? [{ de: direita + 1, ate: total - 1 }] : []),
     total,
   ];
 }
@@ -90,22 +90,69 @@ const Seta: React.FC<{ direcao: keyof typeof ICONES; escala: EscalaDaPaginacao; 
   </button>
 );
 
-const Salto: React.FC<{ direcao: 'antes' | 'depois'; escala: EscalaDaPaginacao; onClick: () => void }> = ({ direcao, escala, onClick }) => {
+const Reticencias: React.FC<{ faixa: Faixa; total: number; escala: EscalaDaPaginacao; ir: (pagina: number) => void }> = ({ faixa, total, escala, ir }) => {
   const [destacado, setDestacado] = useState(false);
+  const [aberto, setAberto] = useState(false);
+  const digitado = useRef<number | null>(null);
+  const ativo = destacado || aberto;
+  const legenda: React.CSSProperties = { fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-soft)' };
   return (
-    <button type="button" onClick={onClick} aria-label={direcao === 'antes' ? `Voltar ${SALTO} páginas` : `Avançar ${SALTO} páginas`}
-      onMouseEnter={() => setDestacado(true)} onMouseLeave={() => setDestacado(false)}
-      onFocus={() => setDestacado(true)} onBlur={() => setDestacado(false)}
-      style={{ ...estiloDoBotao(escala, false), width: escala.lado, padding: 0, border: '1px solid transparent', background: 'transparent', color: destacado ? 'var(--ob-blue)' : 'var(--ob-fg-mute)' }}>
-      {destacado ? <Ph n={direcao === 'antes' ? 'caret-double-left' : 'caret-double-right'} size={escala.icone} /> : '…'}
-    </button>
+    <Popover placement="top" align="center" arrow width="auto" padding="var(--ob-space-12)" ariaLabel="Ir para uma página"
+      onOpenChange={(v) => { setAberto(v); digitado.current = null; }}
+      trigger={(
+        <button type="button" aria-label={`Ir para uma página (escondidas: ${faixa.de} a ${faixa.ate})`}
+          onMouseEnter={() => setDestacado(true)} onMouseLeave={() => setDestacado(false)}
+          onFocus={() => setDestacado(true)} onBlur={() => setDestacado(false)}
+          style={{
+            ...estiloDoBotao(escala, false), width: escala.lado, padding: 0,
+            border: `1px solid ${aberto ? 'var(--ob-blue)' : ativo ? 'var(--ob-border)' : 'transparent'}`,
+            background: ativo ? 'var(--ob-surface)' : 'transparent',
+            color: aberto ? 'var(--ob-blue)' : ativo ? 'var(--ob-fg)' : 'var(--ob-fg-mute)',
+          }}>
+          …
+        </button>
+      )}>
+      {(fechar) => {
+        const confirmar = () => { if (digitado.current == null) return; ir(digitado.current); fechar(); };
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', whiteSpace: 'nowrap' }}
+            onKeyDown={(e) => { if (e.key === 'Enter') confirmar(); }}>
+            <span style={legenda}>Página</span>
+            <NumberField size="sm" controls="none" align="center" width={ESCALA.sm.campo} min={1} max={total}
+              placeholder={`${formatar(faixa.de)}–${formatar(faixa.ate)}`} ariaLabel={`Página, de 1 a ${total}`}
+              onChange={(n) => { digitado.current = n; }} />
+            <span style={legenda}>de {formatar(total)}</span>
+            <Button size="sm" onClick={confirmar}>Ir</Button>
+          </div>
+        );
+      }}
+    </Popover>
   );
 };
 
-/** Navegação entre páginas de uma lista, com reticências que saltam páginas, primeira e última página, campo "Ir para", itens por página e forma compacta. */
+const PaginaEditavel: React.FC<{ page: number; total: number; size: PaginationSize; escala: EscalaDaPaginacao; ir: (pagina: number) => void }> = ({ page, total, size, escala, ir }) => {
+  const digitado = useRef<number | null>(null);
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)', padding: '0 var(--ob-space-4)', fontSize: escala.fonte, color: 'var(--ob-fg)', whiteSpace: 'nowrap' }}
+      onFocus={(e) => { const alvo = e.target as HTMLInputElement; digitado.current = null; requestAnimationFrame(() => alvo.select?.()); }}
+      onKeyDown={(e) => {
+        const alvo = e.target as HTMLInputElement;
+        if (e.key === 'Enter' && digitado.current != null) { ir(digitado.current); alvo.blur(); }
+        if (e.key === 'Escape') { digitado.current = null; alvo.blur(); }
+      }}>
+      <span aria-hidden="true">Página</span>
+      <NumberField size={size} controls="none" align="center" width={escala.campo} min={1} max={total} value={page}
+        ariaLabel={`Página atual, de 1 a ${total}`} onChange={(n) => { digitado.current = n; }} />
+      <span aria-hidden="true">de {formatar(total)}</span>
+      <span aria-live="polite" style={somenteLeitor}>{`Página ${formatar(page)} de ${formatar(total)}`}</span>
+    </span>
+  );
+};
+
+/** Navegação entre páginas de uma lista: as reticências abrem um campo para ir a qualquer página; tem primeira e última página, itens por página e forma compacta com a página editável. */
 export const Pagination: React.FC<PaginationProps> = ({
   page: pageProp, defaultPage = 1, total: totalProp = 10, onChange, siblings = 1, size = 'md', variant = 'numbered',
-  showEdges = false, showJumper = false, totalItems, pageSize: pageSizeProp, defaultPageSize, pageSizeOptions, onPageSizeChange,
+  showEdges = false, totalItems, pageSize: pageSizeProp, defaultPageSize, pageSizeOptions, onPageSizeChange,
 }) => {
   const escala = ESCALA[size];
   const [paginaInterna, setPaginaInterna] = useState(defaultPage);
@@ -119,7 +166,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     if (pageProp === undefined) setPaginaInterna(alvo);
     onChange?.(alvo);
   };
-  const ir = (destino: number) => mudarPara(Math.min(total, Math.max(1, destino)));
+  const ir = (destino: number) => mudarPara(Math.min(total, Math.max(1, Math.round(destino))));
 
   const mudarTamanho = (novo: number) => {
     if (novo === pageSize) return;
@@ -134,37 +181,32 @@ export const Pagination: React.FC<PaginationProps> = ({
   const resumo = totalItems != null && (totalItems > 0
     ? `${formatar((page - 1) * pageSize + 1)}–${formatar(Math.min(page * pageSize, totalItems))} de ${formatar(totalItems)}`
     : 'Nenhum item');
+  const opcoes = (pageSizeOptions ?? []).map(formatar);
 
   return (
     <nav aria-label="Paginação" style={{ display: 'inline-flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--ob-space-8) var(--ob-space-16)', fontFamily: 'var(--ob-font)' }}>
-      {resumo && <span style={texto}>{resumo}</span>}
-      {pageSizeOptions && pageSizeOptions.length > 0 && (
-        <Select size={size} width={escala.seletor} ariaLabel="Itens por página" value={rotuloDoTamanho(pageSize)}
-          options={pageSizeOptions.map(rotuloDoTamanho)} onChange={(rotulo: string) => mudarTamanho(parseInt(rotulo, 10))} />
+      {opcoes.length > 0 && (
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)' }}>
+          <span aria-hidden="true" style={texto}>Itens por página</span>
+          <Select size={size} width={escala.seletor} ariaLabel="Itens por página" value={formatar(pageSize)} placeholder={formatar(pageSize)}
+            options={opcoes} onChange={(rotulo: string) => mudarTamanho(pageSizeOptions![opcoes.indexOf(rotulo)])} />
+        </div>
       )}
+      {resumo && <span style={texto}>{resumo}</span>}
       <div style={grupo}>
         {showEdges && <Seta direcao="primeira" escala={escala} disabled={page === 1} onClick={() => ir(1)} />}
         <Seta direcao="anterior" escala={escala} disabled={page === 1} onClick={() => ir(page - 1)} />
-        {variant === 'compact' ? (
-          <span aria-live="polite" style={{ ...texto, color: 'var(--ob-fg)', padding: '0 var(--ob-space-8)' }}>
-            Página <strong style={{ fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)' }}>{formatar(page)}</strong> de {formatar(total)}
-          </span>
-        ) : itensDaPaginacao(page, total, siblings).map((item) => typeof item === 'number' ? (
-          <button key={item} type="button" onClick={() => ir(item)} aria-label={`Página ${item}`} aria-current={item === page ? 'page' : undefined}
-            style={estiloDoBotao(escala, item === page)}>{formatar(item)}</button>
-        ) : (
-          <Salto key={item} direcao={item} escala={escala} onClick={() => ir(item === 'antes' ? page - SALTO : page + SALTO)} />
-        ))}
+        {variant === 'compact'
+          ? <PaginaEditavel page={page} total={total} size={size} escala={escala} ir={ir} />
+          : itensDaPaginacao(page, total, siblings).map((item) => (typeof item === 'number' ? (
+            <button key={item} type="button" onClick={() => ir(item)} aria-label={`Página ${item}`} aria-current={item === page ? 'page' : undefined}
+              style={estiloDoBotao(escala, item === page)}>{formatar(item)}</button>
+          ) : (
+            <Reticencias key={item.de} faixa={item} total={total} escala={escala} ir={ir} />
+          )))}
         <Seta direcao="proxima" escala={escala} disabled={page === total} onClick={() => ir(page + 1)} />
         {showEdges && <Seta direcao="ultima" escala={escala} disabled={page === total} onClick={() => ir(total)} />}
       </div>
-      {showJumper && (
-        <div style={grupo}>
-          <span style={texto}>Ir para</span>
-          <NumberField size={size} controls="none" align="center" width={escala.campo} min={1} max={total} value={null}
-            ariaLabel="Ir para a página" onChange={(n) => { if (n != null) ir(n); }} />
-        </div>
-      )}
     </nav>
   );
 };

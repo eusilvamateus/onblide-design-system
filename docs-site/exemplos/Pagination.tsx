@@ -30,8 +30,6 @@ export const Tamanhos = () => (
 
 export const PrimeiraEUltima = () => <div style={box}><Pagination defaultPage={8} total={40} showEdges /></div>;
 
-export const IrPara = () => <div style={box}><Pagination defaultPage={8} total={40} showJumper /></div>;
-
 export const ItensPorPagina = () => (
   <div style={box}><Pagination totalItems={487} pageSizeOptions={[10, 20, 50]} /></div>
 );
