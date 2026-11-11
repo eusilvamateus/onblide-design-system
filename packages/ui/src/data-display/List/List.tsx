@@ -28,16 +28,25 @@ export interface ListProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 /** Container de lista: densidade, respiro e separadores compartilhados pelos ListItem. */
+interface Cantos { topo: boolean; base: boolean }
+
+const raioDosCantos = (cantos?: Cantos) => {
+  const r = (ligado?: boolean) => (ligado ? 'var(--ob-r-surface)' : '0');
+  return `${r(cantos?.topo)} ${r(cantos?.topo)} ${r(cantos?.base)} ${r(cantos?.base)}`;
+};
+
 export const List: React.FC<ListProps> = ({ size = 'md', dividers = false, inset = false, as, ariaLabel, style, children, ...rest }) => {
   const Tag = (as ?? 'ul') as React.ElementType;
   const itemAs: 'li' | 'div' = as === undefined || as === 'ul' || as === 'ol' ? 'li' : 'div';
   const kids = React.Children.toArray(children);
   const items = dividers
-    ? kids.map((c, i) => (React.isValidElement(c) ? React.cloneElement(c as React.ReactElement<{ _divider?: boolean }>, { _divider: i < kids.length - 1 }) : c))
+    ? kids.map((c, i) => (React.isValidElement(c)
+      ? React.cloneElement(c as React.ReactElement<{ _divider?: boolean; _cantos?: Cantos }>, { _divider: i < kids.length - 1, _cantos: { topo: i === 0, base: i === kids.length - 1 } })
+      : c))
     : kids;
   return (
     <ListContext.Provider value={{ size, itemAs }}>
-      <Tag aria-label={ariaLabel} {...rest} style={{ listStyle: 'none', margin: 0, padding: inset ? 'var(--ob-space-4)' : 0, display: 'flex', flexDirection: 'column', gap: dividers ? 0 : 'var(--ob-space-2)', borderRadius: dividers ? 'var(--ob-r-surface)' : undefined, overflow: dividers ? 'hidden' : undefined, ...style }}>
+      <Tag aria-label={ariaLabel} {...rest} style={{ listStyle: 'none', margin: 0, padding: inset ? 'var(--ob-space-4)' : 0, display: 'flex', flexDirection: 'column', gap: dividers ? 0 : 'var(--ob-space-2)', borderRadius: dividers ? 'var(--ob-r-surface)' : undefined, ...style }}>
         {items}
       </Tag>
     </ListContext.Provider>
@@ -77,6 +86,8 @@ export interface ListItemProps extends Omit<React.HTMLAttributes<HTMLElement>, '
   href?: string;
   /** @internal aplicado pelo `List` quando `dividers` está ligado. */
   _divider?: boolean;
+  /** @internal cantos arredondados do primeiro e do último item, aplicados pelo `List` quando `dividers` está ligado. */
+  _cantos?: Cantos;
 }
 
 /** Linha de lista: anatomia fixa (leading · title · description · meta · trailing), estados e tons. */
@@ -84,7 +95,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
   const {
     leading, title, description, meta, trailing, children, size: sizeProp, tone, highlighted, selected = false,
     selectedStyle = 'fill', disabled = false, indent = false, align = 'center', wrap = false, strong = false,
-    as, href, onClick, onMouseEnter, onMouseLeave, style, _divider, ...rest
+    as, href, onClick, onMouseEnter, onMouseLeave, style, _divider, _cantos, ...rest
   } = props;
   const ctx = React.useContext(ListContext);
   const z = LIST_SIZES[sizeProp ?? ctx?.size ?? 'md'];
@@ -106,7 +117,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
       onMouseLeave={(e: React.MouseEvent) => { setHover(false); onMouseLeave?.(e as React.MouseEvent<HTMLElement>); }}
       style={{
         position: 'relative', display: 'flex', alignItems: align === 'start' ? 'flex-start' : 'center', gap: z.gap,
-        padding: z.pad, minHeight: z.minH, boxSizing: 'border-box', borderRadius: _divider !== undefined ? 0 : 'var(--ob-r-sm)',
+        padding: z.pad, minHeight: z.minH, boxSizing: 'border-box', borderRadius: _divider === undefined ? 'var(--ob-r-sm)' : raioDosCantos(_cantos),
         borderBottom: _divider ? '1px solid var(--ob-border)' : 'none',
         background: fill ? 'var(--ob-blue-100)' : hl ? 'var(--ob-bg-warm)' : 'transparent', color,
         fontFamily: 'var(--ob-font)', fontSize: z.fs, lineHeight: z.lh, fontWeight: fill || strong ? 'var(--ob-w-semibold)' : 'var(--ob-w-regular)',
