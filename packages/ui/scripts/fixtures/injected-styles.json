@@ -1,5 +1,13 @@
 [
   {
+    "id": "ob-spin-kf",
+    "css": "@keyframes ob-spin{to{transform:rotate(360deg)}}"
+  },
+  {
+    "id": "ob-button-spinner",
+    "css": ".ob-button-spinner circle{stroke:currentColor}"
+  },
+  {
     "id": "ob-tip-kf",
     "css": "@keyframes ob-tip { from { opacity: 0; } }"
   },
@@ -22,10 +30,6 @@
   {
     "id": "ob-accordion",
     "css": ".ob-accordion-cabecalho{transition:background var(--ob-dur-fast) var(--ob-ease)}.ob-accordion-cabecalho:hover:not(:disabled){background:var(--ob-bg-alt)}.ob-accordion-cabecalho:focus-visible{outline:var(--ob-focus-ring-width) solid var(--ob-focus-ring);outline-offset:calc(var(--ob-focus-ring-width) * -1)}"
-  },
-  {
-    "id": "ob-spin-kf",
-    "css": "@keyframes ob-spin{to{transform:rotate(360deg)}}"
   },
   {
     "id": "ob-indet-kf",

@@ -32,6 +32,14 @@ export const Desabilitado = () => (
   </div>
 );
 
+export const Carregando = () => (
+  <div style={{ display: 'flex', gap: 12, padding: 16, alignItems: 'center', flexWrap: 'wrap' }}>
+    <Button kind="primary" loading>Salvar alterações</Button>
+    <Button kind="secondary" loading>Exportar</Button>
+    <Button kind="danger" size="sm" loading>Excluir</Button>
+  </div>
+);
+
 export const LarguraTotal = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: 16, maxWidth: 320 }}>
     <Button kind="primary" size="lg" style={{ width: '100%' }}>Confirmar pedido</Button>

@@ -21,9 +21,19 @@ if (!personalizado.includes('>Excluir<') || !personalizado.includes('>Manter<'))
 if (aberto.includes('var(--ob-danger)')) fail('o tom padrão não é destrutivo', aberto);
 if (!render({ open: true, title: 'x', tone: 'danger' }).includes('var(--ob-danger)')) fail('danger usa o token de perigo');
 
+const fechar = () => {};
+const emAndamento = AlertDialog({ open: true, title: 'x', onClose: fechar, loading: true });
+const [cancelar, confirmar] = emAndamento.props.footer.props.children;
+if (emAndamento.props.onClose !== undefined) fail('loading impede que Esc e o backdrop fechem o diálogo');
+if (!cancelar.props.disabled) fail('loading desabilita o botão de cancelar');
+if (!confirmar.props.loading) fail('loading põe o botão de confirmar em carregamento');
+const parado = AlertDialog({ open: true, title: 'x', onClose: fechar });
+if (parado.props.onClose !== fechar || parado.props.footer.props.children[0].props.disabled) fail('sem loading Esc, backdrop e cancelar fecham');
+if (!render({ open: true, title: 'x', loading: true }).includes('aria-busy="true"')) fail('o botão de confirmar marca aria-busy');
+
 const modal = renderToStaticMarkup(React.createElement(Modal, { open: true, title: 'M' }, 'c'));
 if (!modal.includes('role="dialog"') || modal.includes('aria-describedby')) fail('Modal continua dialog por padrão', modal);
 if (!modal.includes('aria-label="Fechar"')) fail('Modal continua com o botão de fechar por padrão', modal);
 const semFechar = renderToStaticMarkup(React.createElement(Modal, { open: true, title: 'M', closeButton: false }, 'c'));
 if (semFechar.includes('aria-label="Fechar"')) fail('closeButton={false} esconde o botão de fechar');
-console.log('OK: AlertDialog (alertdialog modal, descrição acessível, rótulos, danger) e Modal (role, closeButton)');
+console.log('OK: AlertDialog (alertdialog modal, descrição acessível, rótulos, danger, loading) e Modal (role, closeButton)');

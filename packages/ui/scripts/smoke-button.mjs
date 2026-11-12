@@ -79,4 +79,19 @@ igual(fundoDoContador({ kind: 'primary', countTone: 'success' }), 'var(--ob-gree
 igual(fundoDoContador({ kind: 'danger', countTone: 'danger' }), 'var(--ob-danger)', 'countTone vence o padrão do kind');
 igual(fundoDoContador({ kind: 'secondary', countTone: 'neutral' }), 'var(--ob-fg-mute)', 'countTone aceita neutral');
 
-console.log('OK: Button (type padrão, disabled, props nativas, iconOnly, neutral, quiet com tom, pressed, count)');
+const carregando = renderToStaticMarkup(h(Button, { kind: 'primary', loading: true, icon: h('i', null, 'ico') }, 'Salvar'));
+if (!carregando.includes('aria-busy="true"') || !carregando.includes('aria-disabled="true"')) fail('loading marca aria-busy e aria-disabled', carregando);
+if (carregando.includes('disabled=""')) fail('loading mantém o botão focável, sem o atributo disabled', carregando);
+if (!carregando.includes('role="status"') || !carregando.includes('ob-button-spinner')) fail('loading mostra o Spinner', carregando);
+if (!/opacity:0[;"][^>]*>(<i>ico<\/i>)?Salvar/.test(carregando)) fail('loading esconde o conteúdo sem tirá-lo do lugar, para manter a largura e o nome acessível', carregando);
+if (!carregando.includes('cursor:progress')) fail('loading usa o cursor de progresso', carregando);
+const parado = renderToStaticMarkup(h(Button, {}, 'Salvar'));
+if (parado.includes('aria-busy') || parado.includes('ob-button-spinner')) fail('sem loading não há Spinner nem aria-busy', parado);
+let cliques = 0;
+let bloqueado = false;
+Button({ loading: true, onClick: () => { cliques += 1; }, children: 'x' }).props.onClick({ preventDefault: () => { bloqueado = true; } });
+if (cliques !== 0 || !bloqueado) fail('loading ignora o clique e impede o envio do formulário');
+Button({ onClick: () => { cliques += 1; }, children: 'x' }).props.onClick({ preventDefault: () => {} });
+if (cliques !== 1) fail('sem loading o clique chega ao onClick');
+
+console.log('OK: Button (type padrão, disabled, props nativas, iconOnly, neutral, quiet com tom, pressed, count, loading)');

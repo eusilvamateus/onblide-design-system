@@ -20,16 +20,18 @@ export interface AlertDialogProps {
   onConfirm?: () => void;
   /** `danger` pinta o botão de confirmar de vermelho, para ações destrutivas. */
   tone?: Extract<Tone, 'primary' | 'danger'>;
+  /** Confirmação em andamento: o botão de confirmar mostra o carregamento e ignora novos cliques, o de cancelar fica desabilitado, e Esc e o backdrop deixam de fechar. */
+  loading?: boolean;
 }
 
 /** Diálogo de confirmação que exige uma decisão: confirmar ou cancelar uma ação, em geral irreversível. */
 export const AlertDialog: React.FC<AlertDialogProps> = ({
-  open, onClose, title, children, confirmLabel = 'Confirmar', cancelLabel = 'Cancelar', onConfirm, tone = 'primary',
+  open, onClose, title, children, confirmLabel = 'Confirmar', cancelLabel = 'Cancelar', onConfirm, tone = 'primary', loading = false,
 }) => (
-  <Modal open={open} onClose={onClose} title={title} size="sm" role="alertdialog" closeButton={false} footer={
+  <Modal open={open} onClose={loading ? undefined : onClose} title={title} size="sm" role="alertdialog" closeButton={false} footer={
     <>
-      <Button kind="secondary" autoFocus onClick={onClose}>{cancelLabel}</Button>
-      <Button kind={tone === 'danger' ? 'danger' : 'primary'} onClick={onConfirm}>{confirmLabel}</Button>
+      <Button kind="secondary" autoFocus disabled={loading} onClick={onClose}>{cancelLabel}</Button>
+      <Button kind={tone === 'danger' ? 'danger' : 'primary'} loading={loading} onClick={onConfirm}>{confirmLabel}</Button>
     </>
   }>
     {children}

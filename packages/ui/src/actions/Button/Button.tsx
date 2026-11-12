@@ -1,5 +1,7 @@
 import React from 'react';
 import { Badge } from '../../data-display/Badge/Badge';
+import { Spinner } from '../../feedback/Spinner/Spinner';
+import { injectStyleOnce } from '../../internal/injectStyleOnce';
 import type { BadgeTone } from '../../internal/badgeTones';
 import { ACTION_TONES, type ActionTone } from '../../internal/actionTones';
 
@@ -33,6 +35,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   count?: number;
   /** Tom do contador, entre os tons do `Badge`. Sem ele, o contador é vermelho, e azul no estilo `danger`, onde o vermelho se perderia no fundo. */
   countTone?: BadgeTone;
+  /** Ação em andamento: o `Spinner` ocupa o lugar do conteúdo, o botão mantém a largura e ignora cliques até terminar. Continua focável e marca `aria-busy`. */
+  loading?: boolean;
 }
 
 /** Botão de ação com variações de estilo, tamanho e suporte a ícone. */
@@ -50,6 +54,8 @@ export const Button: React.FC<ButtonProps> = ({
   style = {},
   type = 'button',
   disabled,
+  loading = false,
+  onClick,
   onMouseEnter,
   onMouseLeave,
   onFocus,
@@ -59,7 +65,7 @@ export const Button: React.FC<ButtonProps> = ({
   const base: React.CSSProperties = {
     position: 'relative', display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)', justifyContent: 'center',
     fontFamily: 'inherit', fontWeight: 'var(--ob-w-semibold)', border: 'none', borderRadius: 'var(--ob-r-control)',
-    cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, transition: 'all var(--ob-dur-fast) var(--ob-ease)',
+    cursor: disabled ? 'not-allowed' : loading ? 'progress' : 'pointer', opacity: disabled ? 'var(--ob-opacity-disabled)' : 1, transition: 'all var(--ob-dur-fast) var(--ob-ease)',
     fontSize: size === 'sm' ? 'var(--ob-fs-13)' : size === 'lg' ? 'var(--ob-fs-15)' : 'var(--ob-fs-14)',
     padding: size === 'sm' ? '0 var(--ob-space-12)' : size === 'lg' ? '0 var(--ob-space-24)' : '0 var(--ob-space-20)',
   };
@@ -77,6 +83,15 @@ export const Button: React.FC<ButtonProps> = ({
     neutral:   { background: pressed ? 'var(--ob-surface-2)' : 'transparent', color: 'var(--ob-fg)' },
     quiet:     { background: pressed && fill ? tom.bg : 'transparent', color: pressed ? tom.fg : 'var(--ob-fg-soft)' },
   };
+  const inativo = disabled || loading;
+  const conteudo = (
+    <>
+      {icon}{iconOnly ? null : children}
+      {count ? (iconOnly
+        ? <span style={{ position: 'absolute', top: 2, right: 0 }}><Badge tone={tomDoContador} variant="numeric" size="sm">{count}</Badge></span>
+        : <Badge tone={tomDoContador} variant="numeric" size="sm">{count}</Badge>) : null}
+    </>
+  );
   const destacar = (el: HTMLButtonElement, ativo: boolean) => {
     if (kind !== 'quiet') return;
     const on = ativo || !!pressed;
@@ -89,11 +104,17 @@ export const Button: React.FC<ButtonProps> = ({
       type={type}
       disabled={disabled}
       aria-pressed={pressed}
+      aria-busy={loading || undefined}
+      aria-disabled={loading || undefined}
       style={{ ...base, ...alturaMinima, ...kinds[kind], ...soIcone, ...style }}
+      onClick={(e) => {
+        if (loading) { e.preventDefault(); return; }
+        onClick?.(e);
+      }}
       onMouseEnter={(e) => {
-        if (kind === 'primary' && !disabled) e.currentTarget.style.boxShadow = 'var(--ob-shadow-pop)';
-        if (kind === 'neutral' && !disabled) { e.currentTarget.style.background = 'var(--ob-surface-2)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }
-        if (!disabled) destacar(e.currentTarget, true);
+        if (kind === 'primary' && !inativo) e.currentTarget.style.boxShadow = 'var(--ob-shadow-pop)';
+        if (kind === 'neutral' && !inativo) { e.currentTarget.style.background = 'var(--ob-surface-2)'; e.currentTarget.style.color = 'var(--ob-fg-strong)'; }
+        if (!inativo) destacar(e.currentTarget, true);
         onMouseEnter?.(e);
       }}
       onMouseLeave={(e) => {
@@ -105,10 +126,16 @@ export const Button: React.FC<ButtonProps> = ({
       onFocus={(e) => { if (e.currentTarget.matches(':focus-visible')) { e.currentTarget.style.boxShadow = ANEL_DE_FOCO; destacar(e.currentTarget, true); } onFocus?.(e); }}
       onBlur={(e) => { e.currentTarget.style.boxShadow = 'none'; destacar(e.currentTarget, false); onBlur?.(e); }}
     >
-      {icon}{iconOnly ? null : children}
-      {count ? (iconOnly
-        ? <span style={{ position: 'absolute', top: 2, right: 0 }}><Badge tone={tomDoContador} variant="numeric" size="sm">{count}</Badge></span>
-        : <Badge tone={tomDoContador} variant="numeric" size="sm">{count}</Badge>) : null}
+      {loading ? (
+        <>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'inherit', opacity: 0 }}>{conteudo}</span>
+          <span className="ob-button-spinner" aria-hidden="true" style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Spinner size={size === 'lg' ? 'md' : 'sm'} />
+          </span>
+        </>
+      ) : conteudo}
     </button>
   );
 };
+
+injectStyleOnce('ob-button-spinner', '.ob-button-spinner circle{stroke:currentColor}');

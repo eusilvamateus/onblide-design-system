@@ -7,7 +7,7 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 ## Uso
 
-Antes de uma ação que não dá para desfazer ou que afeta outras pessoas: excluir, publicar, sair sem salvar. O usuário só segue depois de decidir; não há botão de fechar no cabeçalho, mas Esc e o backdrop cancelam.
+Antes de uma ação que não dá para desfazer ou que afeta outras pessoas: excluir, publicar, sair sem salvar. O usuário só segue depois de decidir; não há botão de fechar no cabeçalho, mas Esc e o backdrop cancelam, exceto enquanto a confirmação está em andamento (`loading`).
 
 ### Quando usar
 
@@ -35,11 +35,23 @@ O AlertDialog é um **Modal** (`size="sm"`, `role="alertdialog"`, sem botão de 
 
 ```jsx
 const [aberto, setAberto] = useState(false);
+const [excluindo, setExcluindo] = useState(false);
+
+const confirmar = async () => {
+  setExcluindo(true);
+  try {
+    await excluir();
+    setAberto(false);
+  } finally {
+    setExcluindo(false);
+  }
+};
 
 <AlertDialog
   open={aberto}
+  loading={excluindo}
   onClose={() => setAberto(false)}
-  onConfirm={() => { excluir(); setAberto(false); }}
+  onConfirm={confirmar}
   tone="danger"
   title="Excluir projeto?"
   confirmLabel="Excluir projeto"
@@ -50,7 +62,9 @@ const [aberto, setAberto] = useState(false);
 
 <Nota>
 
-`onConfirm` não fecha o diálogo: quem usa decide quando fechar, por exemplo depois de a requisição terminar.
+`onConfirm` não fecha o diálogo: quem usa decide quando fechar, por exemplo depois de a requisição terminar. Enquanto
+ela roda, passe `loading`: o botão de confirmar mostra o carregamento e ignora novos cliques, o de cancelar fica
+desabilitado, e Esc e o backdrop não fecham. Assim a ação não é enviada duas vezes nem abandonada no meio.
 
 </Nota>
 

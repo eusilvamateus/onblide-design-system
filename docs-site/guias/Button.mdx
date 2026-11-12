@@ -79,6 +79,11 @@ Para um ícone realmente discreto, sem área em volta (por exemplo uma seta que 
 
 **Contador.** `count` mostra um **Badge** numérico: em linha, depois do rótulo, nos botões com texto; no canto superior direito nos botões só com ícone. O tom padrão é vermelho, e azul no `kind="danger"`, onde o vermelho se perderia no fundo. Use `countTone` (`blue`, `green`, `orange`, `red` ou `grey`) para escolher outro, por exemplo `blue` em um botão de filtro que indica critérios aplicados.
 
+**Carregando.** Com `loading`, um **Spinner** na cor do texto do botão ocupa o centro e o conteúdo fica invisível no
+mesmo lugar, então a largura não muda. O botão ignora cliques (e não envia o formulário), mas continua focável, com
+`aria-busy` e `aria-disabled`, e o leitor de tela segue anunciando o rótulo. Use enquanto a ação do próprio botão está
+em andamento; para uma ação que não pode acontecer agora, use `disabled`.
+
 **Motion.** Transição em `--ob-dur-fast` (120ms) com `--ob-ease`. Sem encolher no press, só escurece um tom.
 
 **Responsivo / mobile.** Alvo mínimo de toque 44px (use `size="lg"` em mobile). Pode ocupar largura total em telas estreitas.

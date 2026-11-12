@@ -17,3 +17,11 @@ export const Destrutivo = () => (
     </AlertDialog>
   </div>
 );
+
+export const Carregando = () => (
+  <div style={frame}>
+    <AlertDialog open loading onClose={() => {}} onConfirm={() => {}} tone="danger" title="Excluir projeto?" confirmLabel="Excluir projeto">
+      Esta ação não pode ser desfeita. Todas as tarefas do projeto Lançamento 2025 serão removidas.
+    </AlertDialog>
+  </div>
+);
