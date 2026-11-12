@@ -44,7 +44,10 @@ grupos; `ListSubheader` titula um grupo.
 
 ## Guia de design
 
-**Densidade.** `size="md"` (36px de altura mínima) é o padrão; `"sm"` (28px) para painéis densos. O `List`
+**Densidade.** O tamanho segue o tipo de lista. `size="md"`, o padrão, é para listas de conteúdo, como pessoas,
+arquivos e registros: 12px em cima e embaixo, 16px nas laterais, 48px de altura mínima, 4px entre o título e a
+descrição e a descrição em 13px. `"sm"` é para opções e navegação (8px e 12px, 36px de altura), e é o que o `Menu`, o
+`Autocomplete` e o `TreeView` usam nas linhas. `"xs"` é para painéis densos (4px e 8px, 28px de altura). O `List`
 propaga o tamanho para os itens que não definem o próprio.
 
 **Estados.** Destacado (`highlighted`, ou automático em itens com `href`/`onClick`) usa `--ob-bg-warm`;

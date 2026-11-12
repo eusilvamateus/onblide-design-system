@@ -124,7 +124,7 @@ type Row =
   | { type: 'loading' | 'error' | 'empty'; level: number; parent: TreeNode | null };
 
 /** Hierarquia que abre e fecha, com seleção simples/múltipla, busca, carregamento sob demanda, edição e
- * arrastar-para-mover. Cada nó é um `ListItem` — mesma densidade e cores do `List`. */
+ * arrastar-para-mover. Cada nó é um `ListItem` com a densidade de opções e as cores do `List`. */
 export const TreeView: React.FC<TreeViewProps> = (props) => {
   const {
     items: itemsProp, defaultItems = [], onItemsChange, selection = 'none', defaultSelected, onSelectionChange,
@@ -388,6 +388,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
   ));
   const leftPad = (level: number) => base + (level - 1) * ind;
   const iconSize = size === 'sm' ? 14 : 16;
+  const densidade = size === 'sm' ? 'xs' : 'sm';
 
   const renderNode = (r: Row & { type: 'node' }) => {
     const n = r.node, kids = hasKids(n), isEditing = editing && editing.id === n.id;
@@ -439,7 +440,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
       <ListItem key={n.id} as="li" role="treeitem" data-id={n.id} className="ob-tv-row" tabIndex={n.id === tabId ? 0 : -1}
         aria-level={r.level} aria-setsize={r.setsize} aria-posinset={r.pos} aria-expanded={kids ? r.open : undefined} aria-busy={loading.has(n.id) || undefined}
         aria-selected={selection === 'single' ? sel === n.id : undefined} aria-checked={selection === 'multiple' ? (cs === 'mixed' ? 'mixed' : !!cs) : undefined}
-        size={size} disabled={n.disabled} selected={selection === 'single' && sel === n.id}
+        size={densidade} disabled={n.disabled} selected={selection === 'single' && sel === n.id}
         onClick={() => onRowClick(n)}
         onDoubleClick={(e) => { if (n.disabled || (e.target as HTMLElement).closest('.ob-tv-caret, .ob-tv-handle, .ob-tv-act')) return; if (editable) startRename(n); else if (selection !== 'none' && kids) toggle(n); }}
         onFocus={(e) => { if (e.target === e.currentTarget) setFocusId(n.id); }}
@@ -464,7 +465,7 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
 
   return (
     <div ref={rootRef} style={{ fontFamily: 'var(--ob-font)' }}>
-      <List as="ul" role="tree" ariaLabel={ariaLabel} aria-multiselectable={selection === 'multiple' || undefined} size={size} onKeyDown={onKeyDown} style={{ gap: 0 }}>
+      <List as="ul" role="tree" ariaLabel={ariaLabel} aria-multiselectable={selection === 'multiple' || undefined} size={densidade} onKeyDown={onKeyDown} style={{ gap: 0 }}>
         {rows.map((r, k) => (r.type === 'node' ? renderNode(r) : renderAux(r, `aux${k}`)))}
         {rows.length === 0 && <li role="none" style={{ margin: 0, padding: 'var(--ob-space-12) var(--ob-space-8)', fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-mute)' }}>{nq ? `Nenhum resultado para "${query.trim()}"` : emptyText}</li>}
       </List>

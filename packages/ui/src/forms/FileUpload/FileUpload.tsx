@@ -136,7 +136,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     <div style={{ border: '1px solid var(--ob-border)', borderRadius: 'var(--ob-r-surface)', background: 'var(--ob-surface)', overflow: 'hidden' }}>
       <List dividers ariaLabel="Arquivos enviados">
         {files.map((f) => (
-          <ListItem key={f.id} style={{ padding: 'var(--ob-space-10) var(--ob-space-8) var(--ob-space-10) var(--ob-space-12)' }}
+          <ListItem key={f.id}
             leading={f.url && f.status !== 'error'
               ? <img src={f.url} alt="" style={{ width: 36, height: 36, borderRadius: 'var(--ob-r-sm)', objectFit: 'cover', display: 'block' }} />
               : <Ph n={f.status === 'error' ? 'warning-circle' : fileIcon(f.name, f.type)} size={20} c={f.status === 'error' ? 'var(--ob-danger)' : 'currentColor'} />}

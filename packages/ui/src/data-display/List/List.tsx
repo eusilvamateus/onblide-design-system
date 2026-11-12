@@ -2,19 +2,20 @@ import React from 'react';
 import { Divider } from '../Divider/Divider';
 import type { Tone } from '../../internal/tone';
 
-export type ListSize = 'md' | 'sm';
+export type ListSize = 'md' | 'sm' | 'xs';
 
-interface SizeSpec { pad: string; minH: number; fs: string; lh: string; gap: string; icon: number; sub: string }
+interface SizeSpec { pad: string; minH: number; fs: string; lh: string; gap: string; icon: number; sub: string; texto: string; apoio: string }
 const LIST_SIZES: Record<ListSize, SizeSpec> = {
-  md: { pad: 'var(--ob-space-8) var(--ob-space-12)', minH: 36, fs: 'var(--ob-fs-14)', lh: '20px', gap: 'var(--ob-space-10)', icon: 16, sub: 'var(--ob-space-8) var(--ob-space-12) var(--ob-space-4)' },
-  sm: { pad: 'var(--ob-space-4) var(--ob-space-8)', minH: 28, fs: 'var(--ob-fs-13)', lh: '18px', gap: 'var(--ob-space-8)', icon: 14, sub: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-2)' },
+  md: { pad: 'var(--ob-space-12) var(--ob-space-16)', minH: 48, fs: 'var(--ob-fs-14)', lh: '20px', gap: 'var(--ob-space-12)', icon: 20, sub: 'var(--ob-space-12) var(--ob-space-16) var(--ob-space-4)', texto: 'var(--ob-space-4)', apoio: 'var(--ob-fs-13)' },
+  sm: { pad: 'var(--ob-space-8) var(--ob-space-12)', minH: 36, fs: 'var(--ob-fs-14)', lh: '20px', gap: 'var(--ob-space-10)', icon: 16, sub: 'var(--ob-space-8) var(--ob-space-12) var(--ob-space-4)', texto: 'var(--ob-space-2)', apoio: 'var(--ob-fs-12)' },
+  xs: { pad: 'var(--ob-space-4) var(--ob-space-8)', minH: 28, fs: 'var(--ob-fs-13)', lh: '18px', gap: 'var(--ob-space-8)', icon: 14, sub: 'var(--ob-space-6) var(--ob-space-8) var(--ob-space-2)', texto: 'var(--ob-space-2)', apoio: 'var(--ob-fs-12)' },
 };
 
 interface ListContextValue { size: ListSize; itemAs: 'li' | 'div' }
 const ListContext = React.createContext<ListContextValue | null>(null);
 
 export interface ListProps extends React.HTMLAttributes<HTMLElement> {
-  /** Densidade herdada pelos ListItem/ListSubheader filhos que não definem a própria. */
+  /** Densidade herdada pelos ListItem/ListSubheader filhos que não definem a própria: `md` para listas de conteúdo (pessoas, arquivos, registros), `sm` para opções e navegação, `xs` para painéis densos. */
   size?: ListSize;
   /** Traça uma borda entre os itens em vez do respiro padrão de 1px e recorta seus estados no contorno da lista. */
   dividers?: boolean;
@@ -129,11 +130,11 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
           {leading}
         </span>
       )}
-      <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-2)' }}>
+      <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: z.texto }}>
         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{title}</span>
         {description && (
           <span style={{
-            fontSize: 'var(--ob-fs-12)', lineHeight: 'var(--ob-lh-normal)', fontWeight: 'var(--ob-w-regular)',
+            fontSize: z.apoio, lineHeight: 'var(--ob-lh-normal)', fontWeight: 'var(--ob-w-regular)',
             color: disabled ? 'inherit' : 'var(--ob-fg-soft)', whiteSpace: wrap ? 'normal' : 'nowrap',
             overflow: 'hidden', textOverflow: 'ellipsis', textWrap: wrap ? 'pretty' : undefined,
           }}>{description}</span>

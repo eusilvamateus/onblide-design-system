@@ -34,4 +34,12 @@ if (!sub.includes('role="presentation"') || !sub.includes('>Grupo<')) fail('List
 const div = renderToStaticMarkup(h(ListDivider, {}));
 if (!div.includes('role="separator"')) fail('ListDivider deveria ser um Divider de verdade', div);
 
-console.log('OK: List (as, dividers, selected/selectedStyle, disabled, ListSubheader, ListDivider)');
+const densidade = (size) => renderToStaticMarkup(h(List, size ? { size } : {}, h(ListItem, { key: 'a', title: 'A', description: 'B' })));
+const conteudo = densidade();
+if (!conteudo.includes('padding:var(--ob-space-12) var(--ob-space-16)') || !conteudo.includes('min-height:48px') || !conteudo.includes('gap:var(--ob-space-4)') || !conteudo.includes('font-size:var(--ob-fs-13)')) fail('o padrão (md) deveria ter a densidade de conteúdo: 12/16, 48px, 4px entre título e descrição e descrição em 13px', conteudo);
+const opcoes = densidade('sm');
+if (!opcoes.includes('padding:var(--ob-space-8) var(--ob-space-12)') || !opcoes.includes('min-height:36px')) fail('sm deveria ter a densidade de opções: 8/12 e 36px', opcoes);
+const densa = densidade('xs');
+if (!densa.includes('padding:var(--ob-space-4) var(--ob-space-8)') || !densa.includes('min-height:28px')) fail('xs deveria ter a densidade de painel denso: 4/8 e 28px', densa);
+
+console.log('OK: List (as, dividers, selected/selectedStyle, disabled, densidades md/sm/xs, ListSubheader, ListDivider)');

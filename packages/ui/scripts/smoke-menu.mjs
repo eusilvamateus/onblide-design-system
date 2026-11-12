@@ -38,6 +38,10 @@ if (!panel.includes('role="menu"')) fail('MenuPanel deveria ter role=menu', pane
 if (!panel.includes('role="menuitemcheckbox"')) fail('checkbox/toggle deveriam ser menuitemcheckbox', panel);
 if (!panel.includes('role="menuitemradio"')) fail('radio deveria ser menuitemradio', panel);
 if (!panel.includes('aria-haspopup="menu"')) fail('submenu deveria marcar aria-haspopup', panel);
+const linhaMd = renderToStaticMarkup(h(MenuPanel, { items: [{ label: 'Editar' }] }));
+if (!linhaMd.includes('padding:var(--ob-space-8) var(--ob-space-12)') || !linhaMd.includes('min-height:36px')) fail('o item do Menu md usa a densidade de opções do List (sm), não a de conteúdo', linhaMd);
+const linhaSm = renderToStaticMarkup(h(MenuPanel, { items: [{ label: 'Editar' }], size: 'sm' }));
+if (!linhaSm.includes('padding:var(--ob-space-4) var(--ob-space-8)') || !linhaSm.includes('min-height:28px')) fail('o item do Menu sm usa a densidade densa do List (xs)', linhaSm);
 if (!panel.includes('Ctrl+E')) fail('shortcut deveria aparecer', panel);
 if (!panel.includes('var(--ob-danger)')) fail('tone danger deveria destacar o item', panel);
 if (!panel.includes('Visualização')) fail('label deveria virar um ListSubheader', panel);
@@ -66,4 +70,4 @@ if (!contaComFoto.includes('src="https://exemplo.com/camila.jpg"') || contaComFo
 const contaSemFoto = renderToStaticMarkup(h(MenuPanel, { items: [{ type: 'account', name: 'Camila Duarte', email: 'camila@onblide.com', initials: 'CD2' }] }));
 if (contaSemFoto.includes('<img') || !contaSemFoto.includes('>CD2<')) fail('item account sem foto mostra as iniciais, que podem ser trocadas por initials', contaSemFoto);
 
-console.log('OK: Menu/ContextMenu/Menubar (fechado sem painel, ContextMenu com aria-haspopup, Menubar com role=menubar, conta com foto ou iniciais)');
+console.log('OK: Menu/ContextMenu/Menubar (densidade de opções, ContextMenu com aria-haspopup, Menubar com role=menubar, conta com foto ou iniciais)');

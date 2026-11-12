@@ -64,6 +64,7 @@ interface MenuPanelProps {
 
 /** Painel de itens de um `Menu`/`ContextMenu`/`Menubar` — mesma anatomia e teclado nos três. */
 export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search, empty = 'Nada encontrado', level = 0, keyboard = false, onClose, onCloseTree, onNavOut, style, ariaLabel, autoFocus = true }) => {
+  const densidade = size === 'sm' ? 'xs' : 'sm';
   const z = MENU_SIZES[size];
   const [active, setActive] = React.useState(keyboard ? step(items, -1, 1) : -1);
   const [sub, setSub] = React.useState<{ i: number; kb: boolean }>({ i: -1, kb: false });
@@ -133,7 +134,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
       {search && items.length === 0 && <div style={{ padding: z.pad, fontSize: z.fs, color: 'var(--ob-fg-soft)' }}>{empty}</div>}
       {items.map((it, i) => {
         if (it.type === 'separator') return <ListDivider key={i} style={{ margin: z.sepM }} />;
-        if (it.type === 'label') return <ListSubheader key={i} size={size}>{it.label}</ListSubheader>;
+        if (it.type === 'label') return <ListSubheader key={i} size={densidade}>{it.label}</ListSubheader>;
         if (it.type === 'custom') {
           return (
             <div key={i} role="group" aria-label={it.ariaLabel} data-ob-menu-custom="" style={{ padding: 'var(--ob-space-4) var(--ob-space-2)' }}
@@ -171,7 +172,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
         return (
           <ListItem key={i} id={`${uid}-${i}`} role={role} aria-checked={selectable ? !!(it as { checked?: boolean }).checked : undefined}
             aria-haspopup={isSub ? 'menu' : undefined} aria-expanded={isSub ? subOpen : undefined}
-            size={size} highlighted={hl} disabled={'disabled' in it ? it.disabled : undefined} tone={danger ? 'danger' : undefined}
+            size={densidade} highlighted={hl} disabled={'disabled' in it ? it.disabled : undefined} tone={danger ? 'danger' : undefined}
             align={centered ? 'center' : 'start'} indent={hasLead}
             leading={lead} title={label} strong={t === 'account' ? (it as Extract<MenuItem, { type: 'account' }>).large : undefined}
             description={desc} wrap={t !== 'account'}

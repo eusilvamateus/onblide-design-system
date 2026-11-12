@@ -89,7 +89,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     emptyText = 'Nenhuma opção encontrada', ariaLabel, size = 'md',
   } = props;
   const escala = ESCALA_DE_CAMPO[size];
-  const tamanhoDaLista = size === 'sm' ? 'sm' : 'md';
+  const tamanhoDaLista = size === 'sm' ? 'xs' : 'sm';
   const empty = multiple ? [] : null;
   const [val, setVal] = React.useState<string | string[] | null>(defaultValue ?? empty);
   const value = valueProp !== undefined ? valueProp : val;
