@@ -41,9 +41,15 @@ if (!fantasma.includes('padding:0')) fail('ghost não tem preenchimento, para al
 if ((fantasma.match(/<span/g) ?? []).length !== 2) fail('ghost mantém o ponto', fantasma);
 if (!render({ appearance: 'ghost', icon: 'check' }).includes('ph-check')) fail('ghost aceita ícone');
 
+const simples = render({ appearance: 'plain', tone: 'success' });
+if (!simples.includes('color:var(--ob-fg)') || !simples.includes('border:1px solid var(--ob-border)') || !simples.includes('background:var(--ob-surface)')) fail('plain tem superfície, borda e texto neutros', simples);
+if (!simples.includes('background:var(--ob-green)')) fail('plain mantém o ponto na cor do tom', simples);
+if (!render({ appearance: 'plain', tone: 'danger', icon: 'warning' }).includes('color:var(--ob-danger)')) fail('plain pinta o ícone na cor do tom');
+if (render({ appearance: 'soft', tone: 'danger', icon: 'warning' }).includes('color:var(--ob-danger);font-size')) fail('fora do plain, o ícone segue a cor do texto');
+
 for (const tone of ['neutral', 'primary', 'success', 'warning', 'danger']) {
   if (!render({ tone }).includes('Ativo')) fail(`tom ${tone}`);
 }
 if (!render({ tone: 'inexistente' }).includes('Ativo')) fail('tom desconhecido cai no padrão');
 if (!render({ size: 'sm' }).includes('font-size:var(--ob-fs-11)')) fail('size sm');
-console.log('OK: Badge (appearance soft/solid/outline/ghost, variant label/numeric, tons, dot, icon, size)');
+console.log('OK: Badge (appearance soft/solid/outline/plain/ghost, variant label/numeric, tons, dot, icon, size)');

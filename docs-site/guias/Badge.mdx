@@ -23,6 +23,7 @@ O `label` mostra um ponto colorido por padrão. Com `icon`, um ícone Phosphor e
 - **`soft`**: padrão no `label`. Fundo clarinho na cor, sem borda.
 - **`solid`**: padrão no `numeric`. Fundo cheio na cor forte. Para rótulos de plano (Pro, Beta) e categorias em destaque.
 - **`outline`**: só a borda na cor, sem fundo. Para contextos onde o fundo precisa respirar.
+- **`plain`**: superfície, borda fina e texto neutros; só o ponto ou o ícone leva a cor do tom. Para telas com muitos status juntos, onde a cor em todo o texto pesaria, mas o Badge ainda precisa de um contorno.
 - **`ghost`**: só o texto e o ponto ou ícone, sem fundo, borda nem preenchimento. Para listas densas, onde muitos status juntos pesariam a tela; o ponto alinha com o texto em volta.
 
 ### Cor (`tone`)
@@ -79,11 +80,11 @@ Badge clicável ou como filtro. Para isso, use **Chip**. Badge nunca deve ter cu
 
 ## Guia de design
 
-**Tokens.** `soft`: `--ob-*-100` fundo, `--ob-*-700` texto, `--ob-*` dot. `solid`: `--ob-*` fundo, `--ob-fg-on-color` texto. `outline`: fundo transparente, borda `color-mix(--ob-* 35%)`. `ghost`: fundo transparente, sem borda, cor de texto igual à do `soft`.
+**Tokens.** `soft`: `--ob-*-100` fundo, `--ob-*-700` texto, `--ob-*` dot. `solid`: `--ob-*` fundo, `--ob-fg-on-color` texto. `outline`: fundo transparente, borda `color-mix(--ob-* 35%)`. `plain`: fundo `--ob-surface`, borda de 1px `--ob-border`, texto `--ob-fg`, ponto e ícone na cor do tom. `ghost`: fundo transparente, sem borda, cor de texto igual à do `soft`.
 
 **Tamanhos.** md (padrão) = 12 px, padding 4×10, ícone de 14 px. sm = 11 px, padding 2×8, ícone de 12 px. Raio sempre pílula (999px).
 
-**Ícone.** Sempre no peso `bold`, que dá legibilidade em tamanhos pequenos, e na cor do texto do Badge.
+**Ícone.** Sempre no peso `bold`, que dá legibilidade em tamanhos pequenos, e na cor do texto do Badge; no `plain`, na cor do tom, como o ponto.
 
 **Motion.** Estático, sem animação. Não marca motion na matriz.
 

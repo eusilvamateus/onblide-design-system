@@ -4,7 +4,7 @@ import { BADGE_TONES, BadgeTone } from '../../internal/badgeTones';
 import type { Appearance } from '../../internal/appearance';
 
 export type BadgeVariant = 'label' | 'numeric';
-export type BadgeAppearance = Extract<Appearance, 'soft' | 'solid' | 'outline' | 'ghost'>;
+export type BadgeAppearance = Extract<Appearance, 'soft' | 'solid' | 'outline' | 'plain' | 'ghost'>;
 /** Tamanho do badge, que ajusta texto, ícone e espaçamento interno. */
 export type BadgeSize = 'sm' | 'md' | 'lg';
 
@@ -21,7 +21,7 @@ export interface BadgeProps {
   tone?: BadgeTone;
   /** Forma do badge: `label` é a pílula de rótulo; `numeric` é o contador compacto, sem ponto. */
   variant?: BadgeVariant;
-  /** Pintura do badge: `soft` (fundo clarinho, sem borda), `solid` (cheio na cor forte), `outline` (com borda, sem fundo) ou `ghost` (só texto e ponto ou ícone, sem fundo, borda nem preenchimento). Padrão: `soft` em `label` e `solid` em `numeric`. */
+  /** Pintura do badge: `soft` (fundo clarinho, sem borda), `solid` (cheio na cor forte), `outline` (com borda, sem fundo), `plain` (superfície, borda e texto neutros, com a cor do tom só no ponto ou no ícone) ou `ghost` (só texto e ponto ou ícone, sem fundo, borda nem preenchimento). Padrão: `soft` em `label` e `solid` em `numeric`. */
   appearance?: BadgeAppearance;
   /** Exibe um ponto colorido antes do conteúdo (ignorado com `icon` e na variante `numeric`). */
   dot?: boolean;
@@ -45,6 +45,7 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label
     soft:    { background: t.bg, color: t.fg, border: 'none' },
     solid:   { background: t.solid, color: 'var(--ob-fg-on-color)', border: 'none' },
     outline: { background: 'transparent', color: t.fg, border: `1.5px solid ${t.border}` },
+    plain:   { background: 'var(--ob-surface)', color: 'var(--ob-fg)', border: '1px solid var(--ob-border)' },
     ghost:   { background: 'transparent', color: t.fg, border: 'none' },
   };
   const forma: React.CSSProperties = numerico
@@ -57,7 +58,7 @@ export const Badge: React.FC<BadgeProps> = ({ tone = 'primary', variant = 'label
       borderRadius: 'var(--ob-r-pill)', fontSize: escala.fonte, fontWeight: 'var(--ob-w-bold)',
       lineHeight: 1, ...(pinturas[pintura] || pinturas.soft), ...forma,
     }}>
-      {!numerico && icon && <Ph n={icon} size={escala.icone} weight="bold" />}
+      {!numerico && icon && <Ph n={icon} size={escala.icone} weight="bold" c={pintura === 'plain' ? t.dot : undefined} />}
       {!numerico && !icon && dot && <span style={{ width: escala.ponto, height: escala.ponto, borderRadius: 'var(--ob-r-circle)', background: pintura === 'solid' ? 'color-mix(in srgb, var(--ob-fg-on-color) 70%, transparent)' : t.dot, flexShrink: 0 }}/>}
       {children}
     </span>
