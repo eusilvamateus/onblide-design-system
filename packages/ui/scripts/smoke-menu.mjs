@@ -69,5 +69,7 @@ const contaComFoto = renderToStaticMarkup(h(MenuPanel, { items: [{ type: 'accoun
 if (!contaComFoto.includes('src="https://exemplo.com/camila.jpg"') || contaComFoto.includes('alt="Camila')) fail('item account mostra a foto, decorativa porque o nome já está ao lado', contaComFoto);
 const contaSemFoto = renderToStaticMarkup(h(MenuPanel, { items: [{ type: 'account', name: 'Camila Duarte', email: 'camila@onblide.com', initials: 'CD2' }] }));
 if (contaSemFoto.includes('<img') || !contaSemFoto.includes('>CD2<')) fail('item account sem foto mostra as iniciais, que podem ser trocadas por initials', contaSemFoto);
+const contaNeutra = renderToStaticMarkup(h(MenuPanel, { items: [{ type: 'account', name: 'Workspace', email: 'Administrador', avatarColor: 'var(--ob-bg-alt)', avatarTextColor: 'var(--ob-fg-strong)' }] }));
+if (!contaNeutra.includes('background:var(--ob-bg-alt)') || !contaNeutra.includes('color:var(--ob-fg-strong)')) fail('item account encaminha as cores do avatar', contaNeutra);
 
 console.log('OK: Menu/ContextMenu/Menubar (densidade de opções, ContextMenu com aria-haspopup, Menubar com role=menubar, conta com foto ou iniciais)');

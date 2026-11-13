@@ -13,6 +13,8 @@ export interface AvatarProps {
   size?: number;
   /** Cor de fundo do avatar. */
   color?: string;
+  /** Cor das iniciais quando não há imagem. */
+  textColor?: string;
 }
 
 const iniciaisDoNome = (nome: string): string => {
@@ -23,13 +25,13 @@ const iniciaisDoNome = (nome: string): string => {
 };
 
 /** Avatar circular com as iniciais de um nome; aceita imagem, com fallback automático pras iniciais se a imagem não carregar. */
-export const Avatar: React.FC<AvatarProps> = ({ name = 'OB', initials, src, alt, size = 32, color = 'var(--ob-blue)' }) => {
+export const Avatar: React.FC<AvatarProps> = ({ name = 'OB', initials, src, alt, size = 32, color = 'var(--ob-blue)', textColor = 'var(--ob-fg-on-color)' }) => {
   const [srcComErro, setSrcComErro] = useState<string | undefined>(undefined);
   const mostrarImagem = !!src && src !== srcComErro;
   return (
     <div style={{
       width: size, height: size, borderRadius: 'var(--ob-r-circle)', background: color,
-      color: 'var(--ob-fg-on-color)', fontSize: size * 0.4, fontWeight: 'var(--ob-w-bold)', display: 'flex',
+      color: textColor, fontSize: size * 0.4, fontWeight: 'var(--ob-w-bold)', display: 'flex',
       alignItems: 'center', justifyContent: 'center', flex: 'none', overflow: 'hidden',
     }}>
       {mostrarImagem

@@ -24,7 +24,7 @@ export type MenuItem =
   | { type: 'radio'; group: string; label: string; description?: string; checked: boolean; disabled?: boolean; onSelect: () => void }
   | { type: 'checkbox'; label: string; checked: boolean; indeterminate?: boolean; disabled?: boolean; onChange: (v: boolean) => void }
   | { type: 'toggle'; label: string; checked: boolean; disabled?: boolean; onChange: (v: boolean) => void }
-  | { type: 'account'; name: string; email: string; src?: string; initials?: string; current?: boolean; badge?: number; large?: boolean; disabled?: boolean; onSelect?: () => void }
+  | { type: 'account'; name: string; email: string; src?: string; initials?: string; avatarColor?: string; avatarTextColor?: string; current?: boolean; badge?: number; large?: boolean; disabled?: boolean; onSelect?: () => void }
   | { type: 'submenu'; label: string; icon?: string; disabled?: boolean; items: MenuItem[] }
   | { type: 'label'; label: string }
   | { type: 'custom'; content: React.ReactNode; ariaLabel?: string }
@@ -153,7 +153,7 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
         let lead: React.ReactNode = null;
         if (t === 'checkbox') { const ci = it as Extract<MenuItem, { type: 'checkbox' }>; lead = <Embed><Checkbox checked={!!ci.checked} indeterminate={ci.indeterminate} ariaLabel={label} onChange={() => {}} /></Embed>; }
         else if (t === 'radio') { const ri = it as Extract<MenuItem, { type: 'radio' }>; lead = <Embed><Radio name={ri.group} value={label} checked={!!ri.checked} /></Embed>; }
-        else if (t === 'account') { const ai = it as Extract<MenuItem, { type: 'account' }>; lead = <Embed><Avatar name={ai.name} initials={ai.initials} src={ai.src} size={ai.large ? z.avatar + 8 : z.avatar} /></Embed>; }
+        else if (t === 'account') { const ai = it as Extract<MenuItem, { type: 'account' }>; lead = <Embed><Avatar name={ai.name} initials={ai.initials} src={ai.src} color={ai.avatarColor} textColor={ai.avatarTextColor} size={ai.large ? z.avatar + 8 : z.avatar} /></Embed>; }
         else if ('icon' in it && it.icon) lead = <Ph n={it.icon} size={z.icon} c="currentColor" />;
         const centered = t === 'account' || t === 'toggle' || t === 'checkbox' || t === 'radio';
         const checkedMark = t === 'option' || (t === 'account' && (it as Extract<MenuItem, { type: 'account' }>).current)
