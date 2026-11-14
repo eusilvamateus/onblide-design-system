@@ -40,5 +40,9 @@ if (!fillWhenPressed.includes('ph-fill ph-star')) fail('fillWhenPressed deveria 
   if (!perigo.includes('var(--ob-danger)') || !perigo.includes('var(--ob-danger-bg)') || perigo.includes('var(--ob-blue)')) fail('tone danger troca o azul pelo vermelho quando pressionado', perigo);
   if (!render({ tone: 'success', appearance: 'ghost' }).includes('var(--ob-green-700)')) fail('tone success na aparência ghost');
   if (render({ tone: 'danger', defaultPressed: false }).includes('var(--ob-danger)')) fail('o tom só aparece quando pressionado');
+  const neutro = render({ tone: 'neutral' });
+  if (!neutro.includes('background:var(--ob-line)') || !neutro.includes('1.5px solid var(--ob-fg-strong)') || neutro.includes('var(--ob-blue')) fail('tone neutral pressionado usa fundo --ob-line e borda --ob-fg-strong, sem azul', neutro);
+  const neutroGhost = render({ tone: 'neutral', appearance: 'ghost' });
+  if (!neutroGhost.includes('background:var(--ob-line)') || !neutroGhost.includes('color:var(--ob-fg-strong)')) fail('tone neutral na aparência ghost', neutroGhost);
 }
 console.log('OK: ToggleButton (aria-pressed, controlado/não controlado, appearance, disabled, ícones)');

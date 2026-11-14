@@ -4,7 +4,7 @@ import { ACTION_TONES, type ActionTone } from '../../internal/actionTones';
 
 export type ToggleButtonAppearance = 'outline' | 'ghost';
 export type ToggleButtonSize = 'sm' | 'md' | 'lg';
-export type ToggleButtonTone = Exclude<ActionTone, 'neutral'>;
+export type ToggleButtonTone = ActionTone;
 
 const PAD: Record<ToggleButtonSize, [number, number]> = { sm: [7, 12], md: [10, 18], lg: [14, 22] };
 const FS: Record<ToggleButtonSize, string> = { sm: 'var(--ob-fs-13)', md: 'var(--ob-fs-14)', lg: 'var(--ob-fs-15)' };
@@ -19,7 +19,7 @@ export interface ToggleButtonProps {
   /** `outline` (borda e fundo de superfície) ou `ghost` (sem borda, para barras densas). */
   appearance?: ToggleButtonAppearance;
   size?: ToggleButtonSize;
-  /** Cor do estado pressionado: azul (`primary`, padrão), verde, laranja ou vermelho. */
+  /** Cor do estado pressionado: azul (`primary`, padrão), cinza (`neutral`), verde, laranja ou vermelho. */
   tone?: ToggleButtonTone;
   /** Nome de um ícone Phosphor. */
   icon?: string;
@@ -63,7 +63,7 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
     onChange?.(next, value);
   };
 
-  const cor = ACTION_TONES[tone];
+  const cor = tone === 'neutral' ? { fg: 'var(--ob-fg-strong)', bg: 'var(--ob-line)' } : ACTION_TONES[tone];
   const azul = tone === 'primary';
   let bg: string, fg: string, bc: string;
   if (appearance === 'outline') {

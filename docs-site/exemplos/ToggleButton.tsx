@@ -37,7 +37,8 @@ export const Desabilitado = () => (
 );
 
 export const Tons = () => (
-  <div style={{ display: 'flex', gap: 12, padding: 16 }}>
+  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, padding: 16 }}>
+    <ToggleButton icon="list-bullets" tone="neutral" defaultPressed>Lista</ToggleButton>
     <ToggleButton icon="check" tone="success" defaultPressed>Aprovado</ToggleButton>
     <ToggleButton icon="flag" tone="warning" defaultPressed>Sinalizado</ToggleButton>
     <ToggleButton icon="trash" tone="danger" defaultPressed>Marcado para excluir</ToggleButton>
