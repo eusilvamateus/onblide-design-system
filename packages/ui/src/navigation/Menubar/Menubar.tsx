@@ -1,5 +1,6 @@
 import React from 'react';
 import { MenuPanel, type MenuItem } from '../../overlays/Menu/Menu';
+import { Ancorado, estaDentro, retanguloDe, useCamada } from '../../internal/camada';
 
 export interface MenubarMenu {
   label: string;
@@ -19,10 +20,12 @@ export const Menubar: React.FC<MenubarProps> = ({ menus, ariaLabel = 'Menu princ
   const [focus, setFocus] = React.useState(0);
   const wrap = React.useRef<HTMLDivElement>(null);
   const btns = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const painel = React.useRef<HTMLDivElement>(null);
+  const camada = useCamada();
   const n = menus.length;
   React.useEffect(() => {
     if (!open) return;
-    const h = (e: MouseEvent) => { if (wrap.current && !wrap.current.contains(e.target as Node)) setOpen(null); };
+    const h = (e: MouseEvent) => { if (!estaDentro(e.target, camada, wrap.current, painel.current)) setOpen(null); };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
   }, [open]);
@@ -34,7 +37,7 @@ export const Menubar: React.FC<MenubarProps> = ({ menus, ariaLabel = 'Menu princ
       {menus.map((m, i) => {
         const isOpen = !!open && open.i === i;
         return (
-          <div key={i} style={{ position: 'relative' }}>
+          <div key={i}>
             <button ref={(el) => { btns.current[i] = el; }} role="menuitem" aria-haspopup="menu" aria-expanded={isOpen} tabIndex={focus === i ? 0 : -1}
               onClick={(e) => (isOpen ? setOpen(null) : openMenu(i, e.detail === 0))}
               onMouseEnter={() => { if (open && !isOpen) openMenu(i, false); }}
@@ -53,8 +56,10 @@ export const Menubar: React.FC<MenubarProps> = ({ menus, ariaLabel = 'Menu princ
                 color: 'var(--ob-fg-strong)', fontFamily: 'inherit', fontSize: 'var(--ob-fs-14)', fontWeight: 'var(--ob-w-medium)', cursor: 'pointer', transition: 'background var(--ob-dur-fast) var(--ob-ease)',
               }}>{m.label}</button>
             {isOpen && (
-              <MenuPanel key={`${i}-${open.kb}`} items={m.items} keyboard={open.kb} onCloseTree={closeAll}
-                onNavOut={(d) => openMenu((i + d + n) % n, true)} ariaLabel={m.label} style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0 }} />
+              <Ancorado ref={painel} camada={camada} folga={4} ancora={() => retanguloDe(btns.current[i])}>
+                <MenuPanel key={`${i}-${open.kb}`} items={m.items} keyboard={open.kb} onCloseTree={closeAll}
+                  onNavOut={(d) => openMenu((i + d + n) % n, true)} ariaLabel={m.label} />
+              </Ancorado>
             )}
           </div>
         );

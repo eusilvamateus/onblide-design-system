@@ -36,10 +36,10 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
     : open ? 'translateX(0)' : 'translateX(-100%)';
 
   return ReactDOM.createPortal(
-    <>
+    <div style={{ position: 'relative', zIndex: 'var(--ob-z-overlay)' }}>
       <div onClick={onClose} style={{
         position: 'fixed', inset: 0, background: 'var(--ob-scrim)',
-        backdropFilter: 'blur(2px)', zIndex: 'var(--ob-z-overlay)',
+        backdropFilter: 'blur(2px)',
         opacity: open ? 1 : 0, pointerEvents: open ? 'all' : 'none',
         transition: 'opacity var(--ob-dur-base) var(--ob-ease)',
       }}/>
@@ -50,7 +50,7 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
         background: 'var(--ob-surface)',
         borderLeft: side === 'right' ? '1px solid var(--ob-border)' : 'none',
         borderRight: side === 'left' ? '1px solid var(--ob-border)' : 'none',
-        zIndex: 'var(--ob-z-modal)', display: 'flex', flexDirection: 'column',
+        display: 'flex', flexDirection: 'column',
         transform, visibility: open ? 'visible' : 'hidden', transition: 'transform var(--ob-dur-base) var(--ob-ease), visibility var(--ob-dur-base) var(--ob-ease)',
       } as React.CSSProperties}>
         <div style={{
@@ -72,7 +72,7 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose, title, children, 
           </div>
         )}
       </div>
-    </>,
+    </div>,
     document.body
   );
 };

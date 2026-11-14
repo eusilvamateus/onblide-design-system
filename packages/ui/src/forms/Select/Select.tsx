@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Chip } from '../../data-display/Chip/Chip';
 import { FloatingPanel } from '../../internal/FloatingPanel';
-import { useLadoVertical } from '../../internal/useLadoVertical';
+import { Ancorado, estaDentro, retanguloDe, useCamada } from '../../internal/camada';
 import { Ph } from '../../iconography/Ph/Ph';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { ESCALA_DE_CAMPO, type TamanhoDeCampo } from '../../internal/tamanhoDeCampo';
@@ -114,7 +114,7 @@ export const Select: React.FC<SelectProps> = (props) => {
   const [highlighted, setHighlighted] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const painelRef = useRef<HTMLDivElement>(null);
-  const lado = useLadoVertical(rootRef, painelRef, open);
+  const camada = useCamada();
   const inputRef = useRef<HTMLInputElement>(null);
   const focadoNoMouseDown = useRef(false);
 
@@ -139,7 +139,7 @@ export const Select: React.FC<SelectProps> = (props) => {
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+      if (!estaDentro(e.target, camada, rootRef.current, painelRef.current)) setOpen(false);
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
@@ -164,7 +164,7 @@ export const Select: React.FC<SelectProps> = (props) => {
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!open && (e.key === 'ArrowDown' || e.key === 'Enter')) { setOpen(true); return; }
-    if (e.key === 'Escape') { setOpen(false); setQuery(''); return; }
+    if (e.key === 'Escape') { if (open) e.stopPropagation(); setOpen(false); setQuery(''); return; }
     if (e.key === 'ArrowDown') { e.preventDefault(); setHighlighted(h => Math.min(h + 1, filtered.length - 1)); }
     if (e.key === 'ArrowUp')   { e.preventDefault(); setHighlighted(h => Math.max(h - 1, 0)); }
     if (e.key === 'Enter' && filtered[highlighted]) { e.preventDefault(); toggle(filtered[highlighted]); }
@@ -218,40 +218,42 @@ export const Select: React.FC<SelectProps> = (props) => {
       </Casca>
 
       {open && (
-        <FloatingPanel ref={painelRef} side={lado} maxHeight={240} padding="var(--ob-space-4)">
-          {filtered.length === 0 && (
-            <div style={{ padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-mute)', textAlign: 'center' }}>
-              Nenhuma opção encontrada
-            </div>
-          )}
-          {filtered.map((opt, i) => {
-            const lbl = getLabel(opt);
-            const isSelected = multi ? (selected as string[]).includes(lbl) : selected === lbl;
-            const isHigh = i === highlighted;
-            return (
-              <div key={lbl}
-                onMouseDown={(e) => { e.preventDefault(); toggle(opt); }}
-                onMouseEnter={() => setHighlighted(i)}
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--ob-space-10)',
-                  padding: RECUO_DA_OPCAO[size], borderRadius: 'var(--ob-r-sm)', cursor: 'pointer',
-                  fontSize: escala.fonte, fontWeight: (isSelected && !multi) ? 'var(--ob-w-semibold)' : 'var(--ob-w-regular)',
-                  color: (isSelected && !multi) ? 'var(--ob-blue-700)' : 'var(--ob-fg)',
-                  background: isHigh ? 'var(--ob-bg-warm)' : (isSelected && !multi ? 'var(--ob-blue-100)' : 'transparent'),
-                  transition: 'background var(--ob-dur-fast) var(--ob-ease)',
-                }}>
-                {multi ? (
-                  <Checkbox checked={isSelected} onChange={() => {}} label={lbl} size={size} />
-                ) : (
-                  <>
-                    <span>{lbl}</span>
-                    {isSelected && <Ph n="check" size={15} c="var(--ob-blue)" />}
-                  </>
-                )}
+        <Ancorado ref={painelRef} camada={camada} alinhamento="stretch" ancora={() => retanguloDe(inputRef.current?.parentElement)}>
+          <FloatingPanel maxHeight={240} padding="var(--ob-space-4)">
+            {filtered.length === 0 && (
+              <div style={{ padding: 'var(--ob-space-12) var(--ob-space-16)', fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-mute)', textAlign: 'center' }}>
+                Nenhuma opção encontrada
               </div>
-            );
-          })}
-        </FloatingPanel>
+            )}
+            {filtered.map((opt, i) => {
+              const lbl = getLabel(opt);
+              const isSelected = multi ? (selected as string[]).includes(lbl) : selected === lbl;
+              const isHigh = i === highlighted;
+              return (
+                <div key={lbl}
+                  onMouseDown={(e) => { e.preventDefault(); toggle(opt); }}
+                  onMouseEnter={() => setHighlighted(i)}
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--ob-space-10)',
+                    padding: RECUO_DA_OPCAO[size], borderRadius: 'var(--ob-r-sm)', cursor: 'pointer',
+                    fontSize: escala.fonte, fontWeight: (isSelected && !multi) ? 'var(--ob-w-semibold)' : 'var(--ob-w-regular)',
+                    color: (isSelected && !multi) ? 'var(--ob-blue-700)' : 'var(--ob-fg)',
+                    background: isHigh ? 'var(--ob-bg-warm)' : (isSelected && !multi ? 'var(--ob-blue-100)' : 'transparent'),
+                    transition: 'background var(--ob-dur-fast) var(--ob-ease)',
+                  }}>
+                  {multi ? (
+                    <Checkbox checked={isSelected} onChange={() => {}} label={lbl} size={size} />
+                  ) : (
+                    <>
+                      <span>{lbl}</span>
+                      {isSelected && <Ph n="check" size={15} c="var(--ob-blue)" />}
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </FloatingPanel>
+        </Ancorado>
       )}
 
       {error && !embedded && (

@@ -51,5 +51,7 @@ Colocar uma ação destrutiva (excluir, remover) direto no Popover sem confirma�
 **Posição.** `placement` troca para o lado oposto quando falta espaço, e o popover se mantém 8px dentro da
 tela; `align` (`start`/`center`/`end`) posiciona ao longo do eixo perpendicular.
 
+**Camada.** O popover abre no `body`, na camada `--ob-z-dropdown`, acima de Modal e Drawer. Um Select, Menu ou outro Popover aberto dentro dele conta como parte dele: clicar ali não fecha o popover.
+
 **Fechamento.** Esc (foco volta ao gatilho), clique fora, botão de fechar, ou foco saindo do popover e do
 gatilho.

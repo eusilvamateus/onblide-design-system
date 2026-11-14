@@ -13,11 +13,6 @@ if (closed.includes('role="menu"')) fail('menu fechado não deveria renderizar o
 const defaultOpen = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], defaultOpen: true }));
 if (!defaultOpen.includes('role="menu"') || !defaultOpen.includes('Editar')) fail('defaultOpen deveria montar o painel aberto', defaultOpen);
 
-const placementTop = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], defaultOpen: true, placement: 'top' }));
-if (!placementTop.includes('bottom:calc(100% + 6px)')) fail('placement="top" deveria abrir o painel acima do gatilho', placementTop);
-
-const placementRight = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], defaultOpen: true, placement: 'right-end' }));
-if (!placementRight.includes('left:calc(100% + 8px)') || !placementRight.includes('bottom:0')) fail('placement="right-end" deveria abrir ao lado, alinhado à base', placementRight);
 const bloco = renderToStaticMarkup(h(Menu, { trigger: h(Button, {}, 'Ações'), items: [{ label: 'Editar' }], block: true }));
 if (!bloco.includes('display:block')) fail('block deveria fazer o gatilho ocupar a largura toda', bloco);
 

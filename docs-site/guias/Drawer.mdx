@@ -74,6 +74,8 @@ Abrir um Modal dentro de um Drawer, empilhar overlays confunde o usuário. Prefi
 
 **Motion.** Painel: `transform: translateX(±100%)` → `translateX(0)` em 250ms `cubic-bezier(.4,0,.2,1)`. Backdrop: fade 220ms ease. A animação de entrada deve terminar antes de qualquer foco ser movido para o interior do painel.
 
+**Camada.** O drawer e o fundo dele ficam no `body`, na camada `--ob-z-overlay`, abaixo do Modal. Um Modal ou AlertDialog aberto a partir do drawer aparece na frente dele.
+
 **Responsivo.** Em viewports menores que 480 px, o Drawer ocupa 100% da largura e se comporta como uma sheet de baixo para cima (bottom sheet). Nesse caso, `side` é ignorado.
 
 <Nota>

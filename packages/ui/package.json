@@ -42,7 +42,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:dist": "tsc --noEmit -p tsconfig.types.json",
     "smoke": "node scripts/run-smokes.mjs",
-    "verify": "npm run typecheck && npm run build && npm run typecheck:dist && npm run smoke && node scripts/medir-checkbox.mjs && node scripts/medir-radio.mjs && node scripts/verificar-table.mjs && node scripts/verificar-tabs.mjs && node scripts/verificar-tooltip.mjs && node scripts/verificar-textarea.mjs && node scripts/verificar-campos.mjs && node scripts/verificar-accordion.mjs && node scripts/verificar-sidebar.mjs && node scripts/verificar-list.mjs && node scripts/verificar-pagination.mjs",
+    "verify": "npm run typecheck && npm run build && npm run typecheck:dist && npm run smoke && node scripts/medir-checkbox.mjs && node scripts/medir-radio.mjs && node scripts/verificar-table.mjs && node scripts/verificar-tabs.mjs && node scripts/verificar-tooltip.mjs && node scripts/verificar-textarea.mjs && node scripts/verificar-campos.mjs && node scripts/verificar-accordion.mjs && node scripts/verificar-sidebar.mjs && node scripts/verificar-list.mjs && node scripts/verificar-pagination.mjs && node scripts/verificar-camadas.mjs",
     "prepublishOnly": "npm run verify"
   },
   "peerDependencies": {

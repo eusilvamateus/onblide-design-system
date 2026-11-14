@@ -87,6 +87,8 @@ Sem `value`, o Select guarda a escolha por conta própria, partindo de `defaultV
 
 **Foco.** O anel de foco aparece enquanto o campo tem foco ou o menu está aberto. Depois de escolher uma opção na seleção única, o menu fecha e o foco permanece no campo, para o teclado continuar funcionando (`Enter` ou `↓` reabrem).
 
+**Camada.** A lista abre no `body`, na camada `--ob-z-dropdown`, presa ao campo. Por isso ela não é cortada dentro de um Modal, Drawer, Accordion, Table ou área com rolagem, e passa por cima deles. Abre embaixo do campo e vai para cima quando falta espaço; Esc fecha só a lista, sem fechar o Modal ou o Drawer em volta.
+
 **Estados.** Idle → Focus (border + ring) → Filled → Disabled (opacity 60%, cursor not-allowed) → Error (border danger + mensagem abaixo).
 
 **Multi.** O campo cresce verticalmente para acomodar chips, nunca trunca. Chip tem botão × para remoção individual.

@@ -2,7 +2,7 @@ import React from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { FloatingPanel } from '../../internal/FloatingPanel';
 import { ScrollArea } from '../../data-display/ScrollArea/ScrollArea';
-import { useLadoVertical } from '../../internal/useLadoVertical';
+import { Ancorado, estaDentro, retanguloDe, useCamada } from '../../internal/camada';
 import { Chip } from '../../data-display/Chip/Chip';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Avatar } from '../../data-display/Avatar/Avatar';
@@ -105,6 +105,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
   const busy = loadingProp ?? busyState;
   const rootRef = React.useRef<HTMLDivElement>(null);
   const painelRef = React.useRef<HTMLDivElement>(null);
+  const campoRef = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const listRef = React.useRef<HTMLDivElement>(null);
   const selRange = React.useRef<[number, number] | null>(null);
@@ -129,7 +130,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
   groups.forEach((g) => g.items.forEach((o) => nav.push({ o })));
   if (showCreate) nav.push({ create: q.trim() });
   const showPanel = open && !disabled && (busy || tooShort || nav.length > 0 || mode !== 'free');
-  const lado = useLadoVertical(rootRef, painelRef, showPanel);
+  const camada = useCamada();
   const firstEnabled = () => nav.findIndex((n) => !('o' in n && n.o.disabled));
 
   React.useEffect(() => {
@@ -150,7 +151,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
   }, [q, open]);
   React.useEffect(() => {
     if (!open) return;
-    const h = (e: MouseEvent) => { if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false); };
+    const h = (e: MouseEvent) => { if (!estaDentro(e.target, camada, rootRef.current, painelRef.current)) setOpen(false); };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
   }, [open]);
@@ -207,8 +208,8 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     }
     else if (k === 'Tab' && completion === 'inline' && !multiple && showPanel && active >= 0 && nav[active]) choose(nav[active]);
     else if (k === 'Escape') {
-      if (open) { e.preventDefault(); setOpen(false); if (!multiple) reset((value as string) || ''); }
-      else if (input || selectedList.length) { e.preventDefault(); clear(); }
+      if (open) { e.preventDefault(); e.stopPropagation(); setOpen(false); if (!multiple) reset((value as string) || ''); }
+      else if (input || selectedList.length) { e.preventDefault(); e.stopPropagation(); clear(); }
     }
     else if (k === 'Backspace' && multiple && !input && ((value as string[]) ?? []).length) commit(((value as string[]) ?? []).slice(0, -1));
   };
@@ -258,7 +259,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
   return (
     <div ref={rootRef} style={{ position: 'relative', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
       {label && <label htmlFor={uid} style={{ display: 'block', fontSize: 'var(--ob-fs-13)', fontWeight: 'var(--ob-w-semibold)', color: 'var(--ob-fg-strong)', marginBottom: 'var(--ob-space-6)' }}>{label}</label>}
-      <div onMouseDown={onShellDown}>
+      <div ref={campoRef} onMouseDown={onShellDown}>
         <FieldShell focused={focused || open} error={!!error} disabled={disabled} size={size}
           padding={chips ? `${escala.recuoComChips} ${escala.recuoDaAcao} ${escala.recuoComChips} ${escala.recuoComChips}` : `0 ${escala.recuoDaAcao} 0 ${escala.recuo}`}
           style={{ flexWrap: 'wrap', gap: 'var(--ob-space-6)', cursor: disabled ? 'not-allowed' : 'text' }}>
@@ -283,34 +284,36 @@ export const Autocomplete: React.FC<AutocompleteProps> = (props) => {
         </FieldShell>
       </div>
       {showPanel && (
-        <FloatingPanel ref={painelRef} side={lado} padding={0}>
-          <ScrollArea maxHeight={280} viewportRef={listRef}>
-          <div id={listId} role="listbox" aria-multiselectable={multiple || undefined} aria-label={typeof label === 'string' ? label : ariaLabel} style={{ padding: 'var(--ob-space-4)' }}>
-            {busy ? <div role="status" style={msgRow}><Spinner size="xs" />Buscando…</div>
-              : tooShort ? <div style={msgRow}>Digite ao menos {minChars} letras</div>
-              : (
-                <>
-                  {groups.map((g, gi) => !g.items.length ? null : g.name ? (
-                    <div key={g.name} role="group" aria-labelledby={`${uid}-g${gi}`}>
-                      <ListSubheader size={tamanhoDaLista} id={`${uid}-g${gi}`} sticky>{g.name}</ListSubheader>
-                      {g.items.map(renderOpt)}
-                    </div>
-                  ) : <React.Fragment key="flat">{g.items.map(renderOpt)}</React.Fragment>)}
-                  {nav.length === 0 && <div style={msgRow}>{emptyText}</div>}
-                  {showCreate && (
-                    <>
-                      {filtered.length > 0 && <ListDivider bleed={4} />}
-                      <ListItem size={tamanhoDaLista} id={`${uid}-o${ci}`} data-i={ci} role="option" aria-selected="false" tone="primary" highlighted={active === ci}
-                        onMouseDown={(e) => { e.preventDefault(); choose(nav[ci]); }} onMouseEnter={() => setActive(ci)}
-                        leading={<Ph n="plus" size={16} c="currentColor" />}
-                        title={<>Criar "<strong style={{ fontWeight: 'var(--ob-w-semibold)' }}>{'create' in nav[ci] ? nav[ci].create : ''}</strong>"</>} />
-                    </>
-                  )}
-                </>
-              )}
-          </div>
-          </ScrollArea>
-        </FloatingPanel>
+        <Ancorado ref={painelRef} camada={camada} alinhamento="stretch" ancora={() => retanguloDe(campoRef.current)}>
+          <FloatingPanel padding={0}>
+            <ScrollArea maxHeight={280} viewportRef={listRef}>
+            <div id={listId} role="listbox" aria-multiselectable={multiple || undefined} aria-label={typeof label === 'string' ? label : ariaLabel} style={{ padding: 'var(--ob-space-4)' }}>
+              {busy ? <div role="status" style={msgRow}><Spinner size="xs" />Buscando…</div>
+                : tooShort ? <div style={msgRow}>Digite ao menos {minChars} letras</div>
+                : (
+                  <>
+                    {groups.map((g, gi) => !g.items.length ? null : g.name ? (
+                      <div key={g.name} role="group" aria-labelledby={`${uid}-g${gi}`}>
+                        <ListSubheader size={tamanhoDaLista} id={`${uid}-g${gi}`} sticky>{g.name}</ListSubheader>
+                        {g.items.map(renderOpt)}
+                      </div>
+                    ) : <React.Fragment key="flat">{g.items.map(renderOpt)}</React.Fragment>)}
+                    {nav.length === 0 && <div style={msgRow}>{emptyText}</div>}
+                    {showCreate && (
+                      <>
+                        {filtered.length > 0 && <ListDivider bleed={4} />}
+                        <ListItem size={tamanhoDaLista} id={`${uid}-o${ci}`} data-i={ci} role="option" aria-selected="false" tone="primary" highlighted={active === ci}
+                          onMouseDown={(e) => { e.preventDefault(); choose(nav[ci]); }} onMouseEnter={() => setActive(ci)}
+                          leading={<Ph n="plus" size={16} c="currentColor" />}
+                          title={<>Criar "<strong style={{ fontWeight: 'var(--ob-w-semibold)' }}>{'create' in nav[ci] ? nav[ci].create : ''}</strong>"</>} />
+                      </>
+                    )}
+                  </>
+                )}
+            </div>
+            </ScrollArea>
+          </FloatingPanel>
+        </Ancorado>
       )}
       {error ? <div style={{ fontSize: 'var(--ob-fs-12)', color: 'var(--ob-danger)', marginTop: 'var(--ob-space-6)', display: 'flex', alignItems: 'center', gap: 'var(--ob-space-4)' }}><Ph n="warning-circle" size={13} c="var(--ob-danger)" weight="bold" />{error}</div>
         : hint ? <div style={{ fontSize: 'var(--ob-fs-12)', color: 'var(--ob-fg-soft)', marginTop: 'var(--ob-space-6)' }}>{hint}</div> : null}

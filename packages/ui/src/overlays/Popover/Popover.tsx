@@ -5,10 +5,10 @@ import { Ph } from '../../iconography/Ph/Ph';
 import { Button } from '../../actions/Button/Button';
 import { posicionarPainel } from '../../internal/floating';
 import type { PosicaoFixa } from '../../internal/floating';
+import { ProvedorDeCamada, atributosDaCamada, estaDentro, useCamada } from '../../internal/camada';
 
 const useLayoutNoCliente = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
 const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-const PopoverAncestorsContext = React.createContext<readonly string[]>([]);
 
 export type PopoverPlacement = 'top' | 'right' | 'bottom' | 'left';
 export type PopoverAlign = 'start' | 'center' | 'end';
@@ -50,17 +50,13 @@ export const Popover: React.FC<PopoverProps> = ({
   const panelRef = React.useRef<HTMLDivElement>(null);
   const bodyRef = React.useRef<HTMLDivElement>(null);
   const hoverT = React.useRef<ReturnType<typeof setTimeout>>();
-  const uid = React.useId();
-  const ancestorIds = React.useContext(PopoverAncestorsContext);
+  const camada = useCamada();
+  const uid = camada.id;
   const hover = interaction === 'hover';
   const setOpen = (v: boolean) => { setOpenState(v); onOpenChange?.(v); };
   const focusTrigger = () => { const t = trigRef.current; const el = (t && (t.querySelector<HTMLElement>(FOCUSABLE) || t)); el?.focus({ preventScroll: true }); };
   const close = (returnFocus = true) => { setOpen(false); if (returnFocus) focusTrigger(); };
-  const isInsideNestedPopover = (node: Node | null) => {
-    if (typeof Element === 'undefined' || !(node instanceof Element)) return false;
-    const nestedPanel = node.closest<HTMLElement>('[data-ob-popover-ancestors]');
-    return nestedPanel?.dataset.obPopoverAncestors?.split(' ').includes(uid) ?? false;
-  };
+  const isInsideNestedPopover = (node: Node | null) => estaDentro(node, camada);
 
   const place = () => {
     const t = trigRef.current, p = panelRef.current;
@@ -125,12 +121,12 @@ export const Popover: React.FC<PopoverProps> = ({
       <span ref={trigRef} style={{ display: 'inline-flex' }} onMouseEnter={hoverIn} onMouseLeave={hoverOut}
         onFocus={hover ? () => setOpen(true) : undefined} onBlur={hover ? hoverOut : undefined} onKeyDown={onKey}>{trig}</span>
       {open && typeof document !== 'undefined' && ReactDOM.createPortal(
-        <PopoverAncestorsContext.Provider value={[...ancestorIds, uid]}>
-          <div ref={panelRef} id={uid} data-ob-popover-id={uid} data-ob-popover-ancestors={ancestorIds.join(' ') || undefined}
+        <ProvedorDeCamada camada={camada}>
+          <div ref={panelRef} id={uid} {...atributosDaCamada(camada)}
             role={hover ? 'tooltip' : 'dialog'} aria-label={title ? undefined : ariaLabel} aria-labelledby={title ? `${uid}-t` : undefined} tabIndex={-1}
             onKeyDown={onKey} onBlur={onPanelBlur} onMouseEnter={() => hover && clearTimeout(hoverT.current)} onMouseLeave={hoverOut}
             style={{ position: 'fixed', top: pos ? pos.top : 0, left: pos ? pos.left : 0, width, maxWidth: 'calc(100vw - 16px)', zIndex: 'var(--ob-z-dropdown)' as React.CSSProperties['zIndex'], visibility: pos ? 'visible' : 'hidden', outline: 'none' }}>
-            <FloatingPanel padding={0} style={{ position: 'relative', top: 0, left: 0, right: 'auto', overflow: 'visible' }}>
+            <FloatingPanel padding={0} style={{ overflow: 'visible' }}>
               {arrow && pos && <span aria-hidden="true" style={{ position: 'absolute', width: 10, height: 10, background: 'var(--ob-surface)', transform: 'rotate(45deg)', ...arrowStyle }} />}
               <div style={{ position: 'relative', padding, display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-12)', fontFamily: 'var(--ob-font)', fontSize: 'var(--ob-fs-14)', lineHeight: '20px', color: 'var(--ob-fg)' }}>
                 {title && (
@@ -146,7 +142,7 @@ export const Popover: React.FC<PopoverProps> = ({
               </div>
             </FloatingPanel>
           </div>
-        </PopoverAncestorsContext.Provider>, document.body)}
+        </ProvedorDeCamada>, document.body)}
     </>
   );
 };

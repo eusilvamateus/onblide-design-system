@@ -14,12 +14,12 @@ Tudo que flutua sobre a página tem uma camada fixa, escolhida pelo **papel** do
 |---|---|---|---|
 | Base | `--ob-z-base` | 0 | O fluxo normal da página |
 | Elevada | `--ob-z-raised` | 10 | Barra superior fixa, navegação lateral fixa |
-| Dropdown | `--ob-z-dropdown` | 100 | Menu, select, popover, calendário do datepicker |
-| Tooltip | `--ob-z-tooltip` | 200 | Tooltip, que precisa ficar acima de um menu aberto |
-| Fundo de sobreposição | `--ob-z-overlay` | 300 | O fundo escurecido do modal e do drawer |
-| Modal | `--ob-z-modal` | 400 | O painel do modal e do drawer |
-| Toast | `--ob-z-toast` | 500 | Notificações, acima de tudo que é interativo |
-| Arrastar | `--ob-z-drag` | 600 | A prévia de arrastar, que só existe durante o gesto |
+| Sobreposição | `--ob-z-overlay` | 300 | O Drawer, com o fundo escurecido dele |
+| Modal | `--ob-z-modal` | 400 | O Modal e o AlertDialog, com o fundo; acima do Drawer |
+| Dropdown | `--ob-z-dropdown` | 500 | Lista do Select e do Autocomplete, Menu, Popover, calendário do Datepicker |
+| Toast | `--ob-z-toast` | 600 | Notificações, acima de tudo que é interativo |
+| Tooltip | `--ob-z-tooltip` | 700 | Tooltip, que precisa ficar acima de um menu aberto e de um toast |
+| Arrastar | `--ob-z-drag` | 800 | A prévia de arrastar, que só existe durante o gesto |
 | Sistema | `--ob-z-system` | 9000 | Ferramentas de depuração; nunca em produto |
 
 <TokenTable prefixos={['--ob-z']} />
@@ -27,8 +27,11 @@ Tudo que flutua sobre a página tem uma camada fixa, escolhida pelo **papel** do
 **A regra:**
 
 - Nunca invente um valor (`z-index: 1200`). Se nenhuma camada serve, discuta antes uma camada nova para todos.
-- Um menu dentro de um modal continua em `--ob-z-dropdown`, porque o modal já isola o que está dentro dele. Não
-  aumente o número para compensar.
+- Tudo que flutua (Modal, Drawer, lista do Select e do Autocomplete, Menu, Popover, Tooltip) abre no `body`, fora do
+  contêiner onde foi escrito. Assim nenhum `overflow` corta o painel e a camada vale para a página inteira: a lista de
+  um Select dentro de um Modal fica acima do Modal porque `--ob-z-dropdown` é maior que `--ob-z-modal`. Não aumente
+  o número para compensar.
+- O Modal fica acima do Drawer: a confirmação aberta de dentro de um drawer sempre aparece na frente dele.
 - Dentro de um único componente, 0, 1 e 2 ordenam peças locais, como o botão com foco sobre o vizinho num grupo. Isso
   não é camada e não usa token.
 

@@ -7,7 +7,9 @@ import { Avatar } from '../../data-display/Avatar/Avatar';
 import { Badge } from '../../data-display/Badge/Badge';
 import { Kbd } from '../../data-display/Kbd/Kbd';
 import { SearchInput } from '../../forms/SearchInput/SearchInput';
-import { escolherLado } from '../../internal/floating';
+import { Ancorado, estaDentro, retanguloDe, useCamada } from '../../internal/camada';
+import type { Camada } from '../../internal/camada';
+import type { Lado } from '../../internal/floating';
 import { List, ListItem, ListSubheader, ListDivider } from '../../data-display/List/List';
 
 export type MenuSize = 'md' | 'sm';
@@ -197,13 +199,13 @@ export const MenuPanel: React.FC<MenuPanelProps> = ({ items, size = 'md', search
   );
 };
 
-function useOutside(ref: React.RefObject<HTMLElement | null>, active: boolean, onOut: () => void) {
+function useForaDaCamada(ativo: boolean, camada: Camada, elementos: () => (Element | null)[], aoSair: () => void) {
   React.useEffect(() => {
-    if (!active) return;
-    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) onOut(); };
+    if (!ativo) return undefined;
+    const h = (e: MouseEvent) => { if (!estaDentro(e.target, camada, ...elementos())) aoSair(); };
     document.addEventListener('mousedown', h);
     return () => document.removeEventListener('mousedown', h);
-  }, [active, onOut, ref]);
+  }, [ativo]);
 }
 
 export interface MenuProps {
@@ -223,39 +225,32 @@ export interface MenuProps {
   defaultOpen?: boolean;
 }
 
-type MenuLado = 'bottom' | 'top' | 'right' | 'right-end';
-
-const posicaoDoPainel = (lado: MenuLado, align: 'left' | 'right'): React.CSSProperties => {
-  if (lado === 'right') return { left: 'calc(100% + 8px)', top: 0 };
-  if (lado === 'right-end') return { left: 'calc(100% + 8px)', bottom: 0 };
-  return { [align === 'right' ? 'right' : 'left']: 0, ...(lado === 'top' ? { bottom: 'calc(100% + 6px)' } : { top: 'calc(100% + 6px)' }) };
+const ancoragem = (placement: NonNullable<MenuProps['placement']>, align: 'left' | 'right'): { lado: Lado; alinhamento: 'start' | 'end'; folga: number } => {
+  if (placement === 'right') return { lado: 'right', alinhamento: 'start', folga: 8 };
+  if (placement === 'right-end') return { lado: 'right', alinhamento: 'end', folga: 8 };
+  return { lado: placement === 'top' ? 'top' : 'bottom', alinhamento: align === 'right' ? 'end' : 'start', folga: 6 };
 };
 
 /** Menu de comandos aberto a partir de um gatilho: itens simples, com ícone/atalho/descrição, seleção
  * única, radio, checkbox, toggle, busca, contas, submenus e blocos de conteúdo livre (`type: 'custom'`) — com
  * teclado completo. */
 export const Menu: React.FC<MenuProps> = ({ trigger, items, align = 'left', placement = 'auto', block = false, ariaLabel, defaultOpen = false, ...panel }) => {
-  const [open, setOpen] = React.useState<{ kb: boolean; lado: MenuLado } | null>(defaultOpen ? { kb: false, lado: placement === 'auto' ? 'bottom' : placement } : null);
+  const [open, setOpen] = React.useState<{ kb: boolean } | null>(defaultOpen ? { kb: false } : null);
   const wrap = React.useRef<HTMLDivElement>(null);
-  useOutside(wrap, !!open, () => setOpen(null));
+  const gatilho = React.useRef<HTMLSpanElement>(null);
+  const painel = React.useRef<HTMLDivElement>(null);
+  const camada = useCamada();
+  useForaDaCamada(!!open, camada, () => [wrap.current, painel.current], () => setOpen(null));
   const close = () => { setOpen(null); const el = wrap.current?.querySelector<HTMLElement>('button, a, [tabindex="0"]'); el?.focus(); };
-  const abrir = (kb: boolean) => setOpen({ kb, lado: placement === 'auto' ? 'bottom' : placement });
-  React.useLayoutEffect(() => {
-    const painel = wrap.current?.querySelector<HTMLElement>(':scope > [role="menu"]');
-    if (placement !== 'auto' || !open || !wrap.current || !painel) return;
-    const lado = escolherLado(
-      'bottom', wrap.current.getBoundingClientRect(), { largura: painel.offsetWidth, altura: painel.offsetHeight },
-      { largura: window.innerWidth, altura: window.innerHeight }, 6, 8,
-    ) as MenuLado;
-    if (lado !== open.lado) setOpen({ ...open, lado });
-  });
+  const abrir = (kb: boolean) => setOpen({ kb });
   return (
     <div ref={wrap} style={{ position: 'relative', display: block ? 'block' : 'inline-block' }}>
-      <span style={{ display: block ? 'flex' : 'inline-flex' }} onClick={(e) => (open ? setOpen(null) : abrir(e.detail === 0))}
+      <span ref={gatilho} style={{ display: block ? 'flex' : 'inline-flex' }} onClick={(e) => (open ? setOpen(null) : abrir(e.detail === 0))}
         onKeyDown={(e) => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); abrir(true); } }}>{trigger}</span>
       {open && (
-        <MenuPanel {...panel} items={items} keyboard={open.kb} onCloseTree={close} ariaLabel={ariaLabel}
-          style={{ position: 'absolute', ...posicaoDoPainel(open.lado, align) }} />
+        <Ancorado ref={painel} camada={camada} ancora={() => retanguloDe(gatilho.current)} {...ancoragem(placement, align)}>
+          <MenuPanel {...panel} items={items} keyboard={open.kb} onCloseTree={close} ariaLabel={ariaLabel} />
+        </Ancorado>
       )}
     </div>
   );
@@ -272,11 +267,19 @@ export interface ContextMenuProps {
 
 /** Menu de contexto: clique direito ou Shift+F10 dentro da área. Mesma anatomia e teclado do `Menu`. */
 export const ContextMenu: React.FC<ContextMenuProps> = ({ items, children, style, ariaLabel, ...panel }) => {
-  const [pos, setPos] = React.useState<{ x: number; y: number; kb: boolean; flip: boolean; w: number } | null>(null);
+  const [pos, setPos] = React.useState<{ x: number; y: number; kb: boolean } | null>(null);
   const wrap = React.useRef<HTMLDivElement>(null);
   const box = React.useRef<HTMLDivElement>(null);
-  useOutside(box, !!pos, () => setPos(null));
-  const openAt = (x: number, y: number, kb: boolean) => { const w = wrap.current!.offsetWidth; setPos({ x, y, kb, flip: x > w - 240, w }); };
+  const camada = useCamada();
+  useForaDaCamada(!!pos, camada, () => [box.current], () => setPos(null));
+  const openAt = (x: number, y: number, kb: boolean) => setPos({ x, y, kb });
+  const ponto = () => {
+    const r = wrap.current?.getBoundingClientRect();
+    if (!r || !pos) return null;
+    const x = r.left + pos.x;
+    const y = r.top + pos.y;
+    return { top: y, bottom: y, left: x, right: x, width: 0, height: 0 };
+  };
   const close = () => { setPos(null); wrap.current?.focus({ preventScroll: true }); };
   return (
     <div ref={wrap} tabIndex={0} aria-haspopup="menu" style={{ position: 'relative', outline: 'none', ...style }}
@@ -284,9 +287,9 @@ export const ContextMenu: React.FC<ContextMenuProps> = ({ items, children, style
       onKeyDown={(e) => { if ((e.shiftKey && e.key === 'F10') || e.key === 'ContextMenu') { e.preventDefault(); openAt(16, 16, true); } }}>
       {children}
       {pos && (
-        <div ref={box} style={{ position: 'absolute', top: pos.y, ...(pos.flip ? { right: pos.w - pos.x } : { left: pos.x }), zIndex: 'var(--ob-z-dropdown)' as React.CSSProperties['zIndex'] }}>
+        <Ancorado ref={box} camada={camada} ancora={ponto} folga={0}>
           <MenuPanel {...panel} key={`${pos.x},${pos.y}`} items={items} keyboard={pos.kb} onCloseTree={close} ariaLabel={ariaLabel} />
-        </div>
+        </Ancorado>
       )}
     </div>
   );

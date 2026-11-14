@@ -613,12 +613,12 @@
      ------------------------------------------------------------ */
   --ob-z-base:      0;    /* @kind other */   /* fluxo normal de stacking                  */
   --ob-z-raised:   10;    /* @kind other */   /* sidebar fixa, sticky header               */
-  --ob-z-dropdown: 100;   /* @kind other */   /* FloatingPanel, Datepicker popup           */
-  --ob-z-tooltip:  200;   /* @kind other */   /* Tooltip (acima de dropdowns)              */
-  --ob-z-overlay:  300;   /* @kind other */   /* backdrop de Modal e Drawer                */
-  --ob-z-modal:    400;   /* @kind other */   /* Modal panel, Drawer panel                 */
-  --ob-z-toast:    500;   /* @kind other */   /* Toast (acima de tudo interativo)          */
-  --ob-z-drag:     600;   /* @kind other */
+  --ob-z-overlay:  300;   /* @kind other */   /* Drawer e o fundo dele                     */
+  --ob-z-modal:    400;   /* @kind other */   /* Modal e AlertDialog, com o fundo          */
+  --ob-z-dropdown: 500;   /* @kind other */   /* Select, Autocomplete, Menu, Popover       */
+  --ob-z-toast:    600;   /* @kind other */   /* Toast (acima de tudo interativo)          */
+  --ob-z-tooltip:  700;   /* @kind other */   /* Tooltip                                   */
+  --ob-z-drag:     800;   /* @kind other */   /* prévia de arrastar do TreeView            */
   --ob-z-system:  9000;   /* @kind other */   /* overlays de debug / dev tools             */
 
   /* ------------------------------------------------------------

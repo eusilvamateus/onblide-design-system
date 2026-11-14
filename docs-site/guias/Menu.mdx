@@ -58,6 +58,8 @@ pessoa não consegue prever o comportamento.
 
 **Contas.** O item `type: 'account'` mostra o **Avatar** com `name` e `email`. Passe `src` para a foto da pessoa; sem foto, ou se ela não carregar, aparecem as iniciais do nome, que `initials` pode trocar. A foto é decorativa, porque o nome já está escrito ao lado.
 
+**Camada.** O painel abre no `body`, na camada `--ob-z-dropdown`, preso ao gatilho. Por isso ele não é cortado dentro de um Modal, Drawer, Accordion, Table ou área com rolagem. `placement` escolhe o lado e o painel vai para o lado oposto quando falta espaço; Esc fecha só o menu.
+
 **Comportamento ao escolher.** Ação simples, seleção única e conta fecham o menu; radio, checkbox e toggle
 mantêm o menu aberto, a pessoa pode marcar vários antes de fechar.
 
