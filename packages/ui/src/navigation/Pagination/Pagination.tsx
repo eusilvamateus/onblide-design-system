@@ -4,6 +4,7 @@ import { Select } from '../../forms/Select/Select';
 import { NumberField } from '../../forms/NumberField/NumberField';
 import { Popover } from '../../overlays/Popover/Popover';
 import { Button } from '../../actions/Button/Button';
+import { ESCALA_DE_CAMPO } from '../../internal/tamanhoDeCampo';
 
 /** Tamanho dos botões e campos: `sm` 32px, `md` 40px e `lg` 48px, as mesmas alturas do `Button` e dos campos. */
 export type PaginationSize = 'sm' | 'md' | 'lg';
@@ -93,6 +94,7 @@ const Seta: React.FC<{ direcao: keyof typeof ICONES; escala: EscalaDaPaginacao; 
 const Reticencias: React.FC<{ faixa: Faixa; total: number; escala: EscalaDaPaginacao; ir: (pagina: number) => void }> = ({ faixa, total, escala, ir }) => {
   const [destacado, setDestacado] = useState(false);
   const [aberto, setAberto] = useState(false);
+  const dica = `${formatar(faixa.de)}–${formatar(faixa.ate)}`;
   const digitado = useRef<number | null>(null);
   const ativo = destacado || aberto;
   const legenda: React.CSSProperties = { fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-soft)' };
@@ -118,9 +120,12 @@ const Reticencias: React.FC<{ faixa: Faixa; total: number; escala: EscalaDaPagin
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', whiteSpace: 'nowrap' }}
             onKeyDown={(e) => { if (e.key === 'Enter') confirmar(); }}>
             <span style={legenda}>Página</span>
-            <NumberField size="sm" controls="none" align="center" width={ESCALA.sm.campo} min={1} max={total}
-              placeholder={`${formatar(faixa.de)}–${formatar(faixa.ate)}`} ariaLabel={`Página, de 1 a ${total}`}
-              onChange={(n) => { digitado.current = n; }} />
+            <span style={{ display: 'flex', fontSize: ESCALA_DE_CAMPO.sm.fonte }}>
+              <NumberField size="sm" controls="none" align="center" min={1} max={total}
+                width={`max(${ESCALA.sm.campo}px, calc(${dica.length + 1}ch + 2 * ${ESCALA_DE_CAMPO.sm.recuo} + var(--ob-space-2)))`}
+                placeholder={dica} ariaLabel={`Página, de 1 a ${total}`}
+                onChange={(n) => { digitado.current = n; }} />
+            </span>
             <span style={legenda}>de {formatar(total)}</span>
             <Button size="sm" onClick={confirmar}>Ir</Button>
           </div>

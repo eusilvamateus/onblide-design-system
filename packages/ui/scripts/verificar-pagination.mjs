@@ -37,6 +37,17 @@ await reticencias().last().click();
 esperar(await painel().count() === 1, 'clicar na reticência deveria abrir o painel "Ir para uma página"');
 esperar(await focado() === 'Página, de 1 a 20', `o campo do painel deveria receber o foco (${await focado()})`);
 esperar(await painel().locator('input').getAttribute('placeholder') === '6–19', 'o campo deveria mostrar as páginas escondidas por aquela reticência');
+const dicaCabe = () => painel().locator('input').evaluate((el) => {
+  const medida = document.createElement('span');
+  medida.style.font = getComputedStyle(el).font;
+  medida.style.whiteSpace = 'pre';
+  medida.textContent = el.placeholder;
+  document.body.append(medida);
+  const largura = medida.getBoundingClientRect().width;
+  medida.remove();
+  return largura <= el.getBoundingClientRect().width;
+});
+esperar(await dicaCabe(), 'o campo deveria mostrar as páginas escondidas inteiras, sem cortar');
 await p.keyboard.type('12');
 await p.keyboard.press('Enter');
 esperar(await atual() === '12', `digitar 12 e Enter deveria ir para a 12 (atual: ${await atual()})`);
@@ -61,6 +72,11 @@ esperar(await atual() === '3', 'com page, a Pagination não deveria mudar sozinh
 await montar({ page: 17, total: 20 });
 const rotulosDasReticencias = await reticencias().evaluateAll((els) => els.map((el) => el.getAttribute('aria-label')));
 esperar(rotulosDasReticencias.join() === 'Ir para uma página (escondidas: 2 a 15)', `perto do fim só deveria haver a reticência da esquerda (${rotulosDasReticencias.join()})`);
+
+await montar({ page: 500, total: 1000 });
+await reticencias().last().click();
+esperar(await painel().locator('input').getAttribute('placeholder') === '502–999' && await dicaCabe(), 'com números grandes, o campo deveria crescer para mostrar a faixa inteira');
+await p.keyboard.press('Escape');
 
 await montar({ total: 20, showEdges: true });
 await p.click('[aria-label="Última página"]');
@@ -113,4 +129,4 @@ for (const [size, lado] of [['sm', 32], ['md', 40], ['lg', 48]]) {
 
 await b.close();
 if (falhas.length) { console.error('FAIL: Pagination\n' + falhas.join('\n')); process.exit(1); }
-console.log('OK: Pagination (modo não controlado, seta mantém o foco, onChange, reticências abrem o campo com Enter, Esc, clique fora e "Ir", controlado, primeira e última, itens por página, compacta editável, alturas iguais em cada tamanho)');
+console.log('OK: Pagination (modo não controlado, seta mantém o foco, onChange, reticências abrem o campo com a faixa inteira, Enter, Esc, clique fora e "Ir", controlado, primeira e última, itens por página, compacta editável, alturas iguais em cada tamanho)');
