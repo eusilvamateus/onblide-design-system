@@ -4,4 +4,6 @@
   page={5}
   total={20}
   siblings={1}
+  totalItems={487}
+  pageSizeOptions={[10, 20, 50]}
 />
