@@ -66,6 +66,11 @@ const bordas = render({ page: 1, total: 20, showEdges: true });
 if (!bordas.includes('aria-label="Primeira página"') || !bordas.includes('aria-label="Última página"')) fail('showEdges mostra primeira e última página', bordas);
 if (!bordas.includes('ph-caret-line-left') || !bordas.includes('ph-caret-line-right')) fail('ícones de primeira e última página', bordas);
 if (desabilitados(bordas) !== 2) fail('na página 1, primeira e anterior ficam desabilitadas', bordas);
+const escondidas = (html) => (html.match(/disabled=""[^>]*visibility:hidden/g) || []).length;
+if (escondidas(bordas) !== 2) fail('na página 1, primeira e anterior somem, mas guardam o espaço', bordas);
+const fim = render({ page: 20, total: 20, showEdges: true });
+if (escondidas(fim) !== 2 || !fim.includes('aria-label="Próxima página"')) fail('na última página, próxima e última somem, mas guardam o espaço', fim);
+if (escondidas(ativa) !== 0) fail('no meio, nenhuma seta some', ativa);
 if (render({ page: 1, total: 20 }).includes('Primeira página')) fail('sem showEdges não há primeira e última página');
 
 const compacta = render({ page: 3, total: 20, variant: 'compact' });

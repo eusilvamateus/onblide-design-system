@@ -86,7 +86,7 @@ const NOMES = { primeira: 'Primeira página', anterior: 'Página anterior', prox
 
 const Seta: React.FC<{ direcao: keyof typeof ICONES; escala: EscalaDaPaginacao; disabled: boolean; onClick: () => void }> = ({ direcao, escala, disabled, onClick }) => (
   <button type="button" disabled={disabled} onClick={onClick} aria-label={NOMES[direcao]}
-    style={{ ...estiloDoBotao(escala, false, disabled), width: escala.lado, padding: 0 }}>
+    style={{ ...estiloDoBotao(escala, false, disabled), width: escala.lado, padding: 0, visibility: disabled ? 'hidden' : undefined }}>
     <Ph n={ICONES[direcao]} size={escala.icone} />
   </button>
 );

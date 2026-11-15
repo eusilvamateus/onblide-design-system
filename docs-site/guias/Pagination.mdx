@@ -20,6 +20,8 @@ Listas paginadas (tabelas, resultados). Mostra a primeira, a última e as vizinh
 
 Com `page`, quem usa guarda a página e a atualiza no `onChange`. Sem `page`, a Pagination guarda a própria página (`defaultPage` define a inicial) e só avisa a escolha pelo `onChange`.
 
+Na primeira página, as setas de voltar somem; na última, as de avançar. O lugar delas continua reservado, então os números não mudam de posição ao trocar de página e cliques seguidos em uma seta não caem em outro botão.
+
 As reticências são botões que levam a qualquer página. No hover e no foco, o "…" ganha o fundo de botão; ao clicar, abre um painel com "Página [ ] de 40" e o campo já em foco. O texto de exemplo do campo mostra as páginas que aquela reticência esconde, mas qualquer página vale. Enter ou **Ir** navega; Esc ou clicar fora fecha sem navegar, e uma página além do total leva à última. Uma reticência nunca esconde uma página só; nesse caso a página aparece no lugar dela.
 
 ### Recursos opcionais
