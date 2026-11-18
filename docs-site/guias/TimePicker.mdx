@@ -1,0 +1,82 @@
+---
+resumo: "Campo de horário ou de período: digitação por partes (hora, minuto, AM/PM), setas do teclado e escolha em colunas ou num relógio analógico, no **Popover**."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",true],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do TimePicker: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Agendamentos, horários de envio, turnos e horário de atendimento. O campo é a entrada principal: a pessoa **digita** o horário ou abre a escolha pelo botão do relógio.
+
+O valor é texto em 24 horas, `HH:mm` (ou `HH:mm:ss` com `precision="second"`), mesmo quando o campo mostra AM e PM. `null` é vazio.
+
+```jsx
+const [envio, setEnvio] = useState('14:30');
+<TimePicker label="Enviar às" value={envio} onChange={setEnvio} min="08:00" max="20:00" />
+
+const [turno, setTurno] = useState({ start: null, end: null });
+<TimePicker mode="range" label="Atendimento" value={turno} onChange={setTurno} step={15} />
+```
+
+### Modos
+
+- **single** (padrão): um horário. `onChange` recebe o horário ao completar hora e minuto, ou `null` ao esvaziar o campo.
+- **range**: início e fim no mesmo campo, com a duração ao lado ("9h48") e um único popover. Escolher o início passa direto para o fim; no fim, os horários até o início ficam indisponíveis. O período não atravessa a meia-noite.
+
+### Formas de escolher
+
+| `variant` | Para quê |
+| --- | --- |
+| `columns` (padrão) | Colunas roláveis de hora, minuto e segundos. Rápida no mouse e no teclado. |
+| `clock` | Relógio analógico: escolhe a hora e passa sozinho para os minutos. Em 24 horas, as horas da tarde ficam no anel de dentro. |
+
+<FacaEvite>
+<Faca>
+
+Usar `step` quando só alguns minutos fazem sentido (reuniões de 15 em 15) e limitar com `min`, `max` e `isTimeDisabled`: os horários fora ficam indisponíveis na lista e no relógio, e um valor digitado fora mostra "Horário indisponível".
+
+</Faca>
+<Evite>
+
+Usar o TimePicker para duração ("quanto tempo"). Ele escolhe um horário do dia; para duração, use o **NumberField** com a unidade.
+
+</Evite>
+</FacaEvite>
+
+## Teclado
+
+| Tecla no campo | Efeito |
+| --- | --- |
+| Números | Preenchem a parte em foco e passam para a próxima ("1437" vira 14:37) |
+| `↑` / `↓` | Andam a parte em foco; nos minutos, de `step` em `step` |
+| `←` / `→` ou `:` | Passam de uma parte para outra |
+| `A` / `P` | Escolhem AM ou PM, com `hourCycle={12}` |
+| `Backspace` | Apaga a parte em foco |
+
+No relógio, as setas andam o ponteiro, `Home` e `End` vão ao primeiro e ao último horário livre, e `Enter` confirma e passa para os minutos.
+
+## Tamanho
+
+`size` aceita `sm` (32px de altura), `md` (40px, padrão) e `lg` (48px), as mesmas alturas do **Button**. A largura do campo acompanha o tamanho; `width` a substitui.
+
+A lista e o relógio **não** mudam com o `size`, como o calendário do **Datepicker**: o painel é feito para escolher com conforto, não para combinar com a densidade do campo. Eles mudam com a tela: abaixo de `sm`, o relógio passa de 232 para 288px e os itens da lista, de 32 para 40px de altura, para o toque.
+
+## Guia de conteúdo
+
+- Rótulo pelo que acontece no horário: "Enviar às", "Atendimento", "Horário da reunião".
+- Use `hint` para explicar os limites antes do erro: "Entre 08:00 e 20:00".
+- Mensagens do campo: "Horário indisponível" (fora de `min`, `max` ou `isTimeDisabled`) e "O fim deve ser depois do início" (no período).
+- Prefira 24 horas no Brasil; use `hourCycle={12}` quando o público espera AM e PM.
+
+## Guia de design
+
+**Tokens.** Campo no `FieldShell`, como o **Input**; a parte em foco ganha o fundo `--ob-blue-100`. O horário escolhido na lista e no relógio é `--ob-blue`, e o horário atual tem um contorno azul. O botão é o **Button** neutro só com ícone, AM/PM e início/fim são **ToggleButton** em **ButtonGroup**, e o popover é o **Popover**.
+
+**Movimento.** O ponteiro do relógio gira com `--ob-dur-base` pelo caminho mais curto, e a lista rola até o horário escolhido. Com `prefers-reduced-motion`, as durações zeram.
+
+<Nota>
+
+**Versão mobile:** no celular a lista e o relógio crescem para o toque, mas continuam num popover ancorado ao campo. Por isso o componente **não marca** "versão mobile".
+
+</Nota>

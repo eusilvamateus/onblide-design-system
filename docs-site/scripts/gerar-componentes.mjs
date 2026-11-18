@@ -16,6 +16,7 @@ const descricoes = {
   SearchInput: 'Campo de busca com sugestões e estado de carregamento.',
   Select: 'Lista suspensa de seleção única ou múltipla, com busca.',
   Datepicker: 'Campo de data única ou intervalo, com digitação mascarada e calendário em popover.',
+  TimePicker: 'Campo de horário ou de período, com digitação por partes e escolha em colunas ou num relógio analógico.',
   ColorPicker: 'Painel para escolher uma cor: área livre, grade, espectro ou barras, campos HEX, RGB e HSL, transparência e cores salvas.',
   ColorInput: 'Campo de cor que aceita HEX, rgb() e hsl() digitados ou colados, com o ColorPicker em popover.',
   CodeInput: 'Campo para códigos curtos (verificação, PIN), um dígito por caixa.',
@@ -102,6 +103,7 @@ const titulos = {
   SoIcone: 'Só ícone',
   NeutroComContador: 'Neutro com contador',
   ComTransparencia: 'Com transparência', ComAmostras: 'Com amostras', SoAmostras: 'Só amostras', AoTerminar: 'Ao terminar de escolher',
+  Relogio: 'Relógio', DozeHoras: '12 horas', ComSegundos: 'Com segundos', DeQuinzeEmQuinze: 'De 15 em 15 minutos', ComLimites: 'Com limites', Periodo: 'Período',
 };
 
 const semTipos = (sf, no) => {
