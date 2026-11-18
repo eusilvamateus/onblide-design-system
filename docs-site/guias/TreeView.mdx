@@ -52,11 +52,13 @@ novo" no erro de carregamento).
 
 ## Guia de design
 
-**Arrastar é físico** (regra do design system para qualquer variante arrastável): alça visível
-(`dots-six-vertical`, cursor grab/grabbing) · o item levanta e acompanha o cursor (sombra `--ob-shadow-lg`,
-escala 1.03, rotação 1.5°) · a origem fica marcada (tracejado, 40% de opacidade) · o destino aparece antes de
-soltar (linha com marcador, ou fundo azul pra "dentro") e o bloqueio também (borda vermelha + ícone de
-proibido) · Esc cancela · o item pisca ao chegar · há alternativa por teclado (Alt+Shift+setas).
+**Arrastar** segue o padrão do sistema ([Arrastar e soltar](/fundacoes/arrastar-e-soltar)): pela alça
+(`dots-six-vertical`), a linha sai do lugar, que fica vazio, sobe 1% com a sombra `--ob-shadow-md` e acompanha o
+cursor; os filhos de uma pasta arrastada ficam esmaecidos. Numa árvore o destino não abre espaço: uma linha com
+marcador mostra "antes" e "depois", e o fundo azul mostra "dentro" (a pasta fechada abre depois de um instante).
+Onde não pode, a linha ganha contorno vermelho e o cursor de proibido. Ao soltar, a linha viaja até o lugar novo e
+assenta, sem quique; com Esc ou fora da árvore, volta ao lugar. No teclado, Alt+Shift+setas movem a linha com a
+mesma viagem.
 
 **Teclado.** ↑/↓, → abre/entra, ← fecha/sobe, Home/End, Enter ativa, Espaço marca/seleciona, `*` abre os
 irmãos, letras pulam para o próximo nó que começa com elas. Uma parada de Tab (roving tabindex).
