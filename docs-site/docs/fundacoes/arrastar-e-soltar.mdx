@@ -99,6 +99,17 @@ Salvar a cada movimento do ponteiro. O `onMove` só chega ao assentar, uma vez p
 </Evite>
 </FacaEvite>
 
+## Dentro de uma área com rolagem
+
+Quando a lista mora num **ScrollArea**, ou em qualquer área com rolagem própria (um popup de altura fixa, uma coluna
+que rola), o hook encontra essa área sozinho, sem configuração:
+
+- Perto da borda de cima ou de baixo da área, quem rola é a área, não a janela. Fora de qualquer área, rola a janela.
+- Com o ponteiro, o que viaja é uma cópia idêntica do item, por cima da página: ela passa pela borda da área sem ser
+  cortada, e o lugar de origem fica vazio. Ao soltar, o item real assenta a partir de onde a cópia estava.
+- A vaga fica dentro da lista e rola junto com ela.
+- No teclado, a área rola para manter a vaga à vista.
+
 ## Teclado e leitor de tela
 
 | Tecla na alça | Efeito |
@@ -114,6 +125,6 @@ depois de soltar o foco volta à alça do item.
 ## Limites
 
 - Listas verticais. Itens lado a lado, em linha ou em grade, não são cobertos.
-- A janela rola sozinha quando o item chega perto da borda; uma lista que tem a própria rolagem não rola.
+- A rolagem automática é vertical, da área que contém a lista ou da janela.
 - Árvores usam o arrasto próprio do **TreeView** (`draggable`): ele levanta, carrega e assenta do mesmo jeito, mas
   mostra o destino com uma linha em vez de abrir espaço, porque um vão não diz "dentro da pasta".
