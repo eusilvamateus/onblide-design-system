@@ -29,7 +29,7 @@ Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<catego
 | Categoria | Componentes |
 |---|---|
 | `actions` | Button, ButtonGroup, ToggleButton, Link |
-| `forms` | Input, SearchInput, Select, Datepicker, ColorPicker, ColorInput, CodeInput, Checkbox, Radio, RadioGroup, Switch, Slider, FieldShell, Textarea, NumberField, FileUpload, Autocomplete |
+| `forms` | Input, SearchInput, Select, Datepicker, TimePicker, ColorPicker, ColorInput, CodeInput, Checkbox, Radio, RadioGroup, Switch, Slider, FieldShell, Textarea, NumberField, FileUpload, Autocomplete |
 | `feedback` | Alert, Toast, ToastStack, ProgressBar, ProgressCircle, Spinner, Skeleton |
 | `overlays` | Modal, AlertDialog, Drawer, Tooltip, Menu (+ ContextMenu, MenuPanel), Popover |
 | `navigation` | Tabs, Sidebar, Navbar, Pagination, Breadcrumbs, Stepper, Menubar |

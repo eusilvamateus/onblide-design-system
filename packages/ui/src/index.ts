@@ -7,6 +7,7 @@ export * from './forms/FieldShell/FieldShell';
 export * from './forms/Datepicker/Datepicker';
 export * from './forms/ColorPicker/ColorPicker';
 export * from './forms/ColorInput/ColorInput';
+export * from './forms/TimePicker/TimePicker';
 export * from './forms/Radio/Radio';
 export * from './forms/RadioGroup/RadioGroup';
 export * from './forms/Switch/Switch';

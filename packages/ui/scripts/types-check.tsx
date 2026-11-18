@@ -5,7 +5,7 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Sidebar, Navbar, Menu, Alert, Toast, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, ColorPicker, ColorInput, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
+import { Table, Sidebar, Navbar, Menu, Alert, Toast, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, ColorPicker, ColorInput, TimePicker, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -17,6 +17,7 @@ import type {
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
   ColorPickerProps, ColorPickerMode, ColorFormat, ColorSwatch, ColorInputProps, ColorInputSize,
+  TimePickerProps, SingleTimePickerProps, RangeTimePickerProps, TimeRange, TimePickerSize,
   ToastOptions, ToastShortcutOptions,
   Breakpoint, BreakpointName,
   CheckboxSize, RadioSize, SwitchSize,
@@ -41,6 +42,7 @@ export type TiposExportados = [
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
   ColorPickerProps, ColorPickerMode, ColorFormat, ColorSwatch, ColorInputProps, ColorInputSize,
+  TimePickerProps, SingleTimePickerProps, RangeTimePickerProps, TimeRange, TimePickerSize,
   ToastOptions, ToastShortcutOptions,
   Breakpoint, BreakpointName,
   CheckboxSize, RadioSize, SwitchSize,
@@ -221,6 +223,25 @@ export function VerificaCores() {
       <ColorPicker modes={['wheel']} />
       {/* @ts-expect-error o ColorPicker sempre emite uma cor */}
       <ColorPicker onChange={(v: number) => v} />
+    </>
+  );
+}
+
+export function VerificaHorarios() {
+  const [hora, setHora] = useState<string | null>('14:30');
+  const [periodo, setPeriodo] = useState<TimeRange>({ start: '08:00', end: null });
+  return (
+    <>
+      <TimePicker value={hora} onChange={setHora} step={15} min="08:00" max="20:00" hourCycle={12} precision="second" variant="clock" size="lg" />
+      <TimePicker mode="range" value={periodo} onChange={setPeriodo} isTimeDisabled={(t) => t === '12:00'} width="100%" />
+      {/* @ts-expect-error o período não aceita um horário só */}
+      <TimePicker mode="range" value="08:00" />
+      {/* @ts-expect-error o horário único não aceita período */}
+      <TimePicker value={periodo} />
+      {/* @ts-expect-error ciclo de hora inexistente */}
+      <TimePicker hourCycle={6} />
+      {/* @ts-expect-error forma inexistente */}
+      <TimePicker variant="wheel" />
     </>
   );
 }

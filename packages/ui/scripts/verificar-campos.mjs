@@ -19,6 +19,9 @@ const CASOS = [
   ['Datepicker range', { componente: 'Datepicker', mode: 'range' }],
   ['ColorInput', { defaultValue: '#0a4ee4' }],
   ['ColorInput vazio', { componente: 'ColorInput' }],
+  ['TimePicker', { defaultValue: '14:30' }],
+  ['TimePicker 12h', { componente: 'TimePicker', hourCycle: 12, defaultValue: '14:30' }],
+  ['TimePicker range', { componente: 'TimePicker', mode: 'range', defaultValue: { start: '08:00', end: '17:00' } }],
   ['Autocomplete', { componente: 'Autocomplete', options: ['Ana', 'Bruno'], defaultValue: 'Ana' }],
   ['Autocomplete com chips', { componente: 'Autocomplete', multiple: true, options: ['Ana', 'Bruno', 'Carla'], defaultValue: ['Ana', 'Bruno'] }],
 ];
@@ -39,7 +42,7 @@ const montar = (nome, props) =>
 
 const alturaDaCasca = () =>
   p.evaluate(() => {
-    const casca = [...document.querySelectorAll('#r div')].find((el) => el.style.border.startsWith('1.5px') && el.querySelector('input'));
+    const casca = [...document.querySelectorAll('#r div')].find((el) => el.style.border.startsWith('1.5px') && el.querySelector('input, [role="spinbutton"]'));
     return casca ? casca.getBoundingClientRect().height : null;
   });
 
