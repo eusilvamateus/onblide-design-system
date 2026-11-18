@@ -127,7 +127,8 @@ export default function Playground({
   const usaNoInline = controlado || !!auxiliares;
   let codigo: string;
   if (controlado) {
-    const declaracaoEstado = `const [valor, setValor] = useState(${JSON.stringify(valores[alvoLigado])});\n  const alterar = (v) => setValor(v && v.target ? v.target.value : v);`;
+    const inicialLigado = alvoLigado in valores ? valores[alvoLigado] : literais[alvoLigado];
+    const declaracaoEstado = `const [valor, setValor] = useState(${JSON.stringify(inicialLigado)});\n  const alterar = (v) => setValor(v && v.target ? v.target.value : v);`;
     const corpoFuncao = `function Demo() {\n  ${declaracaoEstado}\n  return (\n${recuar(jsx, 4)}\n  );\n}`;
     codigo = `${auxiliares ? `${auxiliares}\n\n` : ''}${corpoFuncao}\n\nrender(<Demo />);`;
   } else {
