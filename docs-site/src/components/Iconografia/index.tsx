@@ -55,7 +55,7 @@ export function NavegadorIcones() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBusca(e.target.value)}
           hint={`${achados.length} de ${todos.length} ícones`} />
       </div>
-      <Tabs variant="pill" size="sm" active={peso} onChange={(id: string) => setPeso(id as IconWeight)} tabs={PESOS.map((p) => ({ id: p.id, label: p.label }))} />
+      <Tabs variant="pill" size="sm" ariaLabel="Peso dos ícones" active={peso} onChange={(id: string) => setPeso(id as IconWeight)} tabs={PESOS.map((p) => ({ id: p.id, label: p.label }))} />
       {escolhido && (
         <div className="ob-icones__escolhido">
           <Ph n={escolhido} size={40} weight={peso} />

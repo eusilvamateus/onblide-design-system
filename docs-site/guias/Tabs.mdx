@@ -52,7 +52,36 @@ Tabs para fluxos sequenciais, use Stepper. Não misture Line e Pill na mesma tel
 
 `size` aceita `sm`, `md` (padrão) e `lg`. Texto em 13, 14 e 15px; o espaçamento e o ícone crescem junto, e no `lg` o contador usa o **Badge** `md`.
 
-Tipo `Tab`: `{ id: string, label: string, icon?: string, badge?: number, disabled?: boolean }`
+Tipo `TabItem`: `{ id: string, label: ReactNode, icon?: string, badge?: ReactNode, disabled?: boolean, tone?: TabTone, panelId?: string }`
+
+## Acessibilidade e teclado
+
+O Tabs desenha só a barra de abas; o conteúdo de cada aba fica com quem usa o componente. A barra é anunciada como lista de abas e cada aba diz se está selecionada.
+
+- Dê um nome ao grupo com `ariaLabel` quando nenhum título visível já o descreve ("Seções da conta").
+- Ligue cada aba ao seu painel com `panelId`, e marque o painel com `role="tabpanel"` e o mesmo `id`.
+
+```jsx
+<Tabs
+  ariaLabel="Seções da conta"
+  tabs={[
+    { id: 'perfil', label: 'Perfil', panelId: 'painel-perfil' },
+    { id: 'faturas', label: 'Faturas', panelId: 'painel-faturas' },
+  ]}
+  active={active}
+  onChange={setActive}
+/>
+<div id="painel-perfil" role="tabpanel" aria-label="Perfil" hidden={active !== 'perfil'}>…</div>
+<div id="painel-faturas" role="tabpanel" aria-label="Faturas" hidden={active !== 'faturas'}>…</div>
+```
+
+| Tecla | Efeito |
+| --- | --- |
+| `Tab` | Entra no grupo pela aba ativa e sai dele na próxima tecla |
+| `←` / `→` | Vai para a aba anterior ou seguinte, já ativando; dá a volta nas pontas |
+| `Home` / `End` | Vai para a primeira ou a última aba |
+
+Abas desabilitadas são puladas.
 
 ## Guia de conteúdo
 

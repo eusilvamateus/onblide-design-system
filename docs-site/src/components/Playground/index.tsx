@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 import { LiveError, LivePreview, LiveProvider } from 'react-live';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import * as OnblideUI from '@onblide/ui';
@@ -88,6 +88,7 @@ export default function Playground({
   });
   const [versao, setVersao] = useState(0);
   const [aba, setAba] = useState('resultado');
+  const paineis = useId();
   const definir = (p: string, v: Valor) => {
     setValores((a) => ({ ...a, [p]: v }));
     if (REMONTA.includes(p)) setVersao((n) => n + 1);
@@ -179,13 +180,13 @@ export default function Playground({
       )}
       <div className="ob-playground">
         <div className="ob-playground__tabs">
-          <Tabs tabs={[{ id: 'resultado', label: 'Resultado', icon: 'eye' }, { id: 'codigo', label: 'Código', icon: 'code' }]} active={aba} onChange={setAba} size="sm" />
+          <Tabs ariaLabel="Demo" tabs={[{ id: 'resultado', label: 'Resultado', icon: 'eye', panelId: `${paineis}-resultado` }, { id: 'codigo', label: 'Código', icon: 'code', panelId: `${paineis}-codigo` }]} active={aba} onChange={setAba} size="sm" />
           <Button kind="ghost" size="sm" onClick={restaurar} icon={<Ph n="arrow-counter-clockwise" size={14} />}>Restaurar</Button>
         </div>
         <BrowserOnly fallback={<div className="ob-playground__preview" />}>
           {() => (
             <LiveProvider key={versao} code={codigo} scope={scope} noInline={usaNoInline} theme={temaCodigo}>
-              <div hidden={aba !== 'resultado'}>
+              <div id={`${paineis}-resultado`} role="tabpanel" aria-label="Resultado" hidden={aba !== 'resultado'}>
                 <div className="ob-playground__preview ob-demo__resultado">
                   <div className={`ob-demo__palco${LARGOS.includes(nome) ? ' ob-demo__palco--largo' : ''}`}>
                     <LivePreview />
@@ -193,7 +194,7 @@ export default function Playground({
                   <LiveError className="ob-playground__error" />
                 </div>
               </div>
-              <div hidden={aba !== 'codigo'}>
+              <div id={`${paineis}-codigo`} role="tabpanel" aria-label="Código" hidden={aba !== 'codigo'}>
                 <Highlight code={codigo} language="jsx" theme={temaCodigo}>
                   {({ tokens, getLineProps, getTokenProps }) => (
                     <pre className="ob-demo__codigo">
