@@ -1,0 +1,118 @@
+---
+title: Arrastar e soltar
+sidebar_position: 10
+description: Como qualquer item arrastável se comporta, levantar, carregar e assentar, e o hook useDragAndDrop que faz isso por você.
+---
+
+Arrastar mostra que uma coisa saiu de um lugar e foi para outro. Quem arrasta precisa sentir que está segurando **o
+próprio item**, não uma cópia: ele sai do lugar, viaja com o ponteiro e se assenta onde foi solto. Todo arrasto do
+sistema segue o mesmo padrão, para que reordenar uma lista ou mudar um pedido de etapa dê a mesma sensação.
+
+O design system define **como** o arrasto se parece e se comporta. A tela define **o quê** pode ser arrastado,
+**para onde** pode ir e o que muda nos dados depois.
+
+## Levantar, carregar e assentar
+
+| Fase | O que acontece | Movimento |
+|---|---|---|
+| Levantar | O próprio item sobe 1% e ganha a sombra `--ob-shadow-md`, na camada `--ob-z-drag` | `--ob-dur-fast` · `--ob-ease-out` |
+| Carregar | O item segue o ponteiro; os vizinhos deslizam para abrir espaço e uma vaga tracejada mostra onde ele vai cair | Vizinhos em `--ob-dur-fast` · `--ob-ease-out` |
+| Assentar | Ao soltar, o item viaja até a vaga e perde a sombra; fora de uma lista, ou com Esc, ele volta ao lugar | `--ob-dur-base` · `--ob-ease-out` |
+
+Sem quique e sem inclinação: o arrasto é um gesto de trabalho, não um momento de destaque (veja
+[Movimento](./movimento.mdx)). Com `prefers-reduced-motion`, as durações zeram e tudo acontece na hora.
+
+Quando o destino não aceita o item, a lista avisa (fundo e contorno no tom de perigo, com uma frase curta como
+"Pedido enviado não volta"), nenhuma vaga aparece e o item volta ao soltar.
+
+## Como se usa
+
+O hook `useDragAndDrop` faz o padrão inteiro. A tela desenha as listas e os itens e só conta ao hook quais listas
+existem, em que ordem estão os ids e o que fazer quando algo muda de lugar.
+
+```jsx live noInline
+function Tarefas() {
+  const [listas, setListas] = useState({
+    fazer: ['Revisar fotos', 'Escrever descrição', 'Definir frete'],
+    feito: ['Cadastrar preço'],
+  });
+  const nomes = { fazer: 'A fazer', feito: 'Feito' };
+  const dnd = useDragAndDrop({
+    lists: listas,
+    onMove: (m) => setListas((l) => applyDragMove(l, m)),
+    getListLabel: (id) => nomes[id],
+  });
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--ob-space-12)', padding: 'var(--ob-space-16)' }}>
+      {Object.entries(listas).map(([lista, ids]) => (
+        <section key={lista} aria-label={nomes[lista]} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-8)' }}>
+          <strong style={{ fontSize: 'var(--ob-fs-13)' }}>{nomes[lista]}</strong>
+          <div {...dnd.listProps(lista)} style={{
+            display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-8)', padding: 'var(--ob-space-8)', minHeight: 160,
+            borderRadius: 'var(--ob-r-surface)', background: dnd.overList === lista ? 'var(--ob-blue-050)' : 'var(--ob-bg-alt)',
+          }}>
+            {ids.map((id) => (
+              <div key={id} {...dnd.itemProps(id, lista)}>
+                <Card padding="var(--ob-space-8) var(--ob-space-12) var(--ob-space-8) var(--ob-space-4)" style={dnd.liftStyle(id)}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', fontSize: 'var(--ob-fs-14)' }}>
+                    <Button kind="quiet" size="sm" iconOnly aria-label={`Mover ${id}`}
+                      icon={<Ph n="dots-six-vertical" size={18} weight="bold" />} {...dnd.handleProps(id, lista)} />
+                    {id}
+                  </div>
+                </Card>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+      {dnd.overlay}
+    </div>
+  );
+}
+
+render(<Tarefas />);
+```
+
+| Parte | Onde vai |
+|---|---|
+| `listProps(lista)` | No elemento que empilha os itens de uma lista, em coluna, com `gap` |
+| `itemProps(id, lista)` | No elemento de cada item; é ele que viaja |
+| `liftStyle(id)` | Na superfície visível do item (o **Card**), que sobe e ganha a sombra |
+| `handleProps(id, lista)` | No **Button** só com ícone `dots-six-vertical` que serve de alça |
+| `overlay` | Uma vez, perto das listas: a vaga tracejada e os avisos para o leitor de tela |
+
+`onMove` recebe `{ id, from, to, index }` uma vez, ao assentar, e `applyDragMove(listas, movimento)` devolve as
+listas novas. Para recusar um destino, use `canDrop(id, from, to)`; a lista de destino fica em `overList` e a recusa,
+em `blocked`, para a tela pintar o aviso. `getItemLabel` e `getListLabel` dão os nomes que o leitor de tela anuncia.
+
+<FacaEvite>
+<Faca>
+
+Dar ao item uma alça visível (`dots-six-vertical`). Com o mouse o item inteiro arrasta, mas no toque só a alça,
+para o dedo continuar rolando a página, e no teclado é ela que recebe o foco.
+
+</Faca>
+<Evite>
+
+Salvar a cada movimento do ponteiro. O `onMove` só chega ao assentar, uma vez por arrasto.
+
+</Evite>
+</FacaEvite>
+
+## Teclado e leitor de tela
+
+| Tecla na alça | Efeito |
+|---|---|
+| `Espaço` ou `Enter` | Ergue o item; de novo, solta |
+| `↑` / `↓` | Muda a posição dentro da lista |
+| `←` / `→` | Passa para a lista anterior ou seguinte |
+| `Esc` ou `Tab` | Cancela e devolve o item |
+
+Cada passo é anunciado ("Pedido #1042 erguido, posição 1 de 3", "Embalar, posição 2 de 3", "solto em Embalar"), e
+depois de soltar o foco volta à alça do item.
+
+## Limites
+
+- Listas verticais. Itens lado a lado, em linha ou em grade, não são cobertos.
+- A janela rola sozinha quando o item chega perto da borda; uma lista que tem a própria rolagem não rola.
+- Árvores usam o arrasto do **TreeView**, que mostra o destino com uma linha, porque um vão não diz "dentro da pasta".
