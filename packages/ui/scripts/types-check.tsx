@@ -5,7 +5,7 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Sidebar, Navbar, Menu, Alert, Toast, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
+import { Table, Sidebar, Navbar, Menu, Alert, Toast, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, ColorPicker, ColorInput, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -16,6 +16,7 @@ import type {
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
+  ColorPickerProps, ColorPickerMode, ColorFormat, ColorSwatch, ColorInputProps, ColorInputSize,
   ToastOptions, ToastShortcutOptions,
   Breakpoint, BreakpointName,
   CheckboxSize, RadioSize, SwitchSize,
@@ -39,6 +40,7 @@ export type TiposExportados = [
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
+  ColorPickerProps, ColorPickerMode, ColorFormat, ColorSwatch, ColorInputProps, ColorInputSize,
   ToastOptions, ToastShortcutOptions,
   Breakpoint, BreakpointName,
   CheckboxSize, RadioSize, SwitchSize,
@@ -203,4 +205,22 @@ export function VerificaBreakpoints() {
   // @ts-expect-error xs saiu da escala
   atLeast('xs');
   return <span>{largura}{faixa}{consulta}{String(atLeast('md'))}</span>;
+}
+
+export function VerificaCores() {
+  const [cor, setCor] = useState<string | null>('#0a4ee4');
+  const amostras: ColorSwatch[] = [{ color: '#c0573e', label: 'Terracota' }];
+  return (
+    <>
+      <ColorPicker value={cor} onChange={setCor} onChangeEnd={(v) => setCor(v)} alpha swatches={['#1f6f5c', ...amostras]} modes={['area', 'grid', 'spectrum', 'sliders']} format="rgb" width={300} />
+      <ColorPicker swatchesOnly swatches={amostras} defaultValue={null} />
+      <ColorInput label="Cor" value={cor} onChange={setCor} onChangeEnd={setCor} size="sm" modes={['grid']} />
+      {/* @ts-expect-error formato inexistente */}
+      <ColorPicker format="cmyk" />
+      {/* @ts-expect-error forma inexistente */}
+      <ColorPicker modes={['wheel']} />
+      {/* @ts-expect-error o ColorPicker sempre emite uma cor */}
+      <ColorPicker onChange={(v: number) => v} />
+    </>
+  );
 }

@@ -5,6 +5,8 @@ export * from './actions/ButtonGroup/ButtonGroup';
 export * from './forms/Checkbox/Checkbox';
 export * from './forms/FieldShell/FieldShell';
 export * from './forms/Datepicker/Datepicker';
+export * from './forms/ColorPicker/ColorPicker';
+export * from './forms/ColorInput/ColorInput';
 export * from './forms/Radio/Radio';
 export * from './forms/RadioGroup/RadioGroup';
 export * from './forms/Switch/Switch';

@@ -17,6 +17,8 @@ const CASOS = [
   ['Datepicker', { componente: 'Datepicker' }],
   ['Datepicker stepper', { componente: 'Datepicker', stepper: 'day' }],
   ['Datepicker range', { componente: 'Datepicker', mode: 'range' }],
+  ['ColorInput', { defaultValue: '#0a4ee4' }],
+  ['ColorInput vazio', { componente: 'ColorInput' }],
   ['Autocomplete', { componente: 'Autocomplete', options: ['Ana', 'Bruno'], defaultValue: 'Ana' }],
   ['Autocomplete com chips', { componente: 'Autocomplete', multiple: true, options: ['Ana', 'Bruno', 'Carla'], defaultValue: ['Ana', 'Bruno'] }],
 ];
