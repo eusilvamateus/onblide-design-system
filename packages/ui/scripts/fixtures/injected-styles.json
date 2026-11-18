@@ -69,7 +69,7 @@
   },
   {
     "id": "ob-treeview-kf",
-    "css": "\n.ob-tv-row{outline:none}\n.ob-tv-row:focus-visible{box-shadow:inset 0 0 0 2px var(--ob-blue)}\n.ob-tv-row .ob-tv-act{opacity:0;transition:opacity var(--ob-dur-fast) var(--ob-ease)}\n.ob-tv-row:hover .ob-tv-act,.ob-tv-row:focus-within .ob-tv-act{opacity:1}\n.ob-tv-caret:hover,.ob-tv-handle:hover{background:var(--ob-bg-alt);color:var(--ob-fg-strong)}\n.ob-tv-handle{cursor:grab;touch-action:none}\n@keyframes ob-tv-lift{from{transform:scale(1) rotate(0);box-shadow:var(--ob-shadow-sm)}to{transform:scale(1.03) rotate(1.5deg);box-shadow:var(--ob-shadow-lg)}}\n@keyframes ob-tv-flash{from{background:var(--ob-blue-100)}to{background:transparent}}\n"
+    "css": "\n.ob-tv-row{outline:none}\n.ob-tv-row:focus-visible{box-shadow:inset 0 0 0 2px var(--ob-blue)}\n.ob-tv-row .ob-tv-act{opacity:0;transition:opacity var(--ob-dur-fast) var(--ob-ease)}\n.ob-tv-row:hover .ob-tv-act,.ob-tv-row:focus-within .ob-tv-act{opacity:1}\n.ob-tv-caret:hover,.ob-tv-handle:hover{background:var(--ob-bg-alt);color:var(--ob-fg-strong)}\n.ob-tv-handle{cursor:grab;touch-action:none}\n"
   },
   {
     "id": "ob-navbar",

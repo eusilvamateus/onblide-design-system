@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Ph } from '../../iconography/Ph/Ph';
 import { Checkbox } from '../../forms/Checkbox/Checkbox';
 import { Spinner } from '../../feedback/Spinner/Spinner';
@@ -23,9 +22,14 @@ injectStyleOnce('ob-treeview-kf', `
 .ob-tv-row:hover .ob-tv-act,.ob-tv-row:focus-within .ob-tv-act{opacity:1}
 .ob-tv-caret:hover,.ob-tv-handle:hover{background:var(--ob-bg-alt);color:var(--ob-fg-strong)}
 .ob-tv-handle{cursor:grab;touch-action:none}
-@keyframes ob-tv-lift{from{transform:scale(1) rotate(0);box-shadow:var(--ob-shadow-sm)}to{transform:scale(1.03) rotate(1.5deg);box-shadow:var(--ob-shadow-lg)}}
-@keyframes ob-tv-flash{from{background:var(--ob-blue-100)}to{background:transparent}}
 `);
+const useMedicao = typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
+const SUPERFICIE = 'var(--ob-surface)';
+const fundoDe = (el: HTMLElement) => {
+  const cor = getComputedStyle(el).backgroundColor;
+  return cor === 'transparent' || cor === 'rgba(0, 0, 0, 0)' ? SUPERFICIE : cor;
+};
+const duracaoDe = (el: HTMLElement) => Math.max(0, ...getComputedStyle(el).transitionDuration.split(',').map((t) => parseFloat(t) * 1000));
 const srOnly: React.CSSProperties = { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' };
 
 export interface TreeNode {
@@ -143,13 +147,10 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
   const [loading, setLoading] = React.useState<Set<string>>(() => new Set());
   const [errors, setErrors] = React.useState<Set<string>>(() => new Set());
   const [editing, setEditing] = React.useState<{ id: string; value: string } | null>(null);
-  const [drag, setDrag] = React.useState<{ id: string; node: TreeNode; w: number; ox: number; oy: number; count: number } | null>(null);
+  const [drag, setDrag] = React.useState<{ id: string } | null>(null);
   const [drop, setDrop] = React.useState<{ id: string; pos: 'before' | 'after' | 'inside' } | null>(null);
-  const [ghost, setGhost] = React.useState<{ x: number; y: number } | null>(null);
-  const [blocked, setBlocked] = React.useState(false);
-  const [flash, setFlash] = React.useState<string | null>(null);
   const rowsRef = React.useRef<Map<string, Row & { type: 'node' }>>(new Map());
-  const flashT = React.useRef<ReturnType<typeof setTimeout>>();
+  const pouso = React.useRef<{ id: string; de: DOMRect } | null>(null);
   const [live, setLive] = React.useState('');
   const rootRef = React.useRef<HTMLDivElement>(null);
   const typed = React.useRef({ s: '', t: 0 });
@@ -270,37 +271,50 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     if (pos === 'inside') setExpanded((s) => new Set(s).add(targetId));
     setLive(`${ok.e.node.label} movido ${pos === 'inside' ? 'para dentro de' : pos === 'before' ? 'para antes de' : 'para depois de'} ${ok.t.node.label}`);
     onMove?.({ node: ok.e.node, target: ok.t.node, position: pos, previous: cur, next });
-    clearTimeout(flashT.current); setFlash(id); flashT.current = setTimeout(() => setFlash(null), 900);
     return true;
   };
   const kbMove = (n: TreeNode, k: string) => {
     const e = index.get(n.id)!, sibs = e.parent ? e.parent.children! : items, i = sibs.findIndex((x) => x.id === n.id);
     let ok = false;
+    const linha = rootRef.current?.querySelector<HTMLElement>(`[data-id="${CSS.escape(n.id)}"]`);
+    if (linha) pouso.current = { id: n.id, de: linha.getBoundingClientRect() };
     if (k === 'ArrowUp' && i > 0) ok = doMove(n.id, sibs[i - 1].id, 'before');
     else if (k === 'ArrowDown' && i < sibs.length - 1) ok = doMove(n.id, sibs[i + 1].id, 'after');
     else if (k === 'ArrowLeft' && e.parent) ok = doMove(n.id, e.parent.id, 'after');
     else if (k === 'ArrowRight' && i > 0) ok = doMove(n.id, sibs[i - 1].id, 'inside');
-    if (ok) focusRow(n.id); else setLive('Não é possível mover para lá');
+    if (ok) focusRow(n.id);
+    else {
+      pouso.current = null;
+      setLive('Não é possível mover para lá');
+    }
   };
   const startDrag = (e: React.PointerEvent, n: TreeNode) => {
     if (e.button !== 0 || n.disabled) return;
     e.preventDefault(); e.stopPropagation();
-    const rowEl = (e.currentTarget as HTMLElement).closest<HTMLElement>('[data-id]')!, rect = rowEl.getBoundingClientRect();
-    const sx = e.clientX, sy = e.clientY, w = Math.min(rect.width, 340), ox = Math.min(sx - rect.left, w - 24), oy = sy - rect.top;
-    let started = false;
+    const rowEl = (e.currentTarget as HTMLElement).closest<HTMLElement>('[data-id]')!;
+    const sx = e.clientX, sy = e.clientY;
+    let started = false, bloqueado = false, ox = 0, oy = 0;
+    let camada: HTMLDivElement | null = null, copia: HTMLElement | null = null;
+    const bloquear = (sim: boolean) => {
+      if (sim === bloqueado) return;
+      bloqueado = sim;
+      if (copia) copia.style.boxShadow = sim ? '0 0 0 1.5px var(--ob-danger), var(--ob-shadow-md)' : 'var(--ob-shadow-md)';
+      document.body.style.cursor = sim ? 'not-allowed' : 'grabbing';
+      if (sim) setLive('Não é possível soltar aqui');
+    };
     const dropRefLocal: { current: { id: string; pos: 'before' | 'after' | 'inside' } | null } = { current: null };
     const clear = () => { dropRefLocal.current = null; setDrop(null); clearTimeout(hoverT.current); };
     const hit = (x: number, y: number) => {
       const el = document.elementFromPoint(x, y), row = el?.closest<HTMLElement>('[data-id]');
-      if (!row || !rootRef.current?.contains(row) || row.dataset.id === n.id) { clear(); setBlocked(false); return; }
+      if (!row || !rootRef.current?.contains(row) || row.dataset.id === n.id) { clear(); bloquear(false); return; }
       const r = rowsRef.current.get(row.dataset.id!);
       if (!r) return;
       const b = row.getBoundingClientRect(), ry = (y - b.top) / b.height, tn = r.node;
       const pos: 'before' | 'after' | 'inside' = tn.children
         ? (r.open ? (ry < 0.3 ? 'before' : 'inside') : (ry < 0.25 ? 'before' : ry > 0.75 ? 'after' : 'inside'))
         : (ry < 0.5 ? 'before' : 'after');
-      if (!validDrop(n.id, tn.id, pos)) { clear(); setBlocked(true); return; }
-      setBlocked(false);
+      if (!validDrop(n.id, tn.id, pos)) { clear(); bloquear(true); return; }
+      bloquear(false);
       const cur = dropRefLocal.current;
       if (cur && cur.id === tn.id && cur.pos === pos) return;
       dropRefLocal.current = { id: tn.id, pos };
@@ -312,26 +326,75 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
       if (!started) {
         if (Math.hypot(ev.clientX - sx, ev.clientY - sy) < 4) return;
         started = true;
-        setDrag({ id: n.id, node: n, w, ox, oy, count: descendantIds(n).length });
+        const rect = rowEl.getBoundingClientRect();
+        ox = sx - rect.left;
+        oy = sy - rect.top;
+        camada = document.createElement('div');
+        Object.assign(camada.style, {
+          position: 'fixed', left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px`,
+          zIndex: 'var(--ob-z-drag)', pointerEvents: 'none', fontFamily: 'var(--ob-font)', listStyle: 'none',
+        });
+        camada.setAttribute('aria-hidden', 'true');
+        camada.setAttribute('data-ob-tv-drag', '');
+        copia = rowEl.cloneNode(true) as HTMLElement;
+        for (const a of ['data-id', 'id', 'tabindex', 'role', 'aria-level', 'aria-setsize', 'aria-posinset', 'aria-expanded', 'aria-selected', 'aria-checked', 'aria-busy']) copia.removeAttribute(a);
+        copia.setAttribute('inert', '');
+        Object.assign(copia.style, {
+          margin: '0', height: '100%', boxSizing: 'border-box', background: fundoDe(rowEl), borderRadius: 'var(--ob-r-sm)',
+          visibility: 'visible', opacity: '1', outline: 'none', animation: 'none', transformOrigin: `${ox}px ${oy}px`,
+          transition: 'transform var(--ob-dur-fast) var(--ob-ease-out), box-shadow var(--ob-dur-fast) var(--ob-ease-out)',
+        });
+        camada.appendChild(copia);
+        document.body.appendChild(camada);
+        const erguer = copia;
+        requestAnimationFrame(() => {
+          erguer.style.transform = 'scale(1.01)';
+          if (!bloqueado) erguer.style.boxShadow = 'var(--ob-shadow-md)';
+        });
+        setDrag({ id: n.id });
         document.body.style.cursor = 'grabbing';
+        document.body.style.userSelect = 'none';
         setLive(`Arrastando ${n.label}`);
       }
-      setGhost({ x: ev.clientX, y: ev.clientY });
+      camada!.style.left = `${ev.clientX - ox}px`;
+      camada!.style.top = `${ev.clientY - oy}px`;
       hit(ev.clientX, ev.clientY);
     };
     const end = (cancel: boolean) => {
       window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); window.removeEventListener('keydown', key, true);
-      clearTimeout(hoverT.current); document.body.style.cursor = '';
+      clearTimeout(hoverT.current); document.body.style.cursor = ''; document.body.style.userSelect = '';
       const d = dropRefLocal.current;
       dropRefLocal.current = null;
-      setDrag(null); setDrop(null); setGhost(null); setBlocked(false);
-      if (started && !cancel && d) doMove(n.id, d.id, d.pos);
-      else if (started) setLive('Movimento cancelado');
+      if (!started) return;
+      pouso.current = { id: n.id, de: camada!.getBoundingClientRect() };
+      camada!.remove();
+      setDrag(null); setDrop(null);
+      if (cancel || !d || !doMove(n.id, d.id, d.pos)) setLive('Movimento cancelado');
     };
     const up = () => end(false);
     const key = (ev: KeyboardEvent) => { if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); end(true); } };
     window.addEventListener('pointermove', move); window.addEventListener('pointerup', up); window.addEventListener('keydown', key, true);
   };
+  useMedicao(() => {
+    const p = pouso.current;
+    if (!p) return;
+    pouso.current = null;
+    const el = rootRef.current?.querySelector<HTMLElement>(`[data-id="${CSS.escape(p.id)}"]`);
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const antes = { transition: el.style.transition, transform: el.style.transform, boxShadow: el.style.boxShadow, zIndex: el.style.zIndex, background: el.style.background, borderRadius: el.style.borderRadius };
+    el.style.transition = 'none';
+    el.style.zIndex = 'var(--ob-z-drag)';
+    el.style.background = fundoDe(el);
+    el.style.borderRadius = 'var(--ob-r-sm)';
+    el.style.transform = `translate(${p.de.left - r.left}px, ${p.de.top - r.top}px) scale(1.01)`;
+    el.style.boxShadow = 'var(--ob-shadow-md)';
+    void el.offsetWidth;
+    el.style.transition = 'transform var(--ob-dur-base) var(--ob-ease-out), box-shadow var(--ob-dur-base) var(--ob-ease-out)';
+    el.style.transform = antes.transform;
+    el.style.boxShadow = antes.boxShadow;
+    window.setTimeout(() => Object.assign(el.style, antes), duracaoDe(el) + 30);
+  });
   const actionsFor = (n: TreeNode): MenuItem[] | null => {
     if (n.disabled) return null;
     const api = { rename: () => startRename(n), createChild: () => createChild(n), remove: () => removeAt(n) };
@@ -398,9 +461,8 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
     const style: React.CSSProperties = { padding: `${padY}px var(--ob-space-8) ${padY}px ${leftPad(r.level)}px`, minHeight: size === 'sm' ? 28 : 32 };
     const lifted = drag && (drag.id === n.id || isDescendant(index, n.id, drag.id));
     if (lifted) style.opacity = 'var(--ob-opacity-muted)';
-    if (drag && drag.id === n.id) { style.background = 'var(--ob-bg-alt)'; style.outline = '1.5px dashed var(--ob-border)'; style.outlineOffset = -2; }
+    if (drag && drag.id === n.id) style.visibility = 'hidden';
     if (dropHere === 'inside') { style.background = 'var(--ob-blue-050)'; style.boxShadow = 'inset 0 0 0 1.5px var(--ob-blue)'; }
-    if (flash === n.id) style.animation = 'ob-tv-flash calc(var(--ob-dur-slow) * 2) var(--ob-ease-out)';
     const lead = (
       <>
         <span className="ob-tv-caret" aria-hidden="true" onClick={(e) => { e.stopPropagation(); if (!n.disabled) { setFocusId(n.id); if (kids) toggle(n); } }}
@@ -470,20 +532,6 @@ export const TreeView: React.FC<TreeViewProps> = (props) => {
         {rows.length === 0 && <li role="none" style={{ margin: 0, padding: 'var(--ob-space-12) var(--ob-space-8)', fontSize: 'var(--ob-fs-13)', color: 'var(--ob-fg-mute)' }}>{nq ? `Nenhum resultado para "${query.trim()}"` : emptyText}</li>}
       </List>
       <span aria-live="polite" style={srOnly}>{live}</span>
-      {drag && ghost && ReactDOM.createPortal(
-        <div aria-hidden="true" style={{ position: 'fixed', left: ghost.x - drag.ox, top: ghost.y - drag.oy, width: drag.w, zIndex: 'var(--ob-z-drag)', pointerEvents: 'none' }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 'var(--ob-space-8)', minHeight: 34, padding: 'var(--ob-space-6) var(--ob-space-10) var(--ob-space-6) var(--ob-space-8)', boxSizing: 'border-box', background: 'var(--ob-surface)',
-            border: `1.5px solid ${blocked ? 'var(--ob-danger)' : 'var(--ob-blue)'}`, borderRadius: 'var(--ob-r-sm)', boxShadow: 'var(--ob-shadow-lg)',
-            fontFamily: 'var(--ob-font)', fontSize: 'var(--ob-fs-14)', color: 'var(--ob-fg-strong)', transformOrigin: `${drag.ox}px ${drag.oy}px`, animation: 'ob-tv-lift var(--ob-dur-fast) var(--ob-ease-out) forwards',
-          }}>
-            <Ph n="dots-six-vertical" size={14} weight="bold" c={blocked ? 'var(--ob-danger)' : 'var(--ob-blue)'} />
-            {icons && drag.node.icon && <Ph n={drag.node.icon} size={16} c="var(--ob-fg-soft)" />}
-            <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{drag.node.label}</span>
-            {blocked ? <Ph n="prohibit" size={16} c="var(--ob-danger)" /> : drag.count > 0 && <Badge tone="primary" size="sm">+{drag.count}</Badge>}
-          </div>
-        </div>, document.body,
-      )}
     </div>
   );
 };
