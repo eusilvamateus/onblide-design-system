@@ -50,7 +50,7 @@ export interface UseDragAndDropResult {
     pressed: boolean;
     style: React.CSSProperties;
   };
-  /** Estilo da superfície visível do item (o `Card`), que sobe e ganha sombra enquanto é arrastado. */
+  /** Estilo da superfície visível do item (o `Card`), que sobe e ganha sombra enquanto é arrastado e marca essa superfície na cópia que viaja com o ponteiro. */
   liftStyle: (id: string) => React.CSSProperties;
   /** Avisos para o leitor de tela e a vaga onde o item vai cair; renderize uma vez, perto das listas. */
   overlay: React.ReactNode;
@@ -65,13 +65,25 @@ export const applyDragMove = (lists: Record<string, string[]>, { id, from, to, i
 };
 
 const LIMIAR = 5;
-const BORDA = 72;
+const BORDA_DA_JANELA = 72;
+const BORDA_DA_AREA = 48;
 const ESCONDIDO: React.CSSProperties = { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' };
 const VIZINHOS = 'transform var(--ob-dur-fast) var(--ob-ease-out)';
 const VIAGEM = 'transform var(--ob-dur-base) var(--ob-ease-out)';
+const SUPERFICIE = '[style*="--ob-drag-surface"]';
 
 interface Item { id: string; x: number; y: number; w: number; h: number }
-interface Lista { ids: string[]; itens: Item[]; caixa: { x: number; y: number; w: number; h: number }; topo: number; esquerda: number; vao: number }
+interface Lista {
+  ids: string[];
+  itens: Item[];
+  caixa: { x: number; y: number; w: number; h: number };
+  topo: number;
+  esquerda: number;
+  vao: number;
+  area: HTMLElement | null;
+  areaX0: number;
+  areaY0: number;
+}
 interface Sessao {
   id: string;
   origem: string;
@@ -80,8 +92,6 @@ interface Sessao {
   rect: Item;
   ox: number;
   oy: number;
-  px: number;
-  py: number;
   cx: number;
   cy: number;
   alvo: string | null;
@@ -90,16 +100,56 @@ interface Sessao {
   teclado: boolean;
   saindo: boolean;
   quadro: number;
+  camada: HTMLDivElement | null;
+  posicoes: Map<HTMLElement, string>;
   desfazer: () => void;
 }
-interface Vaga { x: number; y: number; w: number; h: number }
+interface Vaga { lista: string; left: number; top: number; w: number; h: number }
 
 const duracaoDe = (el: HTMLElement) => Math.max(0, ...getComputedStyle(el).transitionDuration.split(',').map((s) => parseFloat(s) * 1000));
 
+const areaQueRola = (el: HTMLElement): HTMLElement | null => {
+  for (let n: HTMLElement | null = el; n && n !== document.body && n !== document.documentElement; n = n.parentElement) {
+    const { overflowY } = getComputedStyle(n);
+    if ((overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'overlay') && n.scrollHeight > n.clientHeight) return n;
+  }
+  return null;
+};
+
+const criarCopia = (el: HTMLElement, rect: DOMRect) => {
+  const cs = getComputedStyle(el);
+  const camada = document.createElement('div');
+  Object.assign(camada.style, {
+    position: 'fixed', left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px`, margin: '0',
+    zIndex: 'var(--ob-z-drag)', pointerEvents: 'none', fontFamily: cs.fontFamily, fontSize: cs.fontSize, lineHeight: cs.lineHeight, color: cs.color,
+  });
+  camada.setAttribute('aria-hidden', 'true');
+  camada.setAttribute('data-ob-drag-layer', '');
+  const tema = el.closest('[data-theme]')?.getAttribute('data-theme');
+  if (tema) camada.setAttribute('data-theme', tema);
+  const copia = el.cloneNode(true) as HTMLElement;
+  copia.removeAttribute('id');
+  copia.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'));
+  copia.setAttribute('inert', '');
+  Object.assign(copia.style, { transform: 'none', transition: 'none', margin: '0', width: '100%', height: '100%', boxSizing: 'border-box', visibility: 'visible', zIndex: 'auto' });
+  camada.appendChild(copia);
+  document.body.appendChild(camada);
+  const superficie = (copia.matches(SUPERFICIE) ? copia : copia.querySelector<HTMLElement>(SUPERFICIE)) ?? copia;
+  superficie.style.transition = 'transform var(--ob-dur-fast) var(--ob-ease-out), box-shadow var(--ob-dur-fast) var(--ob-ease-out)';
+  superficie.style.transform = 'scale(1)';
+  requestAnimationFrame(() => {
+    superficie.style.transform = 'scale(1.01)';
+    superficie.style.boxShadow = 'var(--ob-shadow-md)';
+  });
+  return camada;
+};
+
 /**
- * Arrastar e soltar entre listas verticais no padrão do design system: o próprio item sobe, segue o ponteiro enquanto
- * os vizinhos abrem espaço e assenta na vaga ao soltar, com os tokens de movimento. Funciona com mouse, toque (pela
- * alça) e teclado, avisa o leitor de tela e rola a janela quando o item chega perto da borda.
+ * Arrastar e soltar entre listas verticais no padrão do design system: o item sobe, segue o ponteiro enquanto os
+ * vizinhos abrem espaço e assenta na vaga ao soltar, com os tokens de movimento. Funciona com mouse, toque (pela alça)
+ * e teclado, avisa o leitor de tela e rola a área que contém a lista (um `ScrollArea`, por exemplo) ou a janela quando
+ * o item chega perto da borda. Durante o arrasto com ponteiro, uma cópia idêntica do item viaja por cima da página,
+ * para não ser cortada pela borda da área que rola.
  */
 export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => id, getListLabel = (id) => id }: UseDragAndDropOptions): UseDragAndDropResult {
   const listas = useRef(lists);
@@ -110,6 +160,7 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
   const elementos = useRef(new Map<string, HTMLElement>());
   const sessao = useRef<Sessao | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [escondido, setEscondido] = useState<string | null>(null);
   const [phase, setPhase] = useState<DragPhase | null>(null);
   const [overList, setOverList] = useState<string | null>(null);
   const [blocked, setBlocked] = useState(false);
@@ -125,6 +176,7 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
       if (!cont) continue;
       const rc = cont.getBoundingClientRect();
       const cs = getComputedStyle(cont);
+      const area = areaQueRola(cont);
       foto[lid] = {
         ids,
         itens: ids.flatMap((id) => {
@@ -137,9 +189,23 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
         topo: rc.top + sy + parseFloat(cs.paddingTop),
         esquerda: rc.left + sx + parseFloat(cs.paddingLeft),
         vao: parseFloat(cs.rowGap) || 0,
+        area,
+        areaX0: area?.scrollLeft ?? 0,
+        areaY0: area?.scrollTop ?? 0,
       };
     }
     return foto;
+  };
+
+  const rolado = (L: Lista) => ({ x: L.area ? L.area.scrollLeft - L.areaX0 : 0, y: L.area ? L.area.scrollTop - L.areaY0 : 0 });
+  const ponteiroEm = (s: Sessao, L: Lista) => {
+    const d = rolado(L);
+    return { x: s.cx + window.scrollX + d.x, y: s.cy + window.scrollY + d.y };
+  };
+  const visivelEm = (L: Lista, cx: number, cy: number) => {
+    if (!L.area) return true;
+    const r = L.area.getBoundingClientRect();
+    return cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom;
   };
 
   const passo = (s: Sessao, lid: string) => s.rect.h + (s.foto[lid]?.vao ?? 0);
@@ -176,11 +242,18 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
     }
   };
 
-  const posicionar = (s: Sessao, x: number, y: number, suave: boolean) => {
-    const el = elementos.current.get(s.id);
-    if (!el) return;
-    el.style.transition = suave ? VIAGEM : 'none';
-    el.style.transform = `translate3d(${x - s.rect.x}px, ${y - s.rect.y}px, 0)`;
+  const levarAoAlcance = (s: Sessao) => {
+    if (!s.alvo || s.bloqueado) return;
+    const L = s.foto[s.alvo];
+    const v = vagaDe(s);
+    const topo = v.y - window.scrollY - rolado(L).y;
+    const base = topo + s.rect.h;
+    if (L.area) {
+      const r = L.area.getBoundingClientRect();
+      if (topo < r.top) L.area.scrollTop -= r.top - topo + 8;
+      else if (base > r.bottom) L.area.scrollTop += base - r.bottom + 8;
+    } else if (topo < 0) window.scrollBy(0, topo - 8);
+    else if (base > window.innerHeight) window.scrollBy(0, base - window.innerHeight + 8);
   };
 
   const atualizarAlvo = (s: Sessao, lid: string | null, indice: number) => {
@@ -193,16 +266,25 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
     aplicarVizinhos(s, true);
     setOverList(lid);
     setBlocked(bloq);
-    setVaga(lid && !bloq ? { ...vagaDe(s), w: s.rect.w, h: s.rect.h } : null);
-    if (lid && !bloq) setAviso(`${getListLabel(lid)}, posição ${indice + 1} de ${semOArrastado(s, lid).length + 1}`);
-    else if (lid) setAviso(`Não é possível soltar em ${getListLabel(lid)}`);
+    if (lid && !bloq) {
+      const L = s.foto[lid];
+      const cont = conteineres.current.get(lid);
+      const v = vagaDe(s);
+      setVaga({ lista: lid, left: v.x - L.caixa.x - (cont?.clientLeft ?? 0), top: v.y - L.caixa.y - (cont?.clientTop ?? 0), w: s.rect.w, h: s.rect.h });
+      setAviso(`${getListLabel(lid)}, posição ${indice + 1} de ${semOArrastado(s, lid).length + 1}`);
+    } else {
+      setVaga(null);
+      if (lid) setAviso(`Não é possível soltar em ${getListLabel(lid)}`);
+    }
   };
 
   const procurarAlvo = (s: Sessao) => {
-    const centroY = s.py - s.oy + s.rect.h / 2;
     for (const [lid, L] of Object.entries(s.foto)) {
+      if (!visivelEm(L, s.cx, s.cy)) continue;
+      const p = ponteiroEm(s, L);
       const c = L.caixa;
-      if (s.px < c.x || s.px > c.x + c.w || s.py < c.y - 8 || s.py > c.y + c.h + 8) continue;
+      if (p.x < c.x || p.x > c.x + c.w || p.y < c.y - 8 || p.y > c.y + c.h + 8) continue;
+      const centroY = p.y - s.oy + s.rect.h / 2;
       const sem = semOArrastado(s, lid);
       let indice = sem.findIndex((it) => centroY < topoVirtual(s, lid, it) + it.h / 2);
       if (indice < 0) indice = sem.length;
@@ -210,6 +292,16 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
       return;
     }
     atualizarAlvo(s, null, 0);
+  };
+
+  const posicionarNaVaga = (s: Sessao) => {
+    const el = elementos.current.get(s.id);
+    if (!el || !s.alvo || s.bloqueado) return;
+    const v = vagaDe(s);
+    const dAlvo = rolado(s.foto[s.alvo]);
+    const dOrigem = rolado(s.foto[s.origem]);
+    el.style.transition = VIAGEM;
+    el.style.transform = `translate3d(${v.x - s.rect.x - dAlvo.x + dOrigem.x}px, ${v.y - s.rect.y - dAlvo.y + dOrigem.y}px, 0)`;
   };
 
   const encerrar = (cancelar: boolean) => {
@@ -221,23 +313,43 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
     const { onMove: mover, getItemLabel, getListLabel } = opcoes.current;
     const valido = !cancelar && !!s.alvo && !s.bloqueado;
     const mudou = valido && !(s.alvo === s.origem && s.indice === s.indiceOrigem);
-    const destino = valido ? vagaDe(s) : { x: s.rect.x, y: s.rect.y };
+    const antes = (s.camada ?? elementos.current.get(s.id))?.getBoundingClientRect();
     if (!valido) aplicarVizinhos(s, false);
-    setVaga(null);
-    setPhase('settling');
-    posicionar(s, destino.x, destino.y, true);
-    setAviso(valido ? `${getItemLabel(s.id)} solto em ${getListLabel(s.alvo!)}, posição ${s.indice + 1}` : `${getItemLabel(s.id)} voltou para o lugar`);
+    flushSync(() => {
+      if (mudou) mover({ id: s.id, from: s.origem, to: s.alvo!, index: s.indice });
+      setEscondido(null);
+      setVaga(null);
+      setOverList(null);
+      setBlocked(false);
+    });
+    s.camada?.remove();
+    s.posicoes.forEach((valor, cont) => { cont.style.position = valor; });
+    if (valido) {
+      for (const [id, e] of elementos.current) {
+        if (id === s.id) continue;
+        e.style.transition = 'none';
+        e.style.transform = '';
+      }
+    }
     const el = elementos.current.get(s.id);
+    if (el && antes) {
+      el.style.transition = 'none';
+      el.style.transform = '';
+      const depois = el.getBoundingClientRect();
+      el.style.transform = `translate3d(${antes.left - depois.left}px, ${antes.top - depois.top}px, 0)`;
+      void el.offsetWidth;
+      el.style.transition = VIAGEM;
+      el.style.transform = '';
+    }
+    setPhase('settling');
+    setAviso(valido ? `${getItemLabel(s.id)} solto em ${getListLabel(s.alvo!)}, posição ${s.indice + 1}` : `${getItemLabel(s.id)} voltou para o lugar`);
     window.setTimeout(() => {
       flushSync(() => {
-        if (mudou) mover({ id: s.id, from: s.origem, to: s.alvo!, index: s.indice });
         setDraggingId(null);
         setPhase(null);
-        setOverList(null);
-        setBlocked(false);
       });
       for (const e of elementos.current.values()) {
-        e.style.transition = 'none';
+        e.style.transition = '';
         e.style.transform = '';
       }
       sessao.current = null;
@@ -245,19 +357,29 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
     }, (el ? duracaoDe(el) : 0) + 30);
   };
 
-  const comecar = (id: string, lid: string, inicio: { px: number; py: number; cx: number; cy: number; teclado: boolean }) => {
+  const comecar = (id: string, lid: string, inicio: { cx: number; cy: number; teclado: boolean }) => {
+    const el = elementos.current.get(id);
     const foto = fotografar();
     const rect = foto[lid]?.itens.find((i) => i.id === id);
-    if (!rect) return null;
+    if (!el || !rect) return null;
+    const naTela = el.getBoundingClientRect();
+    const posicoes = new Map<HTMLElement, string>();
+    for (const cont of conteineres.current.values()) {
+      if (getComputedStyle(cont).position !== 'static') continue;
+      posicoes.set(cont, cont.style.position);
+      cont.style.position = 'relative';
+    }
     const s: Sessao = {
       id, origem: lid, indiceOrigem: foto[lid].ids.indexOf(id), foto, rect,
-      ox: inicio.px - rect.x, oy: inicio.py - rect.y, px: inicio.px, py: inicio.py, cx: inicio.cx, cy: inicio.cy,
-      alvo: null, indice: -1, bloqueado: false, teclado: inicio.teclado, saindo: false, quadro: 0, desfazer: () => undefined,
+      ox: inicio.cx - naTela.left, oy: inicio.cy - naTela.top, cx: inicio.cx, cy: inicio.cy,
+      alvo: null, indice: -1, bloqueado: false, teclado: inicio.teclado, saindo: false, quadro: 0,
+      camada: inicio.teclado ? null : criarCopia(el, naTela), posicoes, desfazer: () => undefined,
     };
     sessao.current = s;
     flushSync(() => {
       setDraggingId(id);
       setPhase('lifted');
+      if (!inicio.teclado) setEscondido(id);
     });
     atualizarAlvo(s, lid, s.indiceOrigem);
     const nome = opcoes.current.getItemLabel(id);
@@ -265,10 +387,28 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
     return s;
   };
 
+  const velocidade = (dentro: number) => Math.min(24, Math.ceil(dentro / 4));
+
   const rolarSozinho = (s: Sessao) => {
-    const altura = window.innerHeight;
-    const d = s.cy < BORDA ? -Math.ceil((BORDA - s.cy) / 6) : s.cy > altura - BORDA ? Math.ceil((s.cy - altura + BORDA) / 6) : 0;
-    if (d) window.scrollBy(0, d);
+    const L = s.foto[s.alvo ?? s.origem];
+    let rolou = false;
+    if (L?.area) {
+      const r = L.area.getBoundingClientRect();
+      if (s.cx >= r.left && s.cx <= r.right) {
+        if (s.cy < r.top + BORDA_DA_AREA && L.area.scrollTop > 0) {
+          L.area.scrollTop -= velocidade(r.top + BORDA_DA_AREA - s.cy);
+          rolou = true;
+        } else if (s.cy > r.bottom - BORDA_DA_AREA && L.area.scrollTop < L.area.scrollHeight - L.area.clientHeight) {
+          L.area.scrollTop += velocidade(s.cy - r.bottom + BORDA_DA_AREA);
+          rolou = true;
+        }
+      }
+    }
+    if (!rolou) {
+      const altura = window.innerHeight;
+      if (s.cy < BORDA_DA_JANELA) window.scrollBy(0, -velocidade(BORDA_DA_JANELA - s.cy));
+      else if (s.cy > altura - BORDA_DA_JANELA) window.scrollBy(0, velocidade(s.cy - altura + BORDA_DA_JANELA));
+    }
     s.quadro = requestAnimationFrame(() => rolarSozinho(s));
   };
 
@@ -278,13 +418,14 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
     const pelaAlca = !!alvo.closest('[data-ob-drag-handle]');
     if (e.pointerType !== 'mouse' && !pelaAlca) return;
     if (!pelaAlca && alvo.closest('button, a, input, select, textarea, [contenteditable="true"], [data-ob-no-drag]')) return;
-    const inicio = { cx: e.clientX, cy: e.clientY, px: e.clientX + window.scrollX, py: e.clientY + window.scrollY, teclado: false };
+    const inicio = { cx: e.clientX, cy: e.clientY, teclado: false };
     let s: Sessao | null = null;
     const atualizar = () => {
       if (!s) return;
-      s.px = s.cx + window.scrollX;
-      s.py = s.cy + window.scrollY;
-      posicionar(s, s.px - s.ox, s.py - s.oy, false);
+      if (s.camada) {
+        s.camada.style.left = `${s.cx - s.ox}px`;
+        s.camada.style.top = `${s.cy - s.oy}px`;
+      }
       procurarAlvo(s);
     };
     const rolar = () => atualizar();
@@ -354,7 +495,7 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
       const el = elementos.current.get(id);
       if (!el) return;
       const r = el.getBoundingClientRect();
-      comecar(id, lid, { cx: r.left, cy: r.top, px: r.left + window.scrollX, py: r.top + window.scrollY, teclado: true });
+      comecar(id, lid, { cx: r.left, cy: r.top, teclado: true });
       return;
     }
     if (!s.teclado || s.id !== id || s.saindo) return;
@@ -379,10 +520,8 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
     } else return;
     e.preventDefault();
     atualizarAlvo(s, lAlvo, indice);
-    if (!s.bloqueado) {
-      const v = vagaDe(s);
-      posicionar(s, v.x, v.y, true);
-    }
+    levarAoAlcance(s);
+    posicionarNaVaga(s);
   };
 
   useEffect(() => () => {
@@ -390,6 +529,8 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
     if (!s) return;
     s.desfazer();
     cancelAnimationFrame(s.quadro);
+    s.camada?.remove();
+    s.posicoes.forEach((valor, cont) => { cont.style.position = valor; });
   }, []);
 
   const listProps = (listId: string) => ({
@@ -408,6 +549,7 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
     style: {
       position: 'relative', touchAction: 'pan-y', cursor: draggingId === id ? 'grabbing' : 'grab',
       zIndex: draggingId === id ? 'var(--ob-z-drag)' : undefined,
+      visibility: escondido === id ? 'hidden' : undefined,
     } as React.CSSProperties,
   });
 
@@ -421,24 +563,28 @@ export function useDragAndDrop({ lists, onMove, canDrop, getItemLabel = (id) => 
 
   const liftStyle = (id: string): React.CSSProperties => {
     const erguido = draggingId === id && phase === 'lifted';
+    const tempo = `var(--ob-dur-${phase === 'settling' ? 'base' : 'fast'}) var(--ob-ease-out)`;
     return {
+      '--ob-drag-surface': '1',
       transform: erguido ? 'scale(1.01)' : 'scale(1)',
       boxShadow: erguido ? 'var(--ob-shadow-md)' : undefined,
-      transition: `transform var(--ob-dur-${phase === 'settling' ? 'base' : 'fast'}) var(--ob-ease-out), box-shadow var(--ob-dur-${phase === 'settling' ? 'base' : 'fast'}) var(--ob-ease-out)`,
-    };
+      transition: `transform ${tempo}, box-shadow ${tempo}`,
+    } as React.CSSProperties;
   };
 
+  const destinoDaVaga = vaga ? conteineres.current.get(vaga.lista) : undefined;
   const overlay = (
     <>
       <span aria-live="polite" style={ESCONDIDO}>{aviso}</span>
-      {vaga && typeof document !== 'undefined' && createPortal(
+      {vaga && destinoDaVaga && createPortal(
         <div aria-hidden="true" data-ob-drop-slot="" style={{
-          position: 'absolute', left: vaga.x, top: vaga.y, width: vaga.w, height: vaga.h, boxSizing: 'border-box', pointerEvents: 'none',
+          position: 'absolute', left: vaga.left, top: vaga.top, width: vaga.w, height: vaga.h, boxSizing: 'border-box', pointerEvents: 'none',
           borderRadius: 'var(--ob-r-surface)', border: '1.5px dashed color-mix(in srgb, var(--ob-blue) 45%, transparent)',
           background: 'color-mix(in srgb, var(--ob-blue) 5%, transparent)',
           transition: 'top var(--ob-dur-fast) var(--ob-ease-out), left var(--ob-dur-fast) var(--ob-ease-out)',
         }} />,
-        document.body,
+        destinoDaVaga,
+        vaga.lista,
       )}
     </>
   );
