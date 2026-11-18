@@ -38,7 +38,8 @@ Um componente por pasta, agrupado pelo **papel dele na interface** (`src/<catego
 | `iconography` | Icons, Ph |
 
 Fora das categorias, `src/theme/` tem o tema claro/escuro (`themeManager`, `useTheme`, `themeInitScript`) e
-`src/layout/` tem os breakpoints (`BREAKPOINTS`, `mediaQuery`, `useBreakpoint`).
+`src/layout/` tem os breakpoints (`BREAKPOINTS`, `mediaQuery`, `useBreakpoint`) e `src/interaction/` tem o arrastar e soltar
+(`useDragAndDrop`, `applyDragMove`).
 
 `src/internal/` guarda o que é compartilhado e não faz parte da API pública (tons de cor, posições do toast, injeção de CSS, datas e lógica do calendário, posicionamento de painéis, `FloatingPanel` e `StatusDot`). Ao criar um componente, escolha a categoria pelo que ele faz para o usuário e exporte-o em `src/index.ts`.
 

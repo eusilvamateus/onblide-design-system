@@ -74,3 +74,5 @@ export { themeInitScript } from './theme/themeInitScript';
 export { BREAKPOINTS, BREAKPOINT_ORDER, mediaQuery } from './layout/breakpoints';
 export type { Breakpoint, BreakpointName } from './layout/breakpoints';
 export { useBreakpoint } from './layout/useBreakpoint';
+export { useDragAndDrop, applyDragMove } from './interaction/useDragAndDrop';
+export type { DragMove, DragPhase, UseDragAndDropOptions, UseDragAndDropResult } from './interaction/useDragAndDrop';

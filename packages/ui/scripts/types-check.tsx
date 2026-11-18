@@ -5,7 +5,7 @@
 // depois do build. Cada `@ts-expect-error` abaixo DEVE continuar errando — se o
 // erro sumir, o tsc reclama de diretiva não usada.
 import React, { useState } from 'react';
-import { Table, Sidebar, Navbar, Menu, Alert, Toast, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, ColorPicker, ColorInput, TimePicker, toast, BREAKPOINTS, mediaQuery, useBreakpoint } from '@onblide/ui';
+import { Table, Sidebar, Navbar, Menu, Alert, Toast, Select, Slider, Icons, Link, Modal, Pagination, Logo, Calendar, Datepicker, ColorPicker, ColorInput, TimePicker, toast, BREAKPOINTS, mediaQuery, useBreakpoint, useDragAndDrop, applyDragMove, Button as BotaoDaAlca } from '@onblide/ui';
 import type {
   BadgeTone, OBTone, OBToastPosition,
   IconName, IconProps, IconComponent,
@@ -18,6 +18,7 @@ import type {
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
   ColorPickerProps, ColorPickerMode, ColorFormat, ColorSwatch, ColorInputProps, ColorInputSize,
   TimePickerProps, SingleTimePickerProps, RangeTimePickerProps, TimeRange, TimePickerSize,
+  DragMove, DragPhase, UseDragAndDropOptions, UseDragAndDropResult,
   ToastOptions, ToastShortcutOptions,
   Breakpoint, BreakpointName,
   CheckboxSize, RadioSize, SwitchSize,
@@ -243,5 +244,23 @@ export function VerificaHorarios() {
       {/* @ts-expect-error forma inexistente */}
       <TimePicker variant="wheel" />
     </>
+  );
+}
+
+export function VerificaArrasto() {
+  const [listas, setListas] = useState<Record<string, string[]>>({ a: ['1', '2'], b: [] });
+  const dnd = useDragAndDrop({ lists: listas, onMove: (m: DragMove) => setListas((l) => applyDragMove(l, m)), canDrop: (id, de, para) => de !== para || id !== '1', getItemLabel: (id) => id, getListLabel: (l) => l });
+  const fase: DragPhase | null = dnd.phase;
+  return (
+    <div {...dnd.listProps('a')}>
+      {listas.a.map((id) => (
+        <div key={id} {...dnd.itemProps(id, 'a')}>
+          <div style={dnd.liftStyle(id)}><BotaoDaAlca kind="quiet" iconOnly aria-label="Mover" {...dnd.handleProps(id, 'a')} />{fase}</div>
+        </div>
+      ))}
+      {dnd.overlay}
+      {/* @ts-expect-error onMove é obrigatório */}
+      {useDragAndDrop({ lists: listas }).overlay}
+    </div>
   );
 }

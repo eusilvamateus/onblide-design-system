@@ -618,7 +618,7 @@
   --ob-z-dropdown: 500;   /* @kind other */   /* Select, Autocomplete, Menu, Popover       */
   --ob-z-toast:    600;   /* @kind other */   /* Toast (acima de tudo interativo)          */
   --ob-z-tooltip:  700;   /* @kind other */   /* Tooltip                                   */
-  --ob-z-drag:     800;   /* @kind other */   /* prévia de arrastar do TreeView            */
+  --ob-z-drag:     800;   /* @kind other */   /* item sendo arrastado                      */
   --ob-z-system:  9000;   /* @kind other */   /* overlays de debug / dev tools             */
 
   /* ------------------------------------------------------------
