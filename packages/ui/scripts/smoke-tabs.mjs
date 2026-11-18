@@ -20,6 +20,17 @@ const linha = render({ active: 'a' });
 for (const rotulo of ['Geral', 'Equipe', 'Faturas']) if (!linha.includes(rotulo)) fail(`rótulo ${rotulo}`, linha);
 if ((linha.match(/<button/g) ?? []).length !== 3) fail('um botão por aba', linha);
 if (!linha.includes('ph-house')) fail('ícone Phosphor da aba', linha);
+if (vezes(linha, 'role="tablist"') !== 1) fail('as abas formam uma lista de abas', linha);
+if (vezes(linha, 'role="tab"') !== 3) fail('cada aba tem o papel de aba', linha);
+if (vezes(linha, 'aria-selected="true"') !== 1 || vezes(linha, 'aria-selected="false"') !== 2) fail('só a aba ativa é anunciada como selecionada', linha);
+if (vezes(linha, 'tabindex="0"') !== 1 || vezes(linha, 'tabindex="-1"') !== 2) fail('só a aba ativa entra na ordem do Tab', linha);
+if (!/aria-selected="true"[^>]*tabindex="0"/.test(linha)) fail('a aba que recebe o foco é a ativa', linha);
+if (vezes(linha, 'type="button"') !== 3) fail('as abas não enviam formulário', linha);
+if (!render({ active: 'c' }).match(/tabindex="0"[^>]*>(?:(?!<\/button>).)*Geral/s)) fail('com a aba ativa desabilitada, a primeira habilitada recebe o foco', render({ active: 'c' }));
+if (linha.includes('aria-label=')) fail('sem ariaLabel a lista não ganha nome', linha);
+if (!render({ active: 'a', ariaLabel: 'Seções da conta' }).includes('role="tablist" aria-label="Seções da conta"')) fail('ariaLabel nomeia a lista de abas');
+const comPainel = renderToStaticMarkup(React.createElement(Tabs, { tabs: [{ id: 'a', label: 'Geral', panelId: 'painel-geral' }, { id: 'b', label: 'Equipe' }], active: 'a' }));
+if (!comPainel.includes('aria-controls="painel-geral"') || vezes(comPainel, 'aria-controls') !== 1) fail('panelId liga a aba ao painel', comPainel);
 if (!/<button[^>]*disabled/.test(linha)) fail('aba desabilitada', linha);
 if (!linha.includes('bottom:-1px')) fail('variante line sublinha a aba ativa', linha);
 if (render({ active: 'a', variant: 'pill' }).includes('bottom:-1px')) fail('pill não tem sublinhado');
@@ -71,4 +82,4 @@ if (abaLinha.includes('box-shadow:var(--ob-shadow-xs)')) fail('line não tem som
 if (vezes(pilula('b', 'soft'), contador({ tone: 'primary', appearance: 'solid' }, 4)) !== 1) fail('contador da aba ativa segue o tom da aba', pilula('b', 'soft'));
 if (vezes(pilula('b', 'solid'), contador({ tone: 'neutral' }, 4)) !== 1) fail('na aba preenchida o contador fica discreto', pilula('b', 'solid'));
 
-console.log('OK: Tabs (abas, ícone, disabled, line/pill, contador via Badge, marcação para o indicador, tom sozinho, appearance soft/solid, dot e linha)');
+console.log('OK: Tabs (papéis de abas, aba selecionada, foco só na ativa, ariaLabel, panelId, abas, ícone, disabled, line/pill, contador via Badge, marcação para o indicador, tom sozinho, appearance soft/solid, dot e linha)');

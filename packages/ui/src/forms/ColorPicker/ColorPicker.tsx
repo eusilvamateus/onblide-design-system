@@ -138,7 +138,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
     <div ref={raiz} tabIndex={-1} style={{ width: largura, maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-12)', outline: 'none' }}>
       {formas.length > 1 && (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Tabs variant="pill" size={toque ? 'md' : 'sm'} active={modo} onChange={(id) => setModo(id as ColorPickerMode)}
+          <Tabs variant="pill" size={toque ? 'md' : 'sm'} ariaLabel="Forma de escolher a cor" active={modo} onChange={(id) => setModo(id as ColorPickerMode)}
             tabs={formas.map((m) => ({ id: m, label: ROTULOS[m] }))} />
         </div>
       )}

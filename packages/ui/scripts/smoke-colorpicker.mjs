@@ -15,7 +15,7 @@ const igual = (a, b, msg) => { if (a !== b) fail(msg, `esperado ${JSON.stringify
 const basico = painel({ value: '#0a4ee4' });
 if (!basico.includes('aria-label="Saturação e brilho"')) fail('a área livre é a forma padrão', basico);
 if (!basico.includes('aria-label="Matiz"')) fail('a área livre vem com a barra de matiz', basico);
-if (basico.includes('data-ativa')) fail('com uma forma só, as abas não aparecem', basico);
+if (basico.includes('role="tablist"')) fail('com uma forma só, as abas não aparecem', basico);
 if (basico.includes('Transparência')) fail('sem alpha, não há barra de transparência', basico);
 if (!basico.includes('value="0A4EE4"')) fail('o campo hexadecimal mostra a cor', basico);
 if (!basico.includes('aria-label="Formato da cor"')) fail('o formato dos campos pode ser trocado', basico);
@@ -27,7 +27,7 @@ if (!comAlfa.includes('aria-label="Alfa"')) fail('alpha mostra o campo de transp
 if (!comAlfa.includes('aria-valuetext="50%"')) fail('a barra de transparência anuncia a porcentagem', comAlfa);
 
 const formas = painel({ value: '#0a4ee4', modes: ['grid', 'spectrum', 'sliders'] });
-if (!formas.includes('data-ativa')) fail('várias formas viram abas', formas);
+if (!formas.includes('role="tablist" aria-label="Forma de escolher a cor"')) fail('várias formas viram abas com nome', formas);
 for (const rotulo of ['Grade', 'Espectro', 'Barras']) if (!formas.includes(`>${rotulo}<`)) fail(`a aba ${rotulo} aparece`, formas);
 if (contar(formas, 'role="option"') !== 120) fail('a primeira forma (grade) abre com 120 cores', contar(formas, 'role="option"'));
 if (!formas.includes('aria-label="branco, #FFFFFF"')) fail('as células da grade têm nome de cor', formas);

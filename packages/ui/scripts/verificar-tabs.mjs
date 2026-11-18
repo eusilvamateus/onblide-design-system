@@ -134,11 +134,44 @@ esperar(
   `com prefers-reduced-motion a troca é imediata, veio ${JSON.stringify(semAnimacao)}`,
 );
 
+await p.emulateMedia({ reducedMotion: 'no-preference' });
+await p.evaluate(() => {
+  const abas = [
+    { id: 'a', label: 'Geral' },
+    { id: 'b', label: 'Equipe' },
+    { id: 'c', label: 'Faturas', disabled: true },
+    { id: 'd', label: 'Planos' },
+  ];
+  window.__trocas = [];
+  const Controlado = () => {
+    const [ativa, setAtiva] = React.useState('a');
+    return React.createElement(window.Tabs, { tabs: abas, active: ativa, onChange: (id) => { window.__trocas.push(id); setAtiva(id); }, ariaLabel: 'Seções' });
+  };
+  window.__raiz?.unmount();
+  window.__raiz = ReactDOM.createRoot(document.getElementById('r'));
+  ReactDOM.flushSync(() => window.__raiz.render(React.createElement(Controlado)));
+});
+const focada = () => p.evaluate(() => document.activeElement?.textContent ?? '');
+const selecionada = () => p.evaluate(() => document.querySelector('[role="tab"][aria-selected="true"]')?.textContent ?? '');
+await p.getByRole('tab', { name: 'Geral' }).focus();
+for (const [tecla, esperada] of [['ArrowRight', 'Equipe'], ['ArrowRight', 'Planos'], ['ArrowRight', 'Geral'], ['ArrowLeft', 'Planos'], ['Home', 'Geral'], ['End', 'Planos']]) {
+  await p.keyboard.press(tecla);
+  await p.waitForTimeout(30);
+  esperar((await focada()) === esperada && (await selecionada()) === esperada, `teclado: ${tecla} deveria focar e ativar ${esperada}, focou ${await focada()} e ativou ${await selecionada()}`);
+}
+esperar(!(await p.evaluate(() => window.__trocas.includes('c'))), 'teclado: a aba desabilitada deveria ser pulada');
+const trocasAntes = await p.evaluate(() => window.__trocas.length);
+await p.keyboard.press('End');
+esperar((await p.evaluate(() => window.__trocas.length)) === trocasAntes, 'teclado: ir para a aba que já está ativa não deveria chamar onChange');
+await p.keyboard.press('Tab');
+esperar((await focada()) !== 'Geral' && (await focada()) !== 'Equipe', 'Tab deveria sair do grupo de abas, não passar por cada aba');
+esperar((await p.getByRole('tablist', { name: 'Seções' }).count()) === 1, 'a lista de abas deveria ter o nome do ariaLabel');
+
 await b.close();
 if (falhas.length) {
-  console.error('FAIL: indicador do Tabs\n' + falhas.join('\n'));
+  console.error('FAIL: Tabs\n' + falhas.join('\n'));
   process.exit(1);
 }
 console.log(
-  'OK: indicador do Tabs (único, mede a aba ativa, desliza em transform/width, segue tone e largura, respeita reduced-motion)',
+  'OK: Tabs (indicador único, mede a aba ativa, desliza em transform/width, segue tone e largura, respeita reduced-motion; setas, Home e End focam e ativam, pulam a desabilitada e Tab sai do grupo)',
 );

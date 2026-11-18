@@ -37,6 +37,8 @@ export interface TabItem {
   disabled?: boolean;
   /** Cor da aba quando ativa: pinta o texto (e o traço, na variante `line`). Com `neutral` ou sem tom, a aba usa o visual padrão. */
   tone?: TabTone;
+  /** Id do painel que a aba mostra. Liga a aba ao painel para o leitor de tela (`aria-controls`); o painel leva `role="tabpanel"`. */
+  panelId?: string;
 }
 
 export interface TabsProps {
@@ -54,13 +56,16 @@ export interface TabsProps {
   appearance?: TabsAppearance;
   /** Mostra um ponto na cor do `tone` antes do rótulo de cada aba que tem tom. */
   dot?: boolean;
+  /** Nome do grupo de abas lido pelo leitor de tela, quando nenhum título visível já o descreve. */
+  ariaLabel?: string;
 }
 
-/** Alterna entre seções de conteúdo relacionado sem mudar de página. */
-export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant = 'line', size = 'md', appearance, dot = false }) => {
+/** Alterna entre seções de conteúdo relacionado sem mudar de página. As setas, `Home` e `End` andam entre as abas e já as ativam. */
+export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant = 'line', size = 'md', appearance, dot = false, ariaLabel }) => {
   const isLine = variant === 'line';
   const escala = ESCALA_DA_ABA[size];
   const lista = React.useRef<HTMLDivElement>(null);
+  const botoes = React.useRef<(HTMLButtonElement | null)[]>([]);
   const [indicador, setIndicador] = React.useState<Indicador | null>(null);
   const ids = tabs.map(tab => tab.id).join('|');
 
@@ -82,6 +87,24 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
   }, [medir, ids]);
 
   const ativa = tabs.find(tab => tab.id === active);
+  const habilitadas = tabs.flatMap((tab, i) => (tab.disabled ? [] : [i]));
+  const indiceAtivo = tabs.findIndex(tab => tab.id === active && !tab.disabled);
+  const focavel = indiceAtivo >= 0 ? indiceAtivo : habilitadas[0];
+  const teclar = (e: React.KeyboardEvent, i: number) => {
+    const n = habilitadas.length;
+    const posicao = habilitadas.indexOf(i);
+    const destinos: Record<string, number | undefined> = {
+      ArrowRight: habilitadas[(posicao + 1) % n],
+      ArrowLeft: habilitadas[(posicao - 1 + n) % n],
+      Home: habilitadas[0],
+      End: habilitadas[n - 1],
+    };
+    const destino = destinos[e.key];
+    if (destino == null || e.altKey || e.ctrlKey || e.metaKey) return;
+    e.preventDefault();
+    botoes.current[destino]?.focus();
+    if (destino !== indiceAtivo) onChange?.(tabs[destino].id);
+  };
   const tomAtivo = ACTION_TONES[ativa?.tone ?? 'neutral'];
   const ativaColorida = !!ativa?.tone && ativa.tone !== 'neutral';
   let fundoDoIndicador = 'var(--ob-surface)';
@@ -94,7 +117,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
   return (
     <div style={{ position: 'relative' }}>
       {isLine && <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 1, background: 'var(--ob-border)' }}/>}
-      <div ref={lista} style={{
+      <div ref={lista} role="tablist" aria-label={ariaLabel} style={{
         display: 'inline-flex', gap: isLine ? 0 : 'var(--ob-space-4)',
         background: isLine ? 'none' : 'var(--ob-bg-alt)',
         border: isLine ? 'none' : '1px solid var(--ob-border)',
@@ -114,7 +137,7 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
             pointerEvents: 'none',
           }}/>
         )}
-        {tabs.map(tab => {
+        {tabs.map((tab, i) => {
           const isActive = tab.id === active;
           const colorida = !!tab.tone && tab.tone !== 'neutral';
           const tom = ACTION_TONES[tab.tone ?? 'neutral'];
@@ -131,6 +154,13 @@ export const Tabs: React.FC<TabsProps> = ({ tabs = [], active, onChange, variant
           return (
             <button
               key={tab.id}
+              ref={el => { botoes.current[i] = el; }}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              aria-controls={tab.panelId}
+              tabIndex={i === focavel ? 0 : -1}
+              onKeyDown={e => teclar(e, i)}
               onClick={() => onChange?.(tab.id)}
               disabled={tab.disabled}
               data-ativa={isActive ? '' : undefined}

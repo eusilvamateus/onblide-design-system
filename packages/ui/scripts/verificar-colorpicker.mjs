@@ -120,11 +120,11 @@ esperar(depois.fins - antes.fins === 1, `um arrasto deveria disparar um só onCh
 const alturaDoPainel = async () => (await painel.boundingBox()).height;
 const alturaNaArea = await alturaDoPainel();
 for (const aba of ['Grade', 'Barras']) {
-  await painel.getByRole('button', { name: aba, exact: true }).click();
+  await painel.getByRole('tab', { name: aba, exact: true }).click();
   await assentar();
   esperar(Math.abs((await alturaDoPainel()) - alturaNaArea) < 1, `a aba ${aba} não deveria mudar a altura do painel`);
 }
-await painel.getByRole('button', { name: 'Livre', exact: true }).click();
+await painel.getByRole('tab', { name: 'Livre', exact: true }).click();
 await assentar();
 
 const MAIORES = { HEX: { Alfa: '100' }, RGB: { Red: '255', Green: '255', Blue: '255', Alfa: '100' }, HSL: { Hue: '360', 'Saturação': '100', Luz: '100', Alfa: '100' } };
@@ -179,7 +179,7 @@ await assentar();
 const abaixo = (await grade.getByRole('option').nth(4 * 12 + 6).getAttribute('aria-label')).match(/#[0-9A-F]{6}/)[0];
 esperar((await variacao.inputValue()) === abaixo, `↓ e Enter na grade deveriam escolher a célula de baixo (${abaixo}, veio ${await variacao.inputValue()})`);
 
-await dlg.getByRole('button', { name: 'Espectro', exact: true }).click();
+await dlg.getByRole('tab', { name: 'Espectro', exact: true }).click();
 await assentar();
 esperar(Math.abs((await dlg.boundingBox()).height - alturaNaGrade) < 1, 'o espectro não deveria mudar a altura do painel');
 const espectro = dlg.getByRole('slider', { name: 'Espectro de cores' });
@@ -198,7 +198,7 @@ await p.mouse.click(esp.x + esp.width * 0.6, esp.y + esp.height * 0.45);
 await assentar();
 esperar((await dlg.getByRole('slider', { name: 'Saturação' }).getAttribute('aria-valuenow')) !== '100', 'clicar no espectro deveria manter a saturação escolhida');
 
-await dlg.getByRole('button', { name: 'Barras', exact: true }).click();
+await dlg.getByRole('tab', { name: 'Barras', exact: true }).click();
 await assentar();
 esperar(Math.abs((await dlg.boundingBox()).height - alturaNaGrade) < 1, 'as barras não deveriam mudar a altura do painel');
 const antesDasBarras = await variacao.inputValue();
