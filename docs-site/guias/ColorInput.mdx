@@ -1,0 +1,59 @@
+---
+resumo: "Campo de cor: aceita HEX, `rgb()` e `hsl()` digitados ou colados, mostra a amostra e abre o **ColorPicker** em um popover."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do ColorInput: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Formulários de configuração: cor da marca, de uma etiqueta, do fundo. O campo é a entrada principal: a pessoa pode **digitar** ou **colar** a cor, ou abrir o painel pela amostra à esquerda.
+
+```jsx
+const [cor, setCor] = useState('#0a4ee4');
+<ColorInput label="Cor principal" value={cor} onChange={setCor} onChangeEnd={salvar} />
+```
+
+O valor é o mesmo do **ColorPicker**: hexadecimal minúsculo, `#rrggbbaa` com `alpha`, e `null` quando o campo é esvaziado. `alpha`, `swatches`, `swatchesOnly` e `modes` são repassados ao painel.
+
+### O que o campo aceita
+
+| Entrada | Quando vale |
+| --- | --- |
+| `#0A4EE4`, `0a4ee4` | Ao completar 6 dígitos (8 com `alpha`) |
+| `#FFF` | Ao sair do campo ou apertar `Enter` |
+| `rgb(31, 111, 92)`, `rgb(0 0 0 / 50%)` | Ao digitar ou colar |
+| `hsl(220 90% 45%)`, `hsla(…)` | Ao digitar ou colar |
+
+Digitar pela metade não acusa erro. Só ao apertar `Enter` com algo que não é cor o campo avisa "Cor não reconhecida. Use #RRGGBB, rgb() ou hsl()". Ao sair do campo, um valor inválido volta para a última cor válida.
+
+<FacaEvite>
+<Faca>
+
+Validar o contraste no `onChangeEnd` e mostrar o resultado em `error` ou `hint`: "Contraste baixo com o fundo branco".
+
+</Faca>
+<Evite>
+
+Usar o ColorInput para escolher entre poucas cores fixas. Nesse caso, mostre as opções direto com `swatchesOnly`, ou um **RadioGroup**.
+
+</Evite>
+</FacaEvite>
+
+`size` aceita `sm` (32px de altura), `md` (40px, padrão) e `lg` (48px), as mesmas alturas do **Button**. O painel não muda.
+
+## Guia de conteúdo
+
+- Rótulo pela função da cor: "Cor principal", "Fundo", "Faixa sobre as fotos".
+- O campo vazio mostra "Sem cor" e uma amostra tracejada; troque com `placeholder` quando fizer sentido ("Herdar do tema").
+- Use `hint` para dizer onde a cor aparece: "Botões, links e destaques".
+
+## Guia de design
+
+**Tokens.** Campo no `FieldShell`, como o **Input**, com o código em `--ob-font-mono` para os dígitos alinharem. A amostra é o gatilho do **Popover**, um **Button** `quiet` só com ícone.
+
+<Nota>
+
+**Versão mobile:** no celular, o painel fica quase da largura da tela e ganha áreas de toque maiores, mas continua num popover ancorado. Por isso o componente **não marca** "versão mobile".
+
+</Nota>

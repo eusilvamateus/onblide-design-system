@@ -1,0 +1,81 @@
+---
+resumo: "Painel para escolher uma cor: área livre, grade, espectro ou barras, campos em HEX, RGB ou HSL, transparência, conta-gotas e cores salvas. Para um campo de formulário, use o **ColorInput**, que abre este painel."
+criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
+---
+
+{/* Guia do ColorPicker: uso, conteúdo e design. Editado à mão; entra na página gerada do componente. */}
+
+## Uso
+
+Personalização de marca, etiquetas, temas, gráficos. O painel fica solto na tela (barra lateral de um editor, por exemplo) ou dentro de um popover, que é o que o **ColorInput** faz.
+
+O valor é sempre hexadecimal minúsculo: `#rrggbb`, ou `#rrggbbaa` com `alpha` quando a cor não é opaca. `null` é sem cor.
+
+```jsx
+const [cor, setCor] = useState('#0a4ee4');
+<ColorPicker value={cor} onChange={setCor} onChangeEnd={salvar} />
+```
+
+### Formas de escolher
+
+`modes` define as formas de escolher a cor e a ordem das abas. Com uma só forma, as abas não aparecem. Na largura padrão (272px) cabem até três.
+
+| Forma | Para quê |
+| --- | --- |
+| `area` (padrão) | Quadrado de saturação e brilho com a barra de matiz. Escolha livre e precisa. |
+| `grid` | Grade de 120 cores prontas, de cinzas a tons de 12 matizes. Escolha rápida e consistente; dá para arrastar o dedo ou o mouse e soltar na cor. |
+| `spectrum` | Todas as matizes de uma vez, do claro ao escuro, com a barra de saturação para chegar aos tons acinzentados. |
+| `sliders` | Barras de vermelho, verde e azul, para quem pensa em canais. |
+
+A altura do painel não muda ao trocar de aba: o espaço das barras fica reservado em todas.
+
+### Terminar de escolher
+
+`onChange` dispara a cada movimento, inclusive durante o arrasto. `onChangeEnd` dispara uma vez quando a pessoa termina: ao soltar o arrasto, ao clicar numa amostra ou na grade, a cada tecla e ao confirmar um campo. Salve, valide ou chame a API no `onChangeEnd`.
+
+<FacaEvite>
+<Faca>
+
+Oferecer as cores da marca em `swatches`, com nome (`{ color, label }`). O nome aparece na dica e é o que o leitor de tela anuncia.
+
+</Faca>
+<Evite>
+
+Salvar a cada `onChange`: um arrasto gera dezenas de chamadas. Use `onChangeEnd`.
+
+</Evite>
+</FacaEvite>
+
+### Campos
+
+Os campos abaixo da área mostram a cor em HEX, RGB ou HSL; `format` define o formato ao abrir e a pessoa troca no próprio painel. O campo HEX aceita colar `rgb()`, `rgba()`, `hsl()` e `#FFF`, que viram hexadecimal na hora.
+
+| Tecla | Efeito |
+| --- | --- |
+| `←` `→` `↑` `↓` na área, no espectro e nas barras | Move 1 unidade |
+| `Shift` + seta | Move 10 unidades |
+| Setas na grade | Andam entre as células; `Enter` escolhe |
+
+### Outras partes
+
+- **Comparação:** o círculo à esquerda do formato mostra a cor de quando o painel abriu e a atual; clicar na metade antiga volta para ela.
+- **Conta-gotas:** aparece só nos navegadores com a API EyeDropper (Chrome e Edge) e pega qualquer cor da tela.
+- **Só amostras:** `swatchesOnly` mostra apenas as cores salvas, para quando a escolha precisa ficar dentro da paleta.
+
+<Nota>
+
+No celular (abaixo de `sm`), as barras ganham 32px de área de toque, as amostras passam a 32px e os campos e as abas aumentam. O painel continua num popover, não numa folha que sobe da base da tela.
+
+</Nota>
+
+## Guia de conteúdo
+
+- Nomeie as amostras pela função ou pelo nome da marca ("Azul Onblide", "Terracota"), não pelo código.
+- Sem nome, cada cor é anunciada pelo nome aproximado em português e pelo código: "azul escuro, #1E3A8A".
+- As abas usam palavras curtas: Livre, Grade, Espectro e Barras.
+
+## Guia de design
+
+**Tokens.** Bordas, foco e textos usam os tokens do sistema; o anel de foco é `--ob-focus-ring` com `--ob-focus-ring-width`, e o xadrez da transparência usa `--ob-line` e `--ob-surface`. As faixas de cor (arco-íris, preto e branco) são dados de cor, não cores da interface.
+
+**Peças do sistema.** As abas são o **Tabs** em `pill`, o formato é o **Select**, os campos são o **NumberField** e o **FieldShell**, o conta-gotas é o **Button** com **Tooltip** e a divisória das amostras é o **Divider**.
