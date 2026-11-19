@@ -1,7 +1,7 @@
 import React from 'react';
 import { FieldShell } from '../FieldShell/FieldShell';
 import { Ph } from '../../iconography/Ph/Ph';
-import { FieldAddon, focoNoAddon } from '../../internal/FieldAddon';
+import { FieldAddon, FieldEndIcon, focoNoAddon, temConteudo } from '../../internal/FieldAddon';
 import { ESCALA_DE_CAMPO, type TamanhoDeCampo } from '../../internal/tamanhoDeCampo';
 
 const numberFormat = (n: number | null | undefined, decimals: number, group = true): string =>
@@ -53,6 +53,8 @@ export interface NumberFieldProps {
   startAddon?: React.ReactNode;
   /** Conteúdo no fim do campo, dentro da mesma borda e separado por uma divisória: texto, `Select` com `embedded` ou botão compacto. */
   endAddon?: React.ReactNode;
+  /** Ícone ou botão compacto depois do número, dentro da mesma borda e sem divisória, antes dos botões de incrementar. Um `Button` com `iconOnly` e `size="sm"` se ajusta ao tamanho do campo. */
+  endIcon?: React.ReactNode;
 }
 
 const btnBase: React.CSSProperties = {
@@ -64,7 +66,7 @@ const btnBase: React.CSSProperties = {
 export const NumberField: React.FC<NumberFieldProps> = ({
   label, hint, error, value: valueProp, defaultValue = null, onChange, min = -Infinity, max = Infinity,
   step = 1, largeStep, decimals = 0, prefix, suffix, controls = 'split', clamp = true, align, disabled = false,
-  readOnly = false, placeholder, width, size = 'md', ariaLabel, startAddon, endAddon,
+  readOnly = false, placeholder, width, size = 'md', ariaLabel, startAddon, endAddon, endIcon,
 }) => {
   const escala = ESCALA_DE_CAMPO[size];
   const [val, setVal] = React.useState<number | null>(defaultValue);
@@ -144,10 +146,11 @@ export const NumberField: React.FC<NumberFieldProps> = ({
   const adorn = (t?: string) => t != null && <span style={{ fontSize: escala.fonte, color: 'var(--ob-fg-mute)', flex: 'none', whiteSpace: 'nowrap' }}>{t}</span>;
   const textAlign = align || (controls === 'split' ? 'center' : 'left');
   const shown = focused ? text : numberFormat(value, decimals);
-  const temInicio = startAddon != null && startAddon !== false;
-  const temFim = endAddon != null && endAddon !== false;
+  const temInicio = temConteudo(startAddon);
+  const temFim = temConteudo(endAddon);
+  const temIconeNoFim = temConteudo(endIcon);
   const emFoco = focused || addonFocused;
-  const [padEsq, padDir] = controls === 'split' ? [escala.recuoDaAcao, escala.recuoDaAcao] : controls === 'stacked' ? [escala.recuo, '0'] : [escala.recuo, escala.recuo];
+  const [padEsq, padDir] = controls === 'split' ? [escala.recuoDaAcao, escala.recuoDaAcao] : controls === 'stacked' ? [escala.recuo, '0'] : [escala.recuo, temIconeNoFim ? escala.recuoDaAcao : escala.recuo];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--ob-space-6)', width: width || '100%', fontFamily: 'var(--ob-font)' }}>
@@ -175,6 +178,7 @@ export const NumberField: React.FC<NumberFieldProps> = ({
             }} />
           {adorn(suffix)}
         </span>
+        {temIconeNoFim && <FieldEndIcon size={size}>{endIcon}</FieldEndIcon>}
         {controls === 'split' && btn(step, 'plus', 'Aumentar', { width: escala.acao, height: escala.acao, borderRadius: 'var(--ob-r-sm)', alignSelf: 'center' })}
         {controls === 'stacked' && (
           <span style={{ display: 'flex', flexDirection: 'column', width: LARGURA_DO_EMPILHADO[size], flex: 'none', borderLeft: '1px solid var(--ob-border)' }}>

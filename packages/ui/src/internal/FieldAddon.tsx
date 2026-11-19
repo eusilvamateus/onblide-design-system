@@ -1,5 +1,6 @@
 import React from 'react';
-import { ESCALA_DE_CAMPO, type TamanhoDeCampo } from './tamanhoDeCampo';
+import { Button } from '../actions/Button/Button';
+import { ESCALA_DE_CAMPO, estiloDaAcao, type TamanhoDeCampo } from './tamanhoDeCampo';
 
 export interface FieldAddonProps {
   side: 'start' | 'end';
@@ -35,4 +36,17 @@ export const FieldAddon: React.FC<FieldAddonProps> = ({ side, focused, error, si
   );
 };
 
-export const focoNoAddon = (alvo: EventTarget | null) => !(alvo instanceof Element && alvo.closest('[data-ob-addon]'));
+export const FieldEndIcon: React.FC<{ size: TamanhoDeCampo; children: React.ReactNode }> = ({ size, children }) => {
+  const conteudo = React.isValidElement<{ style?: React.CSSProperties }>(children) && children.type === Button
+    ? React.cloneElement(children, { style: { ...estiloDaAcao(size), ...children.props.style } })
+    : children;
+  return (
+    <span data-ob-end-icon="" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: ESCALA_DE_CAMPO[size].acao, flex: 'none', color: 'var(--ob-fg-mute)' }}>
+      {conteudo}
+    </span>
+  );
+};
+
+export const temConteudo = (n: React.ReactNode) => n != null && n !== false;
+
+export const focoNoAddon = (alvo: EventTarget | null) => !(alvo instanceof Element && alvo.closest('[data-ob-addon], [data-ob-end-icon]'));

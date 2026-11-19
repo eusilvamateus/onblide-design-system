@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { Input, Select } from '../dist/index.js';
+import { Input, Select, Button } from '../dist/index.js';
 
 const h = React.createElement;
 const fail = (msg, html) => { console.error('FAIL: ' + msg, html); process.exit(1); };
@@ -51,5 +51,16 @@ if (!rotulo || !i.includes(`id="${rotulo[1]}"`)) fail('label deve apontar para o
 
 const j = renderToStaticMarkup(h(Input, { endAddon: false }));
 if (j.includes('data-ob-addon')) fail('addon falso não renderiza', j);
+
+const k = renderToStaticMarkup(h(Input, { endIcon: h('i', { id: 'fim' }) }));
+if (!k.includes('data-ob-end-icon') || !k.includes('<i id="fim">')) fail('endIcon ausente', k);
+if (k.includes('border-left') || k.includes('data-ob-addon')) fail('endIcon não leva divisória', k);
+if (k.indexOf('<input') > k.indexOf('data-ob-end-icon')) fail('endIcon deve vir depois do input', k);
+if (!k.includes('padding:0 var(--ob-space-6) 0 var(--ob-space-16)')) fail('com endIcon o recuo da direita é o da ação', k);
+const l = renderToStaticMarkup(h(Input, { size: 'sm', endIcon: h(Button, { kind: 'neutral', size: 'sm', iconOnly: true, 'aria-label': 'Limpar', icon: h('i') }) }));
+if (!l.includes('aria-label="Limpar"') || !l.includes('width:24px') || !l.includes('height:24px')) fail('Button no endIcon se ajusta ao campo sm', l);
+const m = renderToStaticMarkup(h(Input, { endIcon: h('i', { id: 'fim' }), endAddon: 'kg' }));
+if (m.indexOf('data-ob-end-icon') > m.indexOf('data-ob-addon') || !m.includes('padding:0 0 0 var(--ob-space-16)')) fail('endIcon vem antes do endAddon, que fica colado na borda', m);
+if (renderToStaticMarkup(h(Input, { endIcon: false })).includes('data-ob-end-icon')) fail('endIcon falso não renderiza');
 
 console.log('smoke-input ok');

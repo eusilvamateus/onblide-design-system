@@ -7,6 +7,7 @@ const TOLERANCIA = 0.5;
 const CASOS = [
   ['Input', {}],
   ['Input com addon', { componente: 'Input', endAddon: 'kg', defaultValue: '12' }],
+  ['Input com botão no fim', { componente: 'Input', botaoNoFim: true, defaultValue: 'abc' }],
   ['Select', { options: ['Ativo', 'Pausado'], value: 'Ativo' }],
   ['Select com chips', { componente: 'Select', multi: true, options: ['Ativo', 'Pausado', 'Encerrado'], value: ['Ativo', 'Pausado'] }],
   ['SearchInput limpar', { componente: 'SearchInput', value: 'abc' }],
@@ -14,6 +15,7 @@ const CASOS = [
   ['NumberField split', { componente: 'NumberField', defaultValue: 3 }],
   ['NumberField stacked', { componente: 'NumberField', defaultValue: 3, controls: 'stacked' }],
   ['NumberField none', { componente: 'NumberField', defaultValue: 3, controls: 'none' }],
+  ['NumberField com botão', { componente: 'NumberField', defaultValue: 3, controls: 'none', botaoNoFim: true }],
   ['Datepicker', { componente: 'Datepicker' }],
   ['Datepicker stepper', { componente: 'Datepicker', stepper: 'day' }],
   ['Datepicker range', { componente: 'Datepicker', mode: 'range' }],
@@ -34,7 +36,8 @@ await p.addStyleTag({ path: path.join(pasta, 'src/tokens.css') });
 await carregarPacoteNoNavegador(p);
 
 const montar = (nome, props) =>
-  p.evaluate(({ nome, props }) => {
+  p.evaluate(({ nome, props: { botaoNoFim, ...props } }) => {
+    if (botaoNoFim) props.endIcon = React.createElement(window.Button, { kind: 'neutral', size: 'sm', iconOnly: true, 'aria-label': 'Limpar', icon: React.createElement('i') });
     window.__raiz?.unmount();
     window.__raiz = ReactDOM.createRoot(document.getElementById('r'));
     ReactDOM.flushSync(() => window.__raiz.render(React.createElement(window[nome], props)));
