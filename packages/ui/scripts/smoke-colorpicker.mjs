@@ -51,6 +51,9 @@ const quadradas = painel({ swatchesOnly: true, swatchShape: 'square', swatches: 
 if (!redondas.includes('border-radius:var(--ob-r-circle)') || redondas.includes('border-radius:var(--ob-r-xs)')) fail('as cores salvas são redondas por padrão', redondas);
 if ((quadradas.match(/border-radius:var\(--ob-r-xs\)/g) ?? []).length < 2 || quadradas.includes('border-radius:var(--ob-r-circle)')) fail('swatchShape square deixa a amostra e o botão quadrados e arredondados', quadradas);
 const soAmostras = painel({ swatchesOnly: true, swatches: ['#c0573e', '#1f6f5c'] });
+if (!soAmostras.includes('width:fit-content') || !soAmostras.includes('flex-wrap:wrap') || soAmostras.includes('repeat(8')) fail('só amostras tem a largura das cores e só quebra a linha quando falta espaço', soAmostras);
+if (!painel({ swatchesOnly: true, width: 200, swatches: ['#c0573e'] }).includes('width:200px')) fail('width limita a fila de só amostras');
+if (!comAmostras.includes('repeat(auto-fill, 32px)')) fail('no painel completo, cabem quantas cores a largura permitir', comAmostras);
 if (soAmostras.includes('role="slider"') || soAmostras.includes('<input')) fail('swatchesOnly mostra só as amostras', soAmostras);
 igual(contar(soAmostras, 'role="option"'), 2, 'swatchesOnly mostra cada amostra');
 if (!painel({ defaultValue: '#ffcc00' }).includes('value="FFCC00"')) fail('defaultValue preenche o painel');

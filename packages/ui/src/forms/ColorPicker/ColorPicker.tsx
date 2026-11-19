@@ -51,7 +51,7 @@ export interface ColorPickerProps {
   format?: ColorFormat;
   /** Formas de escolher a cor, na ordem das abas. Com uma só, as abas não aparecem. Cabem até três na largura padrão. */
   modes?: ColorPickerMode[];
-  /** Largura do painel, em pixels. Padrão 272 (248 com `swatchesOnly`). */
+  /** Largura do painel, em pixels. Padrão 272. Com `swatchesOnly`, o padrão é a largura das cores numa linha só; com `width`, elas quebram a linha quando não cabem. */
   width?: number;
 }
 
@@ -68,7 +68,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   format = 'hex', modes = ['area'], width,
 }) => {
   const toque = !useBreakpoint().atLeast('sm');
-  const largura = width ?? (swatchesOnly ? 248 : 272);
+  const largura = width ?? 272;
   const [interno, setInterno] = useState<string | null>(defaultValue);
   const valor = value !== undefined ? value : interno;
   const [hsva, setHsva] = useState<Hsva>(() => hsvaDe(valor));
@@ -116,8 +116,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
 
   if (swatchesOnly) {
     return (
-      <div style={{ width: largura }}>
-        <Amostras amostras={swatches} valor={valor} toque={toque} forma={swatchShape} aoEscolher={escolherETerminar} />
+      <div style={{ width: width ?? 'fit-content', maxWidth: '100%' }}>
+        <Amostras amostras={swatches} valor={valor} toque={toque} forma={swatchShape} esticar={false} aoEscolher={escolherETerminar} />
       </div>
     );
   }
@@ -204,7 +204,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       {swatches.length > 0 && (
         <>
           <Divider decorative />
-          <Amostras amostras={swatches} valor={valor} toque={toque} forma={swatchShape} aoEscolher={escolherETerminar} />
+          <Amostras amostras={swatches} valor={valor} toque={toque} forma={swatchShape} esticar aoEscolher={escolherETerminar} />
         </>
       )}
     </div>

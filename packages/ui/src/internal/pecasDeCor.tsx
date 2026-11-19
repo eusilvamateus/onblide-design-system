@@ -392,15 +392,18 @@ interface AmostrasProps {
   valor: string | null;
   toque: boolean;
   forma: 'circle' | 'square';
+  esticar: boolean;
   aoEscolher: (cor: string) => void;
 }
 
-export const Amostras: React.FC<AmostrasProps> = ({ amostras, valor, toque, forma, aoEscolher }) => {
+export const Amostras: React.FC<AmostrasProps> = ({ amostras, valor, toque, forma, esticar, aoEscolher }) => {
   const atual = lerCor(valor);
   const lado = toque ? 32 : 24;
   const raio = forma === 'circle' ? 'var(--ob-r-circle)' : 'var(--ob-r-xs)';
   return (
-    <div role="listbox" aria-label="Cores salvas" style={{ display: 'grid', gridTemplateColumns: `repeat(8, ${lado}px)`, justifyContent: 'space-between', rowGap: 'var(--ob-space-8)' }}>
+    <div role="listbox" aria-label="Cores salvas" style={esticar
+      ? { display: 'grid', gridTemplateColumns: `repeat(auto-fill, ${lado}px)`, justifyContent: 'space-between', gap: 'var(--ob-space-8)' }
+      : { display: 'flex', flexWrap: 'wrap', gap: 'var(--ob-space-8)' }}>
       {amostras.map((s) => {
         const { color, label } = typeof s === 'string' ? { color: s, label: `${nomeDaCor(s)}, ${s.toUpperCase()}` } : s;
         const c = lerCor(color);

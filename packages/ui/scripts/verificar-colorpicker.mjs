@@ -208,6 +208,24 @@ await assentar();
 esperar((await variacao.inputValue()) !== antesDasBarras, 'Shift+→ no vermelho deveria mudar a cor');
 await p.keyboard.press('Escape');
 
+const fila = await p.evaluate(() => {
+  const cores = ['#8ab4f8', '#ff8bcb', '#c58af9', '#a142f4', '#4285f4', '#5bb974', '#fa903e', '#fdd663', '#9aa0a6'];
+  const raiz = document.createElement('div');
+  document.body.appendChild(raiz);
+  const medir = (props) => {
+    const r = ReactDOM.createRoot(raiz);
+    ReactDOM.flushSync(() => r.render(React.createElement(ColorPicker, { swatchesOnly: true, swatches: cores, ...props })));
+    const linhas = new Set([...raiz.querySelectorAll('[role="option"]')].map((b) => Math.round(b.getBoundingClientRect().top))).size;
+    r.unmount();
+    return linhas;
+  };
+  const resultado = { solta: medir({}), estreita: medir({ width: 200 }) };
+  raiz.remove();
+  return resultado;
+});
+esperar(fila.solta === 1, `só amostras com 9 cores deveria caber numa linha (${fila.solta} linhas)`);
+esperar(fila.estreita === 2, `com width 200, as 9 cores deveriam quebrar em duas linhas (${fila.estreita})`);
+
 const m = await abrir(390, 844);
 await m.getByRole('button', { name: 'Abrir seletor de cor' }).first().click();
 const md = m.getByRole('dialog');
@@ -226,4 +244,4 @@ if (falhas.length) {
   console.error(`FAIL: ColorPicker e ColorInput no navegador\n${falhas.join('\n')}`);
   process.exit(1);
 }
-console.log('OK: ColorPicker e ColorInput no navegador (digitar, colar, recusar, arrastar, onChangeEnd, grade, espectro, barras, campos sem corte, celular)');
+console.log('OK: ColorPicker e ColorInput no navegador (digitar, colar, recusar, arrastar, onChangeEnd, grade, espectro, barras, campos sem corte, só amostras numa linha e quebrando só sem espaço, celular)');
