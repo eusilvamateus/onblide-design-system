@@ -9,7 +9,7 @@ export const Padrao = () => (
 
 export const ComIcone = () => (
   <div style={{ padding: 16, width: 320 }}>
-    <Input label="Buscar projetos" placeholder="Nome do projeto" icon={<Icons.search size={16} />} defaultValue="Portal do cliente" />
+    <Input label="Buscar projetos" placeholder="Nome do projeto" startIcon={<Icons.search size={16} />} defaultValue="Portal do cliente" />
   </div>
 );
 

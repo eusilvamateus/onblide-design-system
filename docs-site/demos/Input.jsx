@@ -4,5 +4,5 @@
   label="Buscar projetos"
   placeholder="Nome do projeto"
   defaultValue="Portal do cliente"
-  icon={<Icons.search size={16} />}
+  startIcon={<Icons.search size={16} />}
 />
