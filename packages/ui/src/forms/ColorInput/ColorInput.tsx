@@ -3,7 +3,7 @@ import { FieldShell } from '../FieldShell/FieldShell';
 import { Button } from '../../actions/Button/Button';
 import { Popover } from '../../overlays/Popover/Popover';
 import { useBreakpoint } from '../../layout/useBreakpoint';
-import { ColorPicker, type ColorPickerMode, type ColorSwatch } from '../ColorPicker/ColorPicker';
+import { ColorPicker, type ColorPickerMode, type ColorSwatch, type ColorSwatchShape } from '../ColorPicker/ColorPicker';
 import { escreverCor, interpretarCor, lerCor } from '../../internal/cor';
 import { Amostra } from '../../internal/pecasDeCor';
 import { ESCALA_DE_CAMPO, estiloDaAcao, type TamanhoDeCampo } from '../../internal/tamanhoDeCampo';
@@ -32,6 +32,8 @@ export interface ColorInputProps {
   swatches?: (string | ColorSwatch)[];
   /** O painel mostra só as cores salvas. */
   swatchesOnly?: boolean;
+  /** Recorte das cores salvas no painel: `circle` (padrão) ou `square`. */
+  swatchShape?: ColorSwatchShape;
   /** Formas de escolher a cor no painel, na ordem das abas. */
   modes?: ColorPickerMode[];
   /** Tamanho do campo, que ajusta altura, fonte e a amostra. O painel não muda. */
@@ -52,7 +54,7 @@ const mostrar = (v: string | null | undefined) => (v && lerCor(v) ? v.toUpperCas
 
 /** Campo de cor que aceita HEX, `rgb()` e `hsl()` digitados ou colados, com amostra e painel do `ColorPicker` em popover. */
 export const ColorInput: React.FC<ColorInputProps> = ({
-  label, hint, error, value, defaultValue = null, onChange, onChangeEnd, alpha = false, swatches = [], swatchesOnly = false, modes,
+  label, hint, error, value, defaultValue = null, onChange, onChangeEnd, alpha = false, swatches = [], swatchesOnly = false, swatchShape, modes,
   size = 'md', disabled = false, placeholder = 'Sem cor', ariaLabel,
 }) => {
   const toque = !useBreakpoint().atLeast('sm');
@@ -119,7 +121,7 @@ export const ColorInput: React.FC<ColorInputProps> = ({
               icon={<Amostra cor={valor} tamanho={AMOSTRA[size]} forma="square" />} />
           )}>
           {() => (
-            <ColorPicker value={valor} onChange={mudar} onChangeEnd={onChangeEnd} alpha={alpha} swatches={swatches} swatchesOnly={swatchesOnly} modes={modes}
+            <ColorPicker value={valor} onChange={mudar} onChangeEnd={onChangeEnd} alpha={alpha} swatches={swatches} swatchesOnly={swatchesOnly} swatchShape={swatchShape} modes={modes}
               width={toque ? Math.min(window.innerWidth - 56, 360) : undefined} />
           )}
         </Popover>

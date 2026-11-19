@@ -391,12 +391,14 @@ interface AmostrasProps {
   amostras: (string | AmostraDeCor)[];
   valor: string | null;
   toque: boolean;
+  forma: 'circle' | 'square';
   aoEscolher: (cor: string) => void;
 }
 
-export const Amostras: React.FC<AmostrasProps> = ({ amostras, valor, toque, aoEscolher }) => {
+export const Amostras: React.FC<AmostrasProps> = ({ amostras, valor, toque, forma, aoEscolher }) => {
   const atual = lerCor(valor);
   const lado = toque ? 32 : 24;
+  const raio = forma === 'circle' ? 'var(--ob-r-circle)' : 'var(--ob-r-xs)';
   return (
     <div role="listbox" aria-label="Cores salvas" style={{ display: 'grid', gridTemplateColumns: `repeat(8, ${lado}px)`, justifyContent: 'space-between', rowGap: 'var(--ob-space-8)' }}>
       {amostras.map((s) => {
@@ -408,7 +410,7 @@ export const Amostras: React.FC<AmostrasProps> = ({ amostras, valor, toque, aoEs
           <Tooltip key={color} label={label}>
             <button type="button" role="option" aria-selected={marcado} aria-label={label} onClick={() => aoEscolher(escreverCor(c))}
               style={{
-                position: 'relative', width: lado, height: lado, padding: 0, border: 'none', borderRadius: 'var(--ob-r-circle)', background: 'transparent', cursor: 'pointer',
+                position: 'relative', width: lado, height: lado, padding: 0, border: 'none', borderRadius: raio, background: 'transparent', cursor: 'pointer',
                 display: 'grid', placeItems: 'center', outline: 'none',
                 boxShadow: marcado ? '0 0 0 2px var(--ob-surface), 0 0 0 4px var(--ob-blue)' : 'none',
                 transition: 'box-shadow var(--ob-dur-fast) var(--ob-ease), transform var(--ob-dur-fast) var(--ob-ease)',
@@ -417,7 +419,7 @@ export const Amostras: React.FC<AmostrasProps> = ({ amostras, valor, toque, aoEs
               onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; }}
               onFocus={(e) => { if (!marcado && e.currentTarget.matches(':focus-visible')) e.currentTarget.style.boxShadow = ANEL_DO_FOCO; }}
               onBlur={(e) => { if (!marcado) e.currentTarget.style.boxShadow = 'none'; }}>
-              <Amostra cor={color} tamanho={lado} />
+              <Amostra cor={color} tamanho={lado} forma={forma} />
               {marcado && (
                 <span style={{ position: 'absolute', display: 'flex', zIndex: 2 }}>
                   <Ph n="check" weight="bold" size={toque ? 16 : 12} c={textoEscuroSobre(escreverCor(c)) ? TINTA_ESCURA : 'var(--ob-fg-on-color)'} />

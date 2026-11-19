@@ -46,6 +46,10 @@ if (!comAmostras.includes('aria-label="Musgo"')) fail('a amostra com nome usa o 
 if (!/aria-selected="true"[^>]*aria-label="vermelho[^"]*, #C0573E"/.test(comAmostras)) fail('a amostra da cor atual fica marcada e sem nome usa o nome aproximado', comAmostras);
 if (!comAmostras.includes('ph-check')) fail('a amostra marcada mostra o ícone Phosphor', comAmostras);
 
+const redondas = painel({ swatchesOnly: true, swatches: ['#c0573e'] });
+const quadradas = painel({ swatchesOnly: true, swatchShape: 'square', swatches: ['#c0573e'] });
+if (!redondas.includes('border-radius:var(--ob-r-circle)') || redondas.includes('border-radius:var(--ob-r-xs)')) fail('as cores salvas são redondas por padrão', redondas);
+if ((quadradas.match(/border-radius:var\(--ob-r-xs\)/g) ?? []).length < 2 || quadradas.includes('border-radius:var(--ob-r-circle)')) fail('swatchShape square deixa a amostra e o botão quadrados e arredondados', quadradas);
 const soAmostras = painel({ swatchesOnly: true, swatches: ['#c0573e', '#1f6f5c'] });
 if (soAmostras.includes('role="slider"') || soAmostras.includes('<input')) fail('swatchesOnly mostra só as amostras', soAmostras);
 igual(contar(soAmostras, 'role="option"'), 2, 'swatchesOnly mostra cada amostra');
@@ -99,4 +103,4 @@ for (const original of ['#0a4ee4', '#c0573e', '#1f6f5c', '#ffcc00', '#7a7a7a']) 
 igual(cor.hsvaDe('#808080', { h: 200, s: 50, v: 50, a: 1 }).h, 200, 'um cinza mantém a matiz anterior');
 igual(cor.saturacaoDe('#ffffff', 37), 37, 'branco mantém a saturação anterior');
 
-console.log('OK: ColorPicker e ColorInput (formas, formatos, alfa, amostras, campo, rótulo, erro, desabilitado) e a leitura de cores');
+console.log('OK: ColorPicker e ColorInput (formas, formatos, alfa, amostras redondas e quadradas, campo, rótulo, erro, desabilitado) e a leitura de cores');

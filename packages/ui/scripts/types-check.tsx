@@ -16,7 +16,7 @@ import type {
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
-  ColorPickerProps, ColorPickerMode, ColorFormat, ColorSwatch, ColorInputProps, ColorInputSize,
+  ColorPickerProps, ColorPickerMode, ColorFormat, ColorSwatch, ColorSwatchShape, ColorInputProps, ColorInputSize,
   TimePickerProps, SingleTimePickerProps, RangeTimePickerProps, TimeRange, TimePickerSize,
   DragMove, DragPhase, UseDragAndDropOptions, UseDragAndDropResult,
   ToastOptions, ToastShortcutOptions,
@@ -42,7 +42,7 @@ export type TiposExportados = [
   SliderBaseProps, SingleSliderProps, RangeSliderProps, SliderProps, SliderValue, SliderTone,
   CalendarProps, SingleCalendarProps, RangeCalendarProps, CalendarRange,
   DatepickerProps, SingleDatepickerProps, RangeDatepickerProps,
-  ColorPickerProps, ColorPickerMode, ColorFormat, ColorSwatch, ColorInputProps, ColorInputSize,
+  ColorPickerProps, ColorPickerMode, ColorFormat, ColorSwatch, ColorSwatchShape, ColorInputProps, ColorInputSize,
   TimePickerProps, SingleTimePickerProps, RangeTimePickerProps, TimeRange, TimePickerSize,
   ToastOptions, ToastShortcutOptions,
   Breakpoint, BreakpointName,
@@ -216,7 +216,10 @@ export function VerificaCores() {
   return (
     <>
       <ColorPicker value={cor} onChange={setCor} onChangeEnd={(v) => setCor(v)} alpha swatches={['#1f6f5c', ...amostras]} modes={['area', 'grid', 'spectrum', 'sliders']} format="rgb" width={300} />
-      <ColorPicker swatchesOnly swatches={amostras} defaultValue={null} />
+      <ColorPicker swatchesOnly swatches={amostras} defaultValue={null} swatchShape="square" />
+      <ColorInput swatches={amostras} swatchShape="circle" />
+      {/* @ts-expect-error recorte inexistente */}
+      <ColorPicker swatchShape="hexagon" />
       <ColorInput label="Cor" value={cor} onChange={setCor} onChangeEnd={setCor} size="sm" modes={['grid']} />
       {/* @ts-expect-error formato inexistente */}
       <ColorPicker format="cmyk" />

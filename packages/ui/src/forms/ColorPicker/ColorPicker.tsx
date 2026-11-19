@@ -24,6 +24,9 @@ export interface ColorSwatch {
 /** Forma de escolher a cor: `area` (quadrado de saturação e brilho com a barra de matiz), `grid` (grade de cores prontas), `spectrum` (todas as matizes de uma vez, com a barra de saturação) ou `sliders` (barras de vermelho, verde e azul). */
 export type ColorPickerMode = 'area' | 'grid' | 'spectrum' | 'sliders';
 
+/** Recorte das cores salvas: `circle` (padrão) ou `square`, um quadrado com os cantos arredondados. */
+export type ColorSwatchShape = 'circle' | 'square';
+
 /** Formato dos campos numéricos do painel. */
 export type ColorFormat = FormatoDeCor;
 
@@ -42,6 +45,8 @@ export interface ColorPickerProps {
   swatches?: (string | ColorSwatch)[];
   /** Mostra só as cores salvas, sem área, barras nem campos. */
   swatchesOnly?: boolean;
+  /** Recorte das cores salvas: `circle` (padrão) ou `square`, com os cantos arredondados. */
+  swatchShape?: ColorSwatchShape;
   /** Formato em que os campos numéricos aparecem ao abrir; a pessoa troca no próprio painel. O valor emitido é sempre hexadecimal. */
   format?: ColorFormat;
   /** Formas de escolher a cor, na ordem das abas. Com uma só, as abas não aparecem. Cabem até três na largura padrão. */
@@ -59,7 +64,7 @@ interface EyeDropperConstrutor {
 
 /** Painel para escolher uma cor: área livre, grade, espectro ou barras, campos em HEX, RGB ou HSL, transparência, conta-gotas e cores salvas. */
 export const ColorPicker: React.FC<ColorPickerProps> = ({
-  value, defaultValue = null, onChange, onChangeEnd, alpha = false, swatches = [], swatchesOnly = false,
+  value, defaultValue = null, onChange, onChangeEnd, alpha = false, swatches = [], swatchesOnly = false, swatchShape = 'circle',
   format = 'hex', modes = ['area'], width,
 }) => {
   const toque = !useBreakpoint().atLeast('sm');
@@ -112,7 +117,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   if (swatchesOnly) {
     return (
       <div style={{ width: largura }}>
-        <Amostras amostras={swatches} valor={valor} toque={toque} aoEscolher={escolherETerminar} />
+        <Amostras amostras={swatches} valor={valor} toque={toque} forma={swatchShape} aoEscolher={escolherETerminar} />
       </div>
     );
   }
@@ -199,7 +204,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       {swatches.length > 0 && (
         <>
           <Divider decorative />
-          <Amostras amostras={swatches} valor={valor} toque={toque} aoEscolher={escolherETerminar} />
+          <Amostras amostras={swatches} valor={valor} toque={toque} forma={swatchShape} aoEscolher={escolherETerminar} />
         </>
       )}
     </div>
