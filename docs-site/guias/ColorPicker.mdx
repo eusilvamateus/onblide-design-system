@@ -60,7 +60,7 @@ Os campos abaixo da área mostram a cor em HEX, RGB ou HSL; `format` define o fo
 
 - **Comparação:** o círculo à esquerda do formato mostra a cor de quando o painel abriu e a atual; clicar na metade antiga volta para ela.
 - **Conta-gotas:** aparece só nos navegadores com a API EyeDropper (Chrome e Edge) e pega qualquer cor da tela.
-- **Só amostras:** `swatchesOnly` mostra apenas as cores salvas, para quando a escolha precisa ficar dentro da paleta.
+- **Só amostras:** `swatchesOnly` mostra apenas as cores salvas, para quando a escolha precisa ficar dentro da paleta. A fila tem a largura das cores numa linha só e quebra a linha apenas quando o espaço acaba; com `width`, ela quebra dentro dessa largura. No painel completo, cabem por linha quantas cores a largura permitir, espalhadas de ponta a ponta.
 - **Recorte das amostras:** `swatchShape="circle"` (padrão) ou `"square"`, um quadrado com os cantos em `--ob-r-xs`, o mesmo da amostra do **ColorInput**. O anel da cor escolhida acompanha o recorte.
 
 <Nota>
