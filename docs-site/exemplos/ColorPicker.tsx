@@ -38,6 +38,12 @@ export const ComAmostras = () => (
   </div>
 );
 
+export const AmostrasQuadradas = () => (
+  <div style={caixa}>
+    <ColorPicker defaultValue="#1f6f5c" swatches={MARCA} swatchesOnly swatchShape="square" />
+  </div>
+);
+
 export const SoAmostras = () => (
   <div style={caixa}>
     <ColorPicker defaultValue="#1f6f5c" swatches={MARCA} swatchesOnly />

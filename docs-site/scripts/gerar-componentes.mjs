@@ -102,7 +102,7 @@ const titulos = {
   ComFoto: 'Com foto',
   SoIcone: 'Só ícone',
   NeutroComContador: 'Neutro com contador',
-  ComTransparencia: 'Com transparência', ComAmostras: 'Com amostras', SoAmostras: 'Só amostras', AoTerminar: 'Ao terminar de escolher',
+  ComTransparencia: 'Com transparência', ComAmostras: 'Com amostras', SoAmostras: 'Só amostras', AmostrasQuadradas: 'Amostras quadradas', AoTerminar: 'Ao terminar de escolher',
   Relogio: 'Relógio', DozeHoras: '12 horas', ComSegundos: 'Com segundos', DeQuinzeEmQuinze: 'De 15 em 15 minutos', ComLimites: 'Com limites', Periodo: 'Período',
 };
 
