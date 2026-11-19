@@ -30,6 +30,10 @@ Usar placeholder como label.
 
 <Input label="Altura do pacote" value={altura} onChange={...}
   endAddon={<Select embedded ariaLabel="Unidade" options={['cm', 'mm', 'm']} value={un} onChange={setUn} />} />
+
+<Input label="Senha" type={visivel ? 'text' : 'password'}
+  endIcon={<Button kind="neutral" size="sm" iconOnly pressed={visivel} aria-label="Mostrar senha"
+    icon={<Ph n="eye" />} onClick={() => setVisivel(!visivel)} />} />
 ```
 
 `size` aceita `sm` (32px de altura), `md` (40px, padrão) e `lg` (48px), as mesmas alturas do **Button**: um campo e um botão do mesmo tamanho ficam alinhados lado a lado. Texto em 13, 14 e 15px; recuo, ícones e botões internos acompanham. O `Select` com `embedded` dentro de um addon deve usar o mesmo `size` do campo.
@@ -37,6 +41,8 @@ Usar placeholder como label.
 <Nota>
 
 **Complemento no campo.** `startAddon` e `endAddon` colocam um texto, um **Select** com `embedded` ou um botão compacto dentro da mesma borda do campo, separado por uma divisória. O foco e o erro envolvem o campo e o complemento juntos. Use para unidade de medida, moeda ou prefixo, quando o complemento faz parte do valor; se ele é um campo independente, use dois campos.
+
+**Ícone dentro do campo.** `icon` mostra um ícone decorativo à esquerda do texto. `endIcon` fica no fim do campo, sem divisória, e aceita um ícone ou um botão compacto (`Button` com `iconOnly` e `size="sm"`, que se ajusta ao tamanho do campo): mostrar a senha, limpar o texto, um ícone de status. Quando o elemento faz parte do valor, como a unidade, use o addon.
 
 </Nota>
 

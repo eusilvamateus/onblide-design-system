@@ -1,4 +1,5 @@
-import { Input, Select, Icons } from '@onblide/ui';
+import { useState } from 'react';
+import { Input, Select, Icons, Button, Ph } from '@onblide/ui';
 
 export const Padrao = () => (
   <div style={{ padding: 16, width: 320 }}>
@@ -29,6 +30,17 @@ export const EmFoco = () => (
     <Input label="Nome" defaultValue="Em foco — borda azul" autoFocus />
   </div>
 );
+
+export const ComBotaoNoFim = () => {
+  const [visivel, setVisivel] = useState(false);
+  return (
+    <div style={{ padding: 16, width: 320 }}>
+      <Input label="Senha" type={visivel ? 'text' : 'password'} defaultValue="correto-cavalo-bateria"
+        endIcon={<Button kind="neutral" size="sm" iconOnly pressed={visivel} aria-label="Mostrar senha"
+          icon={<Ph n={visivel ? 'eye-slash' : 'eye'} size={18} />} onClick={() => setVisivel((v) => !v)} />} />
+    </div>
+  );
+};
 
 export const ComUnidade = () => (
   <div style={{ padding: 16, width: 320 }}>
