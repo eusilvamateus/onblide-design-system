@@ -34,9 +34,10 @@ if (semAddon.includes('data-ob-addon') || !semAddon.includes('overflow:hidden'))
 const inicio = renderToStaticMarkup(h(NumberField, { value: 5, startAddon: 'R$' }));
 if (inicio.indexOf('data-ob-addon') > inicio.indexOf('<input')) fail('startAddon deve vir antes do input', inicio);
 
-const icone = renderToStaticMarkup(h(NumberField, { value: 5, controls: 'none', endIcon: h('i', { id: 'fim' }) }));
-if (!icone.includes('data-ob-end-icon') || icone.includes('data-ob-addon')) fail('endIcon ausente ou com divisória', icone);
-if (!icone.includes('padding:0 var(--ob-space-6) 0 var(--ob-space-16)')) fail('com endIcon e sem controles o recuo da direita é o da ação', icone);
+const icone = renderToStaticMarkup(h(NumberField, { value: 5, controls: 'none', startIcon: h('i', { id: 'ini' }), endIcon: h('i', { id: 'fim' }) }));
+if ((icone.match(/data-ob-field-icon/g) ?? []).length !== 2 || icone.includes('data-ob-addon')) fail('startIcon e endIcon ausentes ou com divisória', icone);
+if (icone.indexOf('id="ini"') > icone.indexOf('<input') || icone.indexOf('id="fim"') < icone.indexOf('<input')) fail('startIcon antes do número e endIcon depois', icone);
+if (!icone.includes('padding:0 var(--ob-space-16) 0 var(--ob-space-16)')) fail('ícones decorativos mantêm o recuo do texto', icone);
 const comControles = renderToStaticMarkup(h(NumberField, { value: 5, endIcon: h('i', { id: 'fim' }) }));
-if (comControles.indexOf('data-ob-end-icon') > comControles.indexOf('aria-label="Aumentar"')) fail('endIcon vem antes do botão de aumentar', comControles);
-console.log('OK: NumberField (formato pt-BR, controls split/stacked/none, limites, prefixo, addons, endIcon)');
+if (comControles.indexOf('data-ob-field-icon') > comControles.indexOf('aria-label="Aumentar"')) fail('endIcon vem antes do botão de aumentar', comControles);
+console.log('OK: NumberField (formato pt-BR, controls split/stacked/none, limites, prefixo, addons, startIcon e endIcon)');

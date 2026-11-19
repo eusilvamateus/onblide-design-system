@@ -8,6 +8,7 @@ const CASOS = [
   ['Input', {}],
   ['Input com addon', { componente: 'Input', endAddon: 'kg', defaultValue: '12' }],
   ['Input com botão no fim', { componente: 'Input', botaoNoFim: true, defaultValue: 'abc' }],
+  ['Input com botão no início', { componente: 'Input', botaoNoInicio: true, defaultValue: 'abc' }],
   ['Select', { options: ['Ativo', 'Pausado'], value: 'Ativo' }],
   ['Select com chips', { componente: 'Select', multi: true, options: ['Ativo', 'Pausado', 'Encerrado'], value: ['Ativo', 'Pausado'] }],
   ['SearchInput limpar', { componente: 'SearchInput', value: 'abc' }],
@@ -36,8 +37,10 @@ await p.addStyleTag({ path: path.join(pasta, 'src/tokens.css') });
 await carregarPacoteNoNavegador(p);
 
 const montar = (nome, props) =>
-  p.evaluate(({ nome, props: { botaoNoFim, ...props } }) => {
-    if (botaoNoFim) props.endIcon = React.createElement(window.Button, { kind: 'neutral', size: 'sm', iconOnly: true, 'aria-label': 'Limpar', icon: React.createElement('i') });
+  p.evaluate(({ nome, props: { botaoNoFim, botaoNoInicio, ...props } }) => {
+    const botao = () => React.createElement(window.Button, { kind: 'neutral', size: 'sm', iconOnly: true, 'aria-label': 'Limpar', icon: React.createElement('i') });
+    if (botaoNoFim) props.endIcon = botao();
+    if (botaoNoInicio) props.startIcon = botao();
     window.__raiz?.unmount();
     window.__raiz = ReactDOM.createRoot(document.getElementById('r'));
     ReactDOM.flushSync(() => window.__raiz.render(React.createElement(window[nome], props)));

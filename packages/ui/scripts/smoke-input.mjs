@@ -24,8 +24,11 @@ if (!b.includes('1.5px solid var(--ob-danger)')) fail('borda de erro ausente', b
 if (!b.includes('color:var(--ob-danger)')) fail('cor de erro ausente', b);
 
 // (c) ícone
-const c = renderToStaticMarkup(h(Input, { icon: h('i', { id: 'ic' }) }));
-if (!c.includes('<i id="ic">')) fail('ícone ausente', c);
+const c = renderToStaticMarkup(h(Input, { startIcon: h('i', { id: 'ic' }) }));
+if (!c.includes('<i id="ic">') || !c.includes('data-ob-field-icon') || c.indexOf('data-ob-field-icon') > c.indexOf('<input')) fail('startIcon ausente ou depois do input', c);
+if (!c.includes('padding:0 var(--ob-space-16) 0 var(--ob-space-16)')) fail('ícone decorativo no início mantém o recuo do texto', c);
+const c2 = renderToStaticMarkup(h(Input, { startIcon: h(Button, { kind: 'neutral', size: 'sm', iconOnly: true, 'aria-label': 'Filtrar', icon: h('i') }) }));
+if (!c2.includes('padding:0 var(--ob-space-16) 0 var(--ob-space-6)')) fail('botão no início usa o recuo da ação', c2);
 const d = renderToStaticMarkup(h(Input, {}));
 if (d.includes('<i ') || d.includes('<span') || d.includes('<label')) fail('sem label/hint/ícone não deveria haver span', d);
 
@@ -53,14 +56,15 @@ const j = renderToStaticMarkup(h(Input, { endAddon: false }));
 if (j.includes('data-ob-addon')) fail('addon falso não renderiza', j);
 
 const k = renderToStaticMarkup(h(Input, { endIcon: h('i', { id: 'fim' }) }));
-if (!k.includes('data-ob-end-icon') || !k.includes('<i id="fim">')) fail('endIcon ausente', k);
+if (!k.includes('data-ob-field-icon') || !k.includes('<i id="fim">')) fail('endIcon ausente', k);
 if (k.includes('border-left') || k.includes('data-ob-addon')) fail('endIcon não leva divisória', k);
-if (k.indexOf('<input') > k.indexOf('data-ob-end-icon')) fail('endIcon deve vir depois do input', k);
-if (!k.includes('padding:0 var(--ob-space-6) 0 var(--ob-space-16)')) fail('com endIcon o recuo da direita é o da ação', k);
+if (k.indexOf('<input') > k.indexOf('data-ob-field-icon')) fail('endIcon deve vir depois do input', k);
+if (!k.includes('padding:0 var(--ob-space-16) 0 var(--ob-space-16)')) fail('ícone decorativo no fim mantém o recuo do texto', k);
 const l = renderToStaticMarkup(h(Input, { size: 'sm', endIcon: h(Button, { kind: 'neutral', size: 'sm', iconOnly: true, 'aria-label': 'Limpar', icon: h('i') }) }));
 if (!l.includes('aria-label="Limpar"') || !l.includes('width:24px') || !l.includes('height:24px')) fail('Button no endIcon se ajusta ao campo sm', l);
+if (!l.includes('padding:0 var(--ob-space-4) 0 var(--ob-space-12)')) fail('botão no fim usa o recuo da ação', l);
 const m = renderToStaticMarkup(h(Input, { endIcon: h('i', { id: 'fim' }), endAddon: 'kg' }));
-if (m.indexOf('data-ob-end-icon') > m.indexOf('data-ob-addon') || !m.includes('padding:0 0 0 var(--ob-space-16)')) fail('endIcon vem antes do endAddon, que fica colado na borda', m);
-if (renderToStaticMarkup(h(Input, { endIcon: false })).includes('data-ob-end-icon')) fail('endIcon falso não renderiza');
+if (m.indexOf('data-ob-field-icon') > m.indexOf('data-ob-addon') || !m.includes('padding:0 0 0 var(--ob-space-16)')) fail('endIcon vem antes do endAddon, que fica colado na borda', m);
+if (renderToStaticMarkup(h(Input, { startIcon: false, endIcon: false })).includes('data-ob-field-icon')) fail('ícone falso não renderiza');
 
 console.log('smoke-input ok');

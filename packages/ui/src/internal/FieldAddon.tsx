@@ -36,17 +36,18 @@ export const FieldAddon: React.FC<FieldAddonProps> = ({ side, focused, error, si
   );
 };
 
-export const FieldEndIcon: React.FC<{ size: TamanhoDeCampo; children: React.ReactNode }> = ({ size, children }) => {
-  const conteudo = React.isValidElement<{ style?: React.CSSProperties }>(children) && children.type === Button
-    ? React.cloneElement(children, { style: { ...estiloDaAcao(size), ...children.props.style } })
-    : children;
-  return (
-    <span data-ob-end-icon="" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: ESCALA_DE_CAMPO[size].acao, flex: 'none', color: 'var(--ob-fg-mute)' }}>
-      {conteudo}
-    </span>
-  );
-};
+export const ehBotao = (n: React.ReactNode): n is React.ReactElement<{ style?: React.CSSProperties }> => React.isValidElement(n) && n.type === Button;
+
+export const FieldIcon: React.FC<{ size: TamanhoDeCampo; children: React.ReactNode }> = ({ size, children }) => (
+  <span data-ob-field-icon="" style={{ display: 'flex', alignItems: 'center', flex: 'none', color: 'var(--ob-fg-mute)' }}>
+    {ehBotao(children) ? React.cloneElement(children, { style: { ...estiloDaAcao(size), ...children.props.style } }) : children}
+  </span>
+);
+
+export const recuoDoIcone = (n: React.ReactNode, size: TamanhoDeCampo) => (ehBotao(n) ? ESCALA_DE_CAMPO[size].recuoDaAcao : ESCALA_DE_CAMPO[size].recuo);
 
 export const temConteudo = (n: React.ReactNode) => n != null && n !== false;
 
-export const focoNoAddon = (alvo: EventTarget | null) => !(alvo instanceof Element && alvo.closest('[data-ob-addon], [data-ob-end-icon]'));
+const INTERATIVO_NO_ICONE = ['button', 'a', 'input', 'select', '[role="button"]'].map((s) => `[data-ob-field-icon] ${s}`).join(', ');
+
+export const focoNoAddon = (alvo: EventTarget | null) => !(alvo instanceof Element && alvo.closest(`[data-ob-addon], ${INTERATIVO_NO_ICONE}`));
