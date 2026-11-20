@@ -55,7 +55,7 @@ avisos.length = 0;
 await montar({ columns: colunas, rows: pessoas, selectable: true, __eventos: ['onSelect'] });
 await p.click('[aria-label="Selecionar linha 2"]');
 await montar({ columns: colunas, rows: [pessoas[1], pessoas[2]], selectable: true, __eventos: ['onSelect'] });
-const marcada = () => p.evaluate(() => [...document.querySelectorAll('tbody tr')].filter((tr) => tr.querySelector('[aria-checked="true"]')).map((tr) => tr.cells[1].textContent).join());
+const marcada = () => p.evaluate(() => [...document.querySelectorAll('tbody tr')].filter((tr) => tr.querySelector('input[type="checkbox"]:checked')).map((tr) => tr.cells[1].textContent).join());
 esperar(await marcada() === 'Ana', `a seleção deveria seguir a Ana quando as linhas mudam (marcada: ${await marcada()})`);
 await p.click('[aria-label="Selecionar todas as linhas"]');
 esperar(avisos.at(-1) === 'onSelect:[2,3]', `selecionar todas soma as linhas visíveis (${avisos.at(-1)})`);

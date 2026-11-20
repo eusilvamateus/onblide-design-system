@@ -77,7 +77,7 @@ if (contar(fixa, /position:sticky;top:0/g) !== 2) fail('com maxHeight, o cabeça
 if (render({ columns, rows }).includes('position:sticky')) fail('sem maxHeight, o cabeçalho não é fixo');
 
 const porId = [{ id: 7, a: 'Revisar' }, { id: 9, a: 'Enviar' }];
-const marcadas = (html) => contar(html, /aria-checked="true"/g);
+const marcadas = (html) => contar(html, /<input[^>]*type="checkbox"[^>]*checked=""/g);
 if (marcadas(render({ columns, rows: porId, selectable: true, defaultSelectedKeys: [9] })) !== 1) fail('defaultSelectedKeys marca pela chave `id`');
 const reordenada = render({ columns, rows: porId, selectable: true, selectedKeys: [9], sort: { key: 'a', dir: 'asc' } });
 if (marcadas(reordenada) !== 1 || !/<tr[^>]*background:var\(--ob-blue-100\)[^>]*>(?:(?!<\/tr>).)*Enviar/.test(reordenada)) fail('selectedKeys segue a linha mesmo reordenada', reordenada);

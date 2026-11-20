@@ -11,7 +11,7 @@ const chromium = obterChromium();
 const b = await chromium.launch();
 const falhas = [];
 for (const escala of ESCALAS) {
-  const p = await b.newPage({ viewport: { width: 300, height: 200 }, deviceScaleFactor: escala });
+  const p = await b.newPage({ viewport: { width: 300, height: 200 }, deviceScaleFactor: escala, reducedMotion: 'reduce' });
   await p.setContent('<html><body style="margin:0"><div id="r"></div></body></html>');
   await p.addStyleTag({ path: path.join(pasta, 'src/tokens.css') });
   await carregarPacoteNoNavegador(p);
