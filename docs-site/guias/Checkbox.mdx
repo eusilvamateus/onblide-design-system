@@ -9,11 +9,22 @@ criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os des
 
 Várias escolhas independentes, ou um aceite ("Li os termos"). Use `indeterminate` no pai de uma lista parcialmente marcada.
 
+Por baixo da caixa desenhada há um `<input type="checkbox">` nativo. Por isso o `Checkbox` entra em formulários com `name`, `value` e `required`, o Espaço marca e desmarca, e o Enter fica livre para enviar o formulário.
+
 ## Formatação
 
 ```jsx
 <Checkbox checked={v} indeterminate={some}
   onChange={setV} label="Selecionar tudo" />
+```
+
+Para um aceite obrigatório, `error` mostra a mensagem no lugar da descrição e deixa a borda da caixa vermelha:
+
+```jsx
+<Checkbox checked={aceito} onChange={setAceito}
+  name="termos" value="aceito" required
+  label="Aceito os termos de uso"
+  error={tentou && !aceito ? 'Marque para continuar.' : undefined} />
 ```
 
 `size` aceita `sm` (caixa de 16px), `md` (18px, padrão) e `lg` (20px). Os tamanhos seguem a mesma escala do `Checkbox`, do `Radio` e do `Switch`: `sm`, `md` (padrão) e `lg`, com o texto em 13, 14 e 15px, como no `Button`.
@@ -25,8 +36,8 @@ Várias escolhas independentes, ou um aceite ("Li os termos"). Use `indeterminat
 
 ## Guia de design
 
-**Tokens.** Preenchido `--ob-blue` com check branco; raio `--ob-r-xs` (4 px).
+**Tokens.** Desmarcado, borda de 1px em `--ob-fg-mute`, que escurece para `--ob-fg-soft` no hover. Marcado, preenchido `--ob-blue` (`--ob-blue-700` no hover) com o check e o traço do Phosphor no peso bold em `--ob-fg-on-color`. Com erro, a borda é `--ob-danger`. Raio `--ob-r-xs` (4 px) e anel de foco com `--ob-focus-ring` ao navegar pelo teclado.
 
-**Motion.** Transição de preenchimento em `--ob-dur-fast` (120ms).
+**Motion.** Preenchimento e borda em `--ob-dur-fast` (120ms). Ao marcar, o check entra crescendo com `--ob-ease-out`; ao pressionar, a caixa encolhe de leve.
 
 **Responsivo / mobile.** Linha inteira clicável, alvo ≥44px.
