@@ -19,7 +19,7 @@ const s24 = renderToStaticMarkup(React.createElement(Logo, { size: 24 }));
 if (s24 !== esperado.size24) fail('Logo size=24 diverge da fixture', s24.slice(0, 200));
 
 // Propriedades de que o app e o tema dependem (explícitas, além da comparação literal).
-if (!padrao.startsWith('<svg height="28" viewBox="0 0 2048 313.44" role="img" aria-label="Onblide" style="display:block;width:auto">')) fail('cabeçalho do svg inesperado', padrao.slice(0, 160));
+if (!padrao.startsWith('<svg height="28" viewBox="0 0 2048 313.44" role="img" aria-label="onblide" style="display:block;width:auto">')) fail('cabeçalho do svg inesperado', padrao.slice(0, 160));
 for (const token of ['var(--ob-orange)', 'var(--ob-fg-strong)', 'var(--ob-blue)']) {
   if (!padrao.includes(`fill="${token}"`)) fail(`preenchimento ${token} ausente`);
 }

@@ -1,6 +1,6 @@
 # @onblide/ui
 
-Componentes React do design system Onblide, escritos em TypeScript, com tokens e ícones Phosphor. Documentação em
+Componentes React do design system onblide, escritos em TypeScript, com tokens e ícones Phosphor. Documentação em
 <https://design.onblide.com>.
 
 ## Instalação
@@ -127,5 +127,5 @@ arquivo em `.changeset/`, rode `npx changeset version`, depois `npm install --pa
 ## Licença
 
 O código é distribuído sob a [licença MIT](LICENSE). As fontes em `src/fonts/` têm licença própria, a
-[SIL Open Font License 1.1](src/fonts/OFL.txt). Nenhuma das duas autoriza usar o nome Onblide e o logo como marca: eles
+[SIL Open Font License 1.1](src/fonts/OFL.txt). Nenhuma das duas autoriza usar o nome onblide e o logo como marca: eles
 continuam reservados ao autor.
