@@ -4,7 +4,7 @@ import { ColorPicker } from '@onblide/ui';
 const caixa = { padding: 16 };
 
 const MARCA = [
-  { color: '#0a4ee4', label: 'Azul Onblide' },
+  { color: '#0a4ee4', label: 'Azul onblide' },
   { color: '#c2410c', label: 'Terracota' },
   { color: '#1f6f5c', label: 'Musgo' },
   { color: '#ca8a04', label: 'Mostarda' },

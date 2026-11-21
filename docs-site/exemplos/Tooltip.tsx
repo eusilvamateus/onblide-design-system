@@ -35,7 +35,7 @@ const IMG = "data:image/svg+xml;utf8," + encodeURIComponent(
 
 export const ComImagem = () => (
   <Aberto>
-    <Tooltip variant="image" placement="bottom" image={IMG} title="Onblide Dashboard" subtitle="Atualizado há 2h · v2.4"><Button kind="secondary">Pré-visualizar</Button></Tooltip>
+    <Tooltip variant="image" placement="bottom" image={IMG} title="onblide Dashboard" subtitle="Atualizado há 2h · v2.4"><Button kind="secondary">Pré-visualizar</Button></Tooltip>
   </Aberto>
 );
 

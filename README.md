@@ -1,6 +1,6 @@
-# Onblide Design System
+# onblide Design System
 
-Biblioteca de componentes React do Onblide, com tokens, ícones Phosphor e documentação própria.
+Biblioteca de componentes React do onblide, com tokens, ícones Phosphor e documentação própria.
 
 | Pasta | O que é |
 |---|---|
@@ -22,5 +22,5 @@ Para verificar o pacote, rode `npm run verify` em `packages/ui/`. O restante est
 ## Licença
 
 O código é distribuído sob a [licença MIT](LICENSE). As fontes em `packages/ui/src/fonts/` têm licença própria, a
-[SIL Open Font License 1.1](packages/ui/src/fonts/OFL.txt). Nenhuma das duas autoriza usar o nome Onblide e o logo como
+[SIL Open Font License 1.1](packages/ui/src/fonts/OFL.txt). Nenhuma das duas autoriza usar o nome onblide e o logo como
 marca: eles continuam reservados ao autor.

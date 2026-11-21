@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 import path from 'node:path';
 
 const config: Config = {
-  title: 'Onblide Design System',
-  tagline: 'Componentes, fundações e diretrizes para construir produtos Onblide.',
+  title: 'onblide Design System',
+  tagline: 'Componentes, fundações e diretrizes para construir produtos onblide.',
   favicon: 'img/favicon.ico',
   url: 'https://design.onblide.com',
   baseUrl: '/',

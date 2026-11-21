@@ -1,6 +1,6 @@
 # Documentação do projeto
 
-Este diretório contém a documentação canônica e persistente do Onblide Design System: como o repositório é
+Este diretório contém a documentação canônica e persistente do onblide Design System: como o repositório é
 organizado, como cada subsistema é desenvolvido e publicado, e as decisões duráveis por trás das escolhas
 feitas.
 
@@ -45,6 +45,7 @@ publicado em `docs-site/`, não é duplicada aqui.
 - [`decisions/0017-sidebar-e-navbar-no-modelo-de-mercado.md`](decisions/0017-sidebar-e-navbar-no-modelo-de-mercado.md) — o uso vive nos guias da Sidebar e da Navbar
 - [`decisions/0018-pintura-plain-no-vocabulario.md`](decisions/0018-pintura-plain-no-vocabulario.md) — o vocabulário vive em `docs-site/docs/fundacoes/vocabulario-das-props.mdx`
 - [`decisions/0019-camadas-flutuantes-no-body.md`](decisions/0019-camadas-flutuantes-no-body.md) — a ordem das camadas vive em `docs-site/docs/fundacoes/camadas-e-opacidade.mdx`
+- [`decisions/0020-nome-da-marca-sempre-em-minuscula.md`](decisions/0020-nome-da-marca-sempre-em-minuscula.md) — a regra vive em `docs-site/docs/fundacoes/marca.mdx`
 
 ## Como manter esta documentação
 

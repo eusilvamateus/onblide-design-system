@@ -14,7 +14,7 @@ todas sob a SIL Open Font License 1.1, que exige manter o aviso de copyright e o
   `packages/ui/`, para acompanhar o pacote.
 - As fontes continuam sob a SIL Open Font License 1.1, com os avisos em `packages/ui/src/fonts/OFL.txt`.
 - O campo `license` do pacote é `MIT AND OFL-1.1`.
-- O nome Onblide e o logo não são licenciados como marca, conforme a seção de licença dos READMEs.
+- O nome onblide e o logo não são licenciados como marca, conforme a seção de licença dos READMEs.
 
 ## Consequências
 

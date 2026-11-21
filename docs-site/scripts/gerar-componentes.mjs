@@ -50,7 +50,7 @@ const descricoes = {
   Avatar: 'Avatar com imagem ou iniciais, em tamanhos e cores.',
   Badge: 'Selo de status ou contagem, em cinco tons.',
   Chip: 'Chip de filtro, selecionável e removível.',
-  Logo: 'Logo horizontal da Onblide, que se adapta ao tema.',
+  Logo: 'Logo horizontal da onblide, que se adapta ao tema.',
   Icons: 'Registro central de ícones da interface.',
   Ph: 'Componente base que renderiza qualquer glifo do Phosphor.',
   Divider: 'Linha de separação entre blocos de conteúdo, com rótulo opcional.',

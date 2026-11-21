@@ -29,7 +29,7 @@ export default function Navbar(): ReactNode {
               icon={<Ph n="list" size={18} />}
             />
           </span>
-          <a href="/" onClick={(e) => { e.preventDefault(); history.push('/'); }} aria-label="Onblide Design System" style={{ display: 'inline-flex' }}>
+          <a href="/" onClick={(e) => { e.preventDefault(); history.push('/'); }} aria-label="onblide Design System" style={{ display: 'inline-flex' }}>
             <Logo size={26} />
           </a>
           <span className="ob-eyebrow ob-topbar__label">Design System</span>

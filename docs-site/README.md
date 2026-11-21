@@ -1,4 +1,4 @@
-# Documentação do Onblide Design System
+# Documentação do onblide Design System
 
 Site de documentação feito com [Docusaurus](https://docusaurus.io/), publicado no Vercel. Ele é independente do
 pacote `@onblide/ui` (em `../packages/ui`).

@@ -1,4 +1,4 @@
-# Onblide — Project Instructions
+# onblide — Project Instructions
 
 Este arquivo cobre **como o agente deve trabalhar** neste repositório. Conhecimento sobre **como o projeto
 funciona** — arquitetura, decisões duráveis, ambiente de desenvolvimento, operações, integrações — vive em
@@ -68,6 +68,14 @@ próprio) e só então o consumidor passa a usá-lo. A extensão descreve a capa
 conveniência: se dá para usar o componente como ele é, usa-se como ele é. Helpers que não são componentes visuais
 (`injectStyleOnce`) ficam fora da regra.
 
+## Grafia da marca
+
+Regra completa: [`docs-site/docs/fundacoes/marca.mdx`](docs-site/docs/fundacoes/marca.mdx#grafia-do-nome)
+(decisão em [`docs/decisions/0020`](docs/decisions/0020-nome-da-marca-sempre-em-minuscula.md)).
+Resumo para o agente: o nome da marca é sempre **onblide**, em minúscula, em qualquer texto (interface, e-mails, docs,
+`alt`, `aria-label`, títulos), inclusive no começo de frase. Exceções: a razão social, que segue a grafia do registro da
+empresa, identificadores de código (`OnblideUI`) e o histórico já publicado (`CHANGELOG.md`).
+
 ## Vocabulário das props visuais
 
 Regra e tabela completa: [`docs-site/docs/fundacoes/vocabulario-das-props.mdx`](docs-site/docs/fundacoes/vocabulario-das-props.mdx)
@@ -126,7 +134,7 @@ a aplicação monta com o que já existe. Peças de apoio não são API pública
 ## Melhorar telas e maquetes: repensar, não transcrever
 
 **Regra obrigatória, pedido explícito do usuário em 2026-11-08: quando o usuário traz uma tela ou pede para melhorar
-uma maquete, o trabalho é entender o propósito da tela e melhorar tudo de UI e UX com o design system da Onblide.**
+uma maquete, o trabalho é entender o propósito da tela e melhorar tudo de UI e UX com o design system da onblide.**
 Trocar os elementos da referência pelos componentes equivalentes do pacote não é melhorar: a maioria dessas telas já
 foi feita com o próprio design system. Antes de desenhar, entender quem usa a tela, qual tarefa a pessoa vai fazer ali
 e o que atrapalha hoje. Depois, repensar a hierarquia, o fluxo, a densidade, os estados (vazio, carregando, erro), as

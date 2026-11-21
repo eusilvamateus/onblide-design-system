@@ -18,7 +18,7 @@ export const Externo = () => (
 
 export const EmTexto = () => (
   <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--ob-fg)', maxWidth: 460 }}>
-    A Onblide constrói soluções online — veja a <Link href="#">documentação</Link> ou explore o{' '}
+    A onblide constrói soluções online — veja a <Link href="#">documentação</Link> ou explore o{' '}
     <Link href="#" external>repositório público</Link> pra começar.
   </p>
 );

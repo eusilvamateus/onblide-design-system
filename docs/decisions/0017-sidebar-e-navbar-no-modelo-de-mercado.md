@@ -13,7 +13,7 @@ partes inventadas e falhas:
 - recolhida, a `SideNav` escondia os subitens sem outro caminho até eles e mostrava o rótulo pelo `title` do navegador;
 - o botão de recolher ficava pendurado na borda com posição escrita à mão, trocava de ícone por JavaScript, tinha ajustes de
   frações de pixel e só aparecia no hover, sem caminho em telas de toque;
-- nenhuma das duas tinha caminho para telas estreitas, e as marcas padrão eram a da Onblide, inclusive um link falso
+- nenhuma das duas tinha caminho para telas estreitas, e as marcas padrão eram a da onblide, inclusive um link falso
   (`href="#"`) na `Navbar`.
 
 ## Decisão
