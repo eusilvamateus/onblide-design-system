@@ -1,5 +1,5 @@
 ---
-resumo: "Tecla ou atalho de teclado em fonte monoespaçada, para documentar e sugerir atalhos. É usado por dentro do **Tooltip** e do **Menu**."
+resumo: "Tecla ou atalho de teclado em fonte monoespaçada, com cores próprias, para documentar e sugerir atalhos. É usado por dentro do **Tooltip** e do **Menu**."
 criterios: [["Tem guia de uso",true],["Tem guia de conteúdo",true],["Usa os design tokens",true],["Possui motion",false],["Possui versão web",true],["Possui versão responsiva",true],["Possui versão mobile",false]]
 ---
 
@@ -19,12 +19,12 @@ O vocabulário de `tone`, `appearance` e `variant` é o mesmo em todo o design s
 <FacaEvite>
 <Faca>
 
-Uma tecla por Kbd, com os separadores em texto comum: `Ctrl` + `K`. Em menus e dicas, passe o atalho pela prop `shortcut` do **Menu** e do **Tooltip**, que já usam o Kbd.
+Combinações pela prop `keys`, uma tecla por item: `keys={['Ctrl', 'K']}` desenha uma caixa para cada tecla. Em menus e dicas, passe o atalho pela prop `shortcut` do **Menu** e do **Tooltip**, que já usam o Kbd.
 
 </Faca>
 <Evite>
 
-Usar o Kbd para destacar texto qualquer ou como botão. Ele não é interativo.
+Escrever a combinação inteira numa caixa só, como `<Kbd>Ctrl K</Kbd>`, ou usar o Kbd para destacar texto qualquer ou como botão. Ele não é interativo.
 
 </Evite>
 </FacaEvite>
@@ -32,13 +32,14 @@ Usar o Kbd para destacar texto qualquer ou como botão. Ele não é interativo.
 ## Formatação
 
 ```jsx
-<Kbd>Ctrl</Kbd> + <Kbd>K</Kbd>
+<Kbd>Esc</Kbd>
+<Kbd keys={['Ctrl', 'K']} />
 <Kbd appearance="ghost" size="sm">⌘N</Kbd>
 ```
 
 <Nota>
 
-O Kbd usa a cor do texto ao redor para desenhar a tecla (contorno e fundo suave), então se adapta sozinho a qualquer fundo, claro ou escuro, como o da dica do Tooltip.
+A tecla tem fundo, borda e texto próprios, dos tokens, e fica igual em qualquer fundo, claro, escuro ou colorido, como o balão do Tooltip. Só o `ghost`, que não tem caixa, usa a cor do texto ao redor.
 
 </Nota>
 
@@ -50,6 +51,6 @@ O Kbd usa a cor do texto ao redor para desenhar a tecla (contorno e fundo suave)
 
 ## Guia de design
 
-**Cores.** Fonte `--ob-font-mono`. Texto, contorno e fundo vêm da cor do texto ao redor (`currentColor`): o contorno em 30% e o fundo em 10% dela, com a base mais grossa, que dá o relevo.
+**Cores.** Fonte `--ob-font-mono` em peso médio. Fundo `--ob-surface`, texto `--ob-fg` e contorno `--ob-border`, com a base de 2 px um tom mais escura (`--ob-fg-mute` misturado ao contorno), que dá o relevo. No tema escuro os mesmos tokens invertem a tecla.
 
-**Tamanhos.** `md` 12 px; `sm` 11 px, usado dentro de menus e dicas.
+**Tamanhos.** Altura fixa: `md` 24 px com texto de 12 px; `sm` 20 px com texto de 11 px, usado dentro de menus e dicas. A tecla é no mínimo quadrada, e numa combinação as teclas ficam a 4 px uma da outra.

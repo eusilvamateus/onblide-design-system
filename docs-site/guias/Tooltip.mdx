@@ -35,7 +35,7 @@ Colocar informação crítica ou ações clicáveis dentro do tooltip.
 Acionamento por `hover` e `focus` (acessível por teclado). Seta de 8px aponta pro gatilho. Texto que passa de `maxWidth` (240px por padrão) quebra em mais linhas em vez de vazar do balão; textos curtos continuam em uma linha. Posiciona em `top` (padrão), `bottom`, `left` ou `right`; o balão é renderizado no `body`, então não é cortado por ancestrais com `overflow`, e inverte para o lado oposto quando falta espaço. O gatilho recebe `aria-describedby` enquanto o balão está aberto.
 
 ```jsx
-<Tooltip label="Salvar" shortcut="⌘S">
+<Tooltip label="Salvar" shortcut={['⌘', 'S']}>
   <button>…</button>
 </Tooltip>
 
@@ -49,7 +49,7 @@ Acionamento por `hover` e `focus` (acessível por teclado). Seta de 8px aponta p
 
 - Máximo **uma frase curta**. Tooltip não é parágrafo.
 - Sentence case, sem ponto final em rótulos de uma linha ("Salvar alterações", não "Salvar alterações.").
-- Atalhos (desenhados pelo **Kbd**) com símbolos nativos: `⌘S`, `/`, `⌘K`.
+- Atalhos (desenhados pelo **Kbd**) com símbolos nativos e uma tecla por item: `['⌘', 'S']`, `/`, `['Ctrl', 'K']`.
 - Datas por extenso quando complementares: "Criada em 24/05/2026, 14:32".
 - Voz onblide: direto e conversacional. Evite "Clique aqui para…".
 

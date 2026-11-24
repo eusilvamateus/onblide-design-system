@@ -49,13 +49,14 @@ const teclas = await p.evaluate(() => {
   const ler = (k) => { const s = getComputedStyle(k); return { cor: s.color, sombra: s.boxShadow, fundo: s.backgroundColor, borda: s.borderTopWidth, padding: s.paddingTop }; };
   const [contorno, fantasma] = document.querySelectorAll('#contexto kbd');
   const noBalao = document.querySelector('[role="tooltip"] kbd');
-  return { contorno: ler(contorno), fantasma: ler(fantasma), noBalao: noBalao && ler(noBalao), corDoBalao: getComputedStyle(document.querySelector('[role="tooltip"]')).color };
+  const cor = (token) => { const t = document.createElement('span'); t.style.color = `var(${token})`; document.body.appendChild(t); const c = getComputedStyle(t).color; t.remove(); return c; };
+  return { contorno: ler(contorno), fantasma: ler(fantasma), noBalao: noBalao && ler(noBalao), fg: cor('--ob-fg'), superficie: cor('--ob-surface') };
 });
-esperar(teclas.contorno.cor === 'rgb(0, 128, 0)', `Kbd outline deveria herdar a cor do texto ao redor, veio ${teclas.contorno.cor}`);
-esperar(teclas.contorno.sombra === 'none', `Kbd outline não deveria herdar sombra da página, veio ${teclas.contorno.sombra}`);
-esperar(teclas.fantasma.cor === 'rgb(0, 128, 0)' && teclas.fantasma.borda === '0px' && teclas.fantasma.padding === '0px' && teclas.fantasma.sombra === 'none', `Kbd ghost deveria ser só o texto, veio ${JSON.stringify(teclas.fantasma)}`);
-esperar(teclas.noBalao && teclas.noBalao.cor === teclas.corDoBalao, `Kbd no tooltip deveria usar a cor do texto do balão (${teclas.corDoBalao}), veio ${teclas.noBalao && teclas.noBalao.cor}`);
+esperar(teclas.contorno.cor === teclas.fg && teclas.contorno.fundo === teclas.superficie, `Kbd outline deveria usar as próprias cores (${teclas.fg} sobre ${teclas.superficie}), mesmo com estilo global de kbd e texto verde ao redor, veio ${JSON.stringify(teclas.contorno)}`);
+esperar(teclas.contorno.sombra === 'none' && teclas.contorno.borda === '1px', `Kbd outline não deveria herdar sombra nem borda da página, veio ${JSON.stringify(teclas.contorno)}`);
+esperar(teclas.fantasma.cor === 'rgb(0, 128, 0)' && teclas.fantasma.borda === '0px' && teclas.fantasma.padding === '0px' && teclas.fantasma.sombra === 'none', `Kbd ghost deveria ser só o texto, na cor do contexto, veio ${JSON.stringify(teclas.fantasma)}`);
+esperar(teclas.noBalao && teclas.noBalao.cor === teclas.fg && teclas.noBalao.fundo === teclas.superficie, `Kbd no tooltip deveria manter as próprias cores, legível sobre o balão, veio ${JSON.stringify(teclas.noBalao)}`);
 
 await b.close();
 if (falhas.length) { console.error('FAIL: Tooltip/Kbd\n' + falhas.join('\n')); process.exit(1); }
-console.log('OK: Tooltip some com o gatilho fora da tela e Kbd resiste a estilos globais de kbd');
+console.log('OK: Tooltip some com o gatilho fora da tela e Kbd mantém as próprias cores contra estilos globais de kbd');

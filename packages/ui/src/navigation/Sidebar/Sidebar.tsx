@@ -235,7 +235,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const rotuloDoBotao = collapsed ? 'Expandir barra lateral' : 'Recolher barra lateral';
   const tecla = toggleShortcut?.toUpperCase();
-  const atalho = atalhoAtivo ? (mac ? `⌘${tecla}` : `Ctrl ${tecla}`) : undefined;
+  const atalho = atalhoAtivo ? [mac ? '⌘' : 'Ctrl', tecla!] : undefined;
   const doBotao = {
     'aria-label': rotuloDoBotao,
     'aria-expanded': !collapsed,

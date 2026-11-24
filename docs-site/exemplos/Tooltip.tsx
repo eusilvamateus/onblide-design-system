@@ -13,7 +13,7 @@ const Aberto = ({ children }: { children: React.ReactNode }) => {
 
 export const Texto = () => (
   <Aberto>
-    <Tooltip label="Salvar alterações" shortcut="Ctrl S"><Button kind="secondary">Salvar</Button></Tooltip>
+    <Tooltip label="Salvar alterações" shortcut={['Ctrl', 'S']}><Button kind="secondary">Salvar</Button></Tooltip>
   </Aberto>
 );
 

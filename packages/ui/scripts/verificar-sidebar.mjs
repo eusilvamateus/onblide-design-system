@@ -131,8 +131,8 @@ esperar(await opacidade('.ob-sidebar-abrir__marca') === '1' && await opacidade('
 await p.hover('.ob-sidebar-abrir');
 await p.waitForTimeout(700);
 esperar(await opacidade('.ob-sidebar-abrir__marca') === '0' && await opacidade('.ob-sidebar-abrir__icone') === '1', 'recolhida e com o mouse em cima, a marca vira o ícone de expandir');
-const dica = await p.evaluate(() => [...document.querySelectorAll('[role="tooltip"]')].map((t) => t.textContent).join('|'));
-esperar(dica.includes('Expandir barra lateral') && dica.includes('Ctrl B'), `o Tooltip mostra o rótulo e o atalho (${dica})`);
+const dica = await p.evaluate(() => [...document.querySelectorAll('[role="tooltip"]')].map((t) => `${t.textContent} [${[...t.querySelectorAll('kbd kbd')].map((k) => k.textContent).join(',')}]`).join('|'));
+esperar(dica.includes('Expandir barra lateral') && dica.includes('[Ctrl,B]'), `o Tooltip mostra o rótulo e o atalho, uma caixa por tecla (${dica})`);
 await p.mouse.move(1100, 700);
 await p.keyboard.press('Control+b');
 esperar(await largura() === 240 && avisos.includes('onCollapsedChange:false'), `Ctrl+B expande (${await largura()}, ${avisos.join()})`);

@@ -21,8 +21,8 @@ export interface TooltipProps {
   placement?: TooltipPlacement;
   /** Texto principal, usado na variante `text`. */
   label?: React.ReactNode;
-  /** Atalho de teclado exibido ao lado do rótulo. */
-  shortcut?: React.ReactNode;
+  /** Atalho de teclado exibido ao lado do rótulo. Uma lista, como `['Ctrl', 'S']`, desenha uma caixa por tecla. */
+  shortcut?: string[] | React.ReactNode;
   /** URL da imagem de preview, usada na variante `image`. */
   image?: string;
   /** Título exibido abaixo da imagem, na variante `image`. */
@@ -111,7 +111,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           ) : (
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--ob-space-8)' }}>
               <span>{label}</span>
-              {shortcut && <Kbd size="sm">{shortcut}</Kbd>}
+              {shortcut && (Array.isArray(shortcut) ? <Kbd size="sm" keys={shortcut as string[]} /> : <Kbd size="sm">{shortcut}</Kbd>)}
             </span>
           )}
           {variant !== 'image' && pos && <span aria-hidden="true" style={{ ...arrowBase, ...arrowPos[pos.side] }} />}
